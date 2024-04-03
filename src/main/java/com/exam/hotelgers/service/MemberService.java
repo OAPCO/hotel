@@ -21,10 +21,8 @@ import java.util.Optional;
 //회원 가입, 수정, 삭제, 조회
 @Service
 @RequiredArgsConstructor
-//메소드별마다 지정가능, 클래스에다 지정가능
-//일괄처리
-@Transactional
 public class MemberService {
+
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
@@ -40,12 +38,11 @@ public class MemberService {
             throw new IllegalStateException("이미 가입된 이메일입니다.");
         }
 
-        String password = passwordEncoder.encode(memberDTO.getMemberPwd());
+        String password = passwordEncoder.encode(memberDTO.getPassword());
         Member member = modelMapper.map(memberDTO, Member.class);
 
-        member.setMemberPwd(password);
+        member.setPassword(password);
         member.setRoleType(RoleType.USER);
-        System.out.println(member.toString());
         memberRepository.save(member);
 
         return memberRepository.save(member).getMemberIdx();
@@ -62,10 +59,10 @@ public class MemberService {
             throw new IllegalStateException("이미 가입된 이메일입니다.");
         }
 
-        String password = passwordEncoder.encode(memberDTO.getMemberPwd());
+        String password = passwordEncoder.encode(memberDTO.getPassword());
         Member member = modelMapper.map(memberDTO, Member.class);
 
-        member.setMemberPwd(password);
+        member.setPassword(password);
         member.setRoleType(RoleType.USER);
 
         memberRepository.save(member);

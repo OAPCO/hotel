@@ -6,15 +6,11 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-//회원관리 테이블
-//getter 변수별로 읽기, setter 변수별로 저장
-//toString 모든변수 읽기, builder 모든변수 저장(ModelMapper 대체)
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 @Builder
 @Entity
 @Table(name="member")
-//순차처리가 필요한경우(AutoIncrement 기능)
 @SequenceGenerator(
         name = "member_sql",
         sequenceName = "member_sql",
@@ -37,7 +33,7 @@ public class Member extends BaseEntity {
     private String memberEmail;//"회원 이메일
 
     @Column(length = 200)
-    private String memberPwd;//"회원 비밀번호
+    private String password;//"회원 비밀번호
 
     @Column(length = 200)
     private String memberNickname;//"회원 별명
@@ -89,8 +85,6 @@ public class Member extends BaseEntity {
 
     @Column(length = 10)
     private String socialInfoGender;//Social정보(카카오톡) 성별
-
-
 
 
     @Enumerated(EnumType.STRING)

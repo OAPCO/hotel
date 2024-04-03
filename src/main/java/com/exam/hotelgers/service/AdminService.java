@@ -35,7 +35,7 @@ public class AdminService {
             throw new IllegalStateException("중복된 아이디가 있습니다.");
         }
 
-        String password = passwordEncoder.encode(adminDTO.getAdminPwd());
+        String password = passwordEncoder.encode(adminDTO.getPassword());
         Admin admin = modelMapper.map(adminDTO, Admin.class);
 
 
@@ -48,7 +48,7 @@ public class AdminService {
             admin.setRoleType(RoleType.ADMIN);
         }
 
-        admin.setAdminPwd(password); //비밀번호는 암호화된 비밀번호로 변경처리
+        admin.setPassword(password); //비밀번호는 암호화된 비밀번호로 변경처리
 
         Long adminIdx = adminRepository.save(admin).getAdminIdx();
 

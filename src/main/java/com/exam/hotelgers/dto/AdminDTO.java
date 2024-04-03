@@ -21,7 +21,7 @@ public class AdminDTO {
 
     private String adminId;
 
-    private String adminPwd;
+    private String password;
 
     private Integer adminLevel;
 

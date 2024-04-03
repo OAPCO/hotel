@@ -46,7 +46,7 @@
                         <tr th:each="data:${list}">
                             <td th:text="${data.memberIdx}"></td>
                             <td th:text="${data.memberEmail}"></td>
-                            <td th:text="${data.memberPwd}"></td>
+                            <td th:text="${data.password}"></td>
 
                             <td><a th:href="@{'/member/modify/'+${data.memberIdx}}" >수정</a>
                                 /<a th:href="@{'/member/delete/'+${data.memberIdx}}">삭제</a></td>

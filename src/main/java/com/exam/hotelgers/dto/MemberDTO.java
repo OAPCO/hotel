@@ -22,7 +22,7 @@ public class MemberDTO {
 
     private String memberEmail;//"회원 이메일
 
-    private String memberPwd;//"회원 비밀번호
+    private String password;//"회원 비밀번호
 
     private String memberNickname;//"회원 별명
 

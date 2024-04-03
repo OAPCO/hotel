@@ -12,17 +12,24 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Table(name="admin")
+@SequenceGenerator(
+        name = "member_sql",
+        sequenceName = "member_sql",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Admin extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_sql")
     private Long adminIdx;
 
     @Column(length = 60, nullable = false)
     private String adminId;
 
     @Column(length = 100, nullable = false)
-    private String adminPwd;
+    private String password;
 
     @Column(length = 30, nullable = false)
     private String adminName;
