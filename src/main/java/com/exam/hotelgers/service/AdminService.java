@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,11 +22,20 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
+
 
 
     public Long register(AdminDTO adminDTO){
 
+        Optional<Admin> adminidCheck = adminRepository.findByAdminId(adminDTO.getAdminId());
 
+
+        if(adminidCheck.isPresent()) {
+            throw new IllegalStateException("중복된 아이디가 있습니다.");
+        }
+
+        String password = passwordEncoder.encode(adminDTO.getAdminPwd());
         Admin admin = modelMapper.map(adminDTO, Admin.class);
 
 
@@ -37,6 +47,8 @@ public class AdminService {
         if(adminDTO.getAdminLevel() == 2){
             admin.setRoleType(RoleType.ADMIN);
         }
+
+        admin.setAdminPwd(password); //비밀번호는 암호화된 비밀번호로 변경처리
 
         Long adminIdx = adminRepository.save(admin).getAdminIdx();
 
@@ -67,10 +79,10 @@ public class AdminService {
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"adminIdx"));
 
-        Page<Admin> adminEntities = adminRepository.findAll(page);
+        Page<Admin> admins = adminRepository.findAll(page);
 
 
-        Page<AdminDTO> AdminDTOS = adminEntities.map(data->modelMapper.map(data,AdminDTO.class));
+        Page<AdminDTO> AdminDTOS = admins.map(data->modelMapper.map(data,AdminDTO.class));
 
         return AdminDTOS;
     }

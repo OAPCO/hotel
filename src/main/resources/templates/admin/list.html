@@ -51,14 +51,9 @@
                         <tr th:each="data:${list}">
 
                             <td th:text="${data.adminIdx}">1</td>
-                            <td th:text="${data.adminId}"></td>
                             <td th:text="${data.adminName}"></td>
-                            <td th:if="${data.adminLevel==1}">
-                                <span>Manager</span>
-                            </td>
-                            <td th:if="${data.adminLevel==2}">
-                                <span>Admin</span>
-                            </td>
+                            <td th:text="${data.adminId}"></td>
+                            <td th:text="${data.roleType}"></td>
                             <td th:text="${data.adminPhone}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
 
@@ -75,6 +70,20 @@
 
 
                 <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/register}'|">등록</button>
+
+        <ul class="mt-3 pagination">
+            <li class="page-item"><a class="page-link" th:href="@{/member/list(page=${prevPage})}"><</a></li>
+            <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
+                        <li class="page-item active" th:if="${page == currentPage}">
+                            <a class="page-link" href="#">[[${page}]]</a>
+                        </li>
+                        <li class="page-item" th:unless="${page == currentPage}">
+                            <a class="page-link" th:href="@{/member/list(page=${page})}">[[${page}]]</a>
+                        </li>
+                    </span>
+            <li class="page-item"><a class="page-link" th:href="@{/member/list(page=${nextPage})}">></a></li>
+        </ul>
+
 
 
             </div>

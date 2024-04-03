@@ -22,11 +22,10 @@ repositories {
 }
 
 dependencies {
-	//보안인증
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    //스프링부트 버전에 따라 변경
-//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	//war->jar로 변경시 tomcat이 제외
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'

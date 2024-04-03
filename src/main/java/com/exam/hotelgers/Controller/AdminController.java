@@ -5,6 +5,7 @@ package com.exam.hotelgers.Controller;
 import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.service.AdminService;
 import com.exam.hotelgers.util.PageConvert;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,12 +32,13 @@ public class AdminController {
 
 
     @GetMapping("/admin/login")
-    public String loginForm() {
+    public String login() {
 
-        log.info("로그인 폼 들어옴");
+        log.info("/login 겟매핑 들어옴");
 
         return "admin/login";
     }
+
 
     @GetMapping("/admin/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
