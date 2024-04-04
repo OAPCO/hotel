@@ -11,10 +11,10 @@
 <body id="page-top">
 <div layout:fragment="content">
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">Team</h3>
+        <h3 class="text-dark mb-4">총판 목록</h3>
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-primary m-0 fw-bold">Employee Info</p>
+                <p class="text-primary m-0 fw-bold">총판 목록</p>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -27,17 +27,7 @@
                             <option value="100">100</option>
                         </select>&nbsp;</label></div>
                     </div>
-                    <div class="col-md-3 text-nowrap">
-                        <div id="회원 타입" class="dataTables_length" aria-controls="dataTable"><label
-                                class="form-label">회원분류&nbsp;
-                            <select class="d-inline-block form-select form-select-sm">
-                            <option value="10" selected="">전체</option>
-                            <option value="25">카카오톡</option>
-                            <option value="50">호텔사이트</option>
 
-                        </select>&nbsp;
-                        </label></div>
-                    </div>
                     <div class="col-md-6">
                         <div class="text-md-end dataTables_filter" id="dataTable_filter"><label
                                 class="form-label">
@@ -51,31 +41,33 @@
                         <thead>
                         <tr>
                             <th>번호</th>
-                            <th>사용자 아이디</th>
-                            <th>비밀번호</th>
+                            <th>총판명</th>
+                            <th>대표이사</th>
+                            <th>대표이사 연락처</th>
                             <th>등록일자</th>
                             <th>수정일자</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="data:${list}">
-                            <td th:text="${data.memberIdx}"></td>
+                            <td th:text="${data.storeDistIdx}"></td>
                             <td>
-                                <a th:text="${data.memberEmail}" th:href="@{'/member/'+${data.memberIdx}}" >연습</a>
+                                <a th:text="${data.storeDistName}" th:href="@{'/storedist/'+${data.storeDistName}}" >연습</a>
                             </td>
-                            <td th:text="${data.password}">33</td>
+                            <td th:text="${data.storeDistChief}"></td>
+                            <td th:text="${data.storeDistTel}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 
-                            <td><a th:href="@{'/member/modify/'+${data.memberIdx}}" >수정</a>
-                                /<a th:href="@{'/member/delete/'+${data.memberIdx}}">삭제</a></td>
+                            <td><a th:href="@{'/storedist/modify/'+${data.storeDistIdx}}" >수정</a>
+                                /<a th:href="@{'/storedist/delete/'+${data.storeDistIdx}}">삭제</a></td>
                         </tr>
 
                         </tbody>
 
                     </table>
 
-                    <td><a th:href="@{/member/register}">신규등록</a></td>
+                    <td><a th:href="@{/storedist/register}">신규등록</a></td>
 
 
                 </div>

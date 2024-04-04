@@ -42,6 +42,9 @@ public class AdminController {
 
     @GetMapping("/admin/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+
+        log.info("admin listForm 도착");
+
         Page<AdminDTO> adminDTOList = adminService.list(pageable);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(adminDTOList);
@@ -68,7 +71,7 @@ public class AdminController {
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
-        log.info("post 레지스터 옴" + adminDTO);
+        log.info("admin registerProc 도착");
 
 
         if (bindingResult.hasErrors()) {
@@ -91,6 +94,8 @@ public class AdminController {
 
     @GetMapping("/admin/delete/{adminIdx}")
     public String deleteProc(@PathVariable Long adminIdx) {
+
+
         adminService.delete(adminIdx);
         //서비스처리(삭제)
         return "redirect:/admin/list";

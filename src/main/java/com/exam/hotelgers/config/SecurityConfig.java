@@ -24,11 +24,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http)
             throws Exception {
+
+
+
+
+        http.csrf(AbstractHttpConfigurer::disable);
+        //필수@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
         //맵핑에 권한
         http.authorizeHttpRequests((auth)-> {
 
             //제약없음
-            auth.requestMatchers("/", "/assets/**").permitAll();
+            auth.requestMatchers("/**", "/assets/**").permitAll();
 
             //로그인이 안된 사용자들에 대한 제약
             auth.requestMatchers("/member/login", "/admin/login", "/member/register","/login").permitAll();
@@ -66,8 +74,7 @@ public class SecurityConfig {
 
 
 
-        http.csrf(AbstractHttpConfigurer::disable);
-        //필수@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 
         //로그아웃 커스텀
         http.logout(logout->logout

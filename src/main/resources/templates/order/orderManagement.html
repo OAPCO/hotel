@@ -18,7 +18,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-3 text-nowrap">
+                    <div class="col-md-6 text-nowrap">
                         <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label
                                 class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
                             <option value="10" selected="">10</option>
@@ -27,57 +27,45 @@
                             <option value="100">100</option>
                         </select>&nbsp;</label></div>
                     </div>
-                    <div class="col-md-3 text-nowrap">
-                        <div id="회원 타입" class="dataTables_length" aria-controls="dataTable"><label
-                                class="form-label">회원분류&nbsp;
-                            <select class="d-inline-block form-select form-select-sm">
-                            <option value="10" selected="">전체</option>
-                            <option value="25">카카오톡</option>
-                            <option value="50">호텔사이트</option>
-
-                        </select>&nbsp;
-                        </label></div>
-                    </div>
                     <div class="col-md-6">
                         <div class="text-md-end dataTables_filter" id="dataTable_filter"><label
-                                class="form-label">
-
-                            <input type="search" class="form-control form-control-sm"
+                                class="form-label"><input type="search" class="form-control form-control-sm"
                                                           aria-controls="dataTable" placeholder="Search"></label></div>
                     </div>
                 </div>
-                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                <div class="table-responsive table mt-2"  role="grid" aria-describedby="dataTable_info">
                     <table class="table my-0" id="dataTable">
                         <thead>
                         <tr>
-                            <th>번호</th>
-                            <th>사용자 아이디</th>
-                            <th>비밀번호</th>
-                            <th>등록일자</th>
-                            <th>수정일자</th>
+                            <th>룸번호</th>
+                            <th>최근주문번호</th>
+                            <th>최근메뉴</th>
+                            <th>주문서출력</th>
+                            <th>주문일시</th>
+                            <th>현재접속자</th>
+                            <th>룸리셋</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="data:${list}">
-                            <td th:text="${data.memberIdx}"></td>
-                            <td>
-                                <a th:text="${data.memberEmail}" th:href="@{'/member/'+${data.memberIdx}}" >연습</a>
-                            </td>
+                            <td th:text="${data.id}">Accountant</td>
+                            <td th:text="${data.userid}">Tokyo</td>
                             <td th:text="${data.password}">33</td>
-                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
-                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
-
-                            <td><a th:href="@{'/member/modify/'+${data.memberIdx}}" >수정</a>
-                                /<a th:href="@{'/member/delete/'+${data.memberIdx}}">삭제</a></td>
+                            <td th:text="${data.lastname}">2008/11/28</td>
                         </tr>
 
                         </tbody>
-
+                        <tfoot>
+                        <tr>
+                            <td><strong>Name</strong></td>
+                            <td><strong>Position</strong></td>
+                            <td><strong>Office</strong></td>
+                            <td><strong>Age</strong></td>
+                            <td><strong>Start date</strong></td>
+                            <td><strong>Salary</strong></td>
+                        </tr>
+                        </tfoot>
                     </table>
-
-                    <td><a th:href="@{/member/register}">신규등록</a></td>
-
-
                 </div>
                 <div class="row">
                     <div class="col-md-6 align-self-center">

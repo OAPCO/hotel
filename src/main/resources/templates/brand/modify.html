@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Admin : 회원정보 수정</title>
+
+
+</head>
+<body>
+
+
+<div layout:fragment="content">
+
+    <div class="container-fluid mt-3">
+        <h2>브랜드 정보 수정</h2>
+        <form th:action="@{/brand/modify}" method="post">
+
+            <div class="mb-3 mt-3">
+                <label>브랜드이름 : </label>
+                <input type="text" class="form-control" placeholder="브랜드이름" name="brandCode">
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label>브랜드 코드 : </label>
+                <input type="text" class="form-control" placeholder="브랜드코드" name="brandOpenTime">
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label>브랜드 오픈 시간 : </label>
+                <input type="text" class="form-control" placeholder="브랜드오픈시간" name="brandCloseTime">
+            </div>
+            <div class="mb-3 mt-3">
+                <label>브랜드 종료 시간 : </label>
+                <input type="text" class="form-control" placeholder="브랜드종료시간" name="brandCloseTime">
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary">수정완료</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -14,15 +14,15 @@ import lombok.*;
 @ToString
 @Table(name="admin")
 @SequenceGenerator(
-        name = "member_sql",
-        sequenceName = "member_sql",
+        name = "admin_sql",
+        sequenceName = "adminsql",
         initialValue = 1,
         allocationSize = 1
 )
 public class Admin extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_sql")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_sql")
     private Long adminIdx;
 
     @Column(length = 60, nullable = false)
