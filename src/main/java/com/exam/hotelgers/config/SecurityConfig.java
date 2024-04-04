@@ -28,7 +28,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((auth)-> {
 
             //제약없음
-            auth.requestMatchers("/**", "/assets/**").permitAll();
+            auth.requestMatchers("/", "/assets/**").permitAll();
 
             //로그인이 안된 사용자들에 대한 제약
             auth.requestMatchers("/member/login", "/admin/login", "/member/register","/login").permitAll();
@@ -54,11 +54,12 @@ public class SecurityConfig {
         );
 
 
+        //관리자 로그인 커스텀
 //        http.formLogin(login->login
 //                .loginPage("/admin/login")  //member/login, admin/login 사용자 로그인페이지(맵핑)
 //                .defaultSuccessUrl("/",true) //로그인성공시 이동할 맵핑
-//                .failureUrl("/member/login?error") //로그인 실패시 이동할 맵핑
-//                .usernameParameter("memberEmail") //로그인서비스에서 사용자아이디로 쓰이는 변수
+//                .failureUrl("/admin/login?error") //로그인 실패시 이동할 맵핑
+//                .usernameParameter("username") //로그인서비스에서 사용자아이디로 쓰이는 변수
 //                .successHandler(new CustomLoginSuccessHandler()) //성공시 추가처리할 메소드
 //                .permitAll() //모든 이용자가 접근 가능
 //        );
