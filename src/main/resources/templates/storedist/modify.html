@@ -16,6 +16,8 @@
     <div class="container-fluid mt-3">
         <h2>총판 정보 수정</h2>
         <form th:action="@{/storedist/modify}" method="post">
+
+            <input type="hidden" name="storeDistIdx" th:value="${storedistDTO.getStoreDistIdx()}">
             <div class="mb-3 mt-3">
                 <label>총판명 : </label>
                 <input type="text" class="form-control" placeholder="총판명" name="storeDistName">

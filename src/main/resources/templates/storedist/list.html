@@ -52,7 +52,7 @@
                         <tr th:each="data:${list}">
                             <td th:text="${data.storeDistIdx}"></td>
                             <td>
-                                <a th:text="${data.storeDistName}" th:href="@{'/storedist/'+${data.storeDistName}}" >연습</a>
+                                <a th:text="${data.storeDistName}" th:href="@{'/storedist/'+${data.storeDistIdx}}" >연습</a>
                             </td>
                             <td th:text="${data.storeDistChief}"></td>
                             <td th:text="${data.storeDistTel}"></td>

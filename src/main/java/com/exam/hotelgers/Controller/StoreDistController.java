@@ -123,7 +123,7 @@ public class StoreDistController {
     public String readForm(@PathVariable Long storedistIdx, Model model) {
         StoreDistDTO storedistDTO=storedistService.read(storedistIdx);
         //서비스에서 값을 받으면 반드시 model로 전달
-        model.addAttribute("storedistDTO",storedistDTO);
+        model.addAttribute("storeDistDTO",storedistDTO);
         return "storedist/read";
     }
 }

@@ -60,9 +60,9 @@
                         </thead>
                         <tbody>
                         <tr th:each="data:${list}">
-                            <td th:text="${data.bannerIdx}">Accountant</td>
+                            <td th:text="${data.bannerIdx}"></td>
                             <td>
-                                <a th:text="${data.Title}" th:href="@{'/banner/'+${data.bannerIdx}}" ></a>
+                                <a th:text="${data.bannerTitle}" th:href="@{'/banner/'+${data.bannerIdx}}" ></a>
                             </td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>

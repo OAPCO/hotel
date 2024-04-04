@@ -23,21 +23,14 @@
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">회원 가입</h4>
                             </div>
-                            <form class="user" th:action="@{/member/register}" method="post">
+                            <form class="user" th:action="@{/brand/register}" method="post">
 
-                                <div class="mb-3"><input class="form-control form-control-user" type="email"
-                                                         id="memberEmail" aria-describedby="emailHelp"
-                                                         placeholder="이메일" name="memberEmail"></div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user"
-                                                                              type="password" id="examplePasswordInput"
-                                                                              placeholder="비번" name="password">
-                                    </div>
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password"
-                                                                 id="exampleRepeatPasswordInput"
-                                                                 placeholder="비번확인" name="password_repeat">
-                                    </div>
+                                <div class="mb-3 mt-3">
+                                    <label>브랜드이름 : </label>
+                                    <input type="text" class="form-control" placeholder="브랜드이름" name="brandName">
                                 </div>
+
+
                                 <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account
                                 </button>
                             </form>
