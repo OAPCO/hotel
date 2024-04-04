@@ -29,11 +29,31 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-gear-fill"></i>
-                          <span>회원관리</span>
+                          <span>테스트용임시메뉴ㅋ</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/admin/login">Admin 로그인</a></li>
+                            <li><a class="dropdown-item" href="/manager/login">Manager 로그인</a></li>
+                            <li><a class="dropdown-item" href="/member/login">회원 로그인 </a></li>
+                            <li><a class="dropdown-item" href="/logout">로그아웃 </a></li>
+                            <li><a class="dropdown-item" href="/admin/list">관리자 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/member/list">회원 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/storedist/list">총판조직 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/brand/list">브랜드 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/banner/list">광고 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/storebranch/list">지사 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/manager/store/list">매장 목록/관리</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear-fill"></i>
+                            <span>회원관리</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/member/list">회원목록</a></li>
                             <li><a class="dropdown-item" href="/member/register">회원가입</a></li>
+                            <li><a class="dropdown-item" href="/order/jisalist">지사관리</a></li>
                             <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
                         </ul>
                     </li>
@@ -43,11 +63,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                             <span>매장관리</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/admin/list">관리자 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/member/list">회원 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/storedist/list">총판조직 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/brand/list">브랜드 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/banner/list">광고 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/manager/store/list">브랜드 및 매장 현황</a></li>
+                            <li><a class="dropdown-item" href="/manager/store/test">직/가맹점 매장 관리</a></li>
+                            <li><a class="dropdown-item" href="/manager/test">룸별 회원배정(미완)</a></li>
+                            <li><a class="dropdown-item" href="/manager/test">룸별 회원배정내역(미완)</a></li>
+                            <li><a class="dropdown-item" href="/manager/test">공통 코드관리(미완)</a></li>
+                            <li><a class="dropdown-item" href="/manager/test">호텔부대 시설관리(미완)</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -57,8 +78,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/order/orderManagement">주문 번호 조회</a></li>
-                            <li><a class="dropdown-item" href="/order/orderSheetnoCheck">주문상세 조회</a></li>
+                            <li><a class="dropdown-item" href="/order/orderManagement">주문 관리</a></li>
+                            <li><a class="dropdown-item" href="/order/ordernumber">주문 번호 조회</a></li>
+                            <li><a class="dropdown-item" href="/order/ordersheetnocheck">주문상세 조회</a></li>
                             <li><a class="dropdown-item" href="/order/orderProgress">주문 진행 조회</a></li>
                             <li><a class="dropdown-item" href="/order/ScheduledPayment">결제 예정 내역</a></li>
                             <li><a class="dropdown-item" href="/order/PaymentNumberInquiry">결제 번호 조회</a></li>
@@ -85,20 +107,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                             <li><a class="dropdown-item" href="/member/register">주문상세 조회</a></li>
                         </ul>
                     </li>
-
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" >
                             <i class="bi bi-gear-fill"></i>
                             <span>광고/이벤트 관리</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/banner/list">광고 조회</a></li>
-                            <li><a class="dropdown-item" href="/member/register">이벤트 조회</a></li>
+                            <li><a class="dropdown-item" href="/member/list">주문 번호 조회</a></li>
+                            <li><a class="dropdown-item" href="/member/register">주문상세 조회</a></li>
                         </ul>
                     </li>
-
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown">
                             <i class="bi bi-gear-fill"></i>

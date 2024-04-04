@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+
+    <title>매장관리</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h4 class="card-title">매장(가맹점)관리</h4>
+            <form method="post" action="/store/test">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>총판조직</th>
+                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                            <div class="d-inline-block">
+                                <select class="d-inline-block form-select form-select-sm">
+                                    <option value="10" selected="">18</option>
+                                    <option value="25">3스타호텔</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>지사</th>
+                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                            <div class="d-inline-block">
+                                <select class="d-inline-block form-select form-select-sm">
+                                    <option value="10" selected="">aaa호텔</option>
+                                    <option value="25">3스타호텔</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </th>
+                        <th>매장</th>
+                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                            <div class="d-inline-block">
+                                <select class="d-inline-block form-select form-select-sm">
+                                    <option value="10" selected="">전체</option>
+                                    <option value="25">3스타호텔</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>카테고리</strong></td>
+                        <td class="align-middle text-start"> <!-- 수정된 부분 -->
+                            <div class="d-inline-block">
+                                <select class="d-inline-block form-select form-select-sm">
+                                    <option value="10" selected="">bbb호텔</option>
+                                    <option value="25">3스타호텔</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td><strong>지역</strong></td>
+                        <td class="align-middle text-start" >
+                            <div class="d-inline-block">
+                                <select class="d-inline-block form-select form-select-sm">
+                                    <option value="10" selected="">ccc호텔</option>
+                                    <option value="25">3스타호텔</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                            <div class="d-inline-block">
+                                <select class="d-inline-block form-select form-select-sm">
+                                    <option value="10" selected="">123호텔</option>
+                                    <option value="25">3스타호텔</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td><strong>매장코드</strong></td>
+                        <td><input type="text" name="" value=""></td>
+
+                    </tr>
+                    <tr>
+                        <td><strong>매장명</strong></td>
+                        <td><input type="text" name="" value=""></td>
+                        <td><strong>매장주아이디</strong></td>
+                        <td><input type="text" name="" value=""></td>
+                        <td><strong>매장주명</strong></td>
+                        <td><input type="text" name="" value=""></td>
+                    </tr>
+                    <tr>
+                        <td><strong>브랜드명</strong></td>
+                        <td><input type="text" name="" value=""></td>
+                        <td><strong>상태</strong></td>
+                        <td>
+                           <input type="radio" name="매장주아이디" value="value1">전체
+                           <input type="radio" name="매장주아이디" value="value1">제휴중
+                          <input type="radio" name="매장주아이디" value="value1"> 제휴중지
+                        </td>
+
+                        <td><strong>직/가맹</strong></td>
+                        <td>
+                            <input type="radio" name="매장주아이디" value="value1">전체
+                            <input type="radio" name="매장주아이디" value="value1">직영점
+                            <input type="radio" name="매장주아이디" value="value1">가맹점
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+
+                </table>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">조회</button>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <h4 class="card-title">매장 목록</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>구분</th>
+                        <th>총판조직명</th>
+                        <th>지사명</th>
+                        <th>매장명</th>
+                        <th>지역</th>
+                        <th>대표자명</th>
+                        <th>아이디</th>
+                        <th>아이디</th>
+                        <th>주문현황보기</th>
+                        <th>제휴상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+<!--                    <tr th:each="data:${list}">-->
+<!--                        <td th:text="${data.id}">Cell 1</td>-->
+<!--                        <td th:text="${data.userid}">Cell 2</td>-->
+<!--                        <td th:text="${data.id}">Cell 2</td>-->
+<!--                        <td th:text="${data.id}">Cell 2</td>-->
+<!--                        <td th:text="${data.id}">Cell 2</td>-->
+<!--                        <td th:text="${data.id}">Cell 2</td>-->
+<!--                        <td th:text="${data.id}">Cell 2</td>-->
+<!--                        <td th:text="${data.id}">Cell 2</td>-->
+<!--                        <td th:text="${data.id}">Cell 2</td>-->
+<!--                        <td th:text="${data.id}">Cell 2</td>-->
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

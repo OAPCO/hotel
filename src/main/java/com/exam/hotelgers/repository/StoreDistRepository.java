@@ -11,7 +11,9 @@ import java.util.Optional;
 public interface StoreDistRepository extends JpaRepository<StoreDist, Long> {
     //사용자 아이디로 조회
 
-    Optional<StoreDist> findByStoreDistName(String storeDistName);
+    Optional<StoreDist> findByStoreDistCode(String storeDistCode);
+
+    Optional<StoreDist> findByStoreDistIdx(Long storeDistIdx);
 
 
 }

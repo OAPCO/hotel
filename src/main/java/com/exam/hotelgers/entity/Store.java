@@ -26,59 +26,56 @@ public class Store extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_sql")
     private Long storeIdx;
 
-    private int storeCateIdx;
-    private int brandIdx;
-    private String storeCd;
-    private String major;
-    private String minor;
-    private int storeMemberIdx;
-    private String storeName;
-    private String storePostNo;
-    private String storeAddr;
-    private String storeAddrDetail;
-    private BigDecimal storeLat;
-    private BigDecimal storeLng;
-    private String storeTel;
-    private String storeOpenTime;
-    private String storeCloseTime;
-    private String storeRestDay;
-    private String storeMessage;
-    private String storeImg;
-    private int storeImgWidth;
-    private int storeImgHeight;
-    private int storeOpenState;
-    private int storePartnerState;
-    private int storeBeaconState;
-    private int storeType;
-    private int storePaymentType;
-    private String cityCd;
-    private String regionCd;
-    private String bankNum;
-    private String bankName;
-    private String bankOwner;
-    private int nowOrderNo;
-    private LocalDateTime nowOrderNoDate;
-    private Character delYn;
-    private int tblBrandBrandIdx;
-    private int tblStoreCateStoreCateIdx;
-    private String storeSummary;
-    private String storeTag;
-    private String bannerYn;
-    private String mainYn;
-    private int storeServiceType;
-    private String recommendYn;
-    private Character kakaoSendYn;
-    private Character deliveryFeeYn;
-    private int deliveryFee;
-    private int storeBranchIdx;
-    private int deliveryMinFee;
-    private Character pointSaveYn;
-    private String mangoStoreCode;
-    private String mangoCatId;
+//    private int storeCateIdx; //카테고리. enum으로 만들었음
+//    private int brandIdx; //브랜드 엔티티
+//    private int storeMemberIdx; //매장회원 엔티티
+//    private int storeBranchIdx; //지사=enum?
+//    private String storeImg; //이미지 엔티티
+
+    @Column(unique = true)
+    private String storeCd; //매장코드
+    private String major; //비콘 메이저코드
+    private String minor; //비콘 마이너코드
+
+    private String storeName; //매장명
+    private String storePostNo; //우편번호
+    private String storeAddr; //주소
+    private String storeAddrDetail; //상세주소
+    private BigDecimal storeLat; //위도
+    private BigDecimal storeLng; //경도
+    private String storeTel; //전화번호
+    private String storeOpenTime; //영업시작시간
+    private String storeCloseTime; //영업종료시간
+    private String storeRestDay; //휴무일
+    private String storeMessage; //공지사항
+
+    private int storeOpenState; //0:영업중, 1:영업종료
+    private int storePartnerState; //0:제휴중, 1:제휴종료
+    private int storeBeaconState; //0: 반매장, 1:비콘
+    private int storeType; //0:직영, 1:가맹
+    private int storePaymentType; //0:선결제, 1:후결제
+    private String cityCd; //도시 코드
+    private String regionCd; //지역 코드
+    private String bankNum; //계좌번호
+    private String bankName; //은행명
+    private String bankOwner; //예금주
+    private int nowOrderNo; //매장별 주문 번호
+    private LocalDateTime nowOrderNoDate; //매장별 주문 번호 기준일
 
 
+    private String storeSummary; //매장 설명
+    private String storeTag; //매장 태그
+    private int storeServiceType; //1:매장, 2:테이크
+    private String recommendYn; //추천
+    private Character kakaoSendYn; //카카오톡 전송여부
+    private Character deliveryFeeYn; //배달료여부
+    private int deliveryFee; //배달료
+    private int deliveryMinFee; //최소배달금액
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="storeDistIdx")
+    private StoreDist storeDist;
 
 
 }

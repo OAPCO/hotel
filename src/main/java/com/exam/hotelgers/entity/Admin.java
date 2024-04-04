@@ -15,7 +15,7 @@ import lombok.*;
 @Table(name="admin")
 @SequenceGenerator(
         name = "admin_sql",
-        sequenceName = "adminsql",
+        sequenceName = "admin_sql",
         initialValue = 1,
         allocationSize = 1
 )

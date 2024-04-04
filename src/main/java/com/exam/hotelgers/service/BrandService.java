@@ -1,9 +1,11 @@
 package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.BrandDTO;
+import com.exam.hotelgers.entity.Banner;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import java.util.Optional;
 //회원 가입, 수정, 삭제, 조회
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class BrandService {
 
     private final BrandRepository brandRepository;
@@ -39,9 +42,18 @@ public class BrandService {
 
 
 
-        Brand brand = modelMapper.map(brandDTO, Brand.class);
 
-        brandRepository.save(brand);
+        Optional<Brand> temp = brandRepository
+                .findByBrandIdx(brandDTO.getBrandIdx());
+
+
+        if(temp.isPresent()) {
+
+            Brand brand = modelMapper.map(brandDTO, Brand.class);
+
+            brandRepository.save(brand);
+        }
+
 
     }
 
@@ -65,6 +77,7 @@ public class BrandService {
 
 
         Page<BrandDTO> brandDTOS = brands.map(data->modelMapper.map(data,BrandDTO.class));
+
 
         return brandDTOS;
     }

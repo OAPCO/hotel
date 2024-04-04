@@ -3,6 +3,9 @@ package com.exam.hotelgers.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 @Builder
@@ -20,6 +23,8 @@ public class StoreDist extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "storedist_sql")
     private Long storeDistIdx;
 
+    @Column(length = 200, unique = true)
+    private String storeDistCode;
 
     @Column(length = 45)
     private String storeDistName;
@@ -29,5 +34,11 @@ public class StoreDist extends BaseEntity {
     private String storeDistTel;
 
 
+
+    @OneToMany(mappedBy="storeDist", cascade = CascadeType.ALL)
+    private List<Store> storeList = new ArrayList<>();
+
+    @OneToMany(mappedBy="storeDist", cascade = CascadeType.ALL)
+    private List<StoreBranch> storeBranchList = new ArrayList<>();
 
 }

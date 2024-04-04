@@ -12,6 +12,8 @@ public class StoreDistDTO {
 
     private Long storeDistIdx;
 
+    private String storeDistCode;
+
 
     private String storeDistName;
     private String storeDistChief;

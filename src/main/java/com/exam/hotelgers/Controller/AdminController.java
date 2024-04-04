@@ -54,11 +54,6 @@ public class AdminController {
         return "admin/list";
     }
 
-    @PostMapping("/admin/list")
-    public void listProc() {
-
-
-    }
 
     @GetMapping("/admin/register")
     public void registerForm() {

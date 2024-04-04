@@ -88,7 +88,7 @@ public class MemberController {
     @GetMapping("/member/modify/{memberIdx}")
     public String modifyForm(@PathVariable Long memberIdx, Model model) {
 
-        log.info("member modifyProc 도착 " + memberIdx);
+        log.info("member modifyForm 도착 번호 : " + memberIdx);
 
         MemberDTO memberDTO = memberService.read(memberIdx);
 

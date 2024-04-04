@@ -24,14 +24,14 @@ public class LoginService implements UserDetailsService {
     private final AdminRepository adminRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String memberEmail) {
+    public UserDetails loadUserByUsername(String userid) {
+
 
         //가져온 아이디로 존재여부를 검색
-        Optional<Member> member = memberRepository.findByMemberEmail(memberEmail);
+        Optional<Member> member = memberRepository.findByMemberEmail(userid);
+        Optional<Admin> admin = adminRepository.findByAdminId(userid);
 
 
-        //관리자
-//        Optional<Admin> admin = adminRepository.findByAdminId(username);
 
         if(member.isPresent()) { //입력한 아이디가 존재하면
 
@@ -47,21 +47,21 @@ public class LoginService implements UserDetailsService {
         }
 
         //어드민 로그인
-//        else if(admin.isPresent()){
-//
-//            log.info("어드민 로그인 시도 아이디: " + admin.get().getAdminId());
-//            log.info("어드민 로그인 시도 비밀번호: " + admin.get().getPassword());
-//            log.info("어드민 로그인 시도 권한: " + admin.get().getRoleType());
-//
-//            return User.withUsername(admin.get().getAdminId())
-//                    .password(admin.get().getPassword())
-//                    .roles(admin.get().getRoleType().name())
-//                    .build();
-//        }
+        else if(admin.isPresent()){
+
+            log.info("어드민 로그인 시도 아이디: " + admin.get().getAdminId());
+            log.info("어드민 로그인 시도 비밀번호: " + admin.get().getPassword());
+            log.info("어드민 로그인 시도 권한: " + admin.get().getRoleType());
+
+            return User.withUsername(admin.get().getAdminId())
+                    .password(admin.get().getPassword())
+                    .roles(admin.get().getRoleType().name())
+                    .build();
+        }
 
 
         else {
-            throw new UsernameNotFoundException("가입되지 않은 아이디 :"+ memberEmail);
+            throw new UsernameNotFoundException("가입되지 않은 아이디 :"+ userid);
         }
     }
 

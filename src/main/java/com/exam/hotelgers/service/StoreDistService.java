@@ -25,10 +25,10 @@ public class StoreDistService {
 
 
     public Long register(StoreDistDTO storedistDTO) {
-        
-        
+
+
         Optional<StoreDist> storedistEntity = storedistRepository
-                .findByStoreDistName(storedistDTO.getStoreDistName());
+                .findByStoreDistCode(storedistDTO.getStoreDistCode());
 
         if(storedistEntity.isPresent()) {
             throw new IllegalStateException("이미 생성된 총판입니다.");
@@ -45,17 +45,14 @@ public class StoreDistService {
     public void modify(StoreDistDTO storedistDTO){
 
 
-        Optional<StoreDist> storedistEntity = storedistRepository
-                .findByStoreDistName(storedistDTO.getStoreDistName());
+        Optional<StoreDist> temp = storedistRepository
+                .findByStoreDistIdx(storedistDTO.getStoreDistIdx());
 
-        if(storedistEntity.isPresent()) {
-            throw new IllegalStateException("이미 생성된 총판입니다.");
+        if(temp.isPresent()) {
+
+            StoreDist storedist = modelMapper.map(storedistDTO, StoreDist.class);
+            storedistRepository.save(storedist);
         }
-
-        StoreDist storedist = modelMapper.map(storedistDTO, StoreDist.class);
-
-
-        storedistRepository.save(storedist);
 
     }
 
@@ -66,7 +63,7 @@ public class StoreDistService {
 
         return modelMapper.map(storedist,StoreDistDTO.class);
     }
-    
+
 
 
     public Page<StoreDistDTO> list(Pageable pageable){

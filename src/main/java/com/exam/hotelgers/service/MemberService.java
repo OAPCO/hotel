@@ -6,6 +6,7 @@ import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import java.util.Optional;
 //회원 가입, 수정, 삭제, 조회
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -53,19 +55,23 @@ public class MemberService {
 
 
         Optional<Member> memberEntity = memberRepository
-                .findByMemberEmail(memberDTO.getMemberEmail());
+                .findByMemberIdx(memberDTO.getMemberIdx());
 
         if(memberEntity.isPresent()) {
-            throw new IllegalStateException("이미 가입된 이메일입니다.");
+
+            String password = passwordEncoder.encode(memberDTO.getPassword());
+            Member member = modelMapper.map(memberDTO, Member.class);
+
+
+            member.setPassword(password);
+            member.setRoleType(RoleType.USER);
+
+            memberRepository.save(member);
         }
 
-        String password = passwordEncoder.encode(memberDTO.getPassword());
-        Member member = modelMapper.map(memberDTO, Member.class);
 
-        member.setPassword(password);
-        member.setRoleType(RoleType.USER);
 
-        memberRepository.save(member);
+
 
     }
 

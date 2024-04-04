@@ -2,6 +2,8 @@ package com.exam.hotelgers.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -13,14 +15,13 @@ public class BrandDTO {
     private Long brandIdx; //브랜드키
 
 
+    private String brandName; //브랜드이름.
 
-    private String brandName; //브랜드이름
 
-    private String brandCode; //브랜드 코드
+    private LocalDateTime regdate;
 
-    private String brandOpenTime; //브랜드 오픈 시간
+    private LocalDateTime moddate;
 
-    private String brandCloseTime; //브랜드 종료 시간
 
 
 

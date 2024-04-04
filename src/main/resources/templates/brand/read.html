@@ -24,18 +24,6 @@
             <td>[[${brandDTO.brandName}]]</td>
         </tr>
         <tr>
-            <td>브랜드코드</td>
-        <td>[[${brandDTO.brandCode}]]</td>
-        </tr>
-        <tr>
-            <td>브랜드 오픈 시간</td>
-            <td>[[${brandDTO.brandOpenTime}]]</td>
-        </tr>
-        <tr>
-            <td>브랜드 종료 시간</td>
-            <td>[[${brandDTO.brandCloseTime}]]</td>
-        </tr>
-        <tr>
             <td>생성일자</td>
         <td th:text="${#temporals.format(brandDTO.regdate, 'yyyy-MM-dd')}"></td>
         </tr>

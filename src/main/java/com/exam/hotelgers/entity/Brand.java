@@ -13,7 +13,7 @@ import lombok.*;
 @Table(name="brand")
 @SequenceGenerator(
         name = "brand_sql",
-        sequenceName = "brandsql",
+        sequenceName = "brand_sql",
         initialValue = 1,
         allocationSize = 1
 )
@@ -26,15 +26,7 @@ public class Brand extends BaseEntity{
 
     @Column(nullable=true, length=200)
     private String brandName; //브랜드 이름
-    
-    @Column(nullable=true, length=2)
-    private String brandCode; //브랜드 코드
-    
-    @Column(nullable=true, length=45)
-    private String brandOpenTime; //브랜드 오픈 시간
-    
-    @Column(nullable=true, length=45)
-    private String brandCloseTime; //브랜드 종료 시간
+
     
 
 

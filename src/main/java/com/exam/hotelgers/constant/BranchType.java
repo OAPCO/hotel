@@ -1,4 +1,7 @@
 package com.exam.hotelgers.constant;
 
-public class BranchType {
+public enum BranchType {
+
+
+    SEOUL, BUSAN, JEJU, Incheon, Daegu, Gwangju, Daejeon,
 }
