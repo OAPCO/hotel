@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main}">>
+      layout:decorate="~{layouts2/main}">>
 
 <head>
     <title>관리자 목록</title>
@@ -72,16 +72,16 @@
                 <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/register}'|">등록</button>
 
         <ul class="mt-3 pagination">
-            <li class="page-item"><a class="page-link" th:href="@{/member/list(page=${prevPage})}"><</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{/templates/member2/list(page=${prevPage})}"><</a></li>
             <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
                         <li class="page-item active" th:if="${page == currentPage}">
                             <a class="page-link" href="#">[[${page}]]</a>
                         </li>
                         <li class="page-item" th:unless="${page == currentPage}">
-                            <a class="page-link" th:href="@{/member/list(page=${page})}">[[${page}]]</a>
+                            <a class="page-link" th:href="@{/templates/member2/list(page=${page})}">[[${page}]]</a>
                         </li>
                     </span>
-            <li class="page-item"><a class="page-link" th:href="@{/member/list(page=${nextPage})}">></a></li>
+            <li class="page-item"><a class="page-link" th:href="@{/templates/member2/list(page=${nextPage})}">></a></li>
         </ul>
 
 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">>
+
+<head>
+    <title>매장 회원관리</title>
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <h3 class="text-dark mb-4">매장 회원관리</h3>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">List</p>
+            </div>
+            <td class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-nowrap">
+                        <div class="table-responsive table mt-12" id="dataTable" role="grid"
+                             aria-describedby="dataTable_info">
+                            <table class="table my-0" id="*">
+                                <tbody>
+                                <tr>
+                                    <td class="col-2">메장유저권한</td>
+                                    <td class="col-3"><select class="form-select" aria-label="Default select example">
+                                        <option selected>선택</option>
+                                        <option value="1">매니저</option>
+                                        <option value="2">총책임자</option>
+                                    </select></td>
+                                    <td class="col-3">총판조직</td>
+                                    <td class="col-4">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>신라호텔</option>
+                                            <option value="1">ggg럭셔리</option>
+                                            <option value="2">롯데호텔</option>
+                                            <option value="3">모텔</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">지사</td>
+                                    <td class="col-3"><select class="form-select" aria-label="Default select example">
+                                        <option selected>선택</option>
+                                        <option value="1">ggg럭셔리</option>
+                                        <option value="2">롯데호텔</option>
+                                        <option value="3">모텔</option>
+                                    </select></td>
+                                    <td class="col-3">매장</td>
+                                    <td class="col-4"><select class="form-select" aria-label="Default select example">
+                                        <option selected>전체</option>
+                                        <option value="1">ggg럭셔리</option>
+                                        <option value="2">롯데호텔</option>
+                                        <option value="3">모텔</option>
+                                    </select></td>
+                                </tr>
+                                <tr>
+                                    <td>아이디</td>
+                                    <td><input type="text"></td>
+                                    <td>이름</td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>연락처</td>
+                                    <td><input type="text"></td>
+                                    <td>상태</td>
+                                    <td><div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Default radio
+                                        </label>
+                                    </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                Default checked radio
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                Default checked radio
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+        <h3 class="text-dark mb-4">회원목록</h3>
+        <div class="table-responsive table mt-2" id="list" role="grid" aria-describedby="dataTable_info">
+            <table class="table my-2" id="list1">
+                <tbody>
+                <tr>
+                    <td class="col-2">no</td>
+                    <td class="col-3">매장유저권한</td>
+                    <td class="col-3">아이디</td>
+                    <td class="col-4">이름</td>
+                    <td class="col-5">연락처</td>
+                    <td class="col-6">매장수</td>
+                    <td class="col-7">가맹점수</td>
+                    <td class="col-8">상태</td>
+                </tr>
+                </tbody>
+            </table>
+            <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/storemember/register}'|">추가
+            </button>
+        </div>
+
+
+
+    </div>
+
+
+
+
+</div>
+</body>
+
+</html>

@@ -15,10 +15,7 @@
 
     <div class="container-fluid mt-3">
         <h2>회원 정보 수정</h2>
-
         <form th:action="@{/member/modify}" method="post">
-
-
             <div class="mb-3 mt-3">
                 <label>아이디 : </label>
                 <input type="text" class="form-control" placeholder="아이디" name="memberIdx">
@@ -31,7 +28,6 @@
                 <label>비밀번호확인 : </label>
                 <input type="password" class="form-control" placeholder="비밀번호 확인" name="password2">
             </div>
-
 
 
             <button type="submit" class="btn btn-primary">수정완료</button>

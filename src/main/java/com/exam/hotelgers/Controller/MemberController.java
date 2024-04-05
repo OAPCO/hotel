@@ -49,7 +49,7 @@ public class MemberController {
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
-        log.info("post 레지스터 옴" + memberDTO);
+        log.info("member registerProc 도착 " + memberDTO);
 
 
         if (bindingResult.hasErrors()) {
@@ -70,6 +70,8 @@ public class MemberController {
     @GetMapping("/member/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
+        log.info("member listForm 도착 ");
+
         Page<MemberDTO> memberDTOS = memberService.list(pageable);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(memberDTOS);
@@ -82,10 +84,10 @@ public class MemberController {
 
 
 
-    @GetMapping("/member/modify/{mno}")
-    public String updateForm(@PathVariable Long memberIdx, Model model) {
+    @GetMapping("/member/modify/{memberIdx}")
+    public String modifyForm(@PathVariable Long memberIdx, Model model) {
 
-        log.info("업데이트 폼 들어온 사용자 " + memberIdx);
+        log.info("member modifyProc 도착 " + memberIdx);
 
         MemberDTO memberDTO = memberService.read(memberIdx);
 
@@ -96,10 +98,10 @@ public class MemberController {
 
 
     @PostMapping("/member/modify")
-    public String updateProc(@Validated MemberDTO memberDTO,
+    public String modifyProc(@Validated MemberDTO memberDTO,
                              BindingResult bindingResult, Model model) {
 
-
+        log.info("member modifyProc 도착 " + memberDTO);
 
         if (bindingResult.hasErrors()) {
 
@@ -107,6 +109,8 @@ public class MemberController {
 
             return "/member/modify";
         }
+
+
         memberService.modify(memberDTO);
 
         log.info("업데이트 이후 정보 " + memberDTO);
@@ -116,8 +120,9 @@ public class MemberController {
 
     @GetMapping("/member/delete/{memberIdx}")
     public String deleteProc(@PathVariable Long memberIdx) {
+
         memberService.delete(memberIdx);
-        //서비스처리(삭제)
+
         return "redirect:/member/list";
     }
 }
