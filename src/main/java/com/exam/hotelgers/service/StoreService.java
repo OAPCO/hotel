@@ -32,7 +32,7 @@ public class StoreService {
     public Long register(StoreDTO storeDTO) {
 
 
-        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistCode(storeDTO.getStoreDistDTO().getStoreDistName());
+        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistIdx(storeDTO.getStoreDistDTO().getStoreDistIdx());
 
         
         Optional<Store> storeEntity = storeRepository

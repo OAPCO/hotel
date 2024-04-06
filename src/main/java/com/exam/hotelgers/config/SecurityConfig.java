@@ -39,14 +39,14 @@ public class SecurityConfig {
             auth.requestMatchers("/**", "/assets/**").permitAll();
 
             //로그인이 안된 사용자들에 대한 제약
-            auth.requestMatchers("/member/login", "/admin/login", "/member/register","/login").permitAll();
+            auth.requestMatchers("/**").permitAll();
 
-            //일반회원이 사용한 제약
-            auth.requestMatchers("/member/update","/member/read","/member/logout","/logout").hasAnyRole("USER", "MANAGER", "ADMIN");
-            //관리자 사용한 제약
-            auth.requestMatchers("/member/**","/admin/logout","/logout").hasAnyRole("MANAGER", "ADMIN");
-            //최종 운영자에 대한 제약
-            auth.requestMatchers("/admin/**").hasAnyRole("ADMIN");
+//            //일반회원이 사용한 제약
+//            auth.requestMatchers("/member/update","/member/read","/member/logout","/logout").hasAnyRole("USER", "MANAGER", "ADMIN");
+//            //관리자 사용한 제약
+//            auth.requestMatchers("/member/**","/admin/logout","/logout").hasAnyRole("MANAGER", "ADMIN");
+//            //최종 운영자에 대한 제약
+//            auth.requestMatchers("/admin/**").hasAnyRole("ADMIN");
         });
 
 

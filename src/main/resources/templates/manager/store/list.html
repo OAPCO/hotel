@@ -48,7 +48,8 @@
 
             </table>
             <div style="text-align: center;">
-                <button type="button" class="btn btn-primary">조회</button>
+                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/manager/store/read}'|">조회</button>
+                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/manager/store/register}'|">신규등록</button>
             </div>
         </div>
     </div>
@@ -76,6 +77,8 @@
                 <tbody>
                 <tr th:each="data:${list}">
                     <td th:text="${data.storeIdx}"></td>
+                    <td>(구분)</td>
+                    <td th:text="${data.storeDistDTO.storeDistName}"></td>
                     <td>
                         <a th:text="${data.storeName}" th:href="@{'/manager/store/'+${data.storeIdx}}" >연습</a>
                     </td>

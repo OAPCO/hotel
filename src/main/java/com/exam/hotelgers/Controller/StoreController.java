@@ -97,7 +97,7 @@ public class StoreController {
 
             log.info("업데이트 에러 발생");
 
-            return "/manager/store/modify";
+            return "manager/store/modify";
         }
 
 
@@ -125,14 +125,5 @@ public class StoreController {
     }
 
 
-    @GetMapping("/store/storeManagement")
-    public void asd() {
-
-    }
-
-    @GetMapping("/store/test")
-    public void qwe() {
-
-    }
 
 }
