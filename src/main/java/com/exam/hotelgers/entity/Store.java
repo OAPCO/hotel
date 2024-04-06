@@ -1,5 +1,8 @@
 package com.exam.hotelgers.entity;
 
+import com.exam.hotelgers.constant.RoleType;
+import com.exam.hotelgers.constant.StorePType;
+import com.exam.hotelgers.constant.StoreStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,10 +37,12 @@ public class Store extends BaseEntity{
 
     @Column(unique = true)
     private String storeCd; //매장코드
+    private String storeName; //매장명
+    private String storeChief; //대빵
+
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
 
-    private String storeName; //매장명
     private String storePostNo; //우편번호
     private String storeAddr; //주소
     private String storeAddrDetail; //상세주소
@@ -52,7 +57,6 @@ public class Store extends BaseEntity{
     private int storeOpenState; //0:영업중, 1:영업종료
     private int storePartnerState; //0:제휴중, 1:제휴종료
     private int storeBeaconState; //0: 반매장, 1:비콘
-    private int storeType; //0:직영, 1:가맹
     private int storePaymentType; //0:선결제, 1:후결제
     private String cityCd; //도시 코드
     private String regionCd; //지역 코드
@@ -74,8 +78,20 @@ public class Store extends BaseEntity{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="storeBranchIdx")
+    private StoreBranch storeBranch;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeDistIdx")
     private StoreDist storeDist;
+
+
+
+    @Enumerated(EnumType.STRING)
+    private StorePType storePType;
+
+    @Enumerated(EnumType.STRING)
+    private StoreStatus storeStatus;
 
 
 }

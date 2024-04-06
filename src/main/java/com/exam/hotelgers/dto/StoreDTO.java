@@ -1,9 +1,8 @@
 package com.exam.hotelgers.dto;
 
-import com.exam.hotelgers.entity.StoreDist;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.constant.StorePType;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -17,6 +16,7 @@ public class StoreDTO {
     private Long storeIdx;
 
     private String storeCd; //매장코드
+    private String storeChief; //대빵
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
     private String storeName; //매장명
@@ -34,7 +34,6 @@ public class StoreDTO {
     private int storeOpenState; //0:영업중, 1:영업종료
     private int storePartnerState; //0:제휴중, 1:제휴종료
     private int storeBeaconState; //0: 반매장, 1:비콘
-    private int storeType; //0:직영, 1:가맹
     private int storePaymentType; //0:선결제, 1:후결제
     private String cityCd; //도시 코드
     private String regionCd; //지역 코드
@@ -56,6 +55,13 @@ public class StoreDTO {
 
 
     private StoreDistDTO storeDistDTO;
+    private StoreBranchDTO storeBranchDTO;
+
+    @Enumerated(EnumType.STRING)
+    private StorePType storePType;
+
+    @Enumerated(EnumType.STRING)
+    private StoreStatus storeStatus;
 
 
 

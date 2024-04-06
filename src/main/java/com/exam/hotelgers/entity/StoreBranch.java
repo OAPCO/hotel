@@ -42,5 +42,8 @@ public class StoreBranch extends BaseEntity {
     @JoinColumn(name="storeDistIdx")
     private StoreDist storeDist;
 
+    @OneToMany(mappedBy="storeBranch", cascade = CascadeType.ALL)
+    private List<Store> storeList = new ArrayList<>();
+
 
 }

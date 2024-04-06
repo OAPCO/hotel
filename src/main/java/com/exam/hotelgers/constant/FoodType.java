@@ -1,6 +1,6 @@
 package com.exam.hotelgers.constant;
 
-public enum StoreType {
+public enum FoodType {
 
 
     //한식,양식,중식,일식,퓨전

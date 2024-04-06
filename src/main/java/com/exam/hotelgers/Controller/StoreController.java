@@ -47,9 +47,13 @@ public class StoreController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
 
-        log.info(storeDTO);
+
 
         Long storeIdx = storeService.register(storeDTO);
+
+        log.info("열거형확인@@@@@type는 " + storeDTO.getStorePType());
+        log.info("열거형확인@@@@@status는 " + storeDTO.getStoreStatus());
+
 
         redirectAttributes.addFlashAttribute("result", storeIdx);
 
@@ -69,6 +73,21 @@ public class StoreController {
         model.addAllAttributes(pageinfo);
         model.addAttribute("list", storeDTOS);
         return "manager/store/list";
+    }
+
+
+    @GetMapping("/store/order")
+    public String orderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+
+        log.info("store orderForm 도착 ");
+
+        Page<StoreDTO> storeDTOS = storeService.list(pageable);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", storeDTOS);
+        return "manager/store/order";
     }
 
 

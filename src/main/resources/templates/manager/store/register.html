@@ -14,38 +14,72 @@
         <div class="card shadow-lg o-hidden border-0 my-5">
             <div class="card-body p-0">
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-flex">
-                        <div class="flex-grow-1 bg-register-image"
-                             style="background-image: url(&quot;assets/img/dogs/image2.jpeg&quot;);"></div>
+                    <div class="col-lg-3 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(/assets/img/dogs/image2.jpeg);"></div>
                     </div>
-                    <div class="col-lg-7">
+                    <div class="col-lg-9">
                         <div class="p-5">
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">매장 등록</h4>
                             </div>
+
+
+
                             <form class="user" th:action="@{/manager/store/register}" method="post">
 
-                                <div class="mb-3"><input class="form-control form-control-user" type="text"
-                                                         id="storeName"
-                                                         placeholder="매장명" name="storeName"></div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user"
-                                                                              type="text" id="storeCd"
-                                                                              placeholder="매장코드" name="storeCd">
-                                    </div>
 
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="storeName"
+                                               placeholder="매장명" name="storeName">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="storeCd"
+                                               placeholder="매장 코드" name="storeCd">
+                                    </div>
                                 </div>
-                                <div class="col-sm-6"><input class="form-control form-control-user" type="text"
-                                                             id="storeDistIdx"
-                                                             placeholder="소속 총판 번호" name="storeDistDTO.storeDistIdx">
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="storeDistIdx"
+                                               placeholder="소속 총판 번호" name="storeDistDTO.storeDistIdx">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="storeBranchIdx"
+                                               placeholder="소속 지사 번호" name="storeBranchDTO.storeBranchIdx">
+                                    </div>
                                 </div>
-                                <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account
-                                </button>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="storeChief"
+                                               placeholder="매장 대표" name="storeChief">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="r"
+                                               placeholder="지역(아직x)" name="r">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        구분
+                                        <select class="form-select" name="storePType">
+                                            <option value="DIRECTSTORE">직영점</option>
+                                            <option value="FRANCHISEE">가맹점</option>
+                                        </select><br>
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        상태
+                                        <select class="form-select" name="storeStatus">
+                                            <option value="ON">제휴중</option>
+                                            <option value="OFF">미제휴</option>
+                                        </select><br>
+                                    </div>
+                                </div>
+
+
+
+
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit">등록</button>
                             </form>
-                            <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center"><a class="small" href="login.html">Already have an account?
-                                Login!</a></div>
                         </div>
                     </div>
                 </div>

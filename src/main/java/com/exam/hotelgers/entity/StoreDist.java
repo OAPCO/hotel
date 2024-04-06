@@ -34,11 +34,11 @@ public class StoreDist extends BaseEntity {
     private String storeDistTel;
 
 
+    @OneToMany(mappedBy="storeDist", cascade = CascadeType.ALL)
+    private List<StoreBranch> storeBranchList = new ArrayList<>();
 
     @OneToMany(mappedBy="storeDist", cascade = CascadeType.ALL)
     private List<Store> storeList = new ArrayList<>();
 
-    @OneToMany(mappedBy="storeDist", cascade = CascadeType.ALL)
-    private List<StoreBranch> storeBranchList = new ArrayList<>();
 
 }
