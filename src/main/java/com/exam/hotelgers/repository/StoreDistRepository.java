@@ -15,5 +15,7 @@ public interface StoreDistRepository extends JpaRepository<StoreDist, Long> {
 
     Optional<StoreDist> findByStoreDistIdx(Long storeDistIdx);
 
+    Optional<StoreDist> findByStoreDistIdx(Long storeDistIdx);
+
 
 }
