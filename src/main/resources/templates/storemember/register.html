@@ -13,85 +13,71 @@
 <body class="bg-gradient-primary">
 <div layout:fragment="content">
     <div class="container">
+        <h3 class="text-dark mb-4">매장 회원관리</h3>
         <div class="card shadow-lg o-hidden border-0 my-5">
             <div class="card-body p-0">
                 <div class="row">
-                    <div class="col-lg-3 d-none d-lg-flex">
-                        <div class="flex-grow-1 bg-register-image" style="background-image: url(/assets/img/dogs/image2.jpeg);"></div>
-                    </div>
-                    <div class="col-lg-9">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h4 class="text-dark mb-4">매장회원 관리</h4>
-                            </div>
-
-
-                            <form class="user" method="post" th:action="@{/templates/admin/register}">
-
-                                <div class="row mb-3">
-                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label
-                                            class="form-label">ID&nbsp;
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="adminId" placeholder="ID" name="adminId"></div>
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <div id="name" class="name" aria-controls="name"><label
-                                                class="form-label">이름&nbsp;
-                                            <div class="col-sm-6 mb-3 mb-sm-0"><input
-                                                    class="form-control form-control-user" type="text" id="adminId"
-                                                    placeholder="NAME" name="adminId"></div>
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3"><div id="password" class="dataTables_length"
-                                                           aria-controls="dataTable"><label
-                                        class="form-label">비밀번호
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="비밀번호" name="password"></div>
-                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label
-                                            class="form-label">비밀번호확인
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="password2" placeholder="비밀번호 확인" name="password2"></div>
-                                    <div class="row mb-3"><div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label
-                                            class="form-label">매장유저권한
-                                    <select class="form-select" name="adminLevel">
-                                        <option value="2">Admin</option>
-                                        <option value="1">Manager</option>
-                                    </select>
-                                        <div class="row mb-3"><div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label
-                                                class="form-label">지사
-                                            <select class="form-select" name="adminLevel">
-                                                <option value="2">Admin</option>
-                                                <option value="1">Manager</option>
-                                            </select>
-                                        </label>
-                                        </div>
-                                        </div>
-                                <div class="row mb-3">
-
-                                </div>
-                                            <div id="name" class="name" aria-controls="name"><label
-                                                    class="form-label">연락처&nbsp;
-                                <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user"
-                                                                              type="text" id="adminPhone"
-                                                                              placeholder="연락처" name="adminPhone"></div>
-                                </div>
-                                                <div class="row mb-3"><div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label
-                                                        class="form-label">총판조직
-                                                    <select class="form-select" name="adminLevel">
-                                                        <option value="2">Admin</option>
-                                                        <option value="1">Manager</option>
-                                                    </select>
-                                                    <div class="row mb-3"><div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label
-                                                            class="form-label">매장
-                                                        <select class="form-select" name="adminLevel">
-                                                            <option value="2">Admin</option>
-                                                            <option value="1">Manager</option>
-                                                        </select>
-
-
-                                <button class="btn btn-primary d-block btn-user w-100" type="submit">생성</button>
-
-                            </form>
+                    <div class="container mt-4">
+                        <h5 class="text-dark mb-4">매장 회원등록</h5>
+                        <div class="table-responsive table mt-12" id="dataTable" role="grid"
+                             aria-describedby="dataTable_info">
+                            <table class="table my-0 table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td>아이디</td>
+                                    <td><input type="text" placeholder="이메일"></td>
+                                    <td>이름</td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>비밀번호</td>
+                                    <td><input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호"></td>
+                                    <td>비밀번호 확인</td>
+                                    <td><input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호"></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">메장유저권한</td>
+                                    <td class="col-3"><select class="form-select" aria-label="Default select example">
+                                        <option selected>선택</option>
+                                        <option value="1">매니저</option>
+                                        <option value="2">총책임자</option>
+                                    </select></td>
+                                    <td class="col-3">총판조직</td>
+                                    <td class="col-4">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>신라호텔</option>
+                                            <option value="1">ggg럭셔리</option>
+                                            <option value="2">롯데호텔</option>
+                                            <option value="3">모텔</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">지사</td>
+                                    <td class="col-3"><select class="form-select" aria-label="Default select example">
+                                        <option selected>선택</option>
+                                        <option value="1">ggg럭셔리</option>
+                                        <option value="2">롯데호텔</option>
+                                        <option value="3">모텔</option>
+                                    </select></td>
+                                    <td class="col-3">매장</td>
+                                    <td class="col-4"><select class="form-select" aria-label="Default select example">
+                                        <option selected>전체</option>
+                                        <option value="1">ggg럭셔리</option>
+                                        <option value="2">롯데호텔</option>
+                                        <option value="3">모텔</option>
+                                    </select></td>
+                                </tr>
+                                <tr>
+                                    <td>연락처</td>
+                                    <td colspan="3"><input type="text"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-primary" style="width:80px;float: right;" type="button" th:onclick="|location.href='@{/storemember/list}'|">취소
+                            </button>
+                            <button class="btn btn-primary" style="width:80px;float: right;" type="button" th:onclick="|location.href='@{/storemember/list}'|">등록
+                            </button>
                         </div>
                     </div>
                 </div>

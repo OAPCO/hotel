@@ -6,6 +6,9 @@
 
 <head>
     <title>매장 회원관리</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -13,16 +16,12 @@
 <div layout:fragment="content">
     <div class="container-fluid">
         <h3 class="text-dark mb-4">매장 회원관리</h3>
-        <div class="card shadow">
-            <div class="card-header py-3">
-                <p class="text-primary m-0 fw-bold">List</p>
-            </div>
             <td class="card-body">
                 <div class="row">
-                    <div class="col-md-6 text-nowrap">
+                    <div class="container mt-4">
                         <div class="table-responsive table mt-12" id="dataTable" role="grid"
                              aria-describedby="dataTable_info">
-                            <table class="table my-0" id="*">
+                            <table class="table my-0 table table-bordered">
                                 <tbody>
                                 <tr>
                                     <td class="col-2">메장유저권한</td>
@@ -59,7 +58,7 @@
                                 </tr>
                                 <tr>
                                     <td>아이디</td>
-                                    <td><input type="text"></td>
+                                    <td><input type="text" placeholder="이메일"></td>
                                     <td>이름</td>
                                     <td><input type="text"></td>
                                 </tr>
@@ -67,57 +66,89 @@
                                     <td>연락처</td>
                                     <td><input type="text"></td>
                                     <td>상태</td>
-                                    <td><div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                    <td><div class="form-check form-check-inline ">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
                                         <label class="form-check-label" for="flexRadioDefault1">
-                                            Default radio
+                                            전체
                                         </label>
                                     </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                        <div class="form-check form-check-inline ">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                                             <label class="form-check-label" for="flexRadioDefault2">
-                                                Default checked radio
+                                                활성
                                             </label>
                                         </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                        <div class="form-check form-check-inline ">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
                                             <label class="form-check-label" for="flexRadioDefault2">
-                                                Default checked radio
+                                                비활성
                                             </label>
                                         </div>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+                            <button class="btn btn-primary" style="width:80px;float: right;" type="button" th:onclick="|location.href='@{/storemember/list}'|">조회
+                            </button>
                         </div>
-        <h3 class="text-dark mb-4">회원목록</h3>
-        <div class="table-responsive table mt-2" id="list" role="grid" aria-describedby="dataTable_info">
-            <table class="table my-2" id="list1">
-                <tbody>
-                <tr>
-                    <td class="col-2">no</td>
-                    <td class="col-3">매장유저권한</td>
-                    <td class="col-3">아이디</td>
-                    <td class="col-4">이름</td>
-                    <td class="col-5">연락처</td>
-                    <td class="col-6">매장수</td>
-                    <td class="col-7">가맹점수</td>
-                    <td class="col-8">상태</td>
-                </tr>
-                </tbody>
-            </table>
-            <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/storemember/register}'|">추가
-            </button>
+                    </div>
+                </div>
+            </td>
+        <div class="container-fluid">
+            <h3 class="text-dark mb-8">회원목록</h3>
+            <td class="card-body">
+                <div class="row">
+                    <div class="container mt-4">
+                        <div class="table align-middle">
+                            <table class="table my-8 table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td class="col">no</td>
+                                    <td class="col">매장유저권한</td>
+                                    <td class="col">아이디</td>
+                                    <td class="col">이름</td>
+                                    <td class="col">연락처</td>
+                                    <td class="col">매장수</td>
+                                    <td class="col">가맹점수</td>
+                                    <td class="col">상태</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="data:${list}">
+                                    <td>[[${dto.memberIdx}]]</td>
+                                    <td>[[${dto.adminLevel}]]</td>
+                                    <td>[[${dto.memberEmail}]]</td>
+                                    <td>[[${dto.adminName}]]</td>
+                                    <td>[[${dto.memberPhone}]]</td>
+                                    <td>[[${dto.memberIdx}]]</td>
+                                    <td>[[${dto.memberIdx}]]</td>
+                                    <td>[[${dto.memberIdx}]]</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-primary" style='width:80px;float: right;' type="button" th:onclick="|location.href='@{/storemember/register}'|">추가
+                            </button>
+                            <div class="col-md-6">
+                                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                                    <ul class="pagination">
+                                        <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
+                                                aria-hidden="true">«</span></a></li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
+                                                aria-hidden="true">»</span></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
         </div>
-
-
-
     </div>
-
-
-
-
 </div>
+
 </body>
 
 </html>

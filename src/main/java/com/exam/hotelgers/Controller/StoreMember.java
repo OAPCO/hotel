@@ -9,4 +9,10 @@ public class StoreMember {
     public String Sto(){
         return "storemember/list";
     }
+
+    @GetMapping("/storemember/register")
+    public String st(){return "storemember/register";}
+
+    @GetMapping("/storemanagement/list")
+    public String stm(){return "storemanagement/list";}
 }
