@@ -49,21 +49,15 @@
                                 </select></td>
                             </tr>
                             <tr>
-                                <td>매장명</td>
-                                <td><input type="text"></td>
                                 <td>일자선택</td>
-                                <td><input type="date" name="startday">-
+                                <td colspan="3"><input type="date" name="startday">-
                                     <input type="date" name="startday">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>결재방식</td>
-                                <td><div class="form-check form-check-inline ">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                        전체
-                                    </label>
-                                </div>
+                                    <div class="form-check form-check-inline ">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            전체
+                                        </label>
+                                    </div>
                                     <div class="form-check form-check-inline ">
                                         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                                         <label class="form-check-label" for="flexRadioDefault2">
@@ -74,26 +68,6 @@
                                         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
                                         <label class="form-check-label" for="flexRadioDefault2">
                                             후결제
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>처리상태</td>
-                                <td><div class="form-check form-check-inline ">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4" checked>
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                        전체
-                                    </label>
-                                </div>
-                                    <div class="form-check form-check-inline ">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5">
-                                        <label class="form-check-label" for="flexRadioDefault2">
-                                            결제완료
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline ">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault6">
-                                        <label class="form-check-label" for="flexRadioDefault2">
-                                            취소완료
                                         </label>
                                     </div>
                                 </td>
@@ -118,16 +92,13 @@
                                     <td class="col">no</td>
                                     <td class="col">결제일자</td>
                                     <td class="col">매장코드</td>
-                                    <td class="col">매장명</td>
-                                    <td class="col">주문번호</td>
-                                    <td class="col">결재번호</td>
-                                    <td class="col">회원ID</td>
-                                    <td class="col">결재금액</td>
-                                    <td class="col">결재방식(원)</td>
-                                    <td class="col">PG수수료(원)</td>
-                                    <td class="col">매장솜금액(원)</td>
-                                    <td class="col">순매출(원)</td>
-                                    <td class="col">처리상태</td>
+                                    <td class="col">합산금액(원)</td>
+                                    <td class="col">오프라인 결제금액(원)</td>
+                                    <td class="col">PG 결제금액(원)</td>
+                                    <td class="col">PG 수수료(원)</td>
+                                    <td class="col">건별수수료(원)</td>
+                                    <td class="col">월정수수료(원</td>
+                                    <td class="col">매장송금액(원)</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -142,11 +113,23 @@
                                     <td>[[${dto.memberIdx}]]</td>
                                     <td>[[${dto.adminName}]]</td>
                                     <td>[[${dto.memberPhone}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
                                 </tr>
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <td colspan="2">합계</td>
+                                    <td>[[${dto.adminName}]]</td>
+                                    <td>[[${dto.memberPhone}]]</td>
+                                    <td>[[${dto.memberIdx}]]</td>
+                                    <td>[[${dto.memberEmail}]]</td>
+                                    <td>[[${dto.memberIdx}]]</td>
+                                    <td>[[${dto.adminName}]]</td>
+                                    <td>[[${dto.memberPhone}]]</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9">순매출</td>
+                                </tr>
+                                </tfoot>
                             </table>
                             <button class="btn btn-primary" style='width:80px;float: right;' type="button" th:onclick="|location.href='@{/storemember/register}'|">추가
                             </button>

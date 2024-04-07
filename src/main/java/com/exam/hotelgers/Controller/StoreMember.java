@@ -15,4 +15,7 @@ public class StoreMember {
 
     @GetMapping("/storemanagement/list")
     public String stm(){return "storemanagement/list";}
+
+    @GetMapping("/settlement/list")
+    public String sts(){return "settlement/list";}
 }
