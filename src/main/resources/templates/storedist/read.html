@@ -12,28 +12,32 @@
 
 <div layout:fragment="content">
 
-    <h2>회원 정보</h2>
+    <h2>총판 정보</h2>
     <table class="table my-0">
 
         <tr>
             <td>번호</td>
-            <td>[[${memberDTO.memberIdx}]]</td>
+            <td>[[${storeDistDTO.storeDistIdx}]]</td>
         </tr>
         <tr>
-            <td>아이디</td>
-            <td>[[${memberDTO.memberEmail}]]</td>
+            <td>총판명</td>
+            <td>[[${storeDistDTO.storeDistName}]]</td>
         </tr>
         <tr>
-            <td>비밀번호</td>
-        <td>[[${memberDTO.password}]]</td>
+            <td>대표이사</td>
+        <td>[[${storeDistDTO.storeDistChief}]]</td>
+        </tr>
+        <tr>
+            <td>대표이사 연락처</td>
+            <td>[[${storeDistDTO.storeDistTel}]]</td>
         </tr>
         <tr>
             <td>생성일자</td>
-        <td th:text="${#temporals.format(memberDTO.regdate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(storeDistDTO.regdate, 'yyyy-MM-dd')}"></td>
         </tr>
         <tr>
             <td>마지막수정</td>
-        <td th:text="${#temporals.format(memberDTO.moddate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(storeDistDTO.moddate, 'yyyy-MM-dd')}"></td>
         </tr>
 
 
@@ -42,10 +46,10 @@
 
 
 
-    <a th:href="@{/member/modify/{memberIdx}(memberIdx=${memberDTO.memberIdx})}">
+    <a th:href="@{/storedist/modify/{storeDistIdx}(storeDistIdx=${storeDistDTO.storeDistIdx})}">
         <button class="btn btn-primary" type="button"> 정보수정 </button>
     </a>
-    <a th:href="@{/member/delete/{memberIdx}(memberIdx=${memberDTO.memberIdx})}">
+    <a th:href="@{/storedist/delete/{storeDistIdx}(storeDistIdx=${storeDistDTO.storeDistIdx})}">
         <button class="btn btn-danger" type="button"> 회원탈퇴 </button>
     </a>
 
