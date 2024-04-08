@@ -1,9 +1,13 @@
 package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.entity.Banner;
+import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.dto.StoreDistDTO;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.repository.BrandRepository;
+import com.exam.hotelgers.repository.StoreBranchRepository;
+import com.exam.hotelgers.repository.StoreDistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -23,14 +27,29 @@ import java.util.Optional;
 public class BrandService {
 
     private final BrandRepository brandRepository;
+    private final StoreDistRepository storeDistRepository;
+    private final StoreBranchRepository storeBranchRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
 
     public Long register(BrandDTO brandDTO) {
-        
+
+//        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistIdx(brandDTO.getStoreDistDTO().getStoreDistIdx());
+        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistCode(brandDTO.getStoreDistDTO().getStoreDistCode());
+
+
+        if (!storeDist.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
+        }
+
+
+
 
         Brand brand = modelMapper.map(brandDTO, Brand.class);
+
+        brand.setStoreDist(storeDist.get());
+
 
         brandRepository.save(brand);
 
@@ -64,22 +83,26 @@ public class BrandService {
 
         return modelMapper.map(brand,BrandDTO.class);
     }
-    
 
 
-    public Page<BrandDTO> list(Pageable pageable){
 
-        int currentPage = pageable.getPageNumber()-1;
+    public Page<BrandDTO> list(Pageable pageable) {
+        int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"brandIdx"));
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "brandIdx"));
 
         Page<Brand> brands = brandRepository.findAll(page);
+        return brands.map(this::convertToDTO);
+    }
 
+    private BrandDTO convertToDTO(Brand brand) {
+        BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
+        dto.setStoreDistDTO(convertToStoreDistDTO(brand.getStoreDist()));
+        return dto;
+    }
 
-        Page<BrandDTO> brandDTOS = brands.map(data->modelMapper.map(data,BrandDTO.class));
-
-
-        return brandDTOS;
+    private StoreDistDTO convertToStoreDistDTO(StoreDist storeDist) {
+        return modelMapper.map(storeDist, StoreDistDTO.class);
     }
 
 

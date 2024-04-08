@@ -22,6 +22,10 @@ public class BrandDTO {
 
     private LocalDateTime moddate;
 
+    private StoreDistDTO storeDistDTO;
+
+    private String brandCd; //매장코드
+
 
 
 

@@ -1,11 +1,14 @@
 package com.exam.hotelgers.service;
 
 
+import com.exam.hotelgers.dto.BrandDTO;
 import com.exam.hotelgers.dto.StoreBranchDTO;
 import com.exam.hotelgers.dto.StoreDistDTO;
+import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.StoreBranch;
 import com.exam.hotelgers.entity.StoreBranch;
 import com.exam.hotelgers.entity.StoreDist;
+import com.exam.hotelgers.repository.BrandRepository;
 import com.exam.hotelgers.repository.StoreDistRepository;
 import com.exam.hotelgers.repository.StoreBranchRepository;
 import jakarta.transaction.Transactional;
@@ -28,12 +31,24 @@ public class StoreBranchService {
     private final StoreBranchRepository storeBranchRepository;
     private final ModelMapper modelMapper;
     private final StoreDistRepository storeDistRepository;
+    private final BrandRepository brandRepository;
 
 
     public Long register(StoreBranchDTO storeBranchDTO) {
 
 
-        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistIdx(storeBranchDTO.getStoreDistDTO().getStoreDistIdx());
+//        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistIdx(storeBranchDTO.getStoreDistDTO().getStoreDistIdx());
+        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistCode(storeBranchDTO.getStoreDistDTO().getStoreDistCode());
+        Optional<Brand> brand = brandRepository.findByBrandCd(storeBranchDTO.getBrandDTO().getBrandCd());
+
+        if (!storeDist.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
+        }
+
+        if (!brand.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 브랜드 코드입니다.");
+        }
+
 
 
         Optional<StoreBranch> storeBranchOptional = storeBranchRepository
@@ -46,6 +61,8 @@ public class StoreBranchService {
         StoreBranch storeBranch = modelMapper.map(storeBranchDTO, StoreBranch.class);
 
         storeBranch.setStoreDist(storeDist.get());
+        storeBranch.setBrand(brand.get());
+
 
         storeBranchRepository.save(storeBranch);
 
@@ -88,11 +105,16 @@ public class StoreBranchService {
     private StoreBranchDTO convertToDTO(StoreBranch storeBranch) {
         StoreBranchDTO dto = modelMapper.map(storeBranch, StoreBranchDTO.class);
         dto.setStoreDistDTO(convertToStoreDistDTO(storeBranch.getStoreDist()));
+        dto.setBrandDTO(convertToBrandDTO(storeBranch.getBrand()));
         return dto;
     }
 
     private StoreDistDTO convertToStoreDistDTO(StoreDist storeDist) {
         return modelMapper.map(storeDist, StoreDistDTO.class);
+    }
+
+    private BrandDTO convertToBrandDTO(Brand brand) {
+        return modelMapper.map(brand, BrandDTO.class);
     }
 
 

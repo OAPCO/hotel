@@ -16,17 +16,17 @@ import java.io.IOException;
 @Component
 public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
     @Override
-    public void onLogoutSuccess(HttpServletRequest request,
-                                        HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+                                Authentication authentication) throws IOException, ServletException {
+        HttpSession session = request.getSession(false);
 
-        HttpSession session = request.getSession(); //클라이언트 정보 읽기
-        if(session != null) { //클라이언트가 서버에 연결되어있으면
-            session.invalidate(); //섹션을 삭제
+        //로그아웃시 섹션을 제거한다.
+        if(session != null) {
+            session.invalidate();
         }
-        super.setDefaultTargetUrl("/login"); //simpleUrl....클래스에 저장
-        super.onLogoutSuccess(request, response, authentication);
 
+        super.setDefaultTargetUrl("/");
+        super.onLogoutSuccess(request, response, authentication);
     }
 
 }

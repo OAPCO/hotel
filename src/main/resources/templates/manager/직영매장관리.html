@@ -13,7 +13,7 @@
     <div class="card">
         <div class="card-header" style="margin: 50px 20px;">
             <h4 class="card-title">매장(가맹점)관리</h4>
-            <form method="post" action="/store/test">
+            <form method="post" action="#">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -150,25 +150,29 @@
                         <th>지역</th>
                         <th>대표자명</th>
                         <th>아이디</th>
-                        <th>아이디</th>
                         <th>주문현황보기</th>
                         <th>제휴상태</th>
+                        <th>임시</th>
                     </tr>
                     </thead>
                     <tbody>
-<!--                    <tr th:each="data:${list}">-->
-<!--                        <td th:text="${data.id}">Cell 1</td>-->
-<!--                        <td th:text="${data.userid}">Cell 2</td>-->
-<!--                        <td th:text="${data.id}">Cell 2</td>-->
-<!--                        <td th:text="${data.id}">Cell 2</td>-->
-<!--                        <td th:text="${data.id}">Cell 2</td>-->
-<!--                        <td th:text="${data.id}">Cell 2</td>-->
-<!--                        <td th:text="${data.id}">Cell 2</td>-->
-<!--                        <td th:text="${data.id}">Cell 2</td>-->
-<!--                        <td th:text="${data.id}">Cell 2</td>-->
-<!--                        <td th:text="${data.id}">Cell 2</td>-->
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.storeIdx}"></td>
+                        <td th:text="${data.storePType}"></td>
+                        <td th:text="${data.storeDistDTO.storeDistName}"></td>
+                        <td th:text="${data.storeBranchDTO.storeBranchName}"></td>
+                        <td>
+                            <a th:text="${data.storeName}" th:href="@{'/manager/store/'+${data.storeIdx}}" >연습</a>
+                        </td>
+                        <td>(지역)</td>
+                        <td th:text="${data.storeChief}"></td>
+                        <td th:text="${data.storeCd}"></td>
+                        <td><button class="btn btn-primary" type="button" th:onclick="|location.href='@{#}'|">주문보기</button></td>
+                        <td th:text="${data.storeStatus}"></td>
 
-<!--                    </tr>-->
+                        <td><a th:href="@{'/manager/store/modify/'+${data.storeIdx}}" >수정</a>
+                            /<a th:href="@{'/manager/store/delete/'+${data.storeIdx}}">삭제</a></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

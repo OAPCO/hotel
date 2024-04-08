@@ -39,12 +39,8 @@ public class AdminService {
         Admin admin = modelMapper.map(adminDTO, Admin.class);
 
 
-        //어드민레벨이 1일 경우 매니저
-        if(adminDTO.getAdminLevel() == 1){
-            admin.setRoleType(RoleType.MANAGER);
-        }
 
-        if(adminDTO.getAdminLevel() == 2){
+        if(adminDTO.getRoleType().equals(RoleType.ADMIN)){
             admin.setRoleType(RoleType.ADMIN);
         }
 

@@ -54,6 +54,8 @@
                         <tr>
                             <th>번호</th>
                             <th>브랜드명</th>
+                            <th>소속총판 코드</th>
+                            <th>브랜드 코드</th>
                             <th>등록일자</th>
                             <th>수정일자</th>
                         </tr>
@@ -64,6 +66,8 @@
                             <td>
                                 <a th:text="${data.brandName}" th:href="@{'/brand/'+${data.brandIdx}}" ></a>
                             </td>
+                            <td th:text="${data.storeDistDTO.storeDistCode}"></td>
+                            <td th:text="${data.brandCd}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 

@@ -3,6 +3,9 @@ package com.exam.hotelgers.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -18,31 +21,31 @@ import lombok.*;
         allocationSize = 1
 )
 public class Brand extends BaseEntity{
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "brand_sql")
     private Long brandIdx; //브랜드키
 
 
 
-    @Column(nullable=true, length=200)
+    @Column(length=200, nullable = false)
     private String brandName; //브랜드 이름
 
-    
+    @Column(unique = true)
+    private String brandCd; //매장코드
 
 
-//    @Column(nullable=false, length=11)
-//    private Long storeDistIdx; //매장총판키(호텔키)
-//    @Column(nullable=true, length=45)
-//    private String storeDistId; //총판ID(호텔ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="storeDistIdx")
+    private StoreDist storeDist;
 
-//    @Column(nullable=true, length=11)
-//    private Long tblStoreMemberStoreMemberIdx; //매장회원 키
 
-//    @Column(nullable=true, length=11)
-//    private Long storeMemberIdx; //매장회원키
-//
-//    @Column(nullable=true, length=11)
-//    private Long storeCateIdx; //매장 카테고리키
+    @OneToMany(mappedBy="brand", cascade = CascadeType.ALL)
+    private List<Store> storeList = new ArrayList<>();
+
+    @OneToMany(mappedBy="brand", cascade = CascadeType.ALL)
+    private List<StoreBranch> storeBranchList = new ArrayList<>();
 
 
 }

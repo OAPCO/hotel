@@ -27,6 +27,8 @@ public class StoreBranchDTO {
 
     private StoreDistDTO storeDistDTO;
 
+    private BrandDTO brandDTO;
+
     private LocalDateTime regdate;
     private LocalDateTime moddate;
 

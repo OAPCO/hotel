@@ -47,6 +47,7 @@
                             <th>대표 이메일</th>
                             <th>지사 연락처</th>
                             <th>소속 총판</th>
+                            <th>소속 브랜드</th>
                             <th>등록일자</th>
                             <th>수정일자</th>
                         </tr>
@@ -61,7 +62,8 @@
                             <td th:text="${data.storeBranchChief}"></td>
                             <td th:text="${data.storeBranchChiefEmail}"></td>
                             <td th:text="${data.storeBranchTel}"></td>
-                            <td th:text="${data.storeDistDTO.storeDistName}"></td>
+                            <td th:text="${data.storeDistDTO.storeDistCode}"></td>
+                            <td th:text="${data.brandDTO.brandCd}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 

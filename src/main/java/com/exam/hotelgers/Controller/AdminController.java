@@ -31,13 +31,6 @@ public class AdminController {
     private final AdminService adminService;
 
 
-    @GetMapping("/admin/login")
-    public String login() {
-
-        log.info("/login 겟매핑 들어옴");
-
-        return "admin/login";
-    }
 
 
     @GetMapping("/admin/list")

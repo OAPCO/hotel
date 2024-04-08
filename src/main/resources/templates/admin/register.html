@@ -28,14 +28,11 @@
 
                             <form class="user" method="post" th:action="@{/admin/register}">
 
+
+                                <input type="hidden" name="roleType" value="ADMIN">
+
                                 <div class="row mb-3">
                                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="adminId" placeholder="ID" name="adminId"></div>
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <select class="form-select" name="adminLevel">
-                                        <option value="2">Admin</option>
-                                        <option value="1">Manager</option>
-                                    </select>
-                                    </div>
                                 </div>
 
                                 <div class="row mb-3">
@@ -50,6 +47,7 @@
                                 <div class="row mb-3">
                                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="adminPhone" placeholder="전화번호" name="adminPhone"></div>
                                 </div>
+
 
 
 

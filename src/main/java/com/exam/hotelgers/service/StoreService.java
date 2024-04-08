@@ -3,12 +3,15 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.BrandDTO;
 import com.exam.hotelgers.dto.StoreBranchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.dto.StoreDistDTO;
+import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.entity.StoreBranch;
 import com.exam.hotelgers.entity.StoreDist;
+import com.exam.hotelgers.repository.BrandRepository;
 import com.exam.hotelgers.repository.StoreBranchRepository;
 import com.exam.hotelgers.repository.StoreDistRepository;
 import com.exam.hotelgers.repository.StoreRepository;
@@ -33,22 +36,32 @@ public class StoreService {
     private final ModelMapper modelMapper;
     private final StoreDistRepository storeDistRepository;
     private final StoreBranchRepository storeBranchRepository;
+    private final BrandRepository brandRepository;
 
 
 
     public Long register(StoreDTO storeDTO) {
 
 
-        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistIdx(storeDTO.getStoreDistDTO().getStoreDistIdx());
-        Optional<StoreBranch> storeBranch = storeBranchRepository.findByStoreBranchIdx(storeDTO.getStoreBranchDTO().getStoreBranchIdx());
+//        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistIdx(storeDTO.getStoreDistDTO().getStoreDistIdx());
+//        Optional<StoreBranch> storeBranch = storeBranchRepository.findByStoreBranchIdx(storeDTO.getStoreBranchDTO().getStoreBranchIdx());
+//        Optional<Brand> brand = brandRepository.findByBrandIdx(storeDTO.getBrandDTO().getBrandIdx());
+
+        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistCode(storeDTO.getStoreDistDTO().getStoreDistCode());
+        Optional<StoreBranch> storeBranch = storeBranchRepository.findByStoreBranchId(storeDTO.getStoreBranchDTO().getStoreBranchId());
+        Optional<Brand> brand = brandRepository.findByBrandCd(storeDTO.getBrandDTO().getBrandCd());
 
 
         if (!storeDist.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 총판 번호입니다.");
+            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
         }
         if (!storeBranch.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 지사 번호입니다.");
+            throw new IllegalStateException("존재하지 않는 지사 코드입니다.");
         }
+        if (!brand.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 브랜드 코드입니다.");
+        }
+
 
 
 
@@ -86,6 +99,9 @@ public class StoreService {
 
         store.setStoreDist(storeDist.get());
         store.setStoreBranch(storeBranch.get());
+        store.setBrand(brand.get());
+
+
 
         storeRepository.save(store);
 
@@ -130,6 +146,7 @@ public class StoreService {
         StoreDTO dto = modelMapper.map(store, StoreDTO.class);
         dto.setStoreDistDTO(convertToStoreDistDTO(store.getStoreDist()));
         dto.setStoreBranchDTO(convertToStoreBranchDTO(store.getStoreBranch()));
+        dto.setBrandDTO(convertToBrandDTO(store.getBrand()));
         return dto;
     }
 
@@ -140,6 +157,11 @@ public class StoreService {
     private StoreBranchDTO convertToStoreBranchDTO(StoreBranch storeBranch) {
         return modelMapper.map(storeBranch, StoreBranchDTO.class);
     }
+
+    private BrandDTO convertToBrandDTO(Brand brand) {
+        return modelMapper.map(brand, BrandDTO.class);
+    }
+
 
 
 

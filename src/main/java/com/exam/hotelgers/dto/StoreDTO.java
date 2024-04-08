@@ -1,5 +1,6 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.constant.StoreCategory;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.constant.StorePType;
 import jakarta.persistence.*;
@@ -17,6 +18,7 @@ public class StoreDTO {
 
     private String storeCd; //매장코드
     private String storeChief; //대빵
+    private String storeChiefEmail; //대빵이메일
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
     private String storeName; //매장명
@@ -56,17 +58,17 @@ public class StoreDTO {
 
     private StoreDistDTO storeDistDTO;
     private StoreBranchDTO storeBranchDTO;
+    private BrandDTO brandDTO;
 
-    @Enumerated(EnumType.STRING)
     private StorePType storePType;
-
-    @Enumerated(EnumType.STRING)
     private StoreStatus storeStatus;
+    private StoreCategory storeCategory;
 
 
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;
+
 
 
 }

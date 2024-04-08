@@ -31,13 +31,6 @@ import java.util.Map;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/member/login")
-    public String login() {
-        
-        log.info("/login 겟매핑 들어옴");
-        
-        return "member/login";
-    }
 
     @GetMapping("/member/register")
     public String register() {
