@@ -55,19 +55,25 @@
                                     <div class="form-check form-check-inline ">
                                         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
                                         <label class="form-check-label" for="flexRadioDefault1">
-                                            전체
+                                            이번달
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline ">
                                         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                                         <label class="form-check-label" for="flexRadioDefault2">
-                                            오프라인결제
+                                            3개월
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline ">
                                         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
                                         <label class="form-check-label" for="flexRadioDefault2">
-                                            후결제
+                                            6개월
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline ">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            1년
                                         </label>
                                     </div>
                                 </td>
@@ -87,7 +93,6 @@
                     <div class="container mt-4">
                         <div class="table align-middle">
                             <table class="table my-8 table table-bordered">
-                                <thead>
                                 <tr>
                                     <td class="col">no</td>
                                     <td class="col">결제일자</td>
@@ -114,22 +119,20 @@
                                     <td>[[${dto.adminName}]]</td>
                                     <td>[[${dto.memberPhone}]]</td>
                                 </tr>
-                                </tbody>
-                                <tfoot>
                                 <tr>
                                     <td colspan="2">합계</td>
-                                    <td>[[${dto.adminName}]]</td>
-                                    <td>[[${dto.memberPhone}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.memberEmail}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.adminName}]]</td>
-                                    <td>[[${dto.memberPhone}]]</td>
+                                    <td th:each="data:${list}">[[${dto.adminName}]]</td>
+                                    <td th:each="data:${list}">[[${dto.memberPhone}]]</td>
+                                    <td th:each="data:${list}">[[${dto.memberIdx}]]</td>
+                                    <td th:each="data:${list}">[[${dto.memberEmail}]]</td>
+                                    <td th:each="data:${list}">[[${dto.memberIdx}]]</td>
+                                    <td th:each="data:${list}">[[${dto.adminName}]]</td>
+                                    <td th:each="data:${list}">[[${dto.memberPhone}]]</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="9">순매출</td>
+                                    <td colspan="10">순매출</td>
                                 </tr>
-                                </tfoot>
+                                </tbody>
                             </table>
                             <button class="btn btn-primary" style='width:80px;float: right;' type="button" th:onclick="|location.href='@{/storemember/register}'|">추가
                             </button>
