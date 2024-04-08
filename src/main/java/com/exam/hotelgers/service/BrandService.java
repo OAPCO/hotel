@@ -1,13 +1,12 @@
 package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.dto.StoreDistDTO;
+import com.exam.hotelgers.dto.distDTO;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.repository.BrandRepository;
-import com.exam.hotelgers.repository.StoreBranchRepository;
-import com.exam.hotelgers.repository.StoreDistRepository;
+import com.exam.hotelgers.repository.BranchRepository;
+import com.exam.hotelgers.repository.DistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -27,19 +26,19 @@ import java.util.Optional;
 public class BrandService {
 
     private final BrandRepository brandRepository;
-    private final StoreDistRepository storeDistRepository;
-    private final StoreBranchRepository storeBranchRepository;
+    private final DistRepository distRepository;
+    private final BranchRepository branchRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
 
     public Long register(BrandDTO brandDTO) {
 
-//        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistIdx(brandDTO.getStoreDistDTO().getStoreDistIdx());
-        Optional<StoreDist> storeDist = storeDistRepository.findByStoreDistCode(brandDTO.getStoreDistDTO().getStoreDistCode());
+
+        Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistDTO().getDistCd());
 
 
-        if (!storeDist.isPresent()) {
+        if (!dist.isPresent()) {
             throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
         }
 
@@ -48,7 +47,7 @@ public class BrandService {
 
         Brand brand = modelMapper.map(brandDTO, Brand.class);
 
-        brand.setStoreDist(storeDist.get());
+        brand.setDist(dist.get());
 
 
         brandRepository.save(brand);
@@ -97,12 +96,12 @@ public class BrandService {
 
     private BrandDTO convertToDTO(Brand brand) {
         BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
-        dto.setStoreDistDTO(convertToStoreDistDTO(brand.getStoreDist()));
+        dto.setDistDTO(convertToStoreDistDTO(brand.getDist()));
         return dto;
     }
 
-    private StoreDistDTO convertToStoreDistDTO(StoreDist storeDist) {
-        return modelMapper.map(storeDist, StoreDistDTO.class);
+    private distDTO convertToStoreDistDTO(Dist dist) {
+        return modelMapper.map(dist, distDTO.class);
     }
 
 

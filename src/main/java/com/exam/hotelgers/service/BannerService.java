@@ -3,7 +3,7 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.BannerDTO;
 import com.exam.hotelgers.entity.Banner;
-import com.exam.hotelgers.entity.StoreDist;
+import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.repository.BannerRepository;
 import com.exam.hotelgers.repository.BannerRepository;
 import lombok.RequiredArgsConstructor;

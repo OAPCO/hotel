@@ -15,34 +15,34 @@
 
     <div class="container-fluid mt-3">
         <h2>지사 정보 수정</h2>
-        <form th:action="@{/storebranch/modify}" method="post">
+        <form th:action="@{/branch/modify}" method="post">
 
-            <input type="hidden" name="storeBranchIdx" th:value="${storebranchDTO.getStoreBranchIdx()}">
+            <input type="hidden" name="branchIdx" th:value="${branchDTO.getBranchIdx()}">
             <div class="mb-3 mt-3">
                 <label>지사코드 : </label>
-                <input type="text" class="form-control" placeholder="지사코드" name="storeBranchId">
+                <input type="text" class="form-control" placeholder="지사코드" name="branchCd">
             </div>
             <div class="mb-3">
                 <label>지사명 : </label>
-                <input type="text" class="form-control" placeholder="지사명" name="storeBranchName">
+                <input type="text" class="form-control" placeholder="지사명" name="branchName">
             </div>
             <div class="mb-3">
                 <label>지사 대표 : </label>
-                <input type="text" class="form-control" placeholder="지사 대표" name="storeBranchChief">
+                <input type="text" class="form-control" placeholder="지사 대표" name="branchChief">
             </div>
             <div class="mb-3">
                 <label>대표 이메일 : </label>
-                <input type="text" class="form-control" placeholder="대표 이메일" name="storeBranchChiefEmail">
+                <input type="text" class="form-control" placeholder="대표 이메일" name="branchChiefEmail">
             </div>
 
             <div class="mb-3">
                 <label>지사 연락처 : </label>
-                <input type="text" class="form-control" placeholder="지사 연락처" name="storeBranchTel">
+                <input type="text" class="form-control" placeholder="지사 연락처" name="branchTel">
             </div>
 
 <!--            <div class="mb-3">-->
 <!--                <label>소속 총판 : </label>-->
-<!--                <input type="text" class="form-control" placeholder="소속 총판" name="storeDist">-->
+<!--                <input type="text" class="form-control" placeholder="소속 총판" name="dist">-->
 <!--            </div>-->
 
 

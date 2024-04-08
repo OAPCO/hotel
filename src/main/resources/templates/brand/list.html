@@ -66,7 +66,7 @@
                             <td>
                                 <a th:text="${data.brandName}" th:href="@{'/brand/'+${data.brandIdx}}" ></a>
                             </td>
-                            <td th:text="${data.storeDistDTO.storeDistCode}"></td>
+                            <td th:text="${data.distDTO.distCd}"></td>
                             <td th:text="${data.brandCd}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>

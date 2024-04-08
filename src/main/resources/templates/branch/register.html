@@ -22,31 +22,31 @@
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">지사 등록</h4>
                             </div>
-                            <form class="user" th:action="@{/storebranch/register}" method="post">
+                            <form class="user" th:action="@{/branch/register}" method="post">
 
                                 <div class="mb-3"><input class="form-control form-control-user" type="text"
-                                                         id="storeBranchId"
-                                                         placeholder="지사코드" name="storeBranchId"></div>
+                                                         id="branchCd"
+                                                         placeholder="지사코드" name="branchCd"></div>
                                 <div class="row mb-3">
                                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user"
-                                                                              type="text" id="storeBranchName"
-                                                                              placeholder="지사명" name="storeBranchName">
+                                                                              type="text" id="branchName"
+                                                                              placeholder="지사명" name="branchName">
                                     </div>
                                     <div class="col-sm-6"><input class="form-control form-control-user" type="text"
-                                                                 id="storeBranchChief"
-                                                                 placeholder="지사 대표" name="storeBranchChief">
+                                                                 id="branchChief"
+                                                                 placeholder="지사 대표" name="branchChief">
                                     </div>
                                     <div class="col-sm-6"><input class="form-control form-control-user" type="text"
-                                                                 id="storeBranchChiefEmail"
-                                                                 placeholder="대표 이메일" name="storeBranchChiefEmail">
+                                                                 id="branchChiefEmail"
+                                                                 placeholder="대표 이메일" name="branchChiefEmail">
                                     </div>
                                     <div class="col-sm-6"><input class="form-control form-control-user" type="text"
-                                                                 id="storeBranchTel"
-                                                                 placeholder="지사 연락처" name="storeBranchTel">
+                                                                 id="branchTel"
+                                                                 placeholder="지사 연락처" name="branchTel">
                                     </div>
                                     <div class="col-sm-6">
-                                        <input class="form-control form-control-user" type="text" id="storeDistCode"
-                                               placeholder="소속 총판 코드" name="storeDistDTO.storeDistCode">
+                                        <input class="form-control form-control-user" type="text" id="distCd"
+                                               placeholder="소속 총판 코드" name="distDTO.distCd">
                                         <input class="form-control form-control-user" type="text" id="brandCd"
                                                placeholder="소속 브랜드 코드" name="brandDTO.brandCd">
                                     </div>

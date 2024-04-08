@@ -55,7 +55,7 @@
                                 <a th:text="${data.storeName}" th:href="@{'/store/'+${data.storeIdx}}" >연습</a>
                             </td>
                             <td th:text="${data.storeCd}"></td>
-                            <td th:text="${data.storeDistDTO.storeDistName}"></td>
+                            <td th:text="${data.distDTO.distName}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 

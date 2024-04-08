@@ -10,43 +10,43 @@ import java.util.List;
 @AllArgsConstructor @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="storebranch")
+@Table(name="branch")
 @SequenceGenerator(
-        name = "storebranch_sql",
-        sequenceName = "storebranch_sql",
+        name = "branch_sql",
+        sequenceName = "branch_sql",
         initialValue = 1,
         allocationSize = 1
 )
-public class StoreBranch extends BaseEntity {
+public class Branch extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "storebranch_sql")
-    private Long storeBranchIdx;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "branch_sql")
+    private Long branchIdx;
 
     @Column(length = 45, unique = true)
-    private String storeBranchId;
+    private String branchCd;
 
 
 
     @Column(length = 45)
-    private String storeBranchName;
+    private String branchName;
     @Column(length = 50)
-    private String storeBranchChief;
+    private String branchChief;
     @Column(length = 200)
-    private String storeBranchChiefEmail;
+    private String branchChiefEmail;
     @Column(length = 30)
-    private String storeBranchTel;
+    private String branchTel;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="storeDistIdx")
-    private StoreDist storeDist;
+    @JoinColumn(name="distIdx")
+    private Dist dist;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="brandIdx")
     private Brand brand;
 
-    @OneToMany(mappedBy="storeBranch", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="branch", cascade = CascadeType.ALL)
     private List<Store> storeList = new ArrayList<>();
 
 

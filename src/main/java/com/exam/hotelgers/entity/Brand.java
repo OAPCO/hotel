@@ -37,15 +37,15 @@ public class Brand extends BaseEntity{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="storeDistIdx")
-    private StoreDist storeDist;
+    @JoinColumn(name="distIdx")
+    private Dist dist;
 
 
     @OneToMany(mappedBy="brand", cascade = CascadeType.ALL)
     private List<Store> storeList = new ArrayList<>();
 
     @OneToMany(mappedBy="brand", cascade = CascadeType.ALL)
-    private List<StoreBranch> storeBranchList = new ArrayList<>();
+    private List<Branch> branchList = new ArrayList<>();
 
 
 }

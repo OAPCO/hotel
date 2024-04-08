@@ -159,8 +159,8 @@
                     <tr th:each="data:${list}">
                         <td th:text="${data.storeIdx}"></td>
                         <td th:text="${data.storePType}"></td>
-                        <td th:text="${data.storeDistDTO.storeDistName}"></td>
-                        <td th:text="${data.storeBranchDTO.storeBranchName}"></td>
+                        <td th:text="${data.distDTO.distName}"></td>
+                        <td th:text="${data.branchDTO.branchName}"></td>
                         <td>
                             <a th:text="${data.storeName}" th:href="@{'/manager/store/'+${data.storeIdx}}" >연습</a>
                         </td>

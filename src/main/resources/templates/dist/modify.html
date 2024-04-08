@@ -15,20 +15,20 @@
 
     <div class="container-fluid mt-3">
         <h2>총판 정보 수정</h2>
-        <form th:action="@{/storedist/modify}" method="post">
+        <form th:action="@{/dist/modify}" method="post">
 
-            <input type="hidden" name="storeDistIdx" th:value="${storedistDTO.getStoreDistIdx()}">
+            <input type="hidden" name="distIdx" th:value="${distDTO.getDistIdx()}">
             <div class="mb-3 mt-3">
                 <label>총판명 : </label>
-                <input type="text" class="form-control" placeholder="총판명" name="storeDistName">
+                <input type="text" class="form-control" placeholder="총판명" name="distName">
             </div>
             <div class="mb-3">
                 <label>대표이사 이름 : </label>
-                <input type="text" class="form-control" placeholder="대표이사 이름" name="storeDistChief">
+                <input type="text" class="form-control" placeholder="대표이사 이름" name="distChief">
             </div>
             <div class="mb-3">
                 <label>대표이사 연락처 : </label>
-                <input type="text" class="form-control" placeholder="대표이사 연락처" name="storeDistTel">
+                <input type="text" class="form-control" placeholder="대표이사 연락처" name="distTel">
             </div>
 
 

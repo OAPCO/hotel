@@ -22,7 +22,7 @@ public class BrandDTO {
 
     private LocalDateTime moddate;
 
-    private StoreDistDTO storeDistDTO;
+    private distDTO distDTO;
 
     private String brandCd; //매장코드
 
@@ -30,9 +30,9 @@ public class BrandDTO {
 
 
 
-//    private Long storeDistIdx; //매장총판키(호텔키)
+//    private Long distIdx; //매장총판키(호텔키)
 //
-//    private String  storeDistId; //총판ID(호텔ID)
+//    private String  distId; //총판ID(호텔ID)
 
 //    private Long tblStoreMemberStoreMemberIdx; //매장회원 키
 

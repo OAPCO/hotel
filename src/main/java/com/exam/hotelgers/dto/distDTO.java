@@ -1,6 +1,5 @@
 package com.exam.hotelgers.dto;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -8,16 +7,16 @@ import java.time.LocalDateTime;
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 @Builder
-public class StoreDistDTO {
+public class distDTO {
 
-    private Long storeDistIdx;
+    private Long distIdx;
 
-    private String storeDistCode;
+    private String distCd;
 
 
-    private String storeDistName;
-    private String storeDistChief;
-    private String storeDistTel;
+    private String distName;
+    private String distChief;
+    private String distTel;
 
 
     private LocalDateTime regdate;

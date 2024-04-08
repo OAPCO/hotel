@@ -33,7 +33,7 @@ public class Store extends BaseEntity{
 //    private int storeCateIdx; //카테고리. enum으로 만들었음
 //    private int brandIdx; //브랜드 엔티티
 //    private int storeMemberIdx; //매장회원 엔티티
-//    private int storeBranchIdx; //지사=enum?
+//    private int branchIdx; //지사=enum?
 //    private String storeImg; //이미지 엔티티
 
     @Column(unique = true)
@@ -80,12 +80,12 @@ public class Store extends BaseEntity{
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="storeBranchIdx")
-    private StoreBranch storeBranch;
+    @JoinColumn(name="branchIdx")
+    private Branch branch;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="storeDistIdx")
-    private StoreDist storeDist;
+    @JoinColumn(name="distIdx")
+    private Dist dist;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="brandIdx")

@@ -17,39 +17,39 @@
 
         <tr>
             <td>번호</td>
-            <td>[[${storeBranchDTO.storeBranchIdx}]]</td>
+            <td>[[${branchDTO.branchIdx}]]</td>
         </tr>
         <tr>
             <td>지사코드</td>
-            <td>[[${storeBranchDTO.storeBranchId}]]</td>
+            <td>[[${branchDTO.branchCd}]]</td>
         </tr>
         <tr>
             <td>지사명</td>
-            <td>[[${storeBranchDTO.storeBranchName}]]</td>
+            <td>[[${branchDTO.branchName}]]</td>
         </tr>
         <tr>
             <td>지사 대표</td>
-            <td>[[${storeBranchDTO.storeBranchChief}]]</td>
+            <td>[[${branchDTO.branchChief}]]</td>
         </tr>
         <tr>
             <td>대표 이메일</td>
-            <td>[[${storeBranchDTO.storeBranchChiefEmail}]]</td>
+            <td>[[${branchDTO.branchChiefEmail}]]</td>
         </tr>
         <tr>
             <td>지사 연락처</td>
-        <td>[[${storeBranchDTO.storeBranchTel}]]</td>
+        <td>[[${branchDTO.branchTel}]]</td>
         </tr>
         <tr>
             <td>소속 총판</td>
-            <td>[[${storeBranchDTO.storeDistDTO.StoreDistName}]]</td>
+            <td>[[${branchDTO.distDTO.StoreDistName}]]</td>
         </tr>
         <tr>
             <td>생성일자</td>
-        <td th:text="${#temporals.format(storeBranchDTO.regdate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(branchDTO.regdate, 'yyyy-MM-dd')}"></td>
         </tr>
         <tr>
             <td>마지막수정</td>
-        <td th:text="${#temporals.format(storeBranchDTO.moddate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(branchDTO.moddate, 'yyyy-MM-dd')}"></td>
         </tr>
 
 
@@ -58,10 +58,10 @@
 
 
 
-    <a th:href="@{/storebranch/modify/{storeBranchIdx}(storeBranchIdx=${storeBranchDTO.storeBranchIdx})}">
+    <a th:href="@{/branch/modify/{branchIdx}(branchIdx=${branchDTO.branchIdx})}">
         <button class="btn btn-primary" type="button"> 정보수정 </button>
     </a>
-    <a th:href="@{/storebranch/delete/{storeBranchIdx}(storeBranchIdx=${storeBranchDTO.storeBranchIdx})}">
+    <a th:href="@{/branch/delete/{branchIdx}(branchIdx=${branchDTO.branchIdx})}">
         <button class="btn btn-danger" type="button"> 회원탈퇴 </button>
     </a>
 
