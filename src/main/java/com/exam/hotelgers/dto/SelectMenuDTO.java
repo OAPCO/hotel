@@ -3,6 +3,8 @@ package com.exam.hotelgers.dto;
 import jakarta.persistence.Column;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -19,6 +21,10 @@ public class SelectMenuDTO {
     private int menuPrice;
 
     private int memberIdx;
+
+    private LocalDateTime regdate;
+
+    private LocalDateTime moddate;
 
 //    private int tblMenuSheetMenuSheetldx1;
 }

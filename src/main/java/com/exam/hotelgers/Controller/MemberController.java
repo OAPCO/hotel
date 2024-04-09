@@ -44,6 +44,7 @@ public class MemberController {
     }
 
 
+
     @PostMapping("/member/register")
     public String registerProc(@Valid MemberDTO memberDTO,
                                BindingResult bindingResult,

@@ -23,13 +23,13 @@
                             <tbody>
                             <h5 class="text-dark mb-4">주문확인</h5>
                             <tr>
-                                <td class="col">주문번호</td>
-                                <td class="col">구분</td>
-                                <td class="col">결재구분</td>
-                                <td class="col">룸명</td>
-                                <td class="col">주문확정일시</td>
-                                <td class="col">매장명</td>
-                                <td class="col">상태</td>
+                                <td class="col" style="background-color: #cccccc">주문번호</td>
+                                <td class="col" style="background-color: #cccccc">구분</td>
+                                <td class="col" style="background-color: #cccccc">결재구분</td>
+                                <td class="col" style="background-color: #cccccc">룸명</td>
+                                <td class="col" style="background-color: #cccccc">주문확정일시</td>
+                                <td class="col" style="background-color: #cccccc">매장명</td>
+                                <td class="col" style="background-color: #cccccc">상태</td>
                             </tr>
                             <tr th:each="data:${list}">
                                 <td>[[${dto.memberIdx}]]</td>
@@ -46,14 +46,14 @@
                             <tbody>
                             <h5 class="text-dark mb-4">주문내역</h5>
                             <tr>
-                                <td class="col" colspan='2'>주문번호</td>
-                                <td class="col" colspan='2'>[[${regdate}]]</td>
+                                <td class="col" colspan='2' style="background-color: #cccccc">주문번호</td>
+                                <td class="col" colspan='2' style="background-color: #cccccc">[[${regdate}]]</td>
                             </tr>
                             <tr>
-                                <td class="col">no</td>
-                                <td class="col">메뉴</td>
-                                <td class="col">수량</td>
-                                <td class="col">금액원</td>
+                                <td class="col" style="background-color: #cccccc">no</td>
+                                <td class="col" style="background-color: #cccccc">메뉴</td>
+                                <td class="col" style="background-color: #cccccc">수량</td>
+                                <td class="col" style="background-color: #cccccc">금액원</td>
                             </tr>
                             <tr th:each="data:${list}">
                                 <td>[[${dto.storeDistCode}]]</td>
@@ -62,8 +62,8 @@
                                 <td>[[${dto.adminName}]]</td>
                             </tr>
                             <tr>
-                                <td class="col" colspan='2'>총금액</td>
-                                <td class="col" colspan='2'>[[${regdate}]]</td>
+                                <td class="col" colspan='2' style="background-color: #cccccc">총금액</td>
+                                <td class="col" colspan='2' style="background-color: #cccccc">[[${regdate}]]</td>
                             </tr>
                             </tbody>
                         </table>
@@ -81,20 +81,20 @@
                                 <h5 class="text-dark mb-8">결제 완료 내역</h5>
                                 <thead>
                                 <tr>
-                                    <td class="col" rowspan='2'>결제번호</td>
-                                    <td class="col" rowspan='2'>결제일자</td>
-                                    <td class="col" colspan='5'>내역</td>
-                                    <td class="col" rowspan='2'>결재금액(원)</td>
-                                    <td class="col" rowspan='2'>결제일시</td>
-                                    <td class="col" rowspan='2'>결제구분</td>
-                                    <td class="col" rowspan='2'>결제취소</td>
+                                    <td class="col" rowspan='2' style="background-color: #cccccc">결제번호</td>
+                                    <td class="col" rowspan='2' style="background-color: #cccccc">결제일자</td>
+                                    <td class="col" colspan='5' style="background-color: #cccccc">내역</td>
+                                    <td class="col" rowspan='2' style="background-color: #cccccc">결재금액(원)</td>
+                                    <td class="col" rowspan='2' style="background-color: #cccccc">결제일시</td>
+                                    <td class="col" rowspan='2' style="background-color: #cccccc">결제구분</td>
+                                    <td class="col" rowspan='2' style="background-color: #cccccc">결제취소</td>
                                 </tr>
                                 <tr>
-                                    <td class="col">주문번호</td>
-                                    <td class="col">메뉴</td>
-                                    <td class="col">수량</td>
-                                    <td class="col">구분</td>
-                                    <td class="col">금액(원)</td>
+                                    <td class="col" style="background-color: #cccccc">주문번호</td>
+                                    <td class="col" style="background-color: #cccccc">메뉴</td>
+                                    <td class="col" style="background-color: #cccccc">수량</td>
+                                    <td class="col" style="background-color: #cccccc">구분</td>
+                                    <td class="col" style="background-color: #cccccc">금액(원)</td>
                                 </tr>
                                 </thead>
                                 <tbody>

@@ -3,6 +3,8 @@ package com.exam.hotelgers.dto;
 import jakarta.persistence.Column;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -25,4 +27,8 @@ public class AnnouncementDTO {
     private String  noticeType;
 
     private Integer ref;
+
+    private LocalDateTime regdate;
+
+    private LocalDateTime moddate;
 }

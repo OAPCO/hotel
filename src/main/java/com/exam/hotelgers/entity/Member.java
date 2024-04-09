@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
+//매장별 회원테이블
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 @Builder

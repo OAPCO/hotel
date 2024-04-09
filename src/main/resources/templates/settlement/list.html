@@ -22,7 +22,7 @@
                         <table class="table my-0 table table-bordered">
                             <tbody>
                             <tr>
-                                <td class="col-3">총판조직</td>
+                                <td class="col-3" style="background-color: #cccccc">총판조직</td>
                                 <td class="col-4">
                                     <select class="form-select" aria-label="Default select example">
                                         <option selected>신라호텔</option>
@@ -31,7 +31,7 @@
                                         <option value="3">모텔</option>
                                     </select>
                                 </td>
-                                <td class="col-2">지사</td>
+                                <td class="col-2" style="background-color: #cccccc">지사</td>
                                 <td class="col-3"><select class="form-select" aria-label="Default select example">
                                     <option selected>전체</option>
                                     <option value="1">ggg럭셔리</option>
@@ -40,7 +40,7 @@
                                 </select></td>
                             </tr>
                             <tr>
-                                <td class="col-3">매장</td>
+                                <td class="col-3" style="background-color: #cccccc">매장</td>
                                 <td class="col-4" colspan="3"><select class="form-select" aria-label="Default select example">
                                     <option selected>전체</option>
                                     <option value="1">ggg럭셔리</option>
@@ -49,7 +49,7 @@
                                 </select></td>
                             </tr>
                             <tr>
-                                <td>일자선택</td>
+                                <td style="background-color: #cccccc">일자선택</td>
                                 <td colspan="3"><input type="date" name="startday">-
                                     <input type="date" name="startday">
                                     <div class="form-check form-check-inline ">
@@ -95,16 +95,16 @@
                         <div class="table align-middle">
                             <table class="table my-8 table table-bordered">
                                 <tr>
-                                    <td class="col">no</td>
-                                    <td class="col">결제일자</td>
-                                    <td class="col">매장코드</td>
-                                    <td class="col">합산금액(원)</td>
-                                    <td class="col">오프라인 결제금액(원)</td>
-                                    <td class="col">PG 결제금액(원)</td>
-                                    <td class="col">PG 수수료(원)</td>
-                                    <td class="col">건별수수료(원)</td>
-                                    <td class="col">월정수수료(원</td>
-                                    <td class="col">매장송금액(원)</td>
+                                    <td class="col" style="background-color: #cccccc">no</td>
+                                    <td class="col" style="background-color: #cccccc">결제일자</td>
+                                    <td class="col" style="background-color: #cccccc">매장코드</td>
+                                    <td class="col" style="background-color: #cccccc">합산금액(원)</td>
+                                    <td class="col" style="background-color: #cccccc">오프라인 결제금액(원)</td>
+                                    <td class="col" style="background-color: #cccccc">PG 결제금액(원)</td>
+                                    <td class="col" style="background-color: #cccccc">PG 수수료(원)</td>
+                                    <td class="col" style="background-color: #cccccc">건별수수료(원)</td>
+                                    <td class="col" style="background-color: #cccccc">월정수수료(원</td>
+                                    <td class="col" style="background-color: #cccccc">매장송금액(원)</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -121,17 +121,17 @@
                                     <td>[[${dto.memberPhone}]]</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">합계</td>
-                                    <td th:each="data:${list}">[[${dto.adminName}]]</td>
-                                    <td th:each="data:${list}">[[${dto.memberPhone}]]</td>
-                                    <td th:each="data:${list}">[[${dto.memberIdx}]]</td>
-                                    <td th:each="data:${list}">[[${dto.memberEmail}]]</td>
-                                    <td th:each="data:${list}">[[${dto.memberIdx}]]</td>
-                                    <td th:each="data:${list}">[[${dto.adminName}]]</td>
-                                    <td th:each="data:${list}">[[${dto.memberPhone}]]</td>
+                                    <td colspan="2" style="background-color: #cccccc">합계</td>
+                                    <td th:each="data:${list}" style="background-color: #cccccc">[[${dto.adminName}]]</td>
+                                    <td th:each="data:${list}" style="background-color: #cccccc">[[${dto.memberPhone}]]</td>
+                                    <td th:each="data:${list}" style="background-color: #cccccc">[[${dto.memberIdx}]]</td>
+                                    <td th:each="data:${list}" style="background-color: #cccccc">[[${dto.memberEmail}]]</td>
+                                    <td th:each="data:${list}" style="background-color: #cccccc">[[${dto.memberIdx}]]</td>
+                                    <td th:each="data:${list}" style="background-color: #cccccc">[[${dto.adminName}]]</td>
+                                    <td th:each="data:${list}" style="background-color: #cccccc">[[${dto.memberPhone}]]</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="10">순매출</td>
+                                    <td colspan="10" style="background-color: #cccccc">순매출</td>
                                 </tr>
                                 </tbody>
                             </table>
