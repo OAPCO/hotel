@@ -2,6 +2,7 @@ package com.exam.hotelgers.dto;
 
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.entity.Banner;
+import com.exam.hotelgers.entity.Store;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
@@ -25,6 +26,8 @@ public class ImageDTO {
     private String imageRepimgYn;
 
     private Banner banner;
+
+    private Store store;
 
     private LocalDateTime regdate;
 

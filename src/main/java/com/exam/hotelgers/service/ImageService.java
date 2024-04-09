@@ -149,7 +149,7 @@ public class ImageService {
     public List<ImageDTO> storeimgList(Long storeIdx) {
 
         List<Image> storeImageList =
-                imageRepository.findByStore_StoreIdxOrOrderByImageIdxAsc(storeIdx);
+                imageRepository.findByStore_StoreIdxOrderByImageIdxAsc(storeIdx);
 
 
         List<ImageDTO> ImageDTOList = new ArrayList<>();
