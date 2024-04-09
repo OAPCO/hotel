@@ -1,10 +1,8 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.BrandDTO;
+
 import com.exam.hotelgers.dto.SelectMenuDTO;
-import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.SelectMenu;
-import com.exam.hotelgers.repository.BrandRepository;
 import com.exam.hotelgers.repository.SelectMenuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -41,7 +39,7 @@ public class SelectMenuService {
 
 
         Optional<SelectMenu> temp = selectMenuRepository
-                .findBySelectMenuIdx(selectMenuDTO.getMenuSheetNo());
+                .findBySelectMenuIdx(selectMenuDTO.getSelectMenuIdx());
 
 
         if(temp.isPresent()) {

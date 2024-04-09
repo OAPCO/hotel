@@ -3,7 +3,6 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.dto.AnnouncementDTO;
 import com.exam.hotelgers.entity.Announcement;
 import com.exam.hotelgers.repository.AnnouncementRepository;
-import com.exam.hotelgers.repository.AnnouncementRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -22,10 +21,10 @@ public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final ModelMapper modelMapper;
 
-    public Long register(AnnouncementDTO announcementMenuDTO) {
+    public Long register(AnnouncementDTO announcementDTO) {
 
 
-        Announcement announcement = modelMapper.map(announcementMenuDTO, Announcement.class);
+        Announcement announcement = modelMapper.map(announcementDTO, Announcement.class);
 
         announcementRepository.save(announcement);
 
@@ -33,18 +32,18 @@ public class AnnouncementService {
     }
 
 
-    public void modify(AnnouncementDTO announcementMenuDTO){
+    public void modify(AnnouncementDTO announcementDTO){
 
 
 
 
         Optional<Announcement> temp = announcementRepository
-                .findByNoticeIdx(announcementMenuDTO.getTitle());
+                .findByNoticeIdx(announcementDTO.getNoticeIdx());
 
 
         if(temp.isPresent()) {
 
-            Announcement announcement = modelMapper.map(announcementMenuDTO, Announcement.class);
+            Announcement announcement = modelMapper.map(announcementDTO, Announcement.class);
 
             announcementRepository.save(announcement);
         }
@@ -71,10 +70,10 @@ public class AnnouncementService {
         Page<Announcement> announcements = announcementRepository.findAll(page);
 
 
-        Page<AnnouncementDTO> announcementMenuDTOS = announcements.map(data->modelMapper.map(data,AnnouncementDTO.class));
+        Page<AnnouncementDTO> announcementDTOS = announcements.map(data->modelMapper.map(data,AnnouncementDTO.class));
 
 
-        return announcementMenuDTOS;
+        return announcementDTOS;
     }
 
 
