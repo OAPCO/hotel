@@ -3,8 +3,10 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.BannerDTO;
 import com.exam.hotelgers.dto.ImageDTO;
+import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.Banner;
 import com.exam.hotelgers.entity.Image;
+import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.ImageRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -80,28 +82,100 @@ public class ImageService {
 
     }
 
-    public List<ImageDTO> imgList(Long bannerIdx) {
 
-        List<Image> studentImageList =
+    public void saveStoreImg(MultipartFile file, StoreDTO storeDTO){
+
+        String filePath = makeDir();
+        String uuid = UUID.randomUUID().toString();
+
+        String newFileName = uuid + "_"+
+                file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("\\")+1);
+
+
+        Image image = Image.builder().imageOriName(file.getOriginalFilename()).
+                store(modelMapper.map(storeDTO, Store.class)).
+                imageName(newFileName).
+                imageRepimgYn("Y").build();
+
+        imageRepository.save(image);
+
+
+        String fileUploadFullUrl = filePath + "\\" + newFileName;
+
+        File save = new File(fileUploadFullUrl);
+
+        try {
+            file.transferTo(save);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+    public List<ImageDTO> bannerimgList(Long bannerIdx) {
+
+        List<Image> bannerImageList =
                 imageRepository.findByBanner_BannerIdxOrderByImageIdxAsc(bannerIdx);
+
 
         List<ImageDTO> ImageDTOList = new ArrayList<>();
 
-        for (int i = 0; i < studentImageList.size(); i++) {
+
+
+        for (int i = 0; i < bannerImageList.size(); i++) {
             ImageDTO imageDTO = new ImageDTO();
 
-            imageDTO.setImageName(studentImageList.get(i).getImageName());
-            imageDTO.setImageOriName(studentImageList.get(i).getImageOriName());
-            imageDTO.setImageIdx(studentImageList.get(i).getImageIdx());
-            imageDTO.setImageRepimgYn(studentImageList.get(i).getImageRepimgYn());
-            imageDTO.setRegdate(studentImageList.get(i).getRegdate());
-            imageDTO.setModdate(studentImageList.get(i).getModdate());
+            imageDTO.setImageName(bannerImageList.get(i).getImageName());
+            imageDTO.setImageOriName(bannerImageList.get(i).getImageOriName());
+            imageDTO.setImageIdx(bannerImageList.get(i).getImageIdx());
+            imageDTO.setImageRepimgYn(bannerImageList.get(i).getImageRepimgYn());
+            imageDTO.setRegdate(bannerImageList.get(i).getRegdate());
+            imageDTO.setModdate(bannerImageList.get(i).getModdate());
 
             ImageDTOList.add(imageDTO);
         }
 
+
+
         return ImageDTOList;
     }
+
+
+
+
+    public List<ImageDTO> storeimgList(Long storeIdx) {
+
+        List<Image> storeImageList =
+                imageRepository.findByStore_StoreIdxOrOrderByImageIdxAsc(storeIdx);
+
+
+        List<ImageDTO> ImageDTOList = new ArrayList<>();
+
+
+
+        for (int i = 0; i < storeImageList.size(); i++) {
+            ImageDTO imageDTO = new ImageDTO();
+
+            imageDTO.setImageName(storeImageList.get(i).getImageName());
+            imageDTO.setImageOriName(storeImageList.get(i).getImageOriName());
+            imageDTO.setImageIdx(storeImageList.get(i).getImageIdx());
+            imageDTO.setImageRepimgYn(storeImageList.get(i).getImageRepimgYn());
+            imageDTO.setRegdate(storeImageList.get(i).getRegdate());
+            imageDTO.setModdate(storeImageList.get(i).getModdate());
+
+            ImageDTOList.add(imageDTO);
+        }
+
+
+        return ImageDTOList;
+    }
+
+
+
+
 
     public Long remove(Long imageIdx){
         System.out.println("삭제"+imageIdx);

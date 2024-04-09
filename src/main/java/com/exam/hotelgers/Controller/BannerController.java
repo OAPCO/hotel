@@ -192,7 +192,7 @@ public class BannerController {
         BannerDTO bannerDTO = bannerService.read(bannerIdx);
 
         //이미지 목록 boardImgDTOList를 만든다.
-        List<ImageDTO> ImgDTOList = imageService.imgList(bannerIdx);
+        List<ImageDTO> ImgDTOList = imageService.bannerimgList(bannerIdx);
 
         //boardDTO에 있는 dtoList 변수의 값을 boardImgDTOList로 셋 한다
         bannerDTO.setDtoList(ImgDTOList);

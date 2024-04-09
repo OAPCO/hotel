@@ -16,6 +16,7 @@ public class distDTO {
 
     private String distName;
     private String distChief;
+    private String distChiefEmail;
     private String distTel;
 
 

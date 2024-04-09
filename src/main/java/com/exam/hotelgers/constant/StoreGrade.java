@@ -4,6 +4,8 @@ public enum StoreGrade {
 
 
 
-    ONE,TWO,THREE,FOUR,FIVE
+    ONE, TWO, THREE, FOUR, FIVE;
+
+
 
 }

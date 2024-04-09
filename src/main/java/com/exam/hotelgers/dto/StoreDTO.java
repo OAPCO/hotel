@@ -7,6 +7,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
@@ -18,6 +20,7 @@ public class StoreDTO {
     private String storeCd; //매장코드
     private String storeChief; //대빵
     private String storeChiefEmail; //대빵이메일
+    private String storeChiefPhone; //대빵전번
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
     private String storeName; //매장명
@@ -62,6 +65,8 @@ public class StoreDTO {
     private StorePType storePType;
     private StoreStatus storeStatus;
     private StoreGrade storeGrade;
+
+    private List<ImageDTO> dtoList = new ArrayList<>();
 
 
     private LocalDateTime regdate;

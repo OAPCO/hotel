@@ -24,7 +24,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -140,13 +142,38 @@ public class StoreService {
 
     }
 
-    public StoreDTO read(Long storeIdx){
 
-        Optional<Store> store= storeRepository.findById(storeIdx);
+//    public StoreDTO read(Long storeIdx){
+//
+//        Optional<Store> store= storeRepository.findById(storeIdx);
+//
+//
+//        return modelMapper.map(store,StoreDTO.class);
+//    }
 
 
-        return modelMapper.map(store,StoreDTO.class);
+
+
+
+    public StoreDTO read(Long storeIdx) {
+        Optional<Store> storeEntityOptional = storeRepository.findById(storeIdx);
+        if (storeEntityOptional.isPresent()) {
+            Store store = storeEntityOptional.get();
+            StoreDTO dto = modelMapper.map(store, StoreDTO.class);
+            dto.setDistDTO(convertToStoreDistDTO(store.getDist()));
+            dto.setBranchDTO(convertToStoreBranchDTO(store.getBranch()));
+            dto.setBrandDTO(convertToBrandDTO(store.getBrand()));
+
+
+            return dto;
+        } else {
+            return null;
+        }
     }
+
+
+
+
 
 
     public Page<StoreDTO> list(Pageable pageable) {

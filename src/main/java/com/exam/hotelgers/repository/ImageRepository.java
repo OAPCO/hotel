@@ -19,6 +19,7 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
 
 
     List<Image> findByBanner_BannerIdxOrderByImageIdxAsc(Long bannerIdx);
+    List<Image> findByStore_StoreIdxOrOrderByImageIdxAsc(Long storeIdx);
 
     @Query(value = "select i  from Image i where i.banner.bannerIdx = : bannerIdx")
     List<Image> findfind(Long bannerIdx, Pageable pageable);

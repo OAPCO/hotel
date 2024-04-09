@@ -3,6 +3,7 @@ package com.exam.hotelgers.Controller;
 
 
 import com.exam.hotelgers.dto.ManagerDTO;
+import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.service.ManagerService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -87,5 +88,10 @@ public class ManagerController {
         //서비스처리(삭제)
         return "redirect:/manager/list";
     }
+
+
+
+
+
 
 }
