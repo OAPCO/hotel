@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+
+
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <h2>지사 정보</h2>
+    <table class="table my-0">
+
+        <tr>
+            <td>번호</td>
+            <td>[[${branchDTO.branchIdx}]]</td>
+        </tr>
+        <tr>
+            <td>지사코드</td>
+            <td>[[${branchDTO.branchCd}]]</td>
+        </tr>
+        <tr>
+            <td>지사명</td>
+            <td>[[${branchDTO.branchName}]]</td>
+        </tr>
+        <tr>
+            <td>지사 대표</td>
+            <td>[[${branchDTO.branchChief}]]</td>
+        </tr>
+        <tr>
+            <td>대표 이메일</td>
+            <td>[[${branchDTO.branchChiefEmail}]]</td>
+        </tr>
+        <tr>
+            <td>지사 연락처</td>
+        <td>[[${branchDTO.branchTel}]]</td>
+        </tr>
+        <tr>
+            <td>소속 총판</td>
+            <td>[[${branchDTO.distDTO.StoreDistName}]]</td>
+        </tr>
+        <tr>
+            <td>생성일자</td>
+        <td th:text="${#temporals.format(branchDTO.regdate, 'yyyy-MM-dd')}"></td>
+        </tr>
+        <tr>
+            <td>마지막수정</td>
+        <td th:text="${#temporals.format(branchDTO.moddate, 'yyyy-MM-dd')}"></td>
+        </tr>
+
+
+
+    </table>
+
+
+
+    <a th:href="@{/branch/modify/{branchIdx}(branchIdx=${branchDTO.branchIdx})}">
+        <button class="btn btn-primary" type="button"> 정보수정 </button>
+    </a>
+    <a th:href="@{/branch/delete/{branchIdx}(branchIdx=${branchDTO.branchIdx})}">
+        <button class="btn btn-danger" type="button"> 회원탈퇴 </button>
+    </a>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+
+    <title>주문관리</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h4 class="card-title">주문관리</h4>
+            <form method="post" action="#">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th >총판조직</th>
+                            <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm">
+                                        <option value="10" selected="">GGG호텔</option>
+                                        <option value="25">3스타호텔</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th>지사</th>
+                            <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm">
+                                        <option value="10" selected="">전체</option>
+                                        <option value="25">3스타호텔</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>매장</strong></td>
+                            <td class="align-middle text-start"> <!-- 수정된 부분 -->
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm">
+                                        <option value="10" selected="">bbb호텔</option>
+                                        <option value="25">3스타호텔</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td><strong>매장명</strong></td>
+                            <td><input type="text" name="" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><strong>구분</strong></td>
+                            <td>
+                                <input type="radio" name="매장주아이디" value="value1">전체
+                                <input type="radio" name="매장주아이디" value="value1">직영점
+                                <input type="radio" name="매장주아이디" value="value1"> 가맹점
+                            </td>
+
+                            <td><strong>제휴상태</strong></td>
+                            <td>
+                                <input type="radio" name="매장주아이디" value="value1">전체
+                                <input type="radio" name="매장주아이디" value="value1">제휴중
+                                <input type="radio" name="매장주아이디" value="value1">제휴정지
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">조회</button>
+                        <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/manager/store/register}'|">신규등록</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <h4 class="card-title">매장 목록</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>구분</th>
+                        <th>총판조직명</th>
+                        <th>지사명</th>
+                        <th>매장명</th>
+                        <th>지역</th>
+                        <th>대표자명</th>
+                        <th>아이디</th>
+                        <th>주문현황보기</th>
+                        <th>제휴상태</th>
+                        <th>임시</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.storeIdx}"></td>
+
+                        <td th:text="${data.storePType}"></td>
+                        <!--                    <td th:if="${data.storePType=='DIRECTSTORE'}">-->
+                        <!--                        직영점-->
+                        <!--                    </td>-->
+                        <!--                    <td th:if="${data.storePType=='FRANCHISEE'}">-->
+                        <!--                        가맹점-->
+                        <!--                    </td>-->
+
+                        <td th:text="${data.distDTO.distName}"></td>
+                        <td th:text="${data.branchDTO.branchName}"></td>
+                        <td>
+                            <a th:text="${data.storeName}" th:href="@{'/manager/store/'+${data.storeIdx}}" >연습</a>
+                        </td>
+                        <td>(지역)</td>
+                        <td th:text="${data.storeChief}"></td>
+                        <td th:text="${data.storeCd}"></td>
+                        <td><button class="btn btn-primary" type="button" th:onclick="|location.href='@{#}'|">주문보기</button></td>
+
+                        <!--                    <td th:if="${data.storeStatus == 'ON'}">&ndash;&gt;-->
+                        <!--                        <span class="badge rounded-pill bg-primary">제휴중</span>-->
+                        <!--                    </td>-->
+                        <!--                    <td th:if="${data.storeStatus.equals(OFF)}">-->
+                        <!--                        <span class="badge rounded-pill bg-secondary">미제휴</span>-->
+                        <!--                    </td>-->
+                        <td th:text="${data.storeStatus}"></td>
+
+                        <td><a th:href="@{'/manager/store/modify/'+${data.storeIdx}}" >수정</a>
+                            /<a th:href="@{'/manager/store/delete/'+${data.storeIdx}}">삭제</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                <ul class="pagination">
+                    <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
+                            aria-hidden="true">«</span></a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
+                            aria-hidden="true">»</span></a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

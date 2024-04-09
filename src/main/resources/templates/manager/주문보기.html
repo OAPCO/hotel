@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body id="page-top">
+<div layout:fragment="content">
+<div class="card" style="margin: 50px 20px;">
+    <div class="card-body">
+        <h4 class="card-title">주문관리-주문보기</h4>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>룸번호</th>
+                    <th>최근 주문번호</th>
+                    <th>최근 메뉴</th>
+                    <th>주문서 출력</th>
+                    <th>주문일시</th>
+                    <th>현재접속자</th>
+                    <th>룸리셋</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="data:${list}">
+                    <td th:text="${data.id}">Cell 1</td>
+                    <td th:text="${data.userid}">Cell 2</td>
+                    <td th:text="${data.id}">Cell 2</td>
+                    <td th:text="${data.id}">Cell 2</td>
+                    <td th:text="${data.id}">Cell 2</td>
+                    <td th:text="${data.id}">Cell 2</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+            <ul class="pagination">
+                <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
+                        aria-hidden="true">«</span></a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
+                        aria-hidden="true">»</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</div>
+</body>
+</html>
