@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>room-register</title>
+</head>
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div>
+            <form action="/register/{storeId}" method="post">
+                <label for="roomName">Room Name:</label>
+                <input type="text" id="roomName" name="roomName"><br>
+                <label for="roomType">Room Type:</label>
+                <input type="text" id="roomType" name="roomType"><br>
+                <input type="submit" value="Register">
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

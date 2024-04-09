@@ -58,6 +58,7 @@ public class StoreDTO {
 
     private distDTO distDTO;
     private branchDTO branchDTO;
+
     private BrandDTO brandDTO;
 
     private StorePType storePType;

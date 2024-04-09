@@ -150,6 +150,7 @@ public class StoreService {
     }
 
     private distDTO convertToStoreDistDTO(Dist dist) {
+
         return modelMapper.map(dist, distDTO.class);
     }
 

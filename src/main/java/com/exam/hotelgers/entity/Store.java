@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -90,10 +91,7 @@ public class Store extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="brandIdx")
     private Brand brand;
-
-
-
-
+    
     @Enumerated(EnumType.STRING)
     private StorePType storePType;
 
@@ -103,7 +101,8 @@ public class Store extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private StoreCategory storeCategory;
 
-
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Room> rooms;
 
 
 }
