@@ -2,8 +2,11 @@ package com.exam.hotelgers.Controller;
 
 
 
+import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.AdminDTO;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.service.AdminService;
+import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -29,6 +32,7 @@ public class AdminController {
 
 
     private final AdminService adminService;
+    private final DistService distService;
 
 
 
@@ -88,5 +92,31 @@ public class AdminController {
         //서비스처리(삭제)
         return "redirect:/admin/list";
     }
+
+    @GetMapping("/admin/adminpage/codemange")
+    public String getProfile() {
+       return "/admin/adminpage/codemange";
+    }
+
+@GetMapping("/admin/adminpage/storedistmange")
+    public String storedistmange(@PageableDefault(page = 1)Pageable pageable,Model model){
+
+        log.info("storemangelist 도착");
+
+        Page<DistDTO> distDTOList = distService.list(pageable);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOList);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", distDTOList);
+        return "admin/adminpage/storedistmange";
+}
+
+@GetMapping("/admin/adminpage/distregister")
+    public String distregister(){
+        return "admin/adminpage/distregister";
+}
+
+
 
 }
