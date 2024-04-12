@@ -45,5 +45,9 @@ public class Dist extends BaseEntity {
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
     private List<Brand> brandList = new ArrayList<>();
 
+    @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
+    private List<Order> orderList = new ArrayList<>();
+
+
 
 }
