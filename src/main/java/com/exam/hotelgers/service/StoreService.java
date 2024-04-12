@@ -3,10 +3,7 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
-import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.dto.branchDTO;
-import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.dto.distDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.entity.Branch;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -177,6 +173,7 @@ public class StoreService {
 
 
     public Page<StoreDTO> list(Pageable pageable) {
+
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
@@ -184,6 +181,48 @@ public class StoreService {
         Page<Store> stores = storeRepository.findAll(page);
         return stores.map(this::convertToDTO);
     }
+
+
+
+    public Page<StoreDTO> searchList(String distName,String branchName,String storeName,StoreGrade storeGrade,String storeCd,String storeChiefEmail,String storeChief,
+                                     String brandName,StoreStatus storeStatus,StorePType storePType, Pageable pageable) {
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+
+        Page<Store> stores = storeRepository.multiSearch(distName, branchName,storeName,
+                storeGrade, storeCd, storeChiefEmail, storeChief, brandName, storeStatus, storePType, page);
+        return stores.map(this::convertToDTO);
+    }
+
+
+
+//        public Page<StoreDTO> list2(Pageable pageable, String distName) {
+//
+//            int currentPage = pageable.getPageNumber() - 1;
+//            int pageCnt = 5;
+//            Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+//
+//        if(distName != null){
+//            Page<Store> stores = storeRepository.distNameSearch(distName,page);
+//            return stores.map(this::convertToDTO);
+//        }
+//
+//        else {
+//            Page<Store> stores = storeRepository.findAll(page);
+//            return stores.map(this::convertToDTO);
+//        }
+//
+//
+//
+//    }
+
+
+
+
+
+
 
     private StoreDTO convertToDTO(Store store) {
         StoreDTO dto = modelMapper.map(store, StoreDTO.class);
@@ -193,12 +232,12 @@ public class StoreService {
         return dto;
     }
 
-    private distDTO convertToStoreDistDTO(Dist dist) {
-        return modelMapper.map(dist, distDTO.class);
+    private DistDTO convertToStoreDistDTO(Dist dist) {
+        return modelMapper.map(dist, DistDTO.class);
     }
 
-    private branchDTO convertToStoreBranchDTO(Branch branch) {
-        return modelMapper.map(branch, branchDTO.class);
+    private BranchDTO convertToStoreBranchDTO(Branch branch) {
+        return modelMapper.map(branch, BranchDTO.class);
     }
 
     private BrandDTO convertToBrandDTO(Brand brand) {

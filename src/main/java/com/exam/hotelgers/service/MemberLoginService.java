@@ -27,6 +27,10 @@ public class MemberLoginService implements UserDetailsService {
         System.out.println("관리자 로그인");
         Optional<Member> memberEntity = memberRepository.findByMemberEmail(userid);
         if (memberEntity.isPresent()) {
+
+            log.info("가져온거@@@@@@@@@@@   "+memberEntity.get().getMemberEmail());
+            log.info("가져온거@@@@@@@@@@@   "+memberEntity.get().getPassword());
+
             return User.withUsername(memberEntity.get().getMemberEmail())
                     .password(memberEntity.get().getPassword())
                     .roles(memberEntity.get().getRoleType().name())

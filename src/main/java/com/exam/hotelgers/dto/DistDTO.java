@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 @Builder
-public class distDTO {
+public class DistDTO {
 
     private Long distIdx;
 

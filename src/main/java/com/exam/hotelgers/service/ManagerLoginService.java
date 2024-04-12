@@ -28,6 +28,9 @@ public class ManagerLoginService implements UserDetailsService {
         if (managerEntity.isPresent()) {
             System.out.println("관리자 로그인");
 
+            log.info("관리자 가져온거@@@@@@@@@@@   "+managerEntity.get().getManagerId());
+            log.info("관리자 가져온거@@@@@@@@@@@   "+managerEntity.get().getPassword());
+
             return User.withUsername(managerEntity.get().getManagerId())
                     .password(managerEntity.get().getPassword())
                     .roles(managerEntity.get().getRoleType().name())

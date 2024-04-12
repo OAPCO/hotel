@@ -1,6 +1,6 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.branchDTO;
+import com.exam.hotelgers.dto.BranchDTO;
 import com.exam.hotelgers.service.BranchService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ public class BranchController {
 
 
     @PostMapping("/branch/register")
-    public String registerProc(@Valid branchDTO branchDTO,
+    public String registerProc(@Valid BranchDTO branchDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
@@ -62,7 +62,7 @@ public class BranchController {
 
         log.info("branch listForm 도착 ");
 
-        Page<branchDTO> branchDTOS = branchService.list(pageable);
+        Page<BranchDTO> branchDTOS = branchService.list(pageable);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(branchDTOS);
 
@@ -82,7 +82,7 @@ public class BranchController {
 
         log.info("branch modifyProc 도착 " + branchIdx);
 
-        branchDTO branchDTO = branchService.read(branchIdx);
+        BranchDTO branchDTO = branchService.read(branchIdx);
 
         log.info("수정 전 정보" + branchDTO);
         model.addAttribute("branchDTO", branchDTO);
@@ -91,7 +91,7 @@ public class BranchController {
 
 
     @PostMapping("/branch/modify")
-    public String modifyProc(@Validated branchDTO branchDTO,
+    public String modifyProc(@Validated BranchDTO branchDTO,
                              BindingResult bindingResult, Model model) {
 
         log.info("branch modifyProc 도착 " + branchDTO);
@@ -121,7 +121,7 @@ public class BranchController {
 
     @GetMapping("/branch/{branchIdx}")
     public String readForm(@PathVariable Long branchIdx, Model model) {
-        branchDTO branchDTO=branchService.read(branchIdx);
+        BranchDTO branchDTO=branchService.read(branchIdx);
         //서비스에서 값을 받으면 반드시 model로 전달
         model.addAttribute("branchDTO",branchDTO);
         return "branch/read";

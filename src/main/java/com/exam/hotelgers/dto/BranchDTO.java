@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 @Builder
-public class branchDTO {
+public class BranchDTO {
 
     private Long branchIdx;
 
@@ -20,7 +20,7 @@ public class branchDTO {
     private String branchTel;
 
 
-    private distDTO distDTO;
+    private DistDTO distDTO;
 
     private BrandDTO brandDTO;
 

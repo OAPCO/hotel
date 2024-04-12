@@ -15,5 +15,8 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
     Optional<Dist> findByDistIdx(Long distIdx);
 
 
+    Optional<Dist> findByDistName(String distName);
+
+
 
 }

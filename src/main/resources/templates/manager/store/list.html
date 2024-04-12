@@ -13,7 +13,7 @@
     <div class="card">
         <div class="card-header" style="margin: 50px 20px;">
             <h4 class="card-title">매장(가맹점)관리</h4>
-            <form method="post" action="#">
+            <form method="post" th:action="@{/manager/store/list}">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -21,11 +21,8 @@
                         <th>총판조직</th>
                         <th class="align-middle text-start">  <!-- 수정된 부분 -->
                             <div class="d-inline-block">
-                                <select class="d-inline-block form-select form-select-sm">
-                                    <option value="10" selected="">18</option>
-                                    <option value="25">3스타호텔</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
+                                <select class="d-inline-block form-select form-select-sm" name="distName">
+                                    <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
                                 </select>
                             </div>
                         </th>
@@ -40,11 +37,8 @@
                         <th>지사</th>
                         <th class="align-middle text-start">  <!-- 수정된 부분 -->
                             <div class="d-inline-block">
-                                <select class="d-inline-block form-select form-select-sm">
-                                    <option value="10" selected="">aaa호텔</option>
-                                    <option value="25">3스타호텔</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
+                                <select class="d-inline-block form-select form-select-sm" name="branchName">
+                                    <option th:each="branchList : ${branchList}" th:value="${branchList.branchName}" th:text="${branchList.branchName}"></option>
                                 </select>
                             </div>
                         </th>
@@ -52,10 +46,7 @@
                         <th class="align-middle text-start">  <!-- 수정된 부분 -->
                             <div class="d-inline-block">
                                 <select class="d-inline-block form-select form-select-sm">
-                                    <option value="10" selected="">전체</option>
-                                    <option value="25">3스타호텔</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
+                                    <option th:each="list : ${list}" th:value="${list.storeName}" th:text="${list.storeName}"></option>
                                 </select>
                             </div>
                         </th>
@@ -66,11 +57,12 @@
                         <td><strong>등급</strong></td>
                         <td class="align-middle text-start"> <!-- 수정된 부분 -->
                             <div class="d-inline-block">
-                                <select class="d-inline-block form-select form-select-sm">
-                                    <option value="10" selected="">bbb호텔</option>
-                                    <option value="25">3스타호텔</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
+                                <select class="d-inline-block form-select form-select-sm" name="storeGrade">
+                                    <option value="ONE">1성</option>
+                                    <option value="TWO">2성</option>
+                                    <option value="THREE">3성</option>
+                                    <option value="FOUR">4성</option>
+                                    <option value="FIVE">5성</option>
                                 </select>
                             </div>
                         </td>
@@ -94,32 +86,41 @@
                             </div>
                         </td>
                         <td><strong>매장코드</strong></td>
-                        <td><input type="text" name="" value=""></td>
+                        <td><input type="text" name="storeCd"></td>
 
                     </tr>
                     <tr>
                         <td><strong>매장명</strong></td>
-                        <td><input type="text" name="" value=""></td>
-                        <td><strong>매장주아이디</strong></td>
-                        <td><input type="text" name="" value=""></td>
+                        <td><input type="text" name="storeName"></td>
+                        <td><strong>매장주이메일</strong></td>
+                        <td><input type="text" name="storeChiefEmail"></td>
                         <td><strong>매장주명</strong></td>
-                        <td><input type="text" name="" value=""></td>
+                        <td><input type="text" name="storeChief"></td>
                     </tr>
                     <tr>
-                        <td><strong>브랜드명</strong></td>
-                        <td><input type="text" name="" value=""></td>
+
+                        <th>브랜드</th>
+                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                            <div class="d-inline-block">
+                                <select class="d-inline-block form-select form-select-sm" name="brandName">
+                                    <option th:each="brandList : ${brandList}" th:value="${brandList.brandName}" th:text="${brandList.brandName}"></option>
+                                </select>
+                            </div>
+                        </th>
+
                         <td><strong>상태</strong></td>
                         <td>
-                           <input type="radio" name="매장주아이디" value="value1">전체
-                           <input type="radio" name="매장주아이디" value="value1">제휴중
-                          <input type="radio" name="매장주아이디" value="value1"> 제휴중지
+                           <input type="radio" name="storeStatus" value="ALL">전체
+                           <input type="radio" name="storeStatus" value="ON">제휴중
+                          <input type="radio" name="storeStatus" value="OFF"> 제휴중지
                         </td>
+
 
                         <td><strong>직/가맹</strong></td>
                         <td>
-                            <input type="radio" name="매장주아이디" value="value1">전체
-                            <input type="radio" name="매장주아이디" value="value1">직영점
-                            <input type="radio" name="매장주아이디" value="value1">가맹점
+                            <input type="radio" name="storePType" value="ALLP">전체
+                            <input type="radio" name="storePType" value="DIRECTSTORE">직영점
+                            <input type="radio" name="storePType" value="FRANCHISEE">가맹점
                         </td>
                     </tr>
 

@@ -30,6 +30,10 @@ public class AdminLoginService implements UserDetailsService {
         Optional<Admin> adminEntity = adminRepository.findByAdminId(userid);
         if (adminEntity.isPresent()) { //관리자에 존재하면
             //아이디, 비밀번호, 권한을 이용해서 로그인처리
+
+            log.info("어드민 가져온거@@@@@@@@@@@   "+adminEntity.get().getAdminId());
+            log.info("어드민 가져온거@@@@@@@@@@@   "+adminEntity.get().getPassword());
+
             return User.withUsername(adminEntity.get().getAdminId())
                     .password(adminEntity.get().getPassword())
                     .roles(adminEntity.get().getRoleType().name())

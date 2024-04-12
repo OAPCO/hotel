@@ -58,8 +58,8 @@ public class StoreDTO {
     private int deliveryMinFee; //최소배달금액
 
 
-    private distDTO distDTO;
-    private branchDTO branchDTO;
+    private DistDTO distDTO;
+    private BranchDTO branchDTO;
     private BrandDTO brandDTO;
 
     private StorePType storePType;

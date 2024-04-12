@@ -1,7 +1,7 @@
 package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.dto.distDTO;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.repository.BrandRepository;
@@ -100,8 +100,8 @@ public class BrandService {
         return dto;
     }
 
-    private distDTO convertToStoreDistDTO(Dist dist) {
-        return modelMapper.map(dist, distDTO.class);
+    private DistDTO convertToStoreDistDTO(Dist dist) {
+        return modelMapper.map(dist, DistDTO.class);
     }
 
 

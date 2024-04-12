@@ -14,6 +14,7 @@ public class BrandDTO {
 
     private Long brandIdx; //브랜드키
 
+    private String brandCd; //브랜드코드
 
     private String brandName; //브랜드이름.
 
@@ -22,9 +23,9 @@ public class BrandDTO {
 
     private LocalDateTime moddate;
 
-    private distDTO distDTO;
+    private DistDTO distDTO;
 
-    private String brandCd; //매장코드
+
 
 
 

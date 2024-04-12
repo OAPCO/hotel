@@ -177,6 +177,8 @@ public class ImageService {
 
 
 
+
+
     public Long remove(Long imageIdx){
         System.out.println("삭제"+imageIdx);
         return imageRepository.deleteImageByImageIdx(imageIdx);

@@ -2,8 +2,8 @@ package com.exam.hotelgers.service;
 
 
 import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.dto.branchDTO;
-import com.exam.hotelgers.dto.distDTO;
+import com.exam.hotelgers.dto.BranchDTO;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Branch;
 import com.exam.hotelgers.entity.Dist;
@@ -33,7 +33,7 @@ public class BranchService {
     private final BrandRepository brandRepository;
 
 
-    public Long register(branchDTO branchDTO) {
+    public Long register(BranchDTO branchDTO) {
 
 
 //        Optional<Dist> dist = distRepository.findByStoreDistIdx(branchDTO.getStoreDistDTO().getStoreDistIdx());
@@ -69,7 +69,7 @@ public class BranchService {
     }
 
 
-    public void modify(branchDTO branchDTO){
+    public void modify(BranchDTO branchDTO){
 
 
         Optional<Branch> temp = branchRepository
@@ -83,16 +83,16 @@ public class BranchService {
 
     }
 
-    public branchDTO read(Long storeIdx){
+    public BranchDTO read(Long storeIdx){
 
         Optional<Branch> branch= branchRepository.findById(storeIdx);
 
 
-        return modelMapper.map(branch,branchDTO.class);
+        return modelMapper.map(branch, BranchDTO.class);
     }
 
 
-    public Page<branchDTO> list(Pageable pageable) {
+    public Page<BranchDTO> list(Pageable pageable) {
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "branchIdx"));
@@ -101,15 +101,15 @@ public class BranchService {
         return stores.map(this::convertToDTO);
     }
 
-    private branchDTO convertToDTO(Branch branch) {
-        branchDTO dto = modelMapper.map(branch, branchDTO.class);
+    private BranchDTO convertToDTO(Branch branch) {
+        BranchDTO dto = modelMapper.map(branch, BranchDTO.class);
         dto.setDistDTO(convertToStoreDistDTO(branch.getDist()));
         dto.setBrandDTO(convertToBrandDTO(branch.getBrand()));
         return dto;
     }
 
-    private distDTO convertToStoreDistDTO(Dist dist) {
-        return modelMapper.map(dist, distDTO.class);
+    private DistDTO convertToStoreDistDTO(Dist dist) {
+        return modelMapper.map(dist, DistDTO.class);
     }
 
     private BrandDTO convertToBrandDTO(Brand brand) {

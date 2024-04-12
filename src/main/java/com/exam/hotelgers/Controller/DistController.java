@@ -1,6 +1,6 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.distDTO;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -36,7 +36,7 @@ public class DistController {
 
 
     @PostMapping("/dist/register")
-    public String registerProc(@Valid distDTO distDTO,
+    public String registerProc(@Valid DistDTO distDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
@@ -63,7 +63,7 @@ public class DistController {
 
         log.info("dist listForm 도착 ");
 
-        Page<distDTO> distDTOS = distService.list(pageable);
+        Page<DistDTO> distDTOS = distService.list(pageable);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOS);
 
@@ -80,7 +80,7 @@ public class DistController {
 
         log.info("dist modifyProc 도착 " + distIdx);
 
-        distDTO distDTO = distService.read(distIdx);
+        DistDTO distDTO = distService.read(distIdx);
 
         log.info("수정 전 정보" + distDTO);
         model.addAttribute("distDTO", distDTO);
@@ -89,7 +89,7 @@ public class DistController {
 
 
     @PostMapping("/dist/modify")
-    public String modifyProc(@Validated distDTO distDTO,
+    public String modifyProc(@Validated DistDTO distDTO,
                              BindingResult bindingResult, Model model) {
 
         log.info("dist modifyProc 도착 " + distDTO);
@@ -119,7 +119,7 @@ public class DistController {
 
     @GetMapping("/dist/{distIdx}")
     public String readForm(@PathVariable Long distIdx, Model model) {
-        distDTO distDTO=distService.read(distIdx);
+        DistDTO distDTO=distService.read(distIdx);
         //서비스에서 값을 받으면 반드시 model로 전달
         model.addAttribute("distDTO",distDTO);
         return "dist/read";

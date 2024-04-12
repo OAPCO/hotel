@@ -1,6 +1,6 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.distDTO;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.repository.DistRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -22,7 +26,7 @@ public class DistService {
     private final ModelMapper modelMapper;
 
 
-    public Long register(distDTO distDTO) {
+    public Long register(DistDTO distDTO) {
 
 
         Optional<Dist> distEntity = distRepository
@@ -40,7 +44,7 @@ public class DistService {
     }
 
 
-    public void modify(distDTO distDTO){
+    public void modify(DistDTO distDTO){
 
 
         Optional<Dist> temp = distRepository
@@ -54,17 +58,17 @@ public class DistService {
 
     }
 
-    public distDTO read(Long distIdx){
+    public DistDTO read(Long distIdx){
 
         Optional<Dist> dist= distRepository.findById(distIdx);
 
 
-        return modelMapper.map(dist,distDTO.class);
+        return modelMapper.map(dist, DistDTO.class);
     }
 
 
 
-    public Page<distDTO> list(Pageable pageable){
+    public Page<DistDTO> list(Pageable pageable){
 
         int currentPage = pageable.getPageNumber()-1;
         int pageCnt = 5;
@@ -73,10 +77,12 @@ public class DistService {
         Page<Dist> dists = distRepository.findAll(page);
 
 
-        Page<distDTO> distDTOS = dists.map(data->modelMapper.map(data,distDTO.class));
+        Page<DistDTO> distDTOS = dists.map(data->modelMapper.map(data, DistDTO.class));
 
         return distDTOS;
     }
+
+
 
 
 

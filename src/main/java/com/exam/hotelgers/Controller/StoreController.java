@@ -1,9 +1,11 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.ImageDTO;
-import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.service.ImageService;
-import com.exam.hotelgers.service.StoreService;
+import com.exam.hotelgers.constant.StoreGrade;
+import com.exam.hotelgers.constant.StorePType;
+import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,8 @@ public class StoreController {
     
     private final StoreService storeService;
     private final ImageService imageService;
+    private final SearchService searchService;
+
 
     @Value("C:/uploads/")
     private String uploadPath;
@@ -93,16 +97,71 @@ public class StoreController {
     }
 
 
+    @PostMapping("/store/list")
+    public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           @RequestParam(value="distName", required = false) String distName,
+                           @RequestParam(value="branchName", required = false) String branchName,
+                           @RequestParam(value="storeName", required = false) String storeName,
+                           @RequestParam(value="storeGrade", required = false) StoreGrade storeGrade,
+                           @RequestParam(value="storeCd", required = false) String storeCd,
+                           @RequestParam(value="storeChiefEmail", required = false) String storeChiefEmail,
+                           @RequestParam(value="storeChief", required = false) String storeChief,
+                           @RequestParam(value="brandName", required = false) String brandName,
+                           @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus,
+                           @RequestParam(value="storePType", required = false) StorePType storePType
+                           ){
+
+
+        log.info("들어온 별 값 : @@ + " + storeGrade);
+        log.info("들어온 상태 값 : @@ + " + storeStatus);
+        log.info("들어온 피타입 값 : @@ + " + storePType);
+
+
+
+        Page<StoreDTO> storeDTOS = storeService.searchList(distName,branchName,storeName,storeGrade,
+                storeCd,storeChiefEmail,storeChief,brandName,storeStatus,storePType, pageable);
+
+
+
+
+
+
+        List<DistDTO> distList = searchService.distList();
+        List<BranchDTO> branchList = searchService.branchList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("branchList",branchList);
+        model.addAttribute("brandList",brandList);
+        model.addAttribute("list", storeDTOS);
+        return "manager/store/list";
+    }
+
     @GetMapping("/store/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
+                           ) {
 
         log.info("store listForm 도착 ");
 
         Page<StoreDTO> storeDTOS = storeService.list(pageable);
 
+        List<DistDTO> distList = searchService.distList();
+        List<BranchDTO> branchList = searchService.branchList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+
+
+
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("branchList",branchList);
+        model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
         return "manager/store/list";
     }
