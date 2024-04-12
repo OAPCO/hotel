@@ -5,16 +5,16 @@
       layout:decorate="~{layouts/main}">
 
 <head>
-    <title>Table - store</title>
+    <title>Table - order</title>
 </head>
 
 <body id="page-top">
 <div layout:fragment="content">
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">매장 목록</h3>
+        <h3 class="text-dark mb-4">Team</h3>
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-primary m-0 fw-bold">매장 목록</p>
+                <p class="text-primary m-0 fw-bold">Employee Info</p>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -27,7 +27,17 @@
                             <option value="100">100</option>
                         </select>&nbsp;</label></div>
                     </div>
+                    <div class="col-md-3 text-nowrap">
+                        <div id="회원 타입" class="dataTables_length" aria-controls="dataTable"><label
+                                class="form-label">회원분류&nbsp;
+                            <select class="d-inline-block form-select form-select-sm">
+                            <option value="10" selected="">전체</option>
+                            <option value="25">카카오톡</option>
+                            <option value="50">호텔사이트</option>
 
+                        </select>&nbsp;
+                        </label></div>
+                    </div>
                     <div class="col-md-6">
                         <div class="text-md-end dataTables_filter" id="dataTable_filter"><label
                                 class="form-label">
@@ -41,26 +51,24 @@
                         <thead>
                         <tr>
                             <th>번호</th>
-                            <th>매장명</th>
-                            <th>매장코드</th>
-                            <th>소속 총판</th>
+                            <th>사용자 아이디</th>
+                            <th>비밀번호</th>
                             <th>등록일자</th>
                             <th>수정일자</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="data:${list}">
-                            <td th:text="${data.storeIdx}"></td>
+                            <td th:text="${data.orderIdx}"></td>
                             <td>
-                                <a th:text="${data.storeName}" th:href="@{'/store/'+${data.storeIdx}}" >연습</a>
+                                <a th:text="${data.orderEmail}" th:href="@{'/order/'+${data.orderIdx}}" >연습</a>
                             </td>
-                            <td th:text="${data.storeCd}"></td>
-                            <td th:text="${data.distDTO.distName}"></td>
+                            <td th:text="${data.password}">33</td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 
-                            <td><a th:href="@{'/store/modify/'+${data.storeIdx}}" >수정</a>
-                                /<a th:href="@{'/store/delete/'+${data.storeIdx}}">삭제</a></td>
+                            <td><a th:href="@{'/order/modify/'+${data.orderIdx}}" >수정</a>
+                                /<a th:href="@{'/order/delete/'+${data.orderIdx}}">삭제</a></td>
                         </tr>
 
                         </tbody>
@@ -70,19 +78,19 @@
 
 
                 </div>
-                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/store/register}'|">등록</button>
+                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/order/register}'|">등록</button>
 
                 <ul class="mt-3 pagination">
-                    <li class="page-item"><a class="page-link" th:href="@{/store/list(page=${prevPage})}"><</a></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/order/list(page=${prevPage})}"><</a></li>
                     <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
                         <li class="page-item active" th:if="${page == currentPage}">
                             <a class="page-link" href="#">[[${page}]]</a>
                         </li>
                         <li class="page-item" th:unless="${page == currentPage}">
-                            <a class="page-link" th:href="@{/store/list(page=${page})}">[[${page}]]</a>
+                            <a class="page-link" th:href="@{/order/list(page=${page})}">[[${page}]]</a>
                         </li>
                     </span>
-                    <li class="page-item"><a class="page-link" th:href="@{/store/list(page=${nextPage})}">></a></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/order/list(page=${nextPage})}">></a></li>
                 </ul>
             </div>
         </div>

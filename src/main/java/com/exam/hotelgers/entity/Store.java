@@ -6,9 +6,12 @@ import com.exam.hotelgers.constant.StoreStatus;
 import com.querydsl.core.annotations.QueryEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.aspectj.weaver.ast.Or;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -101,6 +104,9 @@ public class Store extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="brandIdx")
     private Brand brand;
+
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<Order> orderList = new ArrayList<>();
 
 
 
