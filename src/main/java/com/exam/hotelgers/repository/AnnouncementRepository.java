@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 @Repository
 public interface AnnouncementRepository extends JpaRepository<Announcement,Long> {
-    Optional<Announcement> findByNoticeIdx(Long noticeIdx);
 }

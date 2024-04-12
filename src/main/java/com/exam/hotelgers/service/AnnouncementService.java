@@ -1,6 +1,7 @@
 package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.AnnouncementDTO;
+import com.exam.hotelgers.dto.AnnouncementDTO;
 import com.exam.hotelgers.entity.Announcement;
 import com.exam.hotelgers.repository.AnnouncementRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,74 +12,65 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 @Log4j2
 public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final ModelMapper modelMapper;
 
-    public Long register(AnnouncementDTO announcementDTO) {
-
-
+    public Announcement insert(AnnouncementDTO announcementDTO) {
         Announcement announcement = modelMapper.map(announcementDTO, Announcement.class);
+        Announcement result = announcementRepository.save(announcement);
 
-        announcementRepository.save(announcement);
-
-        return announcementRepository.save(announcement).getNoticeIdx();
+        return result;
     }
 
+    //수정
+    public AnnouncementDTO update(AnnouncementDTO announcementDTO) {
+        Optional<Announcement> search = announcementRepository.findById(announcementDTO.getNoticeIdx());
 
-    public void modify(AnnouncementDTO announcementDTO){
-
-
-
-
-        Optional<Announcement> temp = announcementRepository
-                .findByNoticeIdx(announcementDTO.getNoticeIdx());
-
-
-        if(temp.isPresent()) {
-
+        if(search.isPresent()) {
             Announcement announcement = modelMapper.map(announcementDTO, Announcement.class);
-
             announcementRepository.save(announcement);
         }
+        AnnouncementDTO result = search.map(data ->modelMapper.map(data, AnnouncementDTO.class)).orElse(null);
 
-
+        return result;
     }
 
-    public AnnouncementDTO read(Long announcementIdx){
-
-        Optional<Announcement> announcement= announcementRepository.findById(announcementIdx);
-
-
-        return modelMapper.map(announcement,AnnouncementDTO.class);
+    //삭제
+    public void delete(Long id) {
+        announcementRepository.deleteById(id);
     }
 
+    //전체조회
+    public Page<AnnouncementDTO> select(Pageable page) {
+        int currentPage = page.getPageNumber()-1;
+        int pageLimit = 5;
+
+        Pageable pageable = PageRequest.of(currentPage, pageLimit,
+                Sort.by(Sort.Direction.DESC,"noticeIdx"));
+
+        Page<Announcement> memberEntities = announcementRepository.findAll(pageable);
 
 
-    public Page<AnnouncementDTO> list(Pageable pageable){
+        Page<AnnouncementDTO> result = memberEntities.map(data->modelMapper.map(data,AnnouncementDTO.class));
 
-        int currentPage = pageable.getPageNumber()-1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"announcementIdx"));
-
-        Page<Announcement> announcements = announcementRepository.findAll(page);
-
-
-        Page<AnnouncementDTO> announcementDTOS = announcements.map(data->modelMapper.map(data,AnnouncementDTO.class));
-
-
-        return announcementDTOS;
+        return result;
     }
 
+    //개별조회
+    public AnnouncementDTO read(Long id) {
+        Optional<Announcement> announcement = announcementRepository.findById(id);
+        //AnnouncementDTO result = modelMapper.map(announcement, AnnouncementDTO.class);
+        AnnouncementDTO result = announcement.map(data->modelMapper.map(data, AnnouncementDTO.class)).orElse(null);
 
-
-    public void delete(Long announcementIdx){
-        announcementRepository.deleteById(announcementIdx);
+        return result;
     }
 }

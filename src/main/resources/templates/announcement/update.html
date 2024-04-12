@@ -1,0 +1,55 @@
+<!-----------------------------------
+프로그램명 : 매장별 회원관리 입력폼
+작성일 : 2024-04-09
+작성자 : 조영규
+기  능 : 매장별 회원을 등록
+작업내역 : 1. 입력폼(24-04-09)
+         2. 입력테스트(24-04-10)
+         3. 작업완료
+----------------------------------->
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <h3 class="text-dark mb-4">매장 회원관리</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1">
+                <!---->
+            </div>
+            <div class="col-lg-10">
+                <h5 class="text-dark mb-4">매장 회원수정</h5>
+                <form th:action="@{/announcement/update}" method="post" th:object="${announcementDTO}">
+                    <input type="text" name="noticeIdx" th:field="*{noticeIdx}" readonly>
+                    <div class="row">
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">제목</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" placeholder="이메일" name="title" th:field="*{title}">
+                        </div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">내용</div>
+                        <div class="col-lg-3 p-1 text-black" name="contents">
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary">수정</button>
+                    </div>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary">취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+
+<body>
+<!--개발 완료 후 위에 head부분을 삭제합니다-->
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--왼쪽여백-->
+            </div>
+            <div class="col-lg-10">
+                <h2>목록</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>no</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>등록날짜</th>
+                        <th>수정날짜</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.noticeIdx}">임시</td>
+                        <td><a th:href="@{'/announcement/'+${data.noticeIdx}}"
+                               th:text="${data.title}">임시</a></td>
+                        <td th:text="${data.contents}">임시</td>
+                        <td th:text="${data.regdate}">임시</td>
+                        <td th:text="${data.moddate}">임시</td>
+                        <td><a th:href="@{'/announcement/update/' + ${data.noticeIdx}}">수정</a>
+                            <a th:href="@{'/announcement/delete/' + ${data.noticeIdx}}">삭제</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/announcement/insert}'|">등록</button>
+                <!-- 페이지 영역 -->
+                <ul class="pagination">
+                    <li class="page-item" th:unless="${startPage==1}">
+                        <a class="page-link" th:href="@{/announcement/select(page=1)}">처음</a></li>
+                    <li class="page-item" th:unless="${currentPage==1}">
+                        <a class="page-link" th:href="@{/announcement/select(page=${prevPage})}">이전</a></li>
+                    <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
+                    <!-- 다른페이지-->
+                    <li class="page-item" th:unless="${page == currentPage}">
+                        <a class="page-link" th:href="@{/announcement/select(page=${page})}">[[${page}]]</a>
+                    </li>
+                        <!--활성화(현재위치)-->
+                    <li class="page-item active" th:if="${page == currentPage}">
+                        <a class="page-link" href="#">[[${page}]]</a>
+                    </li>
+                </span>
+                    <li class="page-item" th:unless="${currentPage>=lastPage}">
+                        <a class="page-link" th:href="@{/announcement/select(page=${nextPage})}">다음</a></li>
+                    <li class="page-item" th:unless="${endPage==lastPage}">
+                        <a class="page-link" th:href="@{/announcement/select(page=${lastPage})}">끝</a></li>
+                </ul>
+                <!-- 페이지 영역 끝 -->
+            </div>
+            <div class="col-lg-3">
+                <!--오른쪽여백-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 파일 끝에 이 스크립트를 추가하세요 -->
+<script th:inline="javascript">
+    /* 작업 후 메시지가 있는지 확인하고 팝업으로 표시합니다. */
+    var processMessage = /*[[${processMessage}]]*/ null;
+    if (processMessage) {
+        alert(processMessage);
+        processMessage="";
+    }
+</script>
+</body>
+
+</html>

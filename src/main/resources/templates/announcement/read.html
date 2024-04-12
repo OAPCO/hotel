@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+<body>
+<!--개발 완료 후 위에 head부분을 삭제합니다-->
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--왼쪽여백-->
+            </div>
+            <div class="col-lg-6">
+                <!--상세정보-->
+                <div class="card">
+                    <div class="card-header">상세보기</div>
+                    <div class="card-body">
+                        <p>no: <span th:text="${data.title}"></span></p>
+                        <p>매장유저권한: <span th:textarea="${data.contents}"></span></p>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary"
+                                th:onclick="|location.href='@{/announcement/select}'|">목록</button>
+                        <button type="button" class="btn btn-secondary"
+                                th:onclick="|location.href='@{/announcement/update/}'+${data.noticeIdx}|">수정</button>
+                        <button type="button" class="btn btn-danger"
+                                th:onclick="|location.href='@{/announcement/delete/}'+${data.noticeIdx}|">삭제</button>
+                    </div>
+                </div>
+                <!--상세정보 끝-->
+            </div>
+            <div class="col-lg-3">
+                <!--오른쪽여백-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
