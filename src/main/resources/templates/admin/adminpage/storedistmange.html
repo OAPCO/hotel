@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+
+    <style>
+        td {
+            text-align: center; /* 가로 중앙 정렬 */
+            vertical-align: middle; /* 세로 중앙 정렬 */
+        }
+    </style>
+    <title>총판조직 관리</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h4 class="card-title">총판 조직 관리</h4>
+            <h6><strong>총판 조직 등록</strong></h6>
+            <form method="post" action="/admin/adminpage/storedistmange">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th >총판명</th>
+                            <th class="align-middle text-start">
+                                <input type="text" value="" placeholder="매장총판명" name="distName" style="width:300px;">
+                            </th>
+                            <th>총판장</th>
+                            <th class="align-middle text-start">
+                                <input type="text" value="" placeholder="총판ID" name="distCd" style="width:300px;">
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn text-white m-2" style="background-color: #36b9cc;">조회</button>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+<div class="card" style="margin: 50px 20px;">
+<div class="card-body">
+    <h4 class="card-title">코드 그룹</h4>
+    <div class="d-flex justify-content-end">
+    </div>
+    <div style="text-align:right;">
+        총 11건
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>총판명</th>
+                <th>총판ID</th>
+                <th>총판장</th>
+                <th>연락처</th>
+                <th>지사수</th>
+                <th>매장수</th>
+                <th>삭제여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="data:${list}">
+                <td th:text="${data.distIdx}">Cell 2</td>
+                <td th:text="${data.distName}">Cell 2</td>
+                <td th:text="${data.distCd}">Cell 2</td>
+                <td th:text="${data.distChief}">Cell 2</td>
+                <td th:text="${data.distTel}">Cell 2</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div class="col-md-6">
+    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+        <ul class="pagination">
+            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
+                    aria-hidden="true">«</span></a></li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
+                    aria-hidden="true">»
+            </span>
+            </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+    <div style="text-align: right;" class="m-3">
+        <button class="btn btn-dark m-2" type="button" th:onclick="|location.href='@{/admin/adminpage/distregister}'|">추가</button>
+    </div>
+</div>
+</div>
+</body>

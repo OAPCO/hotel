@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+
+<body class="bg-gradient-primary">
+<div layout:fragment="content">
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-3 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(/assets/img/dogs/image2.jpeg);"></div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">상세설명 등록</h4>
+                            </div>
+                            <form class="user" th:action="@{/detailmenu/register}" method="post" enctype="multipart/form-data">
+
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-12 mb-3 mb-sm-0"><input class="form-control"
+                                                                              type="text" id="detailMenuName"
+                                                                              placeholder="제목" name="detailMenuName">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 mb-3 mb-3 sm-0">
+                                    <textarea class="form-control" id="menuDescription" name="menuDescription" placeholder="내용" rows="7"></textarea>
+                                </div>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="inputGroupFile01">파일 업로드</label>
+                                        <input type="file" class="form-control" id="inputGroupFile01" name="file">
+                                    </div>
+
+
+
+
+                                <!--                                <div th:if="${not #lists.isEmpty(boardDTO.dtoList)}">-->
+                                <!--                                    <th:block th:each=" imgdtolist : ${boardDTO.dtoList}">-->
+                                <!--                                        <div class="image-container">-->
+                                <!--                                            <img th:src="@{|/images/@{${#temporals.format(imgdtolist.regDate,'yyMMdd')}}/@{${imgdtolist.imgName}}|}" th:data-num="${imgdtolist.ino}" alt="이건 사진입니다." width="200px">-->
+                                <!--                                            <button type="button" class="delBtn">이미지삭제</button>-->
+                                <!--                                            <input type="text" name="ino" class="ino" value="">-->
+                                <!--                                        </div>-->
+                                <!--                                    </th:block>-->
+                                <!--                                </div>-->
+
+                                <!--                                <div th:each="num : ${#numbers.sequence(1,5)}">-->
+                                <!--                                    <label>파일업로드</label>-->
+                                <!--                                    <input type="file" name="file">-->
+                                <!--                                </div>-->
+                                <div class="row mb-3">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-primary d-block btn-user w-100" type="submit">등록</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-secondary d-block btn-user w-100" type="button" th:onclick="|location.href='@{/detailmenu/list}'|">취소</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
