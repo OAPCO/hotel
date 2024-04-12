@@ -32,6 +32,8 @@ public class StoreMember extends BaseEntity{
 
     private Integer storeMemberState;
 
+    private String delYn;
+
     private String storeMemberAuth;
 
     private Integer storeDistributorIdx;

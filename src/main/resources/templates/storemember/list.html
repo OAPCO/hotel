@@ -11,141 +11,157 @@
 <body id="page-top">
 
 <div layout:fragment="content">
-    <div class="container-fluid">
-        <h3 class="text-dark mb-4">매장 회원관리</h3>
-            <td class="card-body">
-                <div class="row">
-                    <div class="container mt-4">
-                        <div class="table-responsive table mt-12" id="dataTable" role="grid"
-                             aria-describedby="dataTable_info">
-                            <table class="table my-0 table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <td class="col-2" style="width: 25%;background-color: #cccccc">메장유저권한</td>
-                                    <td class="col-3"><select class="form-select" aria-label="Default select example">
-                                        <option selected>선택</option>
-                                        <option value="1">매니저</option>
-                                        <option value="2">총책임자</option>
-                                    </select></td>
-                                    <td class="col-3" style="width: 25%;background-color: #cccccc">총판조직</td>
-                                    <td class="col-4">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>신라호텔</option>
-                                            <option value="1">ggg럭셔리</option>
-                                            <option value="2">롯데호텔</option>
-                                            <option value="3">모텔</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-2" style="width: 25%;background-color: #cccccc">지사</td>
-                                    <td class="col-3"><select class="form-select" aria-label="Default select example">
-                                        <option selected>선택</option>
-                                        <option value="1">ggg럭셔리</option>
-                                        <option value="2">롯데호텔</option>
-                                        <option value="3">모텔</option>
-                                    </select></td>
-                                    <td class="col-3" style="width: 25%;background-color: #cccccc">매장</td>
-                                    <td class="col-4"><select class="form-select" aria-label="Default select example">
-                                        <option selected>전체</option>
-                                        <option value="1">ggg럭셔리</option>
-                                        <option value="2">롯데호텔</option>
-                                        <option value="3">모텔</option>
-                                    </select></td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%;background-color: #cccccc">아이디</td>
-                                    <td><input type="text" placeholder="이메일"></td>
-                                    <td style="width: 25%;background-color: #cccccc">이름</td>
-                                    <td><input type="text"></td>
-                                </tr>
-                                <tr>
-                                    <td style="width: 25%;background-color: #cccccc">연락처</td>
-                                    <td><input type="text"></td>
-                                    <td style="width: 25%;background-color: #cccccc">상태</td>
-                                    <td><div class="form-check form-check-inline ">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            전체
-                                        </label>
-                                    </div>
-                                        <div class="form-check form-check-inline ">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                활성
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-check-inline ">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
-                                            <label class="form-check-label" for="flexRadioDefault2">
-                                                비활성
-                                            </label>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <button class="btn btn-primary" style="width:80px;float: right;" type="button" th:onclick="|location.href='@{/storemember/list}'|">조회
-                            </button>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--왼쪽여백-->
+            </div>
+            <div class="col-lg-10">
+                <!-- 검색 영역 -->
+                <form th:action="@{/storemember/list}" method="get" th:object="${searchDTO}">
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">매장유저권한</div>
+                        <div class="col-sm-4 border">
+                            <!--유저권한 열거형 출력-->
+                            <select class="form-select" name="storeMemberAuth">
+                                <option value="">전체</option>
+                                <option value="메니저">메니저</option>
+                                <option value="관리자">관리자</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">총판조직</div>
+                        <div class="col-sm-4 border">
+                            <select class="form-select" name="storeDistributorIdx">
+                                <option value="">전체</option>
+                                <option value="1">1호텔</option>
+                                <option value="2">2호텔</option>
+                            </select>
                         </div>
                     </div>
-                </div>
-            </td>
-        <div class="container-fluid">
-            <h3 class="text-dark mb-8">회원목록</h3>
-            <td class="card-body">
-                <div class="row">
-                    <div class="container mt-4">
-                        <div class="table align-middle">
-                            <table class="table my-8 table table-bordered">
-                                <thead>
-                                <tr>
-                                    <td class="col" style="width: 9%;background-color: #cccccc">no</td>
-                                    <td class="col" style="width: 9%;background-color: #cccccc">매장유저권한</td>
-                                    <td class="col" style="width: 9%;background-color: #cccccc">아이디</td>
-                                    <td class="col" style="width: 9%;background-color: #cccccc">이름</td>
-                                    <td class="col" style="width: 9%;background-color: #cccccc">연락처</td>
-                                    <td class="col" style="width: 9%;background-color: #cccccc">매장수</td>
-                                    <td class="col" style="width: 9%;background-color: #cccccc">가맹점수</td>
-                                    <td class="col" style="width: 9%;background-color: #cccccc">상태</td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="data:${list}">
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.adminLevel}]]</td>
-                                    <td>[[${dto.memberEmail}]]</td>
-                                    <td>[[${dto.adminName}]]</td>
-                                    <td>[[${dto.memberPhone}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <button class="btn btn-primary" style='width:80px;float: right;' type="button" th:onclick="|location.href='@{/storemember/register}'|">추가
-                            </button>
-                            <div class="col-md-6">
-                                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                                    <ul class="pagination">
-                                        <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
-                                                aria-hidden="true">«</span></a></li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
-                                                aria-hidden="true">»</span></a></li>
-                                    </ul>
-                                </nav>
-                            </div>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">지사</div>
+                        <div class="col-sm-4 border">
+                            <select class="form-select" name="storeBranchIdx">
+                                <option value="">전체</option>
+                                <option value="1">서울</option>
+                                <option value="2">인천</option>
+                                <option value="3">부산</option>
+                                <option value="4">대전</option>
+                                <option value="5">대구</option>
+                                <option value="6">광주</option>
+                                <option value="7">울산</option>
+                                <option value="8">경기도</option>
+                                <option value="9">강원도</option>
+                                <option value="10">충청도</option>
+                                <option value="11">전라도</option>
+                                <option value="12">경상도</option>
+                                <option value="13">제주도</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">매장</div>
+                        <div class="col-sm-4 border">
+                            <select class="form-select" name="storeIdx">
+                                <option value="">전체</option>
+                                <option value="1">1매장</option>
+                                <option value="2">2매장</option>
+                            </select>
                         </div>
                     </div>
-                </div>
-            </td>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">아이디</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" placeholder="이메일" name="storeMemberEmail" th:field="*{storeMemberEmail}">
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">이름</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" name="storeMemberName" th:field="*{storeMemberName}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">연락처</div>
+                        <div class="col-sm-4 border">
+                            <input type="text" name="storeMemberTel" th:field="*{storeMemberTel}">
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">상태</div>
+                        <div class="col-sm-4 border d-flex"> <!--d-flax : 가로출력-->
+                            <input type="radio" name="storeMemberState" value="전체" checked="checked">전체
+                            <input type="radio" name="storeMemberState" value="활성">활성
+                            <input type="radio" name="storeMemberState" value="비활성">비활성
+                        </div>
+                    </div>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary">조회</button>
+                    </div>
+                </form>
+                <!-- 검색 영역 끝 -->
+                <h2>목록</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>매장유저권한</th>
+                        <th>아이디</th>
+                        <th>이름</th>
+                        <th>연락처</th>
+                        <th>매장수</th>
+                        <th>가맹점수</th>
+                        <th>상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.storeMemberIdx}">1</td>
+                        <td th:text="${data.storeMemberAuth}">임시</td>
+                        <td><a th:href="@{'/storemember/'+${data.storeMemberIdx}}"
+                               th:text="${data.storeMemberEmail}">임시</a></td>
+                        <td th:text="${data.storeMemberName}">임시</td>
+                        <td th:text="${data.storeMemberTel}">임시</td>
+                        <td th:text="${data.storeMemberName}">임시</td>
+                        <td th:text="${data.storeMemberName}">임시</td>
+                        <td th:text="${data.storeMemberState}">임시</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/storemember/register}'|">등록
+                </button>
+                <!-- 페이지 영역 -->
+                <ul class="pagination">
+                    <li class="page-item" th:unless="${startPage==1}">
+                        <a class="page-link" th:href="@{/storemember/list(page=1)}">처음</a></li>
+                    <li class="page-item" th:unless="${currentPage==1}">
+                        <a class="page-link" th:href="@{/storemember/list(page=${prevPage})}">이전</a></li>
+                    <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
+                    <!-- 다른페이지-->
+                    <li class="page-item" th:unless="${page == currentPage}">
+                        <a class="page-link" th:href="@{/storemember/list(page=${page})}">[[${page}]]</a>
+                    </li>
+                        <!--활성화(현재위치)-->
+                    <li class="page-item active" th:if="${page == currentPage}">
+                        <a class="page-link" href="#">[[${page}]]</a>
+                    </li>
+                </span>
+                    <li class="page-item" th:unless="${currentPage>=lastPage}">
+                        <a class="page-link" th:href="@{/storemember/list(page=${nextPage})}">다음</a></li>
+                    <li class="page-item" th:unless="${endPage==lastPage}">
+                        <a class="page-link" th:href="@{/storemember/list(page=${lastPage})}">끝</a></li>
+                </ul>
+                <!-- 페이지 영역 끝 -->
+            </div>
+            <div class="col-lg-3">
+                <!--오른쪽여백-->
+            </div>
         </div>
     </div>
 </div>
-
+<script th:inline="javascript">
+    /* 작업 후 메시지가 있는지 확인하고 팝업으로 표시합니다. */
+    var processMessage = /*[[${processMessage}]]*/ null;
+    if (processMessage) {
+        alert(processMessage);
+        processMessage="";
+    }
+</script>
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreMemberDTO;
 import com.exam.hotelgers.entity.StoreMember;
 import com.exam.hotelgers.repository.MemberRepository;
@@ -49,14 +50,23 @@ public class StoreMemberService {
     }
 
     //전체조회
-    public Page<StoreMemberDTO> select(Pageable page) {
+    public Page<StoreMemberDTO> select(Pageable page, SearchDTO searchDTO) {
         int currentPage = page.getPageNumber()-1;
         int pageLimit = 5;
 
         Pageable pageable = PageRequest.of(currentPage, pageLimit,
-                            Sort.by(Sort.Direction.DESC,"id"));
+                            Sort.by(Sort.Direction.DESC,"storeMemberIdx"));
 
-        Page<StoreMember> memberEntities = storeMemberRepository.findAll(pageable);
+        Page<StoreMember> memberEntities = storeMemberRepository.search(
+                searchDTO.getStoreMemberEmail(),
+                searchDTO.getStoreMemberName(),
+                searchDTO.getStoreMemberTel(),
+                searchDTO.getStoreMemberState(),
+                searchDTO.getStoreMemberAuth(),
+                searchDTO.getStoreDistributorIdx(),
+                searchDTO.getStoreBranchIdx(),
+                searchDTO.getStoreIdx(),
+                pageable);
 
 
         Page<StoreMemberDTO> result = memberEntities.map(data->modelMapper.map(data,StoreMemberDTO.class));

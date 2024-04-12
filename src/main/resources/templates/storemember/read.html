@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+<body>
+<!--개발 완료 후 위에 head부분을 삭제합니다-->
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--왼쪽여백-->
+            </div>
+            <div class="col-lg-6">
+                <!--상세정보-->
+                <div class="card">
+                    <div class="card-header">상세보기</div>
+                    <div class="card-body">
+                        <p>no: <span th:text="${data.storeMemberIdx}"></span></p>
+                        <p>매장유저권한: <span th:text="${data.storeMemberAuth}"></span></p>
+                        <p>아이디: <span th:text="${data.storeMemberEmail}"></span></p>
+                        <p>이름: <span th:text="${data.storeMemberName}"></span></p>
+                        <p>연락처: <span th:text="${data.storeMemberTel}"></span></p>
+                        <p>매장수: <span th:text="${data.storeIdx}"></span></p>
+                        <p>가맹점수: <span th:text="${data.storeBranchIdx}"></span></p>
+                        <p>상태: <span th:text="${data.storeMemberState}"></span></p>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary"
+                                th:onclick="|location.href='@{/storemember/list}'|">목록</button>
+                        <button type="button" class="btn btn-secondary"
+                                th:onclick="|location.href='@{/storemember/update/}'+${data.storeMemberIdx}|">수정</button>
+                        <button type="button" class="btn btn-danger"
+                                th:onclick="|location.href='@{/storemember/delete/}'+${data.storeMemberIdx}|">삭제</button>
+                    </div>
+                </div>
+                <!--상세정보 끝-->
+            </div>
+            <div class="col-lg-3">
+                <!--오른쪽여백-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

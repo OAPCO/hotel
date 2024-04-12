@@ -26,39 +26,40 @@
                 <!---->
             </div>
             <div class="col-lg-10">
-                <h5 class="text-dark mb-4">매장 회원등록</h5>
-                <form th:action="@{/storemember/register}" method="post">
+                <h5 class="text-dark mb-4">매장 회원수정</h5>
+                <form th:action="@{/storemember/update}" method="post" th:object="${storeMemberDTO}">
+                    <input type="text" name="storeMemberIdx" th:field="*{storeMemberIdx}" readonly>
                     <div class="row">
                         <div class="col-lg-3 p-1 bg-gray-200 text-black">이메일</div>
                         <div class="col-lg-3 p-1 text-black">
-                            <input type="text" placeholder="이메일" name="storeMemberEmail">
+                            <input type="text" placeholder="이메일" name="storeMemberEmail" th:field="*{storeMemberEmail}">
                         </div>
                         <div class="col-lg-3 p-1 bg-gray-200 text-black">이름</div>
                         <div class="col-lg-3 p-1 text-black" name="storeMemberName">
-                            <input type="text" name="storeMemberName">
+                            <input type="text">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-3 p-1 bg-gray-200 text-black">비밀번호</div>
                         <div class="col-lg-3 p-1 text-black">
-                            <input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호" name="storeMemberPwd">
+                            <input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호" name="storeMemberPwd" th:field="*{storeMemberPwd}">
                         </div>
                         <div class="col-lg-3 p-1 bg-gray-200 text-black">비밀번호 확인</div>
                         <div class="col-lg-3 p-1 text-black">
-                            <input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호" name="storeMemberPwd2">
+                            <input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호" name="storeMemberPwd1">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2 border">매장유저권한</div>
                         <div class="col-sm-4 border">
-                            <select class="form-select" name="storeMemberAuth">
-                                <option value="메니저">메니저</option>
-                                <option value="관리자">관리자</option>
+                            <select class="form-select" name="storeMemberAuth" th:field="*{storeMemberAuth}">
+                                <option value="1호텔">1호텔</option>
+                                <option value="2호텔">2호텔</option>
                             </select>
                         </div>
                         <div class="col-sm-2 border">총판조직</div>
                         <div class="col-sm-4 border">
-                            <select class="form-select" name="storeDistributorIdx">
+                            <select class="form-select" name="storeDistributorIdx" th:field="*{storeDistributorIdx}">
                                 <option value="1">1호텔</option>
                                 <option value="2">2호텔</option>
                             </select>
@@ -67,7 +68,7 @@
                     <div class="row">
                         <div class="col-sm-2 border">지사</div>
                         <div class="col-sm-4 border">
-                            <select class="form-select" name="storeBranchIdx">
+                            <select class="form-select" name="storeBranchIdx" th:field="*{storeBranchIdx}">
                                 <option value="1">서울</option>
                                 <option value="2">인천</option>
                                 <option value="3">부산</option>
@@ -85,7 +86,7 @@
                         </div>
                         <div class="col-sm-2 border">매장</div>
                         <div class="col-sm-4 border">
-                            <select class="form-select" name="storeIdx">
+                            <select class="form-select" name="storeIdx" th:field="*{storeIdx}">
                                 <option value="1">1매장</option>
                                 <option value="2">2매장</option>
                             </select>
@@ -94,11 +95,11 @@
                     <div class="row">
                         <div class="col-sm-2 border">연락처</div>
                         <div class="col-sm-4 border">
-                            <input type="text" name="storeMemberTel">
+                            <input type="text" name="storeMemberTel" th:field="*{storeMemberTel}">
                         </div>
                     </div>
                     <div class="container d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-primary">등록</button>
+                        <button type="submit" class="btn btn-primary">수정</button>
                     </div>
                     <div class="container d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-primary">취소</button>

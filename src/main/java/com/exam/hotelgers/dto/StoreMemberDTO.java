@@ -21,6 +21,8 @@ public class StoreMemberDTO {
 
     private Integer storeMemberState;
 
+    private String delYn;
+
     private String storeMemberAuth;
 
     private Integer storeDistributorIdx;
