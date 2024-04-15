@@ -1,18 +1,14 @@
 package com.exam.hotelgers.Controller;
 
-
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.service.ImageService;
-import com.exam.hotelgers.service.OrderService;
 import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.service.OrderService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -21,25 +17,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-
+@RequestMapping("/manager")
 public class OrderController {
     
     private final OrderService orderService;
     private final SearchService searchService;
-
-
 
 
 
@@ -65,9 +55,11 @@ public class OrderController {
 
 
         Long orderIdx = orderService.register(orderDTO);
-        orderDTO.setOrderIdx(orderIdx);
 
-        
+
+        log.info("가게명 들어온거 확인 : " + orderDTO.getStoreDTO().getStoreName());
+        log.info("총판명 들어온거 확인 : " + orderDTO.getDistDTO().getDistName());
+        log.info("지사명 들어온거 확인 : " + orderDTO.getBranchDTO().getBranchName());
 
 
         redirectAttributes.addFlashAttribute("result", orderIdx);
@@ -80,24 +72,25 @@ public class OrderController {
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
                            @RequestParam(value="branchName", required = false) String branchName,
-                           @RequestParam(value="orderName", required = false) String orderName,
-                           @RequestParam(value="orderPType", required = false) StorePType orderPType,
-                           @RequestParam(value="orderStatus", required = false) StoreStatus orderStatus
-                           ){
+                           @RequestParam(value="storeName", required = false) String storeName,
+                           @RequestParam(value="storePType", required = false) StorePType storePType,
+                           @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus
+    ){
 
 
-        log.info("들어온 상태 값 : @@ + " + orderStatus);
-        log.info("들어온 피타입 값 : @@ + " + orderPType);
+        log.info("들어온 총판 @@@@@ + " + distName);
+        log.info("들어온 상태 값 : @@ + " + storeStatus);
+        log.info("들어온 피타입 값 : @@ + " + storePType);
 
 
 
-        Page<OrderDTO> orderDTOS = orderService.searchList(distName,branchName,orderName,orderPType,orderStatus,pageable);
+        Page<OrderDTO> orderDTOS = orderService.searchList(distName,branchName,storeName,storePType,storeStatus,pageable);
+
 
 
 
         List<DistDTO> distList = searchService.distList();
         List<BranchDTO> branchList = searchService.branchList();
-        List<BrandDTO> brandList = searchService.brandList();
         List<StoreDTO> storeList = searchService.storeList();
 
 
@@ -106,50 +99,37 @@ public class OrderController {
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
         model.addAttribute("branchList",branchList);
-        model.addAttribute("brandList",brandList);
         model.addAttribute("storeList",storeList);
         model.addAttribute("list", orderDTOS);
         return "manager/order/list";
     }
 
     @GetMapping("/order/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
+                           ) {
 
         log.info("order listForm 도착 ");
 
-        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+        Page<OrderDTO> storeDTOS = orderService.list(pageable);
 
         List<DistDTO> distList = searchService.distList();
         List<BranchDTO> branchList = searchService.branchList();
-        List<BrandDTO> brandList = searchService.brandList();
+        List<StoreDTO> storeList = searchService.storeList();
 
 
 
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
         model.addAttribute("branchList",branchList);
-        model.addAttribute("brandList",brandList);
-        model.addAttribute("list", orderDTOS);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("list", storeDTOS);
         return "manager/order/list";
     }
 
 
-    @GetMapping("/order/order")
-    public String orderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
-
-        log.info("order orderForm 도착 ");
-
-        Page<OrderDTO> orderDTOS = orderService.list(pageable);
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", orderDTOS);
-        return "manager/order/order";
-    }
 
 
 
@@ -201,9 +181,8 @@ public class OrderController {
         OrderDTO orderDTO=orderService.read(orderIdx);
 
 
-        model.addAttribute("orderDTO",orderDTO);
+        model.addAttribute("data",orderDTO);
         return "manager/order/read";
     }
-
 
 }

@@ -1,40 +1,32 @@
 package com.exam.hotelgers.entity;
 
-import com.exam.hotelgers.constant.StoreGrade;
-import com.exam.hotelgers.constant.StorePType;
-import com.exam.hotelgers.constant.StoreStatus;
-import com.querydsl.core.annotations.QueryEntity;
+
+import com.exam.hotelgers.constant.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
+@Entity
 @Getter
 @Setter
-@ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
-@Table(name="order")
+@ToString
+@Table(name="storeorder")
 @SequenceGenerator(
-        name = "order_sql",
-        sequenceName = "order_sql",
+        name = "storeorder_sql",
+        sequenceName = "storeorder_sql",
         initialValue = 1,
         allocationSize = 1
 )
-@QueryEntity
-public class Order extends BaseEntity{
+public class Order extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_sql")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "storeorder_sql")
     private Long orderIdx;
 
-    private String orderCd; //임시
-
-
-    
+    @Column(length = 60, nullable = false)
+    private String orderCd;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="branchIdx")
@@ -45,14 +37,8 @@ public class Order extends BaseEntity{
     private Dist dist;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="brandIdx")
-    private Brand brand;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeIdx")
     private Store store;
-
-
 
 
 }

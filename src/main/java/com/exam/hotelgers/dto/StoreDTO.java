@@ -62,11 +62,13 @@ public class StoreDTO {
     private BranchDTO branchDTO;
     private BrandDTO brandDTO;
 
+
     private StorePType storePType;
     private StoreStatus storeStatus;
     private StoreGrade storeGrade;
 
     private List<ImageDTO> dtoList = new ArrayList<>();
+    private List<OrderDTO> orderDTOList;
 
 
     private LocalDateTime regdate;

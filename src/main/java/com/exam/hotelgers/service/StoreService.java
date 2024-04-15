@@ -4,10 +4,7 @@ import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Brand;
-import com.exam.hotelgers.entity.Store;
-import com.exam.hotelgers.entity.Branch;
-import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.BrandRepository;
 import com.exam.hotelgers.repository.BranchRepository;
 import com.exam.hotelgers.repository.DistRepository;
@@ -21,8 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -139,27 +138,17 @@ public class StoreService {
     }
 
 
-//    public StoreDTO read(Long storeIdx){
-//
-//        Optional<Store> store= storeRepository.findById(storeIdx);
-//
-//
-//        return modelMapper.map(store,StoreDTO.class);
-//    }
-
-
-
 
 
     public StoreDTO read(Long storeIdx) {
-        Optional<Store> storeEntityOptional = storeRepository.findById(storeIdx);
-        if (storeEntityOptional.isPresent()) {
-            Store store = storeEntityOptional.get();
+        Optional<Store> optionalStore = storeRepository.findById(storeIdx);
+        if (optionalStore.isPresent()) {
+            Store store = optionalStore.get();
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
+            dto.setOrderDTOList(convertOrderToDTOs(store.getOrderList())); //orderDTO
             dto.setDistDTO(convertToStoreDistDTO(store.getDist()));
             dto.setBranchDTO(convertToStoreBranchDTO(store.getBranch()));
             dto.setBrandDTO(convertToBrandDTO(store.getBrand()));
-
 
             return dto;
         } else {
@@ -167,6 +156,16 @@ public class StoreService {
         }
     }
 
+
+
+    private List<OrderDTO> convertOrderToDTOs(List<Order> orders) {
+        if (orders == null || orders.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return orders.stream()
+                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .collect(Collectors.toList());
+    }
 
 
 
@@ -195,31 +194,6 @@ public class StoreService {
                 storeGrade, storeCd, storeChiefEmail, storeChief, brandName, storeStatus, storePType, page);
         return stores.map(this::convertToDTO);
     }
-
-
-
-//        public Page<StoreDTO> list2(Pageable pageable, String distName) {
-//
-//            int currentPage = pageable.getPageNumber() - 1;
-//            int pageCnt = 5;
-//            Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
-//
-//        if(distName != null){
-//            Page<Store> stores = storeRepository.distNameSearch(distName,page);
-//            return stores.map(this::convertToDTO);
-//        }
-//
-//        else {
-//            Page<Store> stores = storeRepository.findAll(page);
-//            return stores.map(this::convertToDTO);
-//        }
-//
-//
-//
-//    }
-
-
-
 
 
 

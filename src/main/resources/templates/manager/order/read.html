@@ -24,17 +24,7 @@
 <div layout:fragment="content">
     <div class="container-fluid">
         <p></p>
-        <h3 class="text-dark mb-4">[ [[${storeDTO.storeName}]] ] 매장 정보</h3>
-
-        <table>
-            <ul>
-                매장에 속한 현재 주문내역 (임시용) <br>
-                <li th:each="orderDTO:${storeDTO.orderDTOList}">
-                    <span th:text="${orderDTO.orderCd}"></span>
-                </li>
-            </ul>
-        </table>
-
+        <h3 class="text-dark mb-4">[ [[${orderDTO.storeName}]] ] 주문 관리</h3>
 
         <div class="card shadow">
             <div class="card-body">

@@ -1,12 +1,14 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
-import com.exam.hotelgers.dto.BranchDTO;
-import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.dto.OrderDTO;
-import com.exam.hotelgers.entity.*;
+import com.exam.hotelgers.entity.Branch;
+import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.entity.Order;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +31,6 @@ public class OrderService {
     private final ModelMapper modelMapper;
     private final DistRepository distRepository;
     private final BranchRepository branchRepository;
-    private final BrandRepository brandRepository;
     private final StoreRepository storeRepository;
 
 
@@ -37,13 +38,8 @@ public class OrderService {
     public Long register(OrderDTO orderDTO) {
 
 
-//        Optional<Dist> dist = distRepository.findByOrderDistIdx(orderDTO.getOrderDistDTO().getOrderDistIdx());
-//        Optional<Branch> branch = branchRepository.findByOrderBranchIdx(orderDTO.getOrderBranchDTO().getOrderBranchIdx());
-//        Optional<Brand> brand = brandRepository.findByBrandIdx(orderDTO.getBrandDTO().getBrandIdx());
-
         Optional<Dist> dist = distRepository.findByDistCd(orderDTO.getDistDTO().getDistCd());
         Optional<Branch> branch = branchRepository.findByBranchCd(orderDTO.getBranchDTO().getBranchCd());
-        Optional<Brand> brand = brandRepository.findByBrandCd(orderDTO.getBrandDTO().getBrandCd());
         Optional<Store> store = storeRepository.findByStoreCd(orderDTO.getStoreDTO().getStoreCd());
 
 
@@ -53,12 +49,12 @@ public class OrderService {
         if (!branch.isPresent()) {
             throw new IllegalStateException("존재하지 않는 지사 코드입니다.");
         }
-        if (!brand.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 브랜드 코드입니다.");
-        }
         if (!store.isPresent()) {
             throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
         }
+
+
+
 
 
 
@@ -71,14 +67,21 @@ public class OrderService {
 
 
 
+
         Order order = modelMapper.map(orderDTO, Order.class);
+
 
 
 
         order.setDist(dist.get());
         order.setBranch(branch.get());
-        order.setBrand(brand.get());
+        order.setStore(store.get());
 
+
+//        store.ifPresent(s -> orderDTO.getStoreDTO().setStoreName(s.getStoreName()));
+        modelMapper.map(store.get(), orderDTO.getStoreDTO());
+        modelMapper.map(branch.get(), orderDTO.getBranchDTO());
+        modelMapper.map(dist.get(), orderDTO.getDistDTO());
 
 
         orderRepository.save(order);
@@ -103,26 +106,18 @@ public class OrderService {
     }
 
 
-//    public OrderDTO read(Long orderIdx){
-//
-//        Optional<Order> order= orderRepository.findById(orderIdx);
-//
-//
-//        return modelMapper.map(order,OrderDTO.class);
-//    }
-
-
 
 
 
     public OrderDTO read(Long orderIdx) {
-        Optional<Order> orderEntityOptional = orderRepository.findById(orderIdx);
-        if (orderEntityOptional.isPresent()) {
-            Order order = orderEntityOptional.get();
+        Optional<Order> storeEntityOptional = orderRepository.findById(orderIdx);
+        if (storeEntityOptional.isPresent()) {
+            Order order = storeEntityOptional.get();
             OrderDTO dto = modelMapper.map(order, OrderDTO.class);
-            dto.setDistDTO(convertToOrderDistDTO(order.getDist()));
-            dto.setBranchDTO(convertToOrderBranchDTO(order.getBranch()));
-            dto.setBrandDTO(convertToBrandDTO(order.getBrand()));
+            dto.setDistDTO(convertToStoreDistDTO(order.getDist()));
+            dto.setBranchDTO(convertToStoreBranchDTO(order.getBranch()));
+            dto.setStoreDTO(convertToStoreDTO(order.getStore()));
+
             return dto;
 
         } else {
@@ -159,50 +154,27 @@ public class OrderService {
 
 
 
-//        public Page<OrderDTO> list2(Pageable pageable, String distName) {
-//
-//            int currentPage = pageable.getPageNumber() - 1;
-//            int pageCnt = 5;
-//            Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "orderIdx"));
-//
-//        if(distName != null){
-//            Page<Order> orders = orderRepository.distNameSearch(distName,page);
-//            return orders.map(this::convertToDTO);
-//        }
-//
-//        else {
-//            Page<Order> orders = orderRepository.findAll(page);
-//            return orders.map(this::convertToDTO);
-//        }
-//
-//
-//
-//    }
-
-
-
-
-
-
-
     private OrderDTO convertToDTO(Order order) {
         OrderDTO dto = modelMapper.map(order, OrderDTO.class);
-        dto.setDistDTO(convertToOrderDistDTO(order.getDist()));
-        dto.setBranchDTO(convertToOrderBranchDTO(order.getBranch()));
-        dto.setBrandDTO(convertToBrandDTO(order.getBrand()));
+        dto.setDistDTO(convertToStoreDistDTO(order.getDist()));
+        dto.setBranchDTO(convertToStoreBranchDTO(order.getBranch()));
+        dto.setStoreDTO(convertToStoreDTO(order.getStore()));
         return dto;
     }
 
-    private DistDTO convertToOrderDistDTO(Dist dist) {
+
+
+
+    private DistDTO convertToStoreDistDTO(Dist dist) {
         return modelMapper.map(dist, DistDTO.class);
     }
 
-    private BranchDTO convertToOrderBranchDTO(Branch branch) {
+    private BranchDTO convertToStoreBranchDTO(Branch branch) {
         return modelMapper.map(branch, BranchDTO.class);
     }
 
-    private BrandDTO convertToBrandDTO(Brand brand) {
-        return modelMapper.map(brand, BrandDTO.class);
+    private StoreDTO convertToStoreDTO(Store store) {
+        return modelMapper.map(store, StoreDTO.class);
     }
 
 
