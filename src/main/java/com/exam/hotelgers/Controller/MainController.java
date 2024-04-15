@@ -8,13 +8,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Map;
-
 @Controller
 @Log4j2
 @RequiredArgsConstructor
-public class LoginController {
-
+public class MainController {
 
     @GetMapping("/")
     public String start(){
@@ -61,6 +58,11 @@ public class LoginController {
     }
 
 
+    @GetMapping("/layouts/main")
+    public void mainForm(){
 
+
+
+    }
 
 }

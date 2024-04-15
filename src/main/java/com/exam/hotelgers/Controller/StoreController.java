@@ -4,7 +4,6 @@ import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -112,6 +111,7 @@ public class StoreController {
                            ){
 
 
+        log.info("들어온 총판 @@@@@ + " + distName);
         log.info("들어온 별 값 : @@ + " + storeGrade);
         log.info("들어온 상태 값 : @@ + " + storeStatus);
         log.info("들어온 피타입 값 : @@ + " + storePType);
@@ -167,20 +167,6 @@ public class StoreController {
     }
 
 
-    @GetMapping("/store/order")
-    public String orderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
-
-        log.info("store orderForm 도착 ");
-
-        Page<StoreDTO> storeDTOS = storeService.list(pageable);
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", storeDTOS);
-        return "manager/store/order";
-    }
-
 
 
 
@@ -226,35 +212,24 @@ public class StoreController {
         return "redirect:/manager/store/list";
     }
 
+
     @GetMapping("/store/{storeIdx}")
-    public String readForm(@PathVariable Long storeIdx, Model model) {
-        StoreDTO storeDTO=storeService.read(storeIdx);
-        //서비스에서 값을 받으면 반드시 model로 전달
+    public String readForm(@PathVariable Long storeIdx, Model model, RedirectAttributes redirectAttributes) {
 
-        //이미지 목록 boardImgDTOList를 만든다.
-        List<ImageDTO> ImgDTOList = imageService.storeimgList(storeIdx);
 
-        //boardDTO에 있는 dtoList 변수의 값을 boardImgDTOList로 셋 한다
-        storeDTO.setDtoList(ImgDTOList);
+        StoreDTO storeDTO = storeService.read(storeIdx);
+        model.addAttribute("storeDTO", storeDTO);
 
-        model.addAttribute("storeDTO",storeDTO);
+        log.info("가져온 주문목록은@@@@@@@@@ : " +  storeDTO.getOrderDTOList());
+
+
+        if(storeDTO == null) {
+            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
+            return "redirect:manager/store/list";
+        }
+
         return "manager/store/read";
     }
-    @GetMapping("/storemember/list")
-    public String Sto(){
-        return "storemember/list";
-    }
 
-    @GetMapping("/storemember/register")
-    public String st(){return "storemember/register";}
-
-    @GetMapping("/storemanagement/list")
-    public String stm(){return "storemanagement/list";}
-
-    @GetMapping("/settlement/list")
-    public String sts(){return "settlement/list";}
-
-    @GetMapping("/detail/list")
-    public String std(){return "detail/list";}
 
 }
