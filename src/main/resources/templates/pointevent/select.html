@@ -22,40 +22,50 @@
                     <thead>
                     <tr>
                         <th>no</th>
-                        <th>제목</th>
-                        <th>내용</th>
-                        <th>등록날짜</th>
-                        <th>수정날짜</th>
-                        <th>삭제여부</th>
-                        <th>수정/삭제</th>
+                        <th>이벤트명</th>
+                        <th>이벤트유형</th>
+                        <th>대상매장</th>
+                        <th>유효기간여부</th>
+                        <th>이벤트시작일</th>
+                        <th>이벤트종료일</th>
+                        <th>이벤트 포인트</th>
+                        <th>회원별 설정</th>
+                        <th>최소구매금액</th>
+                        <th>매장부담율</th>
+                        <th>수정삭제</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="data:${list}">
-                        <td th:text="${data.noticeIdx}">임시</td>
-                        <td><a th:href="@{'/announcement/'+${data.noticeIdx}}"
-                               th:text="${data.title}">임시</a></td>
-                        <td th:text="${data.contents}">임시</td>
-                        <td th:text="${data.regdate}">임시</td>
-                        <td th:text="${data.moddate}">임시</td>
-                        <td th:text="${data.delYn}">임시</td>
-                        <td><a th:href="@{'/announcement/update/' + ${data.noticeIdx}}">수정</a>
-                            <a th:href="@{'/announcement/delete/' + ${data.noticeIdx}}">삭제</a></td>
+                        <td th:text="${data.pointEventIdx}">임시</td>
+                        <td><a th:href="@{'/pointevent/'+${data.pointEventIdx}}"
+                               th:text="${data.pointEventName}">임시</a></td>
+                        <td th:text="${data.pointEventType}">임시</td>
+                        <td th:text="${data.storeCd}">임시</td>
+                        <td th:text="${data.expiryDateYn}">임시</td>
+                        <td th:text="${data.eventStartDate}">임시</td>
+                        <td th:text="${data.eventEndDate}">임시</td>
+                        <td th:text="${data.eventPoint}">임시</td>
+                        <td th:text="${data.pointMemberType}">임시</td>
+                        <td th:text="${data.minBuyMoney}">임시</td>
+                        <td th:text="${data.shopPayRate}">임시</td>
+                        <td><a th:href="@{'/pointevent/update/' + ${data.pointEventIdx}}">수정</a>
+                            <a th:href="@{'/pointevent/delete/' + ${data.pointEventIdx}}">삭제</a></td>
                     </tr>
                     </tbody>
                 </table>
                 <br>
-                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/announcement/insert}'|">등록</button>
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/pointevent/insert}'|">등록</button>
                 <!-- 페이지 영역 -->
                 <ul class="pagination">
                     <li class="page-item" th:unless="${startPage==1}">
-                        <a class="page-link" th:href="@{/announcement/select(page=1)}">처음</a></li>
+                        <a class="page-link" th:href="@{/pointevent/select(page=1)}">처음</a></li>
                     <li class="page-item" th:unless="${currentPage==1}">
-                        <a class="page-link" th:href="@{/announcement/select(page=${prevPage})}">이전</a></li>
+                        <a class="page-link" th:href="@{/pointevent/select(page=${prevPage})}">이전</a></li>
                     <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
                     <!-- 다른페이지-->
                     <li class="page-item" th:unless="${page == currentPage}">
-                        <a class="page-link" th:href="@{/announcement/select(page=${page})}">[[${page}]]</a>
+                        <a class="page-link" th:href="@{/pointevent/select(page=${page})}">[[${page}]]</a>
                     </li>
                         <!--활성화(현재위치)-->
                     <li class="page-item active" th:if="${page == currentPage}">
@@ -63,9 +73,9 @@
                     </li>
                 </span>
                     <li class="page-item" th:unless="${currentPage>=lastPage}">
-                        <a class="page-link" th:href="@{/announcement/select(page=${nextPage})}">다음</a></li>
+                        <a class="page-link" th:href="@{/pointevent/select(page=${nextPage})}">다음</a></li>
                     <li class="page-item" th:unless="${endPage==lastPage}">
-                        <a class="page-link" th:href="@{/announcement/select(page=${lastPage})}">끝</a></li>
+                        <a class="page-link" th:href="@{/pointevent/select(page=${lastPage})}">끝</a></li>
                 </ul>
                 <!-- 페이지 영역 끝 -->
             </div>

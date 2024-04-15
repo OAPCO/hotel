@@ -13,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -23,20 +25,34 @@ import java.util.Optional;
 public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final ModelMapper modelMapper;
+    private final AnnouncementImageService announcementImageService;
 
-    public Announcement insert(AnnouncementDTO announcementDTO) {
+    public Announcement insert(AnnouncementDTO announcementDTO, MultipartFile file) {
         Announcement announcement = modelMapper.map(announcementDTO, Announcement.class);
-        Announcement result = announcementRepository.save(announcement);
+        if (!file.isEmpty()) { //이미지파일이 존재하면
+                String originalName= file.getOriginalFilename();
+                String filename = announcementImageService.uploadFile(originalName, file);
+                announcement.setImg(filename);
+        } else {
+            announcement.setImg(null);
+        }
 
+        Announcement result = announcementRepository.save(announcement);
         return result;
     }
 
     //수정
-    public AnnouncementDTO update(AnnouncementDTO announcementDTO) {
+    public AnnouncementDTO update(AnnouncementDTO announcementDTO, MultipartFile file) {
         Optional<Announcement> search = announcementRepository.findById(announcementDTO.getNoticeIdx());
 
         if(search.isPresent()) {
             Announcement announcement = modelMapper.map(announcementDTO, Announcement.class);
+            if(!file.isEmpty()) {
+                String originalName = file.getOriginalFilename();
+                String filename = announcementImageService.uploadFile(originalName, file);
+                announcement.setImg(filename);
+            }
+
             announcementRepository.save(announcement);
         }
         AnnouncementDTO result = search.map(data ->modelMapper.map(data, AnnouncementDTO.class)).orElse(null);

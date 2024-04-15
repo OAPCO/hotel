@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <h3 class="text-dark mb-4">공지사항</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1">
+                <!---->
+            </div>
+            <div class="col-lg-10">
+                <h5 class="text-dark mb-4">공지사항 등록</h5>
+                <form th:action="@{/pointevent/insert}" method="post">
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">제목:</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">내용:</label>
+                        <textarea class="form-control" id="contents" name="contents" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">등록</button>
+                    <button type="button" class="btn btn-secondary"
+                            th:onclick="|location.href='@{/pointevent/select}'|">이전</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

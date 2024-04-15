@@ -12,23 +12,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class AnnouncementDTO {
-    private Long noticeIdx;
+    private Long noticeIdx;//공지사항 키
 
-    private String title;
+    private String title;//제목
 
-    private String contents;
+    private String contents;//내용
 
-    private String img;
+    private String img; //이미지
 
-    private Integer imgWidth;
+    private Integer imgWidth; //이미지 가로
 
-    private Integer imgHeight;
+    private Integer imgHeight; //이미지 세로
 
-    private String  noticeType;
+    private String delYn;//삭제유무
 
-    private Integer ref;
+    private LocalDateTime regdate;//등록일
 
-    private LocalDateTime regdate;
+    private LocalDateTime moddate;//수정일
 
-    private LocalDateTime moddate;
+    private String  noticeType;//공지 타입
+
+    private Integer ref;//조회수
+
+    private String realDelYn;//보임 안보임
 }

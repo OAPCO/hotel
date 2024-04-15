@@ -3,6 +3,8 @@ package com.exam.hotelgers.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Setter
@@ -20,28 +22,31 @@ import lombok.*;
 public class Announcement extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "announcement_sql")
-    private Long noticeIdx;
+    private Long noticeIdx;  //일련번호
 
     @Column(length = 200, nullable = false)
-    private String title;
+    private String title;  //제목, 생략불가능
 
     @Column(nullable = false)
-    private String contents;
+    private String contents;//내용
 
-    @Column(length = 200, nullable = false)
-    private String img;
+    private String img; //이미지
 
-    @Column(length = 11, nullable = false)
-    private Integer imgWidth;
+    private Integer imgWidth; //이미지 가로
 
-    @Column(length = 11, nullable = false)
-    private Integer imgHeight;
+    private Integer imgHeight; //이미지 세로
 
-    @Column(length = 1, nullable = false)
-    private String  noticeType;
+    private String delYn;//삭제유무
 
-    @Column(length = 11, nullable = false)
-    private Integer ref;
+    private LocalDateTime regdate;//등록일
+
+    private LocalDateTime moddate;//수정일
+
+    private String  noticeType;//공지타입
+
+    private Integer ref;//조회수
+
+    private String realDelYn;//보임 안보임
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name="noticeIdx")

@@ -18,7 +18,7 @@
             </div>
             <div class="col-lg-10">
                 <h5 class="text-dark mb-4">공지사항 등록</h5>
-                <form th:action="@{/announcement/insert}" method="post">
+                <form th:action="@{/announcement/insert}" method="post" enctype="multipart/form-data">
                     <div class="mb-3 mt-3">
                         <label class="form-label">제목:</label>
                         <input type="text" class="form-control" id="title" name="title">
@@ -27,6 +27,40 @@
                         <label class="form-label">내용:</label>
                         <textarea class="form-control" id="contents" name="contents" rows="5"></textarea>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label">이미지:</label>
+                        <input type="file" name="file" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">이미지 가로:</label>
+                        <input type="number" name="imgWidth">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">이미지 세로:</label>
+                        <input type="number" name="imgHeight">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">삭제유무:</label>
+                        <select name="delYn">
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">공지타입:</label>
+                        <select name="noticeType">
+                            <option value="0">공지</option>
+                            <option value="1">발표</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">노출:</label>
+                        <select name="realDelYn">
+                            <option value="Y">Yes</option>
+                            <option value="N">No</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="ref" value="0">
                     <button type="submit" class="btn btn-primary">등록</button>
                     <button type="button" class="btn btn-secondary"
                             th:onclick="|location.href='@{/announcement/select}'|">이전</button>
