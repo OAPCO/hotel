@@ -40,5 +40,9 @@ public class Order extends BaseEntity {
     @JoinColumn(name="storeIdx")
     private Store store;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="roomIdx")
+    private Room room;
+
 
 }

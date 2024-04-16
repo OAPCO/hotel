@@ -22,38 +22,39 @@
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">주문 등록</h4>
                             </div>
-                            <form class="user" th:action="@{/manager/order/register}" method="post">
+                            <form class="user" th:action="@{/manager/room/register}" method="post">
 
 
-
-                                <div class="mb-3"><input class="form-control form-control-user" type="text"
-                                                         id="orderCd"
-                                                         placeholder="주문코드" name="orderCd">
-                                </div>
-
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input class="form-control form-control-user" type="text" id="distCd"
-                                           placeholder="소속 총판 코드" name="distDTO.distCd">
-                                </div>
                                 <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input class="form-control form-control-user" type="text" id="branchCd"
-                                               placeholder="소속 지사 코드" name="branchDTO.branchCd">
-                                    </div>
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input class="form-control form-control-user" type="text" id="storeCd"
-                                               placeholder="소속 매장 코드" name="storeDTO.storeCd">
+                                               placeholder="매장 코드" name="storeDTO.storeCd">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="distCd"
+                                               placeholder="룸 번호" name="roomCd">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="roomName"
+                                               placeholder="룸명" name="roomName">
                                     </div>
                                 </div>
 
 
                                 <div class="row mb-3">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input class="form-control form-control-user" type="text" id="roomCd"
-                                               placeholder="룸 번호" name="roomDTO.roomCd">
+
+                                        <select class="form-select" name="roomType">
+                                            <option value="NORMAL">일반실</option>
+                                            <option value="SPECIAL">특실</option>
+                                            <option value="PARTYROOM">파티룸</option>
+                                        </select><br>
                                     </div>
                                 </div>
-
 
                                 <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account
                                 </button>

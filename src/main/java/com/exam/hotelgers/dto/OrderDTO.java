@@ -21,6 +21,7 @@ public class OrderDTO {
     private DistDTO distDTO;
     private BranchDTO branchDTO;
     private StoreDTO storeDTO;
+    private RoomDTO roomDTO;
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;
