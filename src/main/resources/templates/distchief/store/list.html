@@ -12,8 +12,8 @@
 <div layout:fragment="content">
     <div class="card">
         <div class="card-header" style="margin: 50px 20px;">
-            <h4 class="card-title">주문번호 조회</h4>
-            <form method="post" th:action="@{/manager/order/orderlist}">
+            <h4 class="card-title">매장(가맹점)관리</h4>
+            <form method="post" th:action="@{/distchief/store/list}">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -137,7 +137,7 @@
                 </table>
                 <div style="text-align: center;">
                     <button type="submit" class="btn btn-primary">조회</button>
-                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/manager/store/register}'|">신규등록</button>
+                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/distchief/store/register}'|">신규등록</button>
                 </div>
 
             </div>
@@ -188,7 +188,7 @@
                         <td>지역. 주소찾기 전체주소 부분. 다른사이트에서 떼오기</td>
                         <td th:text="${data.storeCd}"></td>
                         <td>
-                            <a th:text="${data.storeName}" th:href="@{'/manager/store/'+${data.storeIdx}}" ></a>
+                            <a th:text="${data.storeName}" th:href="@{'/distchief/store/'+${data.storeIdx}}" ></a>
                         </td>
                         <td th:text="${data.storeChiefEmail}"></td>
                         <td th:text="${data.storeChief}"></td>
@@ -208,8 +208,8 @@
                             <input class="form-check-input" type="checkbox" id="checkBanner" name="checkBanner">
                         </td>
 
-                        <td><a th:href="@{'/manager/store/modify/'+${data.storeIdx}}" >수정</a>
-                            /<a th:href="@{'/manager/store/delete/'+${data.storeIdx}}">삭제</a></td>
+                        <td><a th:href="@{'/distchief/store/modify/'+${data.storeIdx}}" >수정</a>
+                            /<a th:href="@{'/distchief/store/delete/'+${data.storeIdx}}">삭제</a></td>
                     </tr>
                     </tbody>
                 </table>

@@ -33,4 +33,17 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
                             @Param("storePType") StorePType storePType,
                             @Param("storeStatus") StoreStatus storeStatus,
                             Pageable pageable);
+
+    @Query("select o from Order o where (:distName is null or o.dist.distName LIKE %:distName%)"+
+            "and (:branchName is null or o.branch.branchName LIKE %:branchName%)"+
+            "and (:storeName is null or o.store.storeName LIKE %:storeName%)"+
+            "and (:orderCd is null or o.orderCd LIKE %:orderCd%)"+
+            "and (:roomCd is null or o.room.roomCd LIKE %:roomCd%)"
+    )
+    Page<Order> orderListSearch(@Param("distName") String distName,
+                            @Param("branchName") String branchName,
+                            @Param("storeName") String storeName,
+                            @Param("orderCd") String orderCd,
+                            @Param("roomCd") String roomCd,
+                            Pageable pageable);
 }
