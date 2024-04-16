@@ -22,10 +22,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Map;
 
+
+
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/manager")
 public class OrderController {
     
     private final OrderService orderService;
@@ -33,13 +34,13 @@ public class OrderController {
 
 
 
-    @GetMapping("/order/register")
+    @GetMapping("/manager/order/register")
     public String register() {
         return "manager/order/register";
     }
 
 
-    @PostMapping("/order/register")
+    @PostMapping("/manager/order/register")
     public String registerProc(@Valid OrderDTO orderDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -48,7 +49,7 @@ public class OrderController {
 
 
         if (bindingResult.hasErrors()) {
-            log.info("has error@@@@@@@@@");
+            log.info("has error");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
 
@@ -57,18 +58,16 @@ public class OrderController {
         Long orderIdx = orderService.register(orderDTO);
 
 
-        log.info("가게명 들어온거 확인 : " + orderDTO.getStoreDTO().getStoreName());
-        log.info("총판명 들어온거 확인 : " + orderDTO.getDistDTO().getDistName());
-        log.info("지사명 들어온거 확인 : " + orderDTO.getBranchDTO().getBranchName());
-
-
         redirectAttributes.addFlashAttribute("result", orderIdx);
 
         return "redirect:/manager/order/list";
     }
 
 
-    @PostMapping("/order/list")
+
+    //다중검색 포스트매핑 메소드.
+    //뷰에서 name으로 보낸 distName,branchName 등을 리퀘스트파람으로 받아서 저장합니다.
+    @PostMapping("/distchief/order/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
                            @RequestParam(value="branchName", required = false) String branchName,
@@ -77,21 +76,47 @@ public class OrderController {
                            @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus
     ){
 
-
-        log.info("들어온 총판 @@@@@ + " + distName);
-        log.info("들어온 상태 값 : @@ + " + storeStatus);
-        log.info("들어온 피타입 값 : @@ + " + storePType);
+        log.info("order listProc 도착 ");
 
 
-
+        //서비스에 만들어둔 다중검색(메소드명 searchList) 메소드의 파라미터 값에
+        //퀘스트파람으로 받아온 값을 넣어서 실행합니다.
         Page<OrderDTO> orderDTOS = orderService.searchList(distName,branchName,storeName,storePType,storeStatus,pageable);
 
 
+        //셀렉트박스에 출력 할 총판,지사,매장 리스트를 "searchService"에서 가져옵니다.
+        //order가 참조하는 테이블들의 모든 목록을 order의 인덱스 값 등으로 조회할 수 없으므로 필요한 코드입니다.
+        List<DistDTO> distList = searchService.distList();
+        List<BranchDTO> branchList = searchService.branchList();
+        List<StoreDTO> storeList = searchService.storeList();
 
+        
+        //orderDTOS에 페이지정보 담기
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+
+        //모델에 값을 담아서 뷰(html)로 보냅니다. addAttribute("뷰에서 쓸 변수명", 현재 가지고 있는 변수)
+        //여기서 앞 큰따옴표 안에 넣은 변수명을 뷰에서 사용할 수 있습니다.
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("branchList",branchList);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("list", orderDTOS);
+        return "distchief/order/list";
+    }
+
+    @GetMapping("/distchief/order/list")
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
+                           ) {
+
+        log.info("order listForm 도착 ");
+
+        Page<OrderDTO> orderDTOS = orderService.list(pageable);
 
         List<DistDTO> distList = searchService.distList();
         List<BranchDTO> branchList = searchService.branchList();
         List<StoreDTO> storeList = searchService.storeList();
+        List<RoomDTO> roomList = searchService.roomList();
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
@@ -100,41 +125,15 @@ public class OrderController {
         model.addAttribute("distList",distList);
         model.addAttribute("branchList",branchList);
         model.addAttribute("storeList",storeList);
+        model.addAttribute("roomList",roomList);
         model.addAttribute("list", orderDTOS);
-        return "manager/order/list";
-    }
-
-    @GetMapping("/order/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
-                           ) {
-
-        log.info("order listForm 도착 ");
-
-        Page<OrderDTO> storeDTOS = orderService.list(pageable);
-
-        List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
-        List<StoreDTO> storeList = searchService.storeList();
-
-
-
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
-        model.addAttribute("storeList",storeList);
-        model.addAttribute("list", storeDTOS);
-        return "manager/order/list";
+        return "distchief/order/list";
     }
 
 
 
 
-
-
-    @GetMapping("/order/modify/{orderIdx}")
+    @GetMapping("/manager/order/modify/{orderIdx}")
     public String modifyForm(@PathVariable Long orderIdx, Model model) {
 
         log.info("order modifyProc 도착 " + orderIdx);
@@ -147,7 +146,7 @@ public class OrderController {
     }
 
 
-    @PostMapping("/order/modify")
+    @PostMapping("/manager/order/modify")
     public String modifyProc(@Validated OrderDTO orderDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -168,7 +167,11 @@ public class OrderController {
         return "redirect:/manager/order/list";
     }
 
-    @GetMapping("/order/delete/{orderIdx}")
+
+
+
+
+    @GetMapping("/manager/order/delete/{orderIdx}")
     public String deleteProc(@PathVariable Long orderIdx) {
 
         orderService.delete(orderIdx);
@@ -176,13 +179,104 @@ public class OrderController {
         return "redirect:/manager/order/list";
     }
 
-    @GetMapping("/order/{orderIdx}")
+
+
+    @GetMapping("/manager/order/{orderIdx}")
     public String readForm(@PathVariable Long orderIdx, Model model) {
         OrderDTO orderDTO=orderService.read(orderIdx);
 
 
         model.addAttribute("data",orderDTO);
         return "manager/order/read";
+    }
+
+
+
+
+
+
+
+
+
+
+
+    //이 밑은 신경 안쓰셔도 됩니다
+    @GetMapping("/distchief/order/orderlist")
+    public String orderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    ) {
+
+        log.info("order orderlistForm 도착 ");
+
+        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+
+        List<DistDTO> distList = searchService.distList();
+        List<BranchDTO> branchList = searchService.branchList();
+        List<StoreDTO> storeList = searchService.storeList();
+        List<RoomDTO> roomList = searchService.roomList();
+
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("branchList",branchList);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("roomList",roomList);
+        model.addAttribute("list", orderDTOS);
+
+
+        return "distchief/order/orderlist";
+    }
+
+
+
+    @PostMapping("/distchief/order/orderlist")
+    public String orderlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           @RequestParam(value="distName", required = false) String distName,
+                           @RequestParam(value="branchName", required = false) String branchName,
+                           @RequestParam(value="storeName", required = false) String storeName,
+                           @RequestParam(value="orderCd", required = false) String orderCd,
+                           @RequestParam(value="roomCd", required = false) String roomCd ) {
+
+
+        log.info("들어온 총판 @@@@@ + " + distName);
+        log.info("들어온 총판 @@@@@ + " + branchName);
+        log.info("들어온 총판 @@@@@ + " + storeName);
+        log.info("들어온 총판 @@@@@ + " + orderCd);
+        log.info("들어온 총판 @@@@@ + " + roomCd);
+
+
+
+        Page<OrderDTO> orderDTOS = orderService.searchOrderList(distName,branchName,storeName,orderCd,roomCd,pageable);
+
+
+
+
+        List<DistDTO> distList = searchService.distList();
+        List<BranchDTO> branchList = searchService.branchList();
+        List<StoreDTO> storeList = searchService.storeList();
+        List<RoomDTO> roomList = searchService.roomList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("branchList",branchList);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("roomList",roomList);
+        model.addAttribute("list", orderDTOS);
+
+        return "distchief/order/orderlist";
+    }
+
+
+
+    @GetMapping("/distchief/order/orderManagement")
+    public void asdasd(){
+
     }
 
 }

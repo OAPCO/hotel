@@ -24,7 +24,6 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/manager")
 public class RoomController {
 
     private final RoomService roomService;
@@ -32,13 +31,13 @@ public class RoomController {
 
 
 
-    @GetMapping("/room/register")
+    @GetMapping("/manager/room/register")
     public String register() {
         return "manager/room/register";
     }
 
 
-    @PostMapping("/room/register")
+    @PostMapping("/manager/room/register")
     public String registerProc(@Valid RoomDTO roomDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -98,7 +97,7 @@ public class RoomController {
 //        return "manager/room/list";
 //    }
 
-    @GetMapping("/room/list")
+    @GetMapping("/manager/room/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
                            ) {
 
@@ -122,7 +121,7 @@ public class RoomController {
 
 
 
-    @GetMapping("/room/modify/{roomIdx}")
+    @GetMapping("/manager/room/modify/{roomIdx}")
     public String modifyForm(@PathVariable Long roomIdx, Model model) {
 
         log.info("room modifyProc 도착 " + roomIdx);
@@ -135,7 +134,7 @@ public class RoomController {
     }
 
 
-    @PostMapping("/room/modify")
+    @PostMapping("/manager/room/modify")
     public String modifyProc(@Validated RoomDTO roomDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -156,7 +155,7 @@ public class RoomController {
         return "redirect:/manager/room/list";
     }
 
-    @GetMapping("/room/delete/{roomIdx}")
+    @GetMapping("/manager/room/delete/{roomIdx}")
     public String deleteProc(@PathVariable Long roomIdx) {
 
         roomService.delete(roomIdx);
@@ -164,7 +163,7 @@ public class RoomController {
         return "redirect:/manager/room/list";
     }
 
-    @GetMapping("/room/{roomIdx}")
+    @GetMapping("/manager/room/{roomIdx}")
     public String readForm(@PathVariable Long roomIdx, Model model) {
 
 

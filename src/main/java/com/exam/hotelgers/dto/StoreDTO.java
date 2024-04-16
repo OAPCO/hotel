@@ -69,6 +69,7 @@ public class StoreDTO {
 
     private List<ImageDTO> dtoList = new ArrayList<>();
     private List<OrderDTO> orderDTOList;
+    private List<RoomDTO> roomDTOList;
 
 
     private LocalDateTime regdate;
