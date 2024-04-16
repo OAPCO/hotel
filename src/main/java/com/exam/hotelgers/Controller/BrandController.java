@@ -1,37 +1,51 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.BrandDTO;
+import com.exam.hotelgers.constant.StoreGrade;
+import com.exam.hotelgers.constant.StorePType;
+import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.Brand;
+import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.repository.DistRepository;
 import com.exam.hotelgers.service.BrandService;
+import com.exam.hotelgers.service.DistService;
+import com.exam.hotelgers.service.PageService;
+import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 @Log4j2
 public class BrandController {
-    
+
     private final BrandService brandService;
+    private final SearchService searchService;
+    private final DistRepository distRepository;
 
 
 
     @GetMapping("/brand/register")
-    public String register() {
-        return "brand/register";
+    public String registerForm(Model model) {
+        List<String> distCd = distRepository.findAllDistCds();
+        model.addAttribute("distCd", distCd);
+        return "/brand/register";
     }
 
 
@@ -58,17 +72,58 @@ public class BrandController {
     }
 
 
+    //전체 목록
     @GetMapping("/brand/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
-
+    public String selectForm(@PageableDefault(page=1) Pageable pageable, Model model) {
         log.info("brand listForm 도착 ");
 
         Page<BrandDTO> brandDTOS = brandService.list(pageable);
 
+        List<DistDTO> distList = searchService.distList();
+        List<BranchDTO> branchList = searchService.branchList();
+
+
         Map<String, Integer> pageinfo = PageConvert.Pagination(brandDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("list", brandDTOS);
+        model.addAttribute("distList",distList);
+        model.addAttribute("branchList",branchList);
+        model.addAttribute("brandList", brandDTOS);
+        return "brand/list";
+    }
+
+
+
+
+
+
+    @PostMapping("/brand/list")
+    public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           @RequestParam(value="distChiefEmail", required = false) String distChiefEmail,
+                           @RequestParam(value="distName", required = false) String distName,
+                           @RequestParam(value="brandName", required = false) String brandName,
+                           @RequestParam(value="brandCd", required = false) String brandCd,
+                           @RequestParam(value="StoreStatus", required = false) StoreStatus storestatus
+    )
+    {
+
+
+        Page<BrandDTO> brandDTOS = brandService.searchList(distChiefEmail,distName, brandName, brandCd, storestatus,
+                pageable);
+
+
+        List<DistDTO> distList = searchService.distList();
+        List<BranchDTO> branchList = searchService.branchList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(brandDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("storeStatuses", storestatus);
+        model.addAttribute("distList",distList);
+        model.addAttribute("branchList",branchList);
+        model.addAttribute("brandList", brandDTOS);
+
         return "brand/list";
     }
 
@@ -81,6 +136,9 @@ public class BrandController {
         log.info("brand modifyProc 도착 " + brandIdx);
 
         BrandDTO brandDTO = brandService.read(brandIdx);
+
+        List<String> distCd = distRepository.findAllDistCds();
+        model.addAttribute("distCd", distCd);
 
         log.info("수정 전 정보" + brandDTO);
         model.addAttribute("brandDTO", brandDTO);

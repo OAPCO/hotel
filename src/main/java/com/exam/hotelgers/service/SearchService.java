@@ -66,35 +66,12 @@ public class SearchService {
     }
 
 
-
-
-//    public List<SearchDTO> searchStoreList(Pageable pageable,SearchDTO searchDTO) {
-//
-//        int currentPage = pageable.getPageNumber() - 1;
-//        int pageCnt = 5;
-//        pageable = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
-//
-//
-//        Page<StoreDTO> storeList = storeService.list(pageable);
-//        Optional<Dist> dist = distRepository.findByDistName(searchDTO.getDistName());
-//        // 다른 서비스를 이용하여 정보를 가져옴...
-//
-//        // 가져온 정보들을 조합하여 검색 결과를 생성
-////        for (StoreDTO store : storeList) {
-////            for (DistDTO dist : dist) {
-////                if (store.getStoreIdx().equals(storeIdx) && dist.getDistIdx().equals(distIdx)) {
-////                    SearchResultDTO result = new SearchResultDTO();
-////                    result.setStoreDTO(store);
-////                    result.setDistDTO(dist);
-////                    // 필요한 대로 다른 정보도 추가...
-////
-////                    searchResults.add(result);
-////                }
-////            }
-////        }
-//
-//        return stores.map(this::convertToDTO);
-//    }
+    public List<StoreDTO> storeList() {
+        List<Store> stores = storeRepository.findAll();
+        return stores.stream()
+                .map(store -> modelMapper.map(store, StoreDTO.class))
+                .collect(Collectors.toList());
+    }
 
 
 

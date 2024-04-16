@@ -69,5 +69,4 @@ public interface StoreRepository extends JpaRepository<Store, Long>, Search {
 
 
 
-
 }
