@@ -107,6 +107,9 @@ public class Store extends BaseEntity{
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
 
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<Room> roomList = new ArrayList<>();
+
 
 
 

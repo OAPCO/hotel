@@ -30,7 +30,6 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/manager")
 public class StoreController {
     
     private final StoreService storeService;
@@ -58,13 +57,13 @@ public class StoreController {
 
 
 
-    @GetMapping("/store/register")
+    @GetMapping("/manager/store/register")
     public String register() {
         return "manager/store/register";
     }
 
 
-    @PostMapping("/store/register")
+    @PostMapping("/manager/store/register")
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
@@ -96,7 +95,7 @@ public class StoreController {
     }
 
 
-    @PostMapping("/store/list")
+    @PostMapping("/manager/store/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
                            @RequestParam(value="branchName", required = false) String branchName,
@@ -141,7 +140,7 @@ public class StoreController {
         return "manager/store/list";
     }
 
-    @GetMapping("/store/list")
+    @GetMapping("/manager/store/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
                            ) {
 
@@ -170,7 +169,7 @@ public class StoreController {
 
 
 
-    @GetMapping("/store/modify/{storeIdx}")
+    @GetMapping("/manager/store/modify/{storeIdx}")
     public String modifyForm(@PathVariable Long storeIdx, Model model) {
 
         log.info("store modifyProc 도착 " + storeIdx);
@@ -183,7 +182,7 @@ public class StoreController {
     }
 
 
-    @PostMapping("/store/modify")
+    @PostMapping("/manager/store/modify")
     public String modifyProc(@Validated StoreDTO storeDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -204,7 +203,7 @@ public class StoreController {
         return "redirect:/manager/store/list";
     }
 
-    @GetMapping("/store/delete/{storeIdx}")
+    @GetMapping("/manager/store/delete/{storeIdx}")
     public String deleteProc(@PathVariable Long storeIdx) {
 
         storeService.delete(storeIdx);
@@ -213,8 +212,8 @@ public class StoreController {
     }
 
 
-    @GetMapping("/store/{storeIdx}")
-    public String readForm(@PathVariable Long storeIdx, Model model, RedirectAttributes redirectAttributes) {
+    @GetMapping("/manager/store/{storeIdx}")
+    public String readForm(@PathVariable Long storeIdx, Model model) {
 
 
         StoreDTO storeDTO = storeService.read(storeIdx);

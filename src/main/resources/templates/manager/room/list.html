@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body id="page-top">
+<div layout:fragment="content">
+<div class="card" style="margin: 50px 20px;">
+    <div class="card-body">
+        <h4 class="card-title">룸 관리</h4>
+        <div class="table-responsive">
+
+            <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/manager/room/register}'|">신규 등록</button>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>룸 순서</th>
+                    <th>룸 구분</th>
+                    <th>룸 번호</th>
+                    <th>룸 명</th>
+                    <th>룸정보 수정</th>
+                    <th>룸 삭제</th>
+                    <th>주문현황</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="data:${list}">
+                    <td th:text="${data.roomIdx}"></td>
+                    <td>
+                        <th:block th:switch="${data.roomType.name()}">
+                            <span th:case="NORMAL">일반실</span>
+                            <span th:case="SPECIAL">특실</span>
+                            <span th:case="PARTYROOM">파티룸</span>
+                        </th:block>
+                    </td>
+                    <td th:text="${data.roomCd}"></td>
+                    <td>
+                        <a th:text="${data.roomName}" th:href="@{'/manager/room/'+${data.roomIdx}}" ></a>
+                    </td>
+                    <td><button class="btn btn-primary" type="button" th:onclick="|location.href='@{'/manager/room/modify/'+${data.roomIdx}}'|">수정</button></td>
+                    <td><button class="btn btn-secondary" type="button" th:onclick="|location.href='@{'/manager/room/delete/'+${data.roomIdx}}'|">삭제</button></td>
+                    <td><button class="btn btn-info" type="button" th:onclick="|location.href='@{'/manager/room/'+${data.roomIdx}}'|">주문 현황</button></td>
+
+
+
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+            <ul class="mt-3 pagination">
+                <li class="page-item"><a class="page-link" th:href="@{/manager/room/list(page=${prevPage})}"><</a></li>
+                <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
+                        <li class="page-item active" th:if="${page == currentPage}">
+                            <a class="page-link" href="#">[[${page}]]</a>
+                        </li>
+                        <li class="page-item" th:unless="${page == currentPage}">
+                            <a class="page-link" th:href="@{/manager/room/list(page=${page})}">[[${page}]]</a>
+                        </li>
+                    </span>
+                <li class="page-item"><a class="page-link" th:href="@{/manager/room/list(page=${nextPage})}">></a></li>
+            </ul>
+    </div>
+</div>
+</div>
+</body>
+</html>

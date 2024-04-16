@@ -5,10 +5,7 @@ import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.dto.OrderDTO;
-import com.exam.hotelgers.entity.Branch;
-import com.exam.hotelgers.entity.Store;
-import com.exam.hotelgers.entity.Dist;
-import com.exam.hotelgers.entity.Order;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +29,8 @@ public class OrderService {
     private final DistRepository distRepository;
     private final BranchRepository branchRepository;
     private final StoreRepository storeRepository;
+    private final RoomRepository roomRepository;
+
 
 
 
@@ -41,6 +40,7 @@ public class OrderService {
         Optional<Dist> dist = distRepository.findByDistCd(orderDTO.getDistDTO().getDistCd());
         Optional<Branch> branch = branchRepository.findByBranchCd(orderDTO.getBranchDTO().getBranchCd());
         Optional<Store> store = storeRepository.findByStoreCd(orderDTO.getStoreDTO().getStoreCd());
+        Optional<Room> room = roomRepository.findByRoomCd(orderDTO.getRoomDTO().getRoomCd());
 
 
         if (!dist.isPresent()) {
@@ -52,8 +52,9 @@ public class OrderService {
         if (!store.isPresent()) {
             throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
         }
-
-
+        if (!room.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 룸 코드입니다.");
+        }
 
 
 
@@ -66,22 +67,20 @@ public class OrderService {
         }
 
 
-
-
         Order order = modelMapper.map(orderDTO, Order.class);
-
-
 
 
         order.setDist(dist.get());
         order.setBranch(branch.get());
         order.setStore(store.get());
+        order.setRoom(room.get());
 
 
 //        store.ifPresent(s -> orderDTO.getStoreDTO().setStoreName(s.getStoreName()));
         modelMapper.map(store.get(), orderDTO.getStoreDTO());
         modelMapper.map(branch.get(), orderDTO.getBranchDTO());
         modelMapper.map(dist.get(), orderDTO.getDistDTO());
+        modelMapper.map(room.get(), orderDTO.getRoomDTO());
 
 
         orderRepository.save(order);
