@@ -1,0 +1,109 @@
+<!-----------------------------------
+프로그램명 : 매장별 회원관리 입력폼
+작성일 : 2024-04-09
+작성자 : 조영규
+기  능 : 매장별 회원을 등록
+작업내역 : 1. 입력폼(24-04-09)
+         2. 입력테스트(24-04-10)
+         3. 작업완료
+----------------------------------->
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+<h3 class="text-dark mb-4">매장 회원관리</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1">
+                <!---->
+            </div>
+            <div class="col-lg-10">
+                <h5 class="text-dark mb-4">매장 회원수정</h5>
+                <form th:action="@{/sales/update}" method="post" th:object="${salesDTO}">
+                    <input type="hidden" name="storeMemberIdx" th:field="*{salesidx}" readonly>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">결제일자</div>
+                        <div class="col-sm-4 border">
+                            <input type="date" id="date" name="date">
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">매장코드</div>
+                        <div class="col-sm-4 border">
+                            <input type=text name="storecd">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">매장명</div>
+                        <div class="col-sm-4 border">
+                            <input type=text name="storename">
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">주문번호</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" name="ordernum">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 border">결제번호</div>
+                        <div class="col-sm-4 border">
+                            <input type="text" name="paymentnum">
+                        </div>
+                        <div class="col-sm-2 border">회원ID</div>
+                        <div class="col-sm-4 border">
+                            <input type="text" name="id">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 border">결제금액(원)</div>
+                        <div class="col-sm-4 border">
+                            <input type="number" name="payment">
+                        </div>
+                        <div class="col-sm-2 border">결제방식</div>
+                        <div class="col-sm-4 border">
+                            <select class="form-select" name="payment_method">
+                                <option value="오프라인결제">오프라인결제</option>
+                                <option value="후결제">후결제</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 border">PG수수료(원)</div>
+                        <div class="col-sm-4 border">
+                            <input type="number" name="PG">
+                        </div>
+                        <div class="col-sm-2 border">매장송금액(원)</div>
+                        <div class="col-sm-4 border">
+                            <input type="number" name="storeremittance">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 border">순매출(원)</div>
+                        <div class="col-sm-4 border">
+                            <input type="number" name="net_sales">
+                        </div>
+                        <div class="col-sm-2 border">처리상태</div>
+                        <div class="col-sm-4 border">
+                            <select class="form-select" name="processing_status">
+                                <option value="결제완료">결제완료</option>
+                                <option value="취소완료">취소완료</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary">수정</button>
+                        <button type="submit" class="btn btn-primary">취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

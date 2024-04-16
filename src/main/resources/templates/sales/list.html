@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--왼쪽여백-->
+            </div>
+            <div class="col-lg-10">
+                <!-- 검색 영역 -->
+                <form th:action="@{/sales/list}" method="get" th:object="${salesDTO}">
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">총판조직</div>
+                        <div class="col-sm-4 border">
+                            <select class="form-select" name="distributor_organization">
+                                <option value="">전체</option>
+                                <option value="1">1호텔</option>
+                                <option value="2">2호텔</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">지사</div>
+                        <div class="col-sm-4 border">
+                            <select class="form-select" name="Branch">
+                                <option value="">전체</option>
+                                <option value="1">서울</option>
+                                <option value="2">인천</option>
+                                <option value="3">부산</option>
+                                <option value="4">대전</option>
+                                <option value="5">대구</option>
+                                <option value="6">광주</option>
+                                <option value="7">울산</option>
+                                <option value="8">경기도</option>
+                                <option value="9">강원도</option>
+                                <option value="10">충청도</option>
+                                <option value="11">전라도</option>
+                                <option value="12">경상도</option>
+                                <option value="13">제주도</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">매장</div>
+                        <div class="col-sm-4 border">
+                            <select class="form-select" name="store">
+                                <option value="">전체</option>
+                                <option value="1">1매장</option>
+                                <option value="2">2매장</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">매장명</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" name="storename" th:field="*{storename}">
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">일자선택</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="date" name="date" th:field="*{date}">~<input type="date" name="date" th:field="*{date}">
+                            <input type="radio" name="date" value="1m">이번달
+                            <input type="radio" name="date" value="3m">3개월
+                            <input type="radio" name="date" value="6m">6개월
+                            <input type="radio" name="date" value="1y">1년
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">결제방식</div>
+                        <div class="col-sm-4 border">
+                            <input type="radio" name="payment_method" value="전체" checked="checked">전체
+                            <input type="radio" name="payment_method" value="오프라인결제">오프라인결제
+                            <input type="radio" name="payment_method" value="후결제">후결제
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">처리상태</div>
+                        <div class="col-sm-4 border d-flex"> <!--d-flax : 가로출력-->
+                            <input type="radio" name="processing_status" value="전체" checked="checked">전체
+                            <input type="radio" name="processing_status" value="결제완료">결제완료
+                            <input type="radio" name="processing_status" value="취소완료">취소완료
+                        </div>
+                    </div>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary">조회</button>
+                    </div>
+                </form>
+                <!-- 검색 영역 끝 -->
+                <h2>목록</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>결제일자</th>
+                        <th>매장코드</th>
+                        <th>매장명</th>
+                        <th>주문번호</th>
+                        <th>결제번호</th>
+                        <th>회원ID</th>
+                        <th>결제금액(원)</th>
+                        <th>결제방식</th>
+                        <th>PG수수료(원)</th>
+                        <th>매장송금액(원)</th>
+                        <th>순매출(원)</th>
+                        <th>처리상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.salesidx}">1</td>
+                        <td th:text="${data.date}">임시</td>
+                        <td th:text="${data.storecd}">임시</td>
+                        <td><a th:href="@{'/sales/'+${data.salesidx}}"
+                               th:text="${data.storename}">임시</a></td>
+                        <td th:text="${data.ordernum}">임시</td>
+                        <td th:text="${data.paymentnum}">임시</td>
+                        <td th:text="${data.id}">임시</td>
+                        <td th:text="${data.payment}">임시</td>
+                        <td th:text="${data.payment_method}">임시</td>
+                        <td th:text="${data.PG}">임시</td>
+                        <td th:text="${data.storeremittance}">임시</td>
+                        <td th:text="${data.net_sales}">임시</td>
+                        <td th:text="${data.processing_status}">임시</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/sales/register}'|">등록
+                </button>
+                <!-- 페이지 영역 -->
+                <ul class="pagination">
+                    <li class="page-item" th:unless="${startPage==1}">
+                        <a class="page-link" th:href="@{/sales/list(page=1)}">처음</a></li>
+                    <li class="page-item" th:unless="${currentPage==1}">
+                        <a class="page-link" th:href="@{/sales/list(page=${prevPage})}">이전</a></li>
+                    <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
+                    <!-- 다른페이지-->
+                    <li class="page-item" th:unless="${page == currentPage}">
+                        <a class="page-link" th:href="@{/sales/list(page=${page})}">[[${page}]]</a>
+                    </li>
+                        <!--활성화(현재위치)-->
+                    <li class="page-item active" th:if="${page == currentPage}">
+                        <a class="page-link" href="#">[[${page}]]</a>
+                    </li>
+                </span>
+                    <li class="page-item" th:unless="${currentPage>=lastPage}">
+                        <a class="page-link" th:href="@{/sales/list(page=${nextPage})}">다음</a></li>
+                    <li class="page-item" th:unless="${endPage==lastPage}">
+                        <a class="page-link" th:href="@{/sales/list(page=${lastPage})}">끝</a></li>
+                </ul>
+                <!-- 페이지 영역 끝 -->
+            </div>
+            <div class="col-lg-3">
+                <!--오른쪽여백-->
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    /* 작업 후 메시지가 있는지 확인하고 팝업으로 표시합니다. */
+    var processMessage = /*[[${processMessage}]]*/ null;
+    if (processMessage) {
+        alert(processMessage);
+        processMessage="";
+    }
+</script>
+</body>
+
+</html>

@@ -20,12 +20,63 @@
                 <h5 class="text-dark mb-4">공지사항 등록</h5>
                 <form th:action="@{/pointevent/insert}" method="post">
                     <div class="mb-3 mt-3">
-                        <label class="form-label">제목:</label>
-                        <input type="text" class="form-control" id="title" name="title">
+                        <label class="form-label">이벤트명:</label>
+                        <input type="text" class="form-control" id="pointEventName" name="pointEventName">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">내용:</label>
-                        <textarea class="form-control" id="contents" name="contents" rows="5"></textarea>
+                        <label class="form-label">이벤트유형:</label>
+                        <input type="text" class="form-control" id="pointEventType" name="pointEventType">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">대상매장:</label>
+                        <input type="text" class="form-control" id="storeCd" name="storeCd">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">유효기간여부:</label>
+                        <select name="expiryDateYn">
+                            <option value="Y">YES</option>
+                            <option value="N">NO</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventStartDate">이벤트 시작일:
+                            <input type="date" name="eventStartDate"
+                                   id="eventStartDate"
+                                   max="2077-12-31"
+                                   min="2020-01-01"
+                                   value="2024-04-16">
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="eventEndDate">이벤트 종료일:
+                            <input type="date" name="eventEndDate"
+                                   id="eventEndDate"
+                                   max="2077-12-31"
+                                   min="2020-01-01"
+                                   value="2024-04-16">
+                        </label>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">이벤트 포인트:</label>
+                        <input type="number" class="form-control" id="eventPoint" name="eventPoint">
+                        <label class="form-label">(point)</label>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">회원별 설정(ALL,MEMBER):</label>
+                        <select name="pointMemberType">
+                            <option value="A">ALL</option>
+                            <option value="M">MEMBER</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">최소구매금액:</label>
+                        <input type="number" class="form-control" id="minBuyMoney" name="minBuyMoney">
+                        <label class="form-label">(원)</label>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">매장부담율:</label>
+                        <input type="number" class="form-control" id="shopPayRate" name="shopPayRate">
+                        <label class="form-label">(%)</label>
                     </div>
                     <button type="submit" class="btn btn-primary">등록</button>
                     <button type="button" class="btn btn-secondary"

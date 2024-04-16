@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+<body>
+<!--개발 완료 후 위에 head부분을 삭제합니다-->
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--왼쪽여백-->
+            </div>
+            <div class="col-lg-6">
+                <!--상세정보-->
+                <div class="card">
+                    <div class="card-header">상세보기</div>
+                    <div class="card-body">
+                        <p>no: <span th:text="${data.salesidx}"></span></p>
+                        <p>결제일자: <span th:text="${data.date}"></span></p>
+                        <p>매장코드: <span th:text="${data.storecd}"></span></p>
+                        <p>매장명: <span th:text="${data.storename}"></span></p>
+                        <p>주문번호: <span th:text="${data.ordernum}"></span></p>
+                        <p>결제번호: <span th:text="${data.paymentnum}"></span></p>
+                        <p>회원ID: <span th:text="${data.id}"></span></p>
+                        <p>결제금액(원): <span th:text="${data.payment}"></span></p>
+                        <p>결제방식: <span th:text="${data.payment_method}"></span></p>
+                        <p>PG수수료(원): <span th:text="${data.PG}"></span></p>
+                        <p>매장송금액(원): <span th:text="${data.storeremittance}"></span></p>
+                        <p>순매출(원): <span th:text="${data.net_sales}"></span></p>
+                        <p>처리상태: <span th:text="${data.processing_status}"></span></p>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary"
+                                th:onclick="|location.href='@{/sales/list}'|">목록</button>
+                        <button type="button" class="btn btn-secondary"
+                                th:onclick="|location.href='@{/sales/update/}'+${data.salesidx}|">수정</button>
+                        <button type="button" class="btn btn-danger"
+                                th:onclick="|location.href='@{/sales/delete/}'+${data.salesidx}|">삭제</button>
+                    </div>
+                </div>
+                <!--상세정보 끝-->
+            </div>
+            <div class="col-lg-3">
+                <!--오른쪽여백-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

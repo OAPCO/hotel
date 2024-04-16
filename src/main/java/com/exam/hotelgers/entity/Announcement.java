@@ -38,10 +38,6 @@ public class Announcement extends BaseEntity{
 
     private String delYn;//삭제유무
 
-    private LocalDateTime regdate;//등록일
-
-    private LocalDateTime moddate;//수정일
-
     private String  noticeType;//공지타입
 
     private Integer ref;//조회수

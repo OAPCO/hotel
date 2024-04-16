@@ -28,21 +28,58 @@
             <div class="col-lg-10">
                 <h5 class="text-dark mb-4">공지사항 수정</h5>
                 <form th:action="@{/pointevent/update}" method="post" th:object="${pointeventDTO}">
-                    <input type="text" name="pointEventIdx" th:field="*{pointEventIdx}" readonly>
+                    <input type="hidden" name="pointEventIdx" th:field="*{pointEventIdx}" readonly>
                     <div class="row">
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">제목</div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트명</div>
                         <div class="col-lg-3 p-1 text-black">
-                            <input type="text" placeholder="이메일" name="title" th:field="*{title}">
+                            <input type="text" name="pointEventName" th:field="*{pointEventName}">
                         </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">내용</div>
-                        <div class="col-lg-3 p-1 text-black" name="contents">
-                            <input type="text">
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트유형</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" name="pointEventType" th:field="*{pointEventType}">
+                        </div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">대상매장</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" name="storeCd" th:field="*{storeCd}">
+                        </div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트 시작일</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="date" name="eventStartDate"
+                                   id="eventStartDate"
+                                   max="2077-12-31"
+                                   min="2020-01-01"
+                                   value="2024-04-16">
+                        </div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트 종료일</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="date" name="eventEndDate"
+                                   id="eventEndDate"
+                                   max="2077-12-31"
+                                   min="2020-01-01"
+                                   value="2024-04-16">
+                        </div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트 포인트</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="number" name="eventPoint" th:field="*{eventPoint}">
+                        </div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">회원별 설정(ALL,MEMBER)</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <select name="pointMemberType">
+                                <option value="A">ALL</option>
+                                <option value="M">MEMBER</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">최소구매금액</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="number" name="minBuyMoney" th:field="*{minBuyMoney}">
+                        </div>
+                        <div class="col-lg-3 p-1 bg-gray-200 text-black">매장부담율</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="number" name="shopPayRate" th:field="*{shopPayRate}">
                         </div>
                     </div>
                     <div class="container d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-primary">수정</button>
-                    </div>
-                    <div class="container d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-primary">취소</button>
                     </div>
                 </form>

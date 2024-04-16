@@ -20,8 +20,17 @@
                 <div class="card">
                     <div class="card-header">상세보기</div>
                     <div class="card-body">
-                        <p>no: <span th:text="${data.title}"></span></p>
-                        <p>유저권한: <span th:textarea="${data.contents}"></span></p>
+                        <p>no: <span th:text="${data.pointEventIdx}"></span></p>
+                        <p>이벤트명: <span th:text="${data.pointEventName}"></span></p>
+                        <p>이벤트유형: <span th:text="${data.pointEventType}"></span></p>
+                        <p>대상매장: <span th:text="${data.storeCd}"></span></p>
+                        <p>유효기간여부: <span th:text="${data.expiryDateYn}"></span></p>
+                        <p>이벤트 시작일: <span th:text="${data.eventStartDate}"></span></p>
+                        <p>이벤트 종료일: <span th:text="${data.eventEndDate}"></span></p>
+                        <p>이벤트 포인트: <span th:text="${data.eventPoint}"></span>(P)</p>
+                        <p>회원별 설정(ALL,MEMBER): <span th:text="${data.pointMemberType}"></span></p>
+                        <p>최소구매금액: <span th:text="${data.minBuyMoney}"></span>(원)</p>
+                        <p>매장부담율: <span th:text="${data.shopPayRate}"></span>(%)</p>
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn btn-primary"
