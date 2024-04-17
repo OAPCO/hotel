@@ -19,93 +19,66 @@
 
 <body id="page-top">
 <div layout:fragment="content">
-<h3 class="text-dark mb-4">매출 관리</h3>
+<h3 class="text-dark mb-4">매출분석</h3>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-1">
                 <!---->
             </div>
             <div class="col-lg-10">
-                <h5 class="text-dark mb-4">매출 수정</h5>
-                <form th:action="@{/sales/update}" method="post" th:object="${salesDTO}">
-                    <input type="hidden" name="storeMemberIdx" th:field="*{salesidx}" readonly>
+                <h5 class="text-dark mb-4">매출등록</h5>
+                <form th:action="@{/salesmonth/register}" method="post">
                     <div class="row">
                         <div class="col-sm-2 bg-gray-200 text-black">결제일자</div>
                         <div class="col-sm-4 border">
-                            <input type="date" name="date" th:field="*{date}">
+                            <input type="date" name="date">
                         </div>
-                        <div class="col-sm-2 bg-gray-200 text-black">매장코드</div>
+                        <div class="col-sm-2 bg-gray-200 text-black">합산금액(원)</div>
                         <div class="col-sm-4 border">
-                            <input type=text name="storecd" th:field="*{storecd}">
+                            <input type="number" name="Total_amount">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-2 bg-gray-200 text-black">매장명</div>
+                        <div class="col-sm-2 bg-gray-200 text-black">오프라인 결제금액(원)</div>
                         <div class="col-sm-4 border">
-                            <input type=text name="storename" th:field="*{storename}">
+                            <input type="number" name="Offline_payment_amount">
                         </div>
-                        <div class="col-sm-2 bg-gray-200 text-black">주문번호</div>
+                        <div class="col-sm-2 bg-gray-200 text-black">PG결제금액(원)</div>
                         <div class="col-lg-3 p-1 text-black">
-                            <input type="text" name="ordernum" th:field="*{ordernum}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2 border">결제번호</div>
-                        <div class="col-sm-4 border">
-                            <input type="text" name="paymentnum" th:field="*{paymentnum}">
-                        </div>
-                        <div class="col-sm-2 border">회원ID</div>
-                        <div class="col-sm-4 border">
-                            <input type="text" name="id" th:field="*{id}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2 border">결제금액(원)</div>
-                        <div class="col-sm-4 border">
-                            <input type="number" name="payment" th:field="*{payment}">
-                        </div>
-                        <div class="col-sm-2 border">결제방식</div>
-                        <div class="col-sm-4 border">
-                            <select class="form-select" name="payment_method" th:field="*{payment_method}">
-                                <option value="오프라인결제">오프라인결제</option>
-                                <option value="후결제">후결제</option>
-                            </select>
+                            <input type="number" name="PG_payment_amount">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2 border">PG수수료(원)</div>
                         <div class="col-sm-4 border">
-                            <input type="number" name="PG" th:field="*{PG}">
+                            <input type="number" name="PG_fee">
                         </div>
-                        <div class="col-sm-2 border">매장송금액(원)</div>
+                        <div class="col-sm-2 border">건별수수료(원)</div>
                         <div class="col-sm-4 border">
-                            <input type="number" name="storeremittance" th:field="*{storeremittance}">
+                            <input type="number" name="Fee_per_case">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-2 border">순매출(원)</div>
+                        <div class="col-sm-2 border">월정수수료(원)</div>
                         <div class="col-sm-4 border">
-                            <input type="number" name="net_sales" th:field="*{net_sales}">
+                            <input type="number" name="Monthly_fee">
                         </div>
-                        <div class="col-sm-2 border">처리상태</div>
+                        <div class="col-sm-2 border">매장송금액(원)</div>
                         <div class="col-sm-4 border">
-                            <select class="form-select" name="processing_status" th:field="*{processing_status}">
-                                <option value="결제완료">결제완료</option>
-                                <option value="취소완료">취소완료</option>
-                            </select>
+                            <input type="number" name="storeremittance">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2 border">총판조직</div>
                         <div class="col-sm-4 border">
-                            <select class="form-select" name="distributor_organization" th:field="*{distributor_organization}">
+                            <select class="form-select" name="distributor_organization">
                                 <option value="1호텔">1호텔</option>
                                 <option value="2호텔">2호텔</option>
                             </select>
                         </div>
                         <div class="col-sm-2 border">지사</div>
                         <div class="col-sm-4 border">
-                            <select class="form-select" name="Branch" th:field="*{branch}">
+                            <select class="form-select" name="Branch">
                                 <option value="서울">서울</option>
                                 <option value="인천">인천</option>
                                 <option value="부산">부산</option>
@@ -125,16 +98,16 @@
                     <div class="row">
                         <div class="col-sm-2 border">매장</div>
                         <div class="col-sm-4 border">
-                            <select class="form-select" name="store" th:field="*{store}">
+                            <select class="form-select" name="store">
                                 <option value="1매장">1매장</option>
                                 <option value="2매장">2매장</option>
                             </select>
                         </div>
                     </div>
                     <div class="container d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-primary">수정</button>
+                        <button type="submit" class="btn btn-primary">등록</button>
                         <button type="button" class="btn btn-secondary"
-                                th:onclick="|location.href='@{/sales/read{id}}'|">이전</button>
+                                th:onclick="|location.href='@{/salesmonth/list}'|">취소</button>
                     </div>
                 </form>
             </div>

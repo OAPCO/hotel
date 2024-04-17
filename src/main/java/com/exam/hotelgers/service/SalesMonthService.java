@@ -1,9 +1,8 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.SalesDTO;
-import com.exam.hotelgers.dto.SalesDTO;
-import com.exam.hotelgers.entity.Sales;
-import com.exam.hotelgers.repository.SalesRepository;
+import com.exam.hotelgers.dto.SalesMonthDTO;
+import com.exam.hotelgers.entity.SalesMonth;
+import com.exam.hotelgers.repository.SalesMonthRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -13,77 +12,72 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class SalesService {
-    private final SalesRepository salesRepository;
+public class SalesMonthService {
+    private final SalesMonthRepository salesMonthRepository;
     private final ModelMapper modelMapper;
 
     //삽입
-    public Sales insert(SalesDTO salesDTO) {
-        Sales sales = modelMapper.map(salesDTO, Sales.class);
-        Sales result = salesRepository.save(sales);
+    public SalesMonth insert(SalesMonthDTO salesMonthDTO) {
+        SalesMonth salesMonth = modelMapper.map(salesMonthDTO, SalesMonth.class);
+        SalesMonth result = salesMonthRepository.save(salesMonth);
 
         return result;
     }
 
     //수정
-    public SalesDTO update(SalesDTO salesDTO) {
-        Optional<Sales> search = salesRepository.findById(salesDTO.getSalesidx());
+    public SalesMonthDTO update(SalesMonthDTO salesMonthDTO) {
+        Optional<SalesMonth> search = salesMonthRepository.findById(salesMonthDTO.getSalesmonthidx());
 
         if(search.isPresent()) {
-            Sales storeMember = modelMapper.map(salesDTO, Sales.class);
-            salesRepository.save(storeMember);
+            SalesMonth storeMember = modelMapper.map(salesMonthDTO, SalesMonth.class);
+            salesMonthRepository.save(storeMember);
         }
-        SalesDTO result = search.map(data ->modelMapper.map(data, SalesDTO.class)).orElse(null);
+        SalesMonthDTO result = search.map(data ->modelMapper.map(data, SalesMonthDTO.class)).orElse(null);
 
         return result;
     }
 
     //삭제
     public void delete(Long id) {
-        salesRepository.deleteById(id);
+        salesMonthRepository.deleteById(id);
     }
 
     //전체조회
-    public Page<SalesDTO> select(Pageable page, SalesDTO salesDTO) {
+    public Page<SalesMonthDTO> select(Pageable page, SalesMonthDTO salesMonthDTO) {
         int currentPage = page.getPageNumber()-1;
         int pageLimit = 5;
 
         Pageable pageable = PageRequest.of(currentPage, pageLimit,
-                            Sort.by(Sort.Direction.DESC,"salesidx"));
+                            Sort.by(Sort.Direction.DESC,"salesmonthidx"));
 
-        /*Page<Sales> salesEntities = salesRepository.search(
-                salesDTO.getDistributor_organization(),
-                salesDTO.getBranch(),
-                salesDTO.getStorename(),
-                salesDTO.getDate(),
-                salesDTO.getPayment_method(),
-                salesDTO.getStore(),
-                salesDTO.getProcessing_status(),
+        /*Page<SalesMonth> salesEntities = salesMonthRepository.search(
+                salesMonthDTO.getDistributor_organization(),
+                salesMonthDTO.getBranch(),
+                salesMonthDTO.getStorename(),
+                salesMonthDTO.getDate(),
+                salesMonthDTO.getPayment_method(),
+                salesMonthDTO.getStore(),
+                salesMonthDTO.getProcessing_status(),
                 pageable);*/
-        Page<Sales> salesEntities = salesRepository.search(
-                salesDTO.getStorename(),  //매장명
-                salesDTO.getPayment_method(), //결재방식
-                salesDTO.getProcessing_status(), //처리상태
-                salesDTO.getDistributor_organization(),//총판조직
-                salesDTO.getBranch(),//지사
-                salesDTO.getStore(),//매장
-                salesDTO.getStartDate(),//시작일
-                salesDTO.getEndDate(),//종료일
+        Page<SalesMonth> salesMonths = salesMonthRepository.search(
+                salesMonthDTO.getDistributor_organization(),//총판조직
+                salesMonthDTO.getBranch(),//지사
+                salesMonthDTO.getStore(),//매장
+                salesMonthDTO.getStartDate(),//시작일
+                salesMonthDTO.getEndDate(),//종료일
                 pageable);
 
 
-        Page<SalesDTO> result = salesEntities.map(data->modelMapper.map(data,SalesDTO.class));
+        Page<SalesMonthDTO> result = salesMonths.map(data->modelMapper.map(data,SalesMonthDTO.class));
 
         return result;
     }
-//    public Page<SalesDTO> salesList(Pageable pageable, String type, LocalDate sdate) {
+//    public Page<SalesMonthDTO> salesList(Pageable pageable, String type, LocalDate sdate) {
 //        LocalDateTime now = LocalDateTime.now(); //현재날짜
 //        LocalDateTime oneMonthAgo = now.minusMonths(1); //1개월
 //        LocalDateTime threeMonthAgo = now.minusMonths(3); //3개월
@@ -100,27 +94,27 @@ public class SalesService {
 //        Pageable salespage = PageRequest.of(currentPage, guestLimits,
 //                Sort.by(Sort.Direction.DESC,"salesidx"));
 //
-//        Page<Sales> sales;
+//        Page<SalesMonth> sales;
 //
 //        //if문을 이용해서 각 조건에 따른 조회처리
 //        if(type != null && !type.trim().isEmpty()) {
 //            System.out.println(type);
-//            sales = salesRepository.findByType(oneMonthAgo,threeMonthAgo,
+//            sales = salesMonthRepository.findByType(oneMonthAgo,threeMonthAgo,
 //                    sixMonthsAgo,oneYearsAgo, salespage);
 //        } else if(sdate != null) {
 //            LocalDateTime startDateTime = sdate.atStartOfDay();
 //            LocalDateTime endDateTime = startDateTime.plusDays(1);
 //
-//            sales =  salesRepository.findByModdateBetween(startDateTime,
+//            sales =  salesMonthRepository.findByModdateBetween(startDateTime,
 //                    endDateTime, salespage);
 //        } else {
-//            sales = salesRepository.findAll(salespage);
+//            sales = salesMonthRepository.findAll(salespage);
 //        }
 //
 //        //데이터값 변환(ModelMapper DTO<->Entity), Page에 대한 변환X
 //
-//        Page<SalesDTO> salesDTOS = sales.map(data->modelMapper.map(data,
-//                SalesDTO.class));
+//        Page<SalesMonthDTO> salesDTOS = sales.map(data->modelMapper.map(data,
+//                SalesMonthDTO.class));
 //        /*Page<PageDTO> guestDTOS = guestEntities.map(
 //                data->PageDTO.builder()
 //                        .id(data.getId()).guest(data.getPage())
@@ -131,10 +125,10 @@ public class SalesService {
 //    }
 
     //개별조회
-    public SalesDTO read(Long id) {
-        Optional<Sales> storeMember = salesRepository.findById(id);
-            //SalesDTO result = modelMapper.map(storeMember, SalesDTO.class);
-            SalesDTO result = storeMember.map(data->modelMapper.map(data, SalesDTO.class)).orElse(null);
+    public SalesMonthDTO read(Long id) {
+        Optional<SalesMonth> salesMonth = salesMonthRepository.findById(id);
+            //SalesMonthDTO result = modelMapper.map(storeMember, SalesMonthDTO.class);
+            SalesMonthDTO result = salesMonth.map(data->modelMapper.map(data, SalesMonthDTO.class)).orElse(null);
 
             return result;
     }

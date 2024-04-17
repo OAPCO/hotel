@@ -38,6 +38,6 @@ public class Sales extends BaseEntity{
     private Integer net_sales;//순매출
     private String processing_status;//처리상태
     private LocalDate date;//결제일자
-    private LocalDate startDate;//시작날짜
-    private LocalDate endDate;//종료날짜
+    //private LocalDate startDate;//시작날짜
+    //private LocalDate endDate;//종료날짜
 }

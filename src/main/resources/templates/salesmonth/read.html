@@ -20,22 +20,17 @@
                 <div class="card">
                     <div class="card-header">상세보기</div>
                     <div class="card-body">
-                        <p>no: <span th:text="${data.salesidx}"></span></p>
+                        <p>no: <span th:text="${data.salesmonthidx}"></span></p>
                         <p>총판조직: <span th:text="${data.distributor_organization}"></span></p>
                         <p>지사: <span th:text="${data.Branch}"></span></p>
                         <p>매장: <span th:text="${data.store}"></span></p>
-                        <p>결제일자: <span th:text="${data.date}"></span></p>
-                        <p>매장코드: <span th:text="${data.storecd}"></span></p>
-                        <p>매장명: <span th:text="${data.storename}"></span></p>
-                        <p>주문번호: <span th:text="${data.ordernum}"></span></p>
-                        <p>결제번호: <span th:text="${data.paymentnum}"></span></p>
-                        <p>회원ID: <span th:text="${data.id}"></span></p>
-                        <p>결제금액(원): <span th:text="${data.payment}"></span></p>
-                        <p>결제방식: <span th:text="${data.payment_method}"></span></p>
-                        <p>PG수수료(원): <span th:text="${data.PG}"></span></p>
-                        <p>매장송금액(원): <span th:text="${data.storeremittance}"></span></p>
-                        <p>순매출(원): <span th:text="${data.net_sales}"></span></p>
-                        <p>처리상태: <span th:text="${data.processing_status}"></span></p>
+                        <p>합산금액(원): <span th:text="${data.date}"></span></p>
+                        <p>오프라인 결제금액(원): <span th:text="${data.storecd}"></span></p>
+                        <p>PG결제금액(원): <span th:text="${data.storename}"></span></p>
+                        <p>PG수수료(원): <span th:text="${data.ordernum}"></span></p>
+                        <p>건별수수료(원): <span th:text="${data.paymentnum}"></span></p>
+                        <p>월정수수료(원): <span th:text="${data.id}"></span></p>
+                        <p>매장송금액(원): <span th:text="${data.payment}"></span></p>
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn btn-primary"

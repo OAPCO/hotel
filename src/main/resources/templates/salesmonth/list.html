@@ -18,7 +18,7 @@
             </div>
             <div class="col-lg-10">
                 <!-- 검색 영역 -->
-                <form th:action="@{/sales/list}" method="get" th:object="${salesDTO}">
+                <form th:action="@{/salesmonth/list}" method="get" th:object="${salesMonthDTO}">
                     <div class="row">
                         <div class="col-sm-2 bg-gray-200 text-black">총판조직</div>
                         <div class="col-sm-4 border">
@@ -59,27 +59,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-2 bg-gray-200 text-black">매장명</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="text" name="storename" th:field="*{storename}">
-                        </div>
                         <div class="col-sm-2 bg-gray-200 text-black">일자선택</div>
                         <div class="col-lg-3 p-1 text-black">
                             <input type="date" name="startDate" th:field="*{startDate}">~<input type="date" name="endDate" th:field="*{endDate}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2 bg-gray-200 text-black">결제방식</div>
-                        <div class="col-sm-4 border">
-                            <input type="radio" name="payment_method" value="" checked="checked">전체
-                            <input type="radio" name="payment_method" value="오프라인결제">오프라인결제
-                            <input type="radio" name="payment_method" value="후결제">후결제
-                        </div>
-                        <div class="col-sm-2 bg-gray-200 text-black">처리상태</div>
-                        <div class="col-sm-4 border d-flex"> <!--d-flax : 가로출력-->
-                            <input type="radio" name="processing_status" value="" checked="checked">전체
-                            <input type="radio" name="processing_status" value="결제완료">결제완료
-                            <input type="radio" name="processing_status" value="취소완료">취소완료
                         </div>
                     </div>
                     <div class="container d-flex justify-content-center align-items-center">
@@ -93,51 +75,43 @@
                     <tr>
                         <th>No</th>
                         <th>결제일자</th>
-                        <th>매장코드</th>
-                        <th>매장명</th>
-                        <th>주문번호</th>
-                        <th>결제번호</th>
-                        <th>회원ID</th>
-                        <th>결제금액(원)</th>
-                        <th>결제방식</th>
+                        <th>합산금액(원)</th>
+                        <th>오프라인결제금액(원)</th>
+                        <th>PG결제금액(원)</th>
                         <th>PG수수료(원)</th>
+                        <th>건별수수료(원)</th>
+                        <th>월정수수료(원)</th>
                         <th>매장송금액(원)</th>
-                        <th>순매출(원)</th>
-                        <th>처리상태</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="data:${list}">
-                        <td th:text="${data.salesidx}">1</td>
-                        <td th:text="${data.date}">임시</td>
-                        <td th:text="${data.storecd}">임시</td>
-                        <td><a th:href="@{'/sales/'+${data.salesidx}}"
-                               th:text="${data.storename}">임시</a></td>
-                        <td th:text="${data.ordernum}">임시</td>
-                        <td th:text="${data.paymentnum}">임시</td>
-                        <td th:text="${data.id}">임시</td>
-                        <td th:text="${data.payment}">임시</td>
-                        <td th:text="${data.payment_method}">임시</td>
-                        <td th:text="${data.PG}">임시</td>
+                        <td th:text="${data.salesmonthidx}">1</td>
+                        <td><a th:href="@{'/salesmonth/'+${data.salesmonthidx}}"
+                               th:text="${data.date}">임시</a></td>
+                        <td th:text="${data.Total_amount}">임시</td>
+                        <td th:text="${data.Offline_payment_amount}">임시</td>
+                        <td th:text="${data.PG_payment_amount}">임시</td>
+                        <td th:text="${data.PG_fee}">임시</td>
+                        <td th:text="${data.Fee_per_case}">임시</td>
+                        <td th:text="${data.Monthly_fee}">임시</td>
                         <td th:text="${data.storeremittance}">임시</td>
-                        <td th:text="${data.net_sales}">임시</td>
-                        <td th:text="${data.processing_status}">임시</td>
                     </tr>
                     </tbody>
                 </table>
                 <br>
-                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/sales/register}'|">등록
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/salesmonth/register}'|">등록
                 </button>
                 <!-- 페이지 영역 -->
                 <ul class="pagination">
                     <li class="page-item" th:unless="${startPage==1}">
-                        <a class="page-link" th:href="@{/sales/list(page=1)}">처음</a></li>
+                        <a class="page-link" th:href="@{/salesmonth/list(page=1)}">처음</a></li>
                     <li class="page-item" th:unless="${currentPage==1}">
-                        <a class="page-link" th:href="@{/sales/list(page=${prevPage})}">이전</a></li>
+                        <a class="page-link" th:href="@{/salesmonth/list(page=${prevPage})}">이전</a></li>
                     <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
                     <!-- 다른페이지-->
                     <li class="page-item" th:unless="${page == currentPage}">
-                        <a class="page-link" th:href="@{/sales/list(page=${page})}">[[${page}]]</a>
+                        <a class="page-link" th:href="@{/salesmonth/list(page=${page})}">[[${page}]]</a>
                     </li>
                         <!--활성화(현재위치)-->
                     <li class="page-item active" th:if="${page == currentPage}">
@@ -145,9 +119,9 @@
                     </li>
                 </span>
                     <li class="page-item" th:unless="${currentPage>=lastPage}">
-                        <a class="page-link" th:href="@{/sales/list(page=${nextPage})}">다음</a></li>
+                        <a class="page-link" th:href="@{/salesmonth/list(page=${nextPage})}">다음</a></li>
                     <li class="page-item" th:unless="${endPage==lastPage}">
-                        <a class="page-link" th:href="@{/sales/list(page=${lastPage})}">끝</a></li>
+                        <a class="page-link" th:href="@{/salesmonth/list(page=${lastPage})}">끝</a></li>
                 </ul>
                 <!-- 페이지 영역 끝 -->
             </div>
