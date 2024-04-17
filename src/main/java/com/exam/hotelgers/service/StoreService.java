@@ -138,8 +138,8 @@ public class StoreService {
         if (optionalStore.isPresent()) {
             Store store = optionalStore.get();
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
-            dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList())); //orderDTOList
-            dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList())); //roomDTOList
+            dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
+            dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
             dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
             dto.setBranchDTO(searchService.convertToBranchDTO(store.getBranch()));
             dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));

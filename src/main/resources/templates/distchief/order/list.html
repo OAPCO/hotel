@@ -4,43 +4,46 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-
     <title>주문관리</title>
+    <link rel="stylesheet" href="/yhh.css">
 </head>
 
-<body id="page-top">
+<body>
 <div layout:fragment="content">
+    <h4 class="card-title">주문관리</h4>
     <div class="card">
-        <div class="card-header" style="margin: 50px 20px;">
-            <h4 class="card-title">(총판관리자의)주문관리</h4>
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장조회
+            </div>
             <form method="post" th:action="@{/distchief/order/list}">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table head">
                         <thead>
                         <tr>
-                            <th >총판조직</th>
-                            <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                            <th>총판조직</th>
+                            <td class="align-middle text-start">  <!-- 수정된 부분 -->
                                 <div class="d-inline-block">
                                     <select class="d-inline-block form-select form-select-sm" name="distName">
                                         <option value="">(선택)</option>
                                         <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
                                     </select>
                                 </div>
-                            </th>
+                            </td>
                             <th>지사</th>
-                            <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                            <td class="align-middle text-start">  <!-- 수정된 부분 -->
                                 <div class="d-inline-block">
                                     <select class="d-inline-block form-select form-select-sm" name="branchName">
                                         <option value="">(선택)</option>
                                         <option th:each="branchList : ${branchList}" th:value="${branchList.branchName}" th:text="${branchList.branchName}"></option>
                                     </select>
                                 </div>
-                            </th>
+                            </td>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td><strong>매장</strong></td>
+                            <th><strong>매장 목록</strong></th>
                             <td class="align-middle text-start"> <!-- 수정된 부분 -->
                                 <div class="d-inline-block">
                                     <select class="d-inline-block form-select form-select-sm">
@@ -49,18 +52,18 @@
                                     </select>
                                 </div>
                             </td>
-                            <td><strong>매장명</strong></td>
+                            <th><strong>매장명</strong></th>
                             <td><input type="text" name="storeName"></td>
                         </tr>
                         <tr>
-                            <td><strong>구분</strong></td>
+                            <th><strong>구분</strong></th>
                             <td>
                                 <input type="radio" name="storeDTO.storePType" value="" checked>전체
                                 <input type="radio" name="storeDTO.storePType" value="DIRECTSTORE">직영점
                                 <input type="radio" name="storeDTO.storePType" value="FRANCHISEE">가맹점
                             </td>
 
-                            <td><strong>제휴상태</strong></td>
+                            <th><strong>제휴상태</strong></th>
                             <td>
                                 <input type="radio" name="storeDTO.storeStatus" value="" checked>전체
                                 <input type="radio" name="storeDTO.storeStatus" value="ON">제휴중
@@ -81,11 +84,13 @@
             </form>
         </div>
     </div>
-    <div class="card" style="margin: 50px 20px;">
+    <div class="card">
         <div class="card-body">
-            <h4 class="card-title">매장 목록</h4>
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장 목록
+            </div>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table body">
                     <thead>
                     <tr>
                         <th>No</th>

@@ -4,14 +4,18 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>룸 주문목록</title>
+    <link rel="stylesheet" href="/yhh.css">
 </head>
-<body id="page-top">
+
+<body>
 <div layout:fragment="content">
-<div class="card" style="margin: 50px 20px;">
-    <div class="card-body">
-        <h4 class="card-title">[ [[${roomDTO.roomName}]] ] 주문 현황</h4>
+    <h4 class="card-title">룸 관리</h4>
+    <div class="card">
+      <div class="card-body">
+          <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+              [ [[${roomDTO.roomName}]] ] 주문 현황
+          </div>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -23,12 +27,10 @@
                 </tr>
                 </thead>
                 <tbody>
-
-
                 <tr th:each="data:${roomDTO.orderDTOList}">
                     <td th:text="${data.orderCd}"></td>
                     <td>주문메뉴</td>
-                    <td>주문서출력여부?</td>
+                    <td>주문서출력여부</td>
                     <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
                 </tr>
                 </tbody>
