@@ -12,32 +12,32 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="admin")
+@Table(name="branchChief")
 @SequenceGenerator(
-        name = "admin_sql",
-        sequenceName = "admin_sql",
+        name = "branchChief_sql",
+        sequenceName = "branchChief_sql",
         initialValue = 1,
         allocationSize = 1
 )
-public class Admin extends BaseEntity {
+public class BranchChief extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "admin_sql")
-    private Long adminIdx;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "branchChief_sql")
+    private Long branchChiefIdx;
 
     @Column(length = 60, nullable = false)
-    private String adminId;
+    private String branchChiefId;
 
     @Column(length = 100, nullable = false)
     private String password;
 
     @Column(length = 30, nullable = false)
-    private String adminName;
+    private String branchChiefName;
 
     @Column(length = 50, nullable = false)
-    private String adminPhone;
+    private String branchChiefPhone;
 
-    private String adminEmail;
+    private String branchChiefEmail;
 
 
 

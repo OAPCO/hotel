@@ -45,6 +45,10 @@ public class ManagerService {
             manager.setRoleType(RoleType.MANAGER);
         }
 
+        if(managerDTO.getRoleType().equals(RoleType.BRANCHCHIEF)){
+            manager.setRoleType(RoleType.BRANCHCHIEF);
+        }
+
         manager.setPassword(password); //비밀번호는 암호화된 비밀번호로 변경처리
 
         Long managerIdx = managerRepository.save(manager).getManagerIdx();
@@ -64,7 +68,6 @@ public class ManagerService {
     public ManagerDTO read(Long managerIdx){
 
         Optional<Manager> temp= managerRepository.findById(managerIdx);
-
 
         return modelMapper.map(temp,ManagerDTO.class);
     }
