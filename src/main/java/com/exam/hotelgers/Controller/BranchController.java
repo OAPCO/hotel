@@ -1,6 +1,9 @@
 package com.exam.hotelgers.Controller;
 
+import com.exam.hotelgers.dto.BranchChiefDTO;
 import com.exam.hotelgers.dto.BranchDTO;
+import com.exam.hotelgers.dto.MemberDTO;
+import com.exam.hotelgers.service.BranchChiefService;
 import com.exam.hotelgers.service.BranchService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -26,6 +29,7 @@ import java.util.Map;
 public class BranchController {
     
     private final BranchService branchService;
+    private final BranchChiefService branchChiefService;
 
 
 
@@ -126,4 +130,92 @@ public class BranchController {
         model.addAttribute("branchDTO",branchDTO);
         return "branch/read";
     }
+
+
+
+    @GetMapping("/distchief/branch/list")
+    public void branchListForm() {
+
+    }
+
+
+    @GetMapping("/distchief/branch/register")
+    public void branchRegisterForm() {
+
+    }
+
+    @GetMapping("/distchief/branch/registerchief")
+    public String ChiefRegisterForm() {
+
+        return "distchief/branch/registerchief";
+
+    }
+
+    @GetMapping("/distchief/branch/listchief")
+    public String ChiefListForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+
+        log.info("branch listchiefForm 도착 ");
+
+        Page<BranchChiefDTO> branchChiefDTOS = branchChiefService.list(pageable);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(branchChiefDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", branchChiefDTOS);
+
+
+        return "distchief/branch/listchief";
+    }
+
+
+    @PostMapping("/distchief/branch/registerchief")
+    public String ChiefRegisterProc(@Valid BranchChiefDTO branchChiefDTO,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+
+        log.info("branchchief registerProc 도착 " + branchChiefDTO);
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+
+
+        Long branchChiefIdx = branchChiefService.register(branchChiefDTO);
+
+        redirectAttributes.addFlashAttribute("result", branchChiefIdx);
+
+        return "redirect:/distchief/branch/listchief";
+    }
+
+
+    @GetMapping("/distchief/branch/deletechief/{branchChiefIdx}")
+    public String chiefDeleteProc(@PathVariable Long branchChiefIdx) {
+
+        branchChiefService.delete(branchChiefIdx);
+
+        return "redirect:/distchief/branch/listchief";
+    }
+
+    //id 검색
+    //전체목록
+    @GetMapping("/distchief/branch/idsearch")
+    public String idsearch(@PageableDefault(page=1) Pageable pageable, Model model) {
+        log.info("서비스로 모든 데이터 조회....");
+
+        //searchDTO : 조회항목들이 들어있는 DTO
+        //입력받은 열거형값을 열거형 데이터로 변환한다.
+        Page<BranchChiefDTO> branchChiefDTOS = branchChiefService.list(pageable);
+
+        //페이지 정보 처리
+        Map<String, Integer> pageinfo = PageConvert.Pagination(branchChiefDTOS);
+        model.addAllAttributes(pageinfo);
+
+        //결과데이터
+        model.addAttribute("list", branchChiefDTOS);
+
+        return "distchief/branch/idsearch";
+    }
+
 }

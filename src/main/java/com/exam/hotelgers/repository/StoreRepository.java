@@ -5,7 +5,6 @@ import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Store;
-import com.exam.hotelgers.repository.search.Search;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface StoreRepository extends JpaRepository<Store, Long>, Search {
+public interface StoreRepository extends JpaRepository<Store, Long> {
 
 
 

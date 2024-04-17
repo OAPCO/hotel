@@ -9,15 +9,25 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
+
     <!--ajax-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <th:block layout:fragment="script"></th:block>
     <th:block layout:fragment="css"></th:block>
+
+    <link rel="stylesheet" href="/yhh.css">
 </head>
 <body>
+
+<!--헤더-->
     <div th:replace="~{fragments/header::header}"></div>
 
+
+<!--    본문-->
     <div id="wrapper">
+
+<!--        사이드바(nav)-->
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
             <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/">
                 <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
@@ -45,12 +55,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                             <li><a class="dropdown-item" href="/branch/list">지사 목록/관리</a></li>
                             <li><a class="dropdown-item" href="/manager/room/list">룸 목록/관리 페이지(완)</a></li>
                             <li><a class="dropdown-item" href="/manager/room/2">룸 주문 현황 보기(완)</a></li>
-                            <!--                            <li><a class="dropdown-item" href="/manager/store/list">(총판장)매장 목록/관리 페이지(완)</a></li>-->
-                            <!--                            <li><a class="dropdown-item" href="/manager/order/list">(총판장)주문 목록/관리 페이지(완)</a></li>-->
-                            <!--                            <li><a class="dropdown-item" href="/manager/order/orderlist">(총판장)주문 번호별 조회 페이지(미완)</a></li>-->
                             <li><a class="dropdown-item" href="/distchief/store/list">(총판장)매장 목록/관리 페이지(완)</a></li>
                             <li><a class="dropdown-item" href="/distchief/order/list">(총판장)주문 목록/관리 페이지(완)</a></li>
-                            <li><a class="dropdown-item" href="/distchief/order/orderlist">(총판장)주문 번호별 조회 페이지(미완)</a></li>
+                            <li><a class="dropdown-item" href="/distchief/order/orderlist">(총판장)주문 번호별 조회 페이지(완)</a></li>
+                            <li><a class="dropdown-item" href="/distchief/branch/register">(총판장)지사 등록(미완)</a></li>
+                            <li><a class="dropdown-item" href="/distchief/branch/list">(총판장)지사 목록,검색(미완)</a></li>
+                            <li><a class="dropdown-item" href="/distchief/branch/registerchief">(총판장)지사장 등록(미완)</a></li>
+                            <li><a class="dropdown-item" href="/distchief/branch/listchief">(총판장)지사장 목록,검색(미완)</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -171,20 +182,28 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
         </nav>
-        <div class="d-flex flex-column" id="content-wrapper">
+        <div class="d-flex flex-column" id="content-wrapper" style="background-color: #dddfeb">
             <div id="content">
 
-                <div layout:fragment="content"></div><!--본문-->
+                <div layout:fragment="content" style="background-color: #dddfeb">
+
+                </div><!--본문-->
 
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2024</span></div>
+                    <div class="text-center my-auto copyright"><span>< hotelgers Team Project ></span></div>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
-    </div> <!--index 복사한 부분 메뉴, 헤더,푸터, 본문-->
-    <div th:replace="~{fragments/footer::footer}"></div>
+    </div>
+
+
+<!--푸터-->
+    <div th:replace="~{fragments/footer::footer}" style="background-color: #dddfeb">
+    </div>
+
+
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="/assets/js/bs-init.js"></script>
     <script src="/assets/js/theme.js"></script>
