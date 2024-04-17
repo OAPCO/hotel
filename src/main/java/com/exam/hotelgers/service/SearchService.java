@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 
 
-//다른 서비스와 컨트롤러의 검색 등에 도움을 주는 메소드를 모아놓은 곳입니다.
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -32,8 +31,6 @@ public class SearchService {
 
 
 
-    //현재 테이블로 읽어낼 수 없는 상위 테이블의 목록 값을 읽어내기 위한 메소드.
-    //자주 쓸 것이기때문에 별도로 만든 것입니다
     public List<DistDTO> distList() {
         List<Dist> dists = distRepository.findAll();
         return dists.stream()
@@ -79,6 +76,8 @@ public class SearchService {
 
 
 
+
+
     public List<OrderDTO> convertToOrderDTOList(List<Order> orders) {
         if (orders == null || orders.isEmpty()) {
             return Collections.emptyList();
@@ -87,6 +86,7 @@ public class SearchService {
                 .map(order -> modelMapper.map(order, OrderDTO.class))
                 .collect(Collectors.toList());
     }
+
 
     public List<RoomDTO> convertToRoomDTOList(List<Room> rooms) {
         if (rooms == null || rooms.isEmpty()) {
@@ -100,8 +100,6 @@ public class SearchService {
 
 
 
-
-    //각 엔티티들을 DTO로 매핑하는 모델매퍼를 간략하게 사용하기 위한 메소드를 모아놓은 것.
     public DistDTO convertToDistDTO(Dist dist) {
         return modelMapper.map(dist, DistDTO.class);
     }

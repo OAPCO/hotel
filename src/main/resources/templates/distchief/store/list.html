@@ -4,62 +4,77 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-
     <title>매장관리</title>
+    <link rel="stylesheet" href="/yhh.css">
 </head>
 
-<body id="page-top">
+<body>
 <div layout:fragment="content">
+    <h4 class="card-title">매장(가맹점)관리</h4>
     <div class="card">
-        <div class="card-header" style="margin: 50px 20px;">
-            <h4 class="card-title">매장(가맹점)관리</h4>
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장 검색
+            </div>
             <form method="post" th:action="@{/distchief/store/list}">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table head">
+
                     <thead>
                     <tr>
-                        <th>총판조직</th>
-                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
-                            <div class="d-inline-block">
+                        <th style="width: 10%">총판조직</th>
+                        <td>
+                            <div>
                                 <select class="d-inline-block form-select form-select-sm" name="distName">
                                     <option value="">(선택)</option>
                                     <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
                                 </select>
                             </div>
-                        </th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>지사</th>
-                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
-                            <div class="d-inline-block">
+                        </td>
+                        <th style="width: 10%">지사</th>
+                        <td>
+                            <div>
                                 <select class="d-inline-block form-select form-select-sm" name="branchName">
                                     <option value="">(선택)</option>
                                     <option th:each="branchList : ${branchList}" th:value="${branchList.branchName}" th:text="${branchList.branchName}"></option>
                                 </select>
                             </div>
-                        </th>
-                        <th>매장</th>
-                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
-                            <div class="d-inline-block">
+                        </td>
+                        <th style="width: 10%">브랜드</th>
+                        <td>
+                            <div>
+                                <select class="d-inline-block form-select form-select-sm" name="brandName">
+                                    <option value="">(선택)</option>
+                                    <option th:each="brandList : ${brandList}" th:value="${brandList.brandName}" th:text="${brandList.brandName}"></option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    </thead>
+
+                    <tr>
+                        <th>매장 선택</th>
+                        <td>
+                            <div>
                                 <select class="d-inline-block form-select form-select-sm">
                                     <option value="">(선택)</option>
                                     <option th:each="list : ${list}" th:value="${list.storeName}" th:text="${list.storeName}"></option>
                                 </select>
                             </div>
-                        </th>
-                        <td></td>
-                        <td></td>
+                        </td>
+                        <th>매장명</th>
+                        <td>
+                            <div>
+                                <input type="text" name="storeName2">
+                            </div>
+                        </td>
+                        <th>매장코드</th>
+                        <td><input type="text" name="storeCd"></td>
                     </tr>
                     <tr>
-                        <td><strong>등급</strong></td>
-                        <td class="align-middle text-start"> <!-- 수정된 부분 -->
-                            <div class="d-inline-block">
+                        <th>등급</th>
+                        <td>
+                            <div>
                                 <select class="d-inline-block form-select form-select-sm" name="storeGrade">
                                     <option value="">(선택)</option>
                                     <option value="ONE">1성</option>
@@ -70,52 +85,25 @@
                                 </select>
                             </div>
                         </td>
-                        <td><strong>지역</strong></td>
-                        <td class="align-middle text-start" >
+                        <th>지역</th>
+                        <td class="align-middle text-start">
                             <div class="d-inline-block">
                                 <select class="d-inline-block form-select form-select-sm">
                                     <option value="">(선택)</option>
-                                    <option value="10">ccc호텔</option>
-                                    <option value="25">3스타호텔</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
                                 </select>
                             </div>
                             <div class="d-inline-block">
                                 <select class="d-inline-block form-select form-select-sm">
                                     <option value="">(선택)</option>
-                                    <option value="10">123호텔</option>
-                                    <option value="25">3스타호텔</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
                                 </select>
                             </div>
                         </td>
-                        <td><strong>매장코드</strong></td>
-                        <td><input type="text" name="storeCd"></td>
-
-                    </tr>
-                    <tr>
-                        <td><strong>매장명</strong></td>
-                        <td><input type="text" name="storeName"></td>
-                        <td><strong>매장주이메일</strong></td>
-                        <td><input type="text" name="storeChiefEmail"></td>
-                        <td><strong>매장주명</strong></td>
+                        <th>매장주명</th>
                         <td><input type="text" name="storeChief"></td>
                     </tr>
+
                     <tr>
-
-                        <th>브랜드</th>
-                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
-                            <div class="d-inline-block">
-                                <select class="d-inline-block form-select form-select-sm" name="brandName">
-                                    <option value="">(선택)</option>
-                                    <option th:each="brandList : ${brandList}" th:value="${brandList.brandName}" th:text="${brandList.brandName}"></option>
-                                </select>
-                            </div>
-                        </th>
-
-                        <td><strong>상태</strong></td>
+                        <th>상태</th>
                         <td>
                            <input type="radio" name="storeStatus" value="" checked>전체
                            <input type="radio" name="storeStatus" value="ON">제휴중
@@ -123,18 +111,15 @@
                         </td>
 
 
-                        <td><strong>구분</strong></td>
+                        <th>구분</th>
                         <td>
                             <input type="radio" name="storePType" value="" checked>전체
                             <input type="radio" name="storePType" value="DIRECTSTORE">직영점
                             <input type="radio" name="storePType" value="FRANCHISEE">가맹점
                         </td>
                     </tr>
-
-
-                    </tbody>
-
                 </table>
+
                 <div style="text-align: center;">
                     <button type="submit" class="btn btn-primary">조회</button>
                     <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/distchief/store/register}'|">신규등록</button>
@@ -146,9 +131,11 @@
     </div>
     <div class="card" style="margin: 50px 20px;">
         <div class="card-body">
-            <h4>매장 목록</h4>
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장 목록
+            </div>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table body">
                     <thead>
                     <tr>
                         <th>No</th>

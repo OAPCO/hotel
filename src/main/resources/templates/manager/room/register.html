@@ -5,10 +5,11 @@
       layout:decorate="~{layouts/main}">
 
 <head>
-    <title>Register - Brand</title>
+    <title>룸 등록</title>
+    <link rel="stylesheet" href="/yhh.css">
 </head>
 
-<body class="bg-gradient-primary">
+<body>
 <div layout:fragment="content">
     <div class="container">
         <div class="card shadow-lg o-hidden border-0 my-5">
@@ -20,7 +21,7 @@
                     <div class="col-lg-9">
                         <div class="p-5">
                             <div class="text-center">
-                                <h4 class="text-dark mb-4">주문 등록</h4>
+                                <h4 class="text-dark mb-4">룸 등록</h4>
                             </div>
                             <form class="user" th:action="@{/manager/room/register}" method="post">
 
@@ -56,13 +57,8 @@
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account
-                                </button>
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit">등록</button>
                             </form>
-                            <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-                            <div class="text-center"><a class="small" href="login.html">Already have an account?
-                                Login!</a></div>
                         </div>
                     </div>
                 </div>

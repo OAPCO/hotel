@@ -4,74 +4,74 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-
-    <title>매장관리</title>
+    <title>주문관리</title>
+    <link rel="stylesheet" href="/yhh.css">
 </head>
 
 <body id="page-top">
 <div layout:fragment="content">
+    <h4 class="card-title">주문관리</h4>
     <div class="card">
-        <div class="card-header" style="margin: 50px 20px;">
-            <h4 class="card-title">주문번호 조회</h4>
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                주문번호 조회
+            </div>
             <form method="post" th:action="@{/distchief/order/orderlist}">
             <div class="table-responsive">
-                <table class="table">
+                <table class="table head">
+
                     <thead>
                     <tr>
-                        <th>총판조직</th>
-                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
-                            <div class="d-inline-block">
+                        <th style="width: 10%">총판조직</th>
+                        <td style="width: 40%">
+                            <div>
                                 <select class="d-inline-block form-select form-select-sm" name="distName">
                                     <option value="">(선택)</option>
                                     <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
                                 </select>
                             </div>
-                        </th>
-                        <th>지사</th>
-                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
+                        </td>
+                        <th style="width: 10%">지사</th>
+                        <td style="width: 40%">
                             <div class="d-inline-block">
                                 <select class="d-inline-block form-select form-select-sm" name="branchName">
                                     <option value="">(선택)</option>
                                     <option th:each="branchList : ${branchList}" th:value="${branchList.branchName}" th:text="${branchList.branchName}"></option>
                                 </select>
                             </div>
-                        </th>
+                        </td>
                     </tr>
                     </thead>
-                    <tbody>
+
                     <tr>
 
-                        <th>매장</th>
-                        <th class="align-middle text-start">  <!-- 수정된 부분 -->
-                            <div class="d-inline-block">
+                        <th>매장 선택</th>
+                        <td>
+                            <div>
                                 <select class="d-inline-block form-select form-select-sm" name="storeName">
                                     <option value="">(선택)</option>
                                     <option th:each="storeList : ${storeList}" th:value="${storeList.storeName}" th:text="${storeList.storeName}"></option>
                                 </select>
                             </div>
-                        <td><strong>매장명(x)</strong></td>
+                        <th><strong>매장명</strong></th>
                         <td><input type="text" name="asdaqwsd"></td>
                         </th>
-                        <td></td>
-                        <td></td>
                     </tr>
                     <tr>
-                        <td><strong>주문번호</strong></td>
+                        <th><strong>주문번호</strong></th>
                         <td><input type="text" name="orderCd" value=""></td>
-                        <td><strong>룸</strong></td>
+                        <th><strong>룸</strong></th>
                         <td><input type="text" name="roomName" value=""></td>
                     </tr>
                     <tr>
-                        <td><strong>결제일시(x)</strong></td>
+                        <th><strong>결제일시</strong></th>
                         <td>
                             <input type="date">
                             <input type="time"> ~
                             <input type="date">
                             <input type="time">
                         </td>
-                    </tr>
-                    <tr>
-                        <td><strong>상태(x)</strong></td>
+                        <th><strong>상태</strong></th>
                         <td>
                             <input type="radio" name="ert" value="" checked>전체
                             <input type="radio" name="ert" value="DIRECTSTORE">미결제
@@ -79,9 +79,6 @@
                             <input type="radio" name="ert" value="FRANCHISEE">결제취소
                         </td>
                     </tr>
-
-
-                    </tbody>
 
                 </table>
                 <div style="text-align: center;">
@@ -95,9 +92,11 @@
     </div>
     <div class="card" style="margin: 50px 20px;">
         <div class="card-body">
-            <h4 class="card-title">매장 목록</h4>
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장 목록
+            </div>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table body">
                     <thead>
                     <tr>
                         <th>No</th>

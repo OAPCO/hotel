@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-//회원 가입, 수정, 삭제, 조회
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -122,18 +122,6 @@ public class RoomService {
         Page<Room> rooms = roomRepository.findAll(page);
         return rooms.map(this::convertToDTO);
     }
-
-
-
-//    public Page<RoomDTO> searchList(String distName, String branchName, String roomName, StorePType storePType, StoreStatus storeStatus, Pageable pageable) {
-//
-//        int currentPage = pageable.getPageNumber() - 1;
-//        int pageCnt = 5;
-//        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "roomIdx"));
-//
-//        Page<Room> rooms = roomRepository.multiSearch(distName, branchName,roomName, storePType, storeStatus, page);
-//        return rooms.map(this::convertToDTO);
-//    }
 
 
 

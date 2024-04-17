@@ -32,7 +32,6 @@ public class BranchController {
     private final BranchChiefService branchChiefService;
 
 
-
     @GetMapping("/branch/register")
     public String register() {
         return "branch/register";
@@ -61,6 +60,7 @@ public class BranchController {
     }
 
 
+
     @GetMapping("/branch/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
@@ -77,6 +77,7 @@ public class BranchController {
 
         return "branch/list";
     }
+
 
 
 
@@ -125,12 +126,12 @@ public class BranchController {
 
     @GetMapping("/branch/{branchIdx}")
     public String readForm(@PathVariable Long branchIdx, Model model) {
+
         BranchDTO branchDTO=branchService.read(branchIdx);
-        //서비스에서 값을 받으면 반드시 model로 전달
+
         model.addAttribute("branchDTO",branchDTO);
         return "branch/read";
     }
-
 
 
     @GetMapping("/distchief/branch/list")
@@ -151,27 +152,11 @@ public class BranchController {
 
     }
 
-    @GetMapping("/distchief/branch/listchief")
-    public String ChiefListForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
-
-        log.info("branch listchiefForm 도착 ");
-
-        Page<BranchChiefDTO> branchChiefDTOS = branchChiefService.list(pageable);
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(branchChiefDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", branchChiefDTOS);
-
-
-        return "distchief/branch/listchief";
-    }
-
 
     @PostMapping("/distchief/branch/registerchief")
     public String ChiefRegisterProc(@Valid BranchChiefDTO branchChiefDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes) {
 
         log.info("branchchief registerProc 도착 " + branchChiefDTO);
 
@@ -190,6 +175,26 @@ public class BranchController {
     }
 
 
+
+
+    @GetMapping("/distchief/branch/listchief")
+    public String ChiefListForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+
+        log.info("branch listchiefForm 도착 ");
+
+        Page<BranchChiefDTO> branchChiefDTOS = branchChiefService.list(pageable);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(branchChiefDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", branchChiefDTOS);
+
+
+        return "distchief/branch/listchief";
+    }
+
+
+
     @GetMapping("/distchief/branch/deletechief/{branchChiefIdx}")
     public String chiefDeleteProc(@PathVariable Long branchChiefIdx) {
 
@@ -198,8 +203,8 @@ public class BranchController {
         return "redirect:/distchief/branch/listchief";
     }
 
-    //id 검색
-    //전체목록
+
+
     @GetMapping("/distchief/branch/idsearch")
     public String idsearch(@PageableDefault(page=1) Pageable pageable, Model model) {
         log.info("서비스로 모든 데이터 조회....");
