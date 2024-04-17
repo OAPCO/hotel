@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+
+    <style>
+        td {
+            text-align: center; /* 가로 중앙 정렬 */
+            vertical-align: middle; /* 세로 중앙 정렬 */
+        }
+    </style>
+    <title>총판조직 관리</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h4 class="card-title">총판장관리</h4>
+            <form method="post" th:action="@{/admin/adminpage/storemembermange}">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>총판조직</th>
+                            <td >
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm" name="distName">
+                                        <option th:each="list : ${list}" th:value="${list.distDTO.distName}" th:text="${list.distDTO.distName}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tr>
+                            <th>지사</th>
+                            <td>
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm" name="branchName">
+                                        <option th:each="list : ${list}" th:value="${list.branchDTO.branchName}" th:text="${list.branchDTO.branchName}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <th>매장</th>
+                            <td>
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm" name="storeName">
+                                        <option th:each="list : ${list}" th:value="${list.storeName}" th:text="${list.storeName}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td><input type="search" name="distEmail"  class="form-control input-sm" placeholder="이메일"  style="width:300px;"></td>
+
+                            <th>이름</th>
+                            <td><input type="text"  name="distChief" value="" placeholder="총판장이름"  style="width:300px;"></td>
+                        </tr>
+                        <tr>
+                            <th>연락처</th>
+                            <td><input type="text" placeholder="distTel" name="distTel" style="width:300px;"></td>
+                            <th>상태</th>
+                            <td>
+                                <input type="radio" name="storeStatus" th:value="ON">제휴중
+                                <input type="radio" name="storeStatus" th:value="OFF">제휴중지
+
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn text-white m-2" style="background-color: #36b9cc;">조회</button>
+                    </div>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <h4 class="card-title">코드 그룹</h4>
+            <div class="d-flex justify-content-end">
+            </div>
+            <div style="text-align:right;">
+                총 11건
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>총판조직명</th>
+                        <th>이메일</th>
+                        <th>이름</th>
+                        <th>연락처</th>
+                        <th>매장수</th>
+                        <th>가맹점수</th>
+                        <th>상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--DTO에 DTO로 구성시 dto변수.dto변수.세부변수-->
+                    <tr th:each="data:${list}"> <!--목록출력-->
+                        <td th:text="${data.distDTO.distIdx}"></td>
+                        <td th:text="${data.distDTO.distName}"></td>
+                        <td th:text="${data.distDTO.distChiefEmail}"></td>
+                        <td th:text="${data.distDTO.distChief}"></td>
+                        <td th:text="${data.distDTO.distTel}"></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <th:block th:if="${data.storeStatus != null and data.storeStatus.name() == 'ON'}">
+                                <span class="badge rounded-pill bg-primary">제휴중</span></th:block>
+                            <th:block th:if="${data.storeStatus != null and data.storeStatus.name() == 'OFF'}">
+                                <span class="badge rounded-pill bg-secondary">미제휴</span></th:block>
+
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                <ul class="pagination">
+                    <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
+                            aria-hidden="true">«</span></a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
+                            aria-hidden="true">»
+            </span>
+                    </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+        <div style="text-align: right;" class="m-3">
+            <button class="btn btn-dark m-2" type="button" th:onclick="|location.href='@{/admin/adminpage/sdmregister}'|">등록</button>
+        </div>
+    </div>
+</div>
+</body>

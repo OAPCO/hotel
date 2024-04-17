@@ -1,7 +1,10 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.constant.RoleType;
 import lombok.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,6 +46,6 @@ public class SearchDTO {
     private String brandCd; //브랜드코드
 
     private String brandName; //브랜드이름.
-
+  
 
 }

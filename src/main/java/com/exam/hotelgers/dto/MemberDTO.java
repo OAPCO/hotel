@@ -24,6 +24,9 @@ public class MemberDTO {
 
     private String password;//"회원 비밀번호
 
+
+    private String MemberName;//"회원 이름
+
     private String memberNickname;//"회원 별명
 
     private String memberPhone;//회원 전화번호

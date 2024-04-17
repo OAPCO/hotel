@@ -1,5 +1,6 @@
 package com.exam.hotelgers.entity;
 
+import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
@@ -9,6 +10,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -102,6 +105,9 @@ public class Store extends BaseEntity{
     @JoinColumn(name="brandIdx")
     private Brand brand;
 
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<Member> memberList = new ArrayList<>();
+
 
 
 
@@ -113,6 +119,8 @@ public class Store extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private StoreGrade storeGrade;
+    
+
 
 
 

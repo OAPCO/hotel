@@ -1,5 +1,6 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.constant.StorePType;
@@ -65,6 +66,8 @@ public class StoreDTO {
     private StorePType storePType;
     private StoreStatus storeStatus;
     private StoreGrade storeGrade;
+
+
 
     private List<ImageDTO> dtoList = new ArrayList<>();
 

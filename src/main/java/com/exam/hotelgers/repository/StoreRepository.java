@@ -1,5 +1,6 @@
 package com.exam.hotelgers.repository;
 
+import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
@@ -43,6 +44,7 @@ public interface StoreRepository extends JpaRepository<Store, Long>, Search {
     "and (:storeStatus is null or s.storeStatus = %:storeStatus%)"+
     "and (:storePType is null or s.storePType = %:storePType%)"
     )
+
     Page<Store> multiSearch(@Param("distName") String distName,
                             @Param("branchName") String branchName,
                             @Param("storeName") String storeName,
@@ -55,6 +57,30 @@ public interface StoreRepository extends JpaRepository<Store, Long>, Search {
                             @Param("storePType") StorePType storePType,
                             Pageable pageable);
 
+    @Query("select s from Store s where (:distName is null or s.dist.distName LIKE %:distName%)"+
+            "and (:branchName is null or s.branch.branchName LIKE %:branchName%)"+
+            "and (:storeName is null or s.storeName LIKE %:storeName%)"+
+            "and (:distChiefEmail is null or s.dist.distChiefEmail LIKE %:distChiefEmail%)"+
+            "and (:distChief is null or s.dist.distChief LIKE %:distChief%)"+
+            "and (:distTel is null or s.dist.distTel LIKE %:distTel%)"+
+            "and (:storeStatus is null or s.storeStatus = %:storeStatus%)"
+
+    )
+
+    Page<Store> multiSearchmemadmin(@Param("distName") String distName,
+                            @Param("branchName") String branchName,
+                            @Param("storeName") String storeName,
+                            @Param("distChiefEmail") String distChiefEmail,
+                            @Param("distChief") String distChief,
+                            @Param("distTel") String distTel,
+                            @Param("storeStatus") StoreStatus storeStatus,
+                            Pageable pageable);
+
+
+
+
+
+//    "and (:name is null or s.dist.distEmail LIKE %:name% or s.branch.branchEmail LIKE %:name% or s.member.memberemail LIKE %:name%)"
 
 //    @RequestParam(value="distName", required = false) String distName,
 //    @RequestParam(value="branchName", required = false) String branchName,

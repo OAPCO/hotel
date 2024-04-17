@@ -4,14 +4,8 @@ import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Branch;
-import com.exam.hotelgers.entity.Brand;
-import com.exam.hotelgers.entity.Dist;
-import com.exam.hotelgers.entity.Store;
-import com.exam.hotelgers.repository.BranchRepository;
-import com.exam.hotelgers.repository.BrandRepository;
-import com.exam.hotelgers.repository.DistRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.entity.*;
+import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -40,6 +34,9 @@ public class SearchService {
     private final DistService distService;
     private final BranchService branchService;
     private final StoreService storeService;
+    private final DetailmenuService detailmenuService;
+    private final DetailmenuRepository detailmenuRepository;
+    private final MemberRepository memberRepository;
 
 
     public List<DistDTO> distList() {
@@ -64,8 +61,12 @@ public class SearchService {
                 .map(brand -> modelMapper.map(brand, BrandDTO.class))
                 .collect(Collectors.toList());
     }
-
-
+    public List<MemberDTO> memberList() {
+        List<Member> members = memberRepository.findAll();
+        return members.stream()
+                .map(member -> modelMapper.map(member, MemberDTO.class))
+                .collect(Collectors.toList());
+    }
 
 
 //    public List<SearchDTO> searchStoreList(Pageable pageable,SearchDTO searchDTO) {

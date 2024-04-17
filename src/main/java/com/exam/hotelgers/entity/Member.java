@@ -36,6 +36,9 @@ public class Member extends BaseEntity {
     private String password;//"회원 비밀번호
 
     @Column(length = 200)
+    private String MemberName;//"회원 이름
+
+    @Column(length = 200)
     private String memberNickname;//"회원 별명
 
     @Column(length = 13)
@@ -89,4 +92,9 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="storeIdx")
+    private Store store;
 }

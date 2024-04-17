@@ -1,7 +1,10 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.DistRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -88,5 +91,27 @@ public class DistService {
 
     public void delete(Long distIdx){
         distRepository.deleteById(distIdx);
+    }
+
+    public Page<DistDTO> searchadminstoredistmange(String distName, String distChief, Pageable pageable) {
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distIdx"));
+
+        Page<Dist> dists = distRepository.multiSearchadminsdm(distName, distChief, page);
+        return dists.map(this::convertToDistDTO);
+    }
+
+    private DistDTO convertToDistDTO(Dist dist) {
+        return modelMapper.map(dist, DistDTO.class);
+    }
+
+    public Page<DistDTO> searchadmindr(String distChief, Pageable pageable) {
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distIdx"));
+
+        Page<Dist> dists = distRepository.multiSearchadmdr(distChief, page);
+        return dists.map(this::convertToDistDTO);
     }
 }

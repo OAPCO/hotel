@@ -1,5 +1,6 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
@@ -191,8 +192,19 @@ public class StoreService {
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
 
-        Page<Store> stores = storeRepository.multiSearch(distName, branchName,storeName,
+        Page<Store> stores = storeRepository.multiSearch( distName, branchName,storeName,
                 storeGrade, storeCd, storeChiefEmail, storeChief, brandName, storeStatus, storePType, page);
+        return stores.map(this::convertToDTO);
+    }
+    public Page<StoreDTO> searchListadminmem(String distName, String branchName, String storeName,String distChiefEmail, String distChief,
+                                              String distTel, StoreStatus storeStatus, Pageable pageable) {
+        //유저권한,총판조직명,지사명,매장명,아이디,이름,연락처,상태
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+
+        Page<Store> stores = storeRepository.multiSearchmemadmin(distName, branchName,storeName,distChiefEmail,distChief
+                ,distTel,storeStatus,page);
         return stores.map(this::convertToDTO);
     }
 
@@ -250,4 +262,6 @@ public class StoreService {
     public void delete(Long storeIdx){
         storeRepository.deleteById(storeIdx);
     }
+
+
 }

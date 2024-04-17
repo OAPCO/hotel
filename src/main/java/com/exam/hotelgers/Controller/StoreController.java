@@ -108,7 +108,9 @@ public class StoreController {
                            @RequestParam(value="storeChief", required = false) String storeChief,
                            @RequestParam(value="brandName", required = false) String brandName,
                            @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus,
-                           @RequestParam(value="storePType", required = false) StorePType storePType
+                           @RequestParam(value="storePType", required = false) StorePType storePType,
+                            @RequestParam(value="distCd", required = false) String distCd,
+                           @RequestParam(value="distTel", required = false) String distTel
                            ){
 
 
@@ -119,7 +121,7 @@ public class StoreController {
 
 
         Page<StoreDTO> storeDTOS = storeService.searchList(distName,branchName,storeName,storeGrade,
-                storeCd,storeChiefEmail,storeChief,brandName,storeStatus,storePType, pageable);
+                storeCd,storeChiefEmail,storeChief,brandName,storeStatus,storePType,pageable);
 
 
 
@@ -249,7 +251,8 @@ public class StoreController {
     public String st(){return "storemember/register";}
 
     @GetMapping("/storemanagement/list")
-    public String stm(){return "storemanagement/list";}
+    public String stm(){
+        return "storemanagement/list";}
 
     @GetMapping("/settlement/list")
     public String sts(){return "settlement/list";}
