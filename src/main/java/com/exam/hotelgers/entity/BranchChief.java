@@ -41,6 +41,10 @@ public class BranchChief extends BaseEntity {
 
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="distIdx")
+    private Dist dist;
+
 
 
     @Enumerated(EnumType.STRING)

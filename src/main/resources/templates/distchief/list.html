@@ -5,7 +5,7 @@
       layout:decorate="~{layouts/main}">>
 
 <head>
-    <title>매니저 목록</title>
+    <title>총판장 목록</title>
 </head>
 
 <body id="page-top">
@@ -13,7 +13,7 @@
 <div layout:fragment="content">
 
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">매니저 명단</h3>
+        <h3 class="text-dark mb-4">총판장 명단</h3>
         <div class="card shadow">
             <div class="card-header py-3">
                 <p class="text-primary m-0 fw-bold">List</p>
@@ -51,14 +51,14 @@
 
                         <tr th:each="data:${list}">
 
-                            <td th:text="${data.managerIdx}">1</td>
-                            <td th:text="${data.managerName}"></td>
-                            <td th:text="${data.managerId}"></td>
+                            <td th:text="${data.distChiefIdx}">1</td>
+                            <td th:text="${data.distChiefName}"></td>
+                            <td th:text="${data.distChiefId}"></td>
                             <td th:text="${data.roleType}"></td>
-                            <td th:text="${data.managerPhone}"></td>
+                            <td th:text="${data.distChiefPhone}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
 
-                            <td><a th:href="@{'/manager/delete/'+${data.managerIdx}}">삭제</a></td>
+                            <td><a th:href="@{'/distchief/delete/'+${data.distChiefIdx}}">삭제</a></td>
 
                         </tr>
 
@@ -69,23 +69,23 @@
                     </table>
 
 
-                        <td><a th:href="@{/manager/register}">신규등록</a></td>
+                        <td><a th:href="@{/distchief/register}">신규등록</a></td>
                 </div>
 
 
-                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/manager/register}'|">등록</button>
+                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/distchief/register}'|">등록</button>
 
         <ul class="mt-3 pagination">
-            <li class="page-item"><a class="page-link" th:href="@{/manager/list(page=${prevPage})}"><</a></li>
+            <li class="page-item"><a class="page-link" th:href="@{/distchief/list(page=${prevPage})}"><</a></li>
             <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
                         <li class="page-item active" th:if="${page == currentPage}">
                             <a class="page-link" href="#">[[${page}]]</a>
                         </li>
                         <li class="page-item" th:unless="${page == currentPage}">
-                            <a class="page-link" th:href="@{/manager/list(page=${page})}">[[${page}]]</a>
+                            <a class="page-link" th:href="@{/distchief/list(page=${page})}">[[${page}]]</a>
                         </li>
                     </span>
-            <li class="page-item"><a class="page-link" th:href="@{/manager/list(page=${nextPage})}">></a></li>
+            <li class="page-item"><a class="page-link" th:href="@{/distchief/list(page=${nextPage})}">></a></li>
         </ul>
 
 

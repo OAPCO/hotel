@@ -1,10 +1,8 @@
 package com.exam.hotelgers.config;
 
+import com.exam.hotelgers.entity.BranchChief;
 import com.exam.hotelgers.entity.Manager;
-import com.exam.hotelgers.service.AdminLoginService;
-import com.exam.hotelgers.service.LoginService;
-import com.exam.hotelgers.service.ManagerLoginService;
-import com.exam.hotelgers.service.MemberLoginService;
+import com.exam.hotelgers.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,25 +20,31 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    //암호
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    //관리자 로그인 서비스
     @Bean
     public AdminLoginService adminLoginService() {
         return new AdminLoginService();
     }
-    //일반 로그인 서비스
     @Bean
     public MemberLoginService memberLoginService() {
         return new MemberLoginService();
     }
-    //관리자 로그인처리 등록
     @Bean
     public ManagerLoginService managerLoginService() {
         return new ManagerLoginService();
+    }
+
+    @Bean
+    public DistChiefLoginService distChiefLoginService() {
+        return new DistChiefLoginService();
+    }
+
+    @Bean
+    public BranchChiefLoginService branchChiefLoginService() {
+        return new BranchChiefLoginService();
     }
 
 
@@ -51,7 +55,7 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-    //일반 로그인처리 등록
+
     @Bean
     public DaoAuthenticationProvider memberProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -68,6 +72,23 @@ public class SecurityConfig {
         return provider;
     }
 
+    @Bean
+    public DaoAuthenticationProvider distchiefProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(distChiefLoginService());
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+
+    @Bean
+    public DaoAuthenticationProvider branchchiefProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(branchChiefLoginService());
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
 
 
 
@@ -75,33 +96,28 @@ public class SecurityConfig {
     @Bean
     @Order(1)
     public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception {
-        //사용권한
+
         http.securityMatcher("/admin/**").authorizeRequests()
                 .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/admin/login").permitAll()
                 .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll()
                 .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
 
-        //관리자회원 로그인
         http.formLogin(login -> login
-                .defaultSuccessUrl("/admin/list", true)
+                .defaultSuccessUrl("/", true)
                 .failureUrl("/admin/login?error=true")
                 .loginPage("/admin/login")
-                .usernameParameter("adminid") //entity에 아이디 필드명
+                .usernameParameter("adminid")
                 .permitAll()
                 .successHandler(new CustomLoginSuccessHandler()));
 
-        //CSRF 보호를 비활성화
         http.csrf(AbstractHttpConfigurer::disable);
 
-        //로그아웃
         http.logout(logout-> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/admin/login")); //로그아웃
+                .logoutSuccessUrl("/admin/login"));
 
-        //관리자인 경우 관리자 로그인처리
         http.authenticationProvider(adminProvider());
 
         return http.build();
@@ -112,34 +128,26 @@ public class SecurityConfig {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
-        //사용권한
+    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
+
         http.securityMatcher("/manager/**").authorizeRequests()
                 .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/admin/login").permitAll()
-                .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll()
-                .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
+                .requestMatchers("/h2-console/**").permitAll();
 
-        //관리자회원 로그인
         http.formLogin(login -> login
-                .defaultSuccessUrl("/manager/list", true)
+                .defaultSuccessUrl("/", true)
                 .failureUrl("/manager/login?error=true")
                 .loginPage("/manager/login")
-                .usernameParameter("managerid") //entity에 아이디 필드명
+                .usernameParameter("managerid")
                 .permitAll()
                 .successHandler(new CustomLoginSuccessHandler()));
 
-        //CSRF 보호를 비활성화
         http.csrf(AbstractHttpConfigurer::disable);
 
-        //로그아웃
         http.logout(logout-> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/manager/login")); //로그아웃
+                .logoutSuccessUrl("/manager/login"));
 
-        //관리자인 경우 관리자 로그인처리
         http.authenticationProvider(managerProvider());
 
         return http.build();
@@ -153,7 +161,7 @@ public class SecurityConfig {
 
     @Bean
     @Order(3)
-    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
         //사용권한
         http.authorizeRequests()
                 .requestMatchers("/**", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
@@ -162,34 +170,92 @@ public class SecurityConfig {
                 .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
                 .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
 
-        //http.exceptionHandling(exceptionHandling ->exceptionHandling
-        //         .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-        // );
-
-
-        //일반회원 로그인
         http.formLogin(login -> login
-                .defaultSuccessUrl("/member/list", true)
+                .defaultSuccessUrl("/", true)
                 .failureUrl("/member/login?error=true")
                 .loginPage("/member/login")
-                .usernameParameter("userid") //entity에 아이디 필드명
+                .usernameParameter("userid")
                 .permitAll()
                 .successHandler(new CustomLoginSuccessHandler()));
 
 
-
-        //CSRF 보호를 비활성화
         http.csrf(AbstractHttpConfigurer::disable);
 
-        //로그아웃
         http.logout(logout-> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/member/login")); //로그아웃
+                .logoutSuccessUrl("/member/login"));
 
-        //일반 사용자인 경우 일반 사용자로그인 처리
         http.authenticationProvider(memberProvider());
         return http.build();
     }
+
+
+    @Bean
+    @Order(4)
+    public SecurityFilterChain filterChain4(HttpSecurity http) throws Exception {
+
+        http.securityMatcher("/branchchief/**").authorizeRequests()
+                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/admin/login").permitAll()
+                .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll()
+                .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
+
+        http.formLogin(login -> login
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/branchchief/login?error=true")
+                .loginPage("/branchchief/login")
+                .usernameParameter("branchchiefid")
+                .permitAll()
+                .successHandler(new CustomLoginSuccessHandler()));
+
+        http.csrf(AbstractHttpConfigurer::disable);
+
+        http.logout(logout-> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/branchchief/login"));
+
+        http.authenticationProvider(branchchiefProvider());
+
+        return http.build();
+    }
+
+
+
+
+    @Bean
+    @Order(5)
+    public SecurityFilterChain filterChain5(HttpSecurity http) throws Exception {
+
+        http.securityMatcher("/distchief/**").authorizeRequests()
+                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/admin/login").permitAll()
+                .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll()
+                .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
+                .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
+
+        http.formLogin(login -> login
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/distchief/login?error=true")
+                .loginPage("/distchief/login")
+                .usernameParameter("distchiefid")
+                .permitAll()
+                .successHandler(new CustomLoginSuccessHandler()));
+
+        http.csrf(AbstractHttpConfigurer::disable);
+
+        http.logout(logout-> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/distchief/login"));
+
+        http.authenticationProvider(distchiefProvider());
+
+        return http.build();
+    }
+
+
 
 
 

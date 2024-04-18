@@ -28,7 +28,6 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 super.setDefaultTargetUrl("/member/list");
             }
 
-            //관리자가 로그인을 성공하였을 때 이동할 페이지
             boolean isAdmin = authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
             if(isAdmin) {
@@ -39,6 +38,18 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_MANAGER"));
             if(isManager) {
                 super.setDefaultTargetUrl("/manager/list");
+            }
+
+            boolean isBranchChief = authentication.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_BRANCHCHIEF"));
+            if(isBranchChief) {
+                super.setDefaultTargetUrl("/store/list");
+            }
+
+            boolean isDistChief = authentication.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_DISTCHIEF"));
+            if(isDistChief) {
+                super.setDefaultTargetUrl("/distchief/branch/list");
             }
         }
 

@@ -23,23 +23,18 @@ public class AdminLoginService implements UserDetailsService {
     @Autowired
     private AdminRepository adminRepository;
 
-    //보안인증을 통한 로그인처리(.usernameParameter("userid") =>userid)
     @Override
     public UserDetails loadUserByUsername(String userid) {
-        System.out.println("관리자 로그인");
+
         Optional<Admin> adminEntity = adminRepository.findByAdminId(userid);
-        if (adminEntity.isPresent()) { //관리자에 존재하면
-            //아이디, 비밀번호, 권한을 이용해서 로그인처리
+        if (adminEntity.isPresent()) {
 
-            log.info("어드민 가져온거@@@@@@@@@@@   "+adminEntity.get().getAdminId());
-            log.info("어드민 가져온거@@@@@@@@@@@   "+adminEntity.get().getPassword());
-
+            log.info("관리자 로그인서비스 들어옴");
             return User.withUsername(adminEntity.get().getAdminId())
                     .password(adminEntity.get().getPassword())
                     .roles(adminEntity.get().getRoleType().name())
                     .build();
         }
-        //일반회원 및 관리자에 존재하지 않으면 오류발생(Console)
         throw new UsernameNotFoundException("알 수 없는 아이디 : "+ userid);
     }
 }

@@ -33,4 +33,7 @@ public class BranchChiefDTO {
 
     private LocalDateTime moddate;
 
+
+    private DistDTO distDTO;
+
 }

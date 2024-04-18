@@ -3,6 +3,7 @@ package com.exam.hotelgers.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
@@ -18,6 +19,8 @@ public class DistDTO {
     private String distChief;
     private String distChiefEmail;
     private String distTel;
+
+    private List<BranchChiefDTO> branchChiefDTOList;
 
 
     private LocalDateTime regdate;

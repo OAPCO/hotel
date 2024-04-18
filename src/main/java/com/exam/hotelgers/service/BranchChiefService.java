@@ -3,9 +3,13 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.BranchChiefDTO;
+import com.exam.hotelgers.dto.BranchDTO;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.entity.BranchChief;
+import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.repository.BranchChiefRepository;
+import com.exam.hotelgers.repository.DistRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -24,10 +28,21 @@ public class BranchChiefService {
     private final BranchChiefRepository branchChiefRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final SearchService searchService;
+    private final DistRepository distRepository;
 
 
 
     public Long register(BranchChiefDTO branchChiefDTO){
+
+
+        Optional<Dist> dist = distRepository.findByDistCd(branchChiefDTO.getDistDTO().getDistCd());
+
+        if (!dist.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
+        }
+
+
 
         Optional<BranchChief> branchChiefidCheck = branchChiefRepository.findByBranchChiefId(branchChiefDTO.getBranchChiefId());
 
@@ -45,11 +60,12 @@ public class BranchChiefService {
             branchChief.setRoleType(RoleType.BRANCHCHIEF);
         }
 
-        branchChief.setPassword(password); //비밀번호는 암호화된 비밀번호로 변경처리
+        branchChief.setPassword(password);
+        branchChief.setDist(dist.get());
 
-        Long branchChiefIdx = branchChiefRepository.save(branchChief).getBranchChiefIdx();
 
-        return branchChiefIdx;
+
+        return branchChiefRepository.save(branchChief).getBranchChiefIdx();
     }
 
 
@@ -84,6 +100,12 @@ public class BranchChiefService {
         return BranchChiefDTOS;
     }
 
+
+    private BranchChiefDTO convertToDTO(BranchChief branchChief) {
+        BranchChiefDTO dto = modelMapper.map(branchChief, BranchChiefDTO.class);
+        dto.setDistDTO(searchService.convertToDistDTO(branchChief.getDist()));
+        return dto;
+    }
 
 
 

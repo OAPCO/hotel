@@ -97,6 +97,16 @@ public class SearchService {
     }
 
 
+    public List<BranchChiefDTO> convertToBranchChiefDTOList(List<BranchChief> branchChiefs) {
+        if (branchChiefs == null || branchChiefs.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return branchChiefs.stream()
+                .map(branchChief -> modelMapper.map(branchChief, BranchChiefDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
 
 
     public DistDTO convertToDistDTO(Dist dist) {
