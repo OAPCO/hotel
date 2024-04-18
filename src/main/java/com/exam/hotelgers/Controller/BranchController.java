@@ -205,22 +205,4 @@ public class BranchController {
 
 
 
-    @GetMapping("/distchief/branch/idsearch")
-    public String idsearch(@PageableDefault(page=1) Pageable pageable, Model model) {
-        log.info("서비스로 모든 데이터 조회....");
-
-        //searchDTO : 조회항목들이 들어있는 DTO
-        //입력받은 열거형값을 열거형 데이터로 변환한다.
-        Page<BranchChiefDTO> branchChiefDTOS = branchChiefService.list(pageable);
-
-        //페이지 정보 처리
-        Map<String, Integer> pageinfo = PageConvert.Pagination(branchChiefDTOS);
-        model.addAllAttributes(pageinfo);
-
-        //결과데이터
-        model.addAttribute("list", branchChiefDTOS);
-
-        return "distchief/branch/idsearch";
-    }
-
 }
