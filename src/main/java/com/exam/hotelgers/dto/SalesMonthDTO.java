@@ -81,8 +81,8 @@ public class SalesMonthDTO extends BaseEntity {
 
         int totalFee_per_case = 0;
         for (SalesMonthDTO salesMonthDTO : salesMonthDTOList) {
-            if(salesMonthDTO.getPG_fee() != null) {
-                totalFee_per_case += salesMonthDTO.getPG_fee();
+            if(salesMonthDTO.getFee_per_case() != null) {
+                totalFee_per_case += salesMonthDTO.getFee_per_case();
             }
         }
         return totalFee_per_case;
