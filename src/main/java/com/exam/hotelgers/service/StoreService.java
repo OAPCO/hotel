@@ -152,19 +152,6 @@ public class StoreService {
 
 
 
-    private List<OrderDTO> convertOrderToDTOs(List<Order> orders) {
-        if (orders == null || orders.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return orders.stream()
-                .map(order -> modelMapper.map(order, OrderDTO.class))
-                .collect(Collectors.toList());
-    }
-
-
-
-
-
     public Page<StoreDTO> list(Pageable pageable) {
 
         int currentPage = pageable.getPageNumber() - 1;
