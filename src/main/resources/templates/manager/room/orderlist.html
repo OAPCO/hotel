@@ -17,7 +17,7 @@
               [ [[${roomDTO.roomName}]] ] 주문 현황
           </div>
         <div class="table-responsive">
-            <table class="table">
+            <table class="table body">
                 <thead>
                 <tr>
                     <th>주문번호</th>
@@ -40,15 +40,27 @@
     </div>
     <div class="col-md-6">
         <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-            <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
-                        aria-hidden="true">«</span></a></li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
-                        aria-hidden="true">»</span></a></li>
-            </ul>
+<!--            <ul class="pagination">-->
+<!--                <li class="page-item" th:unless="${startPage==1}">-->
+<!--                    <a class="page-link" th:href="@{/manager/room/${roomDTO.roomIdx}(page=1)}">처음</a></li>-->
+<!--                <li class="page-item" th:unless="${currentPage==1}">-->
+<!--                    <a class="page-link" th:href="@{/manager/room/${roomDTO.roomIdx}(page=${prevPage})}">이전</a></li>-->
+
+<!--&lt;!&ndash;                <td><button class="btn button" type="button" th:onclick="|location.href='@{'/distchief/branch/deletechief/'+${data.branchChiefIdx}}'|">삭제</button></td>&ndash;&gt;-->
+
+<!--                <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">-->
+<!--                    <li class="page-item" th:unless="${page == currentPage}">-->
+<!--                        <a class="page-link" th:href="@{/manager/room/${roomDTO.roomIdx}(page=${page})}">[[${page}]]</a>-->
+<!--                    </li>-->
+<!--                    <li class="page-item active" th:if="${page == currentPage}">-->
+<!--                        <a class="page-link" href="#">[[${page}]]</a>-->
+<!--                    </li>-->
+<!--                </span>-->
+<!--                <li class="page-item" th:unless="${currentPage>=lastPage}">-->
+<!--                    <a class="page-link" th:href="@{/manager/room/${roomDTO.roomIdx}(page=${nextPage})}">다음</a></li>-->
+<!--                <li class="page-item" th:unless="${endPage==lastPage}">-->
+<!--                    <a class="page-link" th:href="@{/manager/room/${roomDTO.roomIdx}(page=${lastPage})}">끝</a></li>-->
+<!--            </ul>-->
         </nav>
     </div>
 </div>

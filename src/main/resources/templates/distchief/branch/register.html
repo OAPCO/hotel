@@ -66,6 +66,18 @@
 
 
     <script th:inline="javascript">
+
+        window.addEventListener('message', function(event){
+
+            if (event.data.branchChiefName) {
+                document.querySelector('input[name="branchChiefName"]').value = event.data.branchChiefName;
+            }
+            if (event.data.brandName) {
+                document.querySelector('input[name="brandName"]').value = event.data.brandName;
+            }
+        });
+
+
         function branchChiefsearch() {
 
 
@@ -73,10 +85,6 @@
             var popupOption = "width=500, height=400";
 
             window.open(popupBranchChief, "지사장 찾기", popupOption);
-            window.addEventListener('message', function(event){
-
-                document.querySelector('input[name="branchChiefName"]').value = event.data.branchChiefName;
-            })
         }
 
         function brandsearch() {
@@ -86,10 +94,6 @@
             var popupOption = "width=500, height=400";
 
             window.open(popupBrand, "브랜드 찾기", popupOption);
-            window.addEventListener('message', function(event){
-
-                document.querySelector('input[name="brandName"]').value = event.data.brandName;
-            })
         }
     </script>
 
