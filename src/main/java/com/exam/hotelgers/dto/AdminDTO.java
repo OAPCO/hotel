@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class AdminDTO {
 
-    private Long adminIdx;
+    private Long adminIdx; //키
 
     private String adminId;
 
