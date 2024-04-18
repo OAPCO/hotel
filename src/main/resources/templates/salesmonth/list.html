@@ -89,15 +89,31 @@
                         <td th:text="${data.salesmonthidx}">1</td>
                         <td><a th:href="@{'/salesmonth/'+${data.salesmonthidx}}"
                                th:text="${data.date}">임시</a></td>
-                        <td th:text="${data.Total_amount}">임시</td>
-                        <td th:text="${data.Offline_payment_amount}">임시</td>
-                        <td th:text="${data.PG_payment_amount}">임시</td>
-                        <td th:text="${data.PG_fee}">임시</td>
-                        <td th:text="${data.Fee_per_case}">임시</td>
-                        <td th:text="${data.Monthly_fee}">임시</td>
-                        <td th:text="${data.storeremittance}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(data.Total_amount,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(data.Offline_payment_amount,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(data.PG_payment_amount,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(data.PG_fee,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(data.Fee_per_case,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(data.Monthly_fee,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(data.storeremittance,3,'COMMA')}">임시</td>
                     </tr>
                     </tbody>
+                    <!--합계처리-->
+                    <tfoot>
+                    <tr>
+                        <td colspan='2'>합계(원)</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(totalPayment,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(totalOffline,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(totalPG_payment,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(totalPG_fee,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(totalFee_per_case,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(totalMonthly_fee,3,'COMMA')}">임시</td>
+                        <td style="text-align: right;" th:text="${#numbers.formatInteger(totalstoreremittance,3,'COMMA')}">임시</td>
+                    </tr>
+                    <tr>
+                        <td colspan='9'>순매출(원)</td>
+                    </tr>
+                    </tfoot>
                 </table>
                 <br>
                 <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/salesmonth/register}'|">등록

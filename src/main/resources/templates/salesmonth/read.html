@@ -24,21 +24,22 @@
                         <p>총판조직: <span th:text="${data.distributor_organization}"></span></p>
                         <p>지사: <span th:text="${data.Branch}"></span></p>
                         <p>매장: <span th:text="${data.store}"></span></p>
-                        <p>합산금액(원): <span th:text="${data.date}"></span></p>
-                        <p>오프라인 결제금액(원): <span th:text="${data.storecd}"></span></p>
-                        <p>PG결제금액(원): <span th:text="${data.storename}"></span></p>
-                        <p>PG수수료(원): <span th:text="${data.ordernum}"></span></p>
-                        <p>건별수수료(원): <span th:text="${data.paymentnum}"></span></p>
-                        <p>월정수수료(원): <span th:text="${data.id}"></span></p>
-                        <p>매장송금액(원): <span th:text="${data.payment}"></span></p>
+                        <p>결제일자: <span th:text="${data.date}"></span></p>
+                        <p>합산금액(원): <span th:text="${data.Total_amount}"></span></p>
+                        <p>오프라인 결제금액(원): <span th:text="${data.Offline_payment_amount}"></span></p>
+                        <p>PG결제금액(원): <span th:text="${data.PG_payment_amount}"></span></p>
+                        <p>PG수수료(원): <span th:text="${data.PG_fee}"></span></p>
+                        <p>건별수수료(원): <span th:text="${data.Fee_per_case}"></span></p>
+                        <p>월정수수료(원): <span th:text="${data.Monthly_fee}"></span></p>
+                        <p>매장송금액(원): <span th:text="${data.storeremittance}"></span></p>
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn btn-primary"
-                                th:onclick="|location.href='@{/sales/list}'|">목록</button>
+                                th:onclick="|location.href='@{/salesmonth/list}'|">목록</button>
                         <button type="button" class="btn btn-secondary"
-                                th:onclick="|location.href='@{/sales/update/}'+${data.salesidx}|">수정</button>
+                                th:onclick="|location.href='@{/salesmonth/update/}'+${data.salesmonthidx}|">수정</button>
                         <button type="button" class="btn btn-danger"
-                                th:onclick="|location.href='@{/sales/delete/}'+${data.salesidx}|">삭제</button>
+                                th:onclick="|location.href='@{/salesmonth/delete/}'+${data.salesmonthidx}|">삭제</button>
                     </div>
                 </div>
                 <!--상세정보 끝-->

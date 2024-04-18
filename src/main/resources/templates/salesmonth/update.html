@@ -28,7 +28,7 @@
             <div class="col-lg-10">
                 <h5 class="text-dark mb-4">매출 수정</h5>
                 <form th:action="@{/salesmonth/update}" method="post" th:object="${salesMonthDTO}">
-                    <input type="hidden" name="storeMemberIdx" th:field="*{salesmonthidx}" readonly>
+                    <input type="hidden" name="salesmonthidx" th:field="*{salesmonthidx}" readonly>
                     <div class="row">
                         <div class="col-sm-2 bg-gray-200 text-black">결제일자</div>
                         <div class="col-sm-4 border">
@@ -108,7 +108,7 @@
                     <div class="container d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-primary">수정</button>
                         <button type="button" class="btn btn-secondary"
-                                th:onclick="|location.href='@{/salesmonth/read{id}}'|">이전</button>
+                                onclick="window.history.back()">이전</button>
                     </div>
                 </form>
             </div>

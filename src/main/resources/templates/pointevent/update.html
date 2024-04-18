@@ -80,7 +80,8 @@
                     </div>
                     <div class="container d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-primary">수정</button>
-                        <button type="submit" class="btn btn-primary">취소</button>
+                        <button type="button" class="btn btn-secondary"
+                                th:onclick="|location.href='@{/pointevent/{id}}'|">이전</button>
                     </div>
                 </form>
             </div>

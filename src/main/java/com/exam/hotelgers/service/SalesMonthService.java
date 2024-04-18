@@ -34,8 +34,8 @@ public class SalesMonthService {
         Optional<SalesMonth> search = salesMonthRepository.findById(salesMonthDTO.getSalesmonthidx());
 
         if(search.isPresent()) {
-            SalesMonth storeMember = modelMapper.map(salesMonthDTO, SalesMonth.class);
-            salesMonthRepository.save(storeMember);
+            SalesMonth salesMonth = modelMapper.map(salesMonthDTO, SalesMonth.class);
+            salesMonthRepository.save(salesMonth);
         }
         SalesMonthDTO result = search.map(data ->modelMapper.map(data, SalesMonthDTO.class)).orElse(null);
 

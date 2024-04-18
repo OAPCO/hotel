@@ -94,6 +94,13 @@ public class SalesMonthController {
         log.info("서비스로 모든 데이터 조회....");
 
         Page<SalesMonthDTO> salesMonthDTOS = salesMonthService.select(pageable, salesMonthDTO);
+        int totalPayment = SalesMonthDTO.TotalPayment(salesMonthDTOS);
+        int totalOffline = SalesMonthDTO.TotalOffline(salesMonthDTOS);
+        int totalPG_payment = SalesMonthDTO.TotalPG_payment(salesMonthDTOS);
+        int totalPG_fee = SalesMonthDTO.TotalPG_fee(salesMonthDTOS);
+        int totalFee_per_case = SalesMonthDTO.TotalFee_per_case(salesMonthDTOS);
+        int totalMonthly_fee = SalesMonthDTO.TotalMonthly_fee(salesMonthDTOS);
+        int totalstoreremittance = SalesMonthDTO.Totalstoreremittance(salesMonthDTOS);
 
 
          Map<String, Integer> pageInfo = pageService.Pagination(salesMonthDTOS);
@@ -102,6 +109,13 @@ public class SalesMonthController {
         model.addAttribute("salesMonthDTO", salesMonthDTO);
 
         model.addAttribute("list", salesMonthDTOS);
+        model.addAttribute("totalPayment", totalPayment);
+        model.addAttribute("totalOffline", totalOffline);
+        model.addAttribute("totalPG_payment", totalPG_payment);
+        model.addAttribute("totalPG_fee", totalPG_fee);
+        model.addAttribute("totalFee_per_case", totalFee_per_case);
+        model.addAttribute("totalMonthly_fee", totalMonthly_fee);
+        model.addAttribute("totalstoreremittance", totalstoreremittance);
 
         return "salesmonth/list";
     }
