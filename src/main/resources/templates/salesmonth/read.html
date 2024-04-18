@@ -25,7 +25,7 @@
                         <p>지사: <span th:text="${data.Branch}"></span></p>
                         <p>매장: <span th:text="${data.store}"></span></p>
                         <p>결제일자: <span th:text="${data.date}"></span></p>
-                        <p>합산금액(원): <span th:text="${data.Total_amount}"></span></p>
+                        <p>합산금액(원): <span th:text="${data.Offline_payment_amount+data.PG_payment_amount+data.PG_fee+data.fee_per_case+data.monthly_fee+data.storeremittance}"></span></p>
                         <p>오프라인 결제금액(원): <span th:text="${data.Offline_payment_amount}"></span></p>
                         <p>PG결제금액(원): <span th:text="${data.PG_payment_amount}"></span></p>
                         <p>PG수수료(원): <span th:text="${data.PG_fee}"></span></p>

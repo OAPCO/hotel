@@ -19,7 +19,6 @@ public class SalesMonthDTO extends BaseEntity {
     private String distributor_organization;//총판조직
     private String Branch;//지사
     private String store;//매장
-    private Integer Total_amount;//합산금액
     private Integer Offline_payment_amount;//오프라인 결제금액
     private Integer PG_payment_amount;//PG결제금액
     private Integer PG_fee;//PG수수료
@@ -31,11 +30,10 @@ public class SalesMonthDTO extends BaseEntity {
     private LocalDate endDate;//종료날짜
     public static int TotalPayment(Page<SalesMonthDTO> salesMonthDTOPage) {
         List<SalesMonthDTO> salesMonthDTOList = salesMonthDTOPage.getContent();
-
         int totalPayment = 0;
         for (SalesMonthDTO salesMonthDTO : salesMonthDTOList) {
-            if(salesMonthDTO.getTotal_amount() != null) {
-                totalPayment += salesMonthDTO.getTotal_amount();
+            if(salesMonthDTO.getOffline_payment_amount()!= null&&salesMonthDTO.getPG_payment_amount()!= null&&salesMonthDTO.getPG_fee()!= null&&salesMonthDTO.getFee_per_case()!= null&&salesMonthDTO.getMonthly_fee()!= null&&salesMonthDTO.getStoreremittance()!= null){
+                totalPayment += salesMonthDTO.getOffline_payment_amount()+salesMonthDTO.getPG_payment_amount()+salesMonthDTO.getPG_fee()+salesMonthDTO.getFee_per_case()+salesMonthDTO.getMonthly_fee()+salesMonthDTO.getStoreremittance();
             }
         }
         return totalPayment;

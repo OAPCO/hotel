@@ -26,7 +26,6 @@ public class SalesMonth extends BaseEntity{
     private String distributor_organization;//총판조직
     private String Branch;//지사
     private String store;//매장
-    private Integer Total_amount;//합산금액
     private Integer Offline_payment_amount;//오프라인 결제금액
     private Integer PG_payment_amount;//PG결제금액
     private Integer PG_fee;//PG수수료
