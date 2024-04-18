@@ -332,6 +332,13 @@ public class AdminController {
         model.addAttribute("list", distDTOS);
         return "admin/adminpage/distChiefsearch";
     }
-}
+    @GetMapping("/admin/pwchange")
+        public String pwchangeForm(){
+
+            return "admin/pwchange";
+        }
+        
+    }
+
 
 
