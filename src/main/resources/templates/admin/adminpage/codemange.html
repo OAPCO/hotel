@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+    <style>td, th {
+        white-space: nowrap;
+    }
+
+    </style>
+    <title>주문관리</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h4 class="card-title">공통 코드 관리</h4>
+            <form method="post" action="/order/ordernumber">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th >총판조직</th>
+                            <th class="align-middle text-start">
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm">
+                                        <option value="10" selected="">GGG호텔</option>
+                                        <option value="25">3스타호텔</option>
+                                        <option value="50">50</option>
+                                        <option value="month">month</option>
+                                    </select>
+                                </div>
+                            </th>
+                            <th>지사</th>
+                            <th class="align-middle text-start">
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm">
+                                        <option value="10" selected="">전체</option>
+                                        <option value="25">3스타호텔</option>
+                                        <option value="50">50</option>
+                                        <option value="month">month</option>
+                                    </select>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><strong>매장</strong></td>
+                            <td class="align-middle text-start">
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm " style="width:300px">
+                                        <option value="10" selected="">어드민</option>
+                                        <option value="25">3스타호텔</option>
+                                        <option value="50">50</option>
+                                        <option value="month">month</option>
+                                    </select>
+                                </div>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td><strong>언어코드</strong></td>
+                            <td class="align-middle text-start">
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm " style="width:300px">
+                                        <option value="10" selected="">KOR</option>
+                                        <option value="25">ENG</option>
+                                        <option value="50">JP</option>
+                                        <option value="month">CHI</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td><strong>코드구분</strong></td>
+                            <td>
+                                <input type="radio" name="매장주아이디" value="value1">SYSTEM
+                                <input type="radio" name="매장주아이디" value="value1">USER
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="max-width: 400px;"><strong>코드그룹</strong></td>
+                            <td><input type="text" name="" value="">
+                            <td>코드그룹명</td>
+                            <td><input type="text" name="" value="">
+                            </td>
+
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-dark">조회</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <h4 class="card-title">코드 그룹</h4>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-dark m-2" type="button" th:onclick="|location.href='@{/admin/register}'|">등록</button>
+                <button class="btn btn-primary m-2" type="button" th:onclick="|location.href='@{/admin/register}'|">수정</button>
+                <button class="btn btn-secondary m-2" type="button" th:onclick="|location.href='@{/admin/register}'|">삭제</button>
+                <button class="btn btn-primary m-2" type="button" th:onclick="|location.href='@{/admin/register}'|">하위코드</button>
+            </div>
+            <div style="text-align:right;">
+                총 11건
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAll"></th>
+                        <th>No</th>
+                        <th>언어</th>
+                        <th>코드구분</th>
+                        <th>코드그룹</th>
+                        <th>코드그룹명</th>
+                        <th>표시순서</th>
+                        <th>하위코드갯수</th>
+                        <th>사용여부</th>
+                        <th>삭제여부</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td><input  type="checkbox" class="checkbox"> </td>
+                        <td th:text="${data.userid}">Cell 2</td>
+                        <td th:text="${data.id}">Cell 2</td>
+                        <td th:text="${data.id}">Cell 2</td>
+                        <td th:text="${data.id}">Cell 2</td>
+                        <td th:text="${data.id}">Cell 2</td>
+                        <td th:text="${data.id}">Cell 2</td>
+                        <td th:text="${data.id}">Cell 2</td>
+                        <td th:text="${data.id}">Cell 2</td>
+                        <td th:text="${data.id}">Cell 2</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                <ul class="pagination">
+                    <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
+                            aria-hidden="true">«</span></a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
+                            aria-hidden="true">»</span>
+                    </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>

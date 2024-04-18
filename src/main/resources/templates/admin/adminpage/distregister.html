@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+
+    </style>
+    <title>총판조직 관리</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h4 class="card-title">총판 조직 관리</h4>
+            <h6><strong>총판 조직 등록</strong></h6>
+            <form class="user" th:action="@{/dist/register}" method="post">
+                <div class="table-responsive">
+                    <form class="user" th:action="@{/dist/register}" method="post">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th >매장총판명</th>
+                            <th class="align-middle text-start">
+                                <input type="text" value="" placeholder="매장총판명" name="distName" style="width:300px;">
+                            </th>
+                            <th>총판ID</th>
+                            <th class="align-middle text-start">
+                                <input type="text" value="" placeholder="총판ID" name="distCd" style="width:300px;">
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>총판장</th>
+                            <td><input type="text" placeholder="총판장" name="distChief" style="width:300px; ">
+                                <button type="button" class="btn btn-dark ml-6" >검색</button>
+
+                            </td>
+                            <th>총판연락처</th>
+                            <td ><input type="text" placeholder="총판연락처" name="distTel" style="width:300px;">
+                            </td>
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+                    <div style="text-align: right;">
+                        <button type="submit" class="btn text-white m-2" style="background-color: #36b9cc;">등록</button>
+                        <button class="btn btn-secondary m-2" type="button" th:onclick="|location.href='@{/admin/adminpage/storedistmange}'|">취소</button>
+                    </div>
+            </form>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

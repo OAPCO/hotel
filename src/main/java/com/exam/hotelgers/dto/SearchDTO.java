@@ -1,5 +1,6 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.constant.StoreStatus;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -44,5 +45,9 @@ public class SearchDTO {
 
     private String brandName; //브랜드이름.
 
+    //스토어
+    private String storeChief;//매장주
+    private Integer storePartnerState; //제휴상태
 
+    private StoreStatus storestatus; //제휴상태 열거형 문자열
 }

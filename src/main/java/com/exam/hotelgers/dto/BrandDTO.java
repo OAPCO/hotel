@@ -3,6 +3,8 @@ package com.exam.hotelgers.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +26,8 @@ public class BrandDTO {
     private LocalDateTime moddate;
 
     private DistDTO distDTO;
+
+    private List<StoreDTO> storeDTOList = new ArrayList<>();
 
 
 

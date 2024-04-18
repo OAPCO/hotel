@@ -32,7 +32,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             boolean isAdmin = authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
             if(isAdmin) {
-                super.setDefaultTargetUrl("/admin/list");
+                super.setDefaultTargetUrl("/admin/adminpage/distregister");
             }
 
             boolean isManager = authentication.getAuthorities().stream()

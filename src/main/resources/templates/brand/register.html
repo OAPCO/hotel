@@ -14,13 +14,10 @@
         <div class="card shadow-lg o-hidden border-0 my-5">
             <div class="card-body p-0">
                 <div class="row">
-                    <div class="col-lg-3 d-none d-lg-flex">
-                        <div class="flex-grow-1 bg-register-image" style="background-image: url(/assets/img/dogs/image2.jpeg);"></div>
-                    </div>
-                    <div class="col-lg-9">
+                    <div class="col-lg-10">
                         <div class="p-5">
                             <div class="text-center">
-                                <h4 class="text-dark mb-4">회원 가입</h4>
+                                <h4 class="text-dark mb-4">브랜드 등록</h4>
                             </div>
                             <form class="user" th:action="@{/brand/register}" method="post">
 
@@ -36,18 +33,23 @@
 
                                 <div class="mb-3 mt-3">
                                     <label>소속총판코드 : </label>
-                                    <input type="text" class="form-control" placeholder="소속 총판 코드" name="distDTO.distCd">
+                                    <div class="d-inline-block">
+                                        <select name="distDTO.distCd" class="form-control">
+                                            <option value="" disabled selected>총판코드를 선택하세요</option>
+                                            <!-- use Thymeleaf or other tags to loop over the distCds here -->
+                                            <option th:each="cd : ${distCd}" th:value="${cd}" th:text="${cd}"></option>
+                                        </select>
+                                    </div>
                                 </div>
 
 
 
-                                <button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit">등록
                                 </button>
                             </form>
-                            <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a>
+                            <div class="text-center">
+                                <a class="small" th:href="@{/brand/list}">목록으로 돌아가기</a>
                             </div>
-                            <div class="text-center"><a class="small" href="login.html">Already have an account?
-                                Login!</a></div>
                         </div>
                     </div>
                 </div>

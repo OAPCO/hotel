@@ -1,7 +1,9 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.constant.StoreGrade;
+import com.exam.hotelgers.constant.StorePType;
+import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.repository.BrandRepository;
@@ -17,7 +19,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -75,17 +79,42 @@ public class BrandService {
 
     }
 
-    public BrandDTO read(Long brandIdx){
+    public BrandDTO read(Long brandIdx) {
+        // brandIdx에 해당하는 Brand를 찾습니다
+        Optional<Brand> brand = brandRepository.findById(brandIdx);
+        BrandDTO brandDTO = null;
 
-        Optional<Brand> brand= brandRepository.findById(brandIdx);
+        if(brand.isPresent()){
+            // Brand를 BrandDTO로 변환합니다
+            brandDTO = modelMapper.map(brand.get(), BrandDTO.class);
 
+            // Brand와 연관된 Dist 객체를 가져옵니다
+            Dist dist = brand.get().getDist();
 
-        return modelMapper.map(brand,BrandDTO.class);
+            // Dist를 DistDTO로 변환합니다
+            DistDTO distDTO = modelMapper.map(dist, DistDTO.class);
+
+            // 변환한 DistDTO를 BrandDTO에 설정해 줍니다
+            brandDTO.setDistDTO(distDTO);
+
+            // Brand와 연관된 Store 객체들을 가져옵니다
+            List<Store> stores = brand.get().getStoreList();   //  변동한 부분
+
+            // Store 목록을 StoreDTO 목록으로 변환합니다
+            List<StoreDTO> storeDTOS = stores.stream().map(store -> modelMapper.map(store, StoreDTO.class)).collect(Collectors.toList());
+
+            // 변환한 StoreDTO 목록을 BrandDTO에 설정해 줍니다
+            brandDTO.setStoreDTOList(storeDTOS);
+        }
+
+        // 완성한 BrandDTO를 반환합니다
+        return brandDTO;
     }
 
 
 
     public Page<BrandDTO> list(Pageable pageable) {
+
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "brandIdx"));
@@ -93,6 +122,20 @@ public class BrandService {
         Page<Brand> brands = brandRepository.findAll(page);
         return brands.map(this::convertToDTO);
     }
+
+    public Page<BrandDTO> searchList(String distChiefEmail, String distName, String brandName,String brandCd,
+                                     StoreStatus storestatus,
+                                     Pageable pageable) {
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "brandIdx"));
+
+        Page<Brand> brands = brandRepository.multisearch(distChiefEmail, distName,brandName,brandCd,storestatus, page);
+        return brands.map(this::convertToDTO);
+    }
+
+
 
     private BrandDTO convertToDTO(Brand brand) {
         BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
@@ -103,6 +146,11 @@ public class BrandService {
     private DistDTO convertToStoreDistDTO(Dist dist) {
         return modelMapper.map(dist, DistDTO.class);
     }
+
+    private BranchDTO convertToStoreBranchDTO(Branch branch) {
+        return modelMapper.map(branch, BranchDTO.class);
+    }
+
 
 
 
