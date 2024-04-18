@@ -108,9 +108,7 @@ public class StoreController {
                            @RequestParam(value="storeChief", required = false) String storeChief,
                            @RequestParam(value="brandName", required = false) String brandName,
                            @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus,
-                           @RequestParam(value="storePType", required = false) StorePType storePType,
-                            @RequestParam(value="distCd", required = false) String distCd,
-                           @RequestParam(value="distTel", required = false) String distTel
+                           @RequestParam(value="storePType", required = false) StorePType storePType
                            ){
 
 

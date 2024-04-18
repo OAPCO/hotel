@@ -105,7 +105,7 @@ public class AdminController {
 
             log.info("storemangelist 도착");
 
-        Page<StoreDTO> storeDTOS = storeService.list(pageable);
+        Page<DistDTO> distDTOS = distService.list(pageable);
 
 
         List<DistDTO> distList = searchService.distList();
@@ -113,13 +113,13 @@ public class AdminController {
         List<BrandDTO> brandList = searchService.brandList();
 
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOS);
 
             model.addAllAttributes(pageinfo);
             model.addAttribute("distList",distList);
             model.addAttribute("branchList",branchList);
             model.addAttribute("brandList",brandList);
-        model.addAttribute("list", storeDTOS);
+        model.addAttribute("list", distDTOS);
 
 
         return "admin/adminpage/storemembermange";
@@ -128,23 +128,21 @@ public class AdminController {
     @PostMapping("/admin/adminpage/storemembermange")
     public String sdmProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                           @RequestParam(value="distName", required = false) String distName,
-                          @RequestParam(value="branchName", required = false) String branchName,
-                          @RequestParam(value="storeName", required = false) String storeName,
                           @RequestParam(value="distChiefEmail", required = false) String distChiefEmail,
                           @RequestParam(value="distChief", required = false) String distChief,
-                          @RequestParam(value="distTel", required = false) String distTel,
-                          @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus
+                          @RequestParam(value="distTel", required = false) String distTel
                           ){
 
 
-        log.info("들어온 별 값 : @@ + " + distName);
-        log.info("들어온 상태 값 : @@ + " + storeStatus);
-        log.info("들어온 피타입 값 : @@ + " + storeStatus);
+        log.info("들어온 첫 값 : @@ + " + distName);
+        log.info("들어온 메일 : @@ + " + distChiefEmail);
+        log.info("들어온 점주 : @@ + " + distChief);
+        log.info("들어온 마지막 값 : @@ + " + distTel);
 
 
 
-        Page<StoreDTO> storeDTOS = storeService.searchListadminmem(distName,branchName,storeName,
-                distChiefEmail,distChief,distTel,storeStatus,pageable);
+        Page<DistDTO> distDTOS = distService.searchmemadmin(distName,
+                distChiefEmail,distChief,distTel,pageable);
 
 
 
@@ -152,17 +150,17 @@ public class AdminController {
 
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
-        List<BrandDTO> brandList = searchService.brandList();
+//        List<BranchDTO> branchList = searchService.branchList();
+//        List<BrandDTO> brandList = searchService.brandList();
 
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOS);
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
-        model.addAttribute("brandList",brandList);
-        model.addAttribute("list", storeDTOS);
+//        model.addAttribute("branchList",branchList);
+//        model.addAttribute("brandList",brandList);
+        model.addAttribute("list", distDTOS);
 
         return "admin/adminpage/storemembermange";
     }
@@ -199,14 +197,7 @@ public class AdminController {
         log.info("들어온 상태 값 : @@ + " + distChief);
 
 
-
-
         Page<DistDTO> distDTOS = distService.searchadminstoredistmange(distName,distChief,pageable);
-
-
-
-
-
 
 
         List<DistDTO> distList = searchService.distList();
@@ -256,9 +247,29 @@ public class AdminController {
         return "redirect:/admin/adminpage/storedistmange";
     }
     @GetMapping("/admin/adminpage/sdmregister")
-    public String sdmtregister(){
+    public String sdmregisterget(){
         return "admin/adminpage/sdmregister";
     }
+    @PostMapping("/admin/adminpage/sdmregister")
+    public String sdmregisterpost(@Valid DistDTO distDTO,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+
+        log.info("dist registerProc 도착 " + distDTO);
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+
+        log.info(distDTO);
+
+        Long distIdx = distService.register(distDTO);
+
+        redirectAttributes.addFlashAttribute("result", distIdx);
+
+        return "redirect:/admin/adminpage/storemembermange";}
     @GetMapping("/admin/adminpage/distChiefsearch")
     public String dcsearch(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distChief", required = false) String distChief

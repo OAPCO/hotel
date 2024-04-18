@@ -4,6 +4,7 @@ import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.search.Search;
@@ -57,24 +58,7 @@ public interface StoreRepository extends JpaRepository<Store, Long>, Search {
                             @Param("storePType") StorePType storePType,
                             Pageable pageable);
 
-    @Query("select s from Store s where (:distName is null or s.dist.distName LIKE %:distName%)"+
-            "and (:branchName is null or s.branch.branchName LIKE %:branchName%)"+
-            "and (:storeName is null or s.storeName LIKE %:storeName%)"+
-            "and (:distChiefEmail is null or s.dist.distChiefEmail LIKE %:distChiefEmail%)"+
-            "and (:distChief is null or s.dist.distChief LIKE %:distChief%)"+
-            "and (:distTel is null or s.dist.distTel LIKE %:distTel%)"+
-            "and (:storeStatus is null or s.storeStatus = %:storeStatus%)"
 
-    )
-
-    Page<Store> multiSearchmemadmin(@Param("distName") String distName,
-                            @Param("branchName") String branchName,
-                            @Param("storeName") String storeName,
-                            @Param("distChiefEmail") String distChiefEmail,
-                            @Param("distChief") String distChief,
-                            @Param("distTel") String distTel,
-                            @Param("storeStatus") StoreStatus storeStatus,
-                            Pageable pageable);
 
 
 

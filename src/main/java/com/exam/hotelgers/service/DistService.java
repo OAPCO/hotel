@@ -3,6 +3,7 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.DistRepository;
@@ -80,9 +81,9 @@ public class DistService {
         Page<Dist> dists = distRepository.findAll(page);
 
 
-        Page<DistDTO> distDTOS = dists.map(data->modelMapper.map(data, DistDTO.class));
+//        Page<DistDTO> distDTOS = dists.map(data->modelMapper.map(data, DistDTO.class));
 
-        return distDTOS;
+        return dists.map(this::convertToDTO);
     }
 
 
@@ -114,4 +115,23 @@ public class DistService {
         Page<Dist> dists = distRepository.multiSearchadmdr(distChief, page);
         return dists.map(this::convertToDistDTO);
     }
+
+
+    private DistDTO convertToDTO(Dist dist) {
+        DistDTO dto = modelMapper.map(dist, DistDTO.class);
+        return dto;
+    }
+
+    public Page<DistDTO> searchmemadmin(String distName,String distChiefEmail, String distChief,
+                                             String distTel, Pageable pageable) {
+        //유저권한,총판조직명,지사명,매장명,아이디,이름,연락처,상태
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distIdx"));
+
+        Page<Dist> dists = distRepository.multiSearchmemadmin(distName,distChiefEmail,distChief,distTel,page);
+        return dists.map(this::convertToDistDTO);
+    }
+
+
 }

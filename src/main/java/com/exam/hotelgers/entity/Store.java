@@ -97,6 +97,8 @@ public class Store extends BaseEntity{
     @JoinColumn(name="branchIdx")
     private Branch branch;
 
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distIdx")
     private Dist dist;
