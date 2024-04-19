@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Brand</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        tfoot th {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <h3 class="text-dark mb-4">결제 등록</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1">
+                <!---->
+            </div>
+            <div class="col-lg-10">
+                <h5 class="text-dark mb-4">결제상세 등록</h5>
+                <form id="paymentForm" th:action="@{/payment/register}" method="post" enctype="multipart/form-data">
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">주문번호:</label>
+                        <input type="text" class="form-control" name="orderNo">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">구분:</label>
+                        <select name="type">
+                            <option value="0">선결제</option>
+                            <option value="1">후결제</option>
+                            <option value="2">오프라인</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">결제구분:</label>
+                        <select name="paymentPayType">
+                            <option value="카드">카드</option>
+                            <option value="현금">현금</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">룸번호:</label>
+                        <input type="text" class="form-control" id="roomName" name="roomName">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">주문확정일시:</label>
+                        <input type="datetime-local" name="orderdate"/><br>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">결제확정일시:</label>
+                        <input type="datetime-local" name="paymentdate"/><br>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">매장명:</label>
+                        <input type="text" class="form-control" id="storename" name="storename">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">상태:</label>
+                        <select name="paymentCompleteState">
+                            <option value="0">완료</option>
+                            <option value="1">취소</option>
+                        </select>
+                    </div>
+                    <label for="ordercount">Enter Order Count:</label>
+                    <input type="number" id="ordercount">
+                    <button type="button" onclick="addRows()">Add Rows</button>
+                    <table id="dynamic-table">
+                        <thead>
+                        <tr>
+                            <th colspan="2" id="orderNo"></th>
+                            <th colspan="2" id="orderDate"></th>
+                        </tr>
+                        <tr>
+                            <th>No.</th>
+                            <th>매뉴</th>
+                            <th>수량</th>
+                            <th>금액(원)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dynamic-table-body">
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="2">총 금액(원):</th>
+                            <th colspan="2" id="total-price">0</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                    <script>
+                        // Function to populate the dynamic table
+                        function addRows() {
+                            var ordercount = parseInt(document.getElementById("ordercount").value);
+                            var tableBody = document.getElementById("dynamic-table-body");
+                            var totalPriceCell = document.getElementById("total-price");
+                            var totalPrice = 0;
+
+                            // Clear existing rows
+                            tableBody.innerHTML = "";
+
+                            for (var i = 1; i <= ordercount; i++) {
+                                // Sample data (replace this with actual data)
+                                var menuIdx = i; // No.를 순서대로 부여합니다.
+                                var menu = prompt("메뉴를 입력하세요:"); // 사용자로부터 메뉴명을 입력받습니다.
+                                var count = parseInt(prompt("수량을 입력하세요:")); // 사용자로부터 수량을 입력받습니다.
+                                var price = parseInt(prompt("금액을 입력하세요:")); // 사용자로부터 가격을 입력받습니다.
+
+                                // Create a new row
+                                var newRow = document.createElement("tr");
+                                newRow.classList.add("dynamic-row");
+
+                                // Populate row cells
+                                newRow.innerHTML = `
+                <td class="no">${menuIdx}</td>
+                <td class="menu">${menu}</td>
+                <td class="count">${count}</td>
+                <td class="price">${price}</td>
+            `;
+
+                                // Append the new row to the table body
+                                tableBody.appendChild(newRow);
+
+                                totalPrice += price; // Update total price
+                            }
+
+                            // Update total price cell
+                            totalPriceCell.textContent = totalPrice;
+                        }
+                    </script>
+                    <button type="button" class="btn btn-primary" onclick="addRows()">Add Rows</button>
+                    <button type="submit" class="btn btn-primary">등록</button>
+                    <button type="button" class="btn btn-secondary"
+                            th:onclick="|location.href='@{/payment/list}'|">이전</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -75,7 +75,7 @@ public class PaymentController {
 
 
 
-    @GetMapping("/payment/modify/{paymentIdx}")
+    @GetMapping("/payment/update/{paymentIdx}")
     public String modifyForm(@PathVariable Long paymentIdx, Model model) {
 
         log.info("payment modifyProc 도착 " + paymentIdx);
@@ -84,11 +84,11 @@ public class PaymentController {
 
         log.info("수정 전 정보" + paymentDTO);
         model.addAttribute("paymentDTO", paymentDTO);
-        return "payment/modify";
+        return "payment/update";
     }
 
 
-    @PostMapping("/payment/modify")
+    @PostMapping("/payment/update")
     public String modifyProc(@Validated PaymentDTO paymentDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -98,11 +98,11 @@ public class PaymentController {
 
             log.info("업데이트 에러 발생");
 
-            return "/payment/modify";
+            return "/payment/update";
         }
 
 
-        paymentservice.modify(paymentDTO);
+        paymentservice.update(paymentDTO);
 
         log.info("업데이트 이후 정보 " + paymentDTO);
 

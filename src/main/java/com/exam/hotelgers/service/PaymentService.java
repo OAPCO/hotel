@@ -38,7 +38,7 @@ public class PaymentService {
     }
 
 
-    public void modify(PaymentDTO paymentDTO){
+    public void update(PaymentDTO paymentDTO){
 
 
 
@@ -48,9 +48,9 @@ public class PaymentService {
 
     }
 
-    public PaymentDTO read(Long paymentIdx){
+    public PaymentDTO read(Long id){
 
-        Optional<Payment> payment= paymentRepository.findById(paymentIdx);
+        Optional<Payment> payment= paymentRepository.findById(id);
 
 
         return modelMapper.map(payment,PaymentDTO.class);

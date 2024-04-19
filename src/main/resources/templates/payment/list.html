@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>결재내역리스트</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--왼쪽여백-->
+            </div>
+            <div class="col-lg-10">
+                <h2>목록</h2>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>주문번호</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.paymentIdx}">1</td>
+                        <td><a th:href="@{'/payment/'+${data.paymentIdx}}"
+                               th:text="${data.orderNo}">임시</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/payment/register}'|">등록
+                </button>
+                <!-- 페이지 영역 -->
+                <ul class="pagination">
+                    <li class="page-item" th:unless="${startPage==1}">
+                        <a class="page-link" th:href="@{/payment/list(page=1)}">처음</a></li>
+                    <li class="page-item" th:unless="${currentPage==1}">
+                        <a class="page-link" th:href="@{/payment/list(page=${prevPage})}">이전</a></li>
+                    <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
+                    <!-- 다른페이지-->
+                    <li class="page-item" th:unless="${page == currentPage}">
+                        <a class="page-link" th:href="@{/payment/list(page=${page})}">[[${page}]]</a>
+                    </li>
+                        <!--활성화(현재위치)-->
+                    <li class="page-item active" th:if="${page == currentPage}">
+                        <a class="page-link" href="#">[[${page}]]</a>
+                    </li>
+                </span>
+                    <li class="page-item" th:unless="${currentPage>=lastPage}">
+                        <a class="page-link" th:href="@{/payment/list(page=${nextPage})}">다음</a></li>
+                    <li class="page-item" th:unless="${endPage==lastPage}">
+                        <a class="page-link" th:href="@{/payment/list(page=${lastPage})}">끝</a></li>
+                </ul>
+                <!-- 페이지 영역 끝 -->
+            </div>
+            <div class="col-lg-3">
+                <!--오른쪽여백-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <!--왼쪽여백-->
+            </div>
+            <div class="col-lg-10">
+                <table class="table table-striped">
+                    <h2>주문확인</h2>
+                    <thead>
+                    <tr>
+                        <th>주문번호</th>
+                        <th>구분</th>
+                        <th>결제구분</th>
+                        <th>룸명</th>
+                        <th>주문확정일시</th>
+                        <th>매장명</th>
+                        <th>상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.orderNo}">임시</td>
+                        <td th:text="${data.type}">임시</td>
+                        <td th:text="${data.paymentPayType}">임시</td>
+                        <td th:text="${data.roomName}">임시</td>
+                        <td th:text="${data.orderdate}">임시</td>
+                        <td th:text="${data.storename}">임시</td>
+                        <td th:text="${data.paymentCompleteState}">임시</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <button type="button" class="btn btn-primary"
+                        th:onclick="|location.href='@{/payment/list}'|">목록</button>
+                <button type="button" class="btn btn-secondary"
+                        th:onclick="|location.href='@{/payment/update/}'+${data.paymentIdx}|">수정</button>
+                <button type="button" class="btn btn-danger"
+                        th:onclick="|location.href='@{/payment/delete/}'+${data.paymentIdx}|">삭제</button>
+            </div>
+            <div class="col-lg-3">
+                <!--오른쪽여백-->
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
