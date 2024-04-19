@@ -16,7 +16,7 @@
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
                 매장 검색
             </div>
-            <form method="post" th:action="@{/distchief/store/list}">
+            <form method="post" th:action="@{/admin/distchief/store/list}">
             <div class="table-responsive">
                 <table class="table head">
 
@@ -122,7 +122,7 @@
 
                 <div style="text-align: center;">
                     <button type="submit" class="btn btn-primary">조회</button>
-                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/distchief/store/register}'|">신규등록</button>
+                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/distchief/store/register}'|">신규등록</button>
                 </div>
 
             </div>
@@ -175,7 +175,7 @@
                         <td>지역. 주소찾기 전체주소 부분. 다른사이트에서 떼오기</td>
                         <td th:text="${data.storeCd}"></td>
                         <td>
-                            <a th:text="${data.storeName}" th:href="@{'/distchief/store/'+${data.storeIdx}}" ></a>
+                            <a th:text="${data.storeName}" th:href="@{'/admin/distchief/store/'+${data.storeIdx}}" ></a>
                         </td>
                         <td th:text="${data.storeChiefEmail}"></td>
                         <td th:text="${data.storeChief}"></td>
@@ -195,8 +195,8 @@
                             <input class="form-check-input" type="checkbox" id="checkBanner" name="checkBanner">
                         </td>
 
-                        <td><a th:href="@{'/distchief/store/modify/'+${data.storeIdx}}" >수정</a>
-                            /<a th:href="@{'/distchief/store/delete/'+${data.storeIdx}}">삭제</a></td>
+                        <td><a th:href="@{'/admin/distchief/store/modify/'+${data.storeIdx}}" >수정</a>
+                            /<a th:href="@{'/admin/distchief/store/delete/'+${data.storeIdx}}">삭제</a></td>
                     </tr>
                     </tbody>
                 </table>

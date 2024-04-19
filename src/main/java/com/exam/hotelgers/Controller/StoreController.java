@@ -57,13 +57,13 @@ public class StoreController {
 
 
 
-    @GetMapping("/distchief/store/register")
+    @GetMapping("/admin/distchief/store/register")
     public String register() {
-        return "distchief/store/register";
+        return "admin/distchief/store/register";
     }
 
 
-    @PostMapping("/distchief/store/register")
+    @PostMapping("/admin/distchief/store/register")
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
@@ -91,11 +91,11 @@ public class StoreController {
 
         redirectAttributes.addFlashAttribute("result", storeIdx);
 
-        return "redirect:/distchief/store/list";
+        return "redirect:/admin/distchief/store/list";
     }
 
 
-    @PostMapping("/distchief/store/list")
+    @PostMapping("/admin/distchief/store/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
                            @RequestParam(value="branchName", required = false) String branchName,
@@ -137,10 +137,10 @@ public class StoreController {
         model.addAttribute("branchList",branchList);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
-        return "distchief/store/list";
+        return "admin/distchief/store/list";
     }
 
-    @GetMapping("/distchief/store/list")
+    @GetMapping("/admin/distchief/store/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
                            ) {
 
@@ -162,14 +162,14 @@ public class StoreController {
         model.addAttribute("branchList",branchList);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
-        return "distchief/store/list";
+        return "admin/distchief/store/list";
     }
 
 
 
 
 
-    @GetMapping("/distchief/store/modify/{storeIdx}")
+    @GetMapping("/admin/distchief/store/modify/{storeIdx}")
     public String modifyForm(@PathVariable Long storeIdx, Model model) {
 
         log.info("store modifyProc 도착 " + storeIdx);
@@ -178,11 +178,11 @@ public class StoreController {
 
         log.info("수정 전 정보" + storeDTO);
         model.addAttribute("storeDTO", storeDTO);
-        return "distchief/store/modify";
+        return "admin/distchief/store/modify";
     }
 
 
-    @PostMapping("/distchief/store/modify")
+    @PostMapping("/admin/distchief/store/modify")
     public String modifyProc(@Validated StoreDTO storeDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -192,7 +192,7 @@ public class StoreController {
 
             log.info("업데이트 에러 발생");
 
-            return "distchief/store/modify";
+            return "admin/distchief/store/modify";
         }
 
 
@@ -200,19 +200,19 @@ public class StoreController {
 
         log.info("업데이트 이후 정보 " + storeDTO);
 
-        return "redirect:/distchief/store/list";
+        return "redirect:/admin/distchief/store/list";
     }
 
-    @GetMapping("/distchief/store/delete/{storeIdx}")
+    @GetMapping("/admin/distchief/store/delete/{storeIdx}")
     public String deleteProc(@PathVariable Long storeIdx) {
 
         storeService.delete(storeIdx);
 
-        return "redirect:/distchief/store/list";
+        return "redirect:/admin/distchief/store/list";
     }
 
 
-    @GetMapping("/distchief/store/{storeIdx}")
+    @GetMapping("/admin/distchief/store/{storeIdx}")
     public String readForm(@PathVariable Long storeIdx, Model model) {
 
 
@@ -224,10 +224,10 @@ public class StoreController {
 
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
-            return "redirect:distchief/store/list";
+            return "redirect:/admin/distchief/store/list";
         }
 
-        return "distchief/store/read";
+        return "admin/distchief/store/read";
     }
 
 

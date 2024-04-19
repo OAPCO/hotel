@@ -17,7 +17,7 @@
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
                 지사검색
             </div>
-            <form method="post" th:action="@{/distchief/branch/list}">
+            <form method="post" th:action="@{/admin/distchief/branch/list}">
             <div class="table-responsive">
                 <table class="table head">
                     <thead>
@@ -41,7 +41,7 @@
                 </table>
                 <div style="text-align: center;">
                     <button type="submit" class="btn button">등록</button>
-                    <button class="btn button" type="button" th:onclick="|location.href='@{/distchief/branch/register}'|">신규등록</button>
+                    <button class="btn button" type="button" th:onclick="|location.href='@{/admin/distchief/branch/register}'|">신규등록</button>
                 </div>
 
             </div>

@@ -16,7 +16,7 @@
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
                 주문번호 조회
             </div>
-            <form method="post" th:action="@{/distchief/order/orderlist}">
+            <form method="post" th:action="@{/admin/distchief/order/orderlist}">
             <div class="table-responsive">
                 <table class="table head">
 
@@ -83,7 +83,7 @@
                 </table>
                 <div style="text-align: center;">
                     <button type="submit" class="btn btn-primary">조회</button>
-                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/distchief/order/register}'|">신규등록</button>
+                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/distchief/order/register}'|">신규등록</button>
                 </div>
 
             </div>
@@ -120,29 +120,29 @@
                         <td th:text="${data.storeDTO.storeName}"></td>
                         <td th:text="${data.roomDTO.roomName}"></td>
                         <td>
-                            <a th:text="${data.orderCd}" th:href="@{'/distchief/order/'+${data.orderIdx}}" ></a>
+                            <a th:text="${data.orderCd}" th:href="@{'/admin/distchief/order/'+${data.orderIdx}}" ></a>
                         </td>
                         <td>메뉴</td>
                         <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
                         <td>결제금액</td>
                         <td>결제상태</td>
-                        <td><a th:href="@{'/distchief/order/modify/'+${data.orderIdx}}" >수정</a>
-                            /<a th:href="@{'/distchief/order/delete/'+${data.orderIdx}}">삭제</a></td>
+                        <td><a th:href="@{'/admin/distchief/order/modify/'+${data.orderIdx}}" >수정</a>
+                            /<a th:href="@{'/admin/distchief/order/delete/'+${data.orderIdx}}">삭제</a></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <ul class="mt-3 pagination">
-                <li class="page-item"><a class="page-link" th:href="@{/distchief/order/list(page=${prevPage})}"><</a></li>
+                <li class="page-item"><a class="page-link" th:href="@{/admin/distchief/order/list(page=${prevPage})}"><</a></li>
                 <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
                         <li class="page-item active" th:if="${page == currentPage}">
                             <a class="page-link" href="#">[[${page}]]</a>
                         </li>
                         <li class="page-item" th:unless="${page == currentPage}">
-                            <a class="page-link" th:href="@{/distchief/order/list(page=${page})}">[[${page}]]</a>
+                            <a class="page-link" th:href="@{/admin/distchief/order/list(page=${page})}">[[${page}]]</a>
                         </li>
                     </span>
-                <li class="page-item"><a class="page-link" th:href="@{/distchief/order/list(page=${nextPage})}">></a></li>
+                <li class="page-item"><a class="page-link" th:href="@{/admin/distchief/order/list(page=${nextPage})}">></a></li>
             </ul>
         </div>
     </div>
