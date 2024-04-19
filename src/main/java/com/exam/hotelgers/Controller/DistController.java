@@ -2,7 +2,6 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.DistChiefDTO;
 import com.exam.hotelgers.dto.DistDTO;
-import com.exam.hotelgers.service.DistChiefService;
 import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;

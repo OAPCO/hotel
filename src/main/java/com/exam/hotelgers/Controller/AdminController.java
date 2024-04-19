@@ -69,7 +69,7 @@ public class AdminController {
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
-        log.info("admin registerProc 도착");
+        log.info("admin registerProc 도착" + adminDTO.getRoleType());
 
 
         if (bindingResult.hasErrors()) {
@@ -98,13 +98,6 @@ public class AdminController {
         //서비스처리(삭제)
         return "redirect:/admin/list";
     }
-
-
-
-
-
-
-
 
 
 

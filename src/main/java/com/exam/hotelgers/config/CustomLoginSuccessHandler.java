@@ -21,7 +21,6 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             String userid = authentication.getName();
             session.setAttribute("userid", userid);
 
-            //사용자가 로그인을 성공하였을 때 이동할 페이지
             boolean isUser = authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"));
             if(isUser) {
@@ -43,7 +42,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             boolean isBranchChief = authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_BRANCHCHIEF"));
             if(isBranchChief) {
-                super.setDefaultTargetUrl("/store/list");
+                super.setDefaultTargetUrl("/distchief/store/list");
             }
 
             boolean isDistChief = authentication.getAuthorities().stream()

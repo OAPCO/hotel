@@ -24,6 +24,9 @@ public class SecurityConfig {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+
     @Bean
     public AdminLoginService adminLoginService() {
         return new AdminLoginService();
@@ -37,15 +40,8 @@ public class SecurityConfig {
         return new ManagerLoginService();
     }
 
-    @Bean
-    public DistChiefLoginService distChiefLoginService() {
-        return new DistChiefLoginService();
-    }
 
-    @Bean
-    public BranchChiefLoginService branchChiefLoginService() {
-        return new BranchChiefLoginService();
-    }
+
 
 
     @Bean
@@ -72,22 +68,6 @@ public class SecurityConfig {
         return provider;
     }
 
-    @Bean
-    public DaoAuthenticationProvider distchiefProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(distChiefLoginService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-
-    @Bean
-    public DaoAuthenticationProvider branchchiefProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(branchChiefLoginService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
 
 
 
@@ -97,12 +77,13 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception {
 
+
         http.securityMatcher("/admin/**").authorizeRequests()
                 .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll()
-                .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
+                .requestMatchers("/h2-console/**").permitAll();
+//                .requestMatchers("/admin/adminpage/codemange").hasAnyRole("ADMIN","DISTCHIEF","BRANCHCHIEF")
+//                .requestMatchers("/admin/adminpage/storedistmange").hasRole("DISTCHIEF")
+//                .requestMatchers("/admin/adminpage/storemembermange").hasRole("BRANCHCHIEF");
 
         http.formLogin(login -> login
                 .defaultSuccessUrl("/", true)
@@ -155,10 +136,6 @@ public class SecurityConfig {
 
 
 
-
-
-
-
     @Bean
     @Order(3)
     public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
@@ -188,78 +165,6 @@ public class SecurityConfig {
         http.authenticationProvider(memberProvider());
         return http.build();
     }
-
-
-    @Bean
-    @Order(4)
-    public SecurityFilterChain filterChain4(HttpSecurity http) throws Exception {
-
-        http.securityMatcher("/branchchief/**").authorizeRequests()
-                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/admin/login").permitAll()
-                .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll()
-                .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
-
-        http.formLogin(login -> login
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/branchchief/login?error=true")
-                .loginPage("/branchchief/login")
-                .usernameParameter("branchchiefid")
-                .permitAll()
-                .successHandler(new CustomLoginSuccessHandler()));
-
-        http.csrf(AbstractHttpConfigurer::disable);
-
-        http.logout(logout-> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/branchchief/login"));
-
-        http.authenticationProvider(branchchiefProvider());
-
-        return http.build();
-    }
-
-
-
-
-    @Bean
-    @Order(5)
-    public SecurityFilterChain filterChain5(HttpSecurity http) throws Exception {
-
-        http.securityMatcher("/distchief/**").authorizeRequests()
-                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/admin/login").permitAll()
-                .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll()
-                .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
-
-        http.formLogin(login -> login
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/distchief/login?error=true")
-                .loginPage("/distchief/login")
-                .usernameParameter("distchiefid")
-                .permitAll()
-                .successHandler(new CustomLoginSuccessHandler()));
-
-        http.csrf(AbstractHttpConfigurer::disable);
-
-        http.logout(logout-> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/distchief/login"));
-
-        http.authenticationProvider(distchiefProvider());
-
-        return http.build();
-    }
-
-
-
-
-
-
 
 
 }

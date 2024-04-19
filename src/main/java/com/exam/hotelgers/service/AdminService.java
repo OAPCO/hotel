@@ -44,7 +44,17 @@ public class AdminService {
             admin.setRoleType(RoleType.ADMIN);
         }
 
-        admin.setPassword(password); //비밀번호는 암호화된 비밀번호로 변경처리
+        if(adminDTO.getRoleType().equals(RoleType.DISTCHIEF)){
+            admin.setRoleType(RoleType.DISTCHIEF);
+        }
+
+        if(adminDTO.getRoleType().equals(RoleType.BRANCHCHIEF)){
+            admin.setRoleType(RoleType.BRANCHCHIEF);
+        }
+
+
+
+        admin.setPassword(password);
 
         Long adminIdx = adminRepository.save(admin).getAdminIdx();
 
