@@ -34,11 +34,11 @@ public class RoomService {
 
     public Long register(RoomDTO roomDTO) {
 
-        Optional<Store> store = storeRepository.findByStoreCd(roomDTO.getStoreDTO().getStoreCd());
+        Optional<Store> store = storeRepository.findByStoreIdx(roomDTO.getStoreDTO().getStoreIdx());
 
 
         if (!store.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
+            throw new IllegalStateException("존재하지 않는 매장 번호입니다.");
         }
 
 

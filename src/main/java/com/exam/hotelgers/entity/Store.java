@@ -110,7 +110,8 @@ public class Store extends BaseEntity{
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Room> roomList = new ArrayList<>();
 
-
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<MenuCate> menuCateList = new ArrayList<>();
 
 
     @Enumerated(EnumType.STRING)
@@ -121,7 +122,6 @@ public class Store extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private StoreGrade storeGrade;
-
 
 
 

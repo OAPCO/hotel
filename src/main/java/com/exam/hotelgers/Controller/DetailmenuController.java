@@ -3,6 +3,7 @@ package com.exam.hotelgers.Controller;
 import com.exam.hotelgers.dto.DetailmenuDTO;
 import com.exam.hotelgers.service.DetailmenuService;
 import com.exam.hotelgers.util.PageConvert;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,7 +27,7 @@ import java.util.Map;
 public class DetailmenuController {
 
     private final DetailmenuService detailmenuService;
-
+    private final HttpServletRequest request;
 
 
     @GetMapping("/detailmenu/register")
@@ -54,7 +55,8 @@ public class DetailmenuController {
 
         redirectAttributes.addFlashAttribute("result", detailmenuIdx);
 
-        return "redirect:/detailmenu/list";
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
     }
 
 

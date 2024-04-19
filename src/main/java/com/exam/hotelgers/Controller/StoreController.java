@@ -219,7 +219,9 @@ public class StoreController {
         StoreDTO storeDTO = storeService.read(storeIdx);
         model.addAttribute("storeDTO", storeDTO);
 
-        log.info("가져온 주문목록은@@@@@@@@@ : " +  storeDTO.getOrderDTOList());
+        log.info("가져온 룸목록은@@@@@@@@@ : " +  storeDTO.getRoomDTOList());
+        log.info("가져온 메뉴카테목록은@@@@@@@@@ : " +  storeDTO.getMenuCateDTOList());
+        log.info("가져온 디테일메뉴목록은@@@@@@@@@ : " +  storeDTO.getDetailmenuDTOList());
 
 
         if(storeDTO == null) {

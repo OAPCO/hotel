@@ -5,10 +5,7 @@ import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
-import com.exam.hotelgers.repository.BrandRepository;
-import com.exam.hotelgers.repository.BranchRepository;
-import com.exam.hotelgers.repository.DistRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -35,7 +32,8 @@ public class StoreService {
     private final BranchRepository branchRepository;
     private final BrandRepository brandRepository;
     private final SearchService searchService;
-
+    private final MenuCateRepository menuCateRepository;
+    private final RoomRepository roomRepository;
 
     public Long register(StoreDTO storeDTO) {
 
@@ -131,8 +129,8 @@ public class StoreService {
 
 
 
-    //이 메소드는 store가 참조하는 테이블(dist,branch,brand)과 store를 참조하는 테이블 Order,room도 함께 조회합니다.
-    //store를 참조하는 room,order의 dto는 여러개가 있을 수 있으므로 DTO에 List로 선언되어 있습니다.
+    //이 메소드는 store가 참조하는 테이블(dist,branch,brand,)과 store를 참조하는 테이블 Order,room,menucate도 함께 조회합니다.
+    //store를 참조하는 room,order,menucate의 dto는 여러개가 있을 수 있으므로 DTO에 List로 선언되어 있습니다.
     public StoreDTO read(Long storeIdx) {
         Optional<Store> optionalStore = storeRepository.findById(storeIdx);
         if (optionalStore.isPresent()) {
@@ -140,10 +138,15 @@ public class StoreService {
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
             dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
             dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
+            dto.setMenuCateDTOList(searchService.convertToMenuCateDTOList(store.getMenuCateList()));
+            dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getMenuCateList().stream()
+                    .flatMap(menuCate -> menuCate.getDetailMenuList().stream())
+                    .collect(Collectors.toList())));
+
+
             dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
             dto.setBranchDTO(searchService.convertToBranchDTO(store.getBranch()));
             dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
-
             return dto;
         } else {
             return null;

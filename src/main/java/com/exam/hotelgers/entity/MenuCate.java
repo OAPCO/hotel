@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
@@ -26,8 +28,13 @@ public class MenuCate extends BaseEntity {
     @Column(length = 200)
     private String menuCateName; //메뉴 카테고리 이름
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="storeIdx")
+    private Store store;
+
     @Column(length = 200)
-    private String tblStoreStoreIdx;//매장 식별키
+    private String tblStoreStoreIdx; //참조용 이름
 
-
+    @OneToMany(mappedBy="menuCate", cascade = CascadeType.ALL)
+    private List<Detailmenu> detailMenuList = new ArrayList<>();
 }

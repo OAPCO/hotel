@@ -57,7 +57,7 @@ public class RoomController {
 
         redirectAttributes.addFlashAttribute("result", roomIdx);
 
-        return "redirect:/manager/room/list";
+        return "distchief/store/"+ roomDTO.getStoreDTO().getStoreIdx();
     }
 
 
