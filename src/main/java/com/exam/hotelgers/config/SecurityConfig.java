@@ -119,6 +119,7 @@ public class SecurityConfig {
 
         http.authenticationProvider(adminProvider());
         http.authenticationProvider(distchiefProvider());
+        http.authenticationProvider(branchchiefProvider());
 
         return http.build();
     }
