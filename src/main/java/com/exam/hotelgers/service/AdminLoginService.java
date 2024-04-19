@@ -1,6 +1,8 @@
 package com.exam.hotelgers.service;
 import com.exam.hotelgers.entity.Admin;
 import com.exam.hotelgers.repository.AdminRepository;
+import com.exam.hotelgers.repository.BranchChiefRepository;
+import com.exam.hotelgers.repository.DistChiefRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.modelmapper.ModelMapper;
@@ -20,13 +22,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Log
 public class AdminLoginService implements UserDetailsService {
+
     @Autowired
     private AdminRepository adminRepository;
+    private DistChiefRepository distChiefRepository;
+    private BranchChiefRepository branchChiefRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String userid) {
 
         Optional<Admin> adminEntity = adminRepository.findByAdminId(userid);
+
         if (adminEntity.isPresent()) {
 
             log.info("관리자 로그인서비스 들어옴");
@@ -35,6 +42,7 @@ public class AdminLoginService implements UserDetailsService {
                     .roles(adminEntity.get().getRoleType().name())
                     .build();
         }
+
         throw new UsernameNotFoundException("알 수 없는 아이디 : "+ userid);
     }
 }
