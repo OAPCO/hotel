@@ -1,6 +1,8 @@
 package com.exam.hotelgers.dto;
 
 import com.exam.hotelgers.constant.RoleType;
+import com.exam.hotelgers.entity.Branch;
+import com.exam.hotelgers.entity.Dist;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -8,6 +10,8 @@ import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Getter
@@ -36,5 +40,10 @@ public class AdminDTO {
     private LocalDateTime regdate;
 
     private LocalDateTime moddate;
+
+
+    private List<Dist> distList = new ArrayList<>();
+
+    private List<Branch> branchList = new ArrayList<>();
 
 }

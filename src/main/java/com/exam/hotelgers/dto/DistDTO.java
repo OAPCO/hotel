@@ -1,8 +1,11 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.entity.*;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter @ToString
@@ -20,6 +23,14 @@ public class DistDTO {
     private String distChiefEmail;
     private String distTel;
 
+    private AdminDTO adminDTO;
+    private BrandDTO brandDTO;
+
+
+    private List<OrderDTO> orderDTOList;
+    private List<BranchDTO> branchDTOList;
+    private List<StoreDTO> storeDTOList;
+    private List<BrandDTO> brandDTOList;
 
 
     private LocalDateTime regdate;

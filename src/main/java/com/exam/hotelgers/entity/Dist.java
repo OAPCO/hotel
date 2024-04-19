@@ -49,9 +49,10 @@ public class Dist extends BaseEntity {
     private List<Order> orderList = new ArrayList<>();
 
 
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="brandIdx")
-    private Brand brand;
+    @JoinColumn(name="adminIdx")
+    private Admin admin;
 
 
 

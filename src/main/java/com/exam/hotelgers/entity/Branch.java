@@ -46,6 +46,10 @@ public class Branch extends BaseEntity {
     @JoinColumn(name="brandIdx")
     private Brand brand;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="adminIdx")
+    private Admin admin;
+
     @OneToMany(mappedBy="branch", cascade = CascadeType.ALL)
     private List<Store> storeList = new ArrayList<>();
 

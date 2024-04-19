@@ -20,13 +20,11 @@
             <form method="post" th:action="@{/distchief/branch/list}">
             <div class="table-responsive">
 
-                총판코드,브랜드코드를 보내야함
-
                 <table class="table head">
                     <thead>
                     <tr>
                         <th>총판조직</th>
-                        <td>(현재 총판명)</td>
+                        <td>[[${dist}]]</td>
                         <th>브랜드</th>
                         <td>
                             <input type="text" th:value="${brandName}" name="brandName" readonly="true" style="background-color: #F0F0F0">

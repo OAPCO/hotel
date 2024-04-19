@@ -1,6 +1,8 @@
 package com.exam.hotelgers.Controller;
 
+import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.dto.BrandDTO;
+import com.exam.hotelgers.service.AdminService;
 import com.exam.hotelgers.service.BrandService;
 import com.exam.hotelgers.util.PageConvert;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,15 @@ import java.util.Map;
 @Log4j2
 public class SearchController {
 
-    private final BranchChiefService branchChiefService;
+
     private final BrandService brandService;
+    private final AdminService adminService;
 
 
     @GetMapping("/window/branchchiefsearch")
     public String branchSearch(@PageableDefault(page=1) Pageable pageable, Model model) {
 
-        Page<BranchChiefDTO> branchChiefDTOS = branchChiefService.list(pageable);
+        Page<AdminDTO> branchChiefDTOS = adminService.list(pageable);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(branchChiefDTOS);
         model.addAllAttributes(pageinfo);

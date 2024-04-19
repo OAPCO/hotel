@@ -7,6 +7,8 @@ import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.dto.BranchDTO;
 import com.exam.hotelgers.dto.BrandDTO;
 import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.entity.Admin;
+import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.service.AdminService;
 import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.service.SearchService;
@@ -27,8 +29,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @Log4j2
@@ -39,7 +43,7 @@ public class AdminController {
     private final AdminService adminService;
     private final DistService distService;
     private final SearchService searchService;
-
+    private final AdminRepository adminRepository;
 
 
 
@@ -103,7 +107,8 @@ public class AdminController {
 
 
     @GetMapping("/admin/adminpage/storemembermange")
-    public String storemembermange(@PageableDefault(page = 1)Pageable pageable,Model model){
+    public String storemembermange(@PageableDefault(page = 1)Pageable pageable, Model model){
+
 
         log.info("storemangelist 도착");
 

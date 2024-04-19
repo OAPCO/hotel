@@ -7,9 +7,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -27,6 +30,7 @@ public class SearchService {
     private final BrandRepository brandRepository;
     private final OrderRepository orderRepository;
     private final RoomRepository roomRepository;
+    private final AdminRepository adminRepository;
 
 
 
@@ -129,6 +133,25 @@ public class SearchService {
 
     public RoomDTO convertToRoomDTO(Room room) {
         return modelMapper.map(room, RoomDTO.class);
+    }
+
+
+
+
+    //로그인정보
+
+    public void loginDistName(Principal principal){
+
+
+        String distChiefId = principal.getName();
+
+        Optional<Admin> distChief = adminRepository.findByAdminId(distChiefId);
+
+
+        //이제 총판장(Admin엔티티) distChief를 이용해서 보유한 총판리스트를 찾아야함
+        String username = admin.get().getAdminName();
+
+
     }
 
 

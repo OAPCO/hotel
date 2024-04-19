@@ -43,9 +43,13 @@ public class Admin extends BaseEntity {
     private String adminEmail;
 
 
-
     @OneToMany(mappedBy="admin", cascade = CascadeType.ALL)
     private List<Dist> distList = new ArrayList<>();
+
+    @OneToMany(mappedBy="admin", cascade = CascadeType.ALL)
+    private List<Branch> branchList = new ArrayList<>();
+
+
 
 
 
