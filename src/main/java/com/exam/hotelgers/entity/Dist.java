@@ -48,8 +48,12 @@ public class Dist extends BaseEntity {
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
 
-    @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
-    private List<BranchChief> branchChiefList = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="brandIdx")
+    private Brand brand;
+
+
 
 
 

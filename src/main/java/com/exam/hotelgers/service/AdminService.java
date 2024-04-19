@@ -3,6 +3,8 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.AdminDTO;
+import com.exam.hotelgers.dto.AdminDTO;
+import com.exam.hotelgers.entity.Admin;
 import com.exam.hotelgers.entity.Admin;
 import com.exam.hotelgers.repository.AdminRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final SearchService searchService;
 
 
 
@@ -92,6 +95,14 @@ public class AdminService {
 
         return AdminDTOS;
     }
+
+
+    
+//    private AdminDTO convertToDTO(Admin admin) {
+//        AdminDTO dto = modelMapper.map(admin, AdminDTO.class);
+//        dto.set(searchService.convertToDistDTO(admin.getDist()));
+//        return dto;
+//    }
 
 
 }

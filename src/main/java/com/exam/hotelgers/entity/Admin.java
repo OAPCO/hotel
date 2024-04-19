@@ -5,6 +5,9 @@ import com.exam.hotelgers.constant.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -40,6 +43,9 @@ public class Admin extends BaseEntity {
     private String adminEmail;
 
 
+
+    @OneToMany(mappedBy="admin", cascade = CascadeType.ALL)
+    private List<Dist> distList = new ArrayList<>();
 
 
 

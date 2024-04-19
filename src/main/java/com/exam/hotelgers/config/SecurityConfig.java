@@ -1,7 +1,5 @@
 package com.exam.hotelgers.config;
 
-import com.exam.hotelgers.entity.BranchChief;
-import com.exam.hotelgers.entity.Manager;
 import com.exam.hotelgers.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -1,9 +1,8 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.BranchChiefDTO;
+import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.dto.BranchDTO;
-import com.exam.hotelgers.dto.MemberDTO;
-import com.exam.hotelgers.service.BranchChiefService;
+import com.exam.hotelgers.service.AdminService;
 import com.exam.hotelgers.service.BranchService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -29,7 +28,7 @@ import java.util.Map;
 public class BranchController {
     
     private final BranchService branchService;
-    private final BranchChiefService branchChiefService;
+    private final AdminService adminService;
 
 
     @GetMapping("/branch/register")
@@ -153,12 +152,14 @@ public class BranchController {
     }
 
 
+
+
     @PostMapping("/distchief/branch/registerchief")
-    public String ChiefRegisterProc(@Valid BranchChiefDTO branchChiefDTO,
+    public String ChiefRegisterProc(@Valid AdminDTO adminDTO,
                                     BindingResult bindingResult,
                                     RedirectAttributes redirectAttributes) {
 
-        log.info("branchchief registerProc 도착 " + branchChiefDTO);
+        log.info("branchchief registerProc 도착 " + adminDTO);
 
 
         if (bindingResult.hasErrors()) {
@@ -167,9 +168,9 @@ public class BranchController {
         }
 
 
-        Long branchChiefIdx = branchChiefService.register(branchChiefDTO);
+        Long adminIdx = adminService.register(adminDTO);
 
-        redirectAttributes.addFlashAttribute("result", branchChiefIdx);
+        redirectAttributes.addFlashAttribute("result", adminIdx);
 
         return "redirect:/distchief/branch/listchief";
     }
@@ -182,12 +183,12 @@ public class BranchController {
 
         log.info("branch listchiefForm 도착 ");
 
-        Page<BranchChiefDTO> branchChiefDTOS = branchChiefService.list(pageable);
+        Page<AdminDTO> adminDTOS = adminService.list(pageable);
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(branchChiefDTOS);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(adminDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("list", branchChiefDTOS);
+        model.addAttribute("list", adminDTOS);
 
 
         return "distchief/branch/listchief";
@@ -198,7 +199,7 @@ public class BranchController {
     @GetMapping("/distchief/branch/deletechief/{branchChiefIdx}")
     public String chiefDeleteProc(@PathVariable Long branchChiefIdx) {
 
-        branchChiefService.delete(branchChiefIdx);
+        adminService.delete(branchChiefIdx);
 
         return "redirect:/distchief/branch/listchief";
     }

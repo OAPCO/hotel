@@ -20,7 +20,6 @@ public class DistDTO {
     private String distChiefEmail;
     private String distTel;
 
-    private List<BranchChiefDTO> branchChiefDTOList;
 
 
     private LocalDateTime regdate;
