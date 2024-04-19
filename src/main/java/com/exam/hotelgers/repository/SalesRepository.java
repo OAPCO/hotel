@@ -33,24 +33,4 @@ public interface SalesRepository extends JpaRepository<Sales,Long> {
                        @Param("startDate") LocalDate startDate, //처음일
                        @Param("endDate") LocalDate endDate, //종료일
                        Pageable pageable);
-
-
-//    @Query("SELECT e FROM Sales e WHERE " +
-//            "(:type = '1m' and e.moddate >= :oneMonthAgo or " +
-//            "(:type = '3m' and e.moddate >= :threeMonthAgo) or " +
-//            "(:type = '6m' and e.moddate >= :sixMonthsAgo) or " +
-//            "(:type = '1y' and e.moddate >= :oneYearsAgo))")
-//    Page<Sales> findByType(@Param("oneMonthAgo") LocalDateTime oneMonthAgo,
-//                                 @Param("threeMonthAgo") LocalDateTime threeMonthAgo,
-//                                 @Param("sixMonthsAgo") LocalDateTime sixMonthsAgo,
-//                                 @Param("oneYearsAgo") LocalDateTime oneYearsAgo,
-//                                 Pageable pageable);
-//    Page<Sales> findByModdateBetween(LocalDateTime startDate,
-//                                           LocalDateTime endDate, Pageable pageable);
-//
-//    @Query("SELECT e FROM Sales e WHERE " +
-//            "(e.startDate <= :startDate and e.endDate > :startDate) "+ //시작날짜가 기존 예약일 안에 포함되는가
-//            "or (e.startDate <= :endDate and e.endDate > :endDate) "  //끝나는 날짜가 기존 예약일 안에 포함되는가
-//    )
-//    Optional<Sales> revDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }
