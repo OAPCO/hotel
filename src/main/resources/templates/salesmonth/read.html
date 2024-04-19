@@ -25,13 +25,14 @@
                         <p>지사: <span th:text="${data.Branch}"></span></p>
                         <p>매장: <span th:text="${data.store}"></span></p>
                         <p>결제일자: <span th:text="${data.date}"></span></p>
-                        <p>합산금액(원): <span th:text="${data.Offline_payment_amount+data.PG_payment_amount+data.PG_fee+data.fee_per_case+data.monthly_fee+data.storeremittance}"></span></p>
-                        <p>오프라인 결제금액(원): <span th:text="${data.Offline_payment_amount}"></span></p>
-                        <p>PG결제금액(원): <span th:text="${data.PG_payment_amount}"></span></p>
-                        <p>PG수수료(원): <span th:text="${data.PG_fee}"></span></p>
-                        <p>건별수수료(원): <span th:text="${data.Fee_per_case}"></span></p>
-                        <p>월정수수료(원): <span th:text="${data.Monthly_fee}"></span></p>
-                        <p>매장송금액(원): <span th:text="${data.storeremittance}"></span></p>
+                        <p>합산금액(원): <span th:text="${#numbers.formatInteger(data.offline_payment_amount+data.PG_payment_amount+data.PG_fee+data.fee_per_case+data.monthly_fee+data.storeremittance,3,'COMMA')}"></span></p>
+                        <p>오프라인 결제금액(원): <span th:text="${#numbers.formatInteger(data.offline_payment_amount,3,'COMMA')}"></span></p>
+                        <p>PG결제금액(원): <span th:text="${#numbers.formatInteger(data.PG_payment_amount,3,'COMMA')}"></span></p>
+                        <p>PG수수료(원): <span th:text="${#numbers.formatInteger(data.PG_fee,3,'COMMA')}"></span></p>
+                        <p>건별수수료(원): <span th:text="${#numbers.formatInteger(data.Fee_per_case,3,'COMMA')}"></span></p>
+                        <p>월정수수료(원): <span th:text="${#numbers.formatInteger(data.Monthly_fee,3,'COMMA')}"></span></p>
+                        <p>매장송금액(원): <span
+                                th:text="${#numbers.formatInteger(data.storeremittance,3,'COMMA')}"></span></p>
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn btn-primary"
