@@ -10,6 +10,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -20,6 +21,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -98,10 +100,11 @@ public class SecurityConfig {
 
         http.securityMatcher("/admin/**").authorizeRequests()
                 .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/admin/adminpage/codemange").hasAnyRole("ADMIN","DISTCHIEF","BRANCHCHIEF")
-                .requestMatchers("/admin/adminpage/storedistmange").hasRole("DISTCHIEF")
-                .requestMatchers("/admin/adminpage/storemembermange").hasRole("BRANCHCHIEF");
+                .requestMatchers("/h2-console/**").permitAll();
+//                .requestMatchers("/admin/adminpage/**").hasRole("ADMIN")
+//                .requestMatchers("/admin/distchief/**").hasRole("DISTCHIEF")
+//                .requestMatchers("/admin/branchchief/**").hasRole("BRANCHCHIEF")
+//                .requestMatchers("/admin/manager/**").hasRole("MANAGER");
 
         http.formLogin(login -> login
                 .defaultSuccessUrl("/", true)
@@ -120,33 +123,6 @@ public class SecurityConfig {
         http.authenticationProvider(adminProvider());
         http.authenticationProvider(distchiefProvider());
         http.authenticationProvider(branchchiefProvider());
-
-        return http.build();
-    }
-
-
-    @Bean
-    @Order(2)
-    public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
-
-        http.securityMatcher("/manager/**").authorizeRequests()
-                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll();
-
-        http.formLogin(login -> login
-                .defaultSuccessUrl("/", true)
-                .failureUrl("/manager/login?error=true")
-                .loginPage("/manager/login")
-                .usernameParameter("managerid")
-                .permitAll()
-                .successHandler(new CustomLoginSuccessHandler()));
-
-        http.csrf(AbstractHttpConfigurer::disable);
-
-        http.logout(logout-> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/manager/login"));
-
         http.authenticationProvider(managerProvider());
 
         return http.build();
@@ -183,67 +159,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-//    @Bean
-//    @Order(4)
-//    public SecurityFilterChain filterChain4(HttpSecurity http) throws Exception {
-//
-//        http.securityMatcher("/branchchief/**").authorizeRequests()
-//                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-//                .requestMatchers("/h2-console/**").permitAll()
-//                .requestMatchers("/admin/login").permitAll()
-//                .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll();
-//
-//        http.formLogin(login -> login
-//                .defaultSuccessUrl("/", true)
-//                .failureUrl("/branchchief/login?error=true")
-//                .loginPage("/branchchief/login")
-//                .usernameParameter("branchchiefid")
-//                .permitAll()
-//                .successHandler(new CustomLoginSuccessHandler()));
-//
-//        http.csrf(AbstractHttpConfigurer::disable);
-//
-//        http.logout(logout-> logout
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/branchchief/login"));
-//
-//        http.authenticationProvider(branchchiefProvider());
-//
-//        return http.build();
-//    }
-//
-//
-//
-//
-//    @Bean
-//    @Order(5)
-//    public SecurityFilterChain filterChain5(HttpSecurity http) throws Exception {
-//
-//        http.securityMatcher("/distchief/**").authorizeRequests()
-//                .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-//                .requestMatchers("/h2-console/**").permitAll()
-//                .requestMatchers("/admin/login").permitAll()
-//                .requestMatchers("/admin/login", "/logout", "/member/register", "/admin/register").permitAll();
-//
-//        http.formLogin(login -> login
-//                .defaultSuccessUrl("/", true)
-//                .failureUrl("/distchief/login?error=true")
-//                .loginPage("/distchief/login")
-//                .usernameParameter("distchiefid")
-//                .permitAll()
-//                .successHandler(new CustomLoginSuccessHandler()));
-//
-//        http.csrf(AbstractHttpConfigurer::disable);
-//
-//        http.logout(logout-> logout
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/distchief/login"));
-//
-//        http.authenticationProvider(distchiefProvider());
-//
-//        return http.build();
-//    }
 
 
 

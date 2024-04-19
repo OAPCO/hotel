@@ -62,13 +62,13 @@ public class DistController {
 
 
 
-    @GetMapping("/distchief/register")
+    @GetMapping("/admin/distchief/register")
     public String register2() {
-        return "distchief/register";
+        return "admin/distchief/register";
     }
 
 
-    @PostMapping("/distchief/register")
+    @PostMapping("/admin/distchief/register")
     public String registerProc2(@Valid DistChiefDTO distChiefDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -87,7 +87,7 @@ public class DistController {
 
         redirectAttributes.addFlashAttribute("result", distChiefIdx);
 
-        return "redirect:/distchief/list";
+        return "redirect:/admin/distchief/list";
     }
 
 
@@ -108,7 +108,7 @@ public class DistController {
         return "dist/list";
     }
 
-    @GetMapping("/distchief/list")
+    @GetMapping("/admin/distchief/list")
     public String listForm2(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
         log.info("dist listForm 도착 ");
@@ -119,7 +119,7 @@ public class DistController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("list", distChiefDTOS);
-        return "distchief/list";
+        return "admin/distchief/list";
     }
 
 

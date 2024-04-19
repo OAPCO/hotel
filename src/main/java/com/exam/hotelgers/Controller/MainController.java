@@ -2,16 +2,25 @@ package com.exam.hotelgers.Controller;
 
 
 
+import com.exam.hotelgers.entity.Admin;
+import com.exam.hotelgers.repository.AdminRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @Log4j2
 @RequiredArgsConstructor
 public class MainController {
+
+
+    AdminRepository adminRepository;
 
     @GetMapping("/")
     public String start(){
@@ -80,5 +89,22 @@ public class MainController {
 
 
     }
+
+
+    @GetMapping("/layouts/adminlayout")
+    public void adminForm(Principal principal, Model model){
+
+
+        String adminId = principal.getName();
+
+        Optional<Admin> admin = adminRepository.findByAdminId(adminId);
+
+        String adminName = admin.get().getAdminName();
+
+        model.addAttribute("adminName",adminName);
+
+
+    }
+
 
 }

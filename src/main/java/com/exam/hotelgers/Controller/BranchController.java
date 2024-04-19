@@ -134,26 +134,25 @@ public class BranchController {
     }
 
 
-    @GetMapping("/distchief/branch/list")
+    @GetMapping("/admin/distchief/branch/list")
     public void branchListForm() {
 
     }
 
 
-    @GetMapping("/distchief/branch/register")
+    @GetMapping("/admin/distchief/branch/register")
     public void branchRegisterForm() {
 
     }
 
-    @GetMapping("/distchief/branch/registerchief")
+    @GetMapping("/admin/distchief/branch/registerchief")
     public String ChiefRegisterForm() {
-
-        return "distchief/branch/registerchief";
+        return "admin/distchief/branch/registerchief";
 
     }
 
 
-    @PostMapping("/distchief/branch/registerchief")
+    @PostMapping("/admin/distchief/branch/registerchief")
     public String ChiefRegisterProc(@Valid BranchChiefDTO branchChiefDTO,
                                     BindingResult bindingResult,
                                     RedirectAttributes redirectAttributes) {
@@ -171,13 +170,13 @@ public class BranchController {
 
         redirectAttributes.addFlashAttribute("result", branchChiefIdx);
 
-        return "redirect:/distchief/branch/listchief";
+        return "redirect:/admin/distchief/branch/listchief";
     }
 
 
 
 
-    @GetMapping("/distchief/branch/listchief")
+    @GetMapping("/admin/distchief/branch/listchief")
     public String ChiefListForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
         log.info("branch listchiefForm 도착 ");
@@ -190,17 +189,17 @@ public class BranchController {
         model.addAttribute("list", branchChiefDTOS);
 
 
-        return "distchief/branch/listchief";
+        return "admin/distchief/branch/listchief";
     }
 
 
 
-    @GetMapping("/distchief/branch/deletechief/{branchChiefIdx}")
+    @GetMapping("/admin/distchief/branch/deletechief/{branchChiefIdx}")
     public String chiefDeleteProc(@PathVariable Long branchChiefIdx) {
 
         branchChiefService.delete(branchChiefIdx);
 
-        return "redirect:/distchief/branch/listchief";
+        return "redirect:admin/distchief/branch/listchief";
     }
 
 

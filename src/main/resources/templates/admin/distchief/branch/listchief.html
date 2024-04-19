@@ -16,7 +16,7 @@
         <div class="card-body">
             <h4 style="color: #44454e">지사장 목록
                 <div style="text-align:left;">
-                    <button class="btn button" type="button" th:onclick="|location.href='@{/distchief/branch/registerchief}'|">신규등록</button>
+                    <button class="btn button" type="button" th:onclick="|location.href='@{/admin/distchief/branch/registerchief}'|">신규등록</button>
                 </div>
             </h4>
                 <div class="table-responsive">
@@ -39,7 +39,7 @@
                         <td th:text="${data.branchChiefPhone}"></td>
                         <td th:text="${data.branchChiefEmail}"></td>
 
-                        <td><button class="btn button" type="button" th:onclick="|location.href='@{'/distchief/branch/deletechief/'+${data.branchChiefIdx}}'|">삭제</button></td>
+                        <td><button class="btn button" type="button" th:onclick="|location.href='@{'/admin/distchief/branch/deletechief/'+${data.branchChiefIdx}}'|">삭제</button></td>
                     </tr>
                     </tbody>
                 </table>
