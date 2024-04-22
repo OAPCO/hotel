@@ -2,6 +2,7 @@ package com.exam.hotelgers.Controller;
 
 
 
+import com.exam.hotelgers.dto.BranchChiefDTO;
 import com.exam.hotelgers.dto.ManagerDTO;
 import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.service.ManagerService;
@@ -34,7 +35,7 @@ public class ManagerController {
 
 
     @GetMapping("/manager/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+    public String listForm123(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
         log.info("manager listForm 도착");
 
@@ -49,13 +50,13 @@ public class ManagerController {
 
 
     @GetMapping("/manager/register")
-    public void registerForm() {
+    public void registerForm123() {
 
     }
 
 
     @PostMapping("/manager/register")
-    public String registerProc(@Valid ManagerDTO managerDTO,
+    public String registerProc123(@Valid ManagerDTO managerDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
@@ -90,8 +91,50 @@ public class ManagerController {
     }
 
 
+    @GetMapping("/admin/distchief/manager/register")
+    public String registerForm() {
+
+        return "admin/distchief/manager/register";
+
+    }
 
 
+    @PostMapping("/admin/distchief/manager/register")
+    public String registerProc(@Valid ManagerDTO managerDTO,
+                                    BindingResult bindingResult,
+                                    RedirectAttributes redirectAttributes) {
+
+        log.info("매니저생성 프록 도착 " + managerDTO);
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+
+
+        Long managerIdx = managerService.register(managerDTO);
+
+        redirectAttributes.addFlashAttribute("result", managerIdx);
+
+        return "redirect:/admin/distchief/manager/list";
+    }
+
+    @GetMapping("/admin/distchief/manager/list")
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+
+        log.info("매장주 listchiefForm 도착 ");
+
+        Page<ManagerDTO> managerDTOS = managerService.list(pageable);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(managerDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", managerDTOS);
+
+
+        return "admin/distchief/manager/list";
+    }
 
 
 }

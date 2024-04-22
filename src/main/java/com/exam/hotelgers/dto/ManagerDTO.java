@@ -25,6 +25,8 @@ public class ManagerDTO {
 
     private String managerPhone;
 
+    private String managerEmail;
+
     private RoleType roleType;
 
     private LocalDateTime regdate;

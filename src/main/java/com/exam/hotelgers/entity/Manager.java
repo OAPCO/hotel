@@ -37,6 +37,9 @@ public class Manager extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String managerPhone;
 
+    @Column(length = 100, nullable = false)
+    private String managerEmail;
+
 
 
 

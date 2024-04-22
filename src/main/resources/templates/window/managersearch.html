@@ -17,7 +17,7 @@
         <div class="col-lg-1">
         </div>
         <div class="col-lg-10">
-            <h2>지사장 목록</h2>
+            <h2>점주 목록</h2>
             <table class="table body">
                 <thead>
                 <tr>
@@ -27,29 +27,29 @@
                 </thead>
                 <tbody>
                 <tr th:each="data:${list}">
-                    <td th:text="${data.branchChiefIdx}"></td>
-                    <td><a href="#" th:id="${data.branchChiefName}" th:onclick="sendDataToParent(this)"
-                           th:text="${data.branchChiefName}"></a></td>
+                    <td th:text="${data.managerIdx}"></td>
+                    <td><a href="#" th:id="${data.managerName}" th:onclick="sendDataToParent(this)"
+                           th:text="${data.managerName}"></a></td>
                 </tr>
                 </tbody>
             </table>
             <ul class="pagination">
                 <li class="page-item" th:unless="${startPage==1}">
-                    <a class="page-link" th:href="@{/search/branchchiefsearch(page=1)}">처음</a></li>
+                    <a class="page-link" th:href="@{/search/managersearch(page=1)}">처음</a></li>
                 <li class="page-item" th:unless="${currentPage==1}">
-                    <a class="page-link" th:href="@{/search/branchchiefsearch(page=${prevPage})}">이전</a></li>
+                    <a class="page-link" th:href="@{/search/managersearch(page=${prevPage})}">이전</a></li>
                 <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
                     <li class="page-item" th:unless="${page == currentPage}">
-                        <a class="page-link" th:href="@{/search/branchchiefsearch(page=${page})}">[[${page}]]</a>
+                        <a class="page-link" th:href="@{/search/managersearch(page=${page})}">[[${page}]]</a>
                     </li>
                     <li class="page-item active" th:if="${page == currentPage}">
                         <a class="page-link" href="#">[[${page}]]</a>
                     </li>
                 </span>
                 <li class="page-item" th:unless="${currentPage>=lastPage}">
-                    <a class="page-link" th:href="@{/search/branchchiefsearch(page=${nextPage})}">다음</a></li>
+                    <a class="page-link" th:href="@{/search/managersearch(page=${nextPage})}">다음</a></li>
                 <li class="page-item" th:unless="${endPage==lastPage}">
-                    <a class="page-link" th:href="@{/search/branchchiefsearch(page=${lastPage})}">끝</a></li>
+                    <a class="page-link" th:href="@{/search/managersearch(page=${lastPage})}">끝</a></li>
             </ul>
         </div>
         <div class="col-lg-1">
@@ -61,15 +61,15 @@
 <script th:inline="javascript">
     function sendDataToParent(link) {
         // 부모 창으로 데이터 전송
-        var branchChiefName = link.textContent;
+        var managerName = link.textContent;
         //var email = document.getElemesntById('email').value;
-        window.opener.postMessage({branchChiefName: branchChiefName}, '*');
+        window.opener.postMessage({managerName: managerName}, '*');
         window.close();
     }
 
     function sendValueToParent() {
-        var branchChiefName = document.querySelector('input[name="branchChiefName"]').value;
-        window.opener.postMessage({ branchChiefName: branchChiefName }, '*');
+        var managerName = document.querySelector('input[name="managerName"]').value;
+        window.opener.postMessage({ managerName: managerName }, '*');
         window.close(); // 팝업 창 닫기
     }
 </script>

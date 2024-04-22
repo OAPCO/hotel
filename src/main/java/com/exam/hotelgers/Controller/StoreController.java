@@ -33,6 +33,7 @@ import java.util.Map;
 public class StoreController {
     
     private final StoreService storeService;
+    private final ManagerService managerService;
     private final ImageService imageService;
     private final SearchService searchService;
 
@@ -229,6 +230,22 @@ public class StoreController {
 
         return "admin/distchief/store/read";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
