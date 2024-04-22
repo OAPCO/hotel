@@ -18,10 +18,10 @@ public class PaymentDTO {
     private Long paymentIdx; //결제키
     private String orderNo; //주문번호
     private String paymentNo;//결제번호
-    private Integer type;//구분
+    private String type;//구분
     private String paymentPayType;//결제구분
     private String roomName;//룸명
-    private Integer paymentCompleteState;//결제완료상태
+    private String paymentCompleteState;//결제완료상태
     private String storename;//매장명
     private Integer ordercount;//주문수량
     private Integer count;//수량

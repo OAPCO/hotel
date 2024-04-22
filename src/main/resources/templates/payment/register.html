@@ -42,9 +42,9 @@
                     <div class="mb-3 mt-3">
                         <label class="form-label">구분:</label>
                         <select name="type">
-                            <option value="0">선결제</option>
-                            <option value="1">후결제</option>
-                            <option value="2">오프라인</option>
+                            <option value="선결제">선결제</option>
+                            <option value="후결제">후결제</option>
+                            <option value="오프라인">오프라인</option>
                         </select>
                     </div>
                     <div class="mb-3 mt-3">
@@ -73,8 +73,8 @@
                     <div class="mb-3 mt-3">
                         <label class="form-label">상태:</label>
                         <select name="paymentCompleteState">
-                            <option value="0">완료</option>
-                            <option value="1">취소</option>
+                            <option value="완료">완료</option>
+                            <option value="취소">취소</option>
                         </select>
                     </div>
                     <label for="ordercount">Enter Order Count:</label>
@@ -83,8 +83,8 @@
                     <table id="dynamic-table">
                         <thead>
                         <tr>
-                            <th colspan="2" id="orderNo"></th>
-                            <th colspan="2" id="orderDate"></th>
+                            <th colspan="2" th:name="orderNo"></th>
+                            <th colspan="2" th:name="orderDate"></th>
                         </tr>
                         <tr>
                             <th>No.</th>

@@ -5,8 +5,22 @@
 
 <head>
     <title>Simple Sidebar - Start Bootstrap Template</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        tfoot th {
+            text-align: right;
+        }
+    </style>
 </head>
-<body>
+<body id="page-top">
 <div layout:fragment="content">
     <div class="container mt-5">
         <div class="row">
@@ -14,8 +28,8 @@
                 <!--왼쪽여백-->
             </div>
             <div class="col-lg-10">
+                <h2>목록</h2>
                 <table class="table table-striped">
-                    <h2>주문확인</h2>
                     <thead>
                     <tr>
                         <th>주문번호</th>
@@ -40,6 +54,79 @@
                     </tbody>
                 </table>
                 <br>
+                <table id="dynamic-table">
+                    <thead>
+                    <tr>
+                        <td colspan="2" th:text="${data.orderNo}">임시</td>
+                        <td colspan="2" th:text="${data.orderdate}">임시</td>
+                    </tr>
+                    <tr>
+                        <th>No.</th>
+                        <th>메뉴</th>
+                        <th>수량</th>
+                        <th>금액(원)</th>
+                    </tr>
+                    </thead>
+                    <tbody id="dynamic-table-body">
+                    <!-- Table rows will be dynamically added here -->
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="3">총 금액(원):</th>
+                        <th id="total-price">0</th>
+                    </tr>
+                    </tfoot>
+                </table>
+
+                <script>
+                    window.onload = function () {
+                        // Define values for menuIdx, menu, count, price
+                        var ordercount = 5; // Example value for ordercount
+                        var menuValues = ["치킨", "피자", "스테이크", "샐러드", "파스타"]; // Example values for menu
+                        var countValues = [2, 1, 3, 2, 1]; // Example values for count
+                        var priceValues = [10000, 15000, 20000, 8000, 12000]; // Example values for price
+
+                        // Function to populate the dynamic table
+                        function addRows() {
+                            var tableBody = document.getElementById("dynamic-table-body");
+                            var totalPriceCell = document.getElementById("total-price");
+                            var totalPrice = 0;
+
+                            // Clear existing rows
+                            tableBody.innerHTML = "";
+
+                            // Loop through each row
+                            for (var i = 0; i < ordercount; i++) {
+                                var menuIdx = i + 1; // No.를 순서대로 부여합니다.
+                                var menu = menuValues[i]; // 메뉴명을 가져옵니다.
+                                var count = countValues[i]; // 수량을 가져옵니다.
+                                var price = priceValues[i]; // 가격을 가져옵니다.
+
+                                // Create a new row
+                                var newRow = document.createElement("tr");
+
+                                // Populate row cells
+                                newRow.innerHTML = `
+                        <td class="no">${menuIdx}</td>
+                        <td class="menu">${menu}</td>
+                        <td class="count">${count}</td>
+                        <td class="price">${price}</td>
+                    `;
+
+                                // Append the new row to the table body
+                                tableBody.appendChild(newRow);
+
+                                totalPrice += price * count; // Update total price
+                            }
+
+                            // Update total price cell
+                            totalPriceCell.textContent = totalPrice;
+                        }
+
+                        // Call the addRows function on page load
+                        addRows();
+                    };
+                </script>
                 <button type="button" class="btn btn-primary"
                         th:onclick="|location.href='@{/payment/list}'|">목록</button>
                 <button type="button" class="btn btn-secondary"
