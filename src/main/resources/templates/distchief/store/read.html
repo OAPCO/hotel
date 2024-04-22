@@ -183,15 +183,17 @@
                             <td rowspan="7" class="col-2">매장결제타입</td>
                             <td rowspan="7" class="col-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                                    <label class="form-check-label" for="flexRadioDefault1">
-                                        Default radio
+                                    <input class="form-check-input" type="radio" name="storePaymentType" value="1"
+                                           th:checked="${storeDTO.storePaymentType == 1}" disabled>
+                                    <label class="form-check-label">
+                                        선불
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                                    <label class="form-check-label" for="flexRadioDefault2">
-                                        Default checked radio
+                                    <input class="form-check-input" type="radio" name="storePaymentType" value="0"
+                                           th:checked="${storeDTO.storePaymentType == 0}" disabled>
+                                    <label class="form-check-label">
+                                        후불
                                     </label>
                                 </div>
                             </td>
@@ -207,13 +209,14 @@
                             </td>
                         </tr>
                         <tr class="row">
-                           <td class="col-2">휴무일내용</td>
-                           <td class="col-4">[휴무일내용]</td>
+                           <td class="col-2">휴무일</td>
+                           <td class="col-4"  th:text="${storeDTO.storeRestDay}" >[휴무일내용]</td>
                            <td class="col-2">카카오톡 전송 여부</td>
                            <td class="col-4">
                                <div class="form-check">
-                               <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                               <label class="form-check-label" for="flexCheckDefault">
+                                   <input class="form-check-input" type="checkbox" name="kakaoSendYn"
+                                          th:checked="${storeDTO.kakaoSendYn == 'Y'}" disabled>
+                               <label class="form-check-label">
                                    카카오톡 전송
                                </label>
                            </div>
@@ -325,7 +328,6 @@
                                 <th scope="col">QR코드정보</th>
                                 <th scope="col">룸 정보 수정</th>
                                 <th scope="col">룸 삭제</th>
-                                <th scope="col">공간 정보</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -338,25 +340,6 @@
                                         class="btn btn-success">수정</button></a></td>
                                 <td class="col"><a th:href="@{'/manager/room/delete/'+${room.roomIdx}}"><button
                                         class="btn btn-danger">삭제</button></a></td>
-                                <td class="col">
-                                    <div class="col">
-                                    룸 높이:
-                                    <select class="form-select" aria-label="Default select example">
-                                    <option selected>층선택</option>
-                                    <option value="1">고층</option>
-                                    <option value="2">저층</option>
-                                    </select>
-                                    </div>
-                                    <div class="col">
-                                    뷰타입:
-                                    <select class="form-select" aria-label="Default select example" >
-                                    <option selected>뷰선택</option>
-                                    <option value="1">마운틴뷰</option>
-                                    <option value="2">바다뷰</option>
-                                    <option value="3">강변뷰</option>
-                                    </select>
-                                    </div>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -479,7 +462,7 @@
 <!--                    메뉴 추가 모달 상세 시작-->
                     <div class="modal" id="myModal2">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content">
+
 
                                 <!-- Modal Header -->
                                 <div class="modal-header">
@@ -589,7 +572,6 @@
                                                             <div class="table-responsive">
                                                                 <table class="table">
                                                                     <tr>
-                                                                        <th>No</th>
                                                                         <th>메뉴 옵션명</th>
                                                                         <th>메뉴 가격</th>
                                                                         <th>옵션 타입</th>
@@ -598,20 +580,28 @@
                                                                     </thead>
                                                                     <tbody>
                                                                     <tr>
-                                                                        <td>1</td>
                                                                         <td>기본</td>
-                                                                        <td><input class="form-control" type="text"
-                                                                                   name="menuprice"> x원 </td>
-                                                                        <td><select class="form-select" aria-label="Default select example">
-                                                                            <option selected>옵션 타입</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                        </select></td>
+                                                                        <td>
+                                                                            <input class="form-control" type="text"
+                                                                                   name="menuOptionprice">
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control" type="text"
+                                                                                   name="menuOptionname">
+                                                                        </td>
+                                                                        <td>
+                                                                            <select class="form-select"
+                                                                                    aria-label="Default select example" name="menuOptionType">
+                                                                                <option value="Y">Y</option>
+                                                                                <option value="N">N</option>
+                                                                            </select>
+                                                                        </td>
                                                                         <td>
                                                                             <a href=""> <button
                                                                                     class="btn btn-danger">삭제</button>
                                                                             </a>
                                                                         </td>
+
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
@@ -626,7 +616,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+
                         </div>
                     </div>
                     <!-- 메뉴 추가 모달 상세 끝 -->
@@ -648,7 +638,8 @@
                             <tr >
                                 <td th:text="${menu.detailmenuIdx}" >[1]</td>
                                 <td th:text="${menu.detailMenuName}">[족발]</td>
-                                <td><div class="row1">옵션</div><div class="row2" th:text="${menu.optionYn}">[기본]</div></td>
+                                <td><div class="row1">옵션</div>
+                                    <div class="row2" th:text="${menu.optionYn}">[기본]</div></td>
                                 <td><div class="row1">금액(원)</div><div class="row2" th:text="${menu.menuprice}">
                                     [29000]</div></td>
                                 <td>
@@ -658,7 +649,8 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="row1">판매금액(원)</div><div class="row2" th:text="${menu.menuprice - menu.menuSaleAmount}">[26000]</div>
+                                    <div class="row1">판매금액(원)</div>
+                                    <div class="row2">[[${menu.menuprice}-${menu.menuSaleAmount}]]  원</div>
                                 </td>
                                 <td>
                                     <div class="row1">타입</div><div class="row2" th:text="${menu.salesYn}">[기본]</div>
@@ -670,14 +662,14 @@
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="**">
-                                        <label class="form-check-label" for="flexCheckDefault">
+
                                         </label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="***">
-                                        <label class="form-check-label" for="flexCheckDefault">
+
                                         </label>
                                     </div>
                                 </td>

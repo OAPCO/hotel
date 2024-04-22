@@ -9,6 +9,7 @@ import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,6 @@ public class StoreController {
     private final ImageService imageService;
     private final SearchService searchService;
 
-
     @Value("C:/uploads/")
     private String uploadPath;
 
@@ -58,16 +58,21 @@ public class StoreController {
 
 
     @GetMapping("/distchief/store/register")
-    public String register() {
+    public String register(Model model) {
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+        model.addAttribute("distList", distList);
+        model.addAttribute("brandList", brandList);
+
         return "distchief/store/register";
     }
-
 
     @PostMapping("/distchief/store/register")
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
-                               @RequestParam("file") MultipartFile file) {
+                               @RequestParam(name = "file", required = false) MultipartFile file) {
 
         log.info("store registerProc 도착 " + storeDTO);
 

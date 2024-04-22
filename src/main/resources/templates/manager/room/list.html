@@ -42,7 +42,7 @@
                     </td>
                     <td th:text="${data.roomCd}"></td>
                     <td>
-                        <a th:href="@{'/manager/room/'+${data.roomIdx}}"> <span> th:text="${data.roomName}" </span></a>
+                        <a th:href="@{'/manager/room/'+${data.roomIdx}}"> <span th:text="${data.roomName}"> </span></a>
                     </td>
                     <td><button class="btn btn-primary" type="button" th:onclick="|location.href='@{'/manager/room/modify/'+${data.roomIdx}}'|">수정</button></td>
                     <td><button class="btn btn-secondary" type="button" th:onclick="|location.href='@{'/manager/room/delete/'+${data.roomIdx}}'|">삭제</button></td>
