@@ -1,17 +1,14 @@
 package com.exam.hotelgers.service;
 import com.exam.hotelgers.entity.Admin;
 import com.exam.hotelgers.repository.AdminRepository;
-import com.exam.hotelgers.repository.BranchChiefRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +23,6 @@ public class AdminLoginService implements UserDetailsService {
     @Autowired
     private AdminRepository adminRepository;
     private DistChiefRepository distChiefRepository;
-    private BranchChiefRepository branchChiefRepository;
 
 
     @Override

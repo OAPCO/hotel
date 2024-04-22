@@ -45,8 +45,6 @@ public class Brand extends BaseEntity{
     @OneToMany(mappedBy="brand", cascade = CascadeType.ALL)
     private List<Store> storeList = new ArrayList<>();
 
-    @OneToMany(mappedBy="brand", cascade = CascadeType.ALL)
-    private List<Branch> branchList = new ArrayList<>();
 
 
 }

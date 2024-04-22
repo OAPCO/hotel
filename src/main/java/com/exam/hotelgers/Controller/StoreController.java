@@ -99,7 +99,6 @@ public class StoreController {
     @PostMapping("/admin/distchief/store/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
-                           @RequestParam(value="branchName", required = false) String branchName,
                            @RequestParam(value="storeName", required = false) String storeName,
                            @RequestParam(value="storeGrade", required = false) StoreGrade storeGrade,
                            @RequestParam(value="storeCd", required = false) String storeCd,
@@ -118,7 +117,7 @@ public class StoreController {
 
 
 
-        Page<StoreDTO> storeDTOS = storeService.searchList(distName,branchName,storeName,storeGrade,
+        Page<StoreDTO> storeDTOS = storeService.searchList(distName, storeName,storeGrade,
                 storeCd,storeChiefEmail,storeChief,brandName,storeStatus,storePType, pageable);
 
 
@@ -127,7 +126,6 @@ public class StoreController {
 
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
         List<BrandDTO> brandList = searchService.brandList();
 
 
@@ -135,7 +133,6 @@ public class StoreController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
         return "admin/distchief/store/list";
@@ -150,7 +147,6 @@ public class StoreController {
         Page<StoreDTO> storeDTOS = storeService.list(pageable);
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
         List<BrandDTO> brandList = searchService.brandList();
 
 
@@ -160,7 +156,6 @@ public class StoreController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
         return "admin/distchief/store/list";

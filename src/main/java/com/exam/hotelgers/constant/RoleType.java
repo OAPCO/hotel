@@ -6,7 +6,7 @@ package com.exam.hotelgers.constant;
 //열거형은 그룹분류, 단어(상수)예약해서 이용
 public enum RoleType {
 
-    ADMIN, DISTCHIEF, BRANCHCHIEF, MANAGER, USER
+    ADMIN, DISTCHIEF, MANAGER, USER
 
 
     }

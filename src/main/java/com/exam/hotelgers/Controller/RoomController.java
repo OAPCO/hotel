@@ -61,41 +61,6 @@ public class RoomController {
     }
 
 
-//    @PostMapping("/room/list")
-//    public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-//                           @RequestParam(value="distName", required = false) String distName,
-//                           @RequestParam(value="branchName", required = false) String branchName,
-//                           @RequestParam(value="roomName", required = false) String roomName,
-//                           @RequestParam(value="roomPType", required = false) StorePType roomPType,
-//                           @RequestParam(value="roomStatus", required = false) StoreStatus roomStatus
-//    ){
-//
-//
-//        log.info("들어온 총판 @@@@@ + " + distName);
-//        log.info("들어온 상태 값 : @@ + " + roomStatus);
-//        log.info("들어온 피타입 값 : @@ + " + roomPType);
-//
-//
-//
-//        Page<RoomDTO> roomDTOS = roomService.searchList(distName,branchName,roomName,roomPType,roomStatus,pageable);
-//
-//
-//
-//
-//        List<DistDTO> distList = searchService.distList();
-//        List<BranchDTO> branchList = searchService.branchList();
-//        List<StoreDTO> roomList = searchService.roomList();
-//
-//
-//        Map<String, Integer> pageinfo = PageConvert.Pagination(roomDTOS);
-//
-//        model.addAllAttributes(pageinfo);
-//        model.addAttribute("distList",distList);
-//        model.addAttribute("branchList",branchList);
-//        model.addAttribute("roomList",roomList);
-//        model.addAttribute("list", roomDTOS);
-//        return "manager/room/list";
-//    }
 
     @GetMapping("/manager/room/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model

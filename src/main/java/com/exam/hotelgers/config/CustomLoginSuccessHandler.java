@@ -40,16 +40,11 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                 super.setDefaultTargetUrl("/manager/list");
             }
 
-            boolean isBranchChief = authentication.getAuthorities().stream()
-                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_BRANCHCHIEF"));
-            if(isBranchChief) {
-                super.setDefaultTargetUrl("/store/list");
-            }
 
             boolean isDistChief = authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_DISTCHIEF"));
             if(isDistChief) {
-                super.setDefaultTargetUrl("/distchief/branch/list");
+                super.setDefaultTargetUrl("/distchief/store/list");
             }
         }
 

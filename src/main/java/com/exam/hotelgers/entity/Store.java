@@ -33,11 +33,7 @@ public class Store extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "store_sql")
     private Long storeIdx;
 
-//    private int storeCateIdx; //카테고리. enum으로 만들었음
-//    private int brandIdx; //브랜드 엔티티
-//    private int storeMemberIdx; //매장회원 엔티티
-//    private int branchIdx; //지사=enum?
-//    private String storeImg; //이미지 엔티티
+
 
     @Column(unique = true)
     private String storeCd; //매장코드
@@ -92,9 +88,6 @@ public class Store extends BaseEntity{
     private int deliveryMinFee; //최소배달금액
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="branchIdx")
-    private Branch branch;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distIdx")

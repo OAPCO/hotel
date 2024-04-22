@@ -28,9 +28,6 @@ public class Order extends BaseEntity {
     @Column(length = 60, nullable = false)
     private String orderCd;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="branchIdx")
-    private Branch branch;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distIdx")

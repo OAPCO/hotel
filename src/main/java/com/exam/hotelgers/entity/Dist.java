@@ -36,8 +36,6 @@ public class Dist extends BaseEntity {
     private String distChiefEmail;
 
 
-    @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
-    private List<Branch> branchList = new ArrayList<>();
 
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
     private List<Store> storeList = new ArrayList<>();
@@ -48,8 +46,6 @@ public class Dist extends BaseEntity {
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
 
-    @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
-    private List<BranchChief> branchChiefList = new ArrayList<>();
 
 
 

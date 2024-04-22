@@ -63,13 +63,6 @@ public class MainController {
         return "distchief/login";
     }
 
-    @GetMapping("/branchchief/login")
-    public String branchchiefLogin() {
-
-        log.info("branchchief login 겟매핑 들어옴");
-
-        return "branchchief/login";
-    }
 
 
     @GetMapping("/logout")

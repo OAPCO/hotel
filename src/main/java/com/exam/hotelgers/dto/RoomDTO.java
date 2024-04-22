@@ -19,7 +19,6 @@ public class RoomDTO {
 
 
     private DistDTO distDTO;
-    private BranchDTO branchDTO;
     private StoreDTO storeDTO;
 
 

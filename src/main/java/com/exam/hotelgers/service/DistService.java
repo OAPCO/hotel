@@ -32,7 +32,7 @@ public class DistService {
 
     private DistDTO convertToDTO(Dist dist) {
         DistDTO dto = modelMapper.map(dist, DistDTO.class);
-        dto.setBranchChiefDTOList(searchService.convertToBranchChiefDTOList(dist.getBranchChiefList()));
+        dto.setStoreDTOList(searchService.convertToStoreDTOList(dist.getStoreList()));
         return dto;
     }
 

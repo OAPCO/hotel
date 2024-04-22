@@ -2,16 +2,13 @@ package com.exam.hotelgers.Controller;
 
 
 
-import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.AdminDTO;
-import com.exam.hotelgers.dto.BranchDTO;
 import com.exam.hotelgers.dto.BrandDTO;
 import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.service.AdminService;
 import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -118,7 +115,6 @@ public class AdminController {
 
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
         List<BrandDTO> brandList = searchService.brandList();
 
 
@@ -126,7 +122,6 @@ public class AdminController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", distDTOS);
 

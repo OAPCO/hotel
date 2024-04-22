@@ -31,15 +31,6 @@
                                 </select>
                             </div>
                         </td>
-                        <th style="width: 10%">지사</th>
-                        <td style="width: 40%">
-                            <div class="d-inline-block">
-                                <select class="d-inline-block form-select form-select-sm" name="branchName">
-                                    <option value="">(선택)</option>
-                                    <option th:each="branchList : ${branchList}" th:value="${branchList.branchName}" th:text="${branchList.branchName}"></option>
-                                </select>
-                            </div>
-                        </td>
                     </tr>
                     </thead>
 
@@ -116,7 +107,6 @@
                     <tr th:each="data:${list}">
                         <td th:text="${data.orderIdx}"></td>
                         <td th:text="${data.distDTO.distName}"></td>
-                        <td th:text="${data.branchDTO.branchName}"> </td>
                         <td th:text="${data.storeDTO.storeName}"></td>
                         <td th:text="${data.roomDTO.roomName}"></td>
                         <td>

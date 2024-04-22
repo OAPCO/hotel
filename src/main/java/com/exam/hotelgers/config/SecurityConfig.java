@@ -1,7 +1,5 @@
 package com.exam.hotelgers.config;
 
-import com.exam.hotelgers.entity.BranchChief;
-import com.exam.hotelgers.entity.Manager;
 import com.exam.hotelgers.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +8,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -44,10 +41,6 @@ public class SecurityConfig {
         return new DistChiefLoginService();
     }
 
-    @Bean
-    public BranchChiefLoginService branchChiefLoginService() {
-        return new BranchChiefLoginService();
-    }
 
 
     @Bean
@@ -83,13 +76,6 @@ public class SecurityConfig {
     }
 
 
-    @Bean
-    public DaoAuthenticationProvider branchchiefProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(branchChiefLoginService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
 
 
 
@@ -103,7 +89,6 @@ public class SecurityConfig {
                 .requestMatchers("/h2-console/**").permitAll();
 //                .requestMatchers("/admin/adminpage/**").hasRole("ADMIN")
 //                .requestMatchers("/admin/distchief/**").hasRole("DISTCHIEF")
-//                .requestMatchers("/admin/branchchief/**").hasRole("BRANCHCHIEF")
 //                .requestMatchers("/admin/manager/**").hasRole("MANAGER");
 
         http.formLogin(login -> login
@@ -122,7 +107,6 @@ public class SecurityConfig {
 
         http.authenticationProvider(adminProvider());
         http.authenticationProvider(distchiefProvider());
-        http.authenticationProvider(branchchiefProvider());
         http.authenticationProvider(managerProvider());
 
         return http.build();

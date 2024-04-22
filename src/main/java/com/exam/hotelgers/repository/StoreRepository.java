@@ -32,7 +32,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
 
     @Query("select s from Store s where (:distName is null or s.dist.distName LIKE %:distName%)"+
-    "and (:branchName is null or s.branch.branchName LIKE %:branchName%)"+
     "and (:storeName is null or s.storeName LIKE %:storeName%)"+
     "and (:storeGrade is null or s.storeGrade = %:storeGrade%)"+
     "and (:storeCd is null or s.storeCd LIKE %:storeCd%)"+
@@ -43,7 +42,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     "and (:storePType is null or s.storePType = %:storePType%)"
     )
     Page<Store> multiSearch(@Param("distName") String distName,
-                            @Param("branchName") String branchName,
                             @Param("storeName") String storeName,
                             @Param("storeGrade") StoreGrade storeGrade,
                             @Param("storeCd") String storeCd,
@@ -56,7 +54,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
 
 //    @RequestParam(value="distName", required = false) String distName,
-//    @RequestParam(value="branchName", required = false) String branchName,
 //    @RequestParam(value="storeName", required = false) String storeName,
 //    @RequestParam(value="storeGrade", required = false) String storeGrade,
 //    @RequestParam(value="storeCd", required = false) String storeCd,

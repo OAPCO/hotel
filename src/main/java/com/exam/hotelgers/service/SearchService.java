@@ -23,7 +23,6 @@ public class SearchService {
     private final StoreRepository storeRepository;
     private final ModelMapper modelMapper;
     private final DistRepository distRepository;
-    private final BranchRepository branchRepository;
     private final BrandRepository brandRepository;
     private final OrderRepository orderRepository;
     private final RoomRepository roomRepository;
@@ -38,12 +37,6 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<BranchDTO> branchList() {
-        List<Branch> branchs = branchRepository.findAll();
-        return branchs.stream()
-                .map(branch -> modelMapper.map(branch, BranchDTO.class))
-                .collect(Collectors.toList());
-    }
 
     public List<BrandDTO> brandList() {
         List<Brand> brands = brandRepository.findAll();
@@ -97,14 +90,15 @@ public class SearchService {
     }
 
 
-    public List<BranchChiefDTO> convertToBranchChiefDTOList(List<BranchChief> branchChiefs) {
-        if (branchChiefs == null || branchChiefs.isEmpty()) {
+    public List<StoreDTO> convertToStoreDTOList(List<Store> stores) {
+        if (stores == null || stores.isEmpty()) {
             return Collections.emptyList();
         }
-        return branchChiefs.stream()
-                .map(branchChief -> modelMapper.map(branchChief, BranchChiefDTO.class))
+        return stores.stream()
+                .map(store -> modelMapper.map(store, StoreDTO.class))
                 .collect(Collectors.toList());
     }
+
 
 
 
@@ -117,9 +111,7 @@ public class SearchService {
         return modelMapper.map(brand, BrandDTO.class);
     }
 
-    public BranchDTO convertToBranchDTO(Branch branch) {
-        return modelMapper.map(branch, BranchDTO.class);
-    }
+
 
     public StoreDTO convertToStoreDTO(Store store) {
         return modelMapper.map(store, StoreDTO.class);

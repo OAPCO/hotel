@@ -59,7 +59,6 @@ public class StoreDTO {
 
 
     private DistDTO distDTO;
-    private BranchDTO branchDTO;
     private BrandDTO brandDTO;
 
 

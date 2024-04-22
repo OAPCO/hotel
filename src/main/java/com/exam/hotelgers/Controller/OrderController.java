@@ -68,7 +68,6 @@ public class OrderController {
     @PostMapping("/admin/distchief/order/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
-                           @RequestParam(value="branchName", required = false) String branchName,
                            @RequestParam(value="storeName", required = false) String storeName,
                            @RequestParam(value="storePType", required = false) StorePType storePType,
                            @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus
@@ -77,11 +76,10 @@ public class OrderController {
         log.info("order listProc 도착 ");
 
 
-        Page<OrderDTO> orderDTOS = orderService.searchList(distName,branchName,storeName,storePType,storeStatus,pageable);
+        Page<OrderDTO> orderDTOS = orderService.searchList(distName,storeName,storePType,storeStatus,pageable);
 
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
         List<StoreDTO> storeList = searchService.storeList();
 
 
@@ -90,7 +88,6 @@ public class OrderController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("storeList",storeList);
         model.addAttribute("list", orderDTOS);
         return "admin/distchief/order/list";
@@ -105,7 +102,6 @@ public class OrderController {
         Page<OrderDTO> orderDTOS = orderService.list(pageable);
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
         List<StoreDTO> storeList = searchService.storeList();
         List<RoomDTO> roomList = searchService.roomList();
 
@@ -114,7 +110,6 @@ public class OrderController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("storeList",storeList);
         model.addAttribute("roomList",roomList);
         model.addAttribute("list", orderDTOS);
@@ -200,7 +195,6 @@ public class OrderController {
         Page<OrderDTO> orderDTOS = orderService.list(pageable);
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
         List<StoreDTO> storeList = searchService.storeList();
         List<RoomDTO> roomList = searchService.roomList();
 
@@ -211,7 +205,6 @@ public class OrderController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("storeList",storeList);
         model.addAttribute("roomList",roomList);
         model.addAttribute("list", orderDTOS);
@@ -225,27 +218,24 @@ public class OrderController {
     @PostMapping("/admin/distchief/order/orderlist")
     public String orderlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
-                           @RequestParam(value="branchName", required = false) String branchName,
                            @RequestParam(value="storeName", required = false) String storeName,
                            @RequestParam(value="orderCd", required = false) String orderCd,
                            @RequestParam(value="roomCd", required = false) String roomCd ) {
 
 
         log.info("들어온 총판 @@@@@ + " + distName);
-        log.info("들어온 총판 @@@@@ + " + branchName);
         log.info("들어온 총판 @@@@@ + " + storeName);
         log.info("들어온 총판 @@@@@ + " + orderCd);
         log.info("들어온 총판 @@@@@ + " + roomCd);
 
 
 
-        Page<OrderDTO> orderDTOS = orderService.searchOrderList(distName,branchName,storeName,orderCd,roomCd,pageable);
+        Page<OrderDTO> orderDTOS = orderService.searchOrderList(distName,storeName,orderCd,roomCd,pageable);
 
 
 
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
         List<StoreDTO> storeList = searchService.storeList();
         List<RoomDTO> roomList = searchService.roomList();
 
@@ -254,7 +244,6 @@ public class OrderController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("storeList",storeList);
         model.addAttribute("roomList",roomList);
         model.addAttribute("list", orderDTOS);

@@ -1,9 +1,7 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.BranchChiefDTO;
 import com.exam.hotelgers.dto.BrandDTO;
 import com.exam.hotelgers.dto.ManagerDTO;
-import com.exam.hotelgers.service.BranchChiefService;
 import com.exam.hotelgers.service.BrandService;
 import com.exam.hotelgers.service.ManagerService;
 import com.exam.hotelgers.util.PageConvert;
@@ -23,7 +21,7 @@ import java.util.Map;
 @Log4j2
 public class SearchController {
 
-    private final BranchChiefService branchChiefService;
+
     private final ManagerService managerService;
     private final BrandService brandService;
 
@@ -42,18 +40,6 @@ public class SearchController {
     }
 
 
-//    @GetMapping("/window/managersearch")
-//    public String branchSearch(@PageableDefault(page=1) Pageable pageable, Model model) {
-//
-//        Page<BranchChiefDTO> branchChiefDTOS = branchChiefService.list(pageable);
-//
-//        Map<String, Integer> pageinfo = PageConvert.Pagination(branchChiefDTOS);
-//        model.addAllAttributes(pageinfo);
-//
-//        model.addAttribute("list", branchChiefDTOS);
-//
-//        return "window/managersearch";
-//    }
 
 
     @GetMapping("/window/brandsearch")

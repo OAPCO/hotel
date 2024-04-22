@@ -1,13 +1,10 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.constant.StoreGrade;
-import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.repository.BrandRepository;
-import com.exam.hotelgers.repository.BranchRepository;
 import com.exam.hotelgers.repository.DistRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,7 +28,6 @@ public class BrandService {
 
     private final BrandRepository brandRepository;
     private final DistRepository distRepository;
-    private final BranchRepository branchRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -145,10 +141,6 @@ public class BrandService {
 
     private DistDTO convertToStoreDistDTO(Dist dist) {
         return modelMapper.map(dist, DistDTO.class);
-    }
-
-    private BranchDTO convertToStoreBranchDTO(Branch branch) {
-        return modelMapper.map(branch, BranchDTO.class);
     }
 
 

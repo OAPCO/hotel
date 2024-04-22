@@ -11,7 +11,6 @@ import java.util.List;
 @Builder
 public class SearchDTO {
 
-    private List<BranchDTO> branchList;
     private List<DistDTO> distList;
     private List<BrandDTO> brandList;
 
@@ -24,16 +23,6 @@ public class SearchDTO {
     private String distChief;
     private String distChiefEmail;
     private String distTel;
-
-
-    //지사
-    private Long branchIdx;
-    private String branchCd;
-
-    private String branchName;
-    private String branchChief;
-    private String branchChiefEmail;
-    private String branchTel;
 
 
 

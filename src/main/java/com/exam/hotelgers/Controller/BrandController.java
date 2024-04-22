@@ -80,14 +80,12 @@ public class BrandController {
         Page<BrandDTO> brandDTOS = brandService.list(pageable);
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(brandDTOS);
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("brandList", brandDTOS);
         return "brand/list";
     }
@@ -113,7 +111,6 @@ public class BrandController {
 
 
         List<DistDTO> distList = searchService.distList();
-        List<BranchDTO> branchList = searchService.branchList();
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(brandDTOS);
@@ -121,7 +118,6 @@ public class BrandController {
         model.addAllAttributes(pageinfo);
         model.addAttribute("storeStatuses", storestatus);
         model.addAttribute("distList",distList);
-        model.addAttribute("branchList",branchList);
         model.addAttribute("brandList", brandDTOS);
 
         return "brand/list";
