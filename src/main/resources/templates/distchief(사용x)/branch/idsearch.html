@@ -35,13 +35,13 @@
              페이지 영역
             <ul class="pagination">
                 <li class="page-item" th:unless="${startPage==1}">
-                    <a class="page-link" th:href="@{/distchief/branch/idsearch(page=1)}">처음</a></li>
+                    <a class="page-link" th:href="@{/templates/distchief(사용x)/branch/idsearch(page=1)}">처음</a></li>
                 <li class="page-item" th:unless="${currentPage==1}">
-                    <a class="page-link" th:href="@{/distchief/branch/idsearch(page=${prevPage})}">이전</a></li>
+                    <a class="page-link" th:href="@{/templates/distchief(사용x)/branch/idsearch(page=${prevPage})}">이전</a></li>
                 <span th:each="page:${#numbers.sequence(startPage, endPage, 1)}">
                     <!-- 다른페이지-->
                     <li class="page-item" th:unless="${page == currentPage}">
-                        <a class="page-link" th:href="@{/distchief/branch/idsearch(page=${page})}">[[${page}]]</a>
+                        <a class="page-link" th:href="@{/templates/distchief(사용x)/branch/idsearch(page=${page})}">[[${page}]]</a>
                     </li>
                     <!--활성화(현재위치)-->
                     <li class="page-item active" th:if="${page == currentPage}">
@@ -49,9 +49,9 @@
                     </li>
                 </span>
                 <li class="page-item" th:unless="${currentPage>=lastPage}">
-                    <a class="page-link" th:href="@{/distchief/branch/idsearch(page=${nextPage})}">다음</a></li>
+                    <a class="page-link" th:href="@{/templates/distchief(사용x)/branch/idsearch(page=${nextPage})}">다음</a></li>
                 <li class="page-item" th:unless="${endPage==lastPage}">
-                    <a class="page-link" th:href="@{/distchief/branch/idsearch(page=${lastPage})}">끝</a></li>
+                    <a class="page-link" th:href="@{/templates/distchief(사용x)/branch/idsearch(page=${lastPage})}">끝</a></li>
             </ul>
             <!-- 페이지 영역 끝 -->
         </div>

@@ -37,4 +37,6 @@ public class MenuCate extends BaseEntity {
 
     @OneToMany(mappedBy="menuCate", cascade = CascadeType.ALL)
     private List<Detailmenu> detailMenuList = new ArrayList<>();
+
+
 }

@@ -31,13 +31,13 @@ public class RoomController {
 
 
 
-    @GetMapping("/manager/room/register")
+    @GetMapping("/admin/manager/room/register")
     public String register() {
-        return "manager/room/register";
+        return "admin/manager/room/register";
     }
 
 
-    @PostMapping("/manager/room/register")
+    @PostMapping("/admin/manager/room/register")
     public String registerProc(@Valid RoomDTO roomDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -57,12 +57,12 @@ public class RoomController {
 
         redirectAttributes.addFlashAttribute("result", roomIdx);
 
-        return "redirect:/manager/room/list";
+        return "redirect:/admin/manager/room/list";
     }
 
 
 
-    @GetMapping("/manager/room/list")
+    @GetMapping("/admin/manager/room/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
                            ) {
 
@@ -78,7 +78,7 @@ public class RoomController {
         model.addAllAttributes(pageinfo);
         model.addAttribute("storeList",storeList);
         model.addAttribute("list", roomDTOS);
-        return "manager/room/list";
+        return "admin/manager/room/list";
     }
 
 
@@ -86,7 +86,7 @@ public class RoomController {
 
 
 
-    @GetMapping("/manager/room/modify/{roomIdx}")
+    @GetMapping("/admin/manager/room/modify/{roomIdx}")
     public String modifyForm(@PathVariable Long roomIdx, Model model) {
 
         log.info("room modifyProc 도착 " + roomIdx);
@@ -95,11 +95,11 @@ public class RoomController {
 
         log.info("수정 전 정보" + roomDTO);
         model.addAttribute("roomDTO", roomDTO);
-        return "manager/room/modify";
+        return "admin/manager/room/modify";
     }
 
 
-    @PostMapping("/manager/room/modify")
+    @PostMapping("/admin/manager/room/modify")
     public String modifyProc(@Validated RoomDTO roomDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -109,7 +109,7 @@ public class RoomController {
 
             log.info("업데이트 에러 발생");
 
-            return "manager/room/modify";
+            return "admin/manager/room/modify";
         }
 
 
@@ -117,18 +117,18 @@ public class RoomController {
 
         log.info("업데이트 이후 정보 " + roomDTO);
 
-        return "redirect:/manager/room/list";
+        return "redirect:/admin/manager/room/list";
     }
 
-    @GetMapping("/manager/room/delete/{roomIdx}")
+    @GetMapping("/admin/manager/room/delete/{roomIdx}")
     public String deleteProc(@PathVariable Long roomIdx) {
 
         roomService.delete(roomIdx);
 
-        return "redirect:/manager/room/list";
+        return "redirect:/admin/manager/room/list";
     }
 
-    @GetMapping("/manager/room/{roomIdx}")
+    @GetMapping("/admin/manager/room/{roomIdx}")
     public String readForm(@PathVariable Long roomIdx, Model model) {
 
 
@@ -139,10 +139,10 @@ public class RoomController {
 
         if(roomDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
-            return "redirect:manager/room/list";
+            return "redirect:admin/manager/room/list";
         }
 
-        return "manager/room/orderlist";
+        return "admin/manager/room/orderlist";
     }
 
 }

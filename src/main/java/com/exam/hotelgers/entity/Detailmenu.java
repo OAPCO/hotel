@@ -55,6 +55,10 @@ public class Detailmenu extends BaseEntity{
     @JoinColumn(name="menuCateIdx")
     private MenuCate menuCate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="storeIdx")
+    private Store store;
+
 
 
 

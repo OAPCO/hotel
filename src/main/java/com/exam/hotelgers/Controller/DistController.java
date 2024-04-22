@@ -64,7 +64,7 @@ public class DistController {
 
     @GetMapping("/admin/distchief/register")
     public String register2() {
-        return "register";
+        return "admin/distchief/register";
     }
 
 
@@ -105,7 +105,7 @@ public class DistController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("list", distDTOS);
-        return "dist/list";
+        return "admin/distchief/dist/list";
     }
 
     @GetMapping("/admin/distchief/list")

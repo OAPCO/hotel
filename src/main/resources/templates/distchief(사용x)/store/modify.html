@@ -15,7 +15,7 @@
 
     <div class="container-fluid mt-3">
         <h2>매장 정보 수정</h2>
-        <form th:action="@{/distchief/store/modify}" method="post">
+        <form th:action="@{/templates/distchief(사용x)/store/modify}" method="post">
 
             <input type="hidden" name="storeIdx" th:value="${storeDTO.getStoreIdx()}">
             <div class="mb-3 mt-3">
