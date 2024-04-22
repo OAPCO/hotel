@@ -4,7 +4,6 @@ import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -31,7 +30,6 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/manager")
 public class StoreController {
     
     private final StoreService storeService;
@@ -59,13 +57,13 @@ public class StoreController {
 
 
 
-    @GetMapping("/store/register")
+    @GetMapping("/distchief/store/register")
     public String register() {
-        return "manager/store/register";
+        return "distchief/store/register";
     }
 
 
-    @PostMapping("/store/register")
+    @PostMapping("/distchief/store/register")
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
@@ -93,11 +91,11 @@ public class StoreController {
 
         redirectAttributes.addFlashAttribute("result", storeIdx);
 
-        return "redirect:/manager/store/list";
+        return "redirect:/distchief/store/list";
     }
 
 
-    @PostMapping("/store/list")
+    @PostMapping("/distchief/store/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
                            @RequestParam(value="branchName", required = false) String branchName,
@@ -112,6 +110,7 @@ public class StoreController {
                            ){
 
 
+        log.info("들어온 총판 @@@@@ + " + distName);
         log.info("들어온 별 값 : @@ + " + storeGrade);
         log.info("들어온 상태 값 : @@ + " + storeStatus);
         log.info("들어온 피타입 값 : @@ + " + storePType);
@@ -138,10 +137,10 @@ public class StoreController {
         model.addAttribute("branchList",branchList);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
-        return "manager/store/list";
+        return "distchief/store/list";
     }
 
-    @GetMapping("/store/list")
+    @GetMapping("/distchief/store/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
                            ) {
 
@@ -163,28 +162,14 @@ public class StoreController {
         model.addAttribute("branchList",branchList);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
-        return "manager/store/list";
-    }
-
-
-    @GetMapping("/store/order")
-    public String orderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
-
-        log.info("store orderForm 도착 ");
-
-        Page<StoreDTO> storeDTOS = storeService.list(pageable);
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", storeDTOS);
-        return "manager/store/order";
+        return "distchief/store/list";
     }
 
 
 
 
-    @GetMapping("/store/modify/{storeIdx}")
+
+    @GetMapping("/distchief/store/modify/{storeIdx}")
     public String modifyForm(@PathVariable Long storeIdx, Model model) {
 
         log.info("store modifyProc 도착 " + storeIdx);
@@ -193,11 +178,11 @@ public class StoreController {
 
         log.info("수정 전 정보" + storeDTO);
         model.addAttribute("storeDTO", storeDTO);
-        return "manager/store/modify";
+        return "distchief/store/modify";
     }
 
 
-    @PostMapping("/store/modify")
+    @PostMapping("/distchief/store/modify")
     public String modifyProc(@Validated StoreDTO storeDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -207,7 +192,7 @@ public class StoreController {
 
             log.info("업데이트 에러 발생");
 
-            return "manager/store/modify";
+            return "distchief/store/modify";
         }
 
 
@@ -215,46 +200,37 @@ public class StoreController {
 
         log.info("업데이트 이후 정보 " + storeDTO);
 
-        return "redirect:/manager/store/list";
+        return "redirect:/distchief/store/list";
     }
 
-    @GetMapping("/store/delete/{storeIdx}")
+    @GetMapping("/distchief/store/delete/{storeIdx}")
     public String deleteProc(@PathVariable Long storeIdx) {
 
         storeService.delete(storeIdx);
 
-        return "redirect:/manager/store/list";
+        return "redirect:/distchief/store/list";
     }
 
-    @GetMapping("/store/{storeIdx}")
+
+    @GetMapping("/distchief/store/{storeIdx}")
     public String readForm(@PathVariable Long storeIdx, Model model) {
-        StoreDTO storeDTO=storeService.read(storeIdx);
-        //서비스에서 값을 받으면 반드시 model로 전달
 
-        //이미지 목록 boardImgDTOList를 만든다.
-        List<ImageDTO> ImgDTOList = imageService.storeimgList(storeIdx);
 
-        //boardDTO에 있는 dtoList 변수의 값을 boardImgDTOList로 셋 한다
-        storeDTO.setDtoList(ImgDTOList);
+        StoreDTO storeDTO = storeService.read(storeIdx);
+        model.addAttribute("storeDTO", storeDTO);
 
-        model.addAttribute("storeDTO",storeDTO);
-        return "manager/store/read";
+        log.info("가져온 룸목록은@@@@@@@@@ : " +  storeDTO.getRoomDTOList());
+        log.info("가져온 메뉴카테목록은@@@@@@@@@ : " +  storeDTO.getMenuCateDTOList());
+        log.info("가져온 디테일메뉴목록은@@@@@@@@@ : " +  storeDTO.getDetailmenuDTOList());
+
+
+        if(storeDTO == null) {
+            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
+            return "redirect:distchief/store/list";
+        }
+
+        return "distchief/store/read";
     }
-    @GetMapping("/storemember/list")
-    public String Sto(){
-        return "storemember/list";
-    }
 
-    @GetMapping("/storemember/register")
-    public String st(){return "storemember/register";}
-
-    @GetMapping("/storemanagement/list")
-    public String stm(){return "storemanagement/list";}
-
-    @GetMapping("/settlement/list")
-    public String sts(){return "settlement/list";}
-
-    @GetMapping("/detail/list")
-    public String std(){return "detail/list";}
 
 }

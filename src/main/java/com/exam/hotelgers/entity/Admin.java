@@ -37,6 +37,8 @@ public class Admin extends BaseEntity {
     @Column(length = 50, nullable = false)
     private String adminPhone;
 
+    private String adminEmail;
+
 
 
 

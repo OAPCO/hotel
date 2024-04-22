@@ -13,11 +13,19 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <th:block layout:fragment="script"></th:block>
     <th:block layout:fragment="css"></th:block>
+
+    <link rel="stylesheet" href="/yhh.css">
 </head>
 <body>
+
+<!--헤더-->
     <div th:replace="~{fragments/header::header}"></div>
 
+
+<!--    본문-->
     <div id="wrapper">
+
+<!--        사이드바(nav)-->
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
             <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/">
                 <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
@@ -32,19 +40,26 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                           <span>테스트용임시메뉴ㅋ</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/admin/login">Admin 로그인</a></li>
-                            <li><a class="dropdown-item" href="/manager/login">Manager 로그인</a></li>
+                            <li><a class="dropdown-item" href="/admin/login">어드민 로그인</a></li>
+                            <li><a class="dropdown-item" href="/manager/login">매장주 로그인</a></li>
                             <li><a class="dropdown-item" href="/member/login">회원 로그인 </a></li>
                             <li><a class="dropdown-item" href="/logout">로그아웃 </a></li>
-                            <li><a class="dropdown-item" href="/admin/list">관리자 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/manager/list">매니저 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/member/list">회원 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/dist/list">총판조직 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/brand/list">브랜드 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/banner/list">광고 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/branch/list">지사 목록/관리</a></li>
-                            <li><a class="dropdown-item" href="/manager/store/list">매장 목록/관리(미완)</a></li>
-                            <li><a class="dropdown-item" href="/manager/store/order">주문 목록/관리(미완)</a></li>
+                            <li><a class="dropdown-item" href="/admin/list">(test용)관리자 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/manager/list">(test용)매니저 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/member/list">(test용)회원 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/dist/list">(test용)총판조직 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/brand/list">(test용)브랜드 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/banner/list">(test용)광고 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/branch/list">(test용)지사 목록/관리</a></li>
+                            <li><a class="dropdown-item" href="/manager/room/list">(매니저)룸 목록/관리y</a></li>
+                            <li><a class="dropdown-item" href="/manager/room/2">(매니저)룸 주문 현황y</a></li>
+                            <li><a class="dropdown-item" href="/distchief/store/list">(총판장)매장 목록/관리y</a></li>
+                            <li><a class="dropdown-item" href="/distchief/order/list">(총판장)주문 목록/관리y</a></li>
+                            <li><a class="dropdown-item" href="/distchief/order/orderlist">(총판장)주문 번호별 조회y</a></li>
+                            <li><a class="dropdown-item" href="/distchief/branch/register">(총판장)지사 등록</a></li>
+                            <li><a class="dropdown-item" href="/distchief/branch/list">(총판장)지사 목록,검색</a></li>
+                            <li><a class="dropdown-item" href="/distchief/branch/registerchief">(총판장)지사장 등록</a></li>
+                            <li><a class="dropdown-item" href="/distchief/branch/listchief">(총판장)지사장 목록,검색</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -165,20 +180,28 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
         </nav>
-        <div class="d-flex flex-column" id="content-wrapper">
+        <div class="d-flex flex-column" id="content-wrapper" style="background-color: #dddfeb">
             <div id="content">
 
-                <div layout:fragment="content"></div><!--본문-->
+                <div layout:fragment="content" style="background-color: #dddfeb">
+
+                </div><!--본문-->
 
             </div>
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2024</span></div>
+                    <div class="text-center my-auto copyright"><span>< hotelgers Team Project ></span></div>
                 </div>
             </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
-    </div> <!--index 복사한 부분 메뉴, 헤더,푸터, 본문-->
-    <div th:replace="~{fragments/footer::footer}"></div>
+    </div>
+
+
+<!--푸터-->
+    <div th:replace="~{fragments/footer::footer}" style="background-color: #dddfeb">
+    </div>
+
+
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="/assets/js/bs-init.js"></script>
     <script src="/assets/js/theme.js"></script>

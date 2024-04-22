@@ -4,14 +4,8 @@ import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Brand;
-import com.exam.hotelgers.entity.Store;
-import com.exam.hotelgers.entity.Branch;
-import com.exam.hotelgers.entity.Dist;
-import com.exam.hotelgers.repository.BrandRepository;
-import com.exam.hotelgers.repository.BranchRepository;
-import com.exam.hotelgers.repository.DistRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.entity.*;
+import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -35,15 +31,12 @@ public class StoreService {
     private final DistRepository distRepository;
     private final BranchRepository branchRepository;
     private final BrandRepository brandRepository;
-
-
+    private final SearchService searchService;
+    private final MenuCateRepository menuCateRepository;
+    private final RoomRepository roomRepository;
 
     public Long register(StoreDTO storeDTO) {
 
-
-//        Optional<Dist> dist = distRepository.findByStoreDistIdx(storeDTO.getStoreDistDTO().getStoreDistIdx());
-//        Optional<Branch> branch = branchRepository.findByStoreBranchIdx(storeDTO.getStoreBranchDTO().getStoreBranchIdx());
-//        Optional<Brand> brand = brandRepository.findByBrandIdx(storeDTO.getBrandDTO().getBrandIdx());
 
         Optional<Dist> dist = distRepository.findByDistCd(storeDTO.getDistDTO().getDistCd());
         Optional<Branch> branch = branchRepository.findByBranchCd(storeDTO.getBranchDTO().getBranchCd());
@@ -64,15 +57,12 @@ public class StoreService {
 
 
 
-
         Optional<Store> temp = storeRepository
                 .findByStoreCd(storeDTO.getStoreCd());
 
         if(temp.isPresent()) {
             throw new IllegalStateException("이미 존재하는 코드입니다.");
         }
-
-
 
 
 
@@ -93,8 +83,6 @@ public class StoreService {
         if (storeDTO.getStoreStatus().equals("OFF")){
             store.setStoreStatus(StoreStatus.OFF);
         }
-
-
 
 
         switch (storeDTO.getStoreGrade()){
@@ -139,36 +127,31 @@ public class StoreService {
     }
 
 
-//    public StoreDTO read(Long storeIdx){
-//
-//        Optional<Store> store= storeRepository.findById(storeIdx);
-//
-//
-//        return modelMapper.map(store,StoreDTO.class);
-//    }
 
 
-
-
-
+    //이 메소드는 store가 참조하는 테이블(dist,branch,brand,)과 store를 참조하는 테이블 Order,room,menucate도 함께 조회합니다.
+    //store를 참조하는 room,order,menucate의 dto는 여러개가 있을 수 있으므로 DTO에 List로 선언되어 있습니다.
     public StoreDTO read(Long storeIdx) {
-        Optional<Store> storeEntityOptional = storeRepository.findById(storeIdx);
-        if (storeEntityOptional.isPresent()) {
-            Store store = storeEntityOptional.get();
+        Optional<Store> optionalStore = storeRepository.findById(storeIdx);
+        if (optionalStore.isPresent()) {
+            Store store = optionalStore.get();
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
-            dto.setDistDTO(convertToStoreDistDTO(store.getDist()));
-            dto.setBranchDTO(convertToStoreBranchDTO(store.getBranch()));
-            dto.setBrandDTO(convertToBrandDTO(store.getBrand()));
+            dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
+            dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
+            dto.setMenuCateDTOList(searchService.convertToMenuCateDTOList(store.getMenuCateList()));
+            dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getMenuCateList().stream()
+                    .flatMap(menuCate -> menuCate.getDetailMenuList().stream())
+                    .collect(Collectors.toList())));
 
 
+            dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
+            dto.setBranchDTO(searchService.convertToBranchDTO(store.getBranch()));
+            dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
             return dto;
         } else {
             return null;
         }
     }
-
-
-
 
 
 
@@ -198,51 +181,15 @@ public class StoreService {
 
 
 
-//        public Page<StoreDTO> list2(Pageable pageable, String distName) {
-//
-//            int currentPage = pageable.getPageNumber() - 1;
-//            int pageCnt = 5;
-//            Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
-//
-//        if(distName != null){
-//            Page<Store> stores = storeRepository.distNameSearch(distName,page);
-//            return stores.map(this::convertToDTO);
-//        }
-//
-//        else {
-//            Page<Store> stores = storeRepository.findAll(page);
-//            return stores.map(this::convertToDTO);
-//        }
-//
-//
-//
-//    }
-
-
-
-
-
-
 
     private StoreDTO convertToDTO(Store store) {
         StoreDTO dto = modelMapper.map(store, StoreDTO.class);
-        dto.setDistDTO(convertToStoreDistDTO(store.getDist()));
-        dto.setBranchDTO(convertToStoreBranchDTO(store.getBranch()));
-        dto.setBrandDTO(convertToBrandDTO(store.getBrand()));
+        dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
+        dto.setBranchDTO(searchService.convertToBranchDTO(store.getBranch()));
+        dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
         return dto;
     }
 
-    private DistDTO convertToStoreDistDTO(Dist dist) {
-        return modelMapper.map(dist, DistDTO.class);
-    }
-
-    private BranchDTO convertToStoreBranchDTO(Branch branch) {
-        return modelMapper.map(branch, BranchDTO.class);
-    }
-
-    private BrandDTO convertToBrandDTO(Brand brand) {
-        return modelMapper.map(brand, BrandDTO.class);
-    }
 
 
 

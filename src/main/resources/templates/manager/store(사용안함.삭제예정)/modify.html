@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Admin : 총판정보 수정</title>
+
+
+</head>
+<body>
+
+
+<div layout:fragment="content">
+
+    <div class="container-fluid mt-3">
+        <h2>매장 정보 수정</h2>
+        <form th:action="@{/templates/manager/store(사용안함.삭제예정)/modify}" method="post">
+
+            <input type="hidden" name="storeIdx" th:value="${storeDTO.getStoreIdx()}">
+            <div class="mb-3 mt-3">
+                <label>매장명 : </label>
+                <input type="text" class="form-control" placeholder="매장명" name="storeName">
+            </div>
+            <div class="mb-3">
+                <label>매장코드 : </label>
+                <input type="text" class="form-control" placeholder="매장코드" name="storeCd">
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">수정완료</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

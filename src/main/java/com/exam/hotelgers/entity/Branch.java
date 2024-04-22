@@ -49,5 +49,12 @@ public class Branch extends BaseEntity {
     @OneToMany(mappedBy="branch", cascade = CascadeType.ALL)
     private List<Store> storeList = new ArrayList<>();
 
+    @OneToMany(mappedBy="branch", cascade = CascadeType.ALL)
+    private List<Order> orderList = new ArrayList<>();
+
+
+
+
+
 
 }

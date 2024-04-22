@@ -62,12 +62,16 @@ public class StoreDTO {
     private BranchDTO branchDTO;
     private BrandDTO brandDTO;
 
+
     private StorePType storePType;
     private StoreStatus storeStatus;
     private StoreGrade storeGrade;
 
     private List<ImageDTO> dtoList = new ArrayList<>();
-
+    private List<OrderDTO> orderDTOList;
+    private List<RoomDTO> roomDTOList;
+    private List<MenuCateDTO> menuCateDTOList; // 추가
+    private List<DetailmenuDTO> detailmenuDTOList; // 추가
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;

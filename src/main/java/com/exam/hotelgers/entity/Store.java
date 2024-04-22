@@ -9,6 +9,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -102,7 +104,14 @@ public class Store extends BaseEntity{
     @JoinColumn(name="brandIdx")
     private Brand brand;
 
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<Order> orderList = new ArrayList<>();
 
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<Room> roomList = new ArrayList<>();
+
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<MenuCate> menuCateList = new ArrayList<>();
 
 
     @Enumerated(EnumType.STRING)
@@ -113,7 +122,6 @@ public class Store extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private StoreGrade storeGrade;
-
 
 
 

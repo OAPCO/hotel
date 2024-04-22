@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>룸 정보 수정</title>
+
+
+</head>
+<body>
+
+
+<div layout:fragment="content">
+
+    <div class="container-fluid mt-3">
+        <h2>룸 정보 수정</h2>
+        <form th:action="@{/manager/room/modify}" method="post">
+            <div class="mb-3">
+                <label>매장코드 : </label>
+                <input class="form-control form-control-user" type="text"
+                       name="storeCd"
+                       th:value="${storeDTO.storeCd}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>매장 번호 : </label>
+                <input class="form-control form-control-user" type="text"
+                       placeholder="매장 번호" name="storeIdx"
+                       th:value="${storeDTO.storeIdx}" readonly>
+            </div>
+            <div class="mb-3 mt-3">
+                <label>룸명 : </label>
+                <input type="text" class="form-control" name="roomName">
+            </div>
+            <div class="mb-3">
+                <label>룸 번호 : </label>
+                <input type="text" class="form-control" name="roomIdx" th:value="${roomDTO.roomIdx}">
+            </div>
+            <div class="mb-3">
+                <label>룸 구분 : </label>
+                <input type="text" class="form-control" name="roomCd" th:value="${roomDTO.roomCd}">
+            </div>
+            <div class="mb-3">
+                <select class="form-select" name="roomType">
+                    <option value="NORMAL">일반실</option>
+                    <option value="SPECIAL">특실</option>
+                    <option value="PARTYROOM">파티룸</option>
+                </select><br>
+            </div>
+
+            <button type="submit" class="btn btn-primary">수정완료</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

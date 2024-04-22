@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>룸 주문목록</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h4 class="card-title">룸 관리</h4>
+    <div class="card">
+      <div class="card-body">
+          <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+              [ [[${roomDTO.roomName}]] ] 주문 현황
+          </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>주문번호</th>
+                    <th>메뉴</th>
+                    <th>주문서 출력</th>
+                    <th>주문일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="data:${roomDTO.orderDTOList}">
+                    <td th:text="${data.orderCd}"></td>
+                    <td>주문메뉴</td>
+                    <td>주문서출력여부</td>
+                    <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+            <ul class="pagination">
+                <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span
+                        aria-hidden="true">«</span></a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span
+                        aria-hidden="true">»</span></a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</div>
+</body>
+</html>

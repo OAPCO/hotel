@@ -31,8 +31,7 @@ public class Detailmenu extends BaseEntity{
     private String menuImg; //메뉴 이미지
     @Column(length = 500)
     private String menuDescription; //메뉴설명
-    @Column(length = 11)
-    private Long tblMenuCateMenuCateIdx; //메뉴상세 식별키
+
 //    @Column(length = 100)
 //    private String recommendYn; //추천메뉴
     private char salesYn; //판매여부 Y:판매중 N:품절
@@ -49,9 +48,12 @@ public class Detailmenu extends BaseEntity{
     private int pointSaveAmount; //포인트 적립액
     @Column(length = 11)
     private int pointSavePercent; //todo 포인트 적립율
+    @Column(length = 30)
+    private String menuprice; //메뉴 가격
 
-
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="menuCateIdx")
+    private MenuCate menuCate;
 
 
 
