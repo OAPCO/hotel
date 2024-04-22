@@ -19,7 +19,7 @@
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">매장 등록</h4>
                             </div>
-                            <form class="user" th:action="@{/admin/distchief/store/register}" method="post">
+                            <form class="user" th:action="@{/distchief/store/register}" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <p></p>
                                     <table class="table my-0">
@@ -217,6 +217,10 @@
                 }).open();
             });
         }
+        document.getElementById('branchNameSelect').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            document.getElementById('branchCd').value = selectedOption.dataset.cd;
+        });
         document.getElementById('brandNameSelect').addEventListener('change', function() {
             let selectedOption = this.options[this.selectedIndex];
             document.getElementById('brandCd').value = selectedOption.dataset.cd;

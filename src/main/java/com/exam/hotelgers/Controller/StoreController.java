@@ -33,7 +33,6 @@ import java.util.Map;
 public class StoreController {
     
     private final StoreService storeService;
-    private final ManagerService managerService;
     private final ImageService imageService;
     private final SearchService searchService;
 
@@ -59,7 +58,15 @@ public class StoreController {
 
 
     @GetMapping("/admin/distchief/store/register")
-    public String register() {
+    public String register(Model model) {
+
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+        model.addAttribute("distList", distList);
+        model.addAttribute("brandList", brandList);
+
+
         return "admin/distchief/store/register";
     }
 
@@ -68,7 +75,7 @@ public class StoreController {
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
-                               @RequestParam("file") MultipartFile file) {
+                               @RequestParam(name = "file", required = false) MultipartFile file) {
 
         log.info("store registerProc 도착 " + storeDTO);
 
@@ -96,6 +103,9 @@ public class StoreController {
     }
 
 
+
+
+
     @PostMapping("/admin/distchief/store/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
@@ -119,9 +129,6 @@ public class StoreController {
 
         Page<StoreDTO> storeDTOS = storeService.searchList(distName, storeName,storeGrade,
                 storeCd,storeChiefEmail,storeChief,brandName,storeStatus,storePType, pageable);
-
-
-
 
 
 
@@ -216,6 +223,8 @@ public class StoreController {
         model.addAttribute("storeDTO", storeDTO);
 
         log.info("가져온 주문목록은@@@@@@@@@ : " +  storeDTO.getOrderDTOList());
+        log.info("가져온 메뉴카테목록은@@@@@@@@@ : " +  storeDTO.getMenuCateDTOList());
+        log.info("가져온 디테일메뉴목록은@@@@@@@@@ : " +  storeDTO.getDetailmenuDTOList());
 
 
         if(storeDTO == null) {
@@ -225,22 +234,6 @@ public class StoreController {
 
         return "admin/distchief/store/read";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

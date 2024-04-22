@@ -6,6 +6,7 @@
 
 <head>
     <title>브랜드 정보</title>
+
 </head>
 
 <body id="page-top">
@@ -28,7 +29,8 @@
                                 <td class="col-2"><strong>총판조직명</strong></td>
                                 <td class="col-4">
                                     <div class="d-inline-block">
-                                        <select class="d-inline-block form-select form-select-sm" name="distName">
+                                        <!--Ajax를 처리를 위해 id 지정-->
+                                        <select class="d-inline-block form-select form-select-sm" id="distName" name="distName" >
                                             <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
                                         </select>
                                     </div>
@@ -64,7 +66,7 @@
                             <tr>
                                 <td class="col-2"><strong>대표자 ID</strong></td>
                                 <td class="col-4" >
-                                    <input type="text" class="form-control" name="distChiefEmail" disabled readonly />                                </td>
+                                    <input type="text" class="form-control" name="distChiefEmail2" disabled readonly />                                </td>
                                 <td class="col-2"><strong>대표자 성명</strong></td>
                                 <td class="col-4" >
                                     <input type="text" class="form-control" name="distChief" disabled readonly />
@@ -162,7 +164,27 @@
             </div>
         </div>
     </div>
+
+    <script th:inline="javascript">
+        document.getElementById("distName").addEventListener("change", function() {
+            var selectedValue = this.value; //선택한 값
+            var distList = /*[[${distList}]]*/ []; //총판정보 목록
+
+            for(var i = 0; i<distList.length; i++ ) { //목록을 개별적으로 조회
+                if(distList[i].distName == selectedValue)  { //목록에서 선택한 내용이 일치하면
+
+                    //총판ID와 대표자ID가 동일한 변수명을 사용
+                    document.getElementsByName("distChiefEmail2")[0].value = distList[i].distChiefEmail;
+                    document.getElementsByName("distChief")[0].value = distList[i].distChief;
+                    document.getElementsByName("distTel")[0].value = distList[i].distTel;
+                }
+            }
+
+        })
+    </script>
 </div>
+
+
 
 </body>
 

@@ -129,6 +129,8 @@ public class StoreService {
             dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
             dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
             dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
+            dto.setMenuCateDTOList(searchService.convertToMenuCateDTOList(store.getMenuCateList()));
+            dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getDetailMenuList()));
 
             return dto;
         } else {

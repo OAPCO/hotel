@@ -1,15 +1,9 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.constant.StoreGrade;
-import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Brand;
-import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.repository.DistRepository;
 import com.exam.hotelgers.service.BrandService;
-import com.exam.hotelgers.service.DistService;
-import com.exam.hotelgers.service.PageService;
 import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -17,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,10 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor

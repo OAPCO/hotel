@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>매장관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content">
+        <h4 class="card-title">매장 관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장 등록
+            </div>
+            <form method="post" th:action="@{/admin/distchief/store/list}">
+            <div class="table-responsive">
+
+
+                <table class="table head">
+                    <thead>
+                    <tr>
+                        <th>총판조직</th>
+                        <td>(현재 총판명)</td>
+                        <th>브랜드</th>
+                        <td>
+                            <input type="text" th:value="${brandName}" name="brandName" readonly="true" style="background-color: #F0F0F0">
+                            <button type="button" class="btn btn-primary" onclick="brandsearch()">찾기</button>
+                        </td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <th>매장명</th>
+                        <td><input type="text" name="storeName"></td>
+                        <th>매장코드</th>
+                        <td><input type="text" name="storeCd"></td>
+                    </tr>
+                    <tr>
+                        <th>매장주</th>
+                        <td>
+                            <input type="text" th:value="${managerName}" name="managerName" readonly="true" style="background-color: #F0F0F0">
+                            <button type="button" class="btn btn-primary" onclick="managersearch()">찾기</button>
+                        </td>
+                        <th>매장 연락처</th>
+                        <td><input type="text" name="storeTel"></td>
+                    </tr>
+
+
+
+
+
+                    <tr>
+                        <th>매장 연락처</th>
+                        <td><input type="text" name="storeTel"></td>
+                        <th>매장 연락처</th>
+                        <td><input type="text" name="storeTel"></td>
+                    </tr>
+
+
+
+                    </tbody>
+
+                </table>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn button">등록</button>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script th:inline="javascript">
+
+        window.addEventListener('message', function(event){
+
+            if (event.data.managerName) {
+                document.querySelector('input[name="managerName"]').value = event.data.managerName;
+            }
+            if (event.data.brandName) {
+                document.querySelector('input[name="brandName"]').value = event.data.brandName;
+            }
+        });
+
+
+        function managersearch() {
+
+
+            var popupManager = "/window/managersearch";
+            var popupOption = "width=500, height=400";
+
+            window.open(popupManager, "매장주 찾기", popupOption);
+        }
+
+        function brandsearch() {
+
+
+            var popupBrand = "/window/brandsearch";
+            var popupOption = "width=500, height=400";
+
+            window.open(popupBrand, "브랜드 찾기", popupOption);
+        }
+    </script>
+
+
+    <script th:inline="javascript">
+
+        var processMessage = null;
+        if (processMessage) {
+            alert(processMessage);
+        }
+    </script>
+
+</div>
+
+</body>
+</html>

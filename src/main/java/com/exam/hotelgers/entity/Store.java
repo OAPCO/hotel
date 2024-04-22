@@ -103,6 +103,13 @@ public class Store extends BaseEntity{
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Room> roomList = new ArrayList<>();
 
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<MenuCate> menuCateList = new ArrayList<>();
+
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<Detailmenu> detailMenuList = new ArrayList<>();
+
+
 
 
 

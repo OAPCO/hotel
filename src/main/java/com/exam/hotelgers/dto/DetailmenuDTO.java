@@ -22,8 +22,9 @@ public class DetailmenuDTO {
     @Column(length = 500)
     private String menuDescription; //메뉴설명
 
-    private Long tblMenuCateMenuCateIdx; //메뉴상세 식별키
+    private Long menuCateIdx; //메뉴상세 식별키
 
+    private String menuprice; //메뉴 가격
 
     private char salesYn; //판매여부 Y:판매중 N:품절
 

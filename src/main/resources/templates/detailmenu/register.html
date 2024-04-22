@@ -11,65 +11,137 @@
 <body class="bg-gradient-primary">
 <div layout:fragment="content">
     <div class="container">
-        <div class="card shadow-lg o-hidden border-0 my-5">
-            <div class="card-body p-0">
-                <div class="row">
-                    <div class="col-lg-3 d-none d-lg-flex">
-                        <div class="flex-grow-1 bg-register-image" style="background-image: url(/assets/img/dogs/image2.jpeg);"></div>
+        <form th:action="@{/detailmenu/register}" method="post">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="table-responsive table mt-2"  role="grid" aria-describedby="dataTable_info">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>카테고리 번호</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <input class="form-control form-control-user" type="text"
+                                           placeholder="카테고리 번호" name="menuCateIdx"
+                                           th:value="${menuCateIdx}" readonly>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">
+                                    <thead>
+
+                                    </thead>
+                                    <thead>
+                                    <tr>
+                                        <th>이미지</th>
+                                        <th>메뉴명</th>
+                                        <th>옵션유무</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><input type="file" name="menuImg"></td>
+                                        <td> <input class="form-control" type="text" name="detailMenuName"> </td>
+                                        <td><button class="btn btn-primary" type="button">옵션추가</button></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                     </div>
-                    <div class="col-lg-9">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h4 class="text-dark mb-4">상세설명 등록</h4>
+                    <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <h5>메뉴 설명</h5>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <textarea class="form-control" style="width: 100%; height: 100%;"
+                                                       name="menuDescription"></textarea>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <form class="user" th:action="@{/detailmenu/register}" method="post" enctype="multipart/form-data">
-
-
-                                <div class="row mb-3">
-                                    <div class="col-sm-12 mb-3 mb-sm-0"><input class="form-control"
-                                                                              type="text" id="detailMenuName"
-                                                                              placeholder="제목" name="detailMenuName">
+                    <div class="table-responsive">
+                                <table class="table">
+                                    <caption>할인 및 적립 정보</caption>
+                                    <thead>
+                                    <tr>
+                                        <th colspan="3">가격 할인</th>
+                                        <th colspan="3">포인트 적립</th>
+                                    </tr>
+                                    <tr>
+                                        <th>할인 구분</th>
+                                        <th>할인액</th>
+                                        <th>할인율(%)</th>
+                                        <th>적립 구분</th>
+                                        <th>적립액(원)</th>
+                                        <th>적립율(%)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <select class="form-select" aria-label="Default select example" name="menuSaleType">
+                                                <option selected>할인 구분</option>
+                                                <option value="Y">Y</option>
+                                                <option value="N">N</option>
+                                            </select>
+                                        </td>
+                                        <td><input class="form-control" type="text" name="menuSaleAmount"></td>
+                                        <td><input class="form-control" type="text" name="menuSalePercent"></td>
+                                        <td>
+                                            <select class="form-select" aria-label="Default select example" name="pointSaveType">
+                                                <option selected>적립 타입</option>
+                                                <option value="Y">Y</option>
+                                                <option value="N">N</option>
+                                            </select>
+                                        </td>
+                                        <td><input class="form-control" type="text" name="pointSaveAmount"></td>
+                                        <td><input class="form-control" type="text" name="pointSavePercent"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>No</th>
+                                            <th>메뉴 옵션명</th>
+                                            <th>메뉴 가격</th>
+                                            <th>옵션 타입</th>
+                                            <th>삭제</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>기본</td>
+                                            <td>0</td>
+                                            <td><select class="form-select" aria-label="Default select example">
+                                                <option selected>옵션 타입</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                            </select></td>
+                                            <td>
+                                                <a href=""> <button
+                                                        class="btn btn-danger">삭제</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div  class="d-flex justify-content-end">
+                                        <button class="btn btn-primary" type="submit">등록</button>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 mb-3 mb-3 sm-0">
-                                    <textarea class="form-control" id="menuDescription" name="menuDescription" placeholder="내용" rows="7"></textarea>
-                                </div>
-                                    <div class="input-group mb-3">
-                                        <label class="input-group-text" for="inputGroupFile01">파일 업로드</label>
-                                        <input type="file" class="form-control" id="inputGroupFile01" name="file">
-                                    </div>
-
-
-
-
-                                <!--                                <div th:if="${not #lists.isEmpty(boardDTO.dtoList)}">-->
-                                <!--                                    <th:block th:each=" imgdtolist : ${boardDTO.dtoList}">-->
-                                <!--                                        <div class="image-container">-->
-                                <!--                                            <img th:src="@{|/images/@{${#temporals.format(imgdtolist.regDate,'yyMMdd')}}/@{${imgdtolist.imgName}}|}" th:data-num="${imgdtolist.ino}" alt="이건 사진입니다." width="200px">-->
-                                <!--                                            <button type="button" class="delBtn">이미지삭제</button>-->
-                                <!--                                            <input type="text" name="ino" class="ino" value="">-->
-                                <!--                                        </div>-->
-                                <!--                                    </th:block>-->
-                                <!--                                </div>-->
-
-                                <!--                                <div th:each="num : ${#numbers.sequence(1,5)}">-->
-                                <!--                                    <label>파일업로드</label>-->
-                                <!--                                    <input type="file" name="file">-->
-                                <!--                                </div>-->
-                                <div class="row mb-3">
-                                    <div class="col-sm-6">
-                                        <button class="btn btn-primary d-block btn-user w-100" type="submit">등록</button>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <button class="btn btn-secondary d-block btn-user w-100" type="button" th:onclick="|location.href='@{/detailmenu/list}'|">취소</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                            </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 </body>

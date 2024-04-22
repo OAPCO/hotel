@@ -26,6 +26,8 @@ public class SearchService {
     private final BrandRepository brandRepository;
     private final OrderRepository orderRepository;
     private final RoomRepository roomRepository;
+    private final MenuCateRepository menuCateRepository;
+    private final DetailmenuRepository detailmenuRepository;
 
 
 
@@ -67,6 +69,21 @@ public class SearchService {
     }
 
 
+    public List<MenuCateDTO> menuCateList() {
+        List<MenuCate> menuCates = menuCateRepository.findAll();
+        return menuCates.stream()
+                .map(menuCate -> modelMapper.map(menuCate, MenuCateDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<DetailmenuDTO> detailmenuList() {
+        List<Detailmenu> detailmenus = detailmenuRepository.findAll();
+        return detailmenus.stream()
+                .map(detailmenu -> modelMapper.map(detailmenu, DetailmenuDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
 
 
 
@@ -96,6 +113,25 @@ public class SearchService {
         }
         return stores.stream()
                 .map(store -> modelMapper.map(store, StoreDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+    public List<MenuCateDTO> convertToMenuCateDTOList(List<MenuCate> menuCates) {
+        if (menuCates == null || menuCates.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return menuCates.stream()
+                .map(menuCate -> modelMapper.map(menuCate, MenuCateDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<DetailmenuDTO> convertToDetailMenuDTOList(List<Detailmenu> detailmenus) {
+        if (detailmenus == null || detailmenus.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return detailmenus.stream()
+                .map(detailmenu -> modelMapper.map(detailmenu, DetailmenuDTO.class))
                 .collect(Collectors.toList());
     }
 

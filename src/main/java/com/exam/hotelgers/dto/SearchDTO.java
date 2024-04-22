@@ -13,7 +13,7 @@ public class SearchDTO {
 
     private List<DistDTO> distList;
     private List<BrandDTO> brandList;
-
+    private List<MenuCateDTO> menuCateDTOList;
 
     //총판
     private Long distIdx;

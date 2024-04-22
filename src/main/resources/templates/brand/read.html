@@ -68,7 +68,7 @@
                             <td th:text="${storeDTO.storeAddr}"></td>
                             <td th:text="${storeDTO.storeCd}"></td>
                             <td>
-                                <a th:href="@{'/manager/store/'+${storeDTO.storeIdx}}"
+                                <a th:href="@{'/distchief/store/'+${storeDTO.storeIdx}}"
                                    th:text="${storeDTO.storeName}">
                                 </a>
                             </td>
@@ -79,7 +79,7 @@
                         </tbody>
                     </table>
                     <div class="d-flex justify-content-end">
-                        <a th:href="@{/manager/store/register}"><button class="btn btn-primary mr-3">등록</button></a>
+                        <a th:href="@{/distchief/store/register}"><button class="btn btn-primary mr-3">등록</button></a>
                     </div>
                 </div>
             </div>

@@ -64,7 +64,7 @@ public class DistController {
 
     @GetMapping("/admin/distchief/register")
     public String register2() {
-        return "admin/distchief/register";
+        return "register";
     }
 
 
