@@ -130,21 +130,6 @@ public class PaymentController {
         model.addAllAttributes(pageInfo);
 
         model.addAttribute("list", paymentDTOS);
-
-        Page<PaymentDTO> paymentDTOS1 = paymentservice.list(pageable);
-
-        Map<String, Integer> pageInfo1 = pageService.Pagination(paymentDTOS1);
-        model.addAllAttributes(pageInfo1);
-
-        model.addAttribute("list1", paymentDTOS1);
-
-        Page<PaymentDTO> paymentDTOS2 = paymentservice.list(pageable);
-
-        Map<String, Integer> pageInfo2 = pageService.Pagination(paymentDTOS2);
-        model.addAllAttributes(pageInfo2);
-
-        model.addAttribute("list2", paymentDTOS2);
-
         return "payment/read";
     }
 }
