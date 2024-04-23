@@ -47,7 +47,7 @@
                         <th>매장 선택</th>
                         <td>
                             <div>
-                                <select class="d-inline-block form-select form-select-sm">
+                                <select class="d-inline-block form-select form-select-sm" name="storeName">
                                     <option value="">(선택)</option>
                                     <option th:each="list : ${list}" th:value="${list.storeName}" th:text="${list.storeName}"></option>
                                 </select>

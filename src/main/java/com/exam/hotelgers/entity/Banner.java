@@ -30,16 +30,7 @@ public class Banner extends BaseEntity{
     @Column(length = 200)
     private String bannerLinkUrl;
 
-    private LocalDateTime bannerSdate;
-    private LocalDateTime bannerEdate;
-
-
-
-    @Column(length = 50)
-    private String storeCd; //제휴사 코드
-
-
-
+    private String bannerimgName;
 
 
 

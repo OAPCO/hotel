@@ -134,13 +134,15 @@ public class OrderService {
 
 
 
-    public Page<OrderDTO> searchList(String distName,String orderName, StorePType storePType, StoreStatus storeStatus, Pageable pageable) {
+
+
+    public Page<OrderDTO> searchList(SearchDTO searchDTO, Pageable pageable) {
 
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "orderIdx"));
 
-        Page<Order> orders = orderRepository.multiSearch(distName,orderName, storePType, storeStatus, page);
+        Page<Order> orders = orderRepository.multiSearch(searchDTO, page);
         return orders.map(this::convertToDTO);
     }
 

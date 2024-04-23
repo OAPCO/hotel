@@ -3,6 +3,7 @@ package com.exam.hotelgers.repository;
 import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Store;
 import org.springframework.data.domain.Page;
@@ -27,41 +28,22 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> findByStoreIdx(Long storeIdx);
 
 
-//    @Query("SELECT s FROM Store s WHERE s.dist.distName like %:distName%")
-//    Page<Store> distNameSearch(String distName, Pageable pageable);
 
 
-    @Query("select s from Store s where (:distName is null or s.dist.distName LIKE %:distName%)"+
-    "and (:storeName is null or s.storeName LIKE %:storeName%)"+
-    "and (:storeGrade is null or s.storeGrade = %:storeGrade%)"+
-    "and (:storeCd is null or s.storeCd LIKE %:storeCd%)"+
-    "and (:storeChiefEmail is null or s.storeChiefEmail LIKE %:storeChiefEmail%)"+
-    "and (:storeChief is null or s.storeChief LIKE %:storeChief%)"+
-    "and (:brandName is null or s.brand.brandName LIKE %:brandName%)"+
-    "and (:storeStatus is null or s.storeStatus = %:storeStatus%)"+
-    "and (:storePType is null or s.storePType = %:storePType%)"
+    @Query("select s from Store s where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
+    "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)"+
+    "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)"+
+    "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)"+
+    "and (:#{#searchDTO.storeChiefEmail} is null or s.storeChiefEmail LIKE %:#{#searchDTO.storeChiefEmail}%)"+
+    "and (:#{#searchDTO.storeChief} is null or s.storeChief LIKE %:#{#searchDTO.storeChief}%)"+
+    "and (:#{#searchDTO.brandName} is null or s.brand.brandName LIKE %:#{#searchDTO.brandName}%)"+
+    "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)"+
+    "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)"
     )
-    Page<Store> multiSearch(@Param("distName") String distName,
-                            @Param("storeName") String storeName,
-                            @Param("storeGrade") StoreGrade storeGrade,
-                            @Param("storeCd") String storeCd,
-                            @Param("storeChiefEmail") String storeChiefEmail,
-                            @Param("storeChief") String storeChief,
-                            @Param("brandName") String brandName,
-                            @Param("storeStatus") StoreStatus storeStatus,
-                            @Param("storePType") StorePType storePType,
+    Page<Store> multiSearch(SearchDTO searchDTO,
                             Pageable pageable);
 
 
-//    @RequestParam(value="distName", required = false) String distName,
-//    @RequestParam(value="storeName", required = false) String storeName,
-//    @RequestParam(value="storeGrade", required = false) String storeGrade,
-//    @RequestParam(value="storeCd", required = false) String storeCd,
-//    @RequestParam(value="storeChiefEmail", required = false) String storeChiefEmail,
-//    @RequestParam(value="storeChief", required = false) String storeChief,
-//    @RequestParam(value="brandName", required = false) String brandName,
-//    @RequestParam(value="storeStatus", required = false) String storeStatus,
-//    @RequestParam(value="storePType", required = false) String storePType
 
 
 

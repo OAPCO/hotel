@@ -40,6 +40,8 @@ public class Manager extends BaseEntity {
     @Column(length = 100, nullable = false)
     private String managerEmail;
 
+    private String managerimgName;
+
 
 
 

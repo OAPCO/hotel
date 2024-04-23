@@ -37,28 +37,28 @@
                             <th><strong>매장 목록</strong></th>
                             <td class="align-middle text-start"> <!-- 수정된 부분 -->
                                 <div class="d-inline-block">
-                                    <select class="d-inline-block form-select form-select-sm">
+                                    <select class="d-inline-block form-select form-select-sm" name="storeName">
                                         <option value="">(선택)</option>
                                         <option th:each="storeList : ${storeList}" th:value="${storeList.storeName}" th:text="${storeList.storeName}"></option>
                                     </select>
                                 </div>
                             </td>
                             <th><strong>매장명</strong></th>
-                            <td><input type="text" name="storeName"></td>
+                            <td><input type="text" name="storeName2"></td>
                         </tr>
                         <tr>
                             <th><strong>구분</strong></th>
                             <td>
-                                <input type="radio" name="storeDTO.storePType" value="" checked>전체
-                                <input type="radio" name="storeDTO.storePType" value="DIRECTSTORE">직영점
-                                <input type="radio" name="storeDTO.storePType" value="FRANCHISEE">가맹점
+                                <input type="radio" name="storePType" value="" checked>전체
+                                <input type="radio" name="storePType" value="DIRECTSTORE">직영점
+                                <input type="radio" name="storePType" value="FRANCHISEE">가맹점
                             </td>
 
                             <th><strong>제휴상태</strong></th>
                             <td>
-                                <input type="radio" name="storeDTO.storeStatus" value="" checked>전체
-                                <input type="radio" name="storeDTO.storeStatus" value="ON">제휴중
-                                <input type="radio" name="storeDTO.storeStatus" value="OFF"> 제휴중지
+                                <input type="radio" name="storeStatus" value="" checked>전체
+                                <input type="radio" name="storeStatus" value="ON">제휴중
+                                <input type="radio" name="storeStatus" value="OFF"> 제휴중지
                             </td>
                         </tr>
 

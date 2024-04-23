@@ -33,32 +33,19 @@ import java.util.Map;
 public class StoreController {
     
     private final StoreService storeService;
-    private final ImageService imageService;
     private final SearchService searchService;
 
-
-    @Value("C:/uploads/")
-    private String uploadPath;
-
-    public String makeDir(){
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-        String now = sdf.format(date);
-
-        String path = uploadPath + "\\\\" + now;
-
-        File file = new File(path);
-        if(file.exists() == false){
-            file.mkdir();
-        }
-
-        return path;
-    }
+    @Value("${cloud.aws.s3.bucket}")
+    public String bucket;
+    @Value("${cloud.aws.region.static}")
+    public String region;
+    @Value("${imgUploadLocation}")
+    public String folder;
 
 
 
     @GetMapping("/admin/distchief/store/register")
-    public String register(Model model) {
+    public String register(Model model) throws Exception{
 
         List<DistDTO> distList = searchService.distList();
         List<BrandDTO> brandList = searchService.brandList();
@@ -75,7 +62,7 @@ public class StoreController {
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
-                               @RequestParam(name = "file", required = false) MultipartFile file) {
+                               MultipartFile imgFile) throws Exception{
 
         log.info("store registerProc 도착 " + storeDTO);
 
@@ -87,15 +74,9 @@ public class StoreController {
 
 
 
-        Long storeIdx = storeService.register(storeDTO);
-        storeDTO.setStoreIdx(storeIdx);
+        Long storeIdx = storeService.register(storeDTO, imgFile);
 
-        imageService.saveStoreImg(file,storeDTO);
-
-
-        log.info("열거형확인@@@@@type는 " + storeDTO.getStorePType());
-        log.info("열거형확인@@@@@status는 " + storeDTO.getStoreStatus());
-
+//        storeDTO.setStoreIdx(storeIdx);
 
         redirectAttributes.addFlashAttribute("result", storeIdx);
 
@@ -108,27 +89,13 @@ public class StoreController {
 
     @PostMapping("/admin/distchief/store/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-                           @RequestParam(value="distName", required = false) String distName,
-                           @RequestParam(value="storeName", required = false) String storeName,
-                           @RequestParam(value="storeGrade", required = false) StoreGrade storeGrade,
-                           @RequestParam(value="storeCd", required = false) String storeCd,
-                           @RequestParam(value="storeChiefEmail", required = false) String storeChiefEmail,
-                           @RequestParam(value="storeChief", required = false) String storeChief,
-                           @RequestParam(value="brandName", required = false) String brandName,
-                           @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus,
-                           @RequestParam(value="storePType", required = false) StorePType storePType
-                           ){
-
-
-        log.info("들어온 총판 @@@@@ + " + distName);
-        log.info("들어온 별 값 : @@ + " + storeGrade);
-        log.info("들어온 상태 값 : @@ + " + storeStatus);
-        log.info("들어온 피타입 값 : @@ + " + storePType);
+                           @Valid SearchDTO searchDTO
+                           ) throws Exception{
 
 
 
-        Page<StoreDTO> storeDTOS = storeService.searchList(distName, storeName,storeGrade,
-                storeCd,storeChiefEmail,storeChief,brandName,storeStatus,storePType, pageable);
+
+        Page<StoreDTO> storeDTOS = storeService.searchList(searchDTO, pageable);
 
 
 
@@ -145,9 +112,12 @@ public class StoreController {
         return "admin/distchief/store/list";
     }
 
+
+
+
     @GetMapping("/admin/distchief/store/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
-                           ) {
+                           ) throws Exception {
 
         log.info("store listForm 도착 ");
 
@@ -165,6 +135,11 @@ public class StoreController {
         model.addAttribute("distList",distList);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
+        //S3 이미지정보전달
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
         return "admin/distchief/store/list";
     }
 
@@ -173,7 +148,7 @@ public class StoreController {
 
 
     @GetMapping("/admin/distchief/store/modify/{storeIdx}")
-    public String modifyForm(@PathVariable Long storeIdx, Model model) {
+    public String modifyForm(@PathVariable Long storeIdx, Model model) throws Exception {
 
         log.info("store modifyProc 도착 " + storeIdx);
 
@@ -187,7 +162,7 @@ public class StoreController {
 
     @PostMapping("/admin/distchief/store/modify")
     public String modifyProc(@Validated StoreDTO storeDTO,
-                             BindingResult bindingResult, Model model) {
+                             BindingResult bindingResult, Model model) throws Exception{
 
         log.info("store modifyProc 도착 " + storeDTO);
 
@@ -207,7 +182,7 @@ public class StoreController {
     }
 
     @GetMapping("/admin/distchief/store/delete/{storeIdx}")
-    public String deleteProc(@PathVariable Long storeIdx) {
+    public String deleteProc(@PathVariable Long storeIdx) throws Exception{
 
         storeService.delete(storeIdx);
 
@@ -216,15 +191,12 @@ public class StoreController {
 
 
     @GetMapping("/admin/distchief/store/{storeIdx}")
-    public String readForm(@PathVariable Long storeIdx, Model model) {
+    public String readForm(@PathVariable Long storeIdx, Model model) throws Exception{
 
 
         StoreDTO storeDTO = storeService.read(storeIdx);
         model.addAttribute("storeDTO", storeDTO);
 
-        log.info("가져온 주문목록은@@@@@@@@@ : " +  storeDTO.getOrderDTOList());
-        log.info("가져온 메뉴카테목록은@@@@@@@@@ : " +  storeDTO.getMenuCateDTOList());
-        log.info("가져온 디테일메뉴목록은@@@@@@@@@ : " +  storeDTO.getDetailmenuDTOList());
 
 
         if(storeDTO == null) {
@@ -234,6 +206,46 @@ public class StoreController {
 
         return "admin/distchief/store/read";
     }
+
+
+
+
+
+
+
+
+
+
+
+    //테스트용
+    @GetMapping("/admin/distchief/store/imagetest")
+    public String test(@PageableDefault(page = 1) Pageable pageable, Model model
+    ) throws Exception {
+
+        Page<StoreDTO> storeDTOS = storeService.list(pageable);
+
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("brandList",brandList);
+        model.addAttribute("list", storeDTOS);
+        //S3 이미지정보전달
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        return "admin/distchief/store/imagetest";
+    }
+
+
+
 
 
 }

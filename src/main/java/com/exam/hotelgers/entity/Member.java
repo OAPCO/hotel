@@ -60,6 +60,9 @@ public class Member extends BaseEntity {
     private String pwdKey; //비밀번호 재설정키
 
 
+    private String memberimgName;
+
+
     private LocalDateTime socialInfoLoginDatetime;//Social정보(카카오톡) 로그인시간
 
     @Column(length = 200)

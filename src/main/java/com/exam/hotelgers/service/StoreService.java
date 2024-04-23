@@ -11,11 +11,13 @@ import com.exam.hotelgers.repository.StoreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -31,8 +33,20 @@ public class StoreService {
     private final BrandRepository brandRepository;
     private final SearchService searchService;
 
+    //Application.properties에 선언한 파일이 저장될 경로
+    @Value("${imgUploadLocation}")
+    private String imgUploadLocation;
 
-    public Long register(StoreDTO storeDTO) {
+    //파일저장을 위한 클래스
+    private final S3Uploader s3Uploader;
+
+
+
+    public Long register(StoreDTO storeDTO, MultipartFile imgFile) throws Exception{
+
+
+
+
 
 
         Optional<Dist> dist = distRepository.findByDistCd(storeDTO.getDistDTO().getDistCd());
@@ -57,6 +71,16 @@ public class StoreService {
             throw new IllegalStateException("이미 존재하는 코드입니다.");
         }
 
+
+
+        String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
+        String newFileName = ""; //새로 만든 파일명
+
+        if(originalFileName != null) { //파일이 존재하면
+            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+        }
+
+        storeDTO.setStoreimgName(newFileName); //새로운 파일명을 재등록
 
 
 
@@ -97,6 +121,7 @@ public class StoreService {
 
 
 
+
         storeRepository.save(store);
 
         return storeRepository.save(store).getStoreIdx();
@@ -104,7 +129,7 @@ public class StoreService {
 
 
 
-    public void modify(StoreDTO storeDTO){
+    public void modify(StoreDTO storeDTO) throws Exception{
 
 
         Optional<Store> temp = storeRepository
@@ -120,7 +145,7 @@ public class StoreService {
 
 
 
-    public StoreDTO read(Long storeIdx) {
+    public StoreDTO read(Long storeIdx) throws Exception{
         Optional<Store> optionalStore = storeRepository.findById(storeIdx);
         if (optionalStore.isPresent()) {
             Store store = optionalStore.get();
@@ -140,7 +165,7 @@ public class StoreService {
 
 
 
-    public Page<StoreDTO> list(Pageable pageable) {
+    public Page<StoreDTO> list(Pageable pageable) throws Exception{
 
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
@@ -152,15 +177,13 @@ public class StoreService {
 
 
 
-    public Page<StoreDTO> searchList(String distName,String storeName,StoreGrade storeGrade,String storeCd,String storeChiefEmail,String storeChief,
-                                     String brandName,StoreStatus storeStatus,StorePType storePType, Pageable pageable) {
+    public Page<StoreDTO> searchList(SearchDTO searchDTO, Pageable pageable) {
 
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
 
-        Page<Store> stores = storeRepository.multiSearch(distName,storeName,
-                storeGrade, storeCd, storeChiefEmail, storeChief, brandName, storeStatus, storePType, page);
+        Page<Store> stores = storeRepository.multiSearch(searchDTO, page);
         return stores.map(this::convertToDTO);
     }
 

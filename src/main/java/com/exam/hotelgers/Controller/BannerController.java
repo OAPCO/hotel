@@ -1,16 +1,13 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.BannerDTO;
-import com.exam.hotelgers.dto.ImageDTO;
 import com.exam.hotelgers.service.BannerService;
-import com.exam.hotelgers.service.ImageService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -37,25 +34,7 @@ public class BannerController {
 
 
     private final BannerService bannerService;
-    private final ImageService imageService;
 
-    @Value("C:/uploads/")
-    private String uploadPath;
-
-    public String makeDir(){
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
-        String now = sdf.format(date);
-
-        String path = uploadPath + "\\\\" + now;
-
-        File file = new File(path);
-        if(file.exists() == false){
-            file.mkdir();
-        }
-
-        return path;
-    }
 
 
     @GetMapping("/banner/register")
@@ -82,46 +61,12 @@ public class BannerController {
 
 
 
-        //파일삭제
-
-//        if(imageIdx != null){
-//
-//            for(int i=0;i<imageIdx.length;i++){
-//
-//                if(imageIdx[i] != null) {
-//
-//                    log.info(imageService.remove(imageIdx[i]));
-//                }
-//            }
-//        }
-//
-//
-//
-//
-//        //파일저장
-//        if(file != null){
-//
-//            for(int i=0; i< file.length; i++){
-//
-//                //file[i]의 이름이 null이 아니고 빈 문자열이 아니라면
-//                if(file[i].getOriginalFilename() != null && !(file[i].getOriginalFilename().equals(""))){
-//                    imageService.saveBannerImg(file[i],bannerDTO);
-//                }
-//
-//            }
-//        }
-
-
-
-
         Long bannerIdx = bannerService.register(bannerDTO);
         bannerDTO.setBannerIdx(bannerIdx);
 
-        imageService.saveBannerImg(file,bannerDTO);
 
 
         redirectAttributes.addFlashAttribute("result", bannerIdx);
-//        redirectAttributes.addAttribute("bannerIdx",bannerIdx);
 
         return "redirect:/banner/list";
     }
@@ -190,13 +135,6 @@ public class BannerController {
     public String read(@PathVariable Long bannerIdx, Model model){
 
         BannerDTO bannerDTO = bannerService.read(bannerIdx);
-
-        //이미지 목록 boardImgDTOList를 만든다.
-        List<ImageDTO> ImgDTOList = imageService.bannerimgList(bannerIdx);
-
-        //boardDTO에 있는 dtoList 변수의 값을 boardImgDTOList로 셋 한다
-        bannerDTO.setDtoList(ImgDTOList);
-
 
         model.addAttribute("bannerDTO",bannerDTO);
 

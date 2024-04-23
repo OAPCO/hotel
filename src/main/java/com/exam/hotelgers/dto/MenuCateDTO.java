@@ -15,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class MenuCateDTO {
+
+
     ModelMapper modelMapper = new ModelMapper();
 
     private Long menuCateIdx;

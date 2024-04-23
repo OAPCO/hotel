@@ -28,6 +28,8 @@ public class MenuCate extends BaseEntity {
     @Column(length = 200)
     private String menuCateName; //메뉴 카테고리 이름
 
+    private String menuCateimgName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeIdx")
     private Store store;

@@ -65,6 +65,9 @@ public class Store extends BaseEntity{
     private BigDecimal storeLng; //경도
 
 
+    private String storeimgName;
+
+
 
 
 

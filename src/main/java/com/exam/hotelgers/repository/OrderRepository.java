@@ -2,6 +2,7 @@ package com.exam.hotelgers.repository;
 
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,16 +22,21 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     Optional<Order> findByOrderIdx(Long orderIdx);
 
 
-    @Query("select o from Order o where (:distName is null or o.dist.distName LIKE %:distName%)"+
-            "and (:storeName is null or o.store.storeName LIKE %:storeName%)"+
-            "and (:storePType is null or o.store.storePType = :storePType)"+
-            "and (:storeStatus is null or o.store.storeStatus = :storeStatus)"
+
+    @Query("select o from Order o where" +
+            "(:#{#searchDTO.distName} is null or o.dist.distName LIKE %:#{#searchDTO.distName}%)"+
+            "and (:#{#searchDTO.storeName} is null or o.store.storeName LIKE %:#{#searchDTO.storeName}%)"+
+            "and (:#{#searchDTO.storePType} is null or o.store.storePType = :#{#searchDTO.storePType})"+
+            "and (:#{#searchDTO.storeStatus} is null or o.store.storeStatus = :#{#searchDTO.storeStatus})"
     )
-    Page<Order> multiSearch(@Param("distName") String distName,
-                            @Param("storeName") String storeName,
-                            @Param("storePType") StorePType storePType,
-                            @Param("storeStatus") StoreStatus storeStatus,
-                            Pageable pageable);
+    Page<Order> multiSearch(SearchDTO searchDTO,
+                             Pageable pageable);
+
+
+
+
+
+
 
     @Query("select o from Order o where (:distName is null or o.dist.distName LIKE %:distName%)"+
             "and (:storeName is null or o.store.storeName LIKE %:storeName%)"+

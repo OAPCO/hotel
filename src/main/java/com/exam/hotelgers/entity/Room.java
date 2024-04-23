@@ -34,6 +34,8 @@ public class Room extends BaseEntity{
 
     private String roomName;
 
+    private String roomimgName;
+
 
 
 

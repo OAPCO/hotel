@@ -19,7 +19,7 @@
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">매장 등록</h4>
                             </div>
-                            <form class="user" th:action="@{/admin/distchief/store/register}" method="post">
+                            <form class="user" th:action="@{/admin/distchief/store/register}" method="post"  enctype="multipart/form-data">
                                 <div class="row">
                                     <p></p>
                                     <table class="table my-0">
@@ -90,7 +90,7 @@
                                             <td class="col"><input class="form-control" type="text"
                                                                    name="storeCheifEmail"></td>
                                             <td class="col">매장 대표 이미지</td>
-                                            <td class="col>"><input type="file" class="form-control" id="file" name="file"></td>
+                                            <td class="col>"><input type="file" class="form-control" id="imgFile" name="imgFile"></td>
                                         </tr>
                                         <tr>
                                             <td class="col">매장주 성명</td>

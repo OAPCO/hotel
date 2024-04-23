@@ -58,15 +58,18 @@ public class StoreDTO {
     private int deliveryMinFee; //최소배달금액
 
 
-    private DistDTO distDTO;
-    private BrandDTO brandDTO;
+    private String storeimgName;
+
 
 
     private StorePType storePType;
     private StoreStatus storeStatus;
     private StoreGrade storeGrade;
 
-    private List<ImageDTO> dtoList = new ArrayList<>();
+
+    private DistDTO distDTO;
+    private BrandDTO brandDTO;
+
     private List<OrderDTO> orderDTOList;
     private List<RoomDTO> roomDTOList;
     private List<MenuCateDTO> menuCateDTOList;

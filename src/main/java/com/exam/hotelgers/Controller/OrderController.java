@@ -34,13 +34,13 @@ public class OrderController {
 
 
 
-    @GetMapping("/manager/order/register")
+    @GetMapping("/admin/manager/order/register")
     public String register() {
-        return "manager/order/register";
+        return "admin/manager/order/register";
     }
 
 
-    @PostMapping("/manager/order/register")
+    @PostMapping("/admin/manager/order/register")
     public String registerProc(@Valid OrderDTO orderDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -60,23 +60,20 @@ public class OrderController {
 
         redirectAttributes.addFlashAttribute("result", orderIdx);
 
-        return "redirect:/manager/order/list";
+        return "redirect:/admin/manager/order/list";
     }
 
 
 
     @PostMapping("/admin/distchief/order/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-                           @RequestParam(value="distName", required = false) String distName,
-                           @RequestParam(value="storeName", required = false) String storeName,
-                           @RequestParam(value="storePType", required = false) StorePType storePType,
-                           @RequestParam(value="storeStatus", required = false) StoreStatus storeStatus
+                           @Valid SearchDTO searchDTO
     ){
 
         log.info("order listProc 도착 ");
 
 
-        Page<OrderDTO> orderDTOS = orderService.searchList(distName,storeName,storePType,storeStatus,pageable);
+        Page<OrderDTO> orderDTOS = orderService.searchList(searchDTO,pageable);
 
 
         List<DistDTO> distList = searchService.distList();
@@ -92,6 +89,9 @@ public class OrderController {
         model.addAttribute("list", orderDTOS);
         return "admin/distchief/order/list";
     }
+
+
+
 
     @GetMapping("/admin/distchief/order/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
@@ -119,7 +119,7 @@ public class OrderController {
 
 
 
-    @GetMapping("/manager/order/modify/{orderIdx}")
+    @GetMapping("/admin/manager/order/modify/{orderIdx}")
     public String modifyForm(@PathVariable Long orderIdx, Model model) {
 
         log.info("order modifyProc 도착 " + orderIdx);
@@ -128,11 +128,11 @@ public class OrderController {
 
         log.info("수정 전 정보" + orderDTO);
         model.addAttribute("orderDTO", orderDTO);
-        return "manager/order/modify";
+        return "admin/manager/order/modify";
     }
 
 
-    @PostMapping("/manager/order/modify")
+    @PostMapping("/admin/manager/order/modify")
     public String modifyProc(@Validated OrderDTO orderDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -142,7 +142,7 @@ public class OrderController {
 
             log.info("업데이트 에러 발생");
 
-            return "manager/order/modify";
+            return "admin/manager/order/modify";
         }
 
 
@@ -150,30 +150,30 @@ public class OrderController {
 
         log.info("업데이트 이후 정보 " + orderDTO);
 
-        return "redirect:/manager/order/list";
+        return "redirect:/admin/manager/order/list";
     }
 
 
 
 
 
-    @GetMapping("/manager/order/delete/{orderIdx}")
+    @GetMapping("/admin/manager/order/delete/{orderIdx}")
     public String deleteProc(@PathVariable Long orderIdx) {
 
         orderService.delete(orderIdx);
 
-        return "redirect:/manager/order/list";
+        return "redirect:/admin/manager/order/list";
     }
 
 
 
-    @GetMapping("/manager/order/{orderIdx}")
+    @GetMapping("/admin/manager/order/{orderIdx}")
     public String readForm(@PathVariable Long orderIdx, Model model) {
         OrderDTO orderDTO=orderService.read(orderIdx);
 
 
         model.addAttribute("data",orderDTO);
-        return "manager/order/read";
+        return "admin/manager/order/read";
     }
 
 

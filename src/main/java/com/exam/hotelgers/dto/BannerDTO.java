@@ -30,6 +30,5 @@ public class BannerDTO {
         private LocalDateTime regdate;
         private LocalDateTime moddate;
 
-        private List<ImageDTO> dtoList = new ArrayList<>();
 }
 

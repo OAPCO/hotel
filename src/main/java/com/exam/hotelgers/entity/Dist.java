@@ -35,6 +35,8 @@ public class Dist extends BaseEntity {
     @Column(length = 100)
     private String distChiefEmail;
 
+    private String imgName;
+
 
 
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)

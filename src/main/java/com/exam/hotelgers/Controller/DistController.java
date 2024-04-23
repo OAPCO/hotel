@@ -105,7 +105,7 @@ public class DistController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("list", distDTOS);
-        return "admin/distchief/dist/list";
+        return "dist/list";
     }
 
     @GetMapping("/admin/distchief/list")

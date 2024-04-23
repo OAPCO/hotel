@@ -32,6 +32,10 @@ public class Detailmenu extends BaseEntity{
     @Column(length = 500)
     private String menuDescription; //메뉴설명
 
+    private String detailMenuimgName;
+
+
+
 //    @Column(length = 100)
 //    private String recommendYn; //추천메뉴
     private char salesYn; //판매여부 Y:판매중 N:품절

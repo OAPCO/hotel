@@ -42,6 +42,8 @@ public class DistChief extends BaseEntity {
 
     private String distChiefEmail;
 
+    private String distChiefimgName;
+
 
 
 
