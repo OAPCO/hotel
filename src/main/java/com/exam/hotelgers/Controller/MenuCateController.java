@@ -54,7 +54,7 @@ public class MenuCateController {
 
         redirectAttributes.addFlashAttribute("result", menuCateIdx);
 
-        return "redirect:/distchief/store/"+ menuCateDTO.getTblStoreStoreIdx();
+        return "redirect:/admin/distchief/store/"+ menuCateDTO.getTblStoreStoreIdx();
     }
 
 
@@ -88,7 +88,7 @@ public class MenuCateController {
     }
 
 
-    @PostMapping("/menuCate/modify")
+    @PostMapping("/menuCate/modify/{menuCateIdx}")
     public String modifyProc(@Validated MenuCateDTO menuCateDTO,
                              BindingResult bindingResult, Model model) {
 
@@ -106,7 +106,7 @@ public class MenuCateController {
 
         log.info("업데이트 이후 정보 " + menuCateDTO);
 
-        return "redirect:distchief/store/"+ menuCateDTO.getTblStoreStoreIdx();
+        return "redirect:/admin/distchief/store/"+ menuCateDTO.getTblStoreStoreIdx();
     }
 
     @GetMapping("/menuCate/delete/{menuCateIdx}")
