@@ -44,6 +44,9 @@ public class Manager extends BaseEntity {
 
 
 
+//    @OneToOne(mappedBy = "manager", cascade = CascadeType.ALL)
+//    private Store store;
+
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;

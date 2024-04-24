@@ -1,9 +1,11 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.entity.MenuOption;
 import jakarta.persistence.Column;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,9 +24,9 @@ public class DetailmenuDTO {
     @Column(length = 500)
     private String menuDescription; //메뉴설명
 
-    private Long menuCateIdx; //메뉴상세 식별키
 
-    private String menuprice; //메뉴 가격
+
+    private Long menuCateIdx; //메뉴상세 식별키
 
     private char salesYn; //판매여부 Y:판매중 N:품절
 
@@ -45,4 +47,14 @@ public class DetailmenuDTO {
     private LocalDateTime regdate;
 
     private LocalDateTime moddate;
+
+    private List<MenuOptionDTO> menuOptionDTOList;
+
+
+    // 옵션 테이블 활용 포기 그냥 옵션과 가격을 여기에 포함
+    private int menuprice; //메뉴 가격
+    private String optionname; //옵션 이름
+
+
+
 }

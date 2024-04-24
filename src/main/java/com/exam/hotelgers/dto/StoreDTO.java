@@ -20,7 +20,7 @@ public class StoreDTO {
     private String storeCd; //매장코드
     private String storeChief; //대빵
     private String storeChiefEmail; //대빵이메일
-    private String storeChiefPhone; //대빵전번
+    private String storeChieftel; //대빵전번
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
     private String storeName; //매장명
@@ -33,6 +33,7 @@ public class StoreDTO {
     private String storeOpenTime; //영업시작시간
     private String storeCloseTime; //영업종료시간
     private String storeRestDay; //휴무일
+    private String storeRestDetail;//휴무일 상세
     private String storeMessage; //공지사항
 
     private int storeOpenState; //0:영업중, 1:영업종료

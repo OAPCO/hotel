@@ -17,25 +17,6 @@
                 <p class="text-primary m-0 fw-bold">총판 목록</p>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3 text-nowrap">
-                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label
-                                class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
-                            <option value="10" selected="">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>&nbsp;</label></div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="text-md-end dataTables_filter" id="dataTable_filter"><label
-                                class="form-label">
-
-                            <input type="search" class="form-control form-control-sm"
-                                                          aria-controls="dataTable" placeholder="Search"></label></div>
-                    </div>
-                </div>
                 <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                     <table class="table my-0" id="dataTable">
                         <thead>
@@ -54,8 +35,8 @@
                             <td>
                                 <a th:text="${data.distName}" th:href="@{'/dist/'+${data.distIdx}}" >연습</a>
                             </td>
-                            <td th:text="${data.distChief}"></td>
-                            <td th:text="${data.distTel}"></td>
+                            <td th:text="${data.distChiefName}"></td>
+                            <td th:text="${data.distChiefPhone}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 
