@@ -24,12 +24,14 @@ public class AdminLoginService implements UserDetailsService {
 
     @Autowired
     private AdminRepository adminRepository;
+    private DistChiefRepository distChiefRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String userid) {
 
         Optional<Admin> adminEntity = adminRepository.findByAdminId(userid);
+
 
         if (adminEntity.isPresent()) {
 
@@ -40,6 +42,7 @@ public class AdminLoginService implements UserDetailsService {
                     .roles(adminEntity.get().getRoleType().name())
                     .build();
         }
+
         throw new UsernameNotFoundException("알 수 없는 아이디 : "+ userid);
     }
 

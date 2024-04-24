@@ -114,7 +114,7 @@ public class SecurityConfig {
 
 
     @Bean
-    @Order(3)
+    @Order(2)
     public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
         //사용권한
         http.authorizeRequests()
