@@ -168,14 +168,6 @@ public class StoreService {
                 // DetailMenuDTO 리스트를 MenuCateDTO에 추가합니다.
                 menuCateDTO.setDetailMenuDTOList(detailMenuDTOList);
 
-                for (DetailmenuDTO detailmenuDTO : detailMenuDTOList) {
-                    // 각 DetailmenuDTO에 해당하는 MenuOption 리스트를 받아옵니다.
-                    List<MenuOption> menuOptions = menuoptionRepository.findByDetailmenuDetailmenuIdx(detailmenuDTO.getDetailmenuIdx());
-                    // MenuOption 리스트를 MenuOptionDTO로 변환합니다.
-                    List<MenuOptionDTO> menuOptionDTOList = searchService.convertTomenuOptionDTOList(menuOptions);
-                    // MenuOptionDTO 리스트를 DetailmenuDTO에 추가합니다.
-                    detailmenuDTO.setMenuOptionDTOList(menuOptionDTOList);
-                }
             }
             return dto;
         } else {
