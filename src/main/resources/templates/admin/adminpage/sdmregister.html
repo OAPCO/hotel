@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+
+    </style>
+    <title>매장회원 관리</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h4 class="card-title">매장회원 관리</h4>
+            <h6><strong>매장회원 등록</strong></h6>
+            <form class="user" th:action="@{/dist/register}" method="post">
+                <div class="table-responsive">
+                    <form class="user" th:action="@{/dist/register}" method="post">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th >ID</th>
+                                <th class="align-middle text-start">
+                                    <input type="text" value="" placeholder="이메일" name="distName" style="width:300px;">
+                                </th>
+                                <th>이름</th>
+                                <th class="align-middle text-start">
+                                    <input type="text" value="" placeholder="이름" name="distCd" style="width:300px;">
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>비밀번호</th>
+                                <td><input type="text" placeholder="비밀번호는6~12의 영문,숫자,기호" name="distChief" style="width:300px; ">
+
+
+                                </td>
+                                <th>비밀번호확인</th>
+                                <td ><input type="text" placeholder="비밀번호는6~12의 영문,숫자,기호" name="distTel" style="width:300px;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>매장유저권한</th>
+                                <td><input type="text" placeholder="Roletype" name="Roletype" style="width:300px; ">
+
+
+                                </td>
+                                <th>총판조직</th>
+                                <td >
+                                    <select class="d-inline-block form-select form-select-sm" name="distName">
+                                        <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>지사</th>
+                                <td>
+                                    <select class="d-inline-block form-select form-select-sm" name="branchName">
+                                        <option th:each="branchList : ${branchList}" th:value="${branchList.branchName}" th:text="${branchList.branchName}"></option>
+                                    </select>
+                                </td>
+                                <th>매장</th>
+                                <td >
+                                    <select class="d-inline-block form-select form-select-sm" name="storeName">
+                                        <option th:each="storeList : ${list}" th:value="${storeList.storeName}" th:text="${storeList.storeName}"></option>
+                                    </select>
+                                </td>
+                            <tr>
+                                <th>연락처</th>
+                                <td><input type="text" placeholder="연락처" name="distChief" style="width:300px; ">
+
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+                        <div style="text-align: right;">
+                            <button type="submit" class="btn text-white m-2" style="background-color: #36b9cc;">등록</button>
+                            <button class="btn btn-secondary m-2" type="button" th:onclick="|location.href='@{/admin/adminpage/storemembermange}'|">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

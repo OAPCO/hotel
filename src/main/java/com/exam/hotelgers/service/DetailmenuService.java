@@ -3,7 +3,9 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.dto.DetailmenuDTO;
 
 import com.exam.hotelgers.dto.DetailmenuDTO;
+import com.exam.hotelgers.dto.MenuOptionDTO;
 import com.exam.hotelgers.entity.Detailmenu;
+import com.exam.hotelgers.entity.MenuOption;
 import com.exam.hotelgers.repository.DetailmenuRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service

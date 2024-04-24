@@ -45,7 +45,8 @@ public class DistChief extends BaseEntity {
     private String distChiefimgName;
 
 
-
+//    @OneToMany(mappedBy="distchief", cascade = CascadeType.ALL)
+//    private List<Dist> distList = new ArrayList<>();
 
 
     @Enumerated(EnumType.STRING)

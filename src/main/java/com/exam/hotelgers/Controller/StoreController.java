@@ -204,6 +204,9 @@ public class StoreController {
             return "redirect:/admin/distchief/store/list";
         }
 
+        log.info("디테일메뉴 리스트: " + storeDTO.getDetailmenuDTOList());
+        log.info("메뉴카테고리 리스트: " + storeDTO.getMenuCateDTOList());
+
         return "admin/distchief/store/read";
     }
 

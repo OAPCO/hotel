@@ -1,6 +1,7 @@
 package com.exam.hotelgers.dto;
 
 import com.exam.hotelgers.entity.Brand;
+import com.exam.hotelgers.entity.DistChief;
 import com.exam.hotelgers.entity.Order;
 import com.exam.hotelgers.entity.Store;
 import jakarta.persistence.CascadeType;
@@ -20,7 +21,6 @@ public class DistDTO {
 
     private String distCd;
 
-
     private String distName;
     private String distChief;
     private String distChiefEmail;
@@ -30,6 +30,7 @@ public class DistDTO {
     private List<BrandDTO> brandDTOList;
     private List<OrderDTO> orderDTOList;
 
+//    private DistChiefDTO distChiefDTO;
 
 
     private LocalDateTime regdate;
