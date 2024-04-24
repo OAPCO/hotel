@@ -113,7 +113,9 @@ public class Store extends BaseEntity{
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Detailmenu> detailMenuList = new ArrayList<>();
 
-
+//    @OneToOne
+//    @JoinColumn(name = "managerIdx")
+//    private Manager manager;
 
 
 

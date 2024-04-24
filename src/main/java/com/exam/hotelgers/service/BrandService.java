@@ -119,15 +119,14 @@ public class BrandService {
         return brands.map(this::convertToDTO);
     }
 
-    public Page<BrandDTO> searchList(String distChiefEmail, String distName, String brandName,String brandCd,
-                                     StoreStatus storestatus,
+    public Page<BrandDTO> searchList(String distName, String brandName,String brandCd,
                                      Pageable pageable) {
 
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "brandIdx"));
 
-        Page<Brand> brands = brandRepository.multisearch(distChiefEmail, distName,brandName,brandCd,storestatus, page);
+        Page<Brand> brands = brandRepository.multisearch(distName,brandName,brandCd,page);
         return brands.map(this::convertToDTO);
     }
 
