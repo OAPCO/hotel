@@ -28,7 +28,7 @@ public class SearchService {
     private final RoomRepository roomRepository;
     private final MenuCateRepository menuCateRepository;
     private final DetailmenuRepository detailmenuRepository;
-
+    private final MenuoptionRepository menuoptionRepository;
 
 
 
@@ -83,7 +83,12 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-
+    public List<MenuOptionDTO> menuOptionList(Long detailmenuIdx) {
+        List<MenuOption> menuOptions = menuoptionRepository.findAll();
+        return menuOptions.stream()
+                .map(menuOption -> modelMapper.map(menuOption, MenuOptionDTO.class))
+                .collect(Collectors.toList());
+    }
 
 
 
@@ -135,6 +140,14 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
+    public List<MenuOptionDTO> convertTomenuOptionDTOList(List<MenuOption> menuoptions) {
+        if (menuoptions == null || menuoptions.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return menuoptions.stream()
+                .map(menuoption -> modelMapper.map(menuoptions, MenuOptionDTO.class))
+                .collect(Collectors.toList());
+    }
 
 
 

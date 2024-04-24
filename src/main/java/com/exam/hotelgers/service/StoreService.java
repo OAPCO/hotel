@@ -5,10 +5,9 @@ import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
-import com.exam.hotelgers.repository.BrandRepository;
-import com.exam.hotelgers.repository.DistRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
+import jakarta.xml.soap.Detail;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 //회원 가입, 수정, 삭제, 조회
@@ -32,6 +32,9 @@ public class StoreService {
     private final DistRepository distRepository;
     private final BrandRepository brandRepository;
     private final SearchService searchService;
+    private final DetailmenuRepository detailmenuRepository;
+    private final MenuoptionRepository menuoptionRepository;
+
 
     //Application.properties에 선언한 파일이 저장될 경로
     @Value("${imgUploadLocation}")
@@ -157,6 +160,26 @@ public class StoreService {
             dto.setMenuCateDTOList(searchService.convertToMenuCateDTOList(store.getMenuCateList()));
             dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getDetailMenuList()));
 
+            List<MenuCateDTO> menuCateDTOList = searchService.convertToMenuCateDTOList(store.getMenuCateList());
+            dto.setMenuCateDTOList(menuCateDTOList);
+
+            for (MenuCateDTO menuCateDTO : menuCateDTOList) {
+                // 각 MenuCateDTO에 해당하는 DetailMenu 리스트를 받아옵니다.
+                List<Detailmenu> detailMenus = detailmenuRepository.findByMenuCateMenuCateIdx(menuCateDTO.getMenuCateIdx());
+                // DetailMenu 리스트를 DetailMenuDTO로 변환합니다.
+                List<DetailmenuDTO> detailMenuDTOList = searchService.convertToDetailMenuDTOList(detailMenus);
+                // DetailMenuDTO 리스트를 MenuCateDTO에 추가합니다.
+                menuCateDTO.setDetailMenuDTOList(detailMenuDTOList);
+
+                for (DetailmenuDTO detailmenuDTO : detailMenuDTOList) {
+                    // 각 DetailmenuDTO에 해당하는 MenuOption 리스트를 받아옵니다.
+                    List<MenuOption> menuOptions = menuoptionRepository.findByDetailmenuDetailmenuIdx(detailmenuDTO.getDetailmenuIdx());
+                    // MenuOption 리스트를 MenuOptionDTO로 변환합니다.
+                    List<MenuOptionDTO> menuOptionDTOList = searchService.convertTomenuOptionDTOList(menuOptions);
+                    // MenuOptionDTO 리스트를 DetailmenuDTO에 추가합니다.
+                    detailmenuDTO.setMenuOptionDTOList(menuOptionDTOList);
+                }
+            }
             return dto;
         } else {
             return null;

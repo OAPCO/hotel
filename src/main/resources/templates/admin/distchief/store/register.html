@@ -88,17 +88,17 @@
                                         <tr>
                                             <td class="col">매장주 이메일</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="storeCheifEmail"></td>
+                                                                   name="storeChiefEmail"></td>
                                             <td class="col">매장 대표 이미지</td>
                                             <td class="col>"><input type="file" class="form-control" id="imgFile" name="imgFile"></td>
                                         </tr>
                                         <tr>
                                             <td class="col">매장주 성명</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="storeCheif"></td>
+                                                                   name="storeChief"></td>
                                             <td class="col">매장주 연락처</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="storeChiefPhone"></td>
+                                                                   name="storeChieftel"></td>
                                         </tr>
 
                                         <tr>
@@ -188,6 +188,42 @@
                                                     <option value="0">후불</option>
                                                     <option value="1">선불</option>
                                                 </select>
+                                            </td>
+                                            <td>영업시간</td>
+                                            <td>
+                                                <div>영업 시작: <input type="time" name="storeOpenTime"> ~ 영업 끝:<input
+                                                        type="time" name="storeCloseTime"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                휴무일
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="text"
+                                                       name="storeRestDay" >
+                                            </td>
+                                            <td>
+                                                휴무일 상세
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="text"
+                                                       name="storeRestDetail" >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                영업 여부
+                                            </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" th:value="${storeDTO.storeOpenState}"
+                                                           id="flexCheckChecked"
+                                                           checked>
+                                                    <label class="form-check-label" for="flexCheckChecked">
+                                                        영업 여부
+                                                    </label>
+                                                </div>
                                             </td>
                                         </tr>
                                         </tbody>

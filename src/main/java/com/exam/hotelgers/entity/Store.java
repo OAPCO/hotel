@@ -39,11 +39,12 @@ public class Store extends BaseEntity{
     private String storeCd; //매장코드
     private String storeName; //매장명
     private String storeChief; //대빵
-    private String storeChiefEmail; //대빵
-    private String storeChieftel; //대빵
+    private String storeChiefEmail; //대빵이메일
+    private String storeChieftel; //대빵전번
     private String storeTel; //전화번호
     private String storeMessage; //공지사항
     private String storeRestDay; //휴무일
+    private String storeRestDetail;//휴무일 상세
     private String storeSummary; //매장 설명
     private int storePaymentType; //0:선결제, 1:후결제
     private String storeOpenTime; //영업시작시간
@@ -111,6 +112,7 @@ public class Store extends BaseEntity{
 
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Detailmenu> detailMenuList = new ArrayList<>();
+
 
 
 

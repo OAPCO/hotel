@@ -13,4 +13,5 @@ public interface DetailmenuRepository extends JpaRepository<Detailmenu,Long> {
     Optional<Detailmenu> findByDetailmenuIdx(Long detailmenuIdx);
 
     List<Detailmenu> findByMenuCateMenuCateIdx(Long menuCateIdx);
+
 }

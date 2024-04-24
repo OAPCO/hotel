@@ -3,6 +3,9 @@ package com.exam.hotelgers.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -52,8 +55,6 @@ public class Detailmenu extends BaseEntity{
     private int pointSaveAmount; //포인트 적립액
     @Column(length = 11)
     private int pointSavePercent; //todo 포인트 적립율
-    @Column(length = 30)
-    private String menuprice; //메뉴 가격
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="menuCateIdx")
@@ -63,7 +64,12 @@ public class Detailmenu extends BaseEntity{
     @JoinColumn(name="storeIdx")
     private Store store;
 
+    @OneToMany(mappedBy="detailmenu", cascade = CascadeType.ALL)
+    private List<MenuOption> menuOptionList = new ArrayList<>();
 
 
-
+    public void setMenuOptions(List<MenuOption> menuOptions) {
+        this.menuOptionList = menuOptions;
+        menuOptions.forEach(option -> option.setDetailmenu(this));
+    }
 }
