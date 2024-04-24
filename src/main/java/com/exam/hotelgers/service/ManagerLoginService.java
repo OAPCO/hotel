@@ -35,7 +35,6 @@ public class ManagerLoginService implements UserDetailsService {
                     .build();
 
         }
-        //일반회원 및 관리자에 존재하지 않으면 오류발생(Console)
         throw new UsernameNotFoundException("알 수 없는 아이디 : "+ userid);
     }
 }

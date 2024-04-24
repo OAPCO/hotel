@@ -2,8 +2,11 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.entity.DistChief;
 import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.repository.DistRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,6 +30,7 @@ public class DistService {
     private final DistRepository distRepository;
     private final ModelMapper modelMapper;
     private final SearchService searchService;
+    private final DistChiefRepository distChiefRepository;
 
 
 
@@ -39,16 +43,28 @@ public class DistService {
     public Long register(DistDTO distDTO) {
 
 
-        Optional<Dist> distEntity = distRepository
-                .findByDistCd(distDTO.getDistCd());
+        Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
+
+        if (!distChief.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판장입니다.");
+        }
+
+        
+        
+        Optional<Dist> distEntity = distRepository.findByDistCd(distDTO.getDistCd());
+
+
 
         if(distEntity.isPresent()) {
             throw new IllegalStateException("이미 생성된 총판입니다.");
         }
 
+
+
         Dist dist = modelMapper.map(distDTO, Dist.class);
 
-        distRepository.save(dist);
+
+        dist.setDistChief(distChief.get());
 
         return distRepository.save(dist).getDistIdx();
     }
@@ -114,8 +130,6 @@ public class DistService {
     private DistDTO convertToDistDTO(Dist dist) {
         return modelMapper.map(dist, DistDTO.class);
     }
-
-
 
 
 

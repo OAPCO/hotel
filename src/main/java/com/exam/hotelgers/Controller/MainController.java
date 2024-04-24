@@ -47,20 +47,20 @@ public class MainController {
     }
 
 
-    @GetMapping("/manager/login")
+    @GetMapping("/admin/manager/login")
     public String managerLogin() {
 
         log.info("manager login 겟매핑 들어옴");
 
-        return "manager/login";
+        return "admin/manager/login";
     }
 
-    @GetMapping("/distchief/login")
+    @GetMapping("/admin/distchief/login")
     public String distchiefLogin() {
 
         log.info("distchief login 겟매핑 들어옴");
 
-        return "distchief/login";
+        return "admin/distchief/login";
     }
 
 

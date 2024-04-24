@@ -124,9 +124,6 @@ public class StoreService {
 
 
 
-
-        storeRepository.save(store);
-
         return storeRepository.save(store).getStoreIdx();
     }
 
