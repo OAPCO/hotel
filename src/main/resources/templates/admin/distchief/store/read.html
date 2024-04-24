@@ -321,8 +321,86 @@
                                 <td class="col" th:text="${room.roomCd}">[TA0001]</td>
                                 <td class="col" th:text="${room.roomName}">[산울림101호]</td>
                                 <td class="col">[st11A5465]</td>
-                                <td class="col"><a th:href="@{'/admin/manager/room/modify/'+${room.roomIdx}}"><button
-                                        class="btn btn-success">수정</button></a></td>
+                                <td class="col">
+                                    <button
+                                            type="button"
+                                            class="btn btn-primary"
+                                            data-bs-toggle="modal"
+                                            th:data-bs-target="'#myModal6' + ${room.roomIdx} + ${room.roomCd}">
+                                        수정
+                                    </button>
+
+<!--                                    룸 수정 모달 상세 시작-->
+                                    <div class="modal fade"
+                                         th:id="'myModal6' + ${room.roomIdx} + ${room.roomCd}">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">룸 수정</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+
+                                                <!-- Modal Body -->
+                                                <div class="modal-body">
+                                                    <form action="/admin/manager/room/modify"
+                                                          method="post">
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label>매장 번호 : </label>
+                                                                <input class="form-control form-control-user" type="text"
+                                                                       placeholder="매장 번호" name="storeDTO.storeIdx"
+                                                                       th:value="${storeDTO.storeIdx}" readonly>
+                                                            </div>
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label>매장 코드 : </label>
+                                                                <input class="form-control form-control-user" type="text"
+                                                                       placeholder="매장 코드" name="storeDTO.storeCd"
+                                                                       th:value="${storeDTO.storeCd}" readonly>
+                                                            </div>
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label>룸 코드 : </label>
+                                                                <input class="form-control form-control-user" type="text"
+                                                                       name="roomCd" th:value="${room.roomCd}" readonly>
+                                                            </div>
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label>룸 Id : </label>
+                                                                <input class="form-control form-control-user" type="text"
+                                                                       name="roomIdx" th:value="${room.roomIdx}" readonly>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <label>룸 이름 : </label>
+                                                                <input class="form-control form-control-user" type="text"
+                                                                       name="roomName">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                <select class="form-select" name="roomType">
+                                                                    <option value="NORMAL">일반실</option>
+                                                                    <option value="SPECIAL">특실</option>
+                                                                    <option value="PARTYROOM">파티룸</option>
+                                                                </select><br>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                                <!-- Modal Footer -->
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">수정</button>
+                                                    <button type="button" class="btn btn-danger"
+                                                            data-bs-dismiss="modal">닫기</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+<!--                                    룸 수정 모달 상세 끝-->
+                                </td>
                                 <td class="col"><a th:href="@{'/admin/manager/room/delete/'+${room.roomIdx}}"><button
                                         class="btn btn-danger">삭제</button></a></td>
                             </tr>
