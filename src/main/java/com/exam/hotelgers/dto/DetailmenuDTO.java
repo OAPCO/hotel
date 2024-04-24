@@ -24,7 +24,7 @@ public class DetailmenuDTO {
     @Column(length = 500)
     private String menuDescription; //메뉴설명
 
-
+    private char recommendYn; //추천메뉴
 
     private Long menuCateIdx; //메뉴상세 식별키
 

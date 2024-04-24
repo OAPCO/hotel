@@ -112,7 +112,8 @@ public class DetailmenuController {
 
         log.info("업데이트 이후 정보 " + detailmenuDTO);
 
-        return "redirect:/detailmenu/list";
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
     }
 
     @GetMapping("/detailmenu/delete/{detailmenuIdx}")
@@ -128,6 +129,7 @@ public class DetailmenuController {
         DetailmenuDTO detailmenuDTO=detailmenuService.read(detailmenuIdx);
         //서비스에서 값을 받으면 반드시 model로 전달
         model.addAttribute("detailmenuDTO",detailmenuDTO);
-        return "detailmenu/read";
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
     }
 }

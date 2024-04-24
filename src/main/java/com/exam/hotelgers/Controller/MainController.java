@@ -52,7 +52,7 @@ public class MainController {
 
         log.info("manager login 겟매핑 들어옴");
 
-        return "admin/manager/login";
+        return "admin/login";
     }
 
     @GetMapping("/admin/distchief/login")
@@ -60,7 +60,7 @@ public class MainController {
 
         log.info("distchief login 겟매핑 들어옴");
 
-        return "admin/distchief/login";
+        return "admin/login";
     }
 
 

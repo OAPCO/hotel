@@ -35,7 +35,8 @@
                                                     <th:block th:each="dist : ${distList}">
                                                         <option th:value="${dist.distName}"
                                                                 th:text="${dist.distName}"
-                                                                th:data-cd="${dist.distCd}"></option>
+                                                                th:data-cd="${dist.distCd}">
+                                                        </option>
                                                     </th:block>
                                                 </select>
                                             </td>
@@ -191,8 +192,9 @@
                                             </td>
                                             <td>영업시간</td>
                                             <td>
-                                                <div>영업 시작: <input type="time" name="storeOpenTime"> ~ 영업 끝:<input
-                                                        type="time" name="storeCloseTime"></div>
+                                                <div>영업 시작: <input type="time" name="storeOpenTime">
+                                                    ~ 영업 끝:<input type="time" name="storeCloseTime">
+                                                </div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -216,14 +218,10 @@
                                                 영업 여부
                                             </td>
                                             <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" th:value="${storeDTO.storeOpenState}"
-                                                           id="flexCheckChecked"
-                                                           checked>
-                                                    <label class="form-check-label" for="flexCheckChecked">
-                                                        영업 여부
-                                                    </label>
-                                                </div>
+                                                <select  class="form-control" name="storeOpenState">
+                                                    <option value="Y">영업중</option>
+                                                    <option value="N">폐점</option>
+                                                </select>
                                             </td>
                                         </tr>
                                         </tbody>

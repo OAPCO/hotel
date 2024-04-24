@@ -5,6 +5,7 @@ import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.service.RoomService;
 import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +29,7 @@ public class RoomController {
 
     private final RoomService roomService;
     private final SearchService searchService;
-
+    private final HttpServletRequest request;
 
 
     @GetMapping("/admin/manager/room/register")
@@ -57,7 +58,8 @@ public class RoomController {
 
         redirectAttributes.addFlashAttribute("result", roomIdx);
 
-        return "redirect:/admin/manager/room/list";
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
     }
 
 
@@ -117,7 +119,8 @@ public class RoomController {
 
         log.info("업데이트 이후 정보 " + roomDTO);
 
-        return "redirect:/admin/manager/room/list";
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
     }
 
     @GetMapping("/admin/manager/room/delete/{roomIdx}")
@@ -125,7 +128,8 @@ public class RoomController {
 
         roomService.delete(roomIdx);
 
-        return "redirect:/admin/manager/room/list";
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
     }
 
     @GetMapping("/admin/manager/room/{roomIdx}")
