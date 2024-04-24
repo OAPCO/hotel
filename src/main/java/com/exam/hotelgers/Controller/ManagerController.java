@@ -32,7 +32,7 @@ public class ManagerController {
 
 
 
-    @GetMapping("/manager/list")
+    @GetMapping("/admin/manager/list")
     public String listForm123(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
         log.info("manager listForm 도착");
@@ -43,17 +43,17 @@ public class ManagerController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("list", managerDTOList);
-        return "manager/list";
+        return "admin/manager/list";
     }
 
 
-    @GetMapping("/manager/register")
+    @GetMapping("/admin/manager/register")
     public void registerForm123() {
 
     }
 
 
-    @PostMapping("/manager/register")
+    @PostMapping("/admin/manager/register")
     public String registerProc123(@Valid ManagerDTO managerDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
@@ -72,20 +72,20 @@ public class ManagerController {
 
         redirectAttributes.addFlashAttribute("result", managerIdx);
 
-        return "redirect:/manager/list";
+        return "redirect:/admin/manager/list";
     }
 
 
 
 
 
-    @GetMapping("/manager/delete/{managerIdx}")
+    @GetMapping("/admin/manager/delete/{managerIdx}")
     public String deleteProc(@PathVariable Long managerIdx) {
 
 
         managerService.delete(managerIdx);
         //서비스처리(삭제)
-        return "redirect:/manager/list";
+        return "redirect:/admin/manager/list";
     }
 
 
