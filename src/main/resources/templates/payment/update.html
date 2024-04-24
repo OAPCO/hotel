@@ -14,7 +14,23 @@
       layout:decorate="~{layouts/main}">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Brand</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        tfoot th {
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -27,61 +43,141 @@
             </div>
             <div class="col-lg-10">
                 <h5 class="text-dark mb-4">공지사항 수정</h5>
-                <form th:action="@{/pointevent/update}" method="post" th:object="${pointeventDTO}">
-                    <input type="hidden" name="pointEventIdx" th:field="*{pointEventIdx}" readonly>
-                    <div class="row">
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트명</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="text" name="pointEventName" th:field="*{pointEventName}">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트유형</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="text" name="pointEventType" th:field="*{pointEventType}">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">대상매장</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="text" name="storeCd" th:field="*{storeCd}">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트 시작일</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="date" name="eventStartDate"
-                                   id="eventStartDate"
-                                   max="2077-12-31"
-                                   min="2020-01-01"
-                                   value="2024-04-16">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트 종료일</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="date" name="eventEndDate"
-                                   id="eventEndDate"
-                                   max="2077-12-31"
-                                   min="2020-01-01"
-                                   value="2024-04-16">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이벤트 포인트</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="number" name="eventPoint" th:field="*{eventPoint}">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">회원별 설정(ALL,MEMBER)</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <select name="pointMemberType">
-                                <option value="A">ALL</option>
-                                <option value="M">MEMBER</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">최소구매금액</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="number" name="minBuyMoney" th:field="*{minBuyMoney}">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">매장부담율</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="number" name="shopPayRate" th:field="*{shopPayRate}">
-                        </div>
+                <form th:action="@{/payment/update}" method="post" th:object="${paymentDTO}">
+                    <input type="hidden" name="paymentIdx" th:field="*{paymentIdx}" readonly>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">아이디:</label>
+                        <input type="text" class="form-control" name="id" th:field="*{id}">
                     </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">결제번호:</label>
+                        <input type="text" class="form-control" name="paymentNo" th:field="*{paymentNo}">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">주문번호:</label>
+                        <input type="text" class="form-control" name="orderNo" th:field="*{orderNo}">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">구분:</label>
+                        <select name="type" th:field="*{type}">
+                            <option value="선결제">선결제</option>
+                            <option value="후결제">후결제</option>
+                            <option value="오프라인">오프라인</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">결제구분:</label>
+                        <select name="paymentPayType" th:field="*{paymentPayType}">
+                            <option value="카드">카드</option>
+                            <option value="현금">현금</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">룸번호:</label>
+                        <input type="text" class="form-control" id="roomName" name="roomName" th:field="*{roomName}">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">주문확정일시:</label>
+                        <input type="datetime-local" name="orderdate" th:field="*{orderdate}"><br>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">결제확정일시:</label>
+                        <input type="datetime-local" name="paymentdate" th:field="*{paymentdate}"><br>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">매장명:</label>
+                        <input type="text" class="form-control" id="storename" name="storename" th:field="*{storename}">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">상태:</label>
+                        <select name="paymentCompleteState" th:field="*{paymentCompleteState}">
+                            <option value="완료">완료</option>
+                            <option value="취소">취소</option>
+                        </select>
+                    </div>
+                    <label for="ordercount">Enter Order Count:</label>
+                    <input type="number" id="ordercount">
+                    <button type="button" onclick="addRows()">Add Rows</button>
+                    <table id="dynamic-table">
+                        <thead>
+                        <tr>
+                            <th colspan="2" th:name="orderNo"></th>
+                            <th colspan="2" th:name="orderDate"></th>
+                        </tr>
+                        <tr>
+                            <th>No.</th>
+                            <th>매뉴</th>
+                            <th>수량</th>
+                            <th>금액(원)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dynamic-table-body">
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="2">총 금액(원):</th>
+                            <th colspan="2" id="total-price">0</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                    <script>
+                        // Function to populate the dynamic table and save data to sessionStorage
+                        function addRows() {
+                            var ordercount = parseInt(document.getElementById("ordercount").value);
+                            var tableBody = document.getElementById("dynamic-table-body");
+                            var totalPriceCell = document.getElementById("total-price");
+                            var totalPrice = 0;
+                            var menuValues = [];
+                            var countValues = [];
+                            var priceValues = [];
+
+                            // Clear existing rows
+                            tableBody.innerHTML = "";
+
+                            for (var i = 1; i <= ordercount; i++) {
+                                // Sample data (replace this with actual data)
+                                var menuIdx = i; // No.를 순서대로 부여합니다.
+                                var menu = prompt("메뉴를 입력하세요:"); // 사용자로부터 메뉴명을 입력받습니다.
+                                var count = parseInt(prompt("수량을 입력하세요:")); // 사용자로부터 수량을 입력받습니다.
+                                var price = parseInt(prompt("금액을 입력하세요:"))*count; // 사용자로부터 가격을 입력받습니다.
+
+                                menuValues.push(menu);
+                                countValues.push(count);
+                                priceValues.push(price);
+
+                                // Create a new row
+                                var newRow = document.createElement("tr");
+                                newRow.classList.add("dynamic-row");
+
+                                // Populate row cells
+                                newRow.innerHTML = `
+                <td class="no">${menuIdx}</td>
+                <td class="menu">${menu}</td>
+                <td class="count">${count}</td>
+                <td class="price">${price}</td>
+            `;
+
+                                // Append the new row to the table body
+                                tableBody.appendChild(newRow);
+
+                                totalPrice += price; // Update total price
+                            }
+
+                            // Update total price cell
+                            totalPriceCell.textContent = totalPrice;
+
+                            // Save data to sessionStorage
+                            sessionStorage.setItem("ordercount", ordercount);
+                            sessionStorage.setItem("menuValues", JSON.stringify(menuValues));
+                            sessionStorage.setItem("countValues", JSON.stringify(countValues));
+                            sessionStorage.setItem("priceValues", JSON.stringify(priceValues));
+                        }
+                    </script>
                     <div class="container d-flex justify-content-center align-items-center">
                         <button type="submit" class="btn btn-primary">수정</button>
                         <button type="button" class="btn btn-secondary"
-                                th:onclick="|location.href='@{/pointevent/{id}}'|">이전</button>
+                                onclick="window.history.back()">이전</button>
                     </div>
                 </form>
             </div>

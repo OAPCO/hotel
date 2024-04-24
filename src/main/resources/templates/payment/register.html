@@ -68,11 +68,11 @@
                     </div>
                     <div class="mb-3 mt-3">
                         <label class="form-label">주문확정일시:</label>
-                        <input type="datetime-local" name="orderdate"/><br>
+                        <input type="datetime-local" name="orderdate"><br>
                     </div>
                     <div class="mb-3 mt-3">
                         <label class="form-label">결제확정일시:</label>
-                        <input type="datetime-local" name="paymentdate"/><br>
+                        <input type="datetime-local" name="paymentdate"><br>
                     </div>
                     <div class="mb-3 mt-3">
                         <label class="form-label">매장명:</label>
@@ -130,7 +130,7 @@
                                 var menuIdx = i; // No.를 순서대로 부여합니다.
                                 var menu = prompt("메뉴를 입력하세요:"); // 사용자로부터 메뉴명을 입력받습니다.
                                 var count = parseInt(prompt("수량을 입력하세요:")); // 사용자로부터 수량을 입력받습니다.
-                                var price = parseInt(prompt("금액을 입력하세요:")); // 사용자로부터 가격을 입력받습니다.
+                                var price = parseInt(prompt("금액을 입력하세요:"))*count; // 사용자로부터 가격을 입력받습니다.
 
                                 menuValues.push(menu);
                                 countValues.push(count);
@@ -151,7 +151,7 @@
                                 // Append the new row to the table body
                                 tableBody.appendChild(newRow);
 
-                                totalPrice += count * price; // Update total price
+                                totalPrice += price; // Update total price
                             }
 
                             // Update total price cell

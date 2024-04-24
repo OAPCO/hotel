@@ -103,13 +103,21 @@
                     </tbody>
                 </table>
                 <br>
-                <script>
+                <script th:inline="javascript">
                     window.onload = function () {
                         // 데이터 가져오기
                         var ordercount = sessionStorage.getItem("ordercount");
                         var menuValues = JSON.parse(sessionStorage.getItem("menuValues"));
                         var countValues = JSON.parse(sessionStorage.getItem("countValues"));
                         var priceValues = JSON.parse(sessionStorage.getItem("priceValues"));
+
+                        var paymentNo = [[${data.paymentNo}]];
+                        var id = [[${data.id}]];
+                        var paymentdate = [[${data.paymentdate}]];
+                        var paymentPayType = [[${data.paymentPayType}]];
+                        var paymentCompleteState = [[${data.paymentCompleteState}]];
+                        var orderNo = [[${data.orderNo}]];
+                        var type = [[${data.type}]];
 
                         // 첫 번째 테이블 동적 데이터 추가
                         var dynamicTableBody = document.getElementById("dynamic-table-body");
@@ -133,7 +141,7 @@
             `;
                             dynamicTableBody.appendChild(newRow);
 
-                            totalPrice += price * count;
+                            totalPrice += price;
                         }
 
                         totalPriceCell.textContent = totalPrice;
@@ -152,15 +160,16 @@
                                 newRow.innerHTML = `
                     <td rowspan="${ordercount}">${paymentNo}</td>
                     <td rowspan="${ordercount}">${id}</td>
-                    <td rowspan="${ordercount}">${totalPrice}</td>
-                    <td rowspan="${ordercount}">${paymentdate}</td>
-                    <td rowspan="${ordercount}">${paymentPayType}</td>
-                    <td rowspan="${ordercount}">${paymentCompleteState}</td>
                     <td rowspan="${ordercount}">${orderNo}</td>
                     <td>${menu}</td>
                     <td>${count}</td>
                     <td>${type}</td>
                     <td>${price}</td>
+                    <td rowspan="${ordercount}">${totalPrice}</td>
+                    <td rowspan="${ordercount}">${paymentdate}</td>
+                    <td rowspan="${ordercount}">${paymentPayType}</td>
+                    <td rowspan="${ordercount}">${paymentCompleteState}</td>
+
                 `;
                             } else {
                                 newRow.innerHTML = `
