@@ -28,6 +28,7 @@ public class AdminLoginService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userid) {
+
         Optional<Admin> adminEntity = adminRepository.findByAdminId(userid);
 
         if (adminEntity.isPresent()) {

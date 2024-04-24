@@ -30,7 +30,7 @@ public class DistDTO {
     private List<BrandDTO> brandDTOList;
     private List<OrderDTO> orderDTOList;
 
-    private DistChiefDTO distChiefDTO;
+//    private DistChiefDTO distChiefDTO;
 
 
     private LocalDateTime regdate;

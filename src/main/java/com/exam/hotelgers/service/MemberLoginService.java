@@ -21,10 +21,9 @@ public class MemberLoginService implements UserDetailsService {
     @Autowired
     private MemberRepository memberRepository;
 
-    //보안인증을 통한 로그인처리(.usernameParameter("userid") =>userid)
     @Override
     public UserDetails loadUserByUsername(String userid) {
-        System.out.println("관리자 로그인");
+
         Optional<Member> memberEntity = memberRepository.findByMemberEmail(userid);
         if (memberEntity.isPresent()) {
 

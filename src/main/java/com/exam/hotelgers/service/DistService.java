@@ -43,11 +43,11 @@ public class DistService {
     public Long register(DistDTO distDTO) {
 
 
-        Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
-
-        if (!distChief.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 총판장입니다.");
-        }
+//        Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
+//
+//        if (!distChief.isPresent()) {
+//            throw new IllegalStateException("존재하지 않는 총판장입니다.");
+//        }
 
         
         
@@ -64,7 +64,7 @@ public class DistService {
         Dist dist = modelMapper.map(distDTO, Dist.class);
 
 
-        dist.setDistChief(distChief.get());
+//        dist.setDistChief(distChief.get());
 
         return distRepository.save(dist).getDistIdx();
     }
