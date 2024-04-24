@@ -16,7 +16,6 @@
         .row1 { height: 10px; /* 윗칸 높이 지정 */ }
         .row2 { height: 40px; /* 아랫칸 높이 지정 */
                 padding-top: 20px; /* 위에 패딩 추가 */}
-
     </style>
 </head>
 
@@ -442,13 +441,13 @@
                     <!--카테고리 수정 모달-->
 <!--                    카테고리 모달 상세 끝-->
 <!--                    메뉴 추가 모달 버튼 시작-->
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#myModal2">
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            th:data-bs-target="'#myModal2' + ${category.menuCateIdx}">
                         메뉴 추가
                     </button>
 <!--                    메뉴 추가 모달 버튼 끝-->
 <!--                    메뉴 추가 모달 상세 시작-->
-                    <div class="modal" id="myModal2" >
+                    <div class="modal" th:id="'myModal2' + ${category.menuCateIdx}" >
                         <div class="modal-xl">
                                 <!-- Modal body -->
                                 <div class="modal-body">
@@ -467,8 +466,9 @@
                                                                 <tr>
                                                                     <td>
                                                                         <input class="form-control form-control-user" type="text"
-                                                                               placeholder="카테고리 번호" name="menuCateIdx"
-                                                                               th:value="*{category.menuCateIdx}" readonly>
+                                                                               placeholder="카테고리 번호" name="menuCateIdx" id="menuCateIdx"
+                                                                               th:value="${category.menuCateIdx}"
+                                                                               readonly>
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
@@ -481,15 +481,21 @@
                                                                 <tr>
                                                                     <th>이미지</th>
                                                                     <th>메뉴명</th>
-                                                                    <th>옵션유무</th>
+                                                                    <th>배달가능여부</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr>
                                                                     <td><input type="file" name="menuImg"></td>
                                                                     <td> <input class="form-control" type="text"
-                                                                                name="detailmenu.detailMenuName"> </td>
-                                                                    <td><button class="btn btn-primary" type="button">옵션추가</button></td>
+                                                                                name="detailMenuName" required> </td>
+                                                                    <td>
+                                                                        <select class="form-select" aria-label="Default select example" name="deliveryYn">
+                                                                            <option selected>배달 여부</option>
+                                                                            <option value="Y">Y</option>
+                                                                            <option value="N">N</option>
+                                                                        </select>
+                                                                    </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
@@ -500,7 +506,7 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                        <textarea class="form-control" style="width: 100%; height: 100%;" name="detailmenu.menuDescription">
+                                                                        <textarea class="form-control" style="width: 100%; height: 100%;" name="menuDescription">
                                                                         </textarea>
                                                                     </td>
                                                                 </tr>
@@ -525,23 +531,23 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                        <select class="form-select" aria-label="Default select example" name="detailmenu.menuSaleType">
+                                                                        <select class="form-select" aria-label="Default select example" name="menuSaleType">
                                                                             <option selected>할인 구분</option>
                                                                             <option value="Y">Y</option>
                                                                             <option value="N">N</option>
                                                                         </select>
                                                                     </td>
-                                                                    <td><input class="form-control" type="text" name="detailmenu.menuSaleAmount"></td>
-                                                                    <td><input class="form-control" type="text" name="detailmenu.menuSalePercent"></td>
+                                                                    <td><input class="form-control" type="text" name="menuSaleAmount"></td>
+                                                                    <td><input class="form-control" type="text" name="menuSalePercent"></td>
                                                                     <td>
-                                                                        <select class="form-select" aria-label="Default select example" name="detailmenu.pointSaveType">
+                                                                        <select class="form-select" aria-label="Default select example" name="pointSaveType">
                                                                             <option selected>적립 타입</option>
                                                                             <option value="Y">Y</option>
                                                                             <option value="N">N</option>
                                                                         </select>
                                                                     </td>
-                                                                    <td><input class="form-control" type="text" name="detailmenu.pointSaveAmount"></td>
-                                                                    <td><input class="form-control" type="text" name="detailmenu.pointSavePercent"></td>
+                                                                    <td><input class="form-control" type="text" name="pointSaveAmount"></td>
+                                                                    <td><input class="form-control" type="text" name="pointSavePercent"></td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
@@ -550,45 +556,36 @@
                                                                 <tr>
                                                                     <th>메뉴 옵션명</th>
                                                                     <th>메뉴 가격</th>
-                                                                    <th>세일 퍼센트</th>
-                                                                    <th>메뉴 옵션 타입</th>
-                                                                    <th>삭제</th>
+                                                                    <th>판매 여부</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>
                                                                         <input class="form-control" type="text"
-                                                                               name="menuOptions[0].MenuOptionName"></td>
+                                                                               name="optionname" required></td>
                                                                     <td>
                                                                         <input class="form-control" type="text"
-                                                                               name="menuOptions[0].MenuPrice">
+                                                                               name="menuprice" required>
                                                                     </td>
                                                                     <td>
-                                                                        <input class="form-control" type="text"
-                                                                               name="menuOptions[0].menuSalePercent" >
-                                                                    </td>
-                                                                    <td>
-                                                                        <select class="form-select"
-                                                                                aria-label="Default select example">
-                                                                            <option value="Y">Y</option>
-                                                                            <option value="N">N</option>
+                                                                        <select class="form-select" name="salesYn" required>
+                                                                            <option selected>판매 여부</option>
+                                                                            <option value="Y">판매중</option>
+                                                                            <option value="N">품절</option>
                                                                         </select>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href=""> <button
-                                                                                class="btn btn-danger">삭제</button>
-                                                                        </a>
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
                                                         <div  class="d-flex justify-content-end">
                                                             <button class="btn btn-primary" type="submit">등록</button>
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </form>
+
                                         </div>
                                     </div>
                                 </div>
@@ -615,10 +612,10 @@
                                 <td th:text="${menu.detailMenuName}">[족발]</td>
                                 <td>
                                     <div class="row1">옵션</div>
-                                    <div class="row2" >[기본]</div></td>
+                                    <div class="row2" th:text="${menu.optionname}">[기본]</div></td>
                                 <td>
                                     <div class="row1">금액(원)</div>
-                                    <div class="row2">
+                                    <div class="row2" th:text="${menu.menuprice}">
                                         [29000]
                                     </div>
                                 </td>
@@ -629,27 +626,34 @@
                                 </td>
                                 <td>
                                     <div class="row1">판매금액(원)</div>
-                                    <div class="row2" > 원</div>
+                                    <div class="row2" th:text="${menu.menuprice - menu.menuSaleAmount}"> 원</div>
                                 </td>
                                 <td>
-                                    <div class="row1">타입</div><div class="row2" th:text="${menu.salesYn}">[기본]</div>
+                                    <div class="row1">배달 여부</div><div class="row2" th:text="${menu.deliveryYn}">[기본]</div>
                                 </td>
                                 <td>
-                                    <a href=""><button class="btn btn-primary">수정</button> </a>
-                                    <a href=""><button class="btn btn-danger">삭제</button> </a>
+                                    <a th:href="@{'/detailmenu/modify/' + ${menu.detailmenuIdx}}">
+                                        <button class="btn btn-primary">
+                                        수정
+                                        </button>
+                                    </a>
+                                    <a th:href="@{'/detailmenu/delete/' + ${menu.detailmenuIdx}}">
+                                        <button class="btn btn-danger">
+                                            삭제
+                                        </button>
+                                    </a>
                                 </td>
                                 <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="**">
-
-                                        </label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="***">
-
-                                        </label>
+                                        <input class="form-check-input" type="checkbox"
+                                               th:value="${menu.salesYn}"
+                                               th:checked="${menu.salesYn == 'N'}"
+                                               disabled/>
                                     </div>
                                 </td>
                             </tr>

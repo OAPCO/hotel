@@ -72,4 +72,9 @@ public class Detailmenu extends BaseEntity{
         this.menuOptionList = menuOptions;
         menuOptions.forEach(option -> option.setDetailmenu(this));
     }
+
+
+    // 옵션 테이블 활용 포기 그냥 옵션과 가격을 여기에 포함
+    private int menuprice; //메뉴 가격
+    private String optionname; //옵션 이름
 }

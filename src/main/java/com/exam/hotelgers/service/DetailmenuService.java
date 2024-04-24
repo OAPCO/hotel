@@ -31,25 +31,13 @@ public class DetailmenuService {
 
 
 
-    public Long register(DetailmenuDTO detailmenuDTO, List<MenuOptionDTO> menuOptionDTOs) {
+    public Long register(DetailmenuDTO detailmenuDTO) {
 
-        // DetailMenu 객체 생성
+
         Detailmenu detailmenu = modelMapper.map(detailmenuDTO, Detailmenu.class);
 
-        // MenuOption 객체 목록 생성
-        List<MenuOption> menuOptions = menuOptionDTOs.stream()
-                .map(optionDTO -> modelMapper.map(optionDTO, MenuOption.class))
-                .collect(Collectors.toList());
+        detailmenuRepository.save(detailmenu);
 
-        // DetailMenu가 MenuOption을 가지고 있지 않으면 예외를 던진다
-        if (menuOptions.isEmpty()) {
-            throw new RuntimeException("DetailMenu must have at least one MenuOption");
-        }
-
-        // 세트 메뉴에 메뉴 옵션 설정
-        detailmenu.setMenuOptions(menuOptions);
-
-        // DB에 저장하고 생성된 ID를 반환한다
         return detailmenuRepository.save(detailmenu).getDetailmenuIdx();
     }
 

@@ -41,12 +41,12 @@ public class DetailmenuController {
 
 
     @PostMapping("/detailmenu/register")
-    public String registerProc(@Valid @ModelAttribute("detailmenu") DetailmenuDTO detailmenuDTO,
-                               @Valid @ModelAttribute("menuOptions") ArrayList<MenuOptionDTO> menuOptionDTOs,
+    public String registerProc(@Valid DetailmenuDTO detailmenuDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
         log.info("detailmenu registerProc 도착 " + detailmenuDTO);
+
 
         if (bindingResult.hasErrors()) {
             log.info("has error@@@@@@@@@");
@@ -54,12 +54,10 @@ public class DetailmenuController {
         }
 
         log.info(detailmenuDTO);
-        try {
-            Long detailmenuIdx = detailmenuService.register(detailmenuDTO, menuOptionDTOs);
-            redirectAttributes.addFlashAttribute("result", detailmenuIdx);
-        } catch(RuntimeException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-        }
+
+        Long detailmenuIdx = detailmenuService.register(detailmenuDTO);
+
+        redirectAttributes.addFlashAttribute("result", detailmenuIdx);
 
         String previousUrl = request.getHeader("referer");
         return "redirect:" + previousUrl;
