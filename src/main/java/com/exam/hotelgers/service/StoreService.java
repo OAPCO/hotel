@@ -7,7 +7,6 @@ import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
-import jakarta.xml.soap.Detail;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,11 +46,6 @@ public class StoreService {
 
     public Long register(StoreDTO storeDTO, MultipartFile imgFile) throws Exception{
 
-
-
-
-
-
         Optional<Dist> dist = distRepository.findByDistCd(storeDTO.getDistDTO().getDistCd());
         Optional<Brand> brand = brandRepository.findByBrandCd(storeDTO.getBrandDTO().getBrandCd());
 
@@ -62,9 +56,6 @@ public class StoreService {
         if (!brand.isPresent()) {
             throw new IllegalStateException("존재하지 않는 브랜드 코드입니다.");
         }
-
-
-
 
 
         Optional<Store> temp = storeRepository
@@ -129,18 +120,29 @@ public class StoreService {
 
 
 
-    public void modify(StoreDTO storeDTO) throws Exception{
+    public void modify(StoreDTO storeDTO, MultipartFile imgFile) throws Exception {
 
+        Optional<Store> result = storeRepository.findByStoreIdx(storeDTO.getStoreIdx());
 
-        Optional<Store> temp = storeRepository
-                .findByStoreIdx(storeDTO.getStoreIdx());
-
-        if(temp.isPresent()) {
-
-            Store store = modelMapper.map(storeDTO, Store.class);
-            storeRepository.save(store);
+        if (!result.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 상점입니다");
         }
 
+        Store store = result.get();
+
+        // 이미지 파일에 수정이 있을 경우
+        if (imgFile != null && !imgFile.isEmpty()) {
+            String originalFileName = imgFile.getOriginalFilename();
+
+            if (originalFileName != null) { //파일이 존재하면
+                String newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+                storeDTO.setStoreimgName(newFileName); //새로운 파일명을 재등록
+            }
+        }
+
+        // storeDTO에서 Store로 변환한 후 데이터 업데이트
+        store = modelMapper.map(storeDTO, Store.class);
+        storeRepository.save(store);
     }
 
 
@@ -150,10 +152,11 @@ public class StoreService {
         if (optionalStore.isPresent()) {
             Store store = optionalStore.get();
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
-            dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
-            dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
             dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
             dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
+
+            dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
+            dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
             dto.setMenuCateDTOList(searchService.convertToMenuCateDTOList(store.getMenuCateList()));
             dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getDetailMenuList()));
 
