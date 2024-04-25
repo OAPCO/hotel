@@ -14,7 +14,7 @@
     <div class="card">
         <div class="card-header">
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-                주문번호 조회
+                주문조회
             </div>
             <form method="post" th:action="@{/order/orderManagement}">
             <div class="table-responsive">
@@ -79,7 +79,6 @@
                     <thead>
                     <tr>
                         <th>No</th>
-                        <th>지사</th>
                         <th>매장</th>
                         <th>룸</th>
                         <th>주문번호</th>
@@ -102,8 +101,8 @@
                         <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
                         <td>결제금액</td>
                         <td>결제상태</td>
-                        <td><a th:href="@{'/admin/distchief/order/modify/'+${data.orderIdx}}" >수정</a>
-                            /<a th:href="@{'/admin/distchief/order/delete/'+${data.orderIdx}}">삭제</a></td>
+                        <td><a th:href="@{'/order/orderManagement/modify/'+${data.orderIdx}}" >수정</a>
+                            /<a th:href="@{'/order/orderManagement/delete/'+${data.orderIdx}}">삭제</a></td>
                     </tr>
                     </tbody>
                 </table>

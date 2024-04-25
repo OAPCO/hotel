@@ -14,53 +14,54 @@ import java.util.List;
 public class SearchDTO {
 
     //열거형,날짜,사진 등
-    private RoleType roleType;
-    private StorePType storePType;
-    private StoreStatus storeStatus;
-    private StoreGrade storeGrade;
-    private RoomType roomType;
-    private String storeimgName;
+    private RoleType roleType;//회원 등급
+    private StorePType storePType;//매장 종류
+    private StoreStatus storeStatus;//매장상태
+    private StoreGrade storeGrade;//매장 등급
+    private RoomType roomType;//룸 종료
+    private String storeimgName;//매장 이미지 명
 
 
-    private LocalDateTime regdate;
-    private LocalDateTime moddate;
+    private LocalDateTime regdate;//등록일
+
+    private LocalDateTime moddate;//수정일
 
 
     //어드민
-    private Long adminIdx;
-    private String adminId;
-    private Integer adminLevel;
-    private String adminName;
-    private String adminPhone;
-    private String adminEmail;
+    private Long adminIdx;//관리자 키
+    private String adminId;//관리자 아이디
+    private Integer adminLevel;//관리자 단계
+    private String adminName;//관리자 명
+    private String adminPhone;//관리자 연락처
+    private String adminEmail;//관리자 이메일
 
 
     //총판장
-    private Long distChiefIdx;
-    private String distChiefId;
-    private Integer distChiefLevel;
-    private String distChiefName;
-    private String distChiefPhone;
-    private String distChiefEmail;
+    private Long distChiefIdx;//총판장 키
+    private String distChiefId;//총판장 아이디
+    private Integer distChiefLevel;//총판장 단계
+    private String distChiefName;//총판장 명
+    private String distChiefPhone;//총판장 이미지
+    private String distChiefEmail;//총판장 이메일
 
 
 
     //총판
-    private Long distIdx;
-    private String distCd;
-    private String distName;
-    private String distChief;
-    private String distTel;
+    private Long distIdx;//총판키
+    private String distCd;//총판코드(번호)
+    private String distName;//총판명
+    private String distChief;//총판장
+    private String distTel;//총판 연락처
 
 
     //브랜드
-    private Long brandIdx;
-    private String brandCd;
-    private String brandName;
+    private Long brandIdx;//브랜드 키
+    private String brandCd;//브랜드 코드(번호)
+    private String brandName;//브랜드 명
 
 
     //스토어
-    private Long storeIdx;
+    private Long storeIdx;//매장 키
     private String storeCd; //매장코드
     private String storeChief; //대빵
     private String storeChiefEmail; //대빵이메일
@@ -103,15 +104,15 @@ public class SearchDTO {
 
 
     //룸
-    private Long roomIdx;
-    private String roomCd;
-    private String roomName;
+    private Long roomIdx;//룸 키
+    private String roomCd;//룸코드 (번호)
+    private String roomName;//룸명
 
 
 
     //주문
-    private Long orderIdx;
-    private String orderCd;
+    private Long orderIdx;//주문키
+    private String orderCd;//주문 코드(번호)
 
 
 

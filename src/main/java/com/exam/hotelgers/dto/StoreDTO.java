@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class StoreDTO {
 
-    private Long storeIdx;
+    private Long storeIdx;//매장 키
 
     private String storeCd; //매장코드
     private String storeChief; //대빵
@@ -63,22 +63,23 @@ public class StoreDTO {
 
 
 
-    private StorePType storePType;
-    private StoreStatus storeStatus;
-    private StoreGrade storeGrade;
+    private StorePType storePType;//매장 종류
+    private StoreStatus storeStatus;//매장 상태
+    private StoreGrade storeGrade;//매장 등급
 
 
-    private DistDTO distDTO;
-    private BrandDTO brandDTO;
+    private DistDTO distDTO;//총판DTO
+    private BrandDTO brandDTO;//브랜드DTO
 
-    private List<OrderDTO> orderDTOList;
-    private List<RoomDTO> roomDTOList;
-    private List<MenuCateDTO> menuCateDTOList;
-    private List<DetailmenuDTO> detailmenuDTOList;
+    private List<OrderDTO> orderDTOList;//주문DTO 목록
+    private List<RoomDTO> roomDTOList;//룸DTO 목록
+    private List<MenuCateDTO> menuCateDTOList;//메뉴 카테고리DTO 목록
+    private List<DetailmenuDTO> detailmenuDTOList;//상세메뉴DTO 목록
 
 
-    private LocalDateTime regdate;
-    private LocalDateTime moddate;
+    private LocalDateTime regdate;//등록일
+
+    private LocalDateTime moddate;//수정일
 
 
 

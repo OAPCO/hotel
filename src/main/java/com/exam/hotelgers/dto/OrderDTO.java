@@ -13,16 +13,17 @@ import java.time.LocalDateTime;
 @Builder
 public class OrderDTO {
 
-    private Long orderIdx;
+    private Long orderIdx;//주문 키
 
-    private String orderCd;
+    private String orderCd;//주문 코드(번호)
 
 
-    private DistDTO distDTO;
-    private StoreDTO storeDTO;
-    private RoomDTO roomDTO;
+    private DistDTO distDTO;//총판DTO
+    private StoreDTO storeDTO;//매장DTO
+    private RoomDTO roomDTO;//룸DTO
 
-    private LocalDateTime regdate;
-    private LocalDateTime moddate;
+    private LocalDateTime regdate;//등록일
+
+    private LocalDateTime moddate;//수정일
 
 }

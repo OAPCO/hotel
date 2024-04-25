@@ -66,7 +66,7 @@ public class Store extends BaseEntity{
     private BigDecimal storeLng; //경도
 
 
-    private String storeimgName;
+    private String storeimgName;//매장 이미지명
 
 
 
@@ -95,23 +95,23 @@ public class Store extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distIdx")
-    private Dist dist;
+    private Dist dist;//총판
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="brandIdx")
-    private Brand brand;
+    private Brand brand;//브랜드
 
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
-    private List<Order> orderList = new ArrayList<>();
+    private List<Order> orderList = new ArrayList<>();//주문목록
 
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
-    private List<Room> roomList = new ArrayList<>();
+    private List<Room> roomList = new ArrayList<>();//룸 목록
 
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
-    private List<MenuCate> menuCateList = new ArrayList<>();
+    private List<MenuCate> menuCateList = new ArrayList<>();//메뉴 카테고리 목록
 
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
-    private List<Detailmenu> detailMenuList = new ArrayList<>();
+    private List<Detailmenu> detailMenuList = new ArrayList<>();//메뉴 상세 목록
 
 //    @OneToOne
 //    @JoinColumn(name = "managerIdx")
@@ -121,13 +121,13 @@ public class Store extends BaseEntity{
 
 
     @Enumerated(EnumType.STRING)
-    private StorePType storePType;
+    private StorePType storePType;//매장 종류
 
     @Enumerated(EnumType.STRING)
-    private StoreStatus storeStatus;
+    private StoreStatus storeStatus;//매장 상태
 
     @Enumerated(EnumType.STRING)
-    private StoreGrade storeGrade;
+    private StoreGrade storeGrade;//매장 등급
 
 
 

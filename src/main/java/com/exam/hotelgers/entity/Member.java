@@ -21,7 +21,7 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_sql")
-    private Long memberIdx;
+    private Long memberIdx;//회원 키
 
     @Column(length = 1)
     private Character memberJoinType; //"회원가입타입(C:일반,K:카카오톡,F:페이스북,N:네이버
@@ -60,7 +60,7 @@ public class Member extends BaseEntity {
     private String pwdKey; //비밀번호 재설정키
 
 
-    private String memberimgName;
+    private String memberimgName;//회원 이미지 명
 
 
     private LocalDateTime socialInfoLoginDatetime;//Social정보(카카오톡) 로그인시간
@@ -91,5 +91,5 @@ public class Member extends BaseEntity {
 
 
     @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    private RoleType roleType;//등급
 }

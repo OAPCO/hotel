@@ -26,11 +26,11 @@ public class Banner extends BaseEntity{
     private Long bannerIdx; //광고키
 
     @Column(length = 200)
-    private String bannerTitle; //제목
+    private String bannerTitle; //광고 제목
     @Column(length = 200)
-    private String bannerLinkUrl;
+    private String bannerLinkUrl;//광고 링크
 
-    private String bannerimgName;
+    private String bannerimgName;//광고 이미지 이름
 
 
 

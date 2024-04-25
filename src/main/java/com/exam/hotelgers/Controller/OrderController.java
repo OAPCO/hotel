@@ -287,7 +287,7 @@ public class OrderController {
 
 
     @PostMapping("/order/orderManagement")
-    public String orderorderManagementProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+    public String orderManagementProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                                 @RequestParam(value="distName", required = false) String distName,
                                 @RequestParam(value="storeName", required = false) String storeName,
                                 @RequestParam(value="orderCd", required = false) String orderCd,
@@ -321,5 +321,132 @@ public class OrderController {
 
         return "/order/orderManagement";
     }
+    @GetMapping("/order/ordernumber")
+    public String ordernumberForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    ) {
 
+        log.info("order orderlistForm 도착 ");
+
+        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+
+        List<DistDTO> distList = searchService.distList();
+        List<StoreDTO> storeList = searchService.storeList();
+        List<RoomDTO> roomList = searchService.roomList();
+
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("roomList",roomList);
+        model.addAttribute("list", orderDTOS);
+
+
+        return "/order/ordernumber";
+    }
+
+
+
+    @PostMapping("/order/ordernumber")
+    public String ordernumberProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                                           @RequestParam(value="distName", required = false) String distName,
+                                           @RequestParam(value="storeName", required = false) String storeName,
+                                           @RequestParam(value="orderCd", required = false) String orderCd,
+                                           @RequestParam(value="roomCd", required = false) String roomCd ) {
+
+
+        log.info("들어온 총판 @@@@@ + " + distName);
+        log.info("들어온 총판 @@@@@ + " + storeName);
+        log.info("들어온 총판 @@@@@ + " + orderCd);
+        log.info("들어온 총판 @@@@@ + " + roomCd);
+
+
+
+        Page<OrderDTO> orderDTOS = orderService.searchOrderList(distName,storeName,orderCd,roomCd,pageable);
+
+
+
+
+        List<DistDTO> distList = searchService.distList();
+        List<StoreDTO> storeList = searchService.storeList();
+        List<RoomDTO> roomList = searchService.roomList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("roomList",roomList);
+        model.addAttribute("list", orderDTOS);
+
+        return "/order/ordernumber";
+    }
+    @GetMapping("/order/ordersheetnocheck")
+    public String ordersheetnocheckForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    ) {
+
+        log.info("order orderlistForm 도착 ");
+
+        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+
+        List<DistDTO> distList = searchService.distList();
+        List<StoreDTO> storeList = searchService.storeList();
+        List<RoomDTO> roomList = searchService.roomList();
+
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("roomList",roomList);
+        model.addAttribute("list", orderDTOS);
+
+
+        return "/order/ordernumber";
+    }
+
+
+
+    @PostMapping("/order/ordersheetnocheck")
+    public String ordersheetnocheckProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                                  @RequestParam(value="distName", required = false) String distName,
+                                  @RequestParam(value="storeName", required = false) String storeName,
+                                  @RequestParam(value="orderCd", required = false) String orderCd,
+                                  @RequestParam(value="roomCd", required = false) String roomCd ) {
+
+
+        log.info("들어온 총판 @@@@@ + " + distName);
+        log.info("들어온 총판 @@@@@ + " + storeName);
+        log.info("들어온 총판 @@@@@ + " + orderCd);
+        log.info("들어온 총판 @@@@@ + " + roomCd);
+
+
+
+        Page<OrderDTO> orderDTOS = orderService.searchOrderList(distName,storeName,orderCd,roomCd,pageable);
+
+
+
+
+        List<DistDTO> distList = searchService.distList();
+        List<StoreDTO> storeList = searchService.storeList();
+        List<RoomDTO> roomList = searchService.roomList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("roomList",roomList);
+        model.addAttribute("list", orderDTOS);
+
+        return "/order/ordernumber";
+    }
 }

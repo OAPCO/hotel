@@ -20,15 +20,16 @@ public class BannerDTO {
         private Long bannerIdx; //광고키
 
         private String bannerTitle; //제목
-        private String bannerLinkUrl;
+        private String bannerLinkUrl;//광고 링크
 
-        private LocalDateTime bannerSdate;
-        private LocalDateTime bannerEdate;
+        private LocalDateTime bannerSdate;//시작일
+        private LocalDateTime bannerEdate;//종료일
 
         private String storeCd; //제휴사 코드
 
-        private LocalDateTime regdate;
-        private LocalDateTime moddate;
+        private LocalDateTime regdate;//등록일
+
+        private LocalDateTime moddate;//수정일
 
 }
 
