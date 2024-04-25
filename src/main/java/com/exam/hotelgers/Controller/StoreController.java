@@ -198,6 +198,9 @@ public class StoreController {
         model.addAttribute("storeDTO", storeDTO);
 
 
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
 
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
