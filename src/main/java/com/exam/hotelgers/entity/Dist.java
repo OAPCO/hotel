@@ -31,10 +31,6 @@ public class Dist extends BaseEntity {
     @Column(length = 200)
     private String distTel;
 
-    private String distChief;
-    private String distChiefName;
-    private String distChiefEmail;
-    private String distChiefPhone;
 
     private String imgName;
 
@@ -51,9 +47,9 @@ public class Dist extends BaseEntity {
     private List<Order> orderList = new ArrayList<>();
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name="distChiefIdx")
-//    private DistChief distChief;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="distChiefIdx")
+    private DistChief distChief;
 
 
 

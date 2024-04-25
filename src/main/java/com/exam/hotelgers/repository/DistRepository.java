@@ -19,6 +19,8 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
 
     Optional<Dist> findByDistIdx(Long distIdx);
 
+    List<Dist> findByDistChief_DistChiefId(String distChiefId);
+
 
     @Query("SELECT d.distCd FROM Dist d")
     List<String> findAllDistCds();
@@ -27,20 +29,20 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
 
 
     @Query("select d from Dist d where (:distName is null or d.distName LIKE %:distName%)"+
-            "and (:distChief is null or d.distChiefName LIKE %:distChief%)"
+            "and (:distChief is null or d.distChief.distChiefName LIKE %:distChief%)"
     )
     Page<Dist> multiSearchadminsdm(@Param("distName") String distName,
                                    @Param("distChief") String distChief,
                                    Pageable pageable);
 
-    @Query("select d from Dist d where (:distChief is null or d.distChiefName LIKE %:distChief%)"
+    @Query("select d from Dist d where (:distChief is null or d.distChief.distChiefName LIKE %:distChief%)"
     )
     Page<Dist> multiSearchadmdr(@Param("distChief") String distChief,
                                 Pageable pageable);
 
     @Query("select d from Dist d where (:distName is null or d.distName LIKE %:distName%)"+
-            "and (:distChiefEmail is null or d.distChiefEmail LIKE %:distChiefEmail%)"+
-            "and (:distChief is null or d.distChiefName LIKE %:distChief%)"+
+            "and (:distChiefEmail is null or d.distChief.distChiefEmail LIKE %:distChiefEmail%)"+
+            "and (:distChief is null or d.distChief.distChiefName LIKE %:distChief%)"+
             "and (:distTel is null or d.distTel LIKE %:distTel%)"
 
     )

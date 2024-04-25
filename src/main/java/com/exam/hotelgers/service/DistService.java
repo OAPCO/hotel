@@ -37,17 +37,18 @@ public class DistService {
     private DistDTO convertToDTO(Dist dist) {
         DistDTO dto = modelMapper.map(dist, DistDTO.class);
         dto.setStoreDTOList(searchService.convertToStoreDTOList(dist.getStoreList()));
+        dto.setDistChiefDTO(searchService.convertToDistChiefDTO(dist.getDistChief()));
         return dto;
     }
 
     public Long register(DistDTO distDTO) {
 
 
-//        Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
-//
-//        if (!distChief.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 총판장입니다.");
-//        }
+        Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
+
+        if (!distChief.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판장입니다.");
+        }
 
         
         
@@ -64,7 +65,8 @@ public class DistService {
         Dist dist = modelMapper.map(distDTO, Dist.class);
 
 
-//        dist.setDistChief(distChief.get());
+        dist.setDistChief(distChief.get());
+
 
         return distRepository.save(dist).getDistIdx();
     }
@@ -103,9 +105,7 @@ public class DistService {
         Page<Dist> dists = distRepository.findAll(page);
 
 
-        Page<DistDTO> distDTOS = dists.map(data->modelMapper.map(data, DistDTO.class));
-
-        return distDTOS;
+        return dists.map(this::convertToDTO);
     }
 
 
@@ -130,6 +130,8 @@ public class DistService {
     private DistDTO convertToDistDTO(Dist dist) {
         return modelMapper.map(dist, DistDTO.class);
     }
+
+
 
 
 

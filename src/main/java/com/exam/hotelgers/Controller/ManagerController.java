@@ -2,7 +2,9 @@ package com.exam.hotelgers.Controller;
 
 
 
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.ManagerDTO;
+import com.exam.hotelgers.service.DistChiefService;
 import com.exam.hotelgers.service.ManagerService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -28,6 +32,7 @@ public class ManagerController {
 
 
     private final ManagerService managerService;
+    private final DistChiefService distChiefService;
 
 
 
@@ -90,7 +95,12 @@ public class ManagerController {
 
 
     @GetMapping("/admin/distchief/manager/register")
-    public String registerForm() {
+    public String registerForm(Principal principal,Model model) {
+
+        List<DistDTO> distDTOS = distChiefService.distChiefOfDistList(principal);
+        log.info("총판목록 들어왓나@@@@@@@@@@@@@@@@@@@@@@@ + " + distDTOS);
+
+        model.addAttribute("distDTOS",distDTOS);
 
         return "admin/distchief/manager/register";
 
@@ -110,8 +120,9 @@ public class ManagerController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
 
-
         Long managerIdx = managerService.register(managerDTO);
+
+
 
         redirectAttributes.addFlashAttribute("result", managerIdx);
 

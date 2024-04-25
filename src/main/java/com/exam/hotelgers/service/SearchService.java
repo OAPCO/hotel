@@ -1,5 +1,6 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
@@ -8,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -29,6 +32,9 @@ public class SearchService {
     private final MenuCateRepository menuCateRepository;
     private final DetailmenuRepository detailmenuRepository;
     private final MenuoptionRepository menuoptionRepository;
+    private final AdminRepository adminRepository;
+    private final DistChiefRepository distChiefRepository;
+    private final ManagerRepository managerRepository;
 
 
 
@@ -169,6 +175,46 @@ public class SearchService {
     public RoomDTO convertToRoomDTO(Room room) {
         return modelMapper.map(room, RoomDTO.class);
     }
+
+
+    public DistChiefDTO convertToDistChiefDTO(DistChief distChief) {
+        return modelMapper.map(distChief, DistChiefDTO.class);
+    }
+
+
+
+
+    public String findByIdSendName(Principal principal){
+
+
+        String userid = principal.getName();
+
+        Optional<Admin> admin = adminRepository.findByAdminId(userid);
+        Optional<DistChief> distChief = distChiefRepository.findByDistChiefId(userid);
+        Optional<Manager> manager = managerRepository.findByManagerId(userid);
+
+
+        if (admin.isPresent()) {
+            String userName = admin.get().getAdminName();
+            return userName;
+        }
+        else if (distChief.isPresent()) {
+            String userName = distChief.get().getDistChiefName();
+            return userName;
+        }
+        else if (manager.isPresent()) {
+            String userName = manager.get().getManagerName();
+            return userName;
+        }
+        else {
+            return "로그인안했어요요요요용";
+        }
+
+    }
+
+
+
+
 
 
 

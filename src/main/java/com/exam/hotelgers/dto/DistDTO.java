@@ -20,17 +20,14 @@ public class DistDTO {
     private Long distIdx;
 
     private String distCd;
-
     private String distName;
-    private String distChief;
-    private String distChiefEmail;
     private String distTel;
 
     private List<StoreDTO> storeDTOList;
     private List<BrandDTO> brandDTOList;
     private List<OrderDTO> orderDTOList;
 
-//    private DistChiefDTO distChiefDTO;
+    private DistChiefDTO distChiefDTO;
 
 
     private LocalDateTime regdate;
