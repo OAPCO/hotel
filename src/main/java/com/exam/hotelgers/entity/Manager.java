@@ -23,24 +23,24 @@ public class Manager extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "manager_sql")
-    private Long managerIdx;
+    private Long managerIdx;//메니저 키
 
     @Column(length = 60, nullable = false)
-    private String managerId;
+    private String managerId;//메니저 아이디
 
     @Column(length = 100, nullable = false)
-    private String password;
+    private String password;//메니저 비밀번호
 
     @Column(length = 30, nullable = false)
-    private String managerName;
+    private String managerName;//메니저 명
 
     @Column(length = 50, nullable = false)
-    private String managerPhone;
+    private String managerPhone;//메니저 연락처
 
     @Column(length = 100, nullable = false)
-    private String managerEmail;
+    private String managerEmail;//메니저 이메일
 
-    private String managerimgName;
+    private String managerimgName;//메니저 이미지명
 
 
 
@@ -49,5 +49,5 @@ public class Manager extends BaseEntity {
 
 
     @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    private RoleType roleType;//등급
 }

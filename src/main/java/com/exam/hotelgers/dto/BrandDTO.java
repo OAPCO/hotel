@@ -21,13 +21,13 @@ public class BrandDTO {
     private String brandName; //브랜드이름.
 
 
-    private LocalDateTime regdate;
+    private LocalDateTime regdate;//등록일
 
-    private LocalDateTime moddate;
+    private LocalDateTime moddate;//수정일
 
-    private DistDTO distDTO;
+    private DistDTO distDTO;//총판DTO
 
-    private List<StoreDTO> storeDTOList = new ArrayList<>();
+    private List<StoreDTO> storeDTOList = new ArrayList<>();//매장DTO 목록
 
 
 

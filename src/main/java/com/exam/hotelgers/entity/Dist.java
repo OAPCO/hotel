@@ -21,35 +21,35 @@ public class Dist extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dist_sql")
-    private Long distIdx;
+    private Long distIdx;//총판 키
 
     @Column(length = 200, unique = true)
-    private String distCd;
+    private String distCd;//총판코드
 
     @Column(length = 45)
-    private String distName;
+    private String distName;//총판명
     @Column(length = 200)
-    private String distTel;
+    private String distTel;//총판연락처
 
 
-    private String imgName;
+    private String imgName;//이미지명
 
 
 
 
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
-    private List<Store> storeList = new ArrayList<>();
+    private List<Store> storeList = new ArrayList<>();//매장 목록
 
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
-    private List<Brand> brandList = new ArrayList<>();
+    private List<Brand> brandList = new ArrayList<>();//브랜드 목록
 
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
-    private List<Order> orderList = new ArrayList<>();
+    private List<Order> orderList = new ArrayList<>();//주문 목록
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distChiefIdx")
-    private DistChief distChief;
+    private DistChief distChief;//총판장
 
 
 

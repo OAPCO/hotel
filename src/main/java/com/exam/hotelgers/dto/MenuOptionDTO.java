@@ -11,16 +11,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class MenuOptionDTO {
-    private Long menuOptionIdx;
+    private Long menuOptionIdx;//메뉴옵션 키
 
-    private String MenuOptionName;
+    private String MenuOptionName;//메뉴옵션 명
 
-    private int MenuPrice;
+    private int MenuPrice;//메뉴가격
 
-    private int menuSalePercent;
+    private int menuSalePercent;//메뉴 할인율
 
     private DetailmenuDTO detailmenuDTO;
 
-    private LocalDateTime regdate;
-    private LocalDateTime moddate;
+    private LocalDateTime regdate;//등록일
+
+    private LocalDateTime moddate;//수정일
 }

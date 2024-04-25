@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -318,8 +318,8 @@
                                 <td class="col" th:text="${room.roomIdx}">[순서]</td>
                                 <td class="col" th:text="${room.roomType}">[TA0001]</td>
                                 <td class="col" th:text="${room.roomName}">[산울림101호]</td>
-                                <td class="col"><img
-                                        th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${room.roomimgName}|"
+                                <td class="col">
+                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${room.roomimgName}|"
                                         width="150" height="100"></td>
                                 <td class="col">
                                     <button

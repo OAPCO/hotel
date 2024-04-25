@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class MemberDTO {
 
-    private Long memberIdx;
+    private Long memberIdx;//회원 키
 
     private Character memberJoinType; //"회원가입타입(C:일반,K:카카오톡,F:페이스북,N:네이버
 
@@ -59,11 +59,11 @@ public class MemberDTO {
 
     private String socialInfoGender;//Social정보(카카오톡) 성별
 
-    private LocalDateTime regdate;
+    private LocalDateTime regdate;//등록일
 
-    private LocalDateTime moddate;
+    private LocalDateTime moddate;//수정일
 
 
     @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    private RoleType roleType;//등급
 }

@@ -191,8 +191,7 @@ public class SearchService {
 
 
 
-    public String findByIdSendName(Principal principal){
-
+    public String readLogin(Principal principal){
 
         String userid = principal.getName();
 
@@ -203,25 +202,21 @@ public class SearchService {
 
         if (admin.isPresent()) {
             String userName = admin.get().getAdminName();
-            return userName;
+            return modelMapper.map(userName,String.class);
         }
         else if (distChief.isPresent()) {
             String userName = distChief.get().getDistChiefName();
-            return userName;
+            return modelMapper.map(userName,String.class);
         }
         else if (manager.isPresent()) {
             String userName = manager.get().getManagerName();
-            return userName;
+            return modelMapper.map(userName,String.class);
         }
         else {
             return "로그인안했어요요요요용";
         }
 
     }
-
-
-
-
 
 
 
