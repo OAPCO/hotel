@@ -3,8 +3,11 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.DistChiefDTO;
-import com.exam.hotelgers.entity.DistChief;
+import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.DistChiefRepository;
+import com.exam.hotelgers.repository.DistRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -14,7 +17,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +29,17 @@ public class DistChiefService {
     private final DistChiefRepository distChiefRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final DistRepository distRepository;
 
 
 
     public Long register(DistChiefDTO distChiefDTO){
+
+
+
+
+
+
 
         Optional<DistChief> distChiefidCheck = distChiefRepository.findByDistChiefId(distChiefDTO.getDistChiefId());
 
@@ -84,4 +97,16 @@ public class DistChiefService {
     }
 
 
+
+
+    //로그인중 검색
+    public List<DistDTO> distChiefOfDistList(Principal principal) {
+
+        String distChiefId = principal.getName();
+        List<Dist> dists = distRepository.findByDistChief_DistChiefId(distChiefId);
+
+        return dists.stream()
+                .map(dist -> modelMapper.map(dist, DistDTO.class))
+                .collect(Collectors.toList());
+    }
 }

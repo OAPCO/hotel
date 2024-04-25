@@ -25,7 +25,7 @@ public class DistChiefDTO {
     private String distChiefEmail;
 
 
-//    private List<DistDTO> distDTOList;
+    private List<DistDTO> distDTOList;
 
 
     private RoleType roleType;
