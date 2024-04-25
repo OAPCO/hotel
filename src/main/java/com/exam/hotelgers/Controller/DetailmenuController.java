@@ -16,12 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,8 @@ public class DetailmenuController {
     @PostMapping("/detailmenu/register")
     public String registerProc(@Valid DetailmenuDTO detailmenuDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               @RequestParam(required = false) MultipartFile imgFile,
+                               RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("detailmenu registerProc 도착 " + detailmenuDTO);
 
@@ -62,7 +62,7 @@ public class DetailmenuController {
 
         log.info(detailmenuDTO);
 
-        Long detailmenuIdx = detailmenuService.register(detailmenuDTO);
+        Long detailmenuIdx = detailmenuService.register(detailmenuDTO, imgFile);
 
         redirectAttributes.addFlashAttribute("result", detailmenuIdx);
 
@@ -103,7 +103,8 @@ public class DetailmenuController {
 
     @PostMapping("/detailmenu/modify")
     public String modifyProc(@Validated DetailmenuDTO detailmenuDTO,
-                             BindingResult bindingResult, Model model) {
+                             @RequestParam(required = false)MultipartFile imgFile,
+                             BindingResult bindingResult, Model model) throws IOException {
 
         log.info("detailmenu modifyProc 도착 " + detailmenuDTO);
 
@@ -115,7 +116,7 @@ public class DetailmenuController {
         }
 
 
-        detailmenuService.modify(detailmenuDTO);
+        detailmenuService.modify(detailmenuDTO, imgFile);
 
         log.info("업데이트 이후 정보 " + detailmenuDTO);
 
@@ -124,11 +125,12 @@ public class DetailmenuController {
     }
 
     @GetMapping("/detailmenu/delete/{detailmenuIdx}")
-    public String deleteProc(@PathVariable Long detailmenuIdx) {
+    public String deleteProc(@PathVariable Long detailmenuIdx) throws IOException {
 
         detailmenuService.delete(detailmenuIdx);
 
-        return "redirect:/detailmenu/list";
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
     }
 
     @GetMapping("/detailmenu/{detailmenuIdx}")

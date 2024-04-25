@@ -35,8 +35,6 @@ public class Detailmenu extends BaseEntity{
     @Column(length = 500)
     private String menuDescription; //메뉴설명
 
-    private String detailMenuimgName;
-
 
 
 //    @Column(length = 100)
