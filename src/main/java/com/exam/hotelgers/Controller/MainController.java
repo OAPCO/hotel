@@ -86,17 +86,19 @@ public class MainController {
 
 
     @GetMapping("/layouts/main")
-    public void mainForm(Principal principal, Model model){
+    public String mainForm(Principal principal, Model model){
 
-        String userName = searchService.findByIdSendName(principal);
+        String userName = searchService.readLogin(principal);
 
         model.addAttribute("userName",userName);
 
+        return "layouts/main";
     }
 
 
+
     @GetMapping("/layouts/adminlayout")
-    public void adminForm(Principal principal, Model model){
+    public String adminForm(Principal principal, Model model){
 
 
         String adminId = principal.getName();
@@ -109,6 +111,7 @@ public class MainController {
 
         model.addAttribute("adminName",adminName);
 
+        return "layouts/adminlayout";
     }
 
 

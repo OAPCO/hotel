@@ -109,4 +109,7 @@ public class DistChiefService {
                 .map(dist -> modelMapper.map(dist, DistDTO.class))
                 .collect(Collectors.toList());
     }
+
+
+
 }
