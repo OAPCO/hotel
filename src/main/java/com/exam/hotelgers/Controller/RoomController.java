@@ -51,7 +51,7 @@ public class RoomController {
     @PostMapping("/admin/manager/room/register")
     public String registerProc(@Valid RoomDTO roomDTO,
                                BindingResult bindingResult,
-                               MultipartFile imgFile,
+                               @RequestParam(required = false)MultipartFile imgFile,
                                RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("room registerProc 도착 " + roomDTO);
@@ -114,7 +114,8 @@ public class RoomController {
 
     @PostMapping("/admin/manager/room/modify")
     public String modifyProc(@Validated RoomDTO roomDTO,
-                             BindingResult bindingResult, Model model) {
+                             @RequestParam(required = false)MultipartFile imgFile,
+                             BindingResult bindingResult, Model model) throws IOException {
 
         log.info("room modifyProc 도착 " + roomDTO);
 
@@ -126,7 +127,7 @@ public class RoomController {
         }
 
 
-        roomService.modify(roomDTO);
+        roomService.modify(roomDTO, imgFile );
 
         log.info("업데이트 이후 정보 " + roomDTO);
 
@@ -135,7 +136,7 @@ public class RoomController {
     }
 
     @GetMapping("/admin/manager/room/delete/{roomIdx}")
-    public String deleteProc(@PathVariable Long roomIdx) {
+    public String deleteProc(@PathVariable Long roomIdx) throws IOException {
 
         roomService.delete(roomIdx);
 

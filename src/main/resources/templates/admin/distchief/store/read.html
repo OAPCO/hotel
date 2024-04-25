@@ -48,9 +48,9 @@
                         </tr>
                         <tr>
                             <td class="col-2">대표자 메일</td>
-                            <td class="col-3">[[${storeDTO.distDTO.distChiefEmail}]]</td>
+                            <td class="col-3"></td>
                             <td class="col-3">대표자 성명</td>
-                            <td class="col-4">[[${storeDTO.distDTO.distChief}]]</td>
+                            <td class="col-4"></td>
                         </tr>
                         <tr>
                             <td>연락처</td>
@@ -542,7 +542,11 @@
                                                             </table>
                                                         <table class="table">
                                                                 <thead>
-
+                                                                    <div>
+                                                                        <input type="text" style="display:none"
+                                                                               name="storeIdx"
+                                                                               th:value="${storeIdx}" />
+                                                                    </div>
                                                                 </thead>
                                                                 <thead>
                                                                 <tr>
@@ -553,7 +557,7 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr>
-                                                                    <td><input type="file" name="menuImg"></td>
+                                                                    <td><input type="file" name="imgFile"></td>
                                                                     <td> <input class="form-control" type="text"
                                                                                 name="detailMenuName" required> </td>
                                                                     <td>
@@ -673,18 +677,20 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">메뉴명</th>
+                                <th scope="col" class="col-2">메뉴명</th>
+                                <th scope="col" class="col-2">메뉴 이미지</th>
                                 <th scope="col" colspan="5">메뉴상세</th>
-                                <th scope="col">수정</th>
-                                <th scope="col">추천</th>
-                                <th scope="col">품절</th>
+                                <th scope="col"  class="col-1">수정</th>
+                                <th scope="col" class="col-1">추천</th>
+                                <th scope="col" class="col-1">품절</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="menu : ${category.detailMenuDTOList}">
-                                <td th:text="${menu.detailmenuIdx}" >[1]</td>
                                 <td th:text="${menu.detailMenuName}">[족발]</td>
+                                <td>
+                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${menu.menuImg}|" width="150" height="100">
+                                </td>
                                 <td>
                                     <div class="row1">옵션</div>
                                     <div class="row2" th:text="${menu.optionname}">[기본]</div></td>
@@ -762,7 +768,6 @@
                                                                                         name="detailMenuName" required> </td>
                                                                             <td>
                                                                                 <select class="form-select" aria-label="Default select example" name="deliveryYn">
-                                                                                    <option selected>배달 여부</option>
                                                                                     <option value="Y">Y</option>
                                                                                     <option value="N">N</option>
                                                                                 </select>

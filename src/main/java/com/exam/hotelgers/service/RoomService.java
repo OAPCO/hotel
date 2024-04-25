@@ -6,6 +6,7 @@ import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.repository.StoreRepository;
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -81,18 +82,30 @@ public class RoomService {
 
 
 
-    public void modify(RoomDTO roomDTO){
+    public void modify(RoomDTO roomDTO, @Nullable MultipartFile imgFile) throws IOException {
 
-
-        Optional<Room> temp = roomRepository
-                .findByRoomIdx(roomDTO.getRoomIdx());
+        Optional<Room> temp = roomRepository.findByRoomIdx(roomDTO.getRoomIdx());
 
         if(temp.isPresent()) {
+            Room room = temp.get();
 
-            Room room = modelMapper.map(roomDTO, Room.class);
+            // 이미지 파일이 제공된 경우에만 기존 이미지 삭제 및 새 이미지 업로드 진행
+            if (imgFile != null && !imgFile.isEmpty()) {
+
+                // 기존에 업로드된 이미지가 있다면 삭제
+                if (room.getRoomimgName() != null && !room.getRoomimgName().isEmpty()) {
+                    s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
+                }
+
+                // 새 이미지를 업로드하고, 새 파일명을 RoomDTO에 저장
+                String newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+                room.setRoomimgName(newFileName);
+            }
+
+            // RoomDTO를 Room 엔티티로 매핑하고 저장
+            room = modelMapper.map(roomDTO, Room.class);
             roomRepository.save(room);
         }
-
     }
 
 
@@ -159,7 +172,15 @@ public class RoomService {
 
 
 
-    public void delete(Long roomIdx){
+    public void delete(Long roomIdx) throws IOException {
+
+        //물리적위치에 저장된 이미지를 삭제
+        Room room = roomRepository
+                .findById(roomIdx)
+                .orElseThrow();; //조회->저장
+        //deleteFile(파일명, 폴더명)
+        s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
+
         roomRepository.deleteById(roomIdx);
     }
 }
