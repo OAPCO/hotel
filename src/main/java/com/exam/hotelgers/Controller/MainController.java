@@ -3,7 +3,12 @@ package com.exam.hotelgers.Controller;
 
 
 import com.exam.hotelgers.entity.Admin;
+import com.exam.hotelgers.entity.DistChief;
+import com.exam.hotelgers.entity.Manager;
 import com.exam.hotelgers.repository.AdminRepository;
+import com.exam.hotelgers.repository.DistChiefRepository;
+import com.exam.hotelgers.repository.ManagerRepository;
+import com.exam.hotelgers.service.SearchService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +26,10 @@ public class MainController {
 
 
     AdminRepository adminRepository;
+    DistChiefRepository distChiefRepository;
+    ManagerRepository managerRepository;
+    SearchService searchService;
+
 
     @GetMapping("/")
     public String start(){
@@ -77,9 +86,11 @@ public class MainController {
 
 
     @GetMapping("/layouts/main")
-    public void mainForm(){
+    public void mainForm(Principal principal, Model model){
 
+        String userName = searchService.findByIdSendName(principal);
 
+        model.addAttribute("userName",userName);
 
     }
 
@@ -89,13 +100,14 @@ public class MainController {
 
 
         String adminId = principal.getName();
+        log.info("어드민아이디 추출 : " + adminId);
 
         Optional<Admin> admin = adminRepository.findByAdminId(adminId);
 
         String adminName = admin.get().getAdminName();
+        log.info("어드민이름추출 : " + adminName);
 
         model.addAttribute("adminName",adminName);
-
 
     }
 

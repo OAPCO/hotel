@@ -9,12 +9,15 @@ import com.exam.hotelgers.repository.StoreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +33,15 @@ public class RoomService {
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
 
+    //Application.properties에 선언한 파일이 저장될 경로
+    @Value("${imgUploadLocation}")
+    private String imgUploadLocation;
+
+    //파일저장을 위한 클래스
+    private final S3Uploader s3Uploader;
 
 
-    public Long register(RoomDTO roomDTO) {
+    public Long register(RoomDTO roomDTO, MultipartFile imgFile) throws IOException {
 
         Optional<Store> store = storeRepository.findByStoreCd(roomDTO.getStoreDTO().getStoreCd());
 
@@ -50,7 +59,14 @@ public class RoomService {
             throw new IllegalStateException("이미 존재하는 코드입니다.");
         }
 
+        String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
+        String newFileName = ""; //새로 만든 파일명
 
+        if(originalFileName != null) { //파일이 존재하면
+            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+        }
+
+        roomDTO.setRoomimgName(newFileName); //새로운 파일명을 재등록
 
         Room room = modelMapper.map(roomDTO, Room.class);
 

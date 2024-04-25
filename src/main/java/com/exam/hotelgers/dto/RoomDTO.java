@@ -21,6 +21,7 @@ public class RoomDTO {
     private DistDTO distDTO;
     private StoreDTO storeDTO;
 
+    private String roomimgName;
 
     private List<OrderDTO> orderDTOList;
 
