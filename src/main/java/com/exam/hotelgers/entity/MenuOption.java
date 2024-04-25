@@ -22,15 +22,15 @@ import lombok.*;
 public class MenuOption extends BaseEntity{
         @Id
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menuoption_sql")
-    private Long menuOptionIdx;
+    private Long menuOptionIdx;//메뉴 옵션키
 
-    private String MenuOptionName;
+    private String MenuOptionName;//메뉴옵션 명
 
-    private int MenuPrice;
+    private int MenuPrice;//메뉴옵션가격
 
-    private int menuSalePercent;
+    private int menuSalePercent;//메뉴할인율
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="detailmenuIdx")
-    private Detailmenu detailmenu;
+    private Detailmenu detailmenu;//상세메뉴
 }

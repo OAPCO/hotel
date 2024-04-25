@@ -30,7 +30,7 @@ public class PaymentDTO {
 
     private int dayFeePrice;//건별 수수료
 
-    private LocalDateTime regdate;
+    private LocalDateTime regdate;//등록일
 
-    private LocalDateTime moddate;
+    private LocalDateTime moddate;//수정일
 }

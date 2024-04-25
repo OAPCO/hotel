@@ -19,17 +19,17 @@ public class MenuCateDTO {
 
     ModelMapper modelMapper = new ModelMapper();
 
-    private Long menuCateIdx;
+    private Long menuCateIdx;//메뉴 카테고리 키
 
     private String menuCateName; //메뉴 카테고리 이름
 
     private String tblStoreStoreIdx;//매장 식별키
 
-    private LocalDateTime regdate;
+    private LocalDateTime regdate;//등록일
 
-    private LocalDateTime moddate;
+    private LocalDateTime moddate;//수정일
 
-    private List<DetailmenuDTO> detailMenuDTOList;
+    private List<DetailmenuDTO> detailMenuDTOList;//메뉴 상세DTO 목록
 
 
 

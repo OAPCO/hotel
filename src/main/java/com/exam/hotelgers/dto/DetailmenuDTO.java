@@ -44,11 +44,11 @@ public class DetailmenuDTO {
     @Column(length = 11)
     private int pointSavePercent; //포인트 적립율
 
-    private LocalDateTime regdate;
+    private LocalDateTime regdate;//등록일
 
-    private LocalDateTime moddate;
+    private LocalDateTime moddate;//수정일
 
-    private List<MenuOptionDTO> menuOptionDTOList;
+    private List<MenuOptionDTO> menuOptionDTOList;//메뉴 옵션DTO 목록
 
 
     // 옵션 테이블 활용 포기 그냥 옵션과 가격을 여기에 포함

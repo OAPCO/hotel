@@ -17,21 +17,22 @@ import java.util.List;
 @Builder
 public class DistDTO {
 
-    private Long distIdx;
+    private Long distIdx;//총판키
 
-    private String distCd;
-    private String distName;
-    private String distTel;
+    private String distCd;//총판 코드(번호)
+    private String distName;//총판명
+    private String distTel;//총판 연락처
 
-    private List<StoreDTO> storeDTOList;
-    private List<BrandDTO> brandDTOList;
-    private List<OrderDTO> orderDTOList;
+    private List<StoreDTO> storeDTOList;//매장DTO 목록
+    private List<BrandDTO> brandDTOList;//브랜드DTO 목록
+    private List<OrderDTO> orderDTOList;//주문DTO 목록
 
-    private DistChiefDTO distChiefDTO;
+    private DistChiefDTO distChiefDTO;//총판장DTO
 
 
-    private LocalDateTime regdate;
-    private LocalDateTime moddate;
+    private LocalDateTime regdate;//등록일
+
+    private LocalDateTime moddate;//수정일
 
 
 }

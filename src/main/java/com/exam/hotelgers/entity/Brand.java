@@ -33,17 +33,17 @@ public class Brand extends BaseEntity{
     private String brandName; //브랜드 이름
 
     @Column(unique = true)
-    private String brandCd; //매장코드
+    private String brandCd; //브렌드 코드
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distIdx")
-    private Dist dist;
+    private Dist dist;//총판
 
 
 
     @OneToMany(mappedBy="brand", cascade = CascadeType.ALL)
-    private List<Store> storeList = new ArrayList<>();
+    private List<Store> storeList = new ArrayList<>();//매장 목록
 
 
 

@@ -4,65 +4,36 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/main}">
 <head>
-    <title>주문관리</title>
+    <title>주문번호 조회</title>
     <link rel="stylesheet" href="/yhh.css">
 </head>
 
 <body id="page-top">
 <div layout:fragment="content">
-    <h4 class="card-title">주문관리</h4>
+    <h4 class="card-title">주문번호 조회</h4>
     <div class="card">
         <div class="card-header">
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-                주문조회
+                주문번호 조회
             </div>
-            <form method="post" th:action="@{/order/orderManagement}">
+            <form method="post" th:action="@{/order/ordernumber}">
             <div class="table-responsive">
                 <table class="table head">
 
                     <thead>
-                    <tr>
-
-                        <th>매장 선택</th>
-                        <td>
-                            <div>
-                                <select class="d-inline-block form-select form-select-sm" name="storeName">
-                                    <option value="">(선택)</option>
-                                    <option th:each="storeList : ${storeList}" th:value="${storeList.storeName}" th:text="${storeList.storeName}"></option>
-                                </select>
-                            </div>
-                        <th><strong>매장명</strong></th>
-                        <td><input type="text" name="asdaqwsd"></td>
-                        </th>
-                    </tr>
-                    </thead>
                     <tr>
                         <th><strong>주문번호</strong></th>
                         <td><input type="text" name="orderCd" value=""></td>
                         <th><strong>룸</strong></th>
                         <td><input type="text" name="roomName" value=""></td>
                     </tr>
-                    <tr>
-                        <th><strong>결제일시</strong></th>
-                        <td>
-                            <input type="date">
-                            <input type="time"> ~
-                            <input type="date">
-                            <input type="time">
-                        </td>
-                        <th><strong>상태</strong></th>
-                        <td>
-                            <input type="radio" name="ert" value="" checked>전체
-                            <input type="radio" name="ert" value="DIRECTSTORE">미결제
-                            <input type="radio" name="ert" value="FRANCHISEE">결제완료
-                            <input type="radio" name="ert" value="FRANCHISEE">결제취소
-                        </td>
-                    </tr>
+                    </thead>
+
 
                 </table>
                 <div style="text-align: center;">
                     <button type="submit" class="btn btn-primary">조회</button>
-                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/order/orderManagement/register}'|">신규등록</button>
+                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/order/ordernumber/register}'|">신규등록</button>
                 </div>
 
             </div>
@@ -86,7 +57,7 @@
                         <th>주문확정일시</th>
                         <th>결제금액</th>
                         <th>상태</th>
-                        <th>임시</th>
+                        <th>수정/삭제</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -101,8 +72,8 @@
                         <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
                         <td>결제금액</td>
                         <td>결제상태</td>
-                        <td><a th:href="@{'/order/orderManagement/modify/'+${data.orderIdx}}" >수정</a>
-                            /<a th:href="@{'/order/orderManagement/delete/'+${data.orderIdx}}">삭제</a></td>
+                        <td><a th:href="@{'/order/ordernumber/modify/'+${data.orderIdx}}">수정</a>
+                            /<a th:href="@{'/order/ordernumber/delete/'+${data.orderIdx}}">삭제</a></td>
                     </tr>
                     </tbody>
                 </table>

@@ -23,23 +23,23 @@ public class Order extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "storeorder_sql")
-    private Long orderIdx;
+    private Long orderIdx;//주문 키
 
     @Column(length = 60, nullable = false)
-    private String orderCd;
+    private String orderCd;//주묹 코드(번호)
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distIdx")
-    private Dist dist;
+    private Dist dist;//총판
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeIdx")
-    private Store store;
+    private Store store;//매장
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="roomIdx")
-    private Room room;
+    private Room room;//룸(방)
 
 
 }

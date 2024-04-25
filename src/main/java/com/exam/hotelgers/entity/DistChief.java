@@ -26,29 +26,29 @@ public class DistChief extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "distchief_sql")
-    private Long distChiefIdx;
+    private Long distChiefIdx;//총판장키
 
     @Column(length = 60, nullable = false)
-    private String distChiefId;
+    private String distChiefId;//총판장 아이디
 
     @Column(length = 100, nullable = false)
-    private String password;
+    private String password;//총판장 비밀번호
 
     @Column(length = 30, nullable = false)
-    private String distChiefName;
+    private String distChiefName;//총판장명
 
     @Column(length = 50, nullable = false)
-    private String distChiefPhone;
+    private String distChiefPhone;//총판장 연락처
 
-    private String distChiefEmail;
+    private String distChiefEmail;//총판장 이메일
 
-    private String distChiefimgName;
+    private String distChiefimgName;//총판장 이미지명
 
 
     @OneToMany(mappedBy="distChief", cascade = CascadeType.ALL)
-    private List<Dist> distList = new ArrayList<>();
+    private List<Dist> distList = new ArrayList<>();//총판 목록
 
 
     @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    private RoleType roleType;//회원 등급
 }

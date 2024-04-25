@@ -35,6 +35,8 @@ public class Detailmenu extends BaseEntity{
     @Column(length = 500)
     private String menuDescription; //메뉴설명
 
+    private String detailMenuimgName;//메뉴 이미지명
+
 
 
 //    @Column(length = 100)
@@ -56,14 +58,14 @@ public class Detailmenu extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="menuCateIdx")
-    private MenuCate menuCate;
+    private MenuCate menuCate;//메뉴 카테고리
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeIdx")
-    private Store store;
+    private Store store;//매장
 
     @OneToMany(mappedBy="detailmenu", cascade = CascadeType.ALL)
-    private List<MenuOption> menuOptionList = new ArrayList<>();
+    private List<MenuOption> menuOptionList = new ArrayList<>();//매뉴 옵션 리스트
 
 
     public void setMenuOptions(List<MenuOption> menuOptions) {
