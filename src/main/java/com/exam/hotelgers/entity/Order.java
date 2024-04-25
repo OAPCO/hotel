@@ -26,7 +26,7 @@ public class Order extends BaseEntity {
     private Long orderIdx;//주문 키
 
     @Column(length = 60, nullable = false)
-    private String orderCd;//주묹 코드(번호)
+    private String orderCd;//주문 코드(번호)
 
 
     @ManyToOne(fetch = FetchType.LAZY)
