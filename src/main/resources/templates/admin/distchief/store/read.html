@@ -163,9 +163,7 @@
                        <tr class="row">
                             <td rowspan="7" class="col-2">이미지(필수)</td>
                             <td rowspan="7" class="col-10">
-<!--                                <th:block th:each=" imgdtolist : ${storeDTO.dtoList}">-->
-<!--                                    <img th:src="@{|/images/@{${#temporals.format(imgdtolist.regdate,'yyMMdd')}}/@{${imgdtolist.imageName}}|}" alt="이건 사진입니다." width="200px">-->
-<!--                                </th:block>-->
+                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|" width="150" height="100">
                             </td>
                         </tr>
 
@@ -304,15 +302,15 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <table class="table my-0" th:each="room : ${storeDTO.roomDTOList}">
+                    <table th:each="room : ${storeDTO.roomDTOList}">
                         <thead>
                             <tr>
-                                <th scope="col">룸 순서</th>
-                                <th scope="col">룸 구분</th>
-                                <th scope="col">룸명</th>
-                                <th scope="col">QR코드정보</th>
-                                <th scope="col">룸 정보 수정</th>
-                                <th scope="col">룸 삭제</th>
+                                <th scope="col" class="col-2">룸 순서</th>
+                                <th scope="col" class="col-2">룸 구분</th>
+                                <th scope="col" class="col-3">룸명</th>
+                                <th scope="col" class="col-3">QR코드정보</th>
+                                <th scope="col" class="col-1">룸 정보 수정</th>
+                                <th scope="col" class="col-1">룸 삭제</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -344,8 +342,7 @@
 
                                                 <!-- Modal Body -->
                                                 <div class="modal-body">
-                                                    <form action="/admin/manager/room/modify"
-                                                          method="post">
+                                                    <form action="/admin/manager/room/modify" method="post">
                                                         <div class="row mb-3">
                                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                                 <label>매장 번호 : </label>
@@ -353,12 +350,7 @@
                                                                        placeholder="매장 번호" name="storeDTO.storeIdx"
                                                                        th:value="${storeDTO.storeIdx}" readonly>
                                                             </div>
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>매장 코드 : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       placeholder="매장 코드" name="storeDTO.storeCd"
-                                                                       th:value="${storeDTO.storeCd}" readonly>
-                                                            </div>
+
                                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                                 <label>룸 코드 : </label>
                                                                 <input class="form-control form-control-user" type="text"
@@ -386,12 +378,13 @@
                                                                 </select><br>
                                                             </div>
                                                         </div>
+                                                        <button type="submit" class="btn btn-primary">수정</button>
                                                     </form>
                                                 </div>
 
                                                 <!-- Modal Footer -->
                                                 <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">수정</button>
+
                                                     <button type="button" class="btn btn-danger"
                                                             data-bs-dismiss="modal">닫기</button>
                                                 </div>

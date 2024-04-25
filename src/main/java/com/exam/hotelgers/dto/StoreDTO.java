@@ -59,7 +59,7 @@ public class StoreDTO {
     private int deliveryMinFee; //최소배달금액
 
 
-    private String storeimgName;
+    private String storeimgName; //스토어 이미지
 
 
 
