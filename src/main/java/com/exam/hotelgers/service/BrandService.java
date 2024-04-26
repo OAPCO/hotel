@@ -30,11 +30,11 @@ public class BrandService {
     private final DistRepository distRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-
+    private final SearchService searchService;
 
     public Long register(BrandDTO brandDTO) {
 
-
+        //받은 distcd로 dist객체 하나 찾아서
         Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistDTO().getDistCd());
 
 
@@ -46,7 +46,7 @@ public class BrandService {
 
 
         Brand brand = modelMapper.map(brandDTO, Brand.class);
-
+        //brand에다가 dist를 추가해버림
         brand.setDist(dist.get());
 
 
@@ -56,23 +56,32 @@ public class BrandService {
     }
 
 
-    public void modify(BrandDTO brandDTO){
+    public void modify(BrandDTO brandDTO) {
+        // 주어진 brandIdx를 가진 Brand를 찾습니다.
+        Optional<Brand> temp = brandRepository.findByBrandIdx(brandDTO.getBrandIdx());
 
+        if (temp.isPresent()) {
+            // 입력된 brandDTO의 distCd를 기반으로 Dist를 검색합니다.
+            Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistDTO().getDistCd());
 
+            if (!dist.isPresent()) {
+                throw new IllegalArgumentException("DistCd로 검색된 Dist가 존재하지 않습니다.");
+            }
 
+            Brand brand = temp.get(); // 존재하는 Brand 찾기
 
-        Optional<Brand> temp = brandRepository
-                .findByBrandIdx(brandDTO.getBrandIdx());
+            // 위에서 찾은 Dist를 Brand의 Dist로 변경합니다.
+            brand.setDist(dist.get());
 
+            // Brand 정보 업데이트
+            brand.setBrandName(brandDTO.getBrandName());
+            brand.setBrandCd(brandDTO.getBrandCd());
 
-        if(temp.isPresent()) {
-
-            Brand brand = modelMapper.map(brandDTO, Brand.class);
-
+            // Brand 업데이트
             brandRepository.save(brand);
+        } else {
+            throw new IllegalArgumentException("입력된 brandIdx로 검색된 Brand가 존재하지 않습니다.");
         }
-
-
     }
 
     public BrandDTO read(Long brandIdx) {
@@ -88,7 +97,8 @@ public class BrandService {
             Dist dist = brand.get().getDist();
 
             // Dist를 DistDTO로 변환합니다
-            DistDTO distDTO = modelMapper.map(dist, DistDTO.class);
+            // 이 때 DistChief가 있으면 DistChief도 함께 변환하도록 기능을 추가했습니다
+            DistDTO distDTO = this.searchService.convertToDistDTO(dist);
 
             // 변환한 DistDTO를 BrandDTO에 설정해 줍니다
             brandDTO.setDistDTO(distDTO);

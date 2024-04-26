@@ -20,19 +20,24 @@
                     <table class="table my-0" id="*">
                         <tbody>
                         <tr>
-                            <td class="col-2">매장명</td>
+                            <td class="col-2">브랜드명</td>
                             <td class="col-3" th:text="${brandDTO.brandName}"></td>
-                            <td class="col-3">총판명</td>
+                            <td class="col-3">브랜드코드</td>
+                            <td class="col-4" th:text="${brandDTO.brandCd}">
+
+                        </tr>
+                        <tr>
+
+                            <td class="col-2">총판명</td>
                             <td class="col-4" th:text="${brandDTO.distDTO.distName}">
                             </td>
+                            <td class="col-3">대표자 성명</td>
+                            <td class="col-4" th:text="${brandDTO.distDTO.distChiefDTO.distChiefName}">김 아무개 대표</td>
                         </tr>
                         <tr>
                             <td class="col-2">총판 ID</td>
-                            <td class="col-3" th:text="${brandDTO.distDTO.distChiefEmail}">[eovywk@gogle.com]</td>
-                            <td class="col-3">대표자 성명</td>
-                            <td class="col-4" th:text="${brandDTO.distDTO.distChief}">김 아무개 대표</td>
-                        </tr>
-                        <tr>
+                            <td class="col-3" th:text="${brandDTO.distDTO.distChiefDTO.distChiefEmail}">[eovywk@gogle
+                                .com]</td>
                             <td>대표자 연락처</td>
                             <td th:text="${brandDTO.distDTO.distTel}">[010-0000-0000]</td>
                         </tr>
