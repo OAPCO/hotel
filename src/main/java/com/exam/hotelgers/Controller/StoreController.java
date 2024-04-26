@@ -155,6 +155,12 @@ public class StoreController {
 
         StoreDTO storeDTO = storeService.read(storeIdx);
 
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+        model.addAttribute("distList", distList);
+        model.addAttribute("brandList", brandList);
+
         log.info("수정 전 정보" + storeDTO);
         model.addAttribute("storeDTO", storeDTO);
         return "admin/distchief/store/modify";
@@ -163,6 +169,7 @@ public class StoreController {
 
     @PostMapping("/admin/distchief/store/modify")
     public String modifyProc(@Validated StoreDTO storeDTO,
+                             MultipartFile imgFile,
                              BindingResult bindingResult, Model model) throws Exception{
 
         log.info("store modifyProc 도착 " + storeDTO);
@@ -175,7 +182,8 @@ public class StoreController {
         }
 
 
-        storeService.modify(storeDTO);
+
+        storeService.modify(storeDTO, imgFile);
 
         log.info("업데이트 이후 정보 " + storeDTO);
 

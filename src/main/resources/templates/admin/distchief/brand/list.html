@@ -91,8 +91,8 @@
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 
-                            <td><a th:href="@{'/brand/modify/'+${data.brandIdx}}" >수정</a>
-                                /<a th:href="@{'/brand/delete/'+${data.brandIdx}}">삭제</a></td>
+                            <td><a th:href="@{'/admin/distchief/brand/modify/'+${data.brandIdx}}" >수정</a>
+                                /<a th:href="@{'/admin/distchief/brand/delete/'+${data.brandIdx}}">삭제</a></td>
                         </tr>
 
                         </tbody>

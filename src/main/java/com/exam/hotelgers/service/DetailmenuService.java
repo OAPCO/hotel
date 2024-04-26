@@ -70,30 +70,22 @@ public class DetailmenuService {
             Detailmenu detailmenu = temp.get();
 
             if (imgFile != null && !imgFile.isEmpty()) {
+                // 이전 파일 삭제
                 if (detailmenu.getMenuImg() != null && !detailmenu.getMenuImg().isEmpty()) {
                     s3Uploader.deleteFile(detailmenu.getMenuImg(), imgUploadLocation);
                 }
 
-                String originalFileName = imgFile.getOriginalFilename();
-                String newFileName = "";
-
-                if(originalFileName != null) {
-                    newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
-                }
+                // 새 파일 업로드
+                String newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
 
                 detailmenuDTO.setMenuImg(newFileName);
-                // DTO에 새 파일 이름 설정
-                // 이 부분은 DTO에서 사용되는 모든 set 메서드 호출 후에 수행되어야 합니다.
+                // DTO에 새 파일 이름 설정. 변경된 파일이름이 S3 경로 + 파일 이름이 됩니다.
+
             }
 
             modelMapper.map(detailmenuDTO, detailmenu);
             // modelMapper로 detailmenuDTO 필드를 detailmenu에 복사.
-
-            if (imgFile != null && !imgFile.isEmpty()) {
-                detailmenu.setMenuImg(detailmenuDTO.getMenuImg());
-                // Map 이후 다시 temp에 menuImg 설정
-                // 이 부분은 modelMapper.map(detailmenuDTO, detailmenu); 뒤에 와야 합니다.
-            }
+            // 이 때, menuImg에는 바뀐 파일 이름이 자동으로 설정됩니다.
 
             detailmenuRepository.save(detailmenu);
         } else {

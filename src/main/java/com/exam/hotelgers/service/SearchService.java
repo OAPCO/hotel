@@ -157,9 +157,16 @@ public class SearchService {
 
 
 
-
     public DistDTO convertToDistDTO(Dist dist) {
-        return modelMapper.map(dist, DistDTO.class);
+        DistDTO distDTO = modelMapper.map(dist, DistDTO.class);
+
+        // Dist에서 DistChief를 가져와서 DistChiefDTO로 변환
+        if(dist.getDistChief() != null){
+            DistChiefDTO distChiefDTO = modelMapper.map(dist.getDistChief(), DistChiefDTO.class);
+            distDTO.setDistChiefDTO(distChiefDTO);
+        }
+
+        return distDTO;
     }
 
     public BrandDTO convertToBrandDTO(Brand brand) {

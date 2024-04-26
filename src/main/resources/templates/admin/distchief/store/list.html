@@ -163,7 +163,7 @@
                             <th:block th:if="${data.storePType.name() == 'FRANCHISEE'}"><span>가맹점</span></th:block>
                         </td>
 
-                        <td>지역. 주소찾기 전체주소 부분. 다른사이트에서 떼오기</td>
+                        <td th:text="${data.storeAddr}">지역. 주소찾기 전체주소 부분. 다른사이트에서 떼오기</td>
                         <td th:text="${data.storeCd}"></td>
                         <td>
                             <a th:text="${data.storeName}" th:href="@{'/admin/distchief/store/'+${data.storeIdx}}" ></a>
