@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -120,31 +121,58 @@ public class StoreService {
 
 
 
-    public void modify(StoreDTO storeDTO, MultipartFile imgFile) throws Exception {
-
-        Optional<Store> result = storeRepository.findByStoreIdx(storeDTO.getStoreIdx());
-
-        if (!result.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 상점입니다");
+    public Store modify(StoreDTO storeDTO, MultipartFile imgFile) throws IOException {
+        Long storeIdx = storeDTO.getStoreIdx();
+        if (storeIdx == null) {
+            throw new IllegalArgumentException("storeIdx must not be null.");
         }
 
-        Store store = result.get();
+        Store store = storeRepository.findById(storeIdx).orElseThrow(() -> new IllegalArgumentException("Invalid storeIdx."));
 
-        // 이미지 파일에 수정이 있을 경우
+        // Process the image file
         if (imgFile != null && !imgFile.isEmpty()) {
-            String originalFileName = imgFile.getOriginalFilename();
-
-            if (originalFileName != null) { //파일이 존재하면
-                String newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
-                storeDTO.setStoreimgName(newFileName); //새로운 파일명을 재등록
-            }
+            String originalFileName = imgFile.getOriginalFilename(); // Get the original file name
+            String newFileName = s3Uploader.upload(imgFile, imgUploadLocation); // Upload the file and get the new file's name
+            storeDTO.setStoreimgName(newFileName); // Set the new file's name to the storeDTO
         }
+        store.setStoreimgName(storeDTO.getStoreimgName());
 
-        // storeDTO에서 Store로 변환한 후 데이터 업데이트
-        store = modelMapper.map(storeDTO, Store.class);
+        // 'dist', 'distChief', 'brand'를 제외한 나머지 필드들을 업데이트합니다.
+        store.setStoreChiefEmail(storeDTO.getStoreChiefEmail());
+        store.setStoreGrade(storeDTO.getStoreGrade());
+
+        store.setStoreChief(storeDTO.getStoreChief());
+        store.setStoreChieftel(storeDTO.getStoreChieftel());
+
+        store.setStoreCd(storeDTO.getStoreCd());
+        store.setStoreName(storeDTO.getStoreName());
+
+        store.setStoreTel(storeDTO.getStoreTel());
+        store.setRegionCd(storeDTO.getRegionCd());
+
+        store.setStorePostNo(storeDTO.getStorePostNo());
+        store.setStoreAddr(storeDTO.getStoreAddr());
+        store.setStoreAddrDetail(storeDTO.getStoreAddrDetail());
+
+        store.setStoreStatus(storeDTO.getStoreStatus());
+        store.setStoreSummary(storeDTO.getStoreSummary());
+
+        store.setStoreOpenState(storeDTO.getStoreOpenState());
+        store.setStoreIdx(storeDTO.getStoreIdx());
+
+        store.setStorePaymentType(storeDTO.getStorePaymentType());
+        store.setStoreOpenTime(storeDTO.getStoreOpenTime());
+        store.setStoreCloseTime(storeDTO.getStoreCloseTime());
+
+        store.setStoreRestDay(storeDTO.getStoreRestDay());
+        store.setKakaoSendYn(storeDTO.getKakaoSendYn());
+        store.setStoreRestDetail(storeDTO.getStoreRestDetail());
+
+        // 변경된 엔티티를 저장합니다.
         storeRepository.save(store);
-    }
 
+        return store;
+    }
 
 
     public StoreDTO read(Long storeIdx) throws Exception{

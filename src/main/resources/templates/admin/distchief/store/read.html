@@ -136,7 +136,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
                                            th:checked="${storeDTO.storeOpenState == 0}"
-                                           id="flexCheckChecked"
+
                                            disabled>
                                 </div>
                             </td>
@@ -218,16 +218,13 @@
     <div class="container-fluid">
         <div class="card shadow">
             <div class="card-header py-3">
-                <h3 class="text-primary m-0 fw-bold">룸 관리</h3>
-                <span class="col-5"></span>
+
                 <!--                룸 추가 모달-->
                 <div>
                     <!-- Button to Open the Modal -->
-                    <div class="d-flex justify-content-end">
-                        <button
-                                type="button"
-                                class="btn btn-primary"
-                                data-bs-toggle="modal"
+                    <div class="d-flex justify-content-between">
+                        <h3 class="text-primary align-self-start fw-bold">룸 관리</h3>
+                        <button type="button" class="btn btn-primary align-self-end" data-bs-toggle="modal"
                                 data-bs-target="#myModal1">
                             룸 추가
                         </button>
@@ -245,7 +242,7 @@
 
                                 <!-- Modal Body -->
                                 <div class="modal-body">
-                                    <form id="room-form" action="/admin/manager/room/register" method="post" enctype="multipart/form-data">
+                                    <form action="/admin/manager/room/register" method="post" enctype="multipart/form-data">
                                         <div class="row mb-3">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label>매장 번호 : </label>
@@ -266,7 +263,7 @@
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label>룸 이미지 : </label>
-                                                <input type="file" class="form-control" id="imgFile" name="imgFile">
+                                                <input type="file" class="form-control" name="imgFile">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -290,7 +287,7 @@
 
                                 <!-- Modal Footer -->
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" form="room-form">Save</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                                 </div>
 
@@ -344,41 +341,69 @@
 
                                                 <!-- Modal Body -->
                                                 <div class="modal-body">
-                                                    <form action="/admin/manager/room/modify" method="post">
+                                                    <form action="/admin/manager/room/modify" method="post" enctype="multipart/form-data">
                                                         <div class="row mb-3">
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>매장 번호 : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       placeholder="매장 번호" name="storeDTO.storeIdx"
-                                                                       th:value="${storeDTO.storeIdx}" readonly>
-                                                            </div>
-
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>룸 코드 : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       name="roomCd" th:value="${room.roomCd}" readonly>
-                                                            </div>
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>룸 Id : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       name="roomIdx" th:value="${room.roomIdx}" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>룸 이름 : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       name="roomName">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <select class="form-select" name="roomType">
-                                                                    <option value="NORMAL">일반실</option>
-                                                                    <option value="SPECIAL">특실</option>
-                                                                    <option value="PARTYROOM">파티룸</option>
-                                                                </select><br>
-                                                            </div>
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            매장 번호 :
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control form-control-user" type="text"
+                                                                                   placeholder="매장 번호" name="storeDTO.storeIdx"
+                                                                                   th:value="${storeDTO.storeIdx}" readonly>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            룸 코드 :
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control form-control-user" type="text"
+                                                                                   name="roomCd" th:value="${room.roomCd}" readonly>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            룸 Id :
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control form-control-user" type="text"
+                                                                                   name="roomIdx" th:value="${room.roomIdx}" readonly>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            룸 이름 :
+                                                                        </td>
+                                                                        <td>
+                                                                            <input class="form-control form-control-user" type="text"
+                                                                                   name="roomName">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            룸 이미지:
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="file" name="imgFile">
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            룸 타입:
+                                                                        </td>
+                                                                        <td>
+                                                                            <select class="form-select" name="roomType">
+                                                                                <option value="NORMAL">일반실</option>
+                                                                                <option value="SPECIAL">특실</option>
+                                                                                <option value="PARTYROOM">파티룸</option>
+                                                                            </select>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </div>
                                                         <button type="submit" class="btn btn-primary">수정</button>
                                                     </form>
@@ -409,11 +434,14 @@
     <div class="container-fluid"><!--메뉴카테고리-->
         <div class="card shadow">
             <div class="card-header py-3">
-                <h3 class="text-primary m-0 fw-bold">메뉴 관리</h3>
+
                 <div>
+
                     <!-- Button to Open the Modal -->
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal3">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="text-primary align-self-start fw-bold">메뉴 관리</h3>
+                        <button type="button" class="btn btn-primary align-self-end" data-bs-toggle="modal"
+                                data-bs-target="#myModal3">
                             카테고리 추가
                         </button>
                     </div>
@@ -463,9 +491,10 @@
 
             <div th:each="category : ${storeDTO.menuCateDTOList}" class="card">
                 <div class="card-header">
-                    <h5 th:text="${category.menuCateName}">카테고리 이름</h5>
-                    <div class="d-flex justify-content-end">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-primary fw-bold align-self-start" th:text="${category.menuCateName}">카테고리 이름</h4>
 <!--                    카테고리 수정 버튼-->
+                        <div class="align-self-end">
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                 th:data-bs-target="'#myModal4' + ${category.menuCateIdx} + ${storeIdx}">
                             카테고리 수정
@@ -528,7 +557,7 @@
     <!--                    카테고리 모달 상세 끝-->
     <!--                    메뉴 추가 모달 버튼 시작-->
                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                th:data-bs-target="'#myModal2' + ${category.menuCateIdx}">
+                                th:data-bs-target="'#myModal2' + ${category.menuCateIdx}" style="color:white;">
                             메뉴 추가
                         </button>
     <!--                    메뉴 추가 모달 버튼 끝-->
@@ -689,6 +718,7 @@
                                     </div>
                             </div>
                         </div>
+                        </div>
                     <!-- 메뉴 추가 모달 상세 끝 -->
                     </div>
                 </div>
@@ -734,7 +764,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                            th:data-bs-target="'#myModal5' + ${category.menuCateIdx} + ${menu.detailmenuIdx}">
+                                            th:data-bs-target="'#myModal5' + ${category.menuCateIdx} + ${menu.detailmenuIdx}" style="color:white;">
                                         메뉴 수정
                                     </button>
 <!--                                    메뉴 수정 모달 상세 시작-->
@@ -745,7 +775,8 @@
                                             <div class="modal-body">
                                                 <div class="card shadow">
                                                     <div class="card-body">
-                                                        <form th:action="@{/detailmenu/modify}" method="post">
+                                                        <form th:action="@{/detailmenu/modify}"
+                                                              enctype="multipart/form-data" method="post">
                                                             <div class="card shadow">
                                                                 <div class="card-body">
                                                                     <table class="table">
@@ -783,7 +814,7 @@
                                                                         </thead>
                                                                         <tbody>
                                                                         <tr>
-                                                                            <td><input type="file" name="menuImg"></td>
+                                                                            <td><input type="file" name="imgFile"></td>
                                                                             <td> <input class="form-control" type="text"
                                                                                         name="detailMenuName" required> </td>
                                                                             <td>

@@ -21,68 +21,48 @@
                     <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                         <table class="table">
                             <tbody>
-                            <tr>
-                                <input class="text " style="display: none;" name="storeIdx" th:field="*{storeIdx}">
-                            </tr>
+
                             <tr>
                                 <td class="col-2">총판조직명</td>
                                 <td class="col-4" >
-                                    <select class="form-control" name="distDTO.distName"
-                                            id="distNameSelect" th:field="*{storeDTO.distDTO.distName}">
-                                        <th:block th:each="dist : ${distList}">
-                                            <option th:value="${dist.distName}"
-                                                    th:text="${dist.distName}"
-                                                    th:data-cd="${dist.distCd}"
-                                                    th:data-tel="${dist.distTel}"
-                                                    th:data-distchief-email="${storeDTO.distDTO.distChiefDTO.distChiefEmail}"
-                                                    th:data-distchief-name="${storeDTO.distDTO.distChiefDTO.distChiefName}"
-                                                    th:data-distchief-phone="${storeDTO.distDTO.distChiefDTO.distChiefPhone}"
-                                            >
-                                            </option>
-                                        </th:block>
-                                    </select>
+                                    <input class="form-control" type="text"  th:field="*{storeDTO.distDTO.distName}"
+                                           readonly>
                                 </td>
                                 <td class="col">총판 코드</td>
-                                <td class="col"><input class="form-control" type="text" th:field="*{storeDTO.distDTO.distCd}"
-                                                       name="distDTO.distCd"  id="distCd" readonly></td>
+                                <td class="col"><input class="form-control" type="text"
+                                                       th:field="*{storeDTO.distDTO.distCd}"
+                                                       readonly></td>
                             </tr>
                             <tr>
                                 <td class="col-2">총판 대표자 성명</td>
                                 <td class="col-3">
-                                    <input type="text"  id="distChiefName"
+                                    <input type="text"
                                            class="form-control"
                                            th:field="*{storeDTO.distDTO.distChiefDTO.distChiefName}" readonly>
                                 </td>
                                 <td class="col-3">총판 대표자 메일</td>
                                 <td class="col-4">
-                                    <input type="text"  id="distChiefEmail"
+                                    <input type="text"
                                            class="form-control"
                                            th:field="*{storeDTO.distDTO.distChiefDTO.distChiefEmail}" readonly>
                                 </td>
                             </tr>
                             <tr>
                                 <td>총판 연락처</td>
-                                <td><input type="text"  id="distTel"
+                                <td><input type="text"
                                            class="form-control"
-                                           th:field="*{storeDTO.distDTO.distTel}" readonly></td>
+                                           th:field="*{storeDTO.distDTO.distTel}" readonly>
+                                </td>
                             </tr>
                             <tr>
                                 <td>브랜드명</td>
                                 <td>
-                                    <select class="form-control" name="brandDTO.brandName" id="brandNameSelect" th:field="${storeDTO.brandDTO.brandName}">
-                                        <th:block th:each="brand : ${brandList}">
-                                            <option th:value="${brand.brandName}"
-                                                    th:text="${brand.brandName}"
-                                                    th:data-cd="${brand.brandCd}">
-                                            </option>
-                                        </th:block>
-                                    </select>
+                                    <input type="text" class="form-control"
+                                           th:field="*{storeDTO.brandDTO.brandName}" readonly>
                                 </td>
                                 <td>브랜드 코드</td>
                                 <td>
-                                    <input class="form-control" type="text"
-                                                       id="brandCd"
-                                                       name="brandDTO.brandCd" readonly>
+                                    <input class="form-control" type="text" th:field="*{storeDTO.brandDTO.brandCd}" readonly>
                                 </td>
                             </tr>
                             </tbody>
@@ -196,6 +176,11 @@
                                         </select>
                                     </div>
                                 </td>
+                                <td>매장번호 :</td>
+                                <td>
+                                    <input class="form-control" type="text" name="storeIdx"
+                                           th:field="*{storeDTO.storeIdx}" readonly>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -279,20 +264,6 @@
                 }).open();
             });
         }
-        document.getElementById('brandNameSelect').addEventListener('change', function() {
-            let selectedOption = this.options[this.selectedIndex];
-            document.getElementById('brandCd').value = selectedOption.dataset.cd;
-        });
-
-        document.getElementById('distNameSelect').addEventListener('change', function() {
-            var selectedOption = this.options[this.selectedIndex];
-            document.getElementById('distCd').value = selectedOption.dataset.cd;
-            document.getElementById('distEmail').value = selectedOption.dataset.email;
-            document.getElementById('distTel').value = selectedOption.dataset.tel;
-            document.getElementById('distChiefEmail').value = selectedOption.dataset.distchiefEmail;
-            document.getElementById('distChiefName').value = selectedOption.dataset.distchiefName;
-            document.getElementById('distChiefPhone').value = selectedOption.dataset.distChiefPhone;
-        });
 
     </script>
 

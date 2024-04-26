@@ -181,8 +181,6 @@ public class StoreController {
             return "admin/distchief/store/modify";
         }
 
-
-
         storeService.modify(storeDTO, imgFile);
 
         log.info("업데이트 이후 정보 " + storeDTO);
