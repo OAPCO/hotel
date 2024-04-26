@@ -15,7 +15,7 @@
         }
         .row1 { height: 10px; /* 윗칸 높이 지정 */ }
         .row2 { height: 40px; /* 아랫칸 높이 지정 */
-                padding-top: 20px; /* 위에 패딩 추가 */}
+            padding-top: 20px; /* 위에 패딩 추가 */}
     </style>
 </head>
 
@@ -136,7 +136,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
                                            th:checked="${storeDTO.storeOpenState == 0}"
-                                           id="flexCheckChecked"
+
                                            disabled>
                                 </div>
                             </td>
@@ -154,80 +154,77 @@
                 <h3 class="text-primary m-0 fw-bold">매장 상세 정보</h3>
             </div>
             <div class="card-body">
-                    <table class="table">
-                        <tbody>
-                       <tr class="row">
-                            <td rowspan="7" class="col-2">이미지(필수)</td>
-                            <td rowspan="7" class="col-10">
-                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|" width="150" height="100">
-                            </td>
-                        </tr>
+                <table class="table">
+                    <tbody>
+                    <tr class="row">
+                        <td rowspan="7" class="col-2">이미지(필수)</td>
+                        <td rowspan="7" class="col-10">
+                            <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|" width="150" height="100">
+                        </td>
+                    </tr>
 
-                        <tr class="row">
-                            <td rowspan="7" class="col-2">매장결제타입</td>
-                            <td rowspan="7" class="col-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="storePaymentType" value="1"
-                                           th:checked="${storeDTO.storePaymentType == 1}" disabled>
-                                    <label class="form-check-label">
-                                        선불
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="storePaymentType" value="0"
-                                           th:checked="${storeDTO.storePaymentType == 0}" disabled>
-                                    <label class="form-check-label">
-                                        후불
-                                    </label>
-                                </div>
-                            </td>
-                            <td rowspan="2" class="col-2 ">영업시간</td>
-                            <td class="col-4">
-                                <div>영업 시작: <input type="time" th:value="${storeDTO.storeOpenTime}" readonly> ~ 영업
-                                    끝:<input type="time" th:value="${storeDTO.storeCloseTime}" readonly></div>
-                            </td>
-                        </tr>
-                        <tr class="row">
-                           <td class="col-2">휴무일</td>
-                           <td class="col-4"  th:text="${storeDTO.storeRestDay}" >[휴무일내용]</td>
-                           <td class="col-2">카카오톡 전송 여부</td>
-                           <td class="col-4">
-                               <div class="form-check">
-                                   <input class="form-check-input" type="checkbox" name="kakaoSendYn"
-                                          th:checked="${storeDTO.kakaoSendYn == 'Y'}" disabled>
-                               <label class="form-check-label">
-                                   카카오톡 전송
-                               </label>
-                           </div>
-                           </td>
-                        </tr>
-                       <tr class="row">
-                           <td class="col-2">휴무일내용</td>
-                           <td class="col-10">[[${storeDTO.storeRestDetail}]]</td>
-                       </tr>
-                        </tbody>
-                    </table>
+                    <tr class="row">
+                        <td rowspan="7" class="col-2">매장결제타입</td>
+                        <td rowspan="7" class="col-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="storePaymentType" value="1"
+                                       th:checked="${storeDTO.storePaymentType == 1}" disabled>
+                                <label class="form-check-label">
+                                    선불
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="storePaymentType" value="0"
+                                       th:checked="${storeDTO.storePaymentType == 0}" disabled>
+                                <label class="form-check-label">
+                                    후불
+                                </label>
+                            </div>
+                        </td>
+                        <td rowspan="2" class="col-2 ">영업시간</td>
+                        <td class="col-4">
+                            <div>영업 시작: <input type="time" th:value="${storeDTO.storeOpenTime}" readonly> ~ 영업
+                                끝:<input type="time" th:value="${storeDTO.storeCloseTime}" readonly></div>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td class="col-2">휴무일</td>
+                        <td class="col-4"  th:text="${storeDTO.storeRestDay}" >[휴무일내용]</td>
+                        <td class="col-2">카카오톡 전송 여부</td>
+                        <td class="col-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="kakaoSendYn"
+                                       th:checked="${storeDTO.kakaoSendYn == 'Y'}" disabled>
+                                <label class="form-check-label">
+                                    카카오톡 전송
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td class="col-2">휴무일내용</td>
+                        <td class="col-10">[[${storeDTO.storeRestDetail}]]</td>
+                    </tr>
+                    </tbody>
+                </table>
 
-                </div>
-                <div>
-
-                </div>
             </div>
-        </div><!--매장 상세 정보-->
+            <div>
+
+            </div>
+        </div>
+    </div><!--매장 상세 정보-->
     <p></p>
     <div class="container-fluid">
         <div class="card shadow">
             <div class="card-header py-3">
-                <h3 class="text-primary m-0 fw-bold">룸 관리</h3>
-                <span class="col-5"></span>
+
                 <!--                룸 추가 모달-->
                 <div>
                     <!-- Button to Open the Modal -->
-                    <div class="d-flex justify-content-end">
-                        <button
-                                type="button"
-                                class="btn btn-primary"
-                                data-bs-toggle="modal"
+                    <div class="d-flex justify-content-between">
+                        <h3 class="text-primary align-self-start fw-bold">룸 관리</h3>
+                        <button type="button" class="btn btn-primary align-self-end" data-bs-toggle="modal"
                                 data-bs-target="#myModal1">
                             룸 추가
                         </button>
@@ -245,7 +242,7 @@
 
                                 <!-- Modal Body -->
                                 <div class="modal-body">
-                                    <form id="room-form" action="/admin/manager/room/register" method="post" enctype="multipart/form-data">
+                                    <form action="/admin/manager/room/register" method="post" enctype="multipart/form-data">
                                         <div class="row mb-3">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label>매장 번호 : </label>
@@ -262,18 +259,18 @@
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label>룸 코드 : </label>
                                                 <input class="form-control form-control-user" type="text"
-                                                        name="roomCd">
+                                                       name="roomCd">
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label>룸 이미지 : </label>
-                                                <input type="file" class="form-control" id="imgFile" name="imgFile">
+                                                <input type="file" class="form-control" name="imgFile">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label>룸 이름 : </label>
                                                 <input class="form-control form-control-user" type="text"
-                                                        name="roomName">
+                                                       name="roomName">
                                             </div>
                                         </div>
                                         <div class="row mb-3">
@@ -290,7 +287,7 @@
 
                                 <!-- Modal Footer -->
                                 <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" form="room-form">Save</button>
+                                    <button type="submit" class="btn btn-primary">Save</button>
                                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                                 </div>
 
@@ -298,107 +295,135 @@
                         </div>
                     </div>
                 </div>
-<!--                    룸 추가 모달 끝-->
+                <!--                    룸 추가 모달 끝-->
             </div>
             <div class="card-body">
                 <div class="row">
                     <table th:each="room : ${storeDTO.roomDTOList}">
                         <thead>
-                            <tr>
-                                <th scope="col" class="col-2">룸 순서</th>
-                                <th scope="col" class="col-2">룸 타입</th>
-                                <th scope="col" class="col-3">룸명</th>
-                                <th scope="col" class="col-3">룸 사진</th>
-                                <th scope="col" class="col-1">룸 정보 수정</th>
-                                <th scope="col" class="col-1">룸 삭제</th>
-                            </tr>
+                        <tr>
+                            <th scope="col" class="col-2">룸 순서</th>
+                            <th scope="col" class="col-2">룸 타입</th>
+                            <th scope="col" class="col-3">룸명</th>
+                            <th scope="col" class="col-3">룸 사진</th>
+                            <th scope="col" class="col-1">룸 정보 수정</th>
+                            <th scope="col" class="col-1">룸 삭제</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="col" th:text="${room.roomIdx}">[순서]</td>
-                                <td class="col" th:text="${room.roomType}">[TA0001]</td>
-                                <td class="col" th:text="${room.roomName}">[산울림101호]</td>
-                                <td class="col"><img
-                                        th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${room.roomimgName}|"
-                                        width="150" height="100"></td>
-                                <td class="col">
-                                    <button
-                                            type="button"
-                                            class="btn btn-primary"
-                                            data-bs-toggle="modal"
-                                            th:data-bs-target="'#myModal6' + ${room.roomIdx} + ${room.roomCd}">
-                                        수정
-                                    </button>
+                        <tr>
+                            <td class="col" th:text="${room.roomIdx}">[순서]</td>
+                            <td class="col" th:text="${room.roomType}">[TA0001]</td>
+                            <td class="col" th:text="${room.roomName}">[산울림101호]</td>
+                            <td class="col">
+                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${room.roomimgName}|"
+                                     width="150" height="100"></td>
+                            <td class="col">
+                                <button
+                                        type="button"
+                                        class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        th:data-bs-target="'#myModal6' + ${room.roomIdx} + ${room.roomCd}">
+                                    수정
+                                </button>
 
-<!--                                    룸 수정 모달 상세 시작-->
-                                    <div class="modal fade"
-                                         th:id="'myModal6' + ${room.roomIdx} + ${room.roomCd}">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
+                                <!--                                    룸 수정 모달 상세 시작-->
+                                <div class="modal fade"
+                                     th:id="'myModal6' + ${room.roomIdx} + ${room.roomCd}">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
 
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">룸 수정</h4>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-
-                                                <!-- Modal Body -->
-                                                <div class="modal-body">
-                                                    <form action="/admin/manager/room/modify" method="post">
-                                                        <div class="row mb-3">
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>매장 번호 : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       placeholder="매장 번호" name="storeDTO.storeIdx"
-                                                                       th:value="${storeDTO.storeIdx}" readonly>
-                                                            </div>
-
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>룸 코드 : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       name="roomCd" th:value="${room.roomCd}" readonly>
-                                                            </div>
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>룸 Id : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       name="roomIdx" th:value="${room.roomIdx}" readonly>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <label>룸 이름 : </label>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       name="roomName">
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mb-3">
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <select class="form-select" name="roomType">
-                                                                    <option value="NORMAL">일반실</option>
-                                                                    <option value="SPECIAL">특실</option>
-                                                                    <option value="PARTYROOM">파티룸</option>
-                                                                </select><br>
-                                                            </div>
-                                                        </div>
-                                                        <button type="submit" class="btn btn-primary">수정</button>
-                                                    </form>
-                                                </div>
-
-                                                <!-- Modal Footer -->
-                                                <div class="modal-footer">
-
-                                                    <button type="button" class="btn btn-danger"
-                                                            data-bs-dismiss="modal">닫기</button>
-                                                </div>
-
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">룸 수정</h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
+
+                                            <!-- Modal Body -->
+                                            <div class="modal-body">
+                                                <form action="/admin/manager/room/modify" method="post" enctype="multipart/form-data">
+                                                    <div class="row mb-3">
+                                                        <table>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    매장 번호 :
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control form-control-user" type="text"
+                                                                           placeholder="매장 번호" name="storeDTO.storeIdx"
+                                                                           th:value="${storeDTO.storeIdx}" readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    룸 코드 :
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control form-control-user" type="text"
+                                                                           name="roomCd" th:value="${room.roomCd}" readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    룸 Id :
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control form-control-user" type="text"
+                                                                           name="roomIdx" th:value="${room.roomIdx}" readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    룸 이름 :
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control form-control-user" type="text"
+                                                                           name="roomName">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    룸 이미지:
+                                                                </td>
+                                                                <td>
+                                                                    <input type="file" name="imgFile">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    룸 타입:
+                                                                </td>
+                                                                <td>
+                                                                    <select class="form-select" name="roomType">
+                                                                        <option value="NORMAL">일반실</option>
+                                                                        <option value="SPECIAL">특실</option>
+                                                                        <option value="PARTYROOM">파티룸</option>
+                                                                    </select>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">수정</button>
+                                                </form>
+                                            </div>
+
+                                            <!-- Modal Footer -->
+                                            <div class="modal-footer">
+
+                                                <button type="button" class="btn btn-danger"
+                                                        data-bs-dismiss="modal">닫기</button>
+                                            </div>
+
                                         </div>
                                     </div>
-<!--                                    룸 수정 모달 상세 끝-->
-                                </td>
-                                <td class="col"><a th:href="@{'/admin/manager/room/delete/'+${room.roomIdx}}"><button
-                                        class="btn btn-danger">삭제</button></a></td>
-                            </tr>
+                                </div>
+                                <!--                                    룸 수정 모달 상세 끝-->
+                            </td>
+                            <td class="col"><a th:href="@{'/admin/manager/room/delete/'+${room.roomIdx}}"><button
+                                    class="btn btn-danger">삭제</button></a></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -409,15 +434,18 @@
     <div class="container-fluid"><!--메뉴카테고리-->
         <div class="card shadow">
             <div class="card-header py-3">
-                <h3 class="text-primary m-0 fw-bold">메뉴 관리</h3>
+
                 <div>
+
                     <!-- Button to Open the Modal -->
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal3">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="text-primary align-self-start fw-bold">메뉴 관리</h3>
+                        <button type="button" class="btn btn-primary align-self-end" data-bs-toggle="modal"
+                                data-bs-target="#myModal3">
                             카테고리 추가
                         </button>
                     </div>
-<!--                    카테고리 추가 모달 내용-->
+                    <!--                    카테고리 추가 모달 내용-->
                     <div class="modal" id="myModal3">
                         <div class="modal-dialog modal-lg modal-dialog-centered">
                             <div class="modal-content">
@@ -457,65 +485,67 @@
                             </div>
                         </div>
                     </div> <!--카테고리 추가 모달-->
-<!--                    카테고리 추가 모달 내용 끝-->
+                    <!--                    카테고리 추가 모달 내용 끝-->
                 </div>
             </div>
 
             <div th:each="category : ${storeDTO.menuCateDTOList}" class="card">
                 <div class="card-header">
-                    <h5 th:text="${category.menuCateName}">카테고리 이름</h5>
-                    <div class="d-flex justify-content-end">
-<!--                    카테고리 수정 버튼-->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                th:data-bs-target="'#myModal4' + ${category.menuCateIdx} + ${storeIdx}">
-                            카테고리 수정
-                        </button>
-    <!--                    카테고리 수정 버튼 끝-->
-    <!--                    카테고리 모달 상세 시작-->
-                        <div class="modal" th:id="'myModal4' + ${category.menuCateIdx} + ${storeIdx}">
-                            <div class="modal-dialog modal-lg modal-dialog-centered">
-                                <div class="modal-content">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-primary fw-bold align-self-start" th:text="${category.menuCateName}">카테고리 이름</h4>
+                        <!--                    카테고리 수정 버튼-->
+                        <div class="align-self-end">
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    th:data-bs-target="'#myModal4' + ${category.menuCateIdx} + ${storeIdx}">
+                                카테고리 수정
+                            </button>
+                            <!--                    카테고리 수정 버튼 끝-->
+                            <!--                    카테고리 모달 상세 시작-->
+                            <div class="modal" th:id="'myModal4' + ${category.menuCateIdx} + ${storeIdx}">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
 
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">카테고리 수정</h4>
-                                    </div>
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">카테고리 수정</h4>
+                                        </div>
 
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                                        <div class="card shadow">
-                                            <div class="card-body">
-                                                <div class="table-responsive table mt-2"  role="grid" aria-describedby="dataTable_info">
-                                                    <div class="table-responsive">
-                                                        <form th:action="@{'/menuCate/modify/'+${category.menuCateIdx}}"
-                                                              method="post">
-                                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                                <div>
-                                                                    매장 id
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <div class="card shadow">
+                                                <div class="card-body">
+                                                    <div class="table-responsive table mt-2"  role="grid" aria-describedby="dataTable_info">
+                                                        <div class="table-responsive">
+                                                            <form th:action="@{'/menuCate/modify/'+${category.menuCateIdx}}"
+                                                                  method="post">
+                                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                    <div>
+                                                                        매장 id
+                                                                    </div>
+                                                                    <input class="form-control form-control-user" type="text" name="tblStoreStoreIdx"
+                                                                           th:value="${storeDTO.storeIdx}" readonly>
                                                                 </div>
-                                                                <input class="form-control form-control-user" type="text" name="tblStoreStoreIdx"
-                                                                       th:value="${storeDTO.storeIdx}" readonly>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div>
-                                                                    메뉴카테고리명
+                                                                <div class="mb-3">
+                                                                    <div>
+                                                                        메뉴카테고리명
+                                                                    </div>
+                                                                    <input class="form-control form-control-user" type="text"
+                                                                           name="menuCateName">
                                                                 </div>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       name="menuCateName">
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <div>
-                                                                    메뉴카테고리 번호
+                                                                <div class="mb-3">
+                                                                    <div>
+                                                                        메뉴카테고리 번호
+                                                                    </div>
+                                                                    <input class="form-control form-control-user" type="text"
+                                                                           name="menuCateIdx"
+                                                                           th:value="${category.menuCateIdx}" readonly>
                                                                 </div>
-                                                                <input class="form-control form-control-user" type="text"
-                                                                       name="menuCateIdx"
-                                                                       th:value="${category.menuCateIdx}" readonly>
-                                                            </div>
 
-                                                            <button class="btn btn-primary d-block btn-user w-100"
-                                                                    type="submit">수정
-                                                            </button>
-                                                        </form>
+                                                                <button class="btn btn-primary d-block btn-user w-100"
+                                                                        type="submit">수정
+                                                                </button>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -523,18 +553,17 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!--카테고리 수정 모달-->
-    <!--                    카테고리 모달 상세 끝-->
-    <!--                    메뉴 추가 모달 버튼 시작-->
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                th:data-bs-target="'#myModal2' + ${category.menuCateIdx}">
-                            메뉴 추가
-                        </button>
-    <!--                    메뉴 추가 모달 버튼 끝-->
-    <!--                    메뉴 추가 모달 상세 시작-->
-                        <div class="modal" th:id="'myModal2' + ${category.menuCateIdx}" >
-                            <div class="modal-xl">
+                            <!--카테고리 수정 모달-->
+                            <!--                    카테고리 모달 상세 끝-->
+                            <!--                    메뉴 추가 모달 버튼 시작-->
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    th:data-bs-target="'#myModal2' + ${category.menuCateIdx}" style="color:white;">
+                                메뉴 추가
+                            </button>
+                            <!--                    메뉴 추가 모달 버튼 끝-->
+                            <!--                    메뉴 추가 모달 상세 시작-->
+                            <div class="modal" th:id="'myModal2' + ${category.menuCateIdx}" >
+                                <div class="modal-xl">
                                     <!-- Modal body -->
                                     <div class="modal-body">
                                         <div class="card shadow">
@@ -543,142 +572,152 @@
                                                     <div class="card shadow">
                                                         <div class="card-body">
                                                             <table class="table">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th>카테고리 번호</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <input class="form-control form-control-user" type="text"
-                                                                                   placeholder="카테고리 번호" name="menuCateIdx" id="menuCateIdx"
-                                                                                   th:value="${category.menuCateIdx}"
-                                                                                   readonly>
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>카테고리 번호</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input class="form-control form-control-user" type="text"
+                                                                               placeholder="카테고리 번호" name="menuCateIdx" id="menuCateIdx"
+                                                                               th:value="${category.menuCateIdx}"
+                                                                               readonly>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
                                                             <table class="table">
-                                                                    <thead>
-                                                                        <div>
-                                                                            <input type="text" style="display:none"
-                                                                                   name="storeIdx"
-                                                                                   th:value="${storeIdx}" />
-                                                                        </div>
-                                                                    </thead>
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th>이미지</th>
-                                                                        <th>메뉴명</th>
-                                                                        <th>배달가능여부</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td><input type="file" name="imgFile"></td>
-                                                                        <td> <input class="form-control" type="text"
-                                                                                    name="detailMenuName" required> </td>
-                                                                        <td>
-                                                                            <select class="form-select" aria-label="Default select example" name="deliveryYn">
-                                                                                <option selected>배달 여부</option>
-                                                                                <option value="Y">Y</option>
-                                                                                <option value="N">N</option>
-                                                                            </select>
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
+                                                                <thead>
+                                                                <div>
+                                                                    <input type="text" style="display:none"
+                                                                           name="storeIdx"
+                                                                           th:value="${storeIdx}" />
+                                                                </div>
+                                                                </thead>
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>이미지</th>
+                                                                    <th>메뉴명</th>
+                                                                    <th>배달가능여부</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td><input type="file" name="imgFile"></td>
+                                                                    <td> <input class="form-control" type="text"
+                                                                                name="detailMenuName" required> </td>
+                                                                    <td>
+                                                                        <select class="form-select"
+                                                                                aria-label="Default select example" name="deliveryYn" required>
+                                                                            <option selected>배달 여부</option>
+                                                                            <option value="Y">Y</option>
+                                                                            <option value="N">N</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
                                                             <table class="table">
-                                                                    <thead>
-                                                                    <h5>메뉴 설명</h5>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <textarea class="form-control" style="width: 100%; height: 100%;" name="menuDescription">
+                                                                <thead>
+                                                                <h5>메뉴 설명</h5>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                            <textarea class="form-control"
+                                                                                      style="width: 100%; height: 100%;" name="menuDescription" required>
                                                                             </textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
                                                             <table class="table">
-                                                                    <caption>할인 및 적립 정보</caption>
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th colspan="3">가격 할인</th>
-                                                                        <th colspan="3">포인트 적립</th>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <th>할인 구분</th>
-                                                                        <th>할인액</th>
-                                                                        <th>할인율(%)</th>
-                                                                        <th>적립 구분</th>
-                                                                        <th>적립액(원)</th>
-                                                                        <th>적립율(%)</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <select class="form-select" aria-label="Default select example" name="menuSaleType">
-                                                                                <option selected>할인 구분</option>
-                                                                                <option value="Y">Y</option>
-                                                                                <option value="N">N</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td><input class="form-control" type="text" name="menuSaleAmount"></td>
-                                                                        <td><input class="form-control" type="text" name="menuSalePercent"></td>
-                                                                        <td>
-                                                                            <select class="form-select" aria-label="Default select example" name="pointSaveType">
-                                                                                <option selected>적립 타입</option>
-                                                                                <option value="Y">Y</option>
-                                                                                <option value="N">N</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td><input class="form-control" type="text" name="pointSaveAmount"></td>
-                                                                        <td><input class="form-control" type="text" name="pointSavePercent"></td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
+                                                                <caption>할인 및 적립 정보</caption>
+                                                                <thead>
+                                                                <tr>
+                                                                    <th colspan="3">가격 할인</th>
+                                                                    <th colspan="3">포인트 적립</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>할인 구분</th>
+                                                                    <th>할인액</th>
+                                                                    <th>할인율(%)</th>
+                                                                    <th>적립 구분</th>
+                                                                    <th>적립액(원)</th>
+                                                                    <th>적립율(%)</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <select class="form-select"
+                                                                                name="menuSaleType" id="menuSaleType"
+                                                                                onchange="toggleInput('MenuSale')" required>
+                                                                            <option selected>할인 구분</option>
+                                                                            <option value="Y">Y</option>
+                                                                            <option value="N">N</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="menuSaleAmount" required></td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="menuSalePercent" required></td>
+                                                                    <td>
+                                                                        <select class="form-select"
+                                                                                name="pointSaveType"
+                                                                                id="pointSaveType" onchange="toggleInput('PointSave')" required>
+                                                                            <option selected>적립 타입</option>
+                                                                            <option value="Y">Y</option>
+                                                                            <option value="N">N</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="pointSaveAmount" required></td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="pointSavePercent" required></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
                                                             <table class="table">
-                                                                    <thead>
-                                                                    <tr>
-                                                                        <th>메뉴 옵션명</th>
-                                                                        <th>메뉴 가격</th>
-                                                                        <th>판매 여부</th>
-                                                                        <th>추천 여부</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <input class="form-control" type="text"
-                                                                                   name="optionname" required></td>
-                                                                        <td>
-                                                                            <input class="form-control" type="text"
-                                                                                   name="menuprice" required>
-                                                                        </td>
-                                                                        <td>
-                                                                            <select class="form-select" name="salesYn" required>
-                                                                                <option selected>판매 여부</option>
-                                                                                <option value="Y">판매중</option>
-                                                                                <option value="N">품절</option>
-                                                                            </select>
-                                                                        </td>
-                                                                        <td>
-                                                                            <select class="form-select" name="recommendYn" required>
-                                                                                <option selected>추천 여부</option>
-                                                                                <option value="Y">추천</option>
-                                                                                <option value="N">추천 안함</option>
-                                                                            </select>
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>메뉴 옵션명</th>
+                                                                    <th>메뉴 가격</th>
+                                                                    <th>판매 여부</th>
+                                                                    <th>추천 여부</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input class="form-control" type="text"
+                                                                               name="optionname" required></td>
+                                                                    <td>
+                                                                        <input class="form-control" type="text"
+                                                                               name="menuprice" required>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-select" name="salesYn" required>
+                                                                            <option selected>판매 여부</option>
+                                                                            <option value="Y">판매중</option>
+                                                                            <option value="N">품절</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-select" name="recommendYn" required>
+                                                                            <option selected>추천 여부</option>
+                                                                            <option value="Y">추천</option>
+                                                                            <option value="N">추천 안함</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
                                                             <div  class="d-flex justify-content-end">
                                                                 <button class="btn btn-primary" type="submit">등록</button>
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+                                                                <button type="button" class="btn btn-danger" onclick="closeModal('myModal2_${category.menuCateIdx}')">닫기</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -687,9 +726,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </div>
                         </div>
-                    <!-- 메뉴 추가 모달 상세 끝 -->
+                        <!-- 메뉴 추가 모달 상세 끝 -->
                     </div>
                 </div>
                 <div class="card-body"><!--메뉴 디테일 리스트-->
@@ -734,10 +774,10 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                            th:data-bs-target="'#myModal5' + ${category.menuCateIdx} + ${menu.detailmenuIdx}">
+                                            th:data-bs-target="'#myModal5' + ${category.menuCateIdx} + ${menu.detailmenuIdx}" style="color:white;">
                                         메뉴 수정
                                     </button>
-<!--                                    메뉴 수정 모달 상세 시작-->
+                                    <!--                                    메뉴 수정 모달 상세 시작-->
                                     <div class="modal"
                                          th:id="'myModal5' + ${category.menuCateIdx} + ${menu.detailmenuIdx}">
                                         <div class="modal-xl">
@@ -745,7 +785,8 @@
                                             <div class="modal-body">
                                                 <div class="card shadow">
                                                     <div class="card-body">
-                                                        <form th:action="@{/detailmenu/modify}" method="post">
+                                                        <form th:action="@{/detailmenu/modify}"
+                                                              enctype="multipart/form-data" method="post">
                                                             <div class="card shadow">
                                                                 <div class="card-body">
                                                                     <table class="table">
@@ -783,11 +824,12 @@
                                                                         </thead>
                                                                         <tbody>
                                                                         <tr>
-                                                                            <td><input type="file" name="menuImg"></td>
+                                                                            <td><input type="file" name="imgFile"></td>
                                                                             <td> <input class="form-control" type="text"
                                                                                         name="detailMenuName" required> </td>
                                                                             <td>
-                                                                                <select class="form-select" aria-label="Default select example" name="deliveryYn">
+                                                                                <select class="form-select"
+                                                                                        aria-label="Default select example" name="deliveryYn" required>
                                                                                     <option value="Y">Y</option>
                                                                                     <option value="N">N</option>
                                                                                 </select>
@@ -802,7 +844,8 @@
                                                                         <tbody>
                                                                         <tr>
                                                                             <td>
-                                                                        <textarea class="form-control" style="width: 100%; height: 100%;" name="menuDescription">
+                                                                        <textarea class="form-control" style="width:
+                                                                        100%; height: 100%;" name="menuDescription" required>
                                                                         </textarea>
                                                                             </td>
                                                                         </tr>
@@ -827,23 +870,31 @@
                                                                         <tbody>
                                                                         <tr>
                                                                             <td>
-                                                                                <select class="form-select" aria-label="Default select example" name="menuSaleType">
+                                                                                <select class="form-select"
+                                                                                        name="menuSaleType"
+                                                                                        required >
                                                                                     <option selected>할인 구분</option>
                                                                                     <option value="Y">Y</option>
                                                                                     <option value="N">N</option>
                                                                                 </select>
                                                                             </td>
-                                                                            <td><input class="form-control" type="text" name="menuSaleAmount"></td>
-                                                                            <td><input class="form-control" type="text" name="menuSalePercent"></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="menuSaleAmount" required></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="menuSalePercent" required></td>
                                                                             <td>
-                                                                                <select class="form-select" aria-label="Default select example" name="pointSaveType">
+                                                                                <select class="form-select"
+                                                                                        name="pointSaveType"
+                                                                                        required >
                                                                                     <option selected>적립 타입</option>
                                                                                     <option value="Y">Y</option>
                                                                                     <option value="N">N</option>
                                                                                 </select>
                                                                             </td>
-                                                                            <td><input class="form-control" type="text" name="pointSaveAmount"></td>
-                                                                            <td><input class="form-control" type="text" name="pointSavePercent"></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="pointSaveAmount" required></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="pointSavePercent" required></td>
                                                                         </tr>
                                                                         </tbody>
                                                                     </table>
@@ -895,13 +946,7 @@
                                             </div>
                                         </div>
                                     </div>
-<!--                                    메뉴 수정 모달 상세 끝 -->
-
-
-
-
-
-
+                                    <!--                                    메뉴 수정 모달 상세 끝 -->
                                     <a th:href="@{'/detailmenu/delete/' + ${menu.detailmenuIdx}}">
                                         <button class="btn btn-danger">
                                             삭제
@@ -932,6 +977,31 @@
             </div>
         </div>
     </div><!--메뉴카테고리, 디테일메뉴-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script>
+        function toggleInput(inputType) {
+            var selectElement = document.getElementById(inputType + 'Type');
+            var amountInput = document.querySelector('input[name="' + inputType + 'Amount"]');
+            var percentInput = document.querySelector('input[name="' + inputType + 'Percent"]');
+
+            if (selectElement.value === "Y" || selectElement.value === "yes") {
+                // Yes가 선택된 경우
+                amountInput.readOnly = false;
+                percentInput.readOnly = false;
+            } else {
+                // No가 선택된 경우
+                amountInput.value = "0";
+                amountInput.readOnly = true;
+                percentInput.value = "0";
+                percentInput.readOnly = true;
+            }
+        }
+        function closeModal(modalId) {
+            var modal = document.getElementById(modalId);
+            modal.style.display = "none";
+        }
+    </script>
 </div>
 </body>
 
