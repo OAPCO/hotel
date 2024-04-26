@@ -1,7 +1,15 @@
 package com.exam.hotelgers.dto;
 
-import java.time.LocalDateTime;
+import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+@ToString
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class MenuSheetDTO {
     private Long menuSheetIdx;//메뉴 옵션키
     private Integer newOrderNo;//신규 주문번호
@@ -12,8 +20,11 @@ public class MenuSheetDTO {
 
     private StoreDTO storeDTO;//매장DTO
     private RoomDTO roomDTO;//룸DTO
+    private LocalDateTime startDate;//시작날짜
+    private LocalDateTime endDate;//종료날짜
 
     private LocalDateTime regdate;//등록일
 
     private LocalDateTime moddate;//수정일
+
 }

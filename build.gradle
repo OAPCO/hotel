@@ -12,6 +12,7 @@ plugins {
 
 group = 'org.example'
 version = '0.0.1-SNAPSHOT'
+def queryDslVersion = '4.4.0'
 
 java {
 	sourceCompatibility = '17'
@@ -52,6 +53,7 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
 
 	compileOnly 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.18'
 
 
 	annotationProcessor(
