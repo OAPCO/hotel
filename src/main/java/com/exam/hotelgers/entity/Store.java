@@ -25,7 +25,6 @@ import java.util.List;
         initialValue = 1,
         allocationSize = 1
 )
-@QueryEntity
 public class Store extends BaseEntity{
 
     @Id
