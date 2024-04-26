@@ -81,36 +81,37 @@
                                         <tr>
                                             <td class="col-2">매장명</td>
                                             <td class="col-4"><input class="form-control" type="text"
-                                                                     name="storeName"></td>
+                                                                     name="storeName" required></td>
                                             <td class="col-2">매장코드</td>
                                             <td class="col-4"><input class="form-control" type="text"
-                                                                     name="storeCd"></td>
+                                                                     name="storeCd" required></td>
                                         </tr>
                                         <tr>
                                             <td class="col">매장주 이메일</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="storeChiefEmail"></td>
+                                                                   name="storeChiefEmail" required></td>
                                             <td class="col">매장 대표 이미지</td>
-                                            <td class="col>"><input type="file" class="form-control" id="imgFile" name="imgFile"></td>
+                                            <td class="col>"><input type="file" class="form-control" id="imgFile"
+                                                                    name="imgFile" required></td>
                                         </tr>
                                         <tr>
                                             <td class="col">매장주 성명</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="storeChief"></td>
+                                                                   name="storeChief" required></td>
                                             <td class="col">매장주 연락처</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="storeChieftel"></td>
+                                                                   name="storeChieftel" required></td>
                                         </tr>
 
                                         <tr>
                                             <td class="col-2">매장 연락처</td>
                                             <td class="col-4"><input class="form-control" type="text"
-                                                                     name="storeTel"></td>
+                                                                     name="storeTel" required></td>
                                             <td class="col-2">지역</td>
                                             <td class="col-4">
                                                 <div class="row">
                                                     <input class="form-control" type="text" id="region"
-                                                           name="regionCd" readonly>
+                                                           name="regionCd" readonly required>
                                                 </div>
                                             </td>
                                         </tr>
@@ -121,26 +122,27 @@
                                             <td colspan="6">
                                                 [우편번호]
                                                 <input class="form-control" type="text" id="postal_code"
-                                                       name="storePostNo" readonly>
+                                                       name="storePostNo" readonly required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="6">
                                                 [주소]
-                                                <input class="form-control" type="text" id="address_kakao" name="storeAddr">
+                                                <input class="form-control" type="text" id="address_kakao"
+                                                       name="storeAddr" required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="6">
                                                 [상세주소]
-                                                <input class="form-control" type="text" name="storeAddrDetail">
+                                                <input class="form-control" type="text" name="storeAddrDetail" required>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="col-2">매장 상세</td>
                                             <td class="col">
                                                  <textarea class="form-control" style="width: 100%; height: 100%;"
-                                                           name="storeSummary"></textarea>
+                                                           name="storeSummary" required></textarea>
                                             </td>
                                         </tr>
                                         <tr>
@@ -148,7 +150,7 @@
                                                 등급
                                             </td>
                                             <td class="col-4">
-                                                <select class="form-select" name="storeGrade">
+                                                <select class="form-select" name="storeGrade" required>
                                                     <option value="ONE">1성</option>
                                                     <option value="TWO">2성</option>
                                                     <option value="THREE">3성</option>
@@ -158,7 +160,7 @@
                                             </td>
                                             <td class="col-2">카카오톡 전송 여부</td>
                                             <td class="col-4">
-                                                <select  class="form-control" name="kakaoSendYn">
+                                                <select  class="form-control" name="kakaoSendYn" required>
                                                     <option value="Y">Y</option>
                                                     <option value="N">N</option>
                                                 </select>
@@ -169,14 +171,14 @@
                                                 제휴 여부
                                             </td>
                                             <td class="col-4">
-                                                <select class="form-select" name="StoreStatus">
+                                                <select class="form-select" name="StoreStatus" required>
                                                     <option value="ON">제휴</option>
                                                     <option value="OFF">비제휴</option>
                                                 </select>
                                             </td>
                                             <td class="col-2">가맹여부</td>
                                             <td class="col-4">
-                                                <select  class="form-control" name="StorePType">
+                                                <select  class="form-control" name="StorePType" required>
                                                     <option value="DIRECTSTORE">직영점</option>
                                                     <option value="FRANCHISEE">가맹점</option>
                                                 </select>
@@ -185,15 +187,15 @@
                                         <tr>
                                             <td>매장 결제 타입</td>
                                             <td>
-                                                <select  class="form-control" name="storePaymentType">
+                                                <select  class="form-control" name="storePaymentType" required>
                                                     <option value="0">후불</option>
                                                     <option value="1">선불</option>
                                                 </select>
                                             </td>
                                             <td>영업시간</td>
                                             <td>
-                                                <div>영업 시작: <input type="time" name="storeOpenTime">
-                                                    ~ 영업 끝:<input type="time" name="storeCloseTime">
+                                                <div>영업 시작: <input type="time" name="storeOpenTime" required>
+                                                    ~ 영업 끝:<input type="time" name="storeCloseTime" required>
                                                 </div>
                                             </td>
                                         </tr>
@@ -203,14 +205,14 @@
                                             </td>
                                             <td>
                                                 <input class="form-control" type="text"
-                                                       name="storeRestDay" >
+                                                       name="storeRestDay" required>
                                             </td>
                                             <td>
                                                 휴무일 상세
                                             </td>
                                             <td>
                                                 <input class="form-control" type="text"
-                                                       name="storeRestDetail" >
+                                                       name="storeRestDetail" required>
                                             </td>
                                         </tr>
                                         <tr>
@@ -218,7 +220,7 @@
                                                 영업 여부
                                             </td>
                                             <td>
-                                                <select  class="form-control" name="storeOpenState">
+                                                <select  class="form-control" name="storeOpenState" required>
                                                     <option value="Y">영업중</option>
                                                     <option value="N">폐점</option>
                                                 </select>

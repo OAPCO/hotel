@@ -84,10 +84,11 @@
                                 <tr>
                                     <td class="col">매장주 이메일</td>
                                     <td class="col"><input class="form-control" type="text" th:field="*{storeDTO.storeChiefEmail}"
-                                                           name="storeChiefEmail"></td>
+                                                           name="storeChiefEmail" required></td>
                                     <td class="col">등급</td>
                                     <td class="col">
-                                        <select class="form-select" name="storeGrade" th:field="${storeDTO.storeGrade}">
+                                        <select class="form-select" name="storeGrade"
+                                                th:field="${storeDTO.storeGrade}" required>
                                             <option value="ONE">1성</option>
                                             <option value="TWO">2성</option>
                                             <option value="THREE">3성</option>
@@ -100,33 +101,33 @@
                                     <td class="col">매장주 성명</td>
                                     <td class="col"><input class="form-control" type="text"
                                                            th:field="*{storeDTO.storeChief}"
-                                                           name="storeChief"></td>
+                                                           name="storeChief" required></td>
                                     <td class="col">매장주 연락처</td>
                                     <td class="col"><input class="form-control" type="text"
                                                            th:field="*{storeDTO.storeChieftel}"
-                                                           name="storeChieftel"></td>
+                                                           name="storeChieftel" required></td>
                                 </tr>
                                 <tr>
                                     <td class="col">매장코드</td>
                                     <td class="col"><input class="form-control" type="text"
                                                            th:field="*{storeDTO.storeCd}"
-                                                           name="storeCd"></td>
+                                                           name="storeCd" required></td>
                                     <td class="col">매장명</td>
                                     <td class="col"><input class="form-control" type="text"
                                                            th:field="*{storeDTO.storeName}"
-                                                           name="storeName"></td>
+                                                           name="storeName" required></td>
                                 </tr>
                                 <tr>
                                     <td class="col-2">매장 연락처</td>
                                     <td class="col-4"><input class="form-control" type="text"
                                                              th:field="*{storeDTO.storeTel}"
-                                                             name="storeTel"></td>
+                                                             name="storeTel" required></td>
                                     <td class="col-2">지역</td>
                                     <td class="col-4">
                                         <div class="row">
                                             <input class="form-control" type="text" id="region"
                                                    th:field="*{storeDTO.regionCd}"
-                                                   name="regionCd" readonly>
+                                                   name="regionCd" readonly required>
                                         </div>
                                     </td>
                                 </tr>
@@ -135,22 +136,22 @@
                                     <td>[우편번호]
                                         <input class="form-control" type="text" id="postal_code"
                                                th:field="*{storeDTO.storePostNo}"
-                                               name="storePostNo" readonly></td>
+                                               name="storePostNo" readonly required></td>
                                 </tr>
                                 <tr>
                                     <td>[주소]
                                         <input class="form-control" type="text" id="address_kakao" name="storeAddr"
-                                               th:field="*{storeDTO.storeAddr}"></td>
+                                               th:field="*{storeDTO.storeAddr}" required></td>
                                 </tr>
                                 <tr>
                                     <td>[상세주소]
                                         <input class="form-control" type="text" name="storeAddrDetail"
-                                               th:field="*{storeDTO.storeAddrDetail}"></td>
+                                               th:field="*{storeDTO.storeAddrDetail}" required></td>
                                 </tr>
                                 <tr>
                                     <td class="col">제휴 상태</td>
                                     <td class="col">
-                                        <select class="form-select" name="StoreStatus" >
+                                        <select class="form-select" name="StoreStatus" required>
                                             <option value="ON">제휴</option>
                                             <option value="OFF">비제휴</option>
                                         </select>
@@ -163,14 +164,14 @@
                                     <td class="col">
                                     <textarea class="form-control" style="width: 100%; height: 100%;"
                                               th:field="*{storeDTO.storeSummary}"
-                                              name="storeSummary"></textarea>
+                                              name="storeSummary" required></textarea>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-2">영업 여부</td>
                                     <td class="col-4">
                                         <div class="form-check">
-                                            <select  class="form-control" name="storeOpenState">
+                                            <select  class="form-control" name="storeOpenState" required>
                                                 <option value="0">영업중</option>
                                                 <option value="1">폐점</option>
                                             </select>
@@ -179,7 +180,7 @@
                                     <td>매장번호 :</td>
                                     <td>
                                         <input class="form-control" type="text" name="storeIdx"
-                                               th:field="*{storeDTO.storeIdx}" readonly>
+                                               th:field="*{storeDTO.storeIdx}" readonly required>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -200,32 +201,35 @@
                             <tr class="row">
                                 <td rowspan="7" class="col-2">이미지(필수)</td>
                                 <td rowspan="7" class="col-10">
-                                    <input type="file" class="form-control" id="imgFile" name="imgFile">
+                                    <input type="file" class="form-control" id="imgFile" name="imgFile" required>
                                 </td>
                             </tr>
 
                             <tr class="row">
                                 <td rowspan="7" class="col-2">매장결제타입</td>
                                 <td rowspan="7" class="col-4">
-                                    <select  class="form-control" name="storePaymentType">
+                                    <select  class="form-control" name="storePaymentType" required>
                                         <option value="0">후불</option>
                                         <option value="1">선불</option>
                                     </select>
                                 </td>
                                 <td rowspan="2" class="col-2 ">영업시간</td>
                                 <td class="col-4">
-                                    <div>영업 시작: <input type="time" name="storeOpenTime" th:field="*{storeDTO.storeOpenTime}">
-                                        ~ 영업 끝:<input type="time" name="storeCloseTime" th:field="*{storeDTO.storeCloseTime}">
+                                    <div>영업 시작: <input type="time" name="storeOpenTime"
+                                                       th:field="*{storeDTO.storeOpenTime}" required>
+                                        ~ 영업 끝:<input type="time" name="storeCloseTime"
+                                                      th:field="*{storeDTO.storeCloseTime}" required>
                                     </div>
                                 </td>
                             </tr>
                             <tr class="row">
                                 <td class="col-2">휴무일</td>
                                 <td class="col-4"><input class="form-control" type="text"
-                                                         name="storeRestDay" th:field="*{storeDTO.storeRestDay}" ></td>
+                                                         name="storeRestDay" th:field="*{storeDTO.storeRestDay}" required></td>
                                 <td class="col-2">카카오톡 전송 여부</td>
                                 <td class="col-4">
-                                    <select  class="form-control" name="kakaoSendYn" th:field="*{storeDTO.kakaoSendYn}">
+                                    <select  class="form-control" name="kakaoSendYn"
+                                             th:field="*{storeDTO.kakaoSendYn}" required>
                                         <option value="Y">Y</option>
                                         <option value="N">N</option>
                                     </select>
@@ -235,7 +239,7 @@
                                 <td class="col-2">휴무일내용</td>
                                 <td class="col-10"><input class="form-control" type="text"
                                                           th:field="*{storeDTO.storeRestDetail}"
-                                                          name="storeRestDetail" ></td>
+                                                          name="storeRestDetail" required></td>
                             </tr>
                             </tbody>
 
