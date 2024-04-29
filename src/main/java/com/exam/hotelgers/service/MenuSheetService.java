@@ -4,14 +4,8 @@ import com.exam.hotelgers.dto.MenuSheetDTO;
 import com.exam.hotelgers.dto.RoomDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.entity.Dist;
-import com.exam.hotelgers.entity.MenuSheet;
-import com.exam.hotelgers.entity.Room;
-import com.exam.hotelgers.entity.Store;
-import com.exam.hotelgers.repository.DistRepository;
-import com.exam.hotelgers.repository.MenuSheetRepository;
-import com.exam.hotelgers.repository.RoomRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.entity.*;
+import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -33,6 +27,7 @@ public class MenuSheetService {
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
     private final RoomRepository roomRepository;
+    private final OrderRepository orderRepository;
 
 
 
@@ -45,6 +40,7 @@ public class MenuSheetService {
         
         Optional<Store> store = storeRepository.findByStoreCd(menuSheetDTO.getStoreDTO().getStoreCd());
         Optional<Room> room = roomRepository.findByRoomCd(menuSheetDTO.getRoomDTO().getRoomCd());
+        Optional<Order> order = orderRepository.findByOrderCd(menuSheetDTO.getOrderDTO().getOrderCd());
 
         
         if (!store.isPresent()) {
@@ -69,10 +65,12 @@ public class MenuSheetService {
         
         menuSheet.setStore(store.get());
         menuSheet.setRoom(room.get());
+        menuSheet.setOrder(order.get());
 
 
         modelMapper.map(store.get(), menuSheetDTO.getStoreDTO());
         modelMapper.map(room.get(), menuSheetDTO.getRoomDTO());
+        modelMapper.map(order.get(),menuSheetDTO.getOrderDTO());
 
 
 
@@ -90,8 +88,8 @@ public class MenuSheetService {
 
         if(temp.isPresent()) {
 
-            MenuSheet order = modelMapper.map(menuSheetDTO, MenuSheet.class);
-            menuSheetRepository.save(order);
+            MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
+            menuSheetRepository.save(menuSheet);
         }
 
     }

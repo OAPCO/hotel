@@ -31,6 +31,8 @@ public class MenuSheet extends BaseEntity{
     private String menuSheetName;//주문서 이름
     private LocalDateTime orderdate;//조리 요청일
     private String orderProgressStatus;//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
+    private String menu;//메뉴
+    private Integer Amount_of_payment;//결제금액
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeIdx")

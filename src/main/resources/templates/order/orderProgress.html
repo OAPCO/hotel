@@ -95,14 +95,15 @@
                     <thead>
                     <tr>
                         <th>No</th>
-                        <th>매장</th>
+                        <th>매장명</th>
                         <th>룸</th>
                         <th>주문번호</th>
                         <th>메뉴</th>
                         <th>조리요청일</th>
                         <th>결제금액</th>
-                        <th>상태</th>
-                        <th>임시</th>
+                        <th>주문서 상태</th>
+                        <th>주문상태</th>
+                        <th>수정/삭제</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -115,10 +116,11 @@
                                th:href="@{'/admin/distchief/order/'+${data.orderDTO.orderIdx}}"
                             ></a>
                         </td>
-                        <td>메뉴</td>
+                        <td th:text="${data.menu}"></td>
                         <td th:text="${data.orderdate}"></td>
-                        <td>결제금액</td>
-                        <td>결제상태</td>
+                        <td th:text="${data.amount_of_payment}"></td>
+                        <td th:text="${data.menuSheetState}"></td>
+                        <td th:text="${data.orderProgressStatus}"></td>
                         <td><a th:href="@{'/order/orderManagement/modify/'+${data.menuSheetIdx}}" >수정</a>
                             /<a th:href="@{'/order/orderManagement/delete/'+${data.menuSheetIdx}}">삭제</a></td>
                     </tr>
