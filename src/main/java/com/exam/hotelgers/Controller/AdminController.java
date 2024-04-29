@@ -134,7 +134,7 @@ public class AdminController {
     public String sdmProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                           @RequestParam(value="distName", required = false) String distName,
                           @RequestParam(value="distChiefEmail", required = false) String distChiefEmail,
-                          @RequestParam(value="distChief", required = false) String distChief,
+                          @RequestParam(value="distChiefName", required = false) String distChief,
                           @RequestParam(value="distTel", required = false) String distTel
     ){
 
@@ -189,16 +189,16 @@ public class AdminController {
     @PostMapping("/admin/adminpage/storedistmange")
     public String sdmProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                           @RequestParam(value="distName", required = false) String distName,
-                          @RequestParam(value="distChief", required = false) String distChief
+                          @RequestParam(value="distChiefName", required = false) String distChiefName
 
     ){
 
 
         log.info("들어온 별 값 : @@ + " + distName);
-        log.info("들어온 상태 값 : @@ + " + distChief);
+        log.info("들어온 상태 값 : @@ + " + distChiefName);
 
 
-        Page<DistDTO> distDTOS = distService.searchadminstoredistmange(distName,distChief,pageable);
+        Page<DistDTO> distDTOS = distService.searchadminstoredistmange(distName,distChiefName,pageable);
 
 
         List<DistDTO> distList = searchService.distList();
@@ -273,17 +273,17 @@ public class AdminController {
         return "redirect:/admin/adminpage/storemembermange";}
     @GetMapping("/admin/adminpage/distChiefsearch")
     public String dcsearch(@PageableDefault(page = 1) Pageable pageable, Model model,
-                           @RequestParam(value="distChief", required = false) String distChief
+                           @RequestParam(value="distChiefName", required = false) String distChiefName
 
     ){
 
 
-        log.info("들어온 상태 값 : @@ + " + distChief);
+        log.info("들어온 상태 값 : @@ + " + distChiefName);
 
 
 
 
-        Page<DistDTO> distDTOS = distService.searchadmindr(distChief,pageable);
+        Page<DistDTO> distDTOS = distService.searchadmindr(distChiefName,pageable);
 
 
 
@@ -304,17 +304,17 @@ public class AdminController {
     }
     @PostMapping("/admin/adminpage/distChiefsearch")
     public String dccsearch(@PageableDefault(page = 1) Pageable pageable, Model model,
-                            @RequestParam(value="distChief", required = false) String distChief
+                            @RequestParam(value="distChiefName", required = false) String distChiefName
 
     ){
 
 
-        log.info("들어온 상태 값 : @@ + " + distChief);
+        log.info("들어온 상태 값 : @@ + " + distChiefName);
 
 
 
 
-        Page<DistDTO> distDTOS = distService.searchadmindr(distChief,pageable);
+        Page<DistDTO> distDTOS = distService.searchadmindr(distChiefName,pageable);
 
 
 
@@ -333,10 +333,10 @@ public class AdminController {
         model.addAttribute("list", distDTOS);
         return "admin/adminpage/distChiefsearch";
     }
-    @GetMapping("/admin/pwchange")
+    @GetMapping("/admin/adminpage/pwchange")
     public String pwchangeForm(){
 
-        return "admin/pwchange";
+        return "admin/adminpage/pwchange";
     }
 
 

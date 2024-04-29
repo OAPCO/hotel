@@ -6,7 +6,7 @@
 <head>
 
 
-    <title>총판조직 관리</title>
+    <title>매장 회원 관리</title>
 </head>
 
 <body id="page-top">
@@ -19,6 +19,15 @@
                     <table class="table">
                         <thead>
                         <tr>
+                            <th>매장유저권한</th>
+                            <td >
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm" name="distName">
+                                        <option  value="">전체</option>
+                                        <option th:each="data : ${distList}" th:value="${data.distName}" th:text="${data.distName}"></option>
+                                    </select>
+                                </div>
+                            </td>
                             <th>총판조직</th>
                             <td >
                                 <div class="d-inline-block">
@@ -28,17 +37,27 @@
                                     </select>
                                 </div>
                             </td>
-                            <th>이메일</th>
-                            <td><input type="text" name="distChiefEmail"  class="form-control input-sm" placeholder="이메일"  style="width:300px;"></td>
                         </tr>
                         </thead>
                         <tr>
+                            <th>매장</th>
+                            <td >
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm" name="distName">
+                                        <option  value="">전체</option>
+                                        <option th:each="data : ${distList}" th:value="${data.distName}" th:text="${data.distName}"></option>
+                                    </select>
+                                </div>
+                            </td>
                             <th>이름</th>
                             <td><input type="text"  name="distChief" value="" placeholder="총판장이름"  style="width:300px;"></td>
-                            <th>연락처</th>
-                            <td><input type="text" placeholder="distTel" name="distTel" style="width:300px;"></td>
                         </tr>
-
+                        <tr>
+                            <th>아이디</th>
+                            <td><input type="text"  name="distChief" value="" placeholder="총판장이름"  style="width:300px;"></td>
+                            <th>연락처</th>
+                            <td><input type="text"  name="distChief" value="" placeholder="총판장이름"  style="width:300px;"></td>
+                        </tr>
                     </table>
                     <div style="text-align: center;">
                         <button type="submit" class="btn text-white m-2" style="background-color: #36b9cc;">조회</button>
@@ -75,11 +94,11 @@
                     <tbody>
                     <!--DTO에 DTO로 구성시 dto변수.dto변수.세부변수-->
                     <tr th:each="data:${list}"> <!--목록출력-->
-                        <td th:text="${data.distIdx}"></td>
-                        <td th:text="${data.distName}"></td>
-                        <td th:text="${data.distChiefEmail}"></td>
-                        <td th:text="${data.distChief}"></td>
-                        <td th:text="${data.distTel}"></td>
+<!--                        <td th:text="${data.distIdx}"></td>-->
+<!--                        <td th:text="${data.distName}"></td>-->
+<!--                        <td th:text="${data.distChiefEmail}"></td>-->
+<!--                        <td th:text="${data.distChief}"></td>-->
+<!--                        <td th:text="${data.distTel}"></td>-->
                         <td></td>
                         <td></td>
                         <td>

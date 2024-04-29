@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+    <style>
+        td {
+            text-align: center; /* 가로 중앙 정렬 */
+            vertical-align: middle; /* 세로 중앙 정렬 */
+        }
+    </style>
+    <title>총판조직 관리</title>
+</head>
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h4 class="card-title">총판 조직 관리</h4>
+            <h6><strong>총판 조직 등록</strong></h6>
+            <form method="post" action="/admin/adminpage/storedistmange">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>총판명</th>
+                            <td class="align-middle text-start">
+                                <input type="text" value="" placeholder="매장총판명" name="distName" style="width:300px;">
+                            </td>
+                            <th>총판장</th>
+                            <td class="align-middle text-start">
+                                <input type="text" value="" placeholder="총판ID" name="distCd" style="width:300px;">
+                            </td>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div style="text-align: center;">
+                        <button type="button" class="btn text-white m-2" style="background-color: #36b9cc;">조회</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
