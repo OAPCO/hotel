@@ -36,6 +36,7 @@ public class StoreController {
 
     private final StoreService storeService;
     private final SearchService searchService;
+    private final DistChiefService distChiefService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -58,6 +59,11 @@ public class StoreController {
 
         return "admin/distchief/store/register";
     }
+
+
+
+
+
 
 
     @PostMapping("/admin/distchief/store/register")
@@ -117,25 +123,24 @@ public class StoreController {
 
 
 
-    @GetMapping("/admin/distchief/store/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model, SearchDTO searchDTO
 
+    @GetMapping("/admin/distchief/store/list")
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model, Principal principal
     ) throws Exception {
 
         log.info("store listForm 도착 ");
 
+        List<DistDTO> distDTOS = distChiefService.distChiefOfDistList(principal);
+
         Page<StoreDTO> storeDTOS = storeService.list(pageable);
 
-        List<DistDTO> distList = searchService.distList();
         List<BrandDTO> brandList = searchService.brandList();
-
-
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distList);
+        model.addAttribute("distList",distDTOS);
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
         //S3 이미지정보전달

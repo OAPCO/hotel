@@ -31,4 +31,5 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 //                                    @Param("distChief") String distChief,
 //                                    @Param("distTel") String distTel,
 //                                    Pageable pageable);
+
 }

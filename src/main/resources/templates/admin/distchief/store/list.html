@@ -10,6 +10,8 @@
 
 <body>
 <div layout:fragment="content">
+
+
     <h4 class="card-title">매장(가맹점)관리</h4>
     <div class="card">
         <div class="card-header">
@@ -38,6 +40,11 @@
                                         <option value="">전체</option>
                                         <option th:each="brandList : ${brandList}" th:value="${brandList.brandName}" th:text="${brandList.brandName}"></option>
                                     </select>
+                                    <script>
+                                        if (selectedDist !== "전체") {
+                                            $('#brandSelect').prop('disabled', true);
+                                        }
+                                    </script>
                                 </div>
                             </td>
                         </tr>
@@ -201,7 +208,26 @@
 
         $(document).ready(function() {
 
+            var selectedDist = sessionStorage.getItem('selectedDist');
+            var selectedBrand = sessionStorage.getItem('selectedBrand');
+            var selectedStore = sessionStorage.getItem('selectedStore');
+
+            // 이전 검색 값이 있으면 해당 값으로 셀렉트박스 설정
+            if (selectedDist) {
+                $('#distSelect').val(selectedDist);
+            }
+            if (selectedBrand) {
+                $('#brandSelect').val(selectedBrand);
+            }
+            if (selectedBrand) {
+                $('#storeSelect').val(selectedStore);
+            }
+
+
+
             $('#distSelect').change(function() {
+
+                $('#brandSelect').prop('disabled', false);
 
                 var selectedDist = $('#distSelect').val();
                 console.log(selectedDist);
@@ -242,6 +268,8 @@
                 });
 
 
+                sessionStorage.setItem('selectedDist', selectedDist);
+
             });
 
 
@@ -275,9 +303,14 @@
                     }
                 });
 
+                sessionStorage.setItem('selectedBrand', selectedBrand);
 
             });
 
+            $('#storeSelect').change(function() {
+
+                sessionStorage.setItem('selectedStore', selectedStore);
+            });
 
         });
     </script>
