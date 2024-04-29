@@ -45,6 +45,16 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
 
 
+    @Query("select s from Store s where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
+            "and (:#{#searchDTO.brandName} is null or s.brand.brandName LIKE %:#{#searchDTO.brandName}%)"
+    )
+    List<Store> distbrandOfStore(SearchDTO searchDTO);
+
+
+    //총판을 선택하면 브랜드,매장 목록이 셋 되어야하고
+    //총판,브랜드를 선택하면 매장 목록이 셋 되어야하고
+
+
 
 
 }

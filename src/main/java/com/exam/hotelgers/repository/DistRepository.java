@@ -1,5 +1,6 @@
 package com.exam.hotelgers.repository;
 
+import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Dist;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +40,7 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
     )
     Page<Dist> multiSearchadmdr(@Param("distChief") String distChief,
                                 Pageable pageable);
+
 
     @Query("select d from Dist d where (:distName is null or d.distName LIKE %:distName%)"+
             "and (:distChiefEmail is null or d.distChief.distChiefEmail LIKE %:distChiefEmail%)"+

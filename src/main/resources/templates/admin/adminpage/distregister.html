@@ -18,7 +18,7 @@
             window.open(popupUrl, "총판장이름", popupOption);
             window.addEventListener('message', function(event){
                 // Update the value of input element with the received value
-                document.querySelector('input[name="distChief"]').value = event.data.distChief;
+                document.querySelector('input[name="distChiefName"]').value = event.data.distChief;
             });
         }
     </script>
@@ -59,7 +59,7 @@
                             <th>총판장</th>
                             <td>
 
-                                <input type="text" placeholder="총판장" name="distChief" style="width:300px;">
+                                <input type="text" placeholder="총판장" name="distChiefName" style="width:300px;">
                                 <button type="button" class="btn btn-dark ml-6" onclick="distChiefsearch()">검색</button>
 
                             </td>
