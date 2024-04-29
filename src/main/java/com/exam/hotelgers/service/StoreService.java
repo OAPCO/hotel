@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -242,9 +244,21 @@ public class StoreService {
 
 
 
-
-
     public void delete(Long storeIdx){
         storeRepository.deleteById(storeIdx);
     }
+
+
+
+
+
+
+    public List<StoreDTO> selectStoreList(SearchDTO searchDTO) {
+
+        List<Store> stores = storeRepository.selectSearch(searchDTO);
+        return stores.stream()
+                .map(store -> modelMapper.map(store, StoreDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }

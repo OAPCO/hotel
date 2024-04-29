@@ -45,6 +45,12 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
 
 
+    @Query("select storeName from Store where Store.dist.distName LIKE %:#{#searchDTO.distName}%)"+
+            "and (:#{#searchDTO.brandName} is null or Store.brand.brandName LIKE %:#{#searchDTO.brandName}%)"
+    )
+    List<Store> selectSearch(SearchDTO searchDTO);
+
+
 
 
 }

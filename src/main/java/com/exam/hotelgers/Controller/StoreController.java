@@ -118,7 +118,7 @@ public class StoreController {
 
 
     @GetMapping("/admin/distchief/store/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model, SearchDTO searchDTO
 
     ) throws Exception {
 
@@ -128,6 +128,12 @@ public class StoreController {
 
         List<DistDTO> distList = searchService.distList();
         List<BrandDTO> brandList = searchService.brandList();
+
+
+        if (searchDTO != null){
+            List<StoreDTO> selectStoreList = storeService.selectStoreList(searchDTO);
+            model.addAttribute("storeList",selectStoreList);
+        }
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
