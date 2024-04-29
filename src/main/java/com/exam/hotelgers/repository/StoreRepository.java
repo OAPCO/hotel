@@ -44,7 +44,14 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
                             Pageable pageable);
 
 
+//    SELECT s.*
+//    FROM store s
+//    INNER JOIN dist d ON s.distIdx = d.distIdx
+//    WHERE d.distIdx = :distIdx;
 
+    @Query("select s from Store s inner join Dist d on s.dist.distName = d.distName where d.distName = :#{#searchDTO.distName}"
+    )
+    List<Store> distOfStoreSearch(SearchDTO searchDTO);
 
 
 

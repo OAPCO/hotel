@@ -118,10 +118,17 @@ public class StoreController {
 
 
     @GetMapping("/admin/distchief/store/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
-
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           SearchDTO searchDTO
                            ) throws Exception {
 
+        
+        if(searchDTO != null){
+
+            storeService.distOfStoreList(searchDTO);
+
+        }
+        
         log.info("store listForm 도착 ");
 
         Page<StoreDTO> storeDTOS = storeService.list(pageable);

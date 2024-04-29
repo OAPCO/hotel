@@ -197,40 +197,36 @@
 
 
 
-<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
-<!--    <script>-->
-<!--        $(document).ready(function() {-->
-<!--            $('#distSelect').change(function() {-->
-<!--                // 선택된 dist의 값 가져오기-->
-<!--                var selectedDist = $(this).val();-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#distSelect').change(function() {
 
-<!--                // 선택된 dist가 비어있는지 확인-->
-<!--                if (selectedDist !== '') {-->
-<!--                    // Ajax 요청 보내기-->
-<!--                    $.ajax({-->
-<!--                        type: 'GET',-->
-<!--                        url: '/admin/distchief/store/list', // 서버에서 storeList를 반환하는 엔드포인트-->
-<!--                        data: { distName: selectedDist },-->
-<!--                        success: function(data) {-->
-<!--                            // 서버에서 받은 storeList로 두 번째 셀렉트박스 업데이트-->
-<!--                            $('#storeSelect').empty();-->
-<!--                            $('#storeSelect').append($('<option>').val('').text('(선택)'));-->
-<!--                            $.each(data, function(index, store) {-->
-<!--                                $('#storeSelect').append($('<option>').val(store.storeName).text(store.storeName));-->
-<!--                            });-->
-<!--                        },-->
-<!--                        error: function(xhr, status, error) {-->
-<!--                            console.error('Failed to retrieve stores: ' + error);-->
-<!--                        }-->
-<!--                    });-->
-<!--                } else {-->
-<!--                    // 선택된 dist가 없을 경우 두 번째 셀렉트박스 비우기-->
-<!--                    $('#storeSelect').empty();-->
-<!--                    $('#storeSelect').append($('<option>').val('').text('(선택)'));-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!--    </script>-->
+                // 선택된 dist의 값 가져오기
+                var selectedDist = $(this).val();
+                alert('버튼을 클릭했습니다!');
+                console.log(selectedDist); //값 보냇는지확인
+
+                    // Ajax 요청 보내기
+                    // $.ajax({
+                    //     type: 'GET',
+                    //     url: '/admin/distchief/store/list', // 서버에서 storeList를 반환하는 엔드포인트
+                    //     data: { distName: selectedDist },
+                    //     success: function(data) {
+                    //         // 서버에서 받은 storeList로 두 번째 셀렉트박스 업데이트
+                    //         $('#storeSelect').empty();
+                    //         $('#storeSelect').append($('<option>').val('').text('(선택)'));
+                    //         $.each(data, function(index, store) {
+                    //             $('#storeSelect').append($('<option>').val(store.storeName).text(store.storeName));
+                    //         });
+                    //     },
+                    //     error: function(xhr, status, error) {
+                    //         console.error('Failed to retrieve stores: ' + error);
+                    //     }
+                    // });
+            });
+        });
+    </script>
 
 
 </div>
