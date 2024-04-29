@@ -1,7 +1,6 @@
 package com.exam.hotelgers.entity;
 
 import com.exam.hotelgers.constant.RoomType;
-import com.querydsl.core.annotations.QueryEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +21,6 @@ import java.util.List;
         initialValue = 1,
         allocationSize = 1
 )
-@QueryEntity
 public class Room extends BaseEntity{
 
     @Id

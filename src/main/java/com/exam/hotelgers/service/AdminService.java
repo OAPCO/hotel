@@ -31,20 +31,16 @@ public class AdminService {
         Optional<Admin> adminidCheck = adminRepository.findByAdminId(adminDTO.getAdminId());
 
 
-        if(adminidCheck.isPresent()) {
-            throw new IllegalStateException("중복된 아이디가 있습니다.");
-        }
+//        if(adminidCheck.isPresent()) {
+//            throw new IllegalStateException("중복된 아이디가 있습니다.");
+//        }
 
         String password = passwordEncoder.encode(adminDTO.getPassword());
         Admin admin = modelMapper.map(adminDTO, Admin.class);
 
 
-        //어드민레벨이 1일 경우 매니저
-        if(adminDTO.getAdminLevel() == 1){
-            admin.setRoleType(RoleType.MANAGER);
-        }
 
-        if(adminDTO.getAdminLevel() == 2){
+        if(adminDTO.getRoleType().equals(RoleType.ADMIN)){
             admin.setRoleType(RoleType.ADMIN);
         }
 

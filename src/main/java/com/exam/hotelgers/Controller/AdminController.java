@@ -3,9 +3,12 @@ package com.exam.hotelgers.Controller;
 
 
 import com.exam.hotelgers.dto.AdminDTO;
+import com.exam.hotelgers.dto.BrandDTO;
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.service.AdminService;
+import com.exam.hotelgers.service.DistService;
+import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,8 +21,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,19 +34,17 @@ public class AdminController {
 
 
     private final AdminService adminService;
+    private final DistService distService;
+    private final SearchService searchService;
 
 
-    @GetMapping("/admin/login")
-    public String login() {
-
-        log.info("/login 겟매핑 들어옴");
-
-        return "admin/login";
-    }
 
 
     @GetMapping("/admin/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+
+        log.info("admin listForm 도착");
+
         Page<AdminDTO> adminDTOList = adminService.list(pageable);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(adminDTOList);
@@ -51,11 +54,7 @@ public class AdminController {
         return "admin/list";
     }
 
-    @PostMapping("/admin/list")
-    public void listProc() {
 
-
-    }
 
     @GetMapping("/admin/register")
     public void registerForm() {
@@ -68,7 +67,7 @@ public class AdminController {
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
-        log.info("post 레지스터 옴" + adminDTO);
+        log.info("admin registerProc 도착");
 
 
         if (bindingResult.hasErrors()) {
@@ -91,9 +90,254 @@ public class AdminController {
 
     @GetMapping("/admin/delete/{adminIdx}")
     public String deleteProc(@PathVariable Long adminIdx) {
+
+
         adminService.delete(adminIdx);
         //서비스처리(삭제)
         return "redirect:/admin/list";
     }
+
+
+
+
+
+
+
+
+
+
+
+    @GetMapping("/admin/adminpage/storemembermange")
+    public String storemembermange(@PageableDefault(page = 1)Pageable pageable,Model model){
+
+        log.info("storemangelist 도착");
+
+        Page<DistDTO> distDTOS = distService.list(pageable);
+
+
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("brandList",brandList);
+        model.addAttribute("list", distDTOS);
+
+
+        return "admin/adminpage/storemembermange";
+    }
+
+    @PostMapping("/admin/adminpage/storemembermange")
+    public String sdmProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                          @RequestParam(value="distName", required = false) String distName,
+                          @RequestParam(value="distChiefEmail", required = false) String distChiefEmail,
+                          @RequestParam(value="distChiefName", required = false) String distChief,
+                          @RequestParam(value="distTel", required = false) String distTel
+    ){
+
+
+        log.info("들어온 첫 값 : @@ + " + distName);
+        log.info("들어온 메일 : @@ + " + distChiefEmail);
+        log.info("들어온 점주 : @@ + " + distChief);
+        log.info("들어온 마지막 값 : @@ + " + distTel);
+
+
+
+        Page<DistDTO> distDTOS = distService.searchmemadmin(distName,
+                distChiefEmail,distChief,distTel,pageable);
+
+
+
+
+
+
+        List<DistDTO> distList = searchService.distList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("list", distDTOS);
+
+        return "admin/adminpage/storemembermange";
+    }
+
+
+    @GetMapping("/admin/adminpage/codemange")
+    public String getProfile() {
+        return "/admin/adminpage/codemange";
+    }
+
+    @GetMapping("/admin/adminpage/storedistmange")
+    public String storedistmange(@PageableDefault(page = 1)Pageable pageable,Model model){
+
+        log.info("storemangelist 도착");
+
+        Page<DistDTO> distDTOList = distService.list(pageable);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOList);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", distDTOList);
+        return "admin/adminpage/storedistmange";
+    }
+
+    @PostMapping("/admin/adminpage/storedistmange")
+    public String sdmProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                          @RequestParam(value="distName", required = false) String distName,
+                          @RequestParam(value="distChiefName", required = false) String distChiefName
+
+    ){
+
+
+        log.info("들어온 별 값 : @@ + " + distName);
+        log.info("들어온 상태 값 : @@ + " + distChiefName);
+
+
+        Page<DistDTO> distDTOS = distService.searchadminstoredistmange(distName,distChiefName,pageable);
+
+
+        List<DistDTO> distList = searchService.distList();
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("list", distDTOS);
+
+        return "admin/adminpage/storedistmange";
+    }
+
+    @GetMapping("/admin/adminpage/distregister")
+    public String distregister(@PageableDefault(page = 1)Pageable pageable,Model model){
+        log.info("storemangelist 도착");
+
+        Page<DistDTO> distDTOList = distService.list(pageable);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOList);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", distDTOList);
+        return "admin/adminpage/distregister";
+    }
+    @PostMapping("/admin/adminpage/distregister")
+    public String registerProc(@Valid DistDTO distDTO,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+
+        log.info("dist registerProc 도착 " + distDTO);
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+
+        log.info(distDTO);
+
+        Long distIdx = distService.register(distDTO);
+
+        redirectAttributes.addFlashAttribute("result", distIdx);
+
+        return "redirect:/admin/adminpage/storedistmange";
+    }
+    @GetMapping("/admin/adminpage/sdmregister")
+    public String sdmregisterget(){
+        return "admin/adminpage/sdmregister";
+    }
+    @PostMapping("/admin/adminpage/sdmregister")
+    public String sdmregisterpost(@Valid DistDTO distDTO,
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) {
+
+        log.info("dist registerProc 도착 " + distDTO);
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+
+        log.info(distDTO);
+
+        Long distIdx = distService.register(distDTO);
+
+        redirectAttributes.addFlashAttribute("result", distIdx);
+
+        return "redirect:/admin/adminpage/storemembermange";}
+    @GetMapping("/admin/adminpage/distChiefsearch")
+    public String dcsearch(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           @RequestParam(value="distChiefName", required = false) String distChiefName
+
+    ){
+
+
+        log.info("들어온 상태 값 : @@ + " + distChiefName);
+
+
+
+
+        Page<DistDTO> distDTOS = distService.searchadmindr(distChiefName,pageable);
+
+
+
+
+
+
+
+        List<DistDTO> distList = searchService.distList();
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("list", distDTOS);
+        return "admin/adminpage/distChiefsearch";
+    }
+    @PostMapping("/admin/adminpage/distChiefsearch")
+    public String dccsearch(@PageableDefault(page = 1) Pageable pageable, Model model,
+                            @RequestParam(value="distChiefName", required = false) String distChiefName
+
+    ){
+
+
+        log.info("들어온 상태 값 : @@ + " + distChiefName);
+
+
+
+
+        Page<DistDTO> distDTOS = distService.searchadmindr(distChiefName,pageable);
+
+
+
+
+
+
+
+        List<DistDTO> distList = searchService.distList();
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(distDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("list", distDTOS);
+        return "admin/adminpage/distChiefsearch";
+    }
+    @GetMapping("/admin/adminpage/pwchange")
+    public String pwchangeForm(){
+
+        return "admin/adminpage/pwchange";
+    }
+
 
 }

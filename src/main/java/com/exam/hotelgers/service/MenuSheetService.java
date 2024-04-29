@@ -43,21 +43,21 @@ public class MenuSheetService {
         Optional<Order> order = orderRepository.findByOrderCd(menuSheetDTO.getOrderDTO().getOrderCd());
 
         
-        if (!store.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
-        }
-        if (!room.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 룸 코드입니다.");
-        }
+//        if (!store.isPresent()) {
+//            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
+//        }
+//        if (!room.isPresent()) {
+//            throw new IllegalStateException("존재하지 않는 룸 코드입니다.");
+//        }
 
 
 
 
         Optional<MenuSheet> temp = menuSheetRepository.findByNewOrderNo(menuSheetDTO.getNewOrderNo());
 
-        if(temp.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 코드입니다.");
-        }
+//        if(temp.isPresent()) {
+//            throw new IllegalStateException("이미 존재하는 코드입니다.");
+//        }
 
 
         MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);

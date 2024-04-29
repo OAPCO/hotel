@@ -25,7 +25,7 @@ public interface StoreMemberRepository extends JpaRepository <StoreMember, Long>
                               @Param("storeMemberState") Integer storeMemberState, //상태
                               @Param("storeMemberAuth") String storeMemberAuth, //권한
                               @Param("storeDistributorIdx") Integer storeDistributorIdx, //총판
-                             @Param("storeBranchIdx") Integer storeBranchIdx, //지사
-                             @Param("storeIdx") Integer storeIdx,
+                             @Param("storeBranchIdx") Long storeBranchIdx, //지사
+                             @Param("storeIdx") Long storeIdx,
                              Pageable pageable); //매장
 }

@@ -30,9 +30,9 @@ public class StoreDistService {
         Optional<StoreDist> storedistEntity = storedistRepository
                 .findByStoreDistCode(storedistDTO.getStoreDistCode());
 
-        if(storedistEntity.isPresent()) {
-            throw new IllegalStateException("이미 생성된 총판입니다.");
-        }
+//        if(storedistEntity.isPresent()) {
+//            throw new IllegalStateException("이미 생성된 총판입니다.");
+//        }
 
         StoreDist storedist = modelMapper.map(storedistDTO, StoreDist.class);
 

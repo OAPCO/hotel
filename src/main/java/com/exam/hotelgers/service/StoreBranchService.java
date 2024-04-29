@@ -39,9 +39,9 @@ public class StoreBranchService {
         Optional<StoreBranch> storeBranchOptional = storeBranchRepository
                 .findByStoreBranchId(storeBranchDTO.getStoreBranchId());
 
-        if(storeBranchOptional.isPresent()) {
-            throw new IllegalStateException("이미 있는 코드입니다.");
-        }
+//        if(storeBranchOptional.isPresent()) {
+//            throw new IllegalStateException("이미 있는 코드입니다.");
+//        }
 
         StoreBranch storeBranch = modelMapper.map(storeBranchDTO, StoreBranch.class);
 

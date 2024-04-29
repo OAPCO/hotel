@@ -25,6 +25,14 @@ public class SearchDTO {
     private LocalDateTime regdate;
     private LocalDateTime moddate;
 
+    private String storeMemberEmail;
+    private String storeMemberName;
+    private String storeMemberTel;
+    private Integer storeMemberState;
+    private String storeMemberAuth;
+    private Integer storeDistributorIdx;
+    private Long storeBranchIdx;
+
 
     //어드민
     private Long adminIdx;

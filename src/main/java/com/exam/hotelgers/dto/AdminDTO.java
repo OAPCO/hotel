@@ -29,6 +29,8 @@ public class AdminDTO {
 
     private String adminPhone;
 
+    private String adminEmail;
+
     private RoleType roleType;
 
     private LocalDateTime regdate;

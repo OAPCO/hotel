@@ -8,7 +8,7 @@ import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-//매장별 회원
+
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 @Builder

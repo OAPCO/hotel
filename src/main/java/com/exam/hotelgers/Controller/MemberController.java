@@ -2,6 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.dto.MemberDTO;
+import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.servlet.http.HttpSession;
@@ -30,19 +31,11 @@ import java.util.Map;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/member/login")
-    public String login() {
-        
-        log.info("/login 겟매핑 들어옴");
-        
-        return "member/login";
-    }
 
     @GetMapping("/member/register")
     public String register() {
         return "member/register";
     }
-
 
 
     @PostMapping("/member/register")
@@ -88,7 +81,7 @@ public class MemberController {
     @GetMapping("/member/modify/{memberIdx}")
     public String modifyForm(@PathVariable Long memberIdx, Model model) {
 
-        log.info("member modifyProc 도착 " + memberIdx);
+        log.info("member modifyForm 도착 번호 : " + memberIdx);
 
         MemberDTO memberDTO = memberService.read(memberIdx);
 
@@ -125,5 +118,13 @@ public class MemberController {
         memberService.delete(memberIdx);
 
         return "redirect:/member/list";
+    }
+
+    @GetMapping("/member/{memberIdx}")
+    public String readForm(@PathVariable Long memberIdx, Model model) {
+        MemberDTO memberDTO=memberService.read(memberIdx);
+        //서비스에서 값을 받으면 반드시 model로 전달
+        model.addAttribute("memberDTO",memberDTO);
+        return "member/read";
     }
 }

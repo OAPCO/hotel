@@ -1,13 +1,12 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.BannerDTO;
-import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.service.BannerService;
-import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,8 +17,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -41,7 +46,8 @@ public class BannerController {
     @PostMapping("/banner/register")
     public String registerProc(@Valid BannerDTO bannerDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               @RequestParam("file") MultipartFile file){
 
         log.info("banner registerProc 도착" + bannerDTO);
 
@@ -51,9 +57,14 @@ public class BannerController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
 
-        log.info(bannerDTO);
+
+
+
 
         Long bannerIdx = bannerService.register(bannerDTO);
+        bannerDTO.setBannerIdx(bannerIdx);
+
+
 
         redirectAttributes.addFlashAttribute("result", bannerIdx);
 
@@ -118,5 +129,15 @@ public class BannerController {
         bannerService.delete(bannerIdx);
         //서비스처리(삭제)
         return "redirect:/banner/list";
+    }
+
+    @GetMapping("/banner/{bannerIdx}")
+    public String read(@PathVariable Long bannerIdx, Model model){
+
+        BannerDTO bannerDTO = bannerService.read(bannerIdx);
+
+        model.addAttribute("bannerDTO",bannerDTO);
+
+        return "banner/read";
     }
 }

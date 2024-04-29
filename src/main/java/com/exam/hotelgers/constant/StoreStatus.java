@@ -1,6 +1,6 @@
 package com.exam.hotelgers.constant;
 
 public enum StoreStatus {
-
-    ON,OFF
+    //제휴상태
+    ON,OFF,ALL
 }

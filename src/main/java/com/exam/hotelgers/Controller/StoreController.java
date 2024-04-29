@@ -1,43 +1,70 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.service.StoreService;
+import com.exam.hotelgers.constant.StoreGrade;
+import com.exam.hotelgers.constant.StorePType;
+import com.exam.hotelgers.constant.StoreStatus;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/manager")
 public class StoreController {
-    
+
     private final StoreService storeService;
+    private final SearchService searchService;
+
+    @Value("${cloud.aws.s3.bucket}")
+    public String bucket;
+    @Value("${cloud.aws.region.static}")
+    public String region;
+    @Value("${imgUploadLocation}")
+    public String folder;
 
 
 
-    @GetMapping("/store/register")
-    public String register() {
-        return "manager/store/register";
+    @GetMapping("/admin/distchief/store/register")
+    public String register(Model model) throws Exception{
+
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+        model.addAttribute("distList", distList);
+        model.addAttribute("brandList", brandList);
+
+
+        return "admin/distchief/store/register";
     }
 
 
-    @PostMapping("/store/register")
+    @PostMapping("/admin/distchief/store/register")
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                               RedirectAttributes redirectAttributes,
+                               MultipartFile imgFile) throws Exception{
 
         log.info("store registerProc 도착 " + storeDTO);
 
@@ -49,66 +76,103 @@ public class StoreController {
 
 
 
-        Long storeIdx = storeService.register(storeDTO);
+        Long storeIdx = storeService.register(storeDTO, imgFile);
 
-        log.info("열거형확인@@@@@type는 " + storeDTO.getStorePType());
-        log.info("열거형확인@@@@@status는 " + storeDTO.getStoreStatus());
-
+//        storeDTO.setStoreIdx(storeIdx);
 
         redirectAttributes.addFlashAttribute("result", storeIdx);
 
-        return "redirect:/manager/store/list";
+        return "redirect:/admin/distchief/store/list";
     }
 
 
-    @GetMapping("/store/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+
+
+
+    @PostMapping("/admin/distchief/store/list")
+    public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           @Valid SearchDTO searchDTO
+    ) throws Exception{
+
+
+
+
+        Page<StoreDTO> storeDTOS = storeService.searchList(searchDTO, pageable);
+
+
+
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("brandList",brandList);
+        model.addAttribute("list", storeDTOS);
+        return "admin/distchief/store/list";
+    }
+
+
+
+
+    @GetMapping("/admin/distchief/store/list")
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model, SearchDTO searchDTO
+
+    ) throws Exception {
 
         log.info("store listForm 도착 ");
 
         Page<StoreDTO> storeDTOS = storeService.list(pageable);
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", storeDTOS);
-        return "manager/store/list";
-    }
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
 
 
-    @GetMapping("/store/order")
-    public String orderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
-        log.info("store orderForm 도착 ");
-
-        Page<StoreDTO> storeDTOS = storeService.list(pageable);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
-        return "manager/store/order";
+        //S3 이미지정보전달
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        return "admin/distchief/store/list";
     }
 
 
 
 
-    @GetMapping("/store/modify/{storeIdx}")
-    public String modifyForm(@PathVariable Long storeIdx, Model model) {
+
+    @GetMapping("/admin/distchief/store/modify/{storeIdx}")
+    public String modifyForm(@PathVariable Long storeIdx, Model model) throws Exception {
 
         log.info("store modifyProc 도착 " + storeIdx);
 
         StoreDTO storeDTO = storeService.read(storeIdx);
 
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+        model.addAttribute("distList", distList);
+        model.addAttribute("brandList", brandList);
+
         log.info("수정 전 정보" + storeDTO);
         model.addAttribute("storeDTO", storeDTO);
-        return "manager/store/modify";
+        return "admin/distchief/store/modify";
     }
 
 
-    @PostMapping("/store/modify")
+    @PostMapping("/admin/distchief/store/modify")
     public String modifyProc(@Validated StoreDTO storeDTO,
-                             BindingResult bindingResult, Model model) {
+                             MultipartFile imgFile,
+                             BindingResult bindingResult, Model model) throws Exception{
 
         log.info("store modifyProc 도착 " + storeDTO);
 
@@ -116,47 +180,87 @@ public class StoreController {
 
             log.info("업데이트 에러 발생");
 
-            return "manager/store/modify";
+            return "admin/distchief/store/modify";
         }
 
-
-        storeService.modify(storeDTO);
+        storeService.modify(storeDTO, imgFile);
 
         log.info("업데이트 이후 정보 " + storeDTO);
 
-        return "redirect:/manager/store/list";
+        return "redirect:/admin/distchief/store/list";
     }
 
-    @GetMapping("/store/delete/{storeIdx}")
-    public String deleteProc(@PathVariable Long storeIdx) {
+    @GetMapping("/admin/distchief/store/delete/{storeIdx}")
+    public String deleteProc(@PathVariable Long storeIdx) throws Exception{
 
         storeService.delete(storeIdx);
 
-        return "redirect:/manager/store/list";
+        return "redirect:/admin/distchief/store/list";
     }
 
-    @GetMapping("/store/{storeIdx}")
-    public String readForm(@PathVariable Long storeIdx, Model model) {
-        StoreDTO storeDTO=storeService.read(storeIdx);
-        //서비스에서 값을 받으면 반드시 model로 전달
-        model.addAttribute("storeDTO",storeDTO);
-        return "manager/store/read";
+
+    @GetMapping("/admin/distchief/store/{storeIdx}")
+    public String readForm(@PathVariable Long storeIdx, Model model) throws Exception{
+
+
+        StoreDTO storeDTO = storeService.read(storeIdx);
+        model.addAttribute("storeDTO", storeDTO);
+
+
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        if(storeDTO == null) {
+            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
+            return "redirect:/admin/distchief/store/list";
+        }
+
+        log.info("디테일메뉴 리스트: " + storeDTO.getDetailmenuDTOList());
+        log.info("메뉴카테고리 리스트: " + storeDTO.getMenuCateDTOList());
+
+        return "admin/distchief/store/read";
     }
-    @GetMapping("/storemember/list")
-    public String Sto(){
-        return "storemember/list";
+
+
+
+
+
+
+
+
+
+
+
+    //테스트용
+    @GetMapping("/admin/distchief/store/imagetest")
+    public String test(@PageableDefault(page = 1) Pageable pageable, Model model
+    ) throws Exception {
+
+        Page<StoreDTO> storeDTOS = storeService.list(pageable);
+
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("brandList",brandList);
+        model.addAttribute("list", storeDTOS);
+        //S3 이미지정보전달
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        return "admin/distchief/store/imagetest";
     }
 
-    @GetMapping("/storemember/register")
-    public String st(){return "storemember/register";}
 
-    @GetMapping("/storemanagement/list")
-    public String stm(){return "storemanagement/list";}
 
-    @GetMapping("/settlement/list")
-    public String sts(){return "settlement/list";}
 
-    @GetMapping("/detail/list")
-    public String std(){return "detail/list";}
 
 }

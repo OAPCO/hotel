@@ -3,6 +3,8 @@ package com.exam.hotelgers.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,6 +16,7 @@ public class BrandDTO {
 
     private Long brandIdx; //브랜드키
 
+    private String brandCd; //브랜드코드
 
     private String brandName; //브랜드이름.
 
@@ -22,13 +25,19 @@ public class BrandDTO {
 
     private LocalDateTime moddate;
 
+    private DistDTO distDTO;
+
+    private List<StoreDTO> storeDTOList = new ArrayList<>();
 
 
 
 
-//    private Long storeDistIdx; //매장총판키(호텔키)
+
+
+
+//    private Long distIdx; //매장총판키(호텔키)
 //
-//    private String  storeDistId; //총판ID(호텔ID)
+//    private String  distId; //총판ID(호텔ID)
 
 //    private Long tblStoreMemberStoreMemberIdx; //매장회원 키
 

@@ -127,7 +127,7 @@ public class RoomController {
         }
 
 
-        roomService.modify(roomDTO, imgFile );
+//        roomService.modify(roomDTO, imgFile );
 
         log.info("업데이트 이후 정보 " + roomDTO);
 

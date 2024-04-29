@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-//매장별 회원테이블
+
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
 @Builder
@@ -58,6 +58,9 @@ public class Member extends BaseEntity {
 
     @Column(length = 200)
     private String pwdKey; //비밀번호 재설정키
+
+
+    private String memberimgName;
 
 
     private LocalDateTime socialInfoLoginDatetime;//Social정보(카카오톡) 로그인시간

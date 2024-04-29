@@ -2,6 +2,6 @@ package com.exam.hotelgers.constant;
 
 public enum StorePType {
 
-
-    DIRECTSTORE, FRANCHISEE
+    //직영,제휴
+    DIRECTSTORE, FRANCHISEE, ALLP
 }

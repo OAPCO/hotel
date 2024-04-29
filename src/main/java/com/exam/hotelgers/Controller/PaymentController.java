@@ -1,9 +1,6 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.dto.PaymentDTO;
-import com.exam.hotelgers.dto.PaymentDTO;
-import com.exam.hotelgers.entity.Payment;
 import com.exam.hotelgers.service.PaymentService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -17,12 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -31,105 +26,102 @@ import java.util.Map;
 public class PaymentController {
 
     private final PaymentService paymentservice;
-    private final PageConvert pageService;
+
+
 
     @GetMapping("/payment/register")
-    public String insertForm(Model model) {
-        log.info("등록폼으로 이동....");
-
+    public String register() {
         return "payment/register";
     }
 
 
     @PostMapping("/payment/register")
-    public String insertProc(@ModelAttribute PaymentDTO paymentDTO, RedirectAttributes redirectAttributes) {
-        log.info("서비스로 등록처리....");
+    public String registerProc(@Valid PaymentDTO paymentDTO,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
 
-        if(paymentservice.insert(paymentDTO)!=null) {
-            redirectAttributes.addFlashAttribute("processMessage", "저장하였습니다.");
-        } else {
-            redirectAttributes.addFlashAttribute("processMessage", "저장을 실패하였습니다.");
+        log.info("payment registerProc 도착 " + paymentDTO);
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
+
+        log.info(paymentDTO);
+
+        Long paymentIdx = paymentservice.register(paymentDTO);
+
+        redirectAttributes.addFlashAttribute("result", paymentIdx);
 
         return "redirect:/payment/list";
     }
 
 
     @GetMapping("/payment/list")
-    public String list(@PageableDefault(page=1) Pageable pageable, @ModelAttribute PaymentDTO paymentDTO,
-                             Model model) {
-        log.info("서비스로 모든 데이터 조회....");
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+
+        log.info("payment listForm 도착 ");
 
         Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable);
 
-        Map<String, Integer> pageInfo = pageService.Pagination(paymentDTOS);
-        model.addAllAttributes(pageInfo);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
 
+        model.addAllAttributes(pageinfo);
         model.addAttribute("list", paymentDTOS);
-
         return "payment/list";
     }
 
 
 
 
-    @GetMapping("/payment/update/{id}")
-    public String updateForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        log.info("데이터 조회 후 수정폼으로 이동....");
+    @GetMapping("/payment/modify/{paymentIdx}")
+    public String modifyForm(@PathVariable Long paymentIdx, Model model) {
 
-        PaymentDTO paymentDTO = paymentservice.read(id);
+        log.info("payment modifyProc 도착 " + paymentIdx);
+
+        PaymentDTO paymentDTO = paymentservice.read(paymentIdx);
+
+        log.info("수정 전 정보" + paymentDTO);
         model.addAttribute("paymentDTO", paymentDTO);
-
-        if(paymentDTO==null) {
-            redirectAttributes.addFlashAttribute("processMessage", "자료를 읽기 실패하였습니다.");
-            return "redirect:/payment/list";
-        }
-
-        return "payment/update";
+        return "payment/modify";
     }
 
 
-    @PostMapping("/payment/update")
-    public String updateProc(@ModelAttribute PaymentDTO paymentDTO, RedirectAttributes redirectAttributes) {
-        log.info("서비스로 수정처리....");
+    @PostMapping("/payment/modify")
+    public String modifyProc(@Validated PaymentDTO paymentDTO,
+                             BindingResult bindingResult, Model model) {
 
-        if(paymentservice.update(paymentDTO) != null) {
-            redirectAttributes.addFlashAttribute("processMessage", "수정하였습니다.");
-        } else  {
-            redirectAttributes.addFlashAttribute("processMessage", "수정을 실패하였습니다.");
+        log.info("payment modifyProc 도착 " + paymentDTO);
+
+        if (bindingResult.hasErrors()) {
+
+            log.info("업데이트 에러 발생");
+
+            return "/payment/modify";
         }
+
+
+        paymentservice.modify(paymentDTO);
+
+        log.info("업데이트 이후 정보 " + paymentDTO);
 
         return "redirect:/payment/list";
     }
 
-    @GetMapping("/payment/delete/{id}")
-    public String deleteProc(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        log.info("서비스로 삭제처리....");
+    @GetMapping("/payment/delete/{paymentIdx}")
+    public String deleteProc(@PathVariable Long paymentIdx) {
 
-        paymentservice.delete(id);
-
-        redirectAttributes.addFlashAttribute("processMessage", "삭제하였습니다.");
+        paymentservice.delete(paymentIdx);
 
         return "redirect:/payment/list";
     }
 
-    @GetMapping("/payment/{id}")
-    public String readForm(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes,@PageableDefault(page=1) Pageable pageable) {
-        log.info("서비스로 개별데이터 조회....");
-
-        PaymentDTO paymentDTO = paymentservice.read(id);
-        model.addAttribute("data", paymentDTO);
-
-        if(paymentDTO == null) {
-            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
-            return "redirect:/payment/read";
-        }
-        Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable);
-
-        Map<String, Integer> pageInfo = pageService.Pagination(paymentDTOS);
-        model.addAllAttributes(pageInfo);
-
-        model.addAttribute("list", paymentDTOS);
+    @GetMapping("/payment/{paymentIdx}")
+    public String readForm(@PathVariable Long paymentIdx, Model model) {
+        PaymentDTO paymentDTO=paymentservice.read(paymentIdx);
+        //서비스에서 값을 받으면 반드시 model로 전달
+        model.addAttribute("paymentDTO",paymentDTO);
         return "payment/read";
     }
 }

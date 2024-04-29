@@ -1,108 +1,86 @@
-<!-----------------------------------
-프로그램명 : 매장별 회원관리 입력폼
-작성일 : 2024-04-09
-작성자 : 조영규
-기  능 : 매장별 회원을 등록
-작업내역 : 1. 입력폼(24-04-09)
-         2. 입력테스트(24-04-10)
-         3. 작업완료
------------------------------------>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main}">
+      layout:decorate="~{layouts/main}">>
 
 <head>
-    <title>Register - Brand</title>
+
+    <title>매장회원 관리</title>
+
 </head>
 
-<body id="page-top">
+<body class="bg-gradient-primary">
 <div layout:fragment="content">
-<h3 class="text-dark mb-4">매장 회원관리</h3>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-1">
-                <!---->
-            </div>
-            <div class="col-lg-10">
-                <h5 class="text-dark mb-4">매장 회원등록</h5>
-                <form th:action="@{/storemember/register}" method="post">
-                    <div class="row">
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이메일</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="text" placeholder="이메일" name="storeMemberEmail">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">이름</div>
-                        <div class="col-lg-3 p-1 text-black" name="storeMemberName">
-                            <input type="text" name="storeMemberName">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">비밀번호</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호" name="storeMemberPwd">
-                        </div>
-                        <div class="col-lg-3 p-1 bg-gray-200 text-black">비밀번호 확인</div>
-                        <div class="col-lg-3 p-1 text-black">
-                            <input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호" name="storeMemberPwd2">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2 border">매장유저권한</div>
-                        <div class="col-sm-4 border">
-                            <select class="form-select" name="storeMemberAuth">
-                                <option value="메니저">메니저</option>
-                                <option value="관리자">관리자</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2 border">총판조직</div>
-                        <div class="col-sm-4 border">
-                            <select class="form-select" name="storeDistributorIdx">
-                                <option value="1">1호텔</option>
-                                <option value="2">2호텔</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-2 border">지사</div>
-                        <div class="col-sm-4 border">
-                            <select class="form-select" name="storeBranchIdx">
-                                <option value="1">서울</option>
-                                <option value="2">인천</option>
-                                <option value="3">부산</option>
-                                <option value="4">대전</option>
-                                <option value="5">대구</option>
-                                <option value="6">광주</option>
-                                <option value="7">울산</option>
-                                <option value="8">경기도</option>
-                                <option value="9">강원도</option>
-                                <option value="10">충청도</option>
-                                <option value="11">전라도</option>
-                                <option value="12">경상도</option>
-                                <option value="13">제주도</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-2 border">매장</div>
-                        <div class="col-sm-4 border">
-                            <select class="form-select" name="storeIdx">
-                                <option value="1">1매장</option>
-                                <option value="2">2매장</option>
-                            </select>
+    <div class="container">
+        <h3 class="text-dark mb-4">매장 회원관리</h3>
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="container mt-4">
+                        <h5 class="text-dark mb-4">매장 회원등록</h5>
+                        <div class="table-responsive table mt-12" id="dataTable" role="grid"
+                             aria-describedby="dataTable_info">
+                            <table class="table my-0 table table-bordered">
+                                <tbody>
+                                <tr>
+                                    <td>아이디</td>
+                                    <td><input type="text" placeholder="이메일"></td>
+                                    <td>이름</td>
+                                    <td><input type="text"></td>
+                                </tr>
+                                <tr>
+                                    <td>비밀번호</td>
+                                    <td><input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호"></td>
+                                    <td>비밀번호 확인</td>
+                                    <td><input type="text" placeholder="비밀번호는 6~12의 영문,숫자,기호"></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">메장유저권한</td>
+                                    <td class="col-3"><select class="form-select" aria-label="Default select example">
+                                        <option selected>선택</option>
+                                        <option value="1">매니저</option>
+                                        <option value="2">총책임자</option>
+                                    </select></td>
+                                    <td class="col-3">총판조직</td>
+                                    <td class="col-4">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option selected>신라호텔</option>
+                                            <option value="1">ggg럭셔리</option>
+                                            <option value="2">롯데호텔</option>
+                                            <option value="3">모텔</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">지사</td>
+                                    <td class="col-3"><select class="form-select" aria-label="Default select example">
+                                        <option selected>선택</option>
+                                        <option value="1">ggg럭셔리</option>
+                                        <option value="2">롯데호텔</option>
+                                        <option value="3">모텔</option>
+                                    </select></td>
+                                    <td class="col-3">매장</td>
+                                    <td class="col-4"><select class="form-select" aria-label="Default select example">
+                                        <option selected>전체</option>
+                                        <option value="1">ggg럭셔리</option>
+                                        <option value="2">롯데호텔</option>
+                                        <option value="3">모텔</option>
+                                    </select></td>
+                                </tr>
+                                <tr>
+                                    <td>연락처</td>
+                                    <td colspan="3"><input type="text"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-primary" style="width:80px;float: right;" type="button" th:onclick="|location.href='@{/storemember/list}'|">취소
+                            </button>
+                            <button class="btn btn-primary" style="width:80px;float: right;" type="button" th:onclick="|location.href='@{/storemember/list}'|">등록
+                            </button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-2 border">연락처</div>
-                        <div class="col-sm-4 border">
-                            <input type="text" name="storeMemberTel">
-                        </div>
-                    </div>
-                    <div class="container d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-primary">등록</button>
-                        <button type="button" class="btn btn-secondary"
-                                th:onclick="|location.href='@{/storemember/list}'|">취소</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

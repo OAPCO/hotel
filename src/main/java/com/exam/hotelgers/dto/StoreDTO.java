@@ -1,12 +1,14 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.constant.StorePType;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
@@ -17,6 +19,8 @@ public class StoreDTO {
 
     private String storeCd; //매장코드
     private String storeChief; //대빵
+    private String storeChiefEmail; //대빵이메일
+    private String storeChieftel; //대빵전번
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
     private String storeName; //매장명
@@ -29,6 +33,7 @@ public class StoreDTO {
     private String storeOpenTime; //영업시작시간
     private String storeCloseTime; //영업종료시간
     private String storeRestDay; //휴무일
+    private String storeRestDetail;//휴무일 상세
     private String storeMessage; //공지사항
 
     private int storeOpenState; //0:영업중, 1:영업종료
@@ -54,19 +59,27 @@ public class StoreDTO {
     private int deliveryMinFee; //최소배달금액
 
 
-    private StoreDistDTO storeDistDTO;
-    private StoreBranchDTO storeBranchDTO;
+    private String storeimgName; //스토어 이미지
 
-    @Enumerated(EnumType.STRING)
+
+
     private StorePType storePType;
-
-    @Enumerated(EnumType.STRING)
     private StoreStatus storeStatus;
+    private StoreGrade storeGrade;
 
+
+    private DistDTO distDTO;
+    private BrandDTO brandDTO;
+
+    private List<OrderDTO> orderDTOList;
+    private List<RoomDTO> roomDTOList;
+    private List<MenuCateDTO> menuCateDTOList;
+    private List<DetailmenuDTO> detailmenuDTOList;
 
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;
+
 
 
 }

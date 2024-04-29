@@ -3,6 +3,7 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.BannerDTO;
 import com.exam.hotelgers.entity.Banner;
+import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.repository.BannerRepository;
 import com.exam.hotelgers.repository.BannerRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +41,17 @@ public class BannerService {
     public void modify(BannerDTO bannerDTO){
 
 
+        Optional<Banner> temp = bannerRepository
+                .findByBannerIdx(bannerDTO.getBannerIdx());
 
-        Banner banner = modelMapper.map(bannerDTO, Banner.class);
 
-        bannerRepository.save(banner);
+        if(temp.isPresent()) {
+
+            Banner banner = modelMapper.map(bannerDTO, Banner.class);
+
+            bannerRepository.save(banner);
+        }
+
 
     }
 
