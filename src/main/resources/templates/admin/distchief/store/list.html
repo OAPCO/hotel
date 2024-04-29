@@ -25,8 +25,8 @@
                             <th style="width: 10%">총판조직</th>
                             <td>
                                 <div>
-                                    <select class="d-inline-block form-select form-select-sm" name="distName">
-                                        <option value="">(선택)</option>
+                                    <select class="d-inline-block form-select form-select-sm" name="distName" id="distSelect">
+                                        <option value="">전체</option>
                                         <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
                                     </select>
                                 </div>
@@ -34,8 +34,8 @@
                             <th style="width: 10%">브랜드</th>
                             <td>
                                 <div>
-                                    <select class="d-inline-block form-select form-select-sm" name="brandName">
-                                        <option value="">(선택)</option>
+                                    <select class="d-inline-block form-select form-select-sm" name="brandName" id="brandSelect">
+                                        <option value="">전체</option>
                                         <option th:each="brandList : ${brandList}" th:value="${brandList.brandName}" th:text="${brandList.brandName}"></option>
                                     </select>
                                 </div>
@@ -47,8 +47,8 @@
                             <th>매장 선택</th>
                             <td>
                                 <div>
-                                    <select class="d-inline-block form-select form-select-sm" name="storeName">
-                                        <option value="">(선택)</option>
+                                    <select class="d-inline-block form-select form-select-sm" name="storeName" id="storeSelect">
+                                        <option value="">전체</option>
                                         <option th:each="list : ${list}" th:value="${list.storeName}" th:text="${list.storeName}"></option>
                                     </select>
                                 </div>
@@ -67,7 +67,7 @@
                             <td>
                                 <div>
                                     <select class="d-inline-block form-select form-select-sm" name="storeGrade">
-                                        <option value="">(선택)</option>
+                                        <option value="">전체</option>
                                         <option value="ONE">1성</option>
                                         <option value="TWO">2성</option>
                                         <option value="THREE">3성</option>
@@ -80,12 +80,12 @@
                             <td class="align-middle text-start">
                                 <div class="d-inline-block">
                                     <select class="d-inline-block form-select form-select-sm">
-                                        <option value="">(선택)</option>
+                                        <option value="">전체</option>
                                     </select>
                                 </div>
                                 <div class="d-inline-block">
                                     <select class="d-inline-block form-select form-select-sm">
-                                        <option value="">(선택)</option>
+                                        <option value="">전체</option>
                                     </select>
                                 </div>
                             </td>
@@ -194,6 +194,94 @@
             </div>
         </div>
     </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+
+            $('#distSelect').change(function() {
+
+                var selectedDist = $('#distSelect').val();
+                console.log(selectedDist);
+
+                var selectedBrand = $('#brandSelect').val();
+                console.log(selectedBrand);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/selectstore', // 서버에서 storeList를 반환하는 엔드포인트
+                    data: { distName: selectedDist},
+                    contentType : "application/json; charset=utf-8",
+
+                    success: function(data) {
+
+                        var distbrandOfStore = data.distbrandOfStore;
+                        var distOfBrand = data.distOfBrand;
+
+                        $('#brandSelect').empty();
+                        $('#brandSelect').append($('<option>').val('').text('(전체)'));
+                        $('#storeSelect').empty();
+                        $('#storeSelect').append($('<option>').val('').text('(전체)'));
+
+                        $.each(distOfBrand, function(index, distOfBrand) {
+                            console.log(distOfBrand)
+                            $('#brandSelect').append($('<option>').val(distOfBrand.brandName).text(distOfBrand.brandName));
+                        });
+
+                        $.each(distbrandOfStore, function(index, distbrandOfStore) {
+                            console.log(distbrandOfStore)
+                            $('#storeSelect').append($('<option>').val(distbrandOfStore.storeName).text(distbrandOfStore.storeName));
+                        });
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Failed to retrieve stores: ' + error);
+                    }
+                });
+
+
+            });
+
+
+            $('#brandSelect').change(function() {
+
+                var selectedBrand = $('#brandSelect').val();
+                console.log(selectedBrand);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/selectstore',
+                    data: { brandName: selectedBrand},
+                    contentType : "application/json; charset=utf-8",
+
+                    success: function(data) {
+
+                        var distbrandOfStore = data.distbrandOfStore;
+
+                        $('#storeSelect').empty();
+                        $('#storeSelect').append($('<option>').val('').text('(전체)'));
+
+
+                        $.each(distbrandOfStore, function(index, distbrandOfStore) {
+                            console.log(distbrandOfStore)
+                            $('#storeSelect').append($('<option>').val(distbrandOfStore.storeName).text(distbrandOfStore.storeName));
+                        });
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Failed to retrieve stores: ' + error);
+                    }
+                });
+
+
+            });
+
+
+        });
+    </script>
+
 </div>
 </body>
 

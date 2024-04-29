@@ -609,7 +609,8 @@
                                                                     <td> <input class="form-control" type="text"
                                                                                 name="detailMenuName" required> </td>
                                                                     <td>
-                                                                        <select class="form-select" aria-label="Default select example" name="deliveryYn">
+                                                                        <select class="form-select"
+                                                                                aria-label="Default select example" name="deliveryYn" required>
                                                                             <option selected>배달 여부</option>
                                                                             <option value="Y">Y</option>
                                                                             <option value="N">N</option>
@@ -625,7 +626,8 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                            <textarea class="form-control" style="width: 100%; height: 100%;" name="menuDescription">
+                                                                            <textarea class="form-control"
+                                                                                      style="width: 100%; height: 100%;" name="menuDescription" required>
                                                                             </textarea>
                                                                     </td>
                                                                 </tr>
@@ -650,23 +652,31 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                        <select class="form-select" aria-label="Default select example" name="menuSaleType">
+                                                                        <select class="form-select"
+                                                                                name="menuSaleType" id="menuSaleType"
+                                                                                onchange="toggleInput('MenuSale')" required>
                                                                             <option selected>할인 구분</option>
                                                                             <option value="Y">Y</option>
                                                                             <option value="N">N</option>
                                                                         </select>
                                                                     </td>
-                                                                    <td><input class="form-control" type="text" name="menuSaleAmount"></td>
-                                                                    <td><input class="form-control" type="text" name="menuSalePercent"></td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="menuSaleAmount" required></td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="menuSalePercent" required></td>
                                                                     <td>
-                                                                        <select class="form-select" aria-label="Default select example" name="pointSaveType">
+                                                                        <select class="form-select"
+                                                                                name="pointSaveType"
+                                                                                id="pointSaveType" onchange="toggleInput('PointSave')" required>
                                                                             <option selected>적립 타입</option>
                                                                             <option value="Y">Y</option>
                                                                             <option value="N">N</option>
                                                                         </select>
                                                                     </td>
-                                                                    <td><input class="form-control" type="text" name="pointSaveAmount"></td>
-                                                                    <td><input class="form-control" type="text" name="pointSavePercent"></td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="pointSaveAmount" required></td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="pointSavePercent" required></td>
                                                                 </tr>
                                                                 </tbody>
                                                             </table>
@@ -707,7 +717,7 @@
                                                             </table>
                                                             <div  class="d-flex justify-content-end">
                                                                 <button class="btn btn-primary" type="submit">등록</button>
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+                                                                <button type="button" class="btn btn-danger" onclick="closeModal('myModal2_${category.menuCateIdx}')">닫기</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -818,7 +828,8 @@
                                                                             <td> <input class="form-control" type="text"
                                                                                         name="detailMenuName" required> </td>
                                                                             <td>
-                                                                                <select class="form-select" aria-label="Default select example" name="deliveryYn">
+                                                                                <select class="form-select"
+                                                                                        aria-label="Default select example" name="deliveryYn" required>
                                                                                     <option value="Y">Y</option>
                                                                                     <option value="N">N</option>
                                                                                 </select>
@@ -833,7 +844,8 @@
                                                                         <tbody>
                                                                         <tr>
                                                                             <td>
-                                                                        <textarea class="form-control" style="width: 100%; height: 100%;" name="menuDescription">
+                                                                        <textarea class="form-control" style="width:
+                                                                        100%; height: 100%;" name="menuDescription" required>
                                                                         </textarea>
                                                                             </td>
                                                                         </tr>
@@ -858,23 +870,31 @@
                                                                         <tbody>
                                                                         <tr>
                                                                             <td>
-                                                                                <select class="form-select" aria-label="Default select example" name="menuSaleType">
+                                                                                <select class="form-select"
+                                                                                        name="menuSaleType"
+                                                                                        required >
                                                                                     <option selected>할인 구분</option>
                                                                                     <option value="Y">Y</option>
                                                                                     <option value="N">N</option>
                                                                                 </select>
                                                                             </td>
-                                                                            <td><input class="form-control" type="text" name="menuSaleAmount"></td>
-                                                                            <td><input class="form-control" type="text" name="menuSalePercent"></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="menuSaleAmount" required></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="menuSalePercent" required></td>
                                                                             <td>
-                                                                                <select class="form-select" aria-label="Default select example" name="pointSaveType">
+                                                                                <select class="form-select"
+                                                                                        name="pointSaveType"
+                                                                                        required >
                                                                                     <option selected>적립 타입</option>
                                                                                     <option value="Y">Y</option>
                                                                                     <option value="N">N</option>
                                                                                 </select>
                                                                             </td>
-                                                                            <td><input class="form-control" type="text" name="pointSaveAmount"></td>
-                                                                            <td><input class="form-control" type="text" name="pointSavePercent"></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="pointSaveAmount" required></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="pointSavePercent" required></td>
                                                                         </tr>
                                                                         </tbody>
                                                                     </table>
@@ -927,12 +947,6 @@
                                         </div>
                                     </div>
                                     <!--                                    메뉴 수정 모달 상세 끝 -->
-
-
-
-
-
-
                                     <a th:href="@{'/detailmenu/delete/' + ${menu.detailmenuIdx}}">
                                         <button class="btn btn-danger">
                                             삭제
@@ -963,6 +977,31 @@
             </div>
         </div>
     </div><!--메뉴카테고리, 디테일메뉴-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script>
+        function toggleInput(inputType) {
+            var selectElement = document.getElementById(inputType + 'Type');
+            var amountInput = document.querySelector('input[name="' + inputType + 'Amount"]');
+            var percentInput = document.querySelector('input[name="' + inputType + 'Percent"]');
+
+            if (selectElement.value === "Y" || selectElement.value === "yes") {
+                // Yes가 선택된 경우
+                amountInput.readOnly = false;
+                percentInput.readOnly = false;
+            } else {
+                // No가 선택된 경우
+                amountInput.value = "0";
+                amountInput.readOnly = true;
+                percentInput.value = "0";
+                percentInput.readOnly = true;
+            }
+        }
+        function closeModal(modalId) {
+            var modal = document.getElementById(modalId);
+            modal.style.display = "none";
+        }
+    </script>
 </div>
 </body>
 
