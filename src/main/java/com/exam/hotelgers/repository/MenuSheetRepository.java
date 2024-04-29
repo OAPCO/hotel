@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 public interface MenuSheetRepository extends JpaRepository<MenuSheet,Long> {
@@ -23,16 +24,20 @@ public interface MenuSheetRepository extends JpaRepository<MenuSheet,Long> {
             "and (:menuSheetState is null or o.menuSheetState = %:menuSheetState%)"+
             "and (:startDate is null or o.orderdate >= %:startDate%)"+
             "and (:endDate is null or o.orderdate <= %:endDate%)"+
+            "and (:startTime is null or o.ordertime>= %:startTime%)"+
+            "and (:endTime is null or o.ordertime <= %:endTime%)"+
             "and (:orderProgressStatus is null or o.orderProgressStatus LIKE %:orderProgressStatus%)"+
             "and (:menuSheetName is null or o.menuSheetName LIKE %:menuSheetName%)"
     )
     Page<MenuSheet> menuSheetListSearch(@Param("storeName") String storeName,//매장명
-                                    @Param("roomCd") String roomCd,//룸 코드
-                                    @Param("newOrderNo") Integer newOrderNo,//신규 주문번호
-                                    @Param("menuSheetState") Integer menuSheetState,//주문서 상태 0.주문전, 1.조리요청, 2.결제요청, 3.결제완료, 4.결제취소, 5.조리완료, 6.배달요청, 7.배달완료
-                                    @Param("startDate") LocalDateTime startDate,//시작날짜
-                                    @Param("endDate") LocalDateTime endDate,//종료날짜
-                                    @Param("orderProgressStatus") String orderProgressStatus,//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
-                                    @Param("menuSheetName") String menuSheetName,//주문서 이름
-                                    Pageable pageable);
+                                        @Param("roomCd") String roomCd,//룸 코드
+                                        @Param("newOrderNo") Integer newOrderNo,//신규 주문번호
+                                        @Param("menuSheetState") Integer menuSheetState,//주문서 상태 0.주문전, 1.조리요청, 2.결제요청, 3.결제완료, 4.결제취소, 5.조리완료, 6.배달요청, 7.배달완료
+                                        @Param("startDate") LocalDate startDate,//시작날짜
+                                        @Param("endDate") LocalDate endDate,//종료날짜
+                                        @Param("startTime") LocalTime startTime,//시작시간
+                                        @Param("endTime") LocalTime endTime,//종료시간
+                                        @Param("orderProgressStatus") String orderProgressStatus,//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
+                                        @Param("menuSheetName") String menuSheetName,//주문서 이름
+                                        Pageable pageable);
 }

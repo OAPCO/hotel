@@ -22,7 +22,6 @@
 
                         <thead>
                         <tr>
-
                             <th>매장 선택</th>
                             <td>
                                 <div>
@@ -31,16 +30,16 @@
                                         <option th:each="storeList : ${storeList}" th:value="${storeList.storeName}" th:text="${storeList.storeName}"></option>
                                     </select>
                                 </div>
-                            <th><strong>매장명</strong></th>
-                            <td><input type="text" name="asdaqwsd"></td>
+                            <th><strong>룸</strong></th>
+                            <td><input type="text" name="roomName" value=""></td>
                             </th>
                         </tr>
                         </thead>
                         <tr>
                             <th><strong>신규 주문번호</strong></th>
                             <td><input type="text" name="newOrderNo" value=""></td>
-                            <th><strong>룸</strong></th>
-                            <td><input type="text" name="roomName" value=""></td>
+                            <th><strong>주문서 이름</strong></th>
+                            <td><input type="text" name="menuSheetName" value=""></td>
                         </tr>
                         <tr>
                             <th><strong>조리일시</strong></th>
