@@ -130,10 +130,6 @@ public class StoreController {
         List<BrandDTO> brandList = searchService.brandList();
 
 
-        if (searchDTO != null){
-            List<StoreDTO> selectStoreList = storeService.selectStoreList(searchDTO);
-            model.addAttribute("storeList",selectStoreList);
-        }
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);

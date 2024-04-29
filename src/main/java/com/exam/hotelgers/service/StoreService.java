@@ -253,9 +253,9 @@ public class StoreService {
 
 
 
-    public List<StoreDTO> selectStoreList(SearchDTO searchDTO) {
+    public List<StoreDTO> distbrandOfStore(SearchDTO searchDTO) {
 
-        List<Store> stores = storeRepository.selectSearch(searchDTO);
+        List<Store> stores = storeRepository.distbrandOfStore(searchDTO);
         return stores.stream()
                 .map(store -> modelMapper.map(store, StoreDTO.class))
                 .collect(Collectors.toList());

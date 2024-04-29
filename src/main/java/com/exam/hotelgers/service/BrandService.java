@@ -158,4 +158,14 @@ public class BrandService {
     public void delete(Long brandIdx){
         brandRepository.deleteById(brandIdx);
     }
+
+
+
+    public List<BrandDTO> distOfBrand(SearchDTO searchDTO) {
+
+        List<Brand> brands = brandRepository.distOfBrand(searchDTO);
+        return brands.stream()
+                .map(brand -> modelMapper.map(brand, BrandDTO.class))
+                .collect(Collectors.toList());
+    }
 }
