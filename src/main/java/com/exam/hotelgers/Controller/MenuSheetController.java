@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +71,8 @@ public class MenuSheetController {
         model.addAttribute("storeList",storeList);
         model.addAttribute("roomList",roomList);
         model.addAttribute("list", menuSheetDTOS);
+        model.addAttribute("startDate", LocalDateTime.now());
+        model.addAttribute("endDate", LocalDateTime.now());
 
 
         return "/order/orderProgress";

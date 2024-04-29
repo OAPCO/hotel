@@ -144,8 +144,6 @@ public class MenuSheetService {
                 menuSheetDTO.getMenuSheetState(),//주문서 상태 0.주문전, 1.조리요청, 2.결제요청, 3.결제완료, 4.결제취소, 5.조리완료, 6.배달요청, 7.배달완료
                 menuSheetDTO.getStartDate(),//시작날짜
                 menuSheetDTO.getEndDate(),//종료날짜
-                menuSheetDTO.getStartTime(),//시작날짜
-                menuSheetDTO.getEndTime(),//종료날짜
                 menuSheetDTO.getOrderProgressStatus(),//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
                 menuSheetDTO.getMenuSheetName(),//주문서 이름
                 pageable);

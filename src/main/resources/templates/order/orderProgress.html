@@ -22,7 +22,7 @@
 
                         <thead>
                         <tr>
-                            <th>매장 선택</th>
+                            <th>매장명 선택</th>
                             <td>
                                 <div>
                                     <select class="d-inline-block form-select form-select-sm" name="storeName">
@@ -44,20 +44,37 @@
                         <tr>
                             <th><strong>조리일시</strong></th>
                             <td>
-                                <input type="date">
-                                <input type="time"> ~
-                                <input type="date">
-                                <input type="time">
+                                <input type="datetime-local" name="startDate" th:field="*{startDate}" step="1">~
+                                <input type="datetime-local" name="endDate" th:field="*{endDate}" step="1">
                             </td>
-                            <th><strong>상태</strong></th>
+                            <th><strong> 주문서 상태</strong></th>
                             <td>
-                                <input type="radio" name="ert" value="" checked>전체
-                                <input type="radio" name="ert" value="DIRECTSTORE">미결제
-                                <input type="radio" name="ert" value="FRANCHISEE">결제완료
-                                <input type="radio" name="ert" value="FRANCHISEE">결제취소
+                                <input type="radio" name="menuSheetState" value="" checked>전체
+                                <input type="radio" name="menuSheetState" value="0">주문전
+                                <input type="radio" name="menuSheetState" value="1">조리요청
+                                <input type="radio" name="menuSheetState" value="2">결제요청
+                                <input type="radio" name="menuSheetState" value="3">결제완료
+                                <input type="radio" name="menuSheetState" value="4">결제취소
+                                <input type="radio" name="menuSheetState" value="5">조리완료
+                                <input type="radio" name="menuSheetState" value="6">배달요청
+                                <input type="radio" name="menuSheetState" value="7">배달완료
                             </td>
                         </tr>
-
+                        <tr>
+                            <th>주문상태</th>
+                            <td>
+                                <div>
+                                    <select class="d-inline-block form-select form-select-sm" name="storeName">
+                                        <option value="">(선택)</option>
+                                        <option th:value="NEW">신규</option>
+                                        <option th:value="CHECK">접수</option>
+                                        <option th:value="CANCEL">취소</option>
+                                        <option th:value="CALL">호출</option>
+                                        <option th:value="CLOSE">완료</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
                     </table>
                     <div style="text-align: center;">
                         <button type="submit" class="btn btn-primary">조회</button>
@@ -78,12 +95,11 @@
                     <thead>
                     <tr>
                         <th>No</th>
-                        <th>지사</th>
                         <th>매장</th>
                         <th>룸</th>
                         <th>주문번호</th>
                         <th>메뉴</th>
-                        <th>주문확정일시</th>
+                        <th>조리요청일</th>
                         <th>결제금액</th>
                         <th>상태</th>
                         <th>임시</th>
@@ -91,18 +107,20 @@
                     </thead>
                     <tbody>
                     <tr th:each="data:${list}">
-                        <td th:text="${data.orderIdx}"></td>
+                        <td th:text="${data.menuSheetIdx}"></td>
                         <td th:text="${data.storeDTO.storeName}"></td>
                         <td th:text="${data.roomDTO.roomName}"></td>
                         <td>
-                            <a th:text="${data.orderCd}" th:href="@{'/admin/distchief/order/'+${data.orderIdx}}" ></a>
+                            <a th:text="${data.orderDTO.orderCd}"
+                               th:href="@{'/admin/distchief/order/'+${data.orderDTO.orderIdx}}"
+                            ></a>
                         </td>
                         <td>메뉴</td>
-                        <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
+                        <td th:text="${data.orderdate}"></td>
                         <td>결제금액</td>
                         <td>결제상태</td>
-                        <td><a th:href="@{'/admin/distchief/order/modify/'+${data.orderIdx}}" >수정</a>
-                            /<a th:href="@{'/admin/distchief/order/delete/'+${data.orderIdx}}">삭제</a></td>
+                        <td><a th:href="@{'/order/orderManagement/modify/'+${data.menuSheetIdx}}" >수정</a>
+                            /<a th:href="@{'/order/orderManagement/delete/'+${data.menuSheetIdx}}">삭제</a></td>
                     </tr>
                     </tbody>
                 </table>
