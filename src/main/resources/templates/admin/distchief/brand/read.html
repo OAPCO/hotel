@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>브랜드 상세정보</title>
+
+
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <p></p>
+        <h3 class="text-dark mb-4"> [[${brandDTO.brandName}]] (상세정보)</h3>
+        <div class="card shadow">
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable0" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="*">
+                        <tbody>
+                        <tr>
+                            <td class="col-2">브랜드명</td>
+                            <td class="col-3" th:text="${brandDTO.brandName}"></td>
+                            <td class="col-3">브랜드코드</td>
+                            <td class="col-4" th:text="${brandDTO.brandCd}">
+
+                        </tr>
+                        <tr>
+
+                            <td class="col-2">총판명</td>
+                            <td class="col-4" th:text="${brandDTO.distDTO.distName}">
+                            </td>
+                            <td class="col-3">대표자 성명</td>
+                            <td class="col-4" th:text="${brandDTO.distDTO.distChiefDTO.distChiefName}">김 아무개 대표</td>
+                        </tr>
+                        <tr>
+                            <td class="col-2">총판 ID</td>
+                            <td class="col-3" th:text="${brandDTO.distDTO.distChiefDTO.distChiefEmail}">[eovywk@gogle
+                                .com]</td>
+                            <td>대표자 연락처</td>
+                            <td th:text="${brandDTO.distDTO.distTel}">[010-0000-0000]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="card" style="margin: 50px 20px;">
+            <div class="card-body">
+                <h4 class="card-title">매장 목록</h4>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>등급</th>
+                            <th>직/가맹</th>
+                            <th>지역</th>
+                            <th>매장코드</th>
+                            <th>매장명</th>
+                            <th>매장주이메일</th>
+                            <th>매장주명</th>
+                            <th>상태</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="storeDTO : ${brandDTO.storeDTOList}">
+                            <td th:text="${storeDTO.storeIdx}"></td>
+                            <td th:text="${storeDTO.storeGrade}"></td>
+                            <td th:text="${storeDTO.storePType}"></td>
+                            <td th:text="${storeDTO.storeAddr}"></td>
+                            <td th:text="${storeDTO.storeCd}"></td>
+                            <td>
+                                <a th:href="@{'/admin/distchief/store/'+${storeDTO.storeIdx}}"
+                                   th:text="${storeDTO.storeName}">
+                                </a>
+                            </td>
+                            <td th:text="${storeDTO.storeChiefEmail}"></td>
+                            <td th:text="${storeDTO.storeChief}"></td>
+                            <td th:text="${storeDTO.storeStatus}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary mr-3" type="button"
+                            th:onclick="|location.href='@{/admin/distchief/store/register}'|">
+                        등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>팀이름</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <!--ajax-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <th:block layout:fragment="script"></th:block>
+    <th:block layout:fragment="css"></th:block>
+    <style>
+        td, th {
+            white-space: nowrap;
+        }
+        th {
+            text-align: center; /* 가로 중앙 정렬 */
+            vertical-align: middle; /* 세로 중앙 정렬 */
+        }
+    </style>
+    <script th:inline="javascript">
+        function pwchange() {
+            var baseUrl = /*[[ @{/} ]]*/ '';
+            var popupUrl = baseUrl + "admin/adminpage/pwchange";  // Absolute URL
+            var popupOption = "width=500, height=400"; // Popup window size
+            // Open the popup window
+            window.open(popupUrl, "비밀번호변경", popupOption);
+        }
+    </script>
+
+
+</head>
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+
+<div id="wrapper">
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-dark p-0">
+        <div class="container-fluid d-flex flex-column p-0">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/">
+                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+                <div class="sidebar-brand-text mx-3"><span>Hoteljers</span></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="navbar-nav text-light" id="accordionSidebar">
+                <a>로그인상태 : [[${adminName}]]</a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>회원관리</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/adminpage/storemembermange">매장회원관리</a></li>
+                        <li><a class="dropdown-item" href="/admin/adminpage/storedistmange">총판조직관리</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>매장관리</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/adminpage/codemange">공통코드관리</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <button class="nav-link" onclick="pwchange()">
+                        <i class="bi bi-gear-fill"></i><span>비밀번호변경</span>
+                    </button>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>다국어관리</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item change-language" data-lang="ko">한국어</a></li>
+                        <li><a class="dropdown-item change-language" data-lang="en">English</a></li>
+                        <li><a class="dropdown-item change-language" data-lang="jp">日本語</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/member/register}"><i class="far fa-user-circle"></i><span>회원가입</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/member/login}"><i class="fas fa-user-circle"></i><span>로그인</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
+            </ul>
+            <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+        </div>
+    </nav>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div layout:fragment="content"></div><!--본문-->
+        </div>
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Brand 2024</span></div>
+            </div>
+        </footer>
+    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+<div th:replace="~{fragments/footer::footer}"></div>
+<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/js/bs-init.js"></script>
+<script src="/assets/js/theme.js"></script>
+
+<script>
+    $(document).ready(function(){
+        // 사용자가 선택한 언어를 저장할 키
+        var languageKey = 'selectedLanguage';
+
+        // 저장된 언어가 있는지 확인하고, 있으면 해당 언어로 설정
+        var selectedLanguage = localStorage.getItem(languageKey);
+        if(selectedLanguage) {
+            setLanguage(selectedLanguage);
+        }
+
+        // 언어 변경 함수
+        function setLanguage(lang) {
+            $('.change-language').removeClass('selected');
+            $('.change-language[data-lang="' + lang + '"]').addClass('selected');
+            // 각 다국어 항목에 맞게 텍스트 변경
+            if(lang === 'ko') {
+                $('span:contains("Member Management")').text('회원관리');
+                $('span:contains("Store Management")').text('매장관리');
+                $('span:contains("Change Password")').text('비밀번호변경');
+                $('span:contains("Language Management")').text('다국어관리');
+                $('.dropdown-item:contains("Store Member Management")').text('매장회원관리');
+                $('.dropdown-item:contains("Store Distributor Management")').text('총판조직관리');
+                $('span:contains("logout")').text('로그아웃');
+                $('span:contains("メンバー管理")').text('회원관리');
+                $('span:contains("店舗管理")').text('매장관리');
+                $('span:contains("パスワードの変更")').text('비밀번호변경');
+                $('span:contains("言語管理")').text('다국어관리');
+                $('span:contains("ログアウト")').text('로그아웃');
+                $('.dropdown-item:contains("店舗会員管理")').text('매장회원관리');
+                $('.dropdown-item:contains("販売店組織管理")').text('총판조직관리');
+            } else if(lang === 'en') {
+                $('span:contains("회원관리")').text('Member Management');
+                $('span:contains("매장관리")').text('Store Management');
+                $('span:contains("비밀번호변경")').text('Change Password');
+                $('span:contains("다국어관리")').text('Language Management');
+                $('span:contains("로그아웃")').text('logout');
+                $('.dropdown-item:contains("매장회원관리")').text('Store Member Management');
+                $('.dropdown-item:contains("총판조직관리")').text('Store Distributor Management');
+                $('span:contains("メンバー管理")').text('Member Management');
+                $('span:contains("店舗管理")').text('Store Management');
+                $('span:contains("パスワードの変更")').text('Change Password');
+                $('span:contains("言語管理")').text('Language Management');
+                $('span:contains("ログアウト")').text('logout');
+                $('.dropdown-item:contains("店舗会員管理")').text('Store Member Management');
+                $('.dropdown-item:contains("販売店組織管理")').text('Store Distributor Management');
+            } else if(lang === 'jp') {
+                $('span:contains("회원관리")').text('メンバー管理');
+                $('span:contains("매장관리")').text('店舗管理');
+                $('span:contains("비밀번호변경")').text('パスワードの変更');
+                $('span:contains("다국어관리")').text('言語管理');
+                $('span:contains("로그아웃")').text('ログアウト');
+                $('.dropdown-item:contains("매장회원관리")').text('店舗会員管理');
+                $('.dropdown-item:contains("총판조직관리")').text('販売店組織管理');
+                $('span:contains("Member Management")').text('メンバー管理');
+                $('span:contains("Store Management")').text('店舗管理');
+                $('span:contains("Change Password")').text('パスワードの変更');
+                $('span:contains("Language Management")').text('言語管理');
+                $('span:contains("logout")').text('ログアウト');
+                $('.dropdown-item:contains("Store Member Management")').text('店舗会員管理');
+                $('.dropdown-item:contains("Store Distributor Management")').text('販売店組織管理');
+                // 다른 언어에 대한 변경 내용도 여기에 추가
+            }
+            // 선택한 언어를 로컬 스토리지에 저장
+            localStorage.setItem(languageKey, lang);
+        }
+
+        // 언어 변경 버튼 클릭 이벤트 처리
+        $('.change-language').click(function(){
+            var lang = $(this).data('lang');
+            setLanguage(lang);
+        });
+    });
+</script>
+
+
+</body>
+</html>

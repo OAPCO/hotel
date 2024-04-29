@@ -70,6 +70,7 @@ public class StoreBranch extends BaseEntity {
     private Character deliveryFeeYn; //배달료여부
     private int deliveryFee; //배달료
     private int deliveryMinFee;
+    private String branchId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeIdx")

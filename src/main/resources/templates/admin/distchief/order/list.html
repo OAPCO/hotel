@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>주문관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h4 class="card-title">주문관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장조회
+            </div>
+            <form method="post" th:action="@{/admin/distchief/order/list}">
+                <div class="table-responsive">
+                    <table class="table head">
+                        <thead>
+                        <tr>
+                            <th>총판조직</th>
+                            <td class="align-middle text-start">  <!-- 수정된 부분 -->
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm" name="distName">
+                                        <option value="">(선택)</option>
+                                        <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th><strong>매장 목록</strong></th>
+                            <td class="align-middle text-start"> <!-- 수정된 부분 -->
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm" name="storeName">
+                                        <option value="">(선택)</option>
+                                        <option th:each="storeList : ${storeList}" th:value="${storeList.storeName}" th:text="${storeList.storeName}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <th><strong>매장명</strong></th>
+                            <td><input type="text" name="storeName2"></td>
+                        </tr>
+                        <tr>
+                            <th><strong>구분</strong></th>
+                            <td>
+                                <input type="radio" name="storePType" value="" checked>전체
+                                <input type="radio" name="storePType" value="DIRECTSTORE">직영점
+                                <input type="radio" name="storePType" value="FRANCHISEE">가맹점
+                            </td>
+
+                            <th><strong>제휴상태</strong></th>
+                            <td>
+                                <input type="radio" name="storeStatus" value="" checked>전체
+                                <input type="radio" name="storeStatus" value="ON">제휴중
+                                <input type="radio" name="storeStatus" value="OFF"> 제휴중지
+                            </td>
+                        </tr>
+
+
+                        </tbody>
+
+                    </table>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">조회</button>
+                        <button class="btn btn-primary" type="button"
+                                th:onclick="|location.href='@{/admin/distchief/manager/order/register}'|">신규등록</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장 목록
+            </div>
+            <div class="table-responsive">
+                <table class="table body">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>구분</th>
+                        <th>총판조직명</th>
+                        <th>지사명</th>
+                        <th>매장명</th>
+                        <th>지역</th>
+                        <th>대표자명</th>
+                        <th>대표이메일</th>
+                        <th>주문현황보기</th>
+                        <th>제휴상태</th>
+                        <th>임시</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.orderIdx}"></td>
+
+                        <td>
+                            <th:block th:if="${data.storeDTO.storePType.name() == 'DIRECTSTORE'}"><span>직영점</span></th:block>
+                            <th:block th:if="${data.storeDTO.storePType.name() == 'FRANCHISEE'}"><span>가맹점</span></th:block>
+                        </td>
+
+                        <td th:text="${data.distDTO.distName}"></td>
+                        <td>
+                            <a th:text="${data.storeDTO.storeName}" th:href="@{'/distchief/order/'+${data.orderIdx}}" ></a>
+                        </td>
+                        <td>(지역)</td>
+                        <td th:text="${data.storeDTO.storeChief}"></td>
+                        <td th:text="${data.storeDTO.storeChiefEmail}"></td>
+                        <td><button class="btn btn-primary" type="button" th:onclick="|location.href='@{#}'|">주문보기</button></td>
+
+                        <td>
+                            <th:block th:if="${data.storeDTO.storeStatus.name() == 'ON'}">
+                                <span class="badge rounded-pill bg-primary">제휴중</span></th:block>
+                            <th:block th:if="${data.storeDTO.storeStatus.name() == 'OFF'}">
+                                <span class="badge rounded-pill bg-secondary">미제휴</span></th:block>
+                        </td>
+
+                        <td><a th:href="@{'/admin/distchief/order/modify/'+${data.orderIdx}}" >수정</a>
+                            /<a th:href="@{'/admin/distchief/order/delete/'+${data.orderIdx}}">삭제</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <ul class="mt-3 pagination">
+                <li class="page-item"><a class="page-link" th:href="@{/admin/distchief/order/list(page=${prevPage})}"><</a></li>
+                <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
+                        <li class="page-item active" th:if="${page == currentPage}">
+                            <a class="page-link" href="#">[[${page}]]</a>
+                        </li>
+                        <li class="page-item" th:unless="${page == currentPage}">
+                            <a class="page-link" th:href="@{/admin/distchief/order/list(page=${page})}">[[${page}]]</a>
+                        </li>
+                    </span>
+                <li class="page-item"><a class="page-link" th:href="@{/admin/distchief/order/list(page=${nextPage})}">></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

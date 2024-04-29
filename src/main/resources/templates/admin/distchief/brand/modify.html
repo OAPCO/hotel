@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>브랜드 정보 수정</title>
+
+
+</head>
+<body>
+
+
+<div layout:fragment="content">
+
+    <div class="container-fluid mt-3">
+        <h2>브랜드 정보 수정</h2>
+        <form th:action="@{/admin/distchief/brand/modify}" method="post">
+            <div class="mb-3 mt-3">
+                <label>브랜드이름 : </label>
+                <input type="text" class="form-control" name="brandName" required>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label>브랜드 idx : </label>
+                <input type="text" class="form-control" name="brandIdx" th:field="*{brandDTO.brandIdx}" readonly required>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label>브랜드코드 : </label>
+                <input type="text" class="form-control" name="brandCd" required>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label>소속총판코드 : </label>
+                <div class="d-inline-block">
+                    <select name="distDTO.distCd" class="form-control" required>
+                        <option value="" disabled selected>총판코드를 선택하세요</option>
+                        <!-- use Thymeleaf or other tags to loop over the distCds here -->
+                        <option th:each="cd : ${distCd}" th:value="${cd}" th:text="${cd}"></option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">수정완료</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/membermain}">
+
+<head></head>
+
+<body>
+<div layout:fragment="content">
+    <header class="bg-primary-gradient" style="background-image: url('/assets2/img/brands/bed1.jpg'); background-size: cover; background-position: center;">
+        <div class="container pt-4 pt-xl-5">
+            <div class="row pt-5">
+                <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto">
+                    <div class="text-center">
+                        <h1> <p class="fw-bold text-success mb-2">Hotelgers</p></h1>
+                        <h1 class="fw-bold">새로운 장소에서의 편안함</h1>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="container bg-primary-gradient py-5">
+            <div class="row">
+                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                    <p class="fw-bold text-success mb-2">Our Services</p>
+                    <h3 class="fw-bold">What we can do for you</h3>
+                </div>
+            </div>
+<!--            th:each="data:${list}"-->
+            <div class="py-5 p-lg-5">
+                <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;">
+                    <div class="container mt-3">
+                        <div class="card" style="width:400px">
+                            <img class="card-img-top" src="/assets2/img/brands/koreafood.png" alt="Card image"style="width: 400px; height: 250px;">
+                            <div class="card-body">
+                                <h4 class="card-title">비빔밥(menuname)</h4>
+                                <p class="card-text">가격(MenuPrice)</p>
+                                <a href="#" class="btn btn-primary">장바구니 등록</a>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="container mt-3">
+                            <div class="card" style="width:400px">
+                                <img class="card-img-top" src="/assets2/img/brands/krfood1.png" alt="Card image" style="width: 400px; height: 250px;">
+                                <div class="card-body">
+                                    <h4 class="card-title">족발</h4>
+                                    <p class="card-text">가격(MenuPrice):10000</p>
+                                    <a href="#" class="btn btn-primary">장바구니 등록</a>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
+
+        </div>
+    </section>
+
+</div>
+<script src="/assets2/bootstrap/js/bootstrap.min.js?h=b4349cf7232e6b66621e089f2b9beee5"></script>
+<script src="/assets2/js/script.min.js?h=9a9b12d9479055b6ccf322643488f6dd"></script>
+
+</body>
+
+</html>

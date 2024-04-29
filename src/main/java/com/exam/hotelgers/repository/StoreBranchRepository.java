@@ -22,7 +22,8 @@ public interface StoreBranchRepository extends JpaRepository<StoreBranch, Long> 
 
 
     List<StoreBranch> findByStoreDistStoreDistIdx(StoreDist storeDist);
-
+    Optional<StoreBranch> findByBranchId(String branchId);
+    Optional<StoreBranch> findByStoreId(String storeId);
 
 
 

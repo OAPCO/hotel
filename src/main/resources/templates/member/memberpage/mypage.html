@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>팀이름</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <!--ajax-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <th:block layout:fragment="script"></th:block>
+    <th:block layout:fragment="css"></th:block>
+
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+<body>
+
+<!--헤더-->
+<div th:replace="~{fragments/header::header}"></div>
+
+
+<!--    본문-->
+<div id="wrapper">
+
+    <!--        사이드바(nav)-->
+    <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-info p-0"  style="margin: 40px;">
+        <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/">
+            <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+            <div class="sidebar-brand-text mx-3"><span>Hoteljers</span></div>
+        </a>
+            <hr class="sidebar-divider my-0">
+            <ul class="navbar-nav text-light" id="accordionSidebar">
+                <!--https://icons.getbootstrap.kr/-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"  role="button" >
+                        <i class="bi bi-gear-fill"></i>
+                        <span>내정보</span>
+                    </a>
+
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"  role="button" >
+                        <i class="bi bi-gear-fill"></i>
+                        <span>주문내역</span>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" >
+                        <i class="bi bi-gear-fill"></i>
+                        <span>문의하기</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/manager/store/list">브랜드 및 매장 현황</a></li>
+                        <li><a class="dropdown-item" href="/manager/store/test">직/가맹점 매장 관리</a></li>
+                        <li><a class="dropdown-item" href="/manager/test">룸별 회원배정(미완)</a></li>
+                        <li><a class="dropdown-item" href="/manager/test">룸별 회원배정내역(미완)</a></li>
+                        <li><a class="dropdown-item" href="/manager/test">공통 코드관리(미완)</a></li>
+                        <li><a class="dropdown-item" href="/manager/test">호텔부대 시설관리(미완)</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" >
+                        <i class="bi bi-gear-fill"></i>
+                        <span>주문관리</span>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/order/orderManagement">주문 관리</a></li>
+                        <li><a class="dropdown-item" href="/order/ordernumber">주문 번호 조회</a></li>
+                        <li><a class="dropdown-item" href="/order/ordersheetnocheck">주문상세 조회</a></li>
+                        <li><a class="dropdown-item" href="/order/orderProgress">주문 진행 조회</a></li>
+                        <li><a class="dropdown-item" href="/order/ScheduledPayment">결제 예정 내역</a></li>
+                        <li><a class="dropdown-item" href="/order/PaymentNumberInquiry">결제 번호 조회</a></li>
+                        <li><a class="dropdown-item" href="/order/IdInqury">아이디 조회</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" >
+                        <i class="bi bi-gear-fill"></i>
+                        <span>정산관리</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/member/list">주문 번호 조회</a></li>
+                        <li><a class="dropdown-item" href="/member/register">주문상세 조회</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" >
+                        <i class="bi bi-gear-fill"></i>
+                        <span>포인트 관리</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/member/list">주문 번호 조회</a></li>
+                        <li><a class="dropdown-item" href="/member/register">주문상세 조회</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown" >
+                        <i class="bi bi-gear-fill"></i>
+                        <span>광고/이벤트 관리</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/member/list">주문 번호 조회</a></li>
+                        <li><a class="dropdown-item" href="/member/register">주문상세 조회</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>고객센터</span>
+                    </a>
+                </li>
+
+                <li class="nav-item"><a class="nav-link" th:href="@{/member/register}">
+                    <i class="bi bi-gear-fill"></i>
+                    <span>다국어관리</span>
+                </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+    <div class="d-flex flex-column" id="content-wrapper" style="background-color: #dddfeb">
+        <div id="content">
+
+            <div layout:fragment="content" style="background-color: #dddfeb">
+
+            </div><!--본문-->
+
+        </div>
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>< hotelgers Team Project ></span></div>
+            </div>
+        </footer>
+    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+</div>
+
+
+
+
+
+<script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/assets/js/bs-init.js"></script>
+<script src="/assets/js/theme.js"></script>
+</body>
+</html>

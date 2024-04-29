@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>지사관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body id="page-top">
+
+<div layout:fragment="content">
+        <h4 class="card-title">지사 관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                지사장 등록
+            </div>
+            <form method="post" th:action="@{/templates/distchief(사용x)/branch/registerchief}">
+            <div class="table-responsive">
+                <table class="table head">
+
+                    <input type="hidden" name="roleType" value="BRANCHCHIEF">
+
+                    <thead>
+                    <tr>
+                        <th>소속총판</th>
+                        <td>(사용자가 속한 총판명)</td>
+                        <th>이름</th>
+                        <td><input type="text" name="branchChiefName"></td>
+                    </tr>
+                    <tr>
+                        <th>아이디</th>
+                        <td><input type="text" name="branchChiefId"></td>
+                        <th>비밀번호</th>
+                        <td><input type="password" name="password"></td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td><input type="text" name="branchChiefPhone"></td>
+                        <th>이메일</th>
+                        <td><input type="text" name="branchChiefEmail"></td>
+                    </tr>
+
+
+                    </thead>
+
+                </table>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn button">등록</button>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

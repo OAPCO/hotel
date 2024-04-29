@@ -37,12 +37,12 @@ public class StoreController {
     private final StoreService storeService;
     private final SearchService searchService;
 
-    @Value("${cloud.aws.s3.bucket}")
-    public String bucket;
-    @Value("${cloud.aws.region.static}")
-    public String region;
-    @Value("${imgUploadLocation}")
-    public String folder;
+//    @Value("${cloud.aws.s3.bucket}")
+//    public String bucket;
+//    @Value("${cloud.aws.region.static}")
+//    public String region;
+//    @Value("${imgUploadLocation}")
+//    public String folder;
 
 
 
@@ -139,9 +139,9 @@ public class StoreController {
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
         //S3 이미지정보전달
-        model.addAttribute("bucket", bucket);
-        model.addAttribute("region", region);
-        model.addAttribute("folder", folder);
+//        model.addAttribute("bucket", bucket);
+//        model.addAttribute("region", region);
+//        model.addAttribute("folder", folder);
 
         return "admin/distchief/store/list";
     }
@@ -207,9 +207,9 @@ public class StoreController {
         model.addAttribute("storeDTO", storeDTO);
 
 
-        model.addAttribute("bucket", bucket);
-        model.addAttribute("region", region);
-        model.addAttribute("folder", folder);
+//        model.addAttribute("bucket", bucket);
+//        model.addAttribute("region", region);
+//        model.addAttribute("folder", folder);
 
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
@@ -252,9 +252,9 @@ public class StoreController {
         model.addAttribute("brandList",brandList);
         model.addAttribute("list", storeDTOS);
         //S3 이미지정보전달
-        model.addAttribute("bucket", bucket);
-        model.addAttribute("region", region);
-        model.addAttribute("folder", folder);
+//        model.addAttribute("bucket", bucket);
+//        model.addAttribute("region", region);
+//        model.addAttribute("folder", folder);
 
         return "admin/distchief/store/imagetest";
     }

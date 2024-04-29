@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>매장관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h4 class="card-title">매장(가맹점)관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장 검색
+            </div>
+            <form method="post" th:action="@{/admin/distchief/store/list}">
+                <div class="table-responsive">
+                    <table class="table head">
+
+                        <thead>
+                        <tr>
+                            <th style="width: 10%">총판조직</th>
+                            <td>
+                                <div>
+                                    <select class="d-inline-block form-select form-select-sm" name="distName" id="distSelect">
+                                        <option value="">(선택)</option>
+                                        <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <th style="width: 10%">브랜드</th>
+                            <td>
+                                <div>
+                                    <select class="d-inline-block form-select form-select-sm" name="brandName" id="brandSelect">
+                                        <option value="">(선택)</option>
+                                        <option th:each="brandList : ${brandList}" th:value="${brandList.brandName}" th:text="${brandList.brandName}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        </thead>
+
+                        <tr>
+                            <th>매장 선택</th>
+                            <td>
+                                <div>
+                                    <select class="d-inline-block form-select form-select-sm" name="storeName" id="storeSelect">
+                                        <option value="">(선택)</option>
+                                        <option th:each="list : ${list}" th:value="${list.storeName}" th:text="${list.storeName}"></option>
+                                    </select>
+                                </div>
+                            </td>
+                            <th>매장명</th>
+                            <td>
+                                <div>
+                                    <input type="text" name="storeName2">
+                                </div>
+                            </td>
+                            <th>매장코드</th>
+                            <td><input type="text" name="storeCd"></td>
+                        </tr>
+                        <tr>
+                            <th>등급</th>
+                            <td>
+                                <div>
+                                    <select class="d-inline-block form-select form-select-sm" name="storeGrade">
+                                        <option value="">(선택)</option>
+                                        <option value="ONE">1성</option>
+                                        <option value="TWO">2성</option>
+                                        <option value="THREE">3성</option>
+                                        <option value="FOUR">4성</option>
+                                        <option value="FIVE">5성</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <th>지역</th>
+                            <td class="align-middle text-start">
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm">
+                                        <option value="">(선택)</option>
+                                    </select>
+                                </div>
+                                <div class="d-inline-block">
+                                    <select class="d-inline-block form-select form-select-sm">
+                                        <option value="">(선택)</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <th>매장주명</th>
+                            <td><input type="text" name="storeChief"></td>
+                        </tr>
+
+                        <tr>
+                            <th>상태</th>
+                            <td>
+                                <input type="radio" name="storeStatus" value="" checked>전체
+                                <input type="radio" name="storeStatus" value="ON">제휴중
+                                <input type="radio" name="storeStatus" value="OFF"> 제휴중지
+                            </td>
+
+
+                            <th>구분</th>
+                            <td>
+                                <input type="radio" name="storePType" value="" checked>전체
+                                <input type="radio" name="storePType" value="DIRECTSTORE">직영점
+                                <input type="radio" name="storePType" value="FRANCHISEE">가맹점
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">조회</button>
+                        <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/distchief/store/register}'|">신규등록</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매장 목록
+            </div>
+            <div class="table-responsive">
+                <table class="table body">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>등급</th>
+                        <th>직/가맹</th>
+                        <th>지역</th>
+                        <th>매장코드</th>
+                        <th>매장명</th>
+                        <th>매장주이메일</th>
+                        <th>매장주명</th>
+                        <th>브랜드</th>
+                        <th>상태</th>
+                        <th>메인추천</th>
+                        <th>배너추천</th>
+                        <th>임시</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.storeIdx}"></td>
+
+                        <td>
+                            <th:block th:switch="${data.storeGrade.name()}">
+                                <span th:case="ONE">1성</span>
+                                <span th:case="TWO">2성</span>
+                                <span th:case="THREE">3성</span>
+                                <span th:case="FOUR">4성</span>
+                                <span th:case="FIVE">5성</span>
+                            </th:block>
+                        </td>
+
+                        <td>
+                            <th:block th:if="${data.storePType.name() == 'DIRECTSTORE'}"><span>직영점</span></th:block>
+                            <th:block th:if="${data.storePType.name() == 'FRANCHISEE'}"><span>가맹점</span></th:block>
+                        </td>
+
+                        <td th:text="${data.storeAddr}">지역. 주소찾기 전체주소 부분. 다른사이트에서 떼오기</td>
+                        <td th:text="${data.storeCd}"></td>
+                        <td>
+                            <a th:text="${data.storeName}" th:href="@{'/admin/distchief/store/'+${data.storeIdx}}" ></a>
+                        </td>
+                        <td th:text="${data.storeChiefEmail}"></td>
+                        <td th:text="${data.storeChief}"></td>
+                        <td th:text="${data.brandDTO.brandName}"></td>
+
+                        <td>
+                            <th:block th:if="${data.storeStatus.name() == 'ON'}">
+                                <span class="badge rounded-pill bg-primary">제휴중</span></th:block>
+                            <th:block th:if="${data.storeStatus.name() == 'OFF'}">
+                                <span class="badge rounded-pill bg-secondary">미제휴</span></th:block>
+                        </td>
+
+                        <td>
+                            <input class="form-check-input" type="checkbox" id="checkMain" name="checkMain">
+                        </td>
+                        <td>
+                            <input class="form-check-input" type="checkbox" id="checkBanner" name="checkBanner">
+                        </td>
+
+                        <td><a th:href="@{'/admin/distchief/store/modify/'+${data.storeIdx}}" >수정</a>
+                            /<a th:href="@{'/admin/distchief/store/delete/'+${data.storeIdx}}">삭제</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#distSelect').change(function() {
+
+                // 선택된 dist의 값 가져오기
+                var selectedDist = $(this).val();
+                alert('버튼을 클릭했습니다!');
+                console.log(selectedDist); //값 보냇는지확인
+
+                // Ajax 요청 보내기
+                $.ajax({
+                    type: 'GET',
+                    url: '/admin/distchief/store/list', // 서버에서 storeList를 반환하는 엔드포인트
+                    data: { distName: selectedDist },
+                    success: function(data) {
+                        // 서버에서 받은 storeList로 두 번째 셀렉트박스 업데이트
+                        $('#storeSelect').empty();
+                        $('#storeSelect').append($('<option>').val('').text('(선택)'));
+                        $.each(data, function(index, storeList) {
+                            $('#storeSelect').append($('<option>').val(storeList.storeName).text(storeList.storeName));
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Failed to retrieve stores: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</div>
+</body>
+
+</html>

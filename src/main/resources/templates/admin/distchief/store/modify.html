@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>매장 수정</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div>
+        <form th:action="@{/admin/distchief/store/modify}" method="post"  enctype="multipart/form-data">
+            <div class="container-fluid">
+                <p></p>
+                <h3 class="text-dark mb-4">[ [[${storeDTO.storeName}]] ] 매장 수정</h3>
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h3 class="text-primary m-0 fw-bold">브랜드/총판 정보</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                            <table class="table">
+                                <tbody>
+
+                                <tr>
+                                    <td class="col-2">총판조직명</td>
+                                    <td class="col-4" >
+                                        <input class="form-control" type="text"  th:field="*{storeDTO.distDTO.distName}"
+                                               readonly>
+                                    </td>
+                                    <td class="col">총판 코드</td>
+                                    <td class="col"><input class="form-control" type="text"
+                                                           th:field="*{storeDTO.distDTO.distCd}"
+                                                           readonly></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">총판 대표자 성명</td>
+                                    <td class="col-3">
+                                        <input type="text"
+                                               class="form-control"
+                                               th:field="*{storeDTO.distDTO.distChiefDTO.distChiefName}" readonly>
+                                    </td>
+                                    <td class="col-3">총판 대표자 메일</td>
+                                    <td class="col-4">
+                                        <input type="text"
+                                               class="form-control"
+                                               th:field="*{storeDTO.distDTO.distChiefDTO.distChiefEmail}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>총판 연락처</td>
+                                    <td><input type="text"
+                                               class="form-control"
+                                               th:field="*{storeDTO.distDTO.distTel}" readonly>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>브랜드명</td>
+                                    <td>
+                                        <input type="text" class="form-control"
+                                               th:field="*{storeDTO.brandDTO.brandName}" readonly>
+                                    </td>
+                                    <td>브랜드 코드</td>
+                                    <td>
+                                        <input class="form-control" type="text" th:field="*{storeDTO.brandDTO.brandCd}" readonly>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!--매장 주문 내역-->
+            <p></p>
+            <div class="container-fluid">
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h3 class="text-primary m-0 fw-bold">매장 정보</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <table class="table my-0">
+                                <tbody>
+                                <tr>
+                                    <td class="col">매장주 이메일</td>
+                                    <td class="col"><input class="form-control" type="text" th:field="*{storeDTO.storeChiefEmail}"
+                                                           name="storeChiefEmail" required></td>
+                                    <td class="col">등급</td>
+                                    <td class="col">
+                                        <select class="form-select" name="storeGrade"
+                                                th:field="${storeDTO.storeGrade}" required>
+                                            <option value="ONE">1성</option>
+                                            <option value="TWO">2성</option>
+                                            <option value="THREE">3성</option>
+                                            <option value="FOUR">4성</option>
+                                            <option value="FIVE">5성</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col">매장주 성명</td>
+                                    <td class="col"><input class="form-control" type="text"
+                                                           th:field="*{storeDTO.storeChief}"
+                                                           name="storeChief" required></td>
+                                    <td class="col">매장주 연락처</td>
+                                    <td class="col"><input class="form-control" type="text"
+                                                           th:field="*{storeDTO.storeChieftel}"
+                                                           name="storeChieftel" required></td>
+                                </tr>
+                                <tr>
+                                    <td class="col">매장코드</td>
+                                    <td class="col"><input class="form-control" type="text"
+                                                           th:field="*{storeDTO.storeCd}"
+                                                           name="storeCd" required></td>
+                                    <td class="col">매장명</td>
+                                    <td class="col"><input class="form-control" type="text"
+                                                           th:field="*{storeDTO.storeName}"
+                                                           name="storeName" required></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">매장 연락처</td>
+                                    <td class="col-4"><input class="form-control" type="text"
+                                                             th:field="*{storeDTO.storeTel}"
+                                                             name="storeTel" required></td>
+                                    <td class="col-2">지역</td>
+                                    <td class="col-4">
+                                        <div class="row">
+                                            <input class="form-control" type="text" id="region"
+                                                   th:field="*{storeDTO.regionCd}"
+                                                   name="regionCd" readonly required>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3">주소</td>
+                                    <td>[우편번호]
+                                        <input class="form-control" type="text" id="postal_code"
+                                               th:field="*{storeDTO.storePostNo}"
+                                               name="storePostNo" readonly required></td>
+                                </tr>
+                                <tr>
+                                    <td>[주소]
+                                        <input class="form-control" type="text" id="address_kakao" name="storeAddr"
+                                               th:field="*{storeDTO.storeAddr}" required></td>
+                                </tr>
+                                <tr>
+                                    <td>[상세주소]
+                                        <input class="form-control" type="text" name="storeAddrDetail"
+                                               th:field="*{storeDTO.storeAddrDetail}" required></td>
+                                </tr>
+                                <tr>
+                                    <td class="col">제휴 상태</td>
+                                    <td class="col">
+                                        <select class="form-select" name="StoreStatus" required>
+                                            <option value="ON">제휴</option>
+                                            <option value="OFF">비제휴</option>
+                                        </select>
+                                    </td>
+                                    <td class="col">매장 등록일</td>
+                                    <td th:text="${#temporals.format(storeDTO.regdate, 'yyyy-MM-dd')}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">매장 상세</td>
+                                    <td class="col">
+                                    <textarea class="form-control" style="width: 100%; height: 100%;"
+                                              th:field="*{storeDTO.storeSummary}"
+                                              name="storeSummary" required></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-2">영업 여부</td>
+                                    <td class="col-4">
+                                        <div class="form-check">
+                                            <select  class="form-control" name="storeOpenState" required>
+                                                <option value="0">영업중</option>
+                                                <option value="1">폐점</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>매장번호 :</td>
+                                    <td>
+                                        <input class="form-control" type="text" name="storeIdx"
+                                               th:field="*{storeDTO.storeIdx}" readonly required>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!--매장 간략 정보-->
+            <p></p>
+            <div class="container-fluid">
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h3 class="text-primary m-0 fw-bold">매장 상세 정보</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <tbody>
+                            <tr class="row">
+                                <td rowspan="7" class="col-2">이미지(필수)</td>
+                                <td rowspan="7" class="col-10">
+                                    <input type="file" class="form-control" id="imgFile" name="imgFile" required>
+                                </td>
+                            </tr>
+
+                            <tr class="row">
+                                <td rowspan="7" class="col-2">매장결제타입</td>
+                                <td rowspan="7" class="col-4">
+                                    <select  class="form-control" name="storePaymentType" required>
+                                        <option value="0">후불</option>
+                                        <option value="1">선불</option>
+                                    </select>
+                                </td>
+                                <td rowspan="2" class="col-2 ">영업시간</td>
+                                <td class="col-4">
+                                    <div>영업 시작: <input type="time" name="storeOpenTime"
+                                                       th:field="*{storeDTO.storeOpenTime}" required>
+                                        ~ 영업 끝:<input type="time" name="storeCloseTime"
+                                                      th:field="*{storeDTO.storeCloseTime}" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-2">휴무일</td>
+                                <td class="col-4"><input class="form-control" type="text"
+                                                         name="storeRestDay" th:field="*{storeDTO.storeRestDay}" required></td>
+                                <td class="col-2">카카오톡 전송 여부</td>
+                                <td class="col-4">
+                                    <select  class="form-control" name="kakaoSendYn"
+                                             th:field="*{storeDTO.kakaoSendYn}" required>
+                                        <option value="Y">Y</option>
+                                        <option value="N">N</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-2">휴무일내용</td>
+                                <td class="col-10"><input class="form-control" type="text"
+                                                          th:field="*{storeDTO.storeRestDetail}"
+                                                          name="storeRestDetail" required></td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div><!--매장 상세 정보-->
+            <div>
+                <button class="btn btn-primary d-block btn-user w-100" type="submit">등록</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        window.onload = function(){
+            document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+                //카카오 지도 발생
+                new daum.Postcode({
+                    oncomplete: function(data) { //선택시 입력값 세팅
+                        document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                        document.getElementById("postal_code").value = data.zonecode; // 우편번호 넣기
+                        document.getElementById("region").value = data.sido; //시, 도
+                        window.close();
+                    }
+                }).open();
+            });
+        }
+
+    </script>
+
+</div>
+
+</body>
+</html>

@@ -34,12 +34,12 @@ public class RoomController {
     private final SearchService searchService;
     private final HttpServletRequest request;
 
-    @Value("${cloud.aws.s3.bucket}")
-    public String bucket;
-    @Value("${cloud.aws.region.static}")
-    public String region;
-    @Value("${imgUploadLocation}")
-    public String folder;
+//    @Value("${cloud.aws.s3.bucket}")
+//    public String bucket;
+//    @Value("${cloud.aws.region.static}")
+//    public String region;
+//    @Value("${imgUploadLocation}")
+//    public String folder;
 
 
     @GetMapping("/admin/manager/room/register")

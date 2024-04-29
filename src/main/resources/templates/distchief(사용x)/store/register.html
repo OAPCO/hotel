@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body class="bg-gradient-primary">
+<div layout:fragment="content">
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">매장 등록</h4>
+                            </div>
+                            <form class="user" th:action="@{/templates/distchief(사용x)/store/register}" method="post" enctype="multipart/form-data">
+                                <div class="row">
+                                    <p></p>
+                                    <table class="table my-0">
+                                        <thead>
+                                            <h4>총판</h4>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="col">총판이름 </td>
+                                            <td class="col">
+                                                <select class="form-control" name="distDTO.distName"
+                                                        id="distNameSelect">
+                                                    <th:block th:each="dist : ${distList}">
+                                                        <option th:value="${dist.distName}"
+                                                                th:text="${dist.distName}"
+                                                                th:data-cd="${dist.distCd}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </td>
+                                            <td class="col">총판 코드</td>
+                                            <td class="col"><input class="form-control" type="text"
+                                                                   name="distDTO.distCd"  id="distCd"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p></p>
+
+                                    <table class="table my-0">
+                                        <thead>
+                                            <h4>브랜드</h4>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="col">브랜드 이름 </td>
+                                            <td class="col">
+                                                <select class="form-control" name="bradDTO.brandName"
+                                                        id="brandNameSelect">
+                                                    <th:block th:each="brand : ${brandList}">
+                                                        <option th:value="${brand.brandName}"
+                                                                th:text="${brand.brandName}"
+                                                                th:data-cd="${brand.brandCd}"></option>
+                                                    </th:block>
+                                                </select>
+                                            </td>
+                                            <td class="col">브랜드 코드</td>
+                                            <td class="col"><input class="form-control" type="text"
+                                                                   id="brandCd"
+                                                                   name="brandDTO.brandCd"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <p></p>
+                                    <table class="table my-0">
+                                        <thead>
+                                            <h4>매장</h4>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="col-2">매장명</td>
+                                            <td class="col-4"><input class="form-control" type="text"
+                                                                     name="storeName"></td>
+                                            <td class="col-2">매장코드</td>
+                                            <td class="col-4"><input class="form-control" type="text"
+                                                                     name="storeCd"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col">매장주 이메일</td>
+                                            <td class="col"><input class="form-control" type="text"
+                                                                   name="storeCheifEmail"></td>
+                                            <td class="col">매장 대표 이미지</td>
+                                            <td class="col>"><input type="file" class="form-control" id="file" name="file"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col">매장주 성명</td>
+                                            <td class="col"><input class="form-control" type="text"
+                                                                   name="storeCheif"></td>
+                                            <td class="col">매장주 연락처</td>
+                                            <td class="col"><input class="form-control" type="text"
+                                                                   name="storeChiefPhone"></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="col-2">매장 연락처</td>
+                                            <td class="col-4"><input class="form-control" type="text"
+                                                                     name="storeTel"></td>
+                                            <td class="col-2">지역</td>
+                                            <td class="col-4">
+                                                <div class="row">
+                                                    <input class="form-control" type="text" id="region"
+                                                           name="regionCd" readonly>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">주소</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                                [우편번호]
+                                                <input class="form-control" type="text" id="postal_code"
+                                                       name="storePostNo" readonly>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                                [주소]
+                                                <input class="form-control" type="text" id="address_kakao" name="storeAddr">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                                [상세주소]
+                                                <input class="form-control" type="text" name="storeAddrDetail">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-2">매장 상세</td>
+                                            <td class="col">
+                                                 <textarea class="form-control" style="width: 100%; height: 100%;"
+                                                           name="storeSummary"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-2">
+                                                등급
+                                            </td>
+                                            <td class="col-4">
+                                                <select class="form-select" name="storeGrade">
+                                                    <option value="ONE">1성</option>
+                                                    <option value="TWO">2성</option>
+                                                    <option value="THREE">3성</option>
+                                                    <option value="FOUR">4성</option>
+                                                    <option value="FIVE">5성</option>
+                                                </select>
+                                            </td>
+                                            <td class="col-2">카카오톡 전송 여부</td>
+                                            <td class="col-4">
+                                                <select  class="form-control" name="kakaoSendYn">
+                                                    <option value="Y">Y</option>
+                                                    <option value="N">N</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-2">
+                                                제휴 여부
+                                            </td>
+                                            <td class="col-4">
+                                                <select class="form-select" name="StoreStatus">
+                                                    <option value="ON">제휴</option>
+                                                    <option value="OFF">비제휴</option>
+                                                </select>
+                                            </td>
+                                            <td class="col-2">가맹여부</td>
+                                            <td class="col-4">
+                                                <select  class="form-control" name="StorePType">
+                                                    <option value="DIRECTSTORE">직영점</option>
+                                                    <option value="FRANCHISEE">가맹점</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>매장 결제 타입</td>
+                                            <td>
+                                                <select  class="form-control" name="storePaymentType">
+                                                    <option value="0">후불</option>
+                                                    <option value="1">선불</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p></p>
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit">등록</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        window.onload = function(){
+            document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+                //카카오 지도 발생
+                new daum.Postcode({
+                    oncomplete: function(data) { //선택시 입력값 세팅
+                        document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                        document.getElementById("postal_code").value = data.zonecode; // 우편번호 넣기
+                        document.getElementById("region").value = data.sido; //시, 도
+                        window.close();
+                    }
+                }).open();
+            });
+        }
+        document.getElementById('branchNameSelect').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            document.getElementById('branchCd').value = selectedOption.dataset.cd;
+        });
+        document.getElementById('brandNameSelect').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            document.getElementById('brandCd').value = selectedOption.dataset.cd;
+        });
+
+        document.getElementById('distNameSelect').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            document.getElementById('distCd').value = selectedOption.dataset.cd;
+        });
+    </script>
+</div>
+</body>
+
+</html>
