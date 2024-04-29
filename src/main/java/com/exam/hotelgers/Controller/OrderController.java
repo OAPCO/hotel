@@ -409,7 +409,7 @@ public class OrderController {
         model.addAttribute("list", orderDTOS);
 
 
-        return "/order/ordernumber";
+        return "/order/ordersheetnocheck";
     }
 
 
@@ -447,6 +447,6 @@ public class OrderController {
         model.addAttribute("roomList",roomList);
         model.addAttribute("list", orderDTOS);
 
-        return "/order/ordernumber";
+        return "/order/ordersheetnocheck";
     }
 }

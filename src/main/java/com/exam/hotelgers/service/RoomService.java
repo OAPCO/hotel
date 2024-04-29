@@ -82,32 +82,35 @@ public class RoomService {
 
 
 
-    public void modify(RoomDTO roomDTO, @Nullable MultipartFile imgFile) throws IOException {
+    public void modify(RoomDTO newRoom, @Nullable MultipartFile imgFile) throws IOException {
 
-        Optional<Room> temp = roomRepository.findByRoomIdx(roomDTO.getRoomIdx());
+        Optional<Room> optionalRoom = roomRepository.findByRoomIdx(newRoom.getRoomIdx());
 
-        if(temp.isPresent()) {
-            Room room = temp.get();
+        if(optionalRoom.isPresent()) {
+            Room room = optionalRoom.get();
 
-            // 이미지 파일이 제공된 경우에만 기존 이미지 삭제 및 새 이미지 업로드 진행
             if (imgFile != null && !imgFile.isEmpty()) {
-
-                // 기존에 업로드된 이미지가 있다면 삭제
+                // 만약 방에 이미 이미지가 있다면 S3에서 그 이미지를 삭제합니다.
                 if (room.getRoomimgName() != null && !room.getRoomimgName().isEmpty()) {
                     s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
                 }
 
-                // 새 이미지를 업로드하고, 새 파일명을 RoomDTO에 저장
-                String newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+                // S3에 새 파일을 업로드하고 방의 이미지 이름 속성을 업데이트 합니다.
+                String newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
                 room.setRoomimgName(newFileName);
             }
 
-            // RoomDTO를 Room 엔티티로 매핑하고 저장
-            room = modelMapper.map(roomDTO, Room.class);
+            // DTO로부터 필드들을 직접 업데이트 합니다.
+            room.setRoomCd(newRoom.getRoomCd());
+            room.setRoomName(newRoom.getRoomName());
+            room.setRoomType(newRoom.getRoomType());
+
+            // 업데이트 된 방을 저장합니다.
             roomRepository.save(room);
+        } else {
+            throw new IllegalArgumentException("해당 방이 존재하지 않습니다.");
         }
     }
-
 
 
 

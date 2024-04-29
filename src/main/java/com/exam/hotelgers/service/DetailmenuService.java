@@ -63,41 +63,26 @@ public class DetailmenuService {
 
 
     public void modify(DetailmenuDTO detailmenuDTO, @Nullable MultipartFile imgFile) throws IOException {
-
         Optional<Detailmenu> temp = detailmenuRepository.findById(detailmenuDTO.getDetailmenuIdx());
 
         if(temp.isPresent()) {
             Detailmenu detailmenu = temp.get();
 
+            // 이미지 파일 처리
             if (imgFile != null && !imgFile.isEmpty()) {
-                if (detailmenu.getMenuImg() != null && !detailmenu.getMenuImg().isEmpty()) {
-                    s3Uploader.deleteFile(detailmenu.getMenuImg(), imgUploadLocation);
-                }
-
-                String originalFileName = imgFile.getOriginalFilename();
-                String newFileName = "";
-
-                if(originalFileName != null) {
-                    newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
-                }
-
-                detailmenuDTO.setMenuImg(newFileName);
-                // DTO에 새 파일 이름 설정
-                // 이 부분은 DTO에서 사용되는 모든 set 메서드 호출 후에 수행되어야 합니다.
+                String originalFileName = imgFile.getOriginalFilename(); // 원본 파일 이름 가져오기
+                String newFileName = s3Uploader.upload(imgFile, imgUploadLocation); // imgUploadLocation으로 파일 업로드하고, 새로운 파일 이름 받아오기
+                detailmenuDTO.setMenuImg(newFileName); // storeDTO에 새로운 파일 이름 설정하기
             }
+
+            detailmenu.setMenuImg(detailmenuDTO.getMenuImg());
 
             modelMapper.map(detailmenuDTO, detailmenu);
-            // modelMapper로 detailmenuDTO 필드를 detailmenu에 복사.
-
-            if (imgFile != null && !imgFile.isEmpty()) {
-                detailmenu.setMenuImg(detailmenuDTO.getMenuImg());
-                // Map 이후 다시 temp에 menuImg 설정
-                // 이 부분은 modelMapper.map(detailmenuDTO, detailmenu); 뒤에 와야 합니다.
-            }
+            // modelMapper를 이용하여 detailmenuDTO의 필드를 detailmenu에 업데이트합니다. 업데이트된 menuImg는 자동으로 반영됩니다.
 
             detailmenuRepository.save(detailmenu);
         } else {
-            throw new IllegalArgumentException("해당 Detailmenu가 존재하지 않습니다.");
+            throw new IllegalArgumentException("특정 Detailmenu는 존재하지 않습니다.");
         }
     }
 

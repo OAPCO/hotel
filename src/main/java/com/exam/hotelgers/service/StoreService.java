@@ -7,7 +7,6 @@ import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
-import jakarta.xml.soap.Detail;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,11 +48,6 @@ public class StoreService {
 
     public Long register(StoreDTO storeDTO, MultipartFile imgFile) throws Exception{
 
-
-
-
-
-
         Optional<Dist> dist = distRepository.findByDistCd(storeDTO.getDistDTO().getDistCd());
         Optional<Brand> brand = brandRepository.findByBrandCd(storeDTO.getBrandDTO().getBrandCd());
 
@@ -63,9 +58,6 @@ public class StoreService {
         if (!brand.isPresent()) {
             throw new IllegalStateException("존재하지 않는 브랜드 코드입니다.");
         }
-
-
-
 
 
         Optional<Store> temp = storeRepository
@@ -130,20 +122,58 @@ public class StoreService {
 
 
 
-    public void modify(StoreDTO storeDTO) throws Exception{
-
-
-        Optional<Store> temp = storeRepository
-                .findByStoreIdx(storeDTO.getStoreIdx());
-
-        if(temp.isPresent()) {
-
-            Store store = modelMapper.map(storeDTO, Store.class);
-            storeRepository.save(store);
+    public Store modify(StoreDTO storeDTO, MultipartFile imgFile) throws IOException {
+        Long storeIdx = storeDTO.getStoreIdx();
+        if (storeIdx == null) {
+            throw new IllegalArgumentException("storeIdx must not be null.");
         }
 
-    }
+        Store store = storeRepository.findById(storeIdx).orElseThrow(() -> new IllegalArgumentException("Invalid storeIdx."));
 
+        // Process the image file
+        if (imgFile != null && !imgFile.isEmpty()) {
+            String originalFileName = imgFile.getOriginalFilename(); // Get the original file name
+            String newFileName = s3Uploader.upload(imgFile, imgUploadLocation); // Upload the file and get the new file's name
+            storeDTO.setStoreimgName(newFileName); // Set the new file's name to the storeDTO
+        }
+        store.setStoreimgName(storeDTO.getStoreimgName());
+
+        // 'dist', 'distChief', 'brand'를 제외한 나머지 필드들을 업데이트합니다.
+        store.setStoreChiefEmail(storeDTO.getStoreChiefEmail());
+        store.setStoreGrade(storeDTO.getStoreGrade());
+
+        store.setStoreChief(storeDTO.getStoreChief());
+        store.setStoreChieftel(storeDTO.getStoreChieftel());
+
+        store.setStoreCd(storeDTO.getStoreCd());
+        store.setStoreName(storeDTO.getStoreName());
+
+        store.setStoreTel(storeDTO.getStoreTel());
+        store.setRegionCd(storeDTO.getRegionCd());
+
+        store.setStorePostNo(storeDTO.getStorePostNo());
+        store.setStoreAddr(storeDTO.getStoreAddr());
+        store.setStoreAddrDetail(storeDTO.getStoreAddrDetail());
+
+        store.setStoreStatus(storeDTO.getStoreStatus());
+        store.setStoreSummary(storeDTO.getStoreSummary());
+
+        store.setStoreOpenState(storeDTO.getStoreOpenState());
+        store.setStoreIdx(storeDTO.getStoreIdx());
+
+        store.setStorePaymentType(storeDTO.getStorePaymentType());
+        store.setStoreOpenTime(storeDTO.getStoreOpenTime());
+        store.setStoreCloseTime(storeDTO.getStoreCloseTime());
+
+        store.setStoreRestDay(storeDTO.getStoreRestDay());
+        store.setKakaoSendYn(storeDTO.getKakaoSendYn());
+        store.setStoreRestDetail(storeDTO.getStoreRestDetail());
+
+        // 변경된 엔티티를 저장합니다.
+        storeRepository.save(store);
+
+        return store;
+    }
 
 
     public StoreDTO read(Long storeIdx) throws Exception{
@@ -151,10 +181,11 @@ public class StoreService {
         if (optionalStore.isPresent()) {
             Store store = optionalStore.get();
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
-            dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
-            dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
             dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
             dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
+
+            dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
+            dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
             dto.setMenuCateDTOList(searchService.convertToMenuCateDTOList(store.getMenuCateList()));
             dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getDetailMenuList()));
 
