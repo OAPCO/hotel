@@ -337,11 +337,9 @@ public class OrderController {
 
         StoreDTO storeDTO = managerService.managerOfStore(principal);
         DistDTO distDTO = managerService.managerOfDist(principal);
+        Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
 
         Page<OrderDTO> orderDTOS = orderService.list(pageable);
-
-        List<RoomDTO> roomList = searchService.roomList();
-
 
 
 
@@ -350,7 +348,7 @@ public class OrderController {
         model.addAllAttributes(pageinfo);
         model.addAttribute("distDTO",distDTO);
         model.addAttribute("storeDTO",storeDTO);
-        model.addAttribute("roomList",roomList);
+        model.addAttribute("roomList",roomDTOS);
         model.addAttribute("list", orderDTOS);
 
 

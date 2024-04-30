@@ -132,8 +132,8 @@ public class ManagerService {
     }
 
 
-//
-//    //현재 로그인중인 매니저의 아이디로 소속 매장을 구한 뒤 매장의 코드를 이용해 room과 조인하여 보유 객실목록을 가져온다.
+
+//      Page 뺀 버전
 //    public List<RoomDTO> managerOfLoom(Principal principal) {
 //
 //        String userId = principal.getName();
@@ -167,10 +167,7 @@ public class ManagerService {
 
 
         Page<Room> rooms = roomRepository.loginManagerRoomSearch(storeDTO.getStoreCd(),page);
-
-//        Page<RoomDTO> roomDTOS = rooms.stream()
-//                .map(room -> modelMapper.map(room, RoomDTO.class))
-//                .collect(Collectors.toList());
+        
 
         Page<RoomDTO> roomDTOS = rooms.map(data->modelMapper.map(data,RoomDTO.class));
 
