@@ -3,12 +3,10 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Brand;
-import com.exam.hotelgers.entity.Dist;
-import com.exam.hotelgers.entity.Manager;
-import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.DistRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
+import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.exam.hotelgers.entity.QDist.dist;
+
 @Service
 @RequiredArgsConstructor
 public class ManagerService {
@@ -33,6 +33,7 @@ public class ManagerService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final DistRepository distRepository;
+    private final RoomRepository roomRepository;
 
 
 
@@ -104,6 +105,7 @@ public class ManagerService {
     }
 
 
+
     public List<ManagerDTO> distOfManager(SearchDTO searchDTO) {
 
         List<Manager> managers = managerRepository.distOfManager(searchDTO);
@@ -128,6 +130,55 @@ public class ManagerService {
 
         return modelMapper.map(dist.get(),DistDTO.class);
     }
+
+
+//
+//    //현재 로그인중인 매니저의 아이디로 소속 매장을 구한 뒤 매장의 코드를 이용해 room과 조인하여 보유 객실목록을 가져온다.
+//    public List<RoomDTO> managerOfLoom(Principal principal) {
+//
+//        String userId = principal.getName();
+//        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
+//
+//        StoreDTO storeDTO = modelMapper.map(store.get(),StoreDTO.class);
+//
+//
+//        List<Room> rooms = roomRepository.loginManagerRoomSearch(storeDTO.getStoreCd());
+//
+//        List<RoomDTO> roomDTOS = rooms.stream()
+//                .map(room -> modelMapper.map(room, RoomDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return roomDTOS;
+//    }
+
+
+
+    //현재 로그인중인 매니저의 아이디로 소속 매장을 구한 뒤 매장의 코드를 이용해 room과 조인하여 보유 객실목록을 가져온다.
+    public Page<RoomDTO> managerOfLoom(Principal principal,Pageable pageable) {
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomIdx"));
+
+        String userId = principal.getName();
+        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
+
+        StoreDTO storeDTO = modelMapper.map(store.get(),StoreDTO.class);
+
+
+        Page<Room> rooms = roomRepository.loginManagerRoomSearch(storeDTO.getStoreCd(),page);
+
+//        Page<RoomDTO> roomDTOS = rooms.stream()
+//                .map(room -> modelMapper.map(room, RoomDTO.class))
+//                .collect(Collectors.toList());
+
+        Page<RoomDTO> roomDTOS = rooms.map(data->modelMapper.map(data,RoomDTO.class));
+
+        return roomDTOS;
+    }
+
+
+
 
 
 }

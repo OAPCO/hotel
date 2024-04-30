@@ -39,6 +39,7 @@ public class RoomController {
     private final SearchService searchService;
     private final HttpServletRequest request;
 
+
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
     @Value("${cloud.aws.region.static}")
@@ -81,20 +82,20 @@ public class RoomController {
 
 
     @GetMapping("/admin/manager/room/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model,Principal principal
                            ) {
 
         log.info("room listForm 도착 ");
 
-        Page<RoomDTO> roomDTOS = roomService.list(pageable);
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
 
-        List<StoreDTO> storeList = searchService.storeList();
+        Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(roomDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("storeList",storeList);
+        model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("list", roomDTOS);
         return "admin/manager/room/list";
     }

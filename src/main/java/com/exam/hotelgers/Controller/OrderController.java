@@ -3,6 +3,7 @@ package com.exam.hotelgers.Controller;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.service.ManagerService;
 import com.exam.hotelgers.service.OrderService;
 import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,7 @@ public class OrderController {
     
     private final OrderService orderService;
     private final SearchService searchService;
+    private final ManagerService managerService;
 
 
 
@@ -327,15 +330,16 @@ public class OrderController {
 
 
     @GetMapping("/admin/manager/order/select")
-    public String managerOrderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    public String managerOrderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model, Principal principal
     ) {
 
         log.info("매니저 order/select Form 도착 ");
 
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+        DistDTO distDTO = managerService.managerOfDist(principal);
+
         Page<OrderDTO> orderDTOS = orderService.list(pageable);
 
-        List<DistDTO> distList = searchService.distList();
-        List<StoreDTO> storeList = searchService.storeList();
         List<RoomDTO> roomList = searchService.roomList();
 
 
@@ -344,8 +348,8 @@ public class OrderController {
         Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distList);
-        model.addAttribute("storeList",storeList);
+        model.addAttribute("distDTO",distDTO);
+        model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("roomList",roomList);
         model.addAttribute("list", orderDTOS);
 
