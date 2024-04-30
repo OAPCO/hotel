@@ -1,0 +1,92 @@
+<!-----------------------------------
+프로그램명 : 매장별 회원관리 입력폼
+작성일 : 2024-04-09
+작성자 : 조영규
+기  능 : 매장별 회원을 등록
+작업내역 : 1. 입력폼(24-04-09)
+         2. 입력테스트(24-04-10)
+         3. 작업완료
+----------------------------------->
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>Register - Brand</title>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+<h3 class="text-dark mb-4">매출분석</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1">
+                <!---->
+            </div>
+            <div class="col-lg-10">
+                <h5 class="text-dark mb-4">매출등록</h5>
+                <form th:action="@{/order/orderProgress/register}" method="post">
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">매장명</div>
+                        <div class="col-sm-4 border">
+                            <input type="text" name="storeName" value="">
+                        </div>
+                        <div class="col-sm-2 border">룸</div>
+                        <div class="col-sm-4 border">
+                            <input type="text" name="roomName" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 bg-gray-200 text-black">신규주문번호</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" name="newOrderNo" value="">
+                        </div>
+                        <div class="col-sm-2 bg-gray-200 text-black">주문서 이름</div>
+                        <div class="col-lg-3 p-1 text-black">
+                            <input type="text" name="menuSheetName" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 border">조리일시</div>
+                        <div class="col-sm-4 border">
+                            <input type="datetime-local" name="orderdate" step="1">
+                        </div>
+                        <div class="col-sm-2 border">주문서 상태</div>
+                        <div class="col-sm-4 border">
+                            <input type="radio" name="menuSheetState" value="0" checked>주문전
+                            <input type="radio" name="menuSheetState" value="1">조리요청
+                            <input type="radio" name="menuSheetState" value="2">결제요청
+                            <input type="radio" name="menuSheetState" value="3">결제완료
+                            <input type="radio" name="menuSheetState" value="4">결제취소
+                            <input type="radio" name="menuSheetState" value="5">조리완료
+                            <input type="radio" name="menuSheetState" value="6">배달요청
+                            <input type="radio" name="menuSheetState" value="7">배달완료
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2 border">주문상태</div>
+                        <div class="col-sm-4 border">
+                            <select class="d-inline-block form-select form-select-sm" name="storeName">
+                                <option th:value="NEW">신규</option>
+                                <option th:value="CHECK">접수</option>
+                                <option th:value="CANCEL">취소</option>
+                                <option th:value="CALL">호출</option>
+                                <option th:value="CLOSE">완료</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="container d-flex justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary">등록</button>
+                        <button type="button" class="btn btn-secondary"
+                                th:onclick="|location.href='@{/order/orderProgress}'|">취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
