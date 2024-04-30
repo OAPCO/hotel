@@ -38,9 +38,9 @@ public class BrandService {
         Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistDTO().getDistCd());
 
 
-//        if (!dist.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
-//        }
+        if (!dist.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
+        }
 
 
 
@@ -64,9 +64,9 @@ public class BrandService {
             // 입력된 brandDTO의 distCd를 기반으로 Dist를 검색합니다.
             Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistDTO().getDistCd());
 
-//            if (!dist.isPresent()) {
-//                throw new IllegalArgumentException("DistCd로 검색된 Dist가 존재하지 않습니다.");
-//            }
+            if (!dist.isPresent()) {
+                throw new IllegalArgumentException("DistCd로 검색된 Dist가 존재하지 않습니다.");
+            }
 
             Brand brand = temp.get(); // 존재하는 Brand 찾기
 
@@ -79,9 +79,9 @@ public class BrandService {
 
             // Brand 업데이트
             brandRepository.save(brand);
-        } //else {
-//            throw new IllegalArgumentException("입력된 brandIdx로 검색된 Brand가 존재하지 않습니다.");
-//        }
+        } else {
+            throw new IllegalArgumentException("입력된 brandIdx로 검색된 Brand가 존재하지 않습니다.");
+        }
     }
 
     public BrandDTO read(Long brandIdx) {

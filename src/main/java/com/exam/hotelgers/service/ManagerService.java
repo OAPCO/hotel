@@ -31,9 +31,9 @@ public class ManagerService {
         Optional<Manager> manageridCheck = managerRepository.findByManagerId(managerDTO.getManagerId());
 
 
-//        if(manageridCheck.isPresent()) {
-//            throw new IllegalStateException("중복된 아이디가 있습니다.");
-//        }
+        if(manageridCheck.isPresent()) {
+            throw new IllegalStateException("중복된 아이디가 있습니다.");
+        }
 
         String password = passwordEncoder.encode(managerDTO.getPassword());
         Manager manager = modelMapper.map(managerDTO, Manager.class);

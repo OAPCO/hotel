@@ -78,7 +78,7 @@ public class SalesService {
     //개별조회
     public SalesDTO read(Long id) {
         Optional<Sales> storeMember = salesRepository.findById(id);
-            //SalesDTO result = modelMapper.map(storeMember, SalesDTO.class);
+//            SalesDTO result = modelMapper.map(storeMember, SalesDTO.class);
             SalesDTO result = storeMember.map(data->modelMapper.map(data, SalesDTO.class)).orElse(null);
 
             return result;

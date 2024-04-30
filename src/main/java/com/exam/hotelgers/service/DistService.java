@@ -46,9 +46,9 @@ public class DistService {
 
         Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
 
-//        if (!distChief.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 총판장입니다.");
-//        }
+        if (!distChief.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판장입니다.");
+        }
 
         
         
@@ -56,9 +56,9 @@ public class DistService {
 
 
 
-//        if(distEntity.isPresent()) {
-//            throw new IllegalStateException("이미 생성된 총판입니다.");
-//        }
+        if(distEntity.isPresent()) {
+            throw new IllegalStateException("이미 생성된 총판입니다.");
+        }
 
 
 

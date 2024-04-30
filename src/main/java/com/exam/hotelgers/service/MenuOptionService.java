@@ -40,9 +40,9 @@ public class MenuOptionService {
                 detailmenuRepository.findByDetailmenuIdx(menuOptionDTO.getDetailmenuDTO().getDetailmenuIdx());
 
         // 찾는 상세 메뉴가 없으면 예외를 던집니다
-//        if (!detailmenu.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 상세 메뉴 번호입니다.");
-//        }
+        if (!detailmenu.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 상세 메뉴 번호입니다.");
+        }
 
         // MenuOptionDTO를 MenuOption으로 매핑하고,
         MenuOption menuOption = modelMapper.map(menuOptionDTO, MenuOption.class);

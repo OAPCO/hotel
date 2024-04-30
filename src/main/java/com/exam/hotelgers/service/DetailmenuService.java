@@ -35,11 +35,11 @@ public class DetailmenuService {
     private final ModelMapper modelMapper;
 
     //Application.properties에 선언한 파일이 저장될 경로
-//    @Value("${imgUploadLocation}")
-//    private String imgUploadLocation;
+    @Value("${imgUploadLocation}")
+    private String imgUploadLocation;
 
     //파일저장을 위한 클래스
-//    private final S3Uploader s3Uploader;
+    private final S3Uploader s3Uploader;
 
 
     public Long register(DetailmenuDTO detailmenuDTO,@RequestParam(required = false) MultipartFile imgFile) throws IOException {
@@ -50,9 +50,9 @@ public class DetailmenuService {
         String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
         String newFileName = ""; //새로 만든 파일명
 
-//        if(originalFileName != null) { //파일이 존재하면
-//            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
-//        }
+        if(originalFileName != null) { //파일이 존재하면
+            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+        }
 
         detailmenu.setMenuImg(newFileName); //새로운 파일명을 재등록
 
@@ -69,11 +69,11 @@ public class DetailmenuService {
             Detailmenu detailmenu = temp.get();
 
             // 이미지 파일 처리
-//            if (imgFile != null && !imgFile.isEmpty()) {
-//                String originalFileName = imgFile.getOriginalFilename(); // 원본 파일 이름 가져오기
-//                String newFileName = s3Uploader.upload(imgFile, imgUploadLocation); // imgUploadLocation으로 파일 업로드하고, 새로운 파일 이름 받아오기
-//                detailmenuDTO.setMenuImg(newFileName); // storeDTO에 새로운 파일 이름 설정하기
-//            }
+            if (imgFile != null && !imgFile.isEmpty()) {
+                String originalFileName = imgFile.getOriginalFilename(); // 원본 파일 이름 가져오기
+                String newFileName = s3Uploader.upload(imgFile, imgUploadLocation); // imgUploadLocation으로 파일 업로드하고, 새로운 파일 이름 받아오기
+                detailmenuDTO.setMenuImg(newFileName); // storeDTO에 새로운 파일 이름 설정하기
+            }
 
             detailmenu.setMenuImg(detailmenuDTO.getMenuImg());
 
@@ -81,9 +81,9 @@ public class DetailmenuService {
             // modelMapper를 이용하여 detailmenuDTO의 필드를 detailmenu에 업데이트합니다. 업데이트된 menuImg는 자동으로 반영됩니다.
 
             detailmenuRepository.save(detailmenu);
-        } //else {
-//            throw new IllegalArgumentException("특정 Detailmenu는 존재하지 않습니다.");
-//        }
+        } else {
+            throw new IllegalArgumentException("특정 Detailmenu는 존재하지 않습니다.");
+        }
     }
 
     public DetailmenuDTO read(Long detailmenuIdx){
@@ -119,7 +119,7 @@ public class DetailmenuService {
                 .findById(detailmenuIdx)
                 .orElseThrow();; //조회->저장
         //deleteFile(파일명, 폴더명)
-//        s3Uploader.deleteFile(detailmenu.getMenuImg(), imgUploadLocation);
+        s3Uploader.deleteFile(detailmenu.getMenuImg(), imgUploadLocation);
 
         detailmenuRepository.deleteById(detailmenuIdx);
 

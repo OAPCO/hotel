@@ -36,9 +36,9 @@ public class MemberService {
         Optional<Member> memberEntity = memberRepository
                 .findByMemberEmail(memberDTO.getMemberEmail());
 
-//        if(memberEntity.isPresent()) {
-//            throw new IllegalStateException("이미 가입된 이메일입니다.");
-//        }
+        if(memberEntity.isPresent()) {
+            throw new IllegalStateException("이미 가입된 이메일입니다.");
+        }
 
         String password = passwordEncoder.encode(memberDTO.getPassword());
         Member member = modelMapper.map(memberDTO, Member.class);

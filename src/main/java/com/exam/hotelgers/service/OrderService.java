@@ -45,15 +45,15 @@ public class OrderService {
         Optional<Room> room = roomRepository.findByRoomCd(orderDTO.getRoomDTO().getRoomCd());
 
 
-//        if (!dist.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
-//        }
-//        if (!store.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
-//        }
-//        if (!room.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 룸 코드입니다.");
-//        }
+        if (!dist.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
+        }
+        if (!store.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
+        }
+        if (!room.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 룸 코드입니다.");
+        }
 
 
 

@@ -1,14 +1,12 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.MenuSheetDTO;
-import com.exam.hotelgers.dto.RoomDTO;
-import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,126 +27,72 @@ public class MenuSheetService {
     private final RoomRepository roomRepository;
     private final OrderRepository orderRepository;
 
-
-
-
-
-
-    //등록
+    // 등록
     public Long register(MenuSheetDTO menuSheetDTO) {
+        // StoreDTO, RoomDTO, OrderDTO 가져오기
+        StoreDTO storeDTO = menuSheetDTO.getStoreDTO();
+        RoomDTO roomDTO = menuSheetDTO.getRoomDTO();
+        OrderDTO orderDTO = menuSheetDTO.getOrderDTO();
 
-        
-        Optional<Store> store = storeRepository.findByStoreCd(menuSheetDTO.getStoreDTO().getStoreCd());
-        Optional<Room> room = roomRepository.findByRoomCd(menuSheetDTO.getRoomDTO().getRoomCd());
-        Optional<Order> order = orderRepository.findByOrderCd(menuSheetDTO.getOrderDTO().getOrderCd());
+        // Null 체크
+        if (storeDTO == null || roomDTO == null || orderDTO == null) {
+            throw new IllegalArgumentException("StoreDTO, RoomDTO, or OrderDTO is null in MenuSheetDTO");
+        }
 
-        
-//        if (!store.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
-//        }
-//        if (!room.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 룸 코드입니다.");
-//        }
+        // StoreDTO로부터 Store 엔티티 찾기
+        Optional<Store> storeOptional = storeRepository.findByStoreCd(storeDTO.getStoreCd());
+        Store store = storeOptional.orElseThrow(() -> new IllegalStateException("존재하지 않는 매장 코드입니다."));
 
+        // RoomDTO로부터 Room 엔티티 찾기
+        Optional<Room> roomOptional = roomRepository.findByRoomCd(roomDTO.getRoomCd());
+        Room room = roomOptional.orElseThrow(() -> new IllegalStateException("존재하지 않는 룸 코드입니다."));
 
+        // OrderDTO로부터 Order 엔티티 찾기
+        Optional<Order> orderOptional = orderRepository.findByOrderCd(orderDTO.getOrderCd());
+        Order order = orderOptional.orElseThrow(() -> new IllegalStateException("존재하지 않는 주문 코드입니다."));
 
-
-        Optional<MenuSheet> temp = menuSheetRepository.findByNewOrderNo(menuSheetDTO.getNewOrderNo());
-
-//        if(temp.isPresent()) {
-//            throw new IllegalStateException("이미 존재하는 코드입니다.");
-//        }
-
-
+        // MenuSheetDTO를 MenuSheet 엔티티로 변환
         MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
+        menuSheet.setStore(store);
+        menuSheet.setRoom(room);
+        menuSheet.setOrder(order);
 
-        
-        menuSheet.setStore(store.get());
-        menuSheet.setRoom(room.get());
-        menuSheet.setOrder(order.get());
-
-
-        modelMapper.map(store.get(), menuSheetDTO.getStoreDTO());
-        modelMapper.map(room.get(), menuSheetDTO.getRoomDTO());
-        modelMapper.map(order.get(),menuSheetDTO.getOrderDTO());
-
-
-
+        // MenuSheet 엔티티 저장 후 ID 반환
         return menuSheetRepository.save(menuSheet).getMenuSheetIdx();
     }
 
-    
-
-    //수정
-    public void modify(MenuSheetDTO menuSheetDTO){
-
-
-        Optional<MenuSheet> temp = menuSheetRepository
-                .findByMenuSheetIdx(menuSheetDTO.getMenuSheetIdx());
-
-        if(temp.isPresent()) {
-
-            MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
+    public void modify(MenuSheetDTO menuSheetDTO) {
+        // MenuSheetDTO에서 MenuSheet 엔티티를 찾기 위해 MenuSheetIdx 가져오기
+        Long menuSheetIdx = menuSheetDTO.getMenuSheetIdx();
+        Optional<MenuSheet> menuSheetOptional = menuSheetRepository.findByMenuSheetIdx(menuSheetIdx);
+        menuSheetOptional.ifPresent(menuSheet -> {
+            // MenuSheetDTO의 내용으로 MenuSheet 엔티티 수정
+            modelMapper.map(menuSheetDTO, menuSheet);
             menuSheetRepository.save(menuSheet);
-        }
-
+        });
     }
 
+    public Page<MenuSheetDTO> searchList(Pageable pageable, MenuSheetDTO menuSheetDTO) {
+        // 검색 조건 추출
+        StoreDTO storeDTO = menuSheetDTO.getStoreDTO();
+        RoomDTO roomDTO = menuSheetDTO.getRoomDTO();
+        String storeName = (storeDTO != null) ? storeDTO.getStoreName() : null;
+        String roomCd = (roomDTO != null) ? roomDTO.getRoomCd() : null;
 
+        // MenuSheetRepository에서 검색 메서드 호출
+        Page<MenuSheet> menuSheetPage = menuSheetRepository.menuSheetListSearch(
+                storeName,
+                roomCd,
+                menuSheetDTO.getNewOrderNo(),
+                menuSheetDTO.getMenuSheetState(),
+                menuSheetDTO.getStartDate(),
+                menuSheetDTO.getEndDate(),
+                menuSheetDTO.getOrderProgressStatus(),
+                menuSheetDTO.getMenuSheetName(),
+                pageable
+        );
 
-    //삭제
-    public void delete(Long orderIdx){
-        menuSheetRepository.deleteById(orderIdx);
-    }
-
-
-
-    public MenuSheetDTO read(Long id) {
-        Optional<MenuSheet> storeMember = menuSheetRepository.findByMenuSheetIdx(id);
-        //SalesDTO result = modelMapper.map(storeMember, SalesDTO.class);
-        MenuSheetDTO result = storeMember.map(data->modelMapper.map(data, MenuSheetDTO.class)).orElse(null);
-
-        return result;
-    }
-
-
-
-
-
-    public Page<MenuSheetDTO> searchList(Pageable pageable, MenuSheetDTO menuSheetDTO, StoreDTO storeDTO, RoomDTO roomDTO) {
-
-        int currentPage = pageable.getPageNumber() - 1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage, pageCnt,
-                Sort.by(Sort.Direction.DESC,"menuSheetIdx"));
-        String storeName = null;
-        String roomCd = null;
-
-        // 매장 DTO가 null이 아닌 경우에 매장명을 가져옴
-        if (menuSheetDTO.getStoreDTO() != null) {
-            storeName = menuSheetDTO.getStoreDTO().getStoreName();
-        }
-
-        // 룸 DTO가 null이 아닌 경우에 룸 코드를 가져옴
-        if (menuSheetDTO.getRoomDTO() != null) {
-            roomCd = menuSheetDTO.getRoomDTO().getRoomCd();
-        }
-
-
-        Page<MenuSheet> menuSheets = menuSheetRepository.menuSheetListSearch(
-                storeName,  // 수정: storeName 변수로 변경
-                roomCd, // 수정: roomCd 변수로 변경
-                menuSheetDTO.getNewOrderNo(), //신규 주문번호
-                menuSheetDTO.getMenuSheetState(),//주문서 상태 0.주문전, 1.조리요청, 2.결제요청, 3.결제완료, 4.결제취소, 5.조리완료, 6.배달요청, 7.배달완료
-                menuSheetDTO.getStartDate(),//시작날짜
-                menuSheetDTO.getEndDate(),//종료날짜
-                menuSheetDTO.getOrderProgressStatus(),//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
-                menuSheetDTO.getMenuSheetName(),//주문서 이름
-                pageable);
-
-
-        Page<MenuSheetDTO> result = menuSheets.map(data->modelMapper.map(data,MenuSheetDTO.class));
-
-        return result;
+        // 검색 결과를 DTO로 변환하여 반환
+        return menuSheetPage.map(menuSheet -> modelMapper.map(menuSheet, MenuSheetDTO.class));
     }
 }

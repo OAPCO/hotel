@@ -44,9 +44,9 @@ public class DistChiefService {
         Optional<DistChief> distChiefidCheck = distChiefRepository.findByDistChiefId(distChiefDTO.getDistChiefId());
 
 
-//        if(distChiefidCheck.isPresent()) {
-//            throw new IllegalStateException("중복된 아이디가 있습니다.");
-//        }
+        if(distChiefidCheck.isPresent()) {
+            throw new IllegalStateException("중복된 아이디가 있습니다.");
+        }
 
         String password = passwordEncoder.encode(distChiefDTO.getPassword());
         DistChief distChief = modelMapper.map(distChiefDTO, DistChief.class);

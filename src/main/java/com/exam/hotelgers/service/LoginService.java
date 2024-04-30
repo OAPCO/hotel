@@ -1,5 +1,4 @@
 package com.exam.hotelgers.service;
-//로그인만 처리
 
 import com.exam.hotelgers.entity.Admin;
 import com.exam.hotelgers.entity.Member;
@@ -24,49 +23,32 @@ public class LoginService implements UserDetailsService {
     private final AdminRepository adminRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String memberEmail) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Member> member = memberRepository.findByMemberEmail(username);
+        Optional<Admin> admin = adminRepository.findByAdminId(username);
 
-        //가져온 아이디로 존재여부를 검색
-        Optional<Member> member = memberRepository.findByMemberEmail(memberEmail);
+        if (member.isPresent()) { // 회원 로그인
+            Member foundMember = member.get();
+            log.info("회원 로그인 시도 아이디 : " + foundMember.getMemberEmail());
+            log.info("회원 로그인 시도 비밀번호 : " + foundMember.getPassword());
+            log.info("회원 로그인 시도 권한 : " + foundMember.getRoleType().name());
 
-
-        //관리자
-//        Optional<Admin> admin = adminRepository.findByAdminId(username);
-
-        if(member.isPresent()) { //입력한 아이디가 존재하면
-
-            log.info("회원 로그인 시도 아이디 : "+member.get().getMemberEmail());
-            log.info("회원 로그인 시도 비밀번호 : "+member.get().getPassword());
-            log.info("회원 로그인 시도 권한 : "+member.get().getRoleType().name());
-
-            return User.withUsername(member.get().getMemberEmail()) //조회한 아이디
-                    .password(member.get().getPassword())      //조회한 비밀번호
-                    .roles(member.get().getRoleType().name())  //조회한 권한
+            return User.withUsername(foundMember.getMemberEmail())
+                    .password(foundMember.getPassword())
+                    .roles(foundMember.getRoleType().name())
                     .build();
+        } else if (admin.isPresent()) { // 어드민 로그인
+            Admin foundAdmin = admin.get();
+            log.info("어드민 로그인 시도 아이디: " + foundAdmin.getAdminId());
+            log.info("어드민 로그인 시도 비밀번호: " + foundAdmin.getPassword());
+            log.info("어드민 로그인 시도 권한: " + foundAdmin.getRoleType());
 
-        }
-
-        //어드민 로그인
-//        else if(admin.isPresent()){
-//
-//            log.info("어드민 로그인 시도 아이디: " + admin.get().getAdminId());
-//            log.info("어드민 로그인 시도 비밀번호: " + admin.get().getPassword());
-//            log.info("어드민 로그인 시도 권한: " + admin.get().getRoleType());
-//
-//            return User.withUsername(admin.get().getAdminId())
-//                    .password(admin.get().getPassword())
-//                    .roles(admin.get().getRoleType().name())
-//                    .build();
-//        }
-
-
-        else {
-            throw new UsernameNotFoundException("가입되지 않은 아이디 :"+ memberEmail);
+            return User.withUsername(foundAdmin.getAdminId())
+                    .password(foundAdmin.getPassword())
+                    .roles(foundAdmin.getRoleType().name())
+                    .build();
+        } else {
+            throw new UsernameNotFoundException("가입되지 않은 아이디: " + username);
         }
     }
-
-
-
-
-
 }

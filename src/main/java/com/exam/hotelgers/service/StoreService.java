@@ -39,11 +39,11 @@ public class StoreService {
 
 
     //Application.properties에 선언한 파일이 저장될 경로
-//    @Value("${imgUploadLocation}")
-//    private String imgUploadLocation;
+    @Value("${imgUploadLocation}")
+    private String imgUploadLocation;
 
     //파일저장을 위한 클래스
-//    private final S3Uploader s3Uploader;
+    private final S3Uploader s3Uploader;
 
 
 
@@ -53,29 +53,29 @@ public class StoreService {
         Optional<Brand> brand = brandRepository.findByBrandCd(storeDTO.getBrandDTO().getBrandCd());
 
 
-//        if (!dist.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
-//        }
-//        if (!brand.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 브랜드 코드입니다.");
-//        }
+        if (!dist.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
+        }
+        if (!brand.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 브랜드 코드입니다.");
+        }
 
 
         Optional<Store> temp = storeRepository
                 .findByStoreCd(storeDTO.getStoreCd());
 
-//        if(temp.isPresent()) {
-//            throw new IllegalStateException("이미 존재하는 코드입니다.");
-//        }
+        if(temp.isPresent()) {
+            throw new IllegalStateException("이미 존재하는 코드입니다.");
+        }
 
 
 
         String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
         String newFileName = ""; //새로 만든 파일명
 
-//        if(originalFileName != null) { //파일이 존재하면
-//            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
-//        }
+        if(originalFileName != null) { //파일이 존재하면
+            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+        }
 
         storeDTO.setStoreimgName(newFileName); //새로운 파일명을 재등록
 
@@ -125,39 +125,47 @@ public class StoreService {
 
     public Store modify(StoreDTO storeDTO, MultipartFile imgFile) throws IOException {
         Long storeIdx = storeDTO.getStoreIdx();
-//        if (storeIdx == null) {
-//            throw new IllegalArgumentException("storeIdx must not be null.");
-//        }
+        if (storeIdx == null) {
+            throw new IllegalArgumentException("storeIdx must not be null.");
+        }
 
         Store store = storeRepository.findById(storeIdx).orElseThrow(() -> new IllegalArgumentException("Invalid storeIdx."));
 
         // Process the image file
-//        if (imgFile != null && !imgFile.isEmpty()) {
-//            String originalFileName = imgFile.getOriginalFilename(); // Get the original file name
-//            String newFileName = s3Uploader.upload(imgFile, imgUploadLocation); // Upload the file and get the new file's name
-//            storeDTO.setStoreimgName(newFileName); // Set the new file's name to the storeDTO
-//        }
+        if (imgFile != null && !imgFile.isEmpty()) {
+            String originalFileName = imgFile.getOriginalFilename(); // Get the original file name
+            String newFileName = s3Uploader.upload(imgFile, imgUploadLocation); // Upload the file and get the new file's name
+            storeDTO.setStoreimgName(newFileName); // Set the new file's name to the storeDTO
+        }
         store.setStoreimgName(storeDTO.getStoreimgName());
 
         // 'dist', 'distChief', 'brand'를 제외한 나머지 필드들을 업데이트합니다.
         store.setStoreChiefEmail(storeDTO.getStoreChiefEmail());
         store.setStoreGrade(storeDTO.getStoreGrade());
+
         store.setStoreChief(storeDTO.getStoreChief());
         store.setStoreChieftel(storeDTO.getStoreChieftel());
+
         store.setStoreCd(storeDTO.getStoreCd());
         store.setStoreName(storeDTO.getStoreName());
+
         store.setStoreTel(storeDTO.getStoreTel());
         store.setRegionCd(storeDTO.getRegionCd());
+
         store.setStorePostNo(storeDTO.getStorePostNo());
         store.setStoreAddr(storeDTO.getStoreAddr());
         store.setStoreAddrDetail(storeDTO.getStoreAddrDetail());
+
         store.setStoreStatus(storeDTO.getStoreStatus());
         store.setStoreSummary(storeDTO.getStoreSummary());
+
         store.setStoreOpenState(storeDTO.getStoreOpenState());
         store.setStoreIdx(storeDTO.getStoreIdx());
+
         store.setStorePaymentType(storeDTO.getStorePaymentType());
         store.setStoreOpenTime(storeDTO.getStoreOpenTime());
         store.setStoreCloseTime(storeDTO.getStoreCloseTime());
+
         store.setStoreRestDay(storeDTO.getStoreRestDay());
         store.setKakaoSendYn(storeDTO.getKakaoSendYn());
         store.setStoreRestDetail(storeDTO.getStoreRestDetail());

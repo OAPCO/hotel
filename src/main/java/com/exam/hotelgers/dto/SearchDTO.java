@@ -21,10 +21,6 @@ public class SearchDTO {
     private RoomType roomType;
     private String storeimgName;
 
-
-    private LocalDateTime regdate;
-    private LocalDateTime moddate;
-
     private String storeMemberEmail;
     private String storeMemberName;
     private String storeMemberTel;
@@ -32,6 +28,10 @@ public class SearchDTO {
     private String storeMemberAuth;
     private Integer storeDistributorIdx;
     private Long storeBranchIdx;
+
+
+    private LocalDateTime regdate;
+    private LocalDateTime moddate;
 
 
     //어드민

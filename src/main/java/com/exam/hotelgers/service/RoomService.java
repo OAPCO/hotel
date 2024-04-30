@@ -35,11 +35,11 @@ public class RoomService {
     private final StoreRepository storeRepository;
 
     //Application.properties에 선언한 파일이 저장될 경로
-//    @Value("${imgUploadLocation}")
-//    private String imgUploadLocation;
+    @Value("${imgUploadLocation}")
+    private String imgUploadLocation;
 
     //파일저장을 위한 클래스
-//    private final S3Uploader s3Uploader;
+    private final S3Uploader s3Uploader;
 
 
     public Long register(RoomDTO roomDTO, MultipartFile imgFile) throws IOException {
@@ -47,25 +47,25 @@ public class RoomService {
         Optional<Store> store = storeRepository.findByStoreCd(roomDTO.getStoreDTO().getStoreCd());
 
 
-//        if (!store.isPresent()) {
-//            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
-//        }
+        if (!store.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
+        }
 
 
 
         Optional<Room> temp = roomRepository
                 .findByRoomCd(roomDTO.getRoomCd());
 
-//        if(temp.isPresent()) {
-//            throw new IllegalStateException("이미 존재하는 코드입니다.");
-//        }
+        if(temp.isPresent()) {
+            throw new IllegalStateException("이미 존재하는 코드입니다.");
+        }
 
         String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
         String newFileName = ""; //새로 만든 파일명
 
-//        if(originalFileName != null) { //파일이 존재하면
-//            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
-//        }
+        if(originalFileName != null) { //파일이 존재하면
+            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+        }
 
         roomDTO.setRoomimgName(newFileName); //새로운 파일명을 재등록
 
@@ -82,35 +82,35 @@ public class RoomService {
 
 
 
-//    public void modify(RoomDTO newRoom, @Nullable MultipartFile imgFile) throws IOException {
-//
-//        Optional<Room> optionalRoom = roomRepository.findByRoomIdx(newRoom.getRoomIdx());
-//
-//        if(optionalRoom.isPresent()) {
-//            Room room = optionalRoom.get();
-//
-////            if (imgFile != null && !imgFile.isEmpty()) {
-////                // 만약 방에 이미 이미지가 있다면 S3에서 그 이미지를 삭제합니다.
-////                if (room.getRoomimgName() != null && !room.getRoomimgName().isEmpty()) {
-////                    s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
-////                }
-////
-////                // S3에 새 파일을 업로드하고 방의 이미지 이름 속성을 업데이트 합니다.
-////                String newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
-////                room.setRoomimgName(newFileName);
-////            }
-//
-//            // DTO로부터 필드들을 직접 업데이트 합니다.
-//            room.setRoomCd(newRoom.getRoomCd());
-//            room.setRoomName(newRoom.getRoomName());
-//            room.setRoomType(newRoom.getRoomType());
-//
-//            // 업데이트 된 방을 저장합니다.
-//            roomRepository.save(room);
-//        } else {
-//            throw new IllegalArgumentException("해당 방이 존재하지 않습니다.");
-//        }
-//    }
+    public void modify(RoomDTO newRoom, @Nullable MultipartFile imgFile) throws IOException {
+
+        Optional<Room> optionalRoom = roomRepository.findByRoomIdx(newRoom.getRoomIdx());
+
+        if(optionalRoom.isPresent()) {
+            Room room = optionalRoom.get();
+
+            if (imgFile != null && !imgFile.isEmpty()) {
+                // 만약 방에 이미 이미지가 있다면 S3에서 그 이미지를 삭제합니다.
+                if (room.getRoomimgName() != null && !room.getRoomimgName().isEmpty()) {
+                    s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
+                }
+
+                // S3에 새 파일을 업로드하고 방의 이미지 이름 속성을 업데이트 합니다.
+                String newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
+                room.setRoomimgName(newFileName);
+            }
+
+            // DTO로부터 필드들을 직접 업데이트 합니다.
+            room.setRoomCd(newRoom.getRoomCd());
+            room.setRoomName(newRoom.getRoomName());
+            room.setRoomType(newRoom.getRoomType());
+
+            // 업데이트 된 방을 저장합니다.
+            roomRepository.save(room);
+        } else {
+            throw new IllegalArgumentException("해당 방이 존재하지 않습니다.");
+        }
+    }
 
 
 
@@ -182,7 +182,7 @@ public class RoomService {
                 .findById(roomIdx)
                 .orElseThrow();; //조회->저장
         //deleteFile(파일명, 폴더명)
-//        s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
+        s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
 
         roomRepository.deleteById(roomIdx);
     }

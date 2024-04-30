@@ -31,9 +31,9 @@ public class AdminService {
         Optional<Admin> adminidCheck = adminRepository.findByAdminId(adminDTO.getAdminId());
 
 
-//        if(adminidCheck.isPresent()) {
-//            throw new IllegalStateException("중복된 아이디가 있습니다.");
-//        }
+        if(adminidCheck.isPresent()) {
+            throw new IllegalStateException("중복된 아이디가 있습니다.");
+        }
 
         String password = passwordEncoder.encode(adminDTO.getPassword());
         Admin admin = modelMapper.map(adminDTO, Admin.class);
