@@ -97,7 +97,7 @@
                                 </div>
                             </td>
                             <th>매장주명</th>
-                            <td><input type="text" name="storeChief"></td>
+                            <td><input type="text" name="managerDTO.managerName"></td>
                         </tr>
 
                         <tr>
@@ -175,8 +175,8 @@
                         <td>
                             <a th:text="${data.storeName}" th:href="@{'/admin/distchief/store/'+${data.storeIdx}}" ></a>
                         </td>
-                        <td th:text="${data.storeChiefEmail}"></td>
-                        <td th:text="${data.storeChief}"></td>
+                        <td th:text="${data.managerDTO.managerEmail}"></td>
+                        <td th:text="${data.managerDTO.managerName}"></td>
                         <td th:text="${data.brandDTO.brandName}"></td>
 
                         <td>
@@ -247,9 +247,9 @@
                         var distOfBrand = data.distOfBrand;
 
                         $('#brandSelect').empty();
-                        $('#brandSelect').append($('<option>').val('').text('(전체)'));
+                        $('#brandSelect').append($('<option>').val('').text('전체'));
                         $('#storeSelect').empty();
-                        $('#storeSelect').append($('<option>').val('').text('(전체)'));
+                        $('#storeSelect').append($('<option>').val('').text('전체'));
 
                         $.each(distOfBrand, function(index, distOfBrand) {
                             console.log(distOfBrand)
@@ -289,7 +289,7 @@
                         var distbrandOfStore = data.distbrandOfStore;
 
                         $('#storeSelect').empty();
-                        $('#storeSelect').append($('<option>').val('').text('(전체)'));
+                        $('#storeSelect').append($('<option>').val('').text('전체'));
 
 
                         $.each(distbrandOfStore, function(index, distbrandOfStore) {

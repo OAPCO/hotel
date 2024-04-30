@@ -2,8 +2,13 @@ package com.exam.hotelgers.service;
 
 
 import com.exam.hotelgers.constant.RoleType;
+import com.exam.hotelgers.dto.BrandDTO;
 import com.exam.hotelgers.dto.ManagerDTO;
+import com.exam.hotelgers.dto.SearchDTO;
+import com.exam.hotelgers.entity.Brand;
+import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.entity.Manager;
+import com.exam.hotelgers.repository.DistRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -14,7 +19,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +30,20 @@ public class ManagerService {
     private final ManagerRepository managerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final DistRepository distRepository;
 
 
 
     public Long register(ManagerDTO managerDTO){
+
+
+        Optional<Dist> dist = distRepository.findByDistName(managerDTO.getDistDTO().getDistName());
+
+        if (!dist.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판 이름입니다.");
+        }
+
+
 
         Optional<Manager> manageridCheck = managerRepository.findByManagerId(managerDTO.getManagerId());
 
@@ -47,10 +64,10 @@ public class ManagerService {
 
 
         manager.setPassword(password);
+        manager.setDist(dist.get());
 
-        Long managerIdx = managerRepository.save(manager).getManagerIdx();
 
-        return managerIdx;
+        return managerRepository.save(manager).getManagerIdx();
     }
 
 
@@ -82,6 +99,15 @@ public class ManagerService {
         Page<ManagerDTO> ManagerDTOS = managers.map(data->modelMapper.map(data,ManagerDTO.class));
 
         return ManagerDTOS;
+    }
+
+
+    public List<ManagerDTO> distOfManager(SearchDTO searchDTO) {
+
+        List<Manager> managers = managerRepository.distOfManager(searchDTO);
+        return managers.stream()
+                .map(manager -> modelMapper.map(manager, ManagerDTO.class))
+                .collect(Collectors.toList());
     }
 
 

@@ -29,7 +29,7 @@
                         <th>총판</th>
                         <td>
                             <div>
-                                <select class="d-inline-block form-select form-select-sm" name="distName">
+                                <select class="d-inline-block form-select form-select-sm" name="distDTO.distName">
                                     <option value="">(선택)</option>
                                     <option th:each="distDTOS : ${distDTOS}" th:value="${distDTOS.DistName}" th:text="${distDTOS.DistName}"></option>
                                 </select>

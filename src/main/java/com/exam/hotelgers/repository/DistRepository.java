@@ -17,6 +17,7 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
     //사용자 아이디로 조회
 
     Optional<Dist> findByDistCd(String distCd);
+    Optional<Dist> findByDistName(String distName);
 
     Optional<Dist> findByDistIdx(Long distIdx);
 

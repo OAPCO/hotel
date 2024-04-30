@@ -44,6 +44,16 @@ public class SearchDTO {
     private String distChiefEmail;
 
 
+    //매니저
+    private Long managerIdx;
+    private String managerId;
+    private String password;
+    private Integer managerLevel;
+    private String managerName;
+    private String managerPhone;
+    private String managerEmail;
+
+
 
     //총판
     private Long distIdx;
@@ -62,9 +72,6 @@ public class SearchDTO {
     //스토어
     private Long storeIdx;
     private String storeCd; //매장코드
-    private String storeChief; //대빵
-    private String storeChiefEmail; //대빵이메일
-    private String storeChiefPhone; //대빵전번
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
     private String storeName; //매장명

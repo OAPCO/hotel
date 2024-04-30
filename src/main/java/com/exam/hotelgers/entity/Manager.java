@@ -5,6 +5,9 @@ import com.exam.hotelgers.constant.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -44,8 +47,12 @@ public class Manager extends BaseEntity {
 
 
 
-//    @OneToOne(mappedBy = "manager", cascade = CascadeType.ALL)
-//    private Store store;
+    @OneToOne(mappedBy = "manager", cascade = CascadeType.ALL)
+    private Store store;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="distIdx")
+    private Dist dist;
 
 
     @Enumerated(EnumType.STRING)

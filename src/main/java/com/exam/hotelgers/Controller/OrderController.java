@@ -187,7 +187,7 @@ public class OrderController {
 
 
     @GetMapping("/admin/distchief/order/orderlist")
-    public String orderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    public String distchiefOrderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
     ) {
 
         log.info("order orderlistForm 도착 ");
@@ -216,7 +216,7 @@ public class OrderController {
 
 
     @PostMapping("/admin/distchief/order/orderlist")
-    public String orderlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+    public String distchiefOrderlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
                            @RequestParam(value="storeName", required = false) String storeName,
                            @RequestParam(value="orderCd", required = false) String orderCd,
@@ -320,6 +320,37 @@ public class OrderController {
         model.addAttribute("list", orderDTOS);
 
         return "/order/orderManagement";
+    }
+
+
+
+
+
+    @GetMapping("/admin/manager/order/select")
+    public String managerOrderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    ) {
+
+        log.info("매니저 order/select Form 도착 ");
+
+        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+
+        List<DistDTO> distList = searchService.distList();
+        List<StoreDTO> storeList = searchService.storeList();
+        List<RoomDTO> roomList = searchService.roomList();
+
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("storeList",storeList);
+        model.addAttribute("roomList",roomList);
+        model.addAttribute("list", orderDTOS);
+
+
+        return "admin/manager/order/select";
     }
 
 }

@@ -16,7 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -136,6 +139,11 @@ public class OrderService {
 
 
 
+
+
+
+
+
     public Page<OrderDTO> searchList(SearchDTO searchDTO, Pageable pageable) {
 
         int currentPage = pageable.getPageNumber() - 1;
@@ -167,6 +175,20 @@ public class OrderService {
         dto.setRoomDTO(searchService.convertToRoomDTO(order.getRoom()));
         return dto;
     }
+
+
+
+
+
+//    public List<StoreDTO> managerOfStoreList(Principal principal) {
+//
+//        String userId = principal.getName();
+//        List<Store> stores = storeRepository.findByDistChief_DistChiefId(userId);
+//
+//        return dists.stream()
+//                .map(dist -> modelMapper.map(dist, DistDTO.class))
+//                .collect(Collectors.toList());
+//    }
 
 
 

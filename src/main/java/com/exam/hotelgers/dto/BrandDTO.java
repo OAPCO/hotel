@@ -32,18 +32,4 @@ public class BrandDTO {
 
 
 
-
-
-
-//    private Long distIdx; //매장총판키(호텔키)
-//
-//    private String  distId; //총판ID(호텔ID)
-
-//    private Long tblStoreMemberStoreMemberIdx; //매장회원 키
-
-
-//    private Long storeCateIdx; //매장 카테고리키
-//
-//    private Long storeMemberIdx; //매장회원키
-
 }

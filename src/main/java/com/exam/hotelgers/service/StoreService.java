@@ -36,6 +36,7 @@ public class StoreService {
     private final SearchService searchService;
     private final DetailmenuRepository detailmenuRepository;
     private final MenuoptionRepository menuoptionRepository;
+    private final ManagerRepository managerRepository;
 
 
     //Application.properties에 선언한 파일이 저장될 경로
@@ -51,6 +52,7 @@ public class StoreService {
 
         Optional<Dist> dist = distRepository.findByDistCd(storeDTO.getDistDTO().getDistCd());
         Optional<Brand> brand = brandRepository.findByBrandCd(storeDTO.getBrandDTO().getBrandCd());
+        Optional<Manager> manager = managerRepository.findByManagerName(storeDTO.getManagerDTO().getManagerName());
 
 
         if (!dist.isPresent()) {
@@ -58,6 +60,9 @@ public class StoreService {
         }
         if (!brand.isPresent()) {
             throw new IllegalStateException("존재하지 않는 브랜드 코드입니다.");
+        }
+        if (!manager.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 매장주입니다.");
         }
 
 
@@ -115,6 +120,7 @@ public class StoreService {
 
         store.setDist(dist.get());
         store.setBrand(brand.get());
+        store.setManager(manager.get());
 
 
 
@@ -140,11 +146,10 @@ public class StoreService {
         store.setStoreimgName(storeDTO.getStoreimgName());
 
         // 'dist', 'distChief', 'brand'를 제외한 나머지 필드들을 업데이트합니다.
-        store.setStoreChiefEmail(storeDTO.getStoreChiefEmail());
         store.setStoreGrade(storeDTO.getStoreGrade());
 
-        store.setStoreChief(storeDTO.getStoreChief());
-        store.setStoreChieftel(storeDTO.getStoreChieftel());
+//        store.setStoreChief(storeDTO.getStoreChief());
+//        store.setStoreChieftel(storeDTO.getStoreChieftel());
 
         store.setStoreCd(storeDTO.getStoreCd());
         store.setStoreName(storeDTO.getStoreName());
@@ -239,6 +244,7 @@ public class StoreService {
         StoreDTO dto = modelMapper.map(store, StoreDTO.class);
         dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
         dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
+        dto.setManagerDTO(searchService.convertToManagerDTO(store.getManager()));
         return dto;
     }
 
