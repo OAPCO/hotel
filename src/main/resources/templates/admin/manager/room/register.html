@@ -5,69 +5,67 @@
       layout:decorate="~{layouts/main}">
 
 <head>
-    <title>객실 관리</title>
+    <title>룸 등록</title>
     <link rel="stylesheet" href="/yhh.css">
 </head>
 
 <body>
-
 <div layout:fragment="content">
-        <h4 class="card-title">객실 관리</h4>
-    <div class="card">
-        <div class="card-header">
-            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-                객실 등록
-            </div>
-            <form method="post" th:action="@{/admin/manager/room/register}">
-            <div class="table-responsive">
-                <table class="table head">
-
-                    <thead>
-                    <tr>
-                        <th>호텔명</th>
-                        <td>
-                            <div>
-                                <select class="d-inline-block form-select form-select-sm" name="distDTO.distName">
-                                    <option value="">(선택)</option>
-                                    <option th:each="distDTOS : ${distDTOS}" th:value="${distDTOS.DistName}" th:text="${distDTOS.DistName}"></option>
-                                </select>
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-3 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(/assets/img/dogs/image2.jpeg);"></div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">룸 등록</h4>
                             </div>
-                        </td>
-                        <th>이름</th>
-                        <td><input type="text" name="managerName"></td>
-                    </tr>
-                    <tr>
-                        <th>아이디</th>
-                        <td><input type="text" name="managerId"></td>
-                        <th>비밀번호</th>
-                        <td><input type="password" name="password"></td>
-                    </tr>
-                    <tr>
-                        <th>전화번호</th>
-                        <td><input type="text" name="managerPhone"></td>
-                        <th>이메일</th>
-                        <td><input type="text" name="managerEmail"></td>
-                    </tr>
+                            <form class="user" th:action="@{/admin/manager/room/register}" method="post">
 
 
-                    </thead>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="storeCd"
+                                               placeholder="매장 코드" name="storeDTO.storeCd">
+                                    </div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="distCd"
+                                               placeholder="룸 번호" name="roomCd">
+                                    </div>
+                                </div>
 
-                </table>
-                <div style="text-align: center;">
-                    <button type="submit" class="btn button">등록</button>
-                    <button type="button" class="btn btn-secondary"
-                            onclick="window.history.back()">이전</button>
+                                <div class="row mb-3">
+
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="text" id="roomName"
+                                               placeholder="룸명" name="roomName">
+                                    </div>
+                                </div>
+
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+
+                                        <select class="form-select" name="roomType">
+                                            <option value="NORMAL">일반실</option>
+                                            <option value="SPECIAL">특실</option>
+                                            <option value="PARTYROOM">파티룸</option>
+                                        </select><br>
+                                    </div>
+                                </div>
+
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit">등록</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-            </form>
         </div>
     </div>
-
-
-
 </div>
-
-
 </body>
+
 </html>

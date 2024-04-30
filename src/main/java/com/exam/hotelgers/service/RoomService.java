@@ -44,7 +44,7 @@ public class RoomService {
 
     public Long register(RoomDTO roomDTO, MultipartFile imgFile) throws IOException {
 
-        Optional<Store> store = storeRepository.findByStoreCd(roomDTO.getStoreDTO().getStoreCd());
+        Optional<Store> store = storeRepository.storeNameSearch(roomDTO.getStoreDTO().getStoreName());
 
 
         if (!store.isPresent()) {

@@ -28,8 +28,13 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     Optional<Store> findByStoreIdx(Long storeIdx);
 
-//    List<Store> findByManager_ManagerId(String managerId);
+    Optional<Store> findByManager_ManagerId(String managerId);
 
+
+    
+    //store name을 입력받았을 때 가입시 필요한 유니크 컬럼인 storeCd 값을 구하기 위한 쿼리
+    @Query("select s from Store s where (:storeName is null or s.storeName LIKE %:storeName%)")
+    Optional<Store> storeNameSearch(String storeName);
 
 
 

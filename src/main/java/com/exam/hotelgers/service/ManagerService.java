@@ -2,14 +2,14 @@ package com.exam.hotelgers.service;
 
 
 import com.exam.hotelgers.constant.RoleType;
-import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.dto.ManagerDTO;
-import com.exam.hotelgers.dto.SearchDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.entity.Manager;
+import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.DistRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
+import com.exam.hotelgers.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class ManagerService {
 
     private final ManagerRepository managerRepository;
+    private final StoreRepository storeRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final DistRepository distRepository;
@@ -108,6 +110,23 @@ public class ManagerService {
         return managers.stream()
                 .map(manager -> modelMapper.map(manager, ManagerDTO.class))
                 .collect(Collectors.toList());
+    }
+
+
+    public StoreDTO managerOfStore(Principal principal) {
+
+        String userId = principal.getName();
+        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
+
+        return modelMapper.map(store.get(),StoreDTO.class);
+    }
+
+    public DistDTO managerOfDist(Principal principal) {
+
+        String userId = principal.getName();
+        Optional<Dist> dist = distRepository.findByManagerList_ManagerId(userId);
+
+        return modelMapper.map(dist.get(),DistDTO.class);
     }
 
 
