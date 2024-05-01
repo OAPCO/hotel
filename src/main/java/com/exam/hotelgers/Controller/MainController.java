@@ -2,6 +2,8 @@ package com.exam.hotelgers.Controller;
 
 
 
+import com.exam.hotelgers.dto.BrandDTO;
+import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.Admin;
 import com.exam.hotelgers.entity.DistChief;
 import com.exam.hotelgers.entity.Manager;
@@ -17,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -48,9 +51,13 @@ public class MainController {
 
 
     @GetMapping("/member/login")
-    public String memberLogin() {
+    public String memberLogin(Model model) {
 
         log.info("member login 겟매핑 들어옴");
+
+//        List<StoreDTO> storeDTOS = searchService.storeList();
+//
+//        model.addAttribute("storeDTOS",storeDTOS);
 
         return "member/login";
     }

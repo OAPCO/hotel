@@ -2,6 +2,8 @@ console.log("hotel.js 호출되었음");
 
 let storeSelect = (function () {
 
+    
+    //distchief/store/list의 총판 셀렉트박스 선택시
     function selectDistOfStore(selectedDist){
 
         $.ajax({
@@ -41,6 +43,9 @@ let storeSelect = (function () {
 
     };
 
+
+
+    //distchief/store/list의 브랜드 셀렉트박스 선택시
     function selectDistAndBrandOfStore(selectedBrand) {
 
         $.ajax({
@@ -71,8 +76,8 @@ let storeSelect = (function () {
     };
 
 
-
-
+    
+    //값 반환
     return {
         selectDistOfStore  : selectDistOfStore,
         selectDistAndBrandOfStore : selectDistAndBrandOfStore

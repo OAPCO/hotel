@@ -24,4 +24,8 @@ public interface DistChiefRepository extends JpaRepository<DistChief,Long> {
     @Query("select d from DistChief d where (:#{#searchDTO.distChiefName} is null or d.distChiefName LIKE %:#{#searchDTO.distChiefName}%)")
     Page<DistChief> distChiefSearch(SearchDTO searchDTO,Pageable pageable);
 
+
+//    @Query("select d from DistChief d join d.store s where (r.store.storeCd LIKE %:storeCd%)")
+//    Page<DistChief> distChiefSearch2(SearchDTO searchDTO,Pageable pageable);
+
 }

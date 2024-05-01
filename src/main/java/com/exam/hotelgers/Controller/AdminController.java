@@ -260,7 +260,16 @@ public class AdminController {
 
         redirectAttributes.addFlashAttribute("result", distIdx);
 
-        return "redirect:/admin/adminpage/storemembermange";}
+        return "redirect:/admin/adminpage/storemembermange";
+    }
+
+
+
+
+
+
+
+
     @GetMapping("/admin/adminpage/distChiefsearch")
     public String dcsearch(Model model,
                            SearchDTO searchDTO,@PageableDefault(page = 1)Pageable pageable){
@@ -275,6 +284,8 @@ public class AdminController {
         model.addAttribute("list", distChiefDTOS);
         return "admin/adminpage/distChiefsearch";
     }
+
+
     @PostMapping("/admin/adminpage/distChiefsearch")
     public String dccsearch(Model model,
                            SearchDTO searchDTO,@PageableDefault(page = 1)Pageable pageable) {
@@ -282,9 +293,6 @@ public class AdminController {
 
 
         Page<DistChiefDTO> distChiefDTOS = distChiefService.distChiefSearch(searchDTO,pageable);
-
-
-
 
 
 
@@ -299,6 +307,13 @@ public class AdminController {
         model.addAttribute("list", distChiefDTOS);
         return "admin/adminpage/distChiefsearch";
     }
+
+
+
+
+
+
+
     @GetMapping("/admin/adminpage/pwchange")
     public String pwchangeForm(){
 
