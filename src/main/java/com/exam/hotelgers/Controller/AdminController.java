@@ -271,10 +271,9 @@ public class AdminController {
 
 
     @GetMapping("/admin/adminpage/distChiefsearch")
-    public String dcsearch(Model model,
-                           SearchDTO searchDTO,@PageableDefault(page = 1)Pageable pageable){
+    public String dcsearch(Model model, @PageableDefault(page = 1)Pageable pageable){
 
-        Page<DistChiefDTO> distChiefDTOS = distChiefService.distChiefSearch(searchDTO,pageable);
+        Page<DistChiefDTO> distChiefDTOS = distChiefService.list(pageable);
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(distChiefDTOS);

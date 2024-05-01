@@ -59,10 +59,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> distbrandOfStore(SearchDTO searchDTO);
 
 
-    //총판을 선택하면 브랜드,매장 목록이 셋 되어야하고
-    //총판,브랜드를 선택하면 매장 목록이 셋 되어야하고
-
-
-
 
 }

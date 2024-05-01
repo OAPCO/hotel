@@ -116,7 +116,7 @@ public class DistChiefService {
 
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distchiefIdx"));
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distChiefIdx"));
 
         Page<DistChief> distChiefs = distChiefRepository.distChiefSearch(searchDTO, page);
         return distChiefs.map(this::convertToDTO);
