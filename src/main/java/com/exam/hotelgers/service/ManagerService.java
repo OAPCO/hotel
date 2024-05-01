@@ -2,9 +2,12 @@ package com.exam.hotelgers.service;
 
 
 import com.exam.hotelgers.constant.RoleType;
-import com.exam.hotelgers.dto.ManagerDTO;
-import com.exam.hotelgers.entity.Manager;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.*;
+import com.exam.hotelgers.repository.DistRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
+import com.exam.hotelgers.repository.RoomRepository;
+import com.exam.hotelgers.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -14,19 +17,36 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.exam.hotelgers.entity.QDist.dist;
 
 @Service
 @RequiredArgsConstructor
 public class ManagerService {
 
     private final ManagerRepository managerRepository;
+    private final StoreRepository storeRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final DistRepository distRepository;
+    private final RoomRepository roomRepository;
 
 
 
     public Long register(ManagerDTO managerDTO){
+
+
+        Optional<Dist> dist = distRepository.findByDistName(managerDTO.getDistDTO().getDistName());
+
+        if (!dist.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 총판 이름입니다.");
+        }
+
+
 
         Optional<Manager> manageridCheck = managerRepository.findByManagerId(managerDTO.getManagerId());
 
@@ -47,10 +67,10 @@ public class ManagerService {
 
 
         manager.setPassword(password);
+        manager.setDist(dist.get());
 
-        Long managerIdx = managerRepository.save(manager).getManagerIdx();
 
-        return managerIdx;
+        return managerRepository.save(manager).getManagerIdx();
     }
 
 
@@ -83,6 +103,79 @@ public class ManagerService {
 
         return ManagerDTOS;
     }
+
+
+
+    public List<ManagerDTO> distOfManager(SearchDTO searchDTO) {
+
+        List<Manager> managers = managerRepository.distOfManager(searchDTO);
+        return managers.stream()
+                .map(manager -> modelMapper.map(manager, ManagerDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+    public StoreDTO managerOfStore(Principal principal) {
+
+        String userId = principal.getName();
+        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
+
+        return modelMapper.map(store.get(),StoreDTO.class);
+    }
+
+    public DistDTO managerOfDist(Principal principal) {
+
+        String userId = principal.getName();
+        Optional<Dist> dist = distRepository.findByManagerList_ManagerId(userId);
+
+        return modelMapper.map(dist.get(),DistDTO.class);
+    }
+
+
+
+//      Page 뺀 버전
+//    public List<RoomDTO> managerOfLoom(Principal principal) {
+//
+//        String userId = principal.getName();
+//        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
+//
+//        StoreDTO storeDTO = modelMapper.map(store.get(),StoreDTO.class);
+//
+//
+//        List<Room> rooms = roomRepository.loginManagerRoomSearch(storeDTO.getStoreCd());
+//
+//        List<RoomDTO> roomDTOS = rooms.stream()
+//                .map(room -> modelMapper.map(room, RoomDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return roomDTOS;
+//    }
+
+
+
+    //현재 로그인중인 매니저의 아이디로 소속 매장을 구한 뒤 매장의 코드를 이용해 room과 조인하여 보유 객실목록을 가져온다.
+    public Page<RoomDTO> managerOfLoom(Principal principal,Pageable pageable) {
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomIdx"));
+
+        String userId = principal.getName();
+        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
+
+        StoreDTO storeDTO = modelMapper.map(store.get(),StoreDTO.class);
+
+
+        Page<Room> rooms = roomRepository.loginManagerRoomSearch(storeDTO.getStoreCd(),page);
+        
+
+        Page<RoomDTO> roomDTOS = rooms.map(data->modelMapper.map(data,RoomDTO.class));
+
+        return roomDTOS;
+    }
+
+
+
 
 
 }

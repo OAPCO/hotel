@@ -10,6 +10,8 @@
 
 <body>
 <div layout:fragment="content">
+
+
     <h4 class="card-title">매장(가맹점)관리</h4>
     <div class="card">
         <div class="card-header">
@@ -38,6 +40,11 @@
                                         <option value="">전체</option>
                                         <option th:each="brandList : ${brandList}" th:value="${brandList.brandName}" th:text="${brandList.brandName}"></option>
                                     </select>
+                                    <script>
+                                        if (selectedDist !== "전체") {
+                                            $('#brandSelect').prop('disabled', true);
+                                        }
+                                    </script>
                                 </div>
                             </td>
                         </tr>
@@ -90,7 +97,7 @@
                                 </div>
                             </td>
                             <th>매장주명</th>
-                            <td><input type="text" name="storeChief"></td>
+                            <td><input type="text" name="managerDTO.managerName"></td>
                         </tr>
 
                         <tr>
@@ -168,8 +175,8 @@
                         <td>
                             <a th:text="${data.storeName}" th:href="@{'/admin/distchief/store/'+${data.storeIdx}}" ></a>
                         </td>
-                        <td th:text="${data.storeChiefEmail}"></td>
-                        <td th:text="${data.storeChief}"></td>
+                        <td th:text="${data.managerDTO.managerEmail}"></td>
+                        <td th:text="${data.managerDTO.managerName}"></td>
                         <td th:text="${data.brandDTO.brandName}"></td>
 
                         <td>
@@ -201,7 +208,26 @@
 
         $(document).ready(function() {
 
+            var selectedDist = sessionStorage.getItem('selectedDist');
+            var selectedBrand = sessionStorage.getItem('selectedBrand');
+            var selectedStore = sessionStorage.getItem('selectedStore');
+
+            // 이전 검색 값이 있으면 해당 값으로 셀렉트박스 설정
+            if (selectedDist) {
+                $('#distSelect').val(selectedDist);
+            }
+            if (selectedBrand) {
+                $('#brandSelect').val(selectedBrand);
+            }
+            if (selectedBrand) {
+                $('#storeSelect').val(selectedStore);
+            }
+
+
+
             $('#distSelect').change(function() {
+
+                $('#brandSelect').prop('disabled', false);
 
                 var selectedDist = $('#distSelect').val();
                 console.log(selectedDist);
@@ -221,9 +247,9 @@
                         var distOfBrand = data.distOfBrand;
 
                         $('#brandSelect').empty();
-                        $('#brandSelect').append($('<option>').val('').text('(전체)'));
+                        $('#brandSelect').append($('<option>').val('').text('전체'));
                         $('#storeSelect').empty();
-                        $('#storeSelect').append($('<option>').val('').text('(전체)'));
+                        $('#storeSelect').append($('<option>').val('').text('전체'));
 
                         $.each(distOfBrand, function(index, distOfBrand) {
                             console.log(distOfBrand)
@@ -241,6 +267,8 @@
                     }
                 });
 
+
+                sessionStorage.setItem('selectedDist', selectedDist);
 
             });
 
@@ -261,7 +289,7 @@
                         var distbrandOfStore = data.distbrandOfStore;
 
                         $('#storeSelect').empty();
-                        $('#storeSelect').append($('<option>').val('').text('(전체)'));
+                        $('#storeSelect').append($('<option>').val('').text('전체'));
 
 
                         $.each(distbrandOfStore, function(index, distbrandOfStore) {
@@ -275,9 +303,14 @@
                     }
                 });
 
+                sessionStorage.setItem('selectedBrand', selectedBrand);
 
             });
 
+            $('#storeSelect').change(function() {
+
+                sessionStorage.setItem('selectedStore', selectedStore);
+            });
 
         });
     </script>

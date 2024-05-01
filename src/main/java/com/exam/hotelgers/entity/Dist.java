@@ -46,6 +46,9 @@ public class Dist extends BaseEntity {
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
 
+    @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
+    private List<Manager> managerList = new ArrayList<>();
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distChiefIdx")

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">>
+
+<head>
+
+    <title>회원가입</title>
+
+</head>
+
+<body class="bg-gradient-primary">
+<div layout:fragment="content">
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-3 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(/assets/img/dogs/image2.jpeg);"></div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">관리자계정 생성</h4>
+                            </div>
+
+
+                            <form class="user" method="post" th:action="@{/test/register}" enctype="multipart/form-data">
+
+
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="adminId" placeholder="매장1" name="storeName"></div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="asd" placeholder="매장코드1" name="storeCd"></div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="password" placeholder="총판코드1" name="distDTO.distCd"></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="password2" placeholder="브랜드코드1" name="brandDTO.brandCd"></div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="adminName" placeholder="매니저1" name="managerDTO.managerName"></div>
+                                </div>
+
+
+                                <td class="col">매장 대표 이미지</td>
+                                <td class="col>"><input type="file" class="form-control" id="imgFile"
+                                                        name="imgFile" required></td>
+
+
+
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit">생성</button>
+                                <button type="button" class="btn btn-secondary"
+                                        onclick="window.history.back()">이전</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

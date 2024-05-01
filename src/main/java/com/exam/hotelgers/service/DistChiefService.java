@@ -98,12 +98,10 @@ public class DistChiefService {
 
 
 
-
-    //로그인중 검색
     public List<DistDTO> distChiefOfDistList(Principal principal) {
 
-        String distChiefId = principal.getName();
-        List<Dist> dists = distRepository.findByDistChief_DistChiefId(distChiefId);
+        String userId = principal.getName();
+        List<Dist> dists = distRepository.findByDistChief_DistChiefId(userId);
 
         return dists.stream()
                 .map(dist -> modelMapper.map(dist, DistDTO.class))

@@ -83,8 +83,8 @@
                                 <tbody>
                                 <tr>
                                     <td class="col">매장주 이메일</td>
-                                    <td class="col"><input class="form-control" type="text" th:field="*{storeDTO.storeChiefEmail}"
-                                                           name="storeChiefEmail" required></td>
+                                    <td class="col"><input class="form-control" type="text" th:field="*{storeDTO.managerDTO.managerName}"
+                                                           name="managerDTO.managerEmail" required></td>
                                     <td class="col">등급</td>
                                     <td class="col">
                                         <select class="form-select" name="storeGrade"
@@ -100,12 +100,12 @@
                                 <tr>
                                     <td class="col">매장주 성명</td>
                                     <td class="col"><input class="form-control" type="text"
-                                                           th:field="*{storeDTO.storeChief}"
-                                                           name="storeChief" required></td>
+                                                           th:field="*{storeDTO.managerDTO.managerName}"
+                                                           name="managerName" required></td>
                                     <td class="col">매장주 연락처</td>
                                     <td class="col"><input class="form-control" type="text"
-                                                           th:field="*{storeDTO.storeChieftel}"
-                                                           name="storeChieftel" required></td>
+                                                           th:field="*{storeDTO.managerDTO.managerPhone}"
+                                                           name="managerPhone" required></td>
                                 </tr>
                                 <tr>
                                     <td class="col">매장코드</td>

@@ -3,6 +3,7 @@ package com.exam.hotelgers.Controller;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.service.ManagerService;
 import com.exam.hotelgers.service.OrderService;
 import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
@@ -19,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,7 @@ public class OrderController {
     
     private final OrderService orderService;
     private final SearchService searchService;
+    private final ManagerService managerService;
 
 
 
@@ -187,7 +190,7 @@ public class OrderController {
 
 
     @GetMapping("/admin/distchief/order/orderlist")
-    public String orderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    public String distchiefOrderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
     ) {
 
         log.info("order orderlistForm 도착 ");
@@ -216,7 +219,7 @@ public class OrderController {
 
 
     @PostMapping("/admin/distchief/order/orderlist")
-    public String orderlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+    public String distchiefOrderlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
                            @RequestParam(value="distName", required = false) String distName,
                            @RequestParam(value="storeName", required = false) String storeName,
                            @RequestParam(value="orderCd", required = false) String orderCd,
@@ -320,6 +323,36 @@ public class OrderController {
         model.addAttribute("list", orderDTOS);
 
         return "/order/orderManagement";
+    }
+
+
+
+
+
+    @GetMapping("/admin/manager/order/select")
+    public String managerOrderlistForm(@PageableDefault(page = 1) Pageable pageable, Model model, Principal principal
+    ) {
+
+        log.info("매니저 order/select Form 도착 ");
+
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+        DistDTO distDTO = managerService.managerOfDist(principal);
+        Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
+
+        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distDTO",distDTO);
+        model.addAttribute("storeDTO",storeDTO);
+        model.addAttribute("roomList",roomDTOS);
+        model.addAttribute("list", orderDTOS);
+
+
+        return "admin/manager/order/select";
     }
 
 }

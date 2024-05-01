@@ -1,9 +1,12 @@
 package com.exam.hotelgers.Controller;
 
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.RoomDTO;
 import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.service.ManagerService;
 import com.exam.hotelgers.service.RoomService;
 import com.exam.hotelgers.service.SearchService;
+import com.exam.hotelgers.service.StoreService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -22,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +35,10 @@ import java.util.Map;
 public class RoomController {
 
     private final RoomService roomService;
+    private final ManagerService managerService;
     private final SearchService searchService;
     private final HttpServletRequest request;
+
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -76,20 +82,20 @@ public class RoomController {
 
 
     @GetMapping("/admin/manager/room/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model,Principal principal
                            ) {
 
         log.info("room listForm 도착 ");
 
-        Page<RoomDTO> roomDTOS = roomService.list(pageable);
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
 
-        List<StoreDTO> storeList = searchService.storeList();
+        Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(roomDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("storeList",storeList);
+        model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("list", roomDTOS);
         return "admin/manager/room/list";
     }
@@ -159,6 +165,54 @@ public class RoomController {
         }
 
         return "admin/manager/room/orderlist";
+    }
+
+
+
+
+
+
+
+
+    @GetMapping("/window/roomregister")
+    public String registerRoomWindowForm(Principal principal,Model model) {
+        
+        log.info("객실생성 창 컨트롤러 Get 도착");
+
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+        DistDTO distDTO = managerService.managerOfDist(principal);
+
+        model.addAttribute("storeDTO",storeDTO);
+        model.addAttribute("distDTO",distDTO);
+
+
+
+        return "window/roomregister";
+    }
+
+
+    @PostMapping("/window/roomregister")
+    public String registerRoomWindowProc(@Valid RoomDTO roomDTO,
+                               BindingResult bindingResult,
+                               @RequestParam(required = false)MultipartFile imgFile,
+                               RedirectAttributes redirectAttributes) throws IOException {
+
+        log.info("객실생성 창 컨트롤러 Post 도착" + roomDTO);
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+
+
+        Long roomIdx = roomService.register(roomDTO, imgFile);
+
+
+        redirectAttributes.addFlashAttribute("result", roomIdx);
+
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
     }
 
 }

@@ -1,10 +1,8 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.BrandDTO;
-import com.exam.hotelgers.dto.DistDTO;
-import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.service.BrandService;
+import com.exam.hotelgers.service.ManagerService;
 import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.service.StoreService;
 import com.exam.hotelgers.util.PageConvert;
@@ -38,12 +36,13 @@ public class ScriptController {
 
     private final StoreService storeService;
     private final BrandService brandService;
+    private final ManagerService managerService;
 
 
 
 
     @GetMapping(value = "/selectstore", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> listForm(SearchDTO searchDTO) throws Exception {
+    public Map<String, Object> selectStore(SearchDTO searchDTO) throws Exception {
 
         Map<String, Object> result = new HashMap<>();
 
@@ -52,6 +51,21 @@ public class ScriptController {
 
         result.put("distOfBrand", distOfBrand);
         result.put("distbrandOfStore", distbrandOfStore);
+
+        return result;
+    }
+
+
+    @GetMapping(value = "/registerstore", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> registerStore(SearchDTO searchDTO) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+
+        List<BrandDTO> distOfBrand = brandService.distOfBrand(searchDTO);
+        List<ManagerDTO> distOfManager = managerService.distOfManager(searchDTO);
+
+        result.put("distOfBrand", distOfBrand);
+        result.put("distOfManager", distOfManager);
 
         return result;
     }

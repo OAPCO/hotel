@@ -38,9 +38,6 @@ public class Store extends BaseEntity{
     @Column(unique = true)
     private String storeCd; //매장코드
     private String storeName; //매장명
-    private String storeChief; //대빵
-    private String storeChiefEmail; //대빵이메일
-    private String storeChieftel; //대빵전번
     private String storeTel; //전화번호
     private String storeMessage; //공지사항
     private String storeRestDay; //휴무일
@@ -113,9 +110,9 @@ public class Store extends BaseEntity{
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Detailmenu> detailMenuList = new ArrayList<>();
 
-//    @OneToOne
-//    @JoinColumn(name = "managerIdx")
-//    private Manager manager;
+    @OneToOne
+    @JoinColumn(name = "managerIdx")
+    private Manager manager;
 
 
 

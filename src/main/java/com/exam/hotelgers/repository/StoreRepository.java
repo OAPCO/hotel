@@ -4,6 +4,7 @@ import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.SearchDTO;
+import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Store;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,13 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     Optional<Store> findByStoreIdx(Long storeIdx);
 
+    Optional<Store> findByManager_ManagerId(String managerId);
+
+
+    
+    //store name을 입력받았을 때 가입시 필요한 유니크 컬럼인 storeCd 값을 구하기 위한 쿼리
+    @Query("select s from Store s where (:storeName is null or s.storeName LIKE %:storeName%)")
+    Optional<Store> storeNameSearch(String storeName);
 
 
 
@@ -34,8 +42,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)"+
     "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)"+
     "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)"+
-    "and (:#{#searchDTO.storeChiefEmail} is null or s.storeChiefEmail LIKE %:#{#searchDTO.storeChiefEmail}%)"+
-    "and (:#{#searchDTO.storeChief} is null or s.storeChief LIKE %:#{#searchDTO.storeChief}%)"+
+    "and (:#{#searchDTO.managerEmail} is null or s.manager.managerEmail LIKE %:#{#searchDTO.managerEmail}%)"+
+    "and (:#{#searchDTO.managerName} is null or s.manager.managerName LIKE %:#{#searchDTO.managerName}%)"+
     "and (:#{#searchDTO.brandName} is null or s.brand.brandName LIKE %:#{#searchDTO.brandName}%)"+
     "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)"+
     "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)"

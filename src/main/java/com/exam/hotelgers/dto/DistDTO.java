@@ -26,6 +26,7 @@ public class DistDTO {
     private List<StoreDTO> storeDTOList;
     private List<BrandDTO> brandDTOList;
     private List<OrderDTO> orderDTOList;
+    private List<ManagerDTO> managerDTOList;
 
     private DistChiefDTO distChiefDTO;
 

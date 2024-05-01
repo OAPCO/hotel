@@ -38,6 +38,13 @@ public class SearchService {
 
 
 
+    public List<ManagerDTO> managerList() {
+        List<Manager> managers = managerRepository.findAll();
+        return managers.stream()
+                .map(manager -> modelMapper.map(manager, ManagerDTO.class))
+                .collect(Collectors.toList());
+    }
+
     public List<DistDTO> distList() {
         List<Dist> dists = distRepository.findAll();
         return dists.stream()
@@ -186,6 +193,10 @@ public class SearchService {
 
     public DistChiefDTO convertToDistChiefDTO(DistChief distChief) {
         return modelMapper.map(distChief, DistChiefDTO.class);
+    }
+
+    public ManagerDTO convertToManagerDTO(Manager manager) {
+        return modelMapper.map(manager, ManagerDTO.class);
     }
 
 

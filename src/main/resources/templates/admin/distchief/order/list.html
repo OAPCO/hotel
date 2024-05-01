@@ -112,8 +112,8 @@
                             <a th:text="${data.storeDTO.storeName}" th:href="@{'/distchief/order/'+${data.orderIdx}}" ></a>
                         </td>
                         <td>(지역)</td>
-                        <td th:text="${data.storeDTO.storeChief}"></td>
-                        <td th:text="${data.storeDTO.storeChiefEmail}"></td>
+                        <td th:text="${data.storeDTO.managerDTO.managerName}"></td>
+                        <td th:text="${data.storeDTO.managerDTO.managerEmail}"></td>
                         <td><button class="btn btn-primary" type="button" th:onclick="|location.href='@{#}'|">주문보기</button></td>
 
                         <td>

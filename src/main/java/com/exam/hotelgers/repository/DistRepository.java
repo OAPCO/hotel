@@ -3,6 +3,7 @@ package com.exam.hotelgers.repository;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,10 +19,12 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
     //사용자 아이디로 조회
 
     Optional<Dist> findByDistCd(String distCd);
+    Optional<Dist> findByDistName(String distName);
 
     Optional<Dist> findByDistIdx(Long distIdx);
 
     List<Dist> findByDistChief_DistChiefId(String distChiefId);
+    Optional<Dist> findByManagerList_ManagerId(String managerId);
 
 
     @Query("SELECT d.distCd FROM Dist d")

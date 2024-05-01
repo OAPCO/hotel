@@ -5,7 +5,8 @@
       layout:decorate="~{layouts/main}">
 
 <head>
-    <title>Register - Brand</title>
+    <title>매장 생성</title>
+    <link rel="stylesheet" href="/yhh.css">
 </head>
 
 <body class="bg-gradient-primary">
@@ -30,9 +31,9 @@
                                         <tr>
                                             <td class="col">총판이름 </td>
                                             <td class="col">
-                                                <select class="form-control" name="distDTO.distName"
-                                                        id="distNameSelect">
+                                                <select class="form-control" name="distDTO.distName" id="distSelect">
                                                     <th:block th:each="dist : ${distList}">
+                                                        <option value="" selected>선택</option>
                                                         <option th:value="${dist.distName}"
                                                                 th:text="${dist.distName}"
                                                                 th:data-cd="${dist.distCd}">
@@ -56,14 +57,19 @@
                                         <tr>
                                             <td class="col">브랜드 이름 </td>
                                             <td class="col">
-                                                <select class="form-control" name="brandDTO.brandName"
-                                                        id="brandNameSelect">
+                                                <select class="form-control" name="brandDTO.brandName" id="brandSelect">
                                                     <th:block th:each="brand : ${brandList}">
+                                                        <option value="" selected>선택</option>
                                                         <option th:value="${brand.brandName}"
                                                                 th:text="${brand.brandName}"
                                                                 th:data-cd="${brand.brandCd}"></option>
                                                     </th:block>
                                                 </select>
+                                                <script>
+                                                    if (selectedDist !== "전체") {
+                                                        $('#brandSelect').prop('disabled', true);
+                                                    }
+                                                </script>
                                             </td>
                                             <td class="col">브랜드 코드</td>
                                             <td class="col"><input class="form-control" type="text"
@@ -89,18 +95,25 @@
                                         <tr>
                                             <td class="col">매장주 이메일</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="storeChiefEmail" required></td>
+                                                                   name="managerDTO.managerEmail" required></td>
                                             <td class="col">매장 대표 이미지</td>
                                             <td class="col>"><input type="file" class="form-control" id="imgFile"
                                                                     name="imgFile" required></td>
                                         </tr>
                                         <tr>
                                             <td class="col">매장주 성명</td>
-                                            <td class="col"><input class="form-control" type="text"
-                                                                   name="storeChief" required></td>
+                                            <td class="col">
+                                                <div>
+                                                    <select class="d-inline-block form-select form-select-sm" name="managerDTO.managerName" id="managerSelect">
+                                                        <option value="" selected>선택</option>
+                                                        <option th:each="managerList : ${managerList}" th:value="${managerList.managerName}" th:text="${managerList.managerName}"></option>
+                                                    </select>
+                                                </div>
+                                            </td>
+
                                             <td class="col">매장주 연락처</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="storeChieftel" required></td>
+                                                                   name="managerDTO.managerPhone" required></td>
                                         </tr>
 
                                         <tr>
@@ -240,6 +253,8 @@
     </div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
+
+        //지역찾기 관련
         window.onload = function(){
             document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
                 //카카오 지도 발생
@@ -253,16 +268,115 @@
                 }).open();
             });
         }
-        document.getElementById('brandNameSelect').addEventListener('change', function() {
+
+        document.getElementById('distSelect').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            document.getElementById('distCd').value = selectedOption.dataset.cd;
+        });
+
+        document.getElementById('brandSelect').addEventListener('change', function() {
             let selectedOption = this.options[this.selectedIndex];
             document.getElementById('brandCd').value = selectedOption.dataset.cd;
         });
 
-        document.getElementById('distNameSelect').addEventListener('change', function() {
-            let selectedOption = this.options[this.selectedIndex];
-            document.getElementById('distCd').value = selectedOption.dataset.cd;
-        });
     </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+
+            var selectedDist = sessionStorage.getItem('selectedDist');
+            var selectedBrand = sessionStorage.getItem('selectedBrand');
+            var selectedManager = sessionStorage.getItem('selectedManager');
+
+            // 이전 검색 값이 있으면 해당 값으로 셀렉트박스 설정
+            if (selectedDist) {
+                $('#distSelect').val(selectedDist);
+            }
+            if (selectedBrand) {
+                $('#brandSelect').val(selectedBrand);
+            }
+            if (selectedManager) {
+                $('#managerSelect').val(selectedManager);
+            }
+
+
+
+            $('#distSelect').change(function() {
+
+                $('#brandSelect').prop('disabled', false);
+
+                var selectedDist = $('#distSelect').val();
+                console.log(selectedDist);
+
+                var selectedBrand = $('#brandSelect').val();
+                console.log(selectedBrand);
+
+                var selectedManager = $('#managerSelect').val();
+                console.log(selectedManager);
+
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/registerstore', // 서버에서 storeList를 반환하는 엔드포인트
+                    data: { distName: selectedDist},
+                    contentType : "application/json; charset=utf-8",
+
+                    success: function(data) {
+
+                        var distOfManager = data.distOfManager;
+                        var distOfBrand = data.distOfBrand;
+
+                        $('#brandSelect').empty();
+                        $('#brandSelect').append($('<option>').val('').text('전체'));
+                        $('#managerSelect').empty();
+                        $('#managerSelect').append($('<option>').val('').text('전체'));
+
+                        $.each(distOfBrand, function(index, distOfBrand) {
+                            console.log(distOfBrand)
+                            $('#brandSelect').append($('<option>').val(distOfBrand.brandName).text(distOfBrand.brandName));
+                        });
+
+                        $.each(distOfManager, function(index, distOfManager) {
+                            console.log(distOfManager)
+                            $('#managerSelect').append($('<option>').val(distOfManager.managerName).text(distOfManager.managerName));
+                        });
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Failed to retrieve stores: ' + error);
+                    }
+                });
+
+
+                sessionStorage.setItem('selectedDist', selectedDist);
+
+            });
+
+
+            $('#brandSelect').change(function() {
+
+                var selectedBrand = $('#brandSelect').val();
+                console.log(selectedBrand);
+
+                sessionStorage.setItem('selectedBrand', selectedBrand);
+
+            });
+
+            $('#managerSelect').change(function() {
+
+                sessionStorage.setItem('selectedManager', selectedManager);
+            });
+
+        });
+
+
+    </script>
+
+
+
 </div>
 </body>
 
