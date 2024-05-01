@@ -24,17 +24,17 @@
                         <tr>
                             <th>총판명</th>
                             <td class="align-middle text-start">
-                                <input type="text" value="" placeholder="매장총판명" name="distName" style="width:300px;">
+                                <input type="text"  placeholder="매장총판명" name="distName" style="width:300px;">
                             </td>
                             <th>총판장</th>
                             <td class="align-middle text-start">
-                                <input type="text" value="" placeholder="총판ID" name="distCd" style="width:300px;">
+                                <input type="text"  placeholder="총판장이름" name="distChiefName" style="width:300px;">
                             </td>
                         </tr>
                         </thead>
                     </table>
                     <div style="text-align: center;">
-                        <button type="button" class="btn text-white m-2" style="background-color: #36b9cc;">조회</button>
+                        <button type="submit" class="btn text-white m-2" style="background-color: #36b9cc;">조회</button>
                     </div>
                 </div>
             </form>
@@ -53,16 +53,14 @@
                         <th>총판ID</th>
                         <th>총판장</th>
                         <th>연락처</th>
-                        <th>지사수</th>
                         <th>매장수</th>
-                        <th>삭제여부</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="data:${list}">
                         <td th:text="${data.distIdx}">Cell 2</td>
                         <td th:text="${data.distName}">Cell 2</td>
-                        <td th:text="${data.distCd}">Cell 2</td>
+                        <td th:text="${data.distChiefDTO.distChiefId}">Cell 2</td>
                         <td th:text="${data.distChiefDTO.distChiefName}">Cell 2</td>
                         <td th:text="${data.distChiefDTO.distChiefPhone}">Cell 2</td>
                     </tr>

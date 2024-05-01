@@ -1,5 +1,6 @@
 package com.exam.hotelgers.repository;
 
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.entity.Store;
@@ -32,29 +33,28 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
 
 
 
-    @Query("select d from Dist d where (:distName is null or d.distName LIKE %:distName%)"+
-            "and (:distChief is null or d.distChief.distChiefName LIKE %:distChief%)"
+    @Query("select d from Dist d where (:#{#searchDTO.distName} is null or d.distName LIKE %:#{#searchDTO.distName}%)"+
+            "and (:#{#searchDTO.distChiefName} is null or d.distChief.distChiefName LIKE %:#{#searchDTO.distChiefName}%)"
     )
-    Page<Dist> multiSearchadminsdm(@Param("distName") String distName,
-                                   @Param("distChief") String distChief,
+    Page<Dist> multiSearchadminsdm(SearchDTO searchDTO,
                                    Pageable pageable);
 
-    @Query("select d from Dist d where (:distChief is null or d.distChief.distChiefName LIKE %:distChief%)"
+    @Query("select d from Dist d where (:#{#searchDTO.distChiefName} is null or d.distChief.distChiefName LIKE %:#{#searchDTO.distChiefName}%)"
     )
-    Page<Dist> multiSearchadmdr(@Param("distChief") String distChief,
+    Page<Dist> multiSearchadmdr(SearchDTO searchDTO,
                                 Pageable pageable);
 
 
     @Query("select d from Dist d where (:distName is null or d.distName LIKE %:distName%)"+
             "and (:distChiefEmail is null or d.distChief.distChiefEmail LIKE %:distChiefEmail%)"+
-            "and (:distChief is null or d.distChief.distChiefName LIKE %:distChief%)"+
+            "and (:distChiefName is null or d.distChief.distChiefName LIKE %:distChiefName%)"+
             "and (:distTel is null or d.distTel LIKE %:distTel%)"
 
     )
 
     Page<Dist> multiSearchmemadmin(@Param("distName") String distName,
                                    @Param("distChiefEmail") String distChiefEmail,
-                                   @Param("distChief") String distChief,
+                                   @Param("distChiefName") String distChiefName,
                                    @Param("distTel") String distTel,
                                    Pageable pageable);
 

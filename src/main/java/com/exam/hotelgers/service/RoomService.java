@@ -114,6 +114,7 @@ public class RoomService {
 
 
 
+    //읽기
     public RoomDTO read(Long roomIdx) {
         Optional<Room> roomEntityOptional = roomRepository.findById(roomIdx);
         if (roomEntityOptional.isPresent()) {
@@ -167,6 +168,7 @@ public class RoomService {
 
 
 
+    //매장 준비물
     private StoreDTO convertToRoomStoreDTO(Store store) {
         return modelMapper.map(store, StoreDTO.class);
     }

@@ -1,6 +1,7 @@
 package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Dist;
@@ -118,17 +119,21 @@ public class DistService {
 
 
 
-    public Page<DistDTO> searchadminstoredistmange(String distName, String distChief, Pageable pageable) {
+    public Page<DistDTO> searchadminstoredistmange(SearchDTO searchDTO, Pageable pageable) {
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distIdx"));
 
-        Page<Dist> dists = distRepository.multiSearchadminsdm(distName, distChief, page);
+        Page<Dist> dists = distRepository.multiSearchadminsdm(searchDTO, page);
         return dists.map(this::convertToDistDTO);
     }
 
     private DistDTO convertToDistDTO(Dist dist) {
-        return modelMapper.map(dist, DistDTO.class);
+
+        DistDTO dto = modelMapper.map(dist, DistDTO.class); //어떤것이든 고정
+        
+        dto.setDistChiefDTO(searchService.convertToDistChiefDTO(dist.getDistChief()));
+        return dto;
     }
 
 
@@ -137,25 +142,25 @@ public class DistService {
 
 
 
-    public Page<DistDTO> searchadmindr(String distChief, Pageable pageable) {
+    public Page<DistDTO> searchadmindr(SearchDTO searchDTO, Pageable pageable) {
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distIdx"));
 
-        Page<Dist> dists = distRepository.multiSearchadmdr(distChief, page);
+        Page<Dist> dists = distRepository.multiSearchadmdr(searchDTO, page);
         return dists.map(this::convertToDistDTO);
     }
 
 
 
-    public Page<DistDTO> searchmemadmin(String distName,String distChiefEmail, String distChief,
+    public Page<DistDTO> searchmemadmin(String distName,String distChiefEmail, String distChiefName,
                                         String distTel, Pageable pageable) {
         //유저권한,총판조직명,지사명,매장명,아이디,이름,연락처,상태
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distIdx"));
 
-        Page<Dist> dists = distRepository.multiSearchmemadmin(distName,distChiefEmail,distChief,distTel,page);
+        Page<Dist> dists = distRepository.multiSearchmemadmin(distName,distChiefEmail,distChiefName,distTel,page);
         return dists.map(this::convertToDistDTO);
     }
 }
