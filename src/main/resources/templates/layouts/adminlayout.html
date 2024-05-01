@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <th:block layout:fragment="script"></th:block>
     <th:block layout:fragment="css"></th:block>
+    <link rel="stylesheet" href="/yhh.css">
     <style>
         td, th {
             white-space: nowrap;
@@ -85,7 +86,7 @@
                         <li><a class="dropdown-item change-language" data-lang="jp">日本語</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/member/register}"><i class="far fa-user-circle"></i><span>회원가입</span></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/admin/register}"><i class="far fa-user-circle"></i><span>회원가입</span></a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/member/login}"><i class="fas fa-user-circle"></i><span>로그인</span></a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
             </ul>

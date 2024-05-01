@@ -34,8 +34,8 @@
                 <tbody>
                 <tr th:each="data:${list}">
                     <!--아이디를 클릭시 해당 태그의 정보를 가지고 스크립트를 실행한다.-->
-                    <td><a href="#" th:id="${data.distChiefDTO.distChiefName}" th:onclick="sendDataToParent(this)"
-                           th:text="${data.distChiefDTO.distChiefName}">임시</a></td>
+                    <td><a href="#" th:id="${data.distChiefName}" th:onclick="sendDataToParent(this)"
+                           th:text="${data.distChiefName}">임시</a></td>
                 </tr>
                 </tbody>
             </table>
