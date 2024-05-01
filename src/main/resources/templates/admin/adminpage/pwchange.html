@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="ko" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/adminlayout}">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+    <title>팀이름</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <!--ajax-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <th:block layout:fragment="script"></th:block>
+    <th:block layout:fragment="css"></th:block>
     <style>
-        td {
+        td, th {
+            white-space: nowrap;
+        }
+        th {
             text-align: center; /* 가로 중앙 정렬 */
             vertical-align: middle; /* 세로 중앙 정렬 */
         }
@@ -15,26 +27,34 @@
 <div layout:fragment="content">
     <div class="card">
         <div class="card-header" style="margin: 50px 20px;">
-            <h4 class="card-title">총판 조직 관리</h4>
-            <h6><strong>총판 조직 등록</strong></h6>
-            <form method="post" action="/admin/adminpage/storedistmange">
+            <h4 class="card-title">비밀번호변경</h4>
+            <h6><strong>비밀번호 변경</strong></h6>
+            <form method="post" action="/admin/adminpage/pwchange">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>총판명</th>
+                            <th>현재 비밀번호</th>
                             <td class="align-middle text-start">
-                                <input type="text" value="" placeholder="매장총판명" name="distName" style="width:300px;">
+                                <input type="text" value=""  name="distName" style="width:200px;">
                             </td>
-                            <th>총판장</th>
+                        </tr>
+                        <tr>
+                            <th>새 비밀번호</th>
                             <td class="align-middle text-start">
-                                <input type="text" value="" placeholder="총판ID" name="distCd" style="width:300px;">
+                                <input type="text" value=""  name="distName" style="width:200px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>새 비밀번호 확인</th>
+                            <td class="align-middle text-start">
+                                <input type="text" value=""  name="distName" style="width:200px;">
                             </td>
                         </tr>
                         </thead>
                     </table>
-                    <div style="text-align: center;">
-                        <button type="button" class="btn text-white m-2" style="background-color: #36b9cc;">조회</button>
+                    <div style="text-align: right;">
+                        <button type="button" class="btn text-white m-2" style="background-color: #36b9cc;">확인</button>
                     </div>
                 </div>
             </form>
