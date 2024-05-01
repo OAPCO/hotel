@@ -44,6 +44,8 @@ public class ScriptController {
     @GetMapping(value = "/selectstore", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> selectStore(SearchDTO searchDTO) throws Exception {
 
+        log.info("ajax - selectStore Get 도착했음");
+
         Map<String, Object> result = new HashMap<>();
 
         List<BrandDTO> distOfBrand = brandService.distOfBrand(searchDTO);
@@ -58,6 +60,8 @@ public class ScriptController {
 
     @GetMapping(value = "/registerstore", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> registerStore(SearchDTO searchDTO) throws Exception {
+
+        log.info("ajax - registerstore Get 도착했음");
 
         Map<String, Object> result = new HashMap<>();
 

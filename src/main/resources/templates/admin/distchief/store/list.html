@@ -203,16 +203,20 @@
     </div>
 
 
+
+
+    <script type="text/javascript" src="/js/hotel.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
 
         $(document).ready(function() {
 
+
             var selectedDist = sessionStorage.getItem('selectedDist');
             var selectedBrand = sessionStorage.getItem('selectedBrand');
             var selectedStore = sessionStorage.getItem('selectedStore');
 
-            // 이전 검색 값이 있으면 해당 값으로 셀렉트박스 설정
+
             if (selectedDist) {
                 $('#distSelect').val(selectedDist);
             }
@@ -228,47 +232,11 @@
             $('#distSelect').change(function() {
 
                 $('#brandSelect').prop('disabled', false);
-
                 var selectedDist = $('#distSelect').val();
-                console.log(selectedDist);
 
-                var selectedBrand = $('#brandSelect').val();
-                console.log(selectedBrand);
+                storeSelect.selectDistOfStore(selectedDist)
 
-                $.ajax({
-                    type: 'GET',
-                    url: '/selectstore', // 서버에서 storeList를 반환하는 엔드포인트
-                    data: { distName: selectedDist},
-                    contentType : "application/json; charset=utf-8",
-
-                    success: function(data) {
-
-                        var distbrandOfStore = data.distbrandOfStore;
-                        var distOfBrand = data.distOfBrand;
-
-                        $('#brandSelect').empty();
-                        $('#brandSelect').append($('<option>').val('').text('전체'));
-                        $('#storeSelect').empty();
-                        $('#storeSelect').append($('<option>').val('').text('전체'));
-
-                        $.each(distOfBrand, function(index, distOfBrand) {
-                            console.log(distOfBrand)
-                            $('#brandSelect').append($('<option>').val(distOfBrand.brandName).text(distOfBrand.brandName));
-                        });
-
-                        $.each(distbrandOfStore, function(index, distbrandOfStore) {
-                            console.log(distbrandOfStore)
-                            $('#storeSelect').append($('<option>').val(distbrandOfStore.storeName).text(distbrandOfStore.storeName));
-                        });
-
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Failed to retrieve stores: ' + error);
-                    }
-                });
-
-
-                sessionStorage.setItem('selectedDist', selectedDist);
+                // sessionStorage.setItem('selectedDist', selectedDist);
 
             });
 
@@ -276,40 +244,16 @@
             $('#brandSelect').change(function() {
 
                 var selectedBrand = $('#brandSelect').val();
-                console.log(selectedBrand);
 
-                $.ajax({
-                    type: 'GET',
-                    url: '/selectstore',
-                    data: { brandName: selectedBrand},
-                    contentType : "application/json; charset=utf-8",
+                storeSelect.selectDistAndBrandOfStore(selectedBrand)
 
-                    success: function(data) {
-
-                        var distbrandOfStore = data.distbrandOfStore;
-
-                        $('#storeSelect').empty();
-                        $('#storeSelect').append($('<option>').val('').text('전체'));
-
-
-                        $.each(distbrandOfStore, function(index, distbrandOfStore) {
-                            console.log(distbrandOfStore)
-                            $('#storeSelect').append($('<option>').val(distbrandOfStore.storeName).text(distbrandOfStore.storeName));
-                        });
-
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Failed to retrieve stores: ' + error);
-                    }
-                });
-
-                sessionStorage.setItem('selectedBrand', selectedBrand);
+                // sessionStorage.setItem('selectedBrand', selectedBrand);
 
             });
 
             $('#storeSelect').change(function() {
 
-                sessionStorage.setItem('selectedStore', selectedStore);
+                // sessionStorage.setItem('selectedStore', selectedStore);
             });
 
         });
