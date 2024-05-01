@@ -18,10 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -75,6 +72,22 @@ public class ScriptController {
         result.put("distOfManager", distOfManager);
 
         return result;
+    }
+
+
+    @GetMapping("/logintype")
+    public String Login(String roleType) {
+
+        log.info("운영자들 login rest 겟매핑 들어옴");
+
+        switch (roleType){
+            case "ADMIN" : return "admin/login";
+
+            case "DISTCHIEF" : return "admin/distchief/login";
+
+            case "MANAGER" : return "admin/manager/login";
+        }
+        return "redirect:/admin/login";
     }
 
 

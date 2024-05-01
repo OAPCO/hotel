@@ -1,6 +1,6 @@
 console.log("hotel.js 호출되었음");
 
-let storeSelect = (function () {
+let hotel = (function () {
 
     
     //distchief/store/list의 총판 셀렉트박스 선택시
@@ -76,11 +76,45 @@ let storeSelect = (function () {
     };
 
 
+
+
+    // //로그인페이지 roleType 처리
+    // function selectRoleType(selectedRoleType) {
+    //
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/logintype',
+    //         data: { roleType: selectedRoleType},
+    //         contentType : "application/json; charset=utf-8",
+    //
+    //         success: function(data) {
+    //
+    //             var distbrandOfStore = data.distbrandOfStore;
+    //
+    //             $('#storeSelect').empty();
+    //             $('#storeSelect').append($('<option>').val('').text('전체'));
+    //
+    //
+    //             $.each(distbrandOfStore, function(index, distbrandOfStore) {
+    //                 console.log(distbrandOfStore)
+    //                 $('#storeSelect').append($('<option>').val(distbrandOfStore.storeName).text(distbrandOfStore.storeName));
+    //             });
+    //
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error('Failed to retrieve stores: ' + error);
+    //         }
+    //     });
+    //
+    // };
+
+
     
     //값 반환
     return {
         selectDistOfStore  : selectDistOfStore,
         selectDistAndBrandOfStore : selectDistAndBrandOfStore
+        // selectRoleType : selectRoleType
     };
 
 })();

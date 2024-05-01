@@ -84,13 +84,15 @@ public class ManagerController {
 
 
 
-    @GetMapping("/admin/manager/delete/{managerIdx}")
+    @GetMapping("/admin/distchief/manager/delete/{managerIdx}")
     public String deleteProc(@PathVariable Long managerIdx) {
+        
+        log.info("매니저 삭제 Proc 들어옴");
 
 
         managerService.delete(managerIdx);
         //서비스처리(삭제)
-        return "redirect:/admin/manager/list";
+        return "redirect:/admin/distchief/manager/list";
     }
 
 
