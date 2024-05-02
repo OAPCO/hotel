@@ -105,7 +105,6 @@
                                             <td class="col">
                                                 <div>
                                                     <select class="d-inline-block form-select form-select-sm" name="managerDTO.managerName" id="managerSelect">
-                                                        <option value="" selected>선택</option>
                                                         <option th:each="managerList : ${managerList}" th:value="${managerList.managerName}" th:text="${managerList.managerName}"></option>
                                                     </select>
                                                 </div>
@@ -286,7 +285,6 @@
     <script>
 
         $(document).ready(function() {
-
             var selectedDist = sessionStorage.getItem('selectedDist');
             var selectedBrand = sessionStorage.getItem('selectedBrand');
             var selectedManager = sessionStorage.getItem('selectedManager');
@@ -302,12 +300,7 @@
                 $('#managerSelect').val(selectedManager);
             }
 
-
-
             $('#distSelect').change(function() {
-
-                $('#brandSelect').prop('disabled', false);
-
                 var selectedDist = $('#distSelect').val();
                 console.log(selectedDist);
 
@@ -317,60 +310,63 @@
                 var selectedManager = $('#managerSelect').val();
                 console.log(selectedManager);
 
-
                 $.ajax({
                     type: 'GET',
                     url: '/registerstore', // 서버에서 storeList를 반환하는 엔드포인트
-                    data: { distName: selectedDist},
-                    contentType : "application/json; charset=utf-8",
+                    data: { distName: selectedDist },
+                    contentType: "application/json; charset=utf-8",
 
                     success: function(data) {
-
                         var distOfManager = data.distOfManager;
                         var distOfBrand = data.distOfBrand;
 
                         $('#brandSelect').empty();
                         $('#brandSelect').append($('<option>').val('').text('전체'));
+
+                        // 총판이 선택된 경우에만 해당하는 브랜드를 추가
+                        if (selectedDist !== '') {
+                            $.each(distOfBrand, function(index, distOfBrand) {
+                                console.log(distOfBrand);
+                                $('#brandSelect').append($('<option>').val(distOfBrand.brandName).text(distOfBrand.brandName));
+                            });
+                            // 총판이 선택되지 않은 경우 브랜드 선택을 비활성화
+                        } else {
+                            $('#brandSelect').prop('disabled', true);
+                        }
+
                         $('#managerSelect').empty();
                         $('#managerSelect').append($('<option>').val('').text('전체'));
 
-                        $.each(distOfBrand, function(index, distOfBrand) {
-                            console.log(distOfBrand)
-                            $('#brandSelect').append($('<option>').val(distOfBrand.brandName).text(distOfBrand.brandName));
-                        });
-
                         $.each(distOfManager, function(index, distOfManager) {
-                            console.log(distOfManager)
+                            console.log(distOfManager);
                             $('#managerSelect').append($('<option>').val(distOfManager.managerName).text(distOfManager.managerName));
                         });
 
+                        // 변경된 선택값을 sessionStorage에 저장
+                        sessionStorage.setItem('selectedDist', selectedDist);
                     },
                     error: function(xhr, status, error) {
                         console.error('Failed to retrieve stores: ' + error);
                     }
                 });
-
-
-                sessionStorage.setItem('selectedDist', selectedDist);
-
             });
 
-
             $('#brandSelect').change(function() {
-
                 var selectedBrand = $('#brandSelect').val();
                 console.log(selectedBrand);
 
                 sessionStorage.setItem('selectedBrand', selectedBrand);
-
             });
 
             $('#managerSelect').change(function() {
+                var selectedManager = $('#managerSelect').val();
+                console.log(selectedManager);
 
                 sessionStorage.setItem('selectedManager', selectedManager);
             });
-
         });
+
+
 
 
     </script>
