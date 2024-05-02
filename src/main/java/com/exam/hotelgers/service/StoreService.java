@@ -183,7 +183,7 @@ public class StoreService {
     }
 
 
-    public StoreDTO read(Long storeIdx) throws Exception{
+    public StoreDTO read(Long storeIdx) throws Exception {
         Optional<Store> optionalStore = storeRepository.findById(storeIdx);
         if (optionalStore.isPresent()) {
             Store store = optionalStore.get();
@@ -196,6 +196,16 @@ public class StoreService {
             dto.setMenuCateDTOList(searchService.convertToMenuCateDTOList(store.getMenuCateList()));
             dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getDetailMenuList()));
 
+            // 스토어와 연관된 매니저 정보를 가져옵니다
+            Manager manager = store.getManager();
+
+            // 매니저 객체가 존재할 경우 매니저 정보를 StoreDTO에 추가합니다
+            if (manager != null) {
+                ManagerDTO managerDTO = modelMapper.map(manager, ManagerDTO.class);
+                dto.setManagerDTO(managerDTO);
+            }
+
+            // 메뉴 카테고리와 그에 해당하는 상세 메뉴를 설정합니다
             List<MenuCateDTO> menuCateDTOList = searchService.convertToMenuCateDTOList(store.getMenuCateList());
             dto.setMenuCateDTOList(menuCateDTOList);
 
@@ -206,13 +216,13 @@ public class StoreService {
                 List<DetailmenuDTO> detailMenuDTOList = searchService.convertToDetailMenuDTOList(detailMenus);
                 // DetailMenuDTO 리스트를 MenuCateDTO에 추가합니다.
                 menuCateDTO.setDetailMenuDTOList(detailMenuDTOList);
-
             }
             return dto;
         } else {
             return null;
         }
     }
+
 
 
 
