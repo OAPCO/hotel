@@ -44,35 +44,40 @@ public class DistService {
     }
 
     public Long register(DistDTO distDTO) {
+        // DistDTO로부터 총판장의 고유 식별자(distChiefIdx)를 가져옵니다.
+        Long distChiefIdx = distDTO.getDistChiefDTO().getDistChiefIdx();
 
+        // 총판장의 고유 식별자가 null인 경우 예외를 던집니다.
+        if (distChiefIdx == null) {
+            throw new IllegalArgumentException("총판장 고유 식별자가 유효하지 않습니다.");
+        }
 
-      Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
+        // 총판장 고유 식별자로 총판장을 검색합니다.
+        Optional<DistChief> distChiefOptional = distChiefRepository.findById(distChiefIdx);
 
-
-        if (!distChief.isPresent()) {
+        // 총판장이 존재하지 않는 경우 예외를 던집니다.
+        if (!distChiefOptional.isPresent()) {
             throw new IllegalStateException("존재하지 않는 총판장입니다.");
         }
 
-        
-        
+        // DistCd를 이용하여 이미 생성된 총판인지 확인합니다.
         Optional<Dist> distEntity = distRepository.findByDistCd(distDTO.getDistCd());
-
-
-
+        // 이미 생성된 총판인 경우 예외를 던집니다.
         if(distEntity.isPresent()) {
             throw new IllegalStateException("이미 생성된 총판입니다.");
         }
 
-
-
+        // DistDTO를 Dist 엔티티로 변환합니다.
         Dist dist = modelMapper.map(distDTO, Dist.class);
 
+        // 총판 엔티티에 총판장 정보를 설정합니다.
+        dist.setDistChief(distChiefOptional.get());
 
-        dist.setDistChief(distChief.get());
-
-
+        // 총판을 저장하고 새로운 총판의 ID를 반환합니다.
         return distRepository.save(dist).getDistIdx();
     }
+
+
 
 
     public void modify(DistDTO distDTO){
