@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>룸 관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h4 class="card-title">[[${storeDTO.storeName}]] 관리</h4>
+    <div class="card">
+        <div class="card-body">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                객실 목록
+            </div>
+
+
+                <div th:each="data: ${list}">
+
+                    <div class="row">
+
+
+                        <div class="col-custom-12" th:each="index : ${#numbers.sequence(1,12)}">
+
+                            <div th:if="${data.roomCd.contains('roomCard' + index)}" class="card room-card" th:id="'roomCard' + ${index}">
+                                <span class="room-text" th:text="${data.roomName}"></span>
+                                <th:block th:switch="${data.roomType.name()}">
+                                    <span class="room-text2" th:case="NORMAL">일반실</span>
+                                    <span class="room-text2" th:case="SPECIAL">특실</span>
+                                    <span class="room-text2" th:case="PARTYROOM">파티룸</span>
+                                </th:block>
+<!--                                <span class="room-text" th:text="${data.roomStatus}"></span>-->
+                            </div>
+
+
+                            <div th:unless="${data.roomCd.contains('roomCard' + index)}" class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+    </div>
+</div>
+
+
+    <script th:inline="javascript">
+
+
+
+        function roomRegister(element) {
+
+
+            //버튼이 속한 카드의 ID를 변수에 넣음
+            var cardId = element.id;
+            console.log('객실 등록 버튼을 누른 카드의 ID:', cardId);
+
+            //객실 추가 팝업창 생성
+            var popupUrl = "/window/roomregister?id=" + cardId;
+            var popupOption = "width=1500, height=500";
+            window.open(popupUrl, "객실 추가", popupOption);
+        }
+
+
+
+        // //자식창(roomregister)와의 주고받기
+        // window.addEventListener('message', function(event) {
+        //
+        //     // //자식창에서 온 'message' 인지 확인
+        //     // if (event.origin !== window.location.origin) {
+        //     //     return;
+        //     // }
+        //     //
+        //     // //도착한 데이터
+        //     // console.log('받은 객실 정보:', event.data);
+        //
+        //
+        //     // //데이터를 새 변수에 넣음
+        //     // var roomInfo = event.data;
+        //     // var roomCd = roomInfo.roomCd;
+        //
+        //
+        //     // var roomType = roomInfo.roomType;
+        //     // var roomName = roomInfo.roomName;
+        //
+        //
+        //
+        //     // 해당 카드에 텍스트 채우기
+        //     // var cardElement = document.getElementById(cardId);
+        //     // var roomNameElement = document.createElement('p');
+        //     // roomNameElement.textContent = roomName;
+        //     // cardElement.appendChild(roomNameElement);
+        //
+        //
+        // });
+
+
+    </script>
+
+
+
+
+
+
+
+
+    <script th:inline="javascript">
+        var processMessage = null;
+        if (processMessage) {
+            alert(processMessage);
+        }
+    </script>
+
+
+
+</div>
+</body>
+</html>

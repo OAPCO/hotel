@@ -54,6 +54,80 @@ table.body th{
     margin-right: 30px;
 }
 
+.room-card {
+    background-color: #f8f9fc;
+    border: 1px solid blue;
+    width: 120px;
+    height: 70px;
+    margin-left: 5px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.room-empty {
+    position: relative; /* 이 부분을 추가해주세요. */
+    background-color: #ffffff;
+    width: 120px;
+    height: 70px;
+    margin-left: 5px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.room-card-empty:hover {
+    background-image: url(https://gudgh9512.s3.ap-northeast-2.amazonaws.com/asdasd.png); /* 마우스를 빼면 나타날 이미지 */
+}
+
+.room-empty::after {
+    content: ''; /* 가상 요소를 생성합니다. */
+    background-image: url(https://gudgh9512.s3.ap-northeast-2.amazonaws.com/asdasd.png); /* 마우스를 빼면 나타날 이미지 */
+    background-size: cover; /* 이미지를 카드 크기에 맞게 확대 또는 축소 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* 초기에는 투명하게 설정합니다. */
+    transition: opacity 0.9s ease; /* 변화를 부드럽게 만듭니다. */
+}
+
+.room-empty:hover::after {
+    opacity: 1; /* 마우스를 올렸을 때 투명도를 조절하여 나타나게 합니다. */
+}
+
+.div-room {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+.room-text {
+    font-style: unset;
+    font-size: 20px;
+}
+
+.room-text2 {
+    font-style: unset;
+    font-size: 15px;
+}
+
+
+.col-custom-12 {
+    width: calc(100% / 12);
+    float: left;
+    padding-left: 1px;
+    padding-right: 1px;
+    box-sizing: border-box;
+}
+
 
 .button {
     display: inline-block;
@@ -67,3 +141,17 @@ table.body th{
     font-size: 16px;
 }
 
+.roombutton {
+    /* 배경 이미지 설정 */
+    background-image: url('https://gudgh9512.s3.ap-northeast-2.amazonaws.com/asdasd.png');
+
+
+    background-size: cover;
+
+
+}
+
+.roombutton:hover {
+    /* 마우스를 올렸을 때 투명도를 조절하여 이미지가 나타나게 합니다. */
+    opacity: 1;
+}

@@ -36,12 +36,14 @@ public class Room extends BaseEntity{
 
     private String roomimgName;
 
-
-
-
+    @Builder.Default
+    private Boolean roomStatus = false;
 
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
+
+
+
 
 
 
@@ -51,8 +53,6 @@ public class Room extends BaseEntity{
 
     @OneToMany(mappedBy="room", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
-
-
 
 
 }

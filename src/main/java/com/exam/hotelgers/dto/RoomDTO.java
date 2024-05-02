@@ -28,6 +28,8 @@ public class RoomDTO {
 
     private RoomType roomType;
 
+    private Boolean roomStatus;
+
     private LocalDateTime regdate;
     private LocalDateTime moddate;
 

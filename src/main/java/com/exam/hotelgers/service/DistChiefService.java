@@ -113,15 +113,15 @@ public class DistChiefService {
 
 
 
-    public Page<DistChiefDTO> distChiefSearch(SearchDTO searchDTO, Pageable pageable) {
-
-        int currentPage = pageable.getPageNumber() - 1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distChiefIdx"));
-
-        Page<DistChief> distChiefs = distChiefRepository.distChiefSearch(searchDTO, page);
-        return distChiefs.map(this::convertToDTO);
-    }
+//    public Page<DistChiefDTO> distChiefSearch(SearchDTO searchDTO, Pageable pageable) {
+//
+//        int currentPage = pageable.getPageNumber() - 1;
+//        int pageCnt = 5;
+//        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distChiefIdx"));
+//
+//        Page<DistChief> distChiefs = distChiefRepository.distChiefSearch(searchDTO, page);
+//        return distChiefs.map(this::convertToDTO);
+//    }
 
 
     private DistChiefDTO convertToDTO(DistChief distChief) {
