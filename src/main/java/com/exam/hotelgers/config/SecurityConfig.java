@@ -102,7 +102,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
 
         http.logout(logout-> logout
-                .logoutUrl("/logout")
+                .logoutUrl("/admin/logout")
                 .logoutSuccessUrl("/admin/login"));
 
         http.authenticationProvider(adminProvider());
@@ -137,7 +137,7 @@ public class SecurityConfig {
 
         http.logout(logout-> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/member/login"));
+                .logoutSuccessUrl("/member/memberpage/index"));
 
         http.authenticationProvider(memberProvider());
         return http.build();

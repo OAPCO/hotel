@@ -217,6 +217,8 @@
             var selectedStore = sessionStorage.getItem('selectedStore');
 
 
+
+
             if (selectedDist) {
                 $('#distSelect').val(selectedDist);
             }
@@ -232,6 +234,7 @@
             $('#distSelect').change(function() {
 
                 $('#brandSelect').prop('disabled', false);
+
                 var selectedDist = $('#distSelect').val();
 
                 storeSelect.selectDistOfStore(selectedDist)

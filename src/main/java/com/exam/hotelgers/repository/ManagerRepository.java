@@ -26,6 +26,10 @@ public interface ManagerRepository extends JpaRepository<Manager,Long> {
     List<Manager> distOfManager(SearchDTO searchDTO);
 
 
+    @Query("select m.managerId from Manager m where (m.managerId LIKE %:userid%)")
+    List<String> registerCheck (String userid);
+
+
 
 
 }

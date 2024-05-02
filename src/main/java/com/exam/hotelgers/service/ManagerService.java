@@ -4,10 +4,7 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
-import com.exam.hotelgers.repository.DistRepository;
-import com.exam.hotelgers.repository.ManagerRepository;
-import com.exam.hotelgers.repository.RoomRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -29,6 +26,8 @@ import static com.exam.hotelgers.entity.QDist.dist;
 public class ManagerService {
 
     private final ManagerRepository managerRepository;
+    private final AdminRepository adminRepository;
+    private final DistChiefRepository distChiefRepository;
     private final StoreRepository storeRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
@@ -40,6 +39,15 @@ public class ManagerService {
     public Long register(ManagerDTO managerDTO){
 
 
+        List<String> adminIdCheck = adminRepository.registerCheck(managerDTO.getManagerId());
+        List<String> distChiefIdCheck = distChiefRepository.registerCheck(managerDTO.getManagerId());
+        List<String> managerIdCheck = managerRepository.registerCheck(managerDTO.getManagerId());
+
+
+        if(!adminIdCheck.isEmpty() || !distChiefIdCheck.isEmpty() || !managerIdCheck.isEmpty()) {
+            throw new IllegalStateException("중복된 아이디가 있습니다.");
+        }
+
         Optional<Dist> dist = distRepository.findByDistName(managerDTO.getDistDTO().getDistName());
 
         if (!dist.isPresent()) {
@@ -47,13 +55,6 @@ public class ManagerService {
         }
 
 
-
-        Optional<Manager> manageridCheck = managerRepository.findByManagerId(managerDTO.getManagerId());
-
-
-        if(manageridCheck.isPresent()) {
-            throw new IllegalStateException("중복된 아이디가 있습니다.");
-        }
 
         String password = passwordEncoder.encode(managerDTO.getPassword());
         Manager manager = modelMapper.map(managerDTO, Manager.class);
@@ -132,24 +133,6 @@ public class ManagerService {
     }
 
 
-
-//      Page 뺀 버전
-//    public List<RoomDTO> managerOfLoom(Principal principal) {
-//
-//        String userId = principal.getName();
-//        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
-//
-//        StoreDTO storeDTO = modelMapper.map(store.get(),StoreDTO.class);
-//
-//
-//        List<Room> rooms = roomRepository.loginManagerRoomSearch(storeDTO.getStoreCd());
-//
-//        List<RoomDTO> roomDTOS = rooms.stream()
-//                .map(room -> modelMapper.map(room, RoomDTO.class))
-//                .collect(Collectors.toList());
-//
-//        return roomDTOS;
-//    }
 
 
 

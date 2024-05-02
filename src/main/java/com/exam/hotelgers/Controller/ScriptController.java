@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +42,9 @@ public class ScriptController {
 
 
 
+
     @GetMapping(value = "/selectstore", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Object> selectStore(SearchDTO searchDTO) throws Exception {
+    public Map<String, Object> selectStore(SearchDTO searchDTO, Principal principal,Pageable pageable) throws Exception {
 
         log.info("ajax - selectStore Get 도착했음");
 
@@ -50,6 +52,7 @@ public class ScriptController {
 
         List<BrandDTO> distOfBrand = brandService.distOfBrand(searchDTO);
         List<StoreDTO> distbrandOfStore = storeService.distbrandOfStore(searchDTO);
+
 
         result.put("distOfBrand", distOfBrand);
         result.put("distbrandOfStore", distbrandOfStore);

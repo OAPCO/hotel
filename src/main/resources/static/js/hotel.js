@@ -2,6 +2,8 @@ console.log("hotel.js 호출되었음");
 
 let storeSelect = (function () {
 
+    
+    //distchief/store/list의 총판 셀렉트박스 선택시
     function selectDistOfStore(selectedDist){
 
         $.ajax({
@@ -41,6 +43,9 @@ let storeSelect = (function () {
 
     };
 
+
+
+    //distchief/store/list의 브랜드 셀렉트박스 선택시
     function selectDistAndBrandOfStore(selectedBrand) {
 
         $.ajax({
@@ -73,9 +78,51 @@ let storeSelect = (function () {
 
 
 
+    function registerDistOfStore(selectedDist){
+
+        $.ajax({
+            type: 'GET',
+            url: '/registerstore', // 서버에서 storeList를 반환하는 엔드포인트
+            data: { distName: selectedDist},
+            contentType : "application/json; charset=utf-8",
+
+            success: function(data) {
+
+                var distOfManager = data.distOfManager;
+                var distOfBrand = data.distOfBrand;
+
+                $('#brandSelect').empty();
+                $('#brandSelect').append($('<option>').val('').text('전체'));
+                $('#managerSelect').empty();
+                $('#managerSelect').append($('<option>').val('').text('전체'));
+
+                $.each(distOfBrand, function(index, distOfBrand) {
+                    console.log(distOfBrand)
+                    $('#brandSelect').append($('<option>').val(distOfBrand.brandName).text(distOfBrand.brandName));
+                });
+
+                $.each(distOfManager, function(index, distOfManager) {
+                    console.log(distOfManager)
+                    $('#managerSelect').append($('<option>').val(distOfManager.managerName).text(distOfManager.managerName));
+                });
+
+            },
+            error: function(xhr, status, error) {
+                console.error('Failed to retrieve stores: ' + error);
+            }
+        });
+
+    };
+
+
+
+
+    
+    //값 반환
     return {
         selectDistOfStore  : selectDistOfStore,
-        selectDistAndBrandOfStore : selectDistAndBrandOfStore
+        selectDistAndBrandOfStore : selectDistAndBrandOfStore,
+        registerDistOfStore : registerDistOfStore
     };
 
 })();

@@ -75,6 +75,7 @@ public class StoreService {
 
 
 
+
         String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
         String newFileName = ""; //새로 만든 파일명
 
