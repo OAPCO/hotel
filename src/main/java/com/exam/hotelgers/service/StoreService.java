@@ -35,7 +35,6 @@ public class StoreService {
     private final BrandRepository brandRepository;
     private final SearchService searchService;
     private final DetailmenuRepository detailmenuRepository;
-    private final MenuoptionRepository menuoptionRepository;
     private final ManagerRepository managerRepository;
 
 

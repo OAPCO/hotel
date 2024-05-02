@@ -67,7 +67,7 @@ table.body th{
     justify-content: center;
 }
 
-.room-card-empty {
+.room-empty {
     position: relative; /* 이 부분을 추가해주세요. */
     background-color: #ffffff;
     width: 120px;
@@ -80,7 +80,11 @@ table.body th{
     justify-content: center;
 }
 
-.room-card-empty::after {
+.room-card-empty:hover {
+    background-image: url(https://gudgh9512.s3.ap-northeast-2.amazonaws.com/asdasd.png); /* 마우스를 빼면 나타날 이미지 */
+}
+
+.room-empty::after {
     content: ''; /* 가상 요소를 생성합니다. */
     background-image: url(https://gudgh9512.s3.ap-northeast-2.amazonaws.com/asdasd.png); /* 마우스를 빼면 나타날 이미지 */
     background-size: cover; /* 이미지를 카드 크기에 맞게 확대 또는 축소 */
@@ -93,7 +97,7 @@ table.body th{
     transition: opacity 0.9s ease; /* 변화를 부드럽게 만듭니다. */
 }
 
-.room-card-empty:hover::after {
+.room-empty:hover::after {
     opacity: 1; /* 마우스를 올렸을 때 투명도를 조절하여 나타나게 합니다. */
 }
 
@@ -137,3 +141,17 @@ table.body th{
     font-size: 16px;
 }
 
+.roombutton {
+    /* 배경 이미지 설정 */
+    background-image: url('https://gudgh9512.s3.ap-northeast-2.amazonaws.com/asdasd.png');
+
+
+    background-size: cover;
+
+
+}
+
+.roombutton:hover {
+    /* 마우스를 올렸을 때 투명도를 조절하여 이미지가 나타나게 합니다. */
+    opacity: 1;
+}
