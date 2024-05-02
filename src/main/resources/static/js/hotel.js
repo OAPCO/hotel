@@ -1,6 +1,6 @@
 console.log("hotel.js 호출되었음");
 
-let hotel = (function () {
+let storeSelect = (function () {
 
     
     //distchief/store/list의 총판 셀렉트박스 선택시
@@ -78,43 +78,51 @@ let hotel = (function () {
 
 
 
-    // //로그인페이지 roleType 처리
-    // function selectRoleType(selectedRoleType) {
-    //
-    //     $.ajax({
-    //         type: 'GET',
-    //         url: '/logintype',
-    //         data: { roleType: selectedRoleType},
-    //         contentType : "application/json; charset=utf-8",
-    //
-    //         success: function(data) {
-    //
-    //             var distbrandOfStore = data.distbrandOfStore;
-    //
-    //             $('#storeSelect').empty();
-    //             $('#storeSelect').append($('<option>').val('').text('전체'));
-    //
-    //
-    //             $.each(distbrandOfStore, function(index, distbrandOfStore) {
-    //                 console.log(distbrandOfStore)
-    //                 $('#storeSelect').append($('<option>').val(distbrandOfStore.storeName).text(distbrandOfStore.storeName));
-    //             });
-    //
-    //         },
-    //         error: function(xhr, status, error) {
-    //             console.error('Failed to retrieve stores: ' + error);
-    //         }
-    //     });
-    //
-    // };
+    function registerDistOfStore(selectedDist){
+
+        $.ajax({
+            type: 'GET',
+            url: '/registerstore', // 서버에서 storeList를 반환하는 엔드포인트
+            data: { distName: selectedDist},
+            contentType : "application/json; charset=utf-8",
+
+            success: function(data) {
+
+                var distOfManager = data.distOfManager;
+                var distOfBrand = data.distOfBrand;
+
+                $('#brandSelect').empty();
+                $('#brandSelect').append($('<option>').val('').text('전체'));
+                $('#managerSelect').empty();
+                $('#managerSelect').append($('<option>').val('').text('전체'));
+
+                $.each(distOfBrand, function(index, distOfBrand) {
+                    console.log(distOfBrand)
+                    $('#brandSelect').append($('<option>').val(distOfBrand.brandName).text(distOfBrand.brandName));
+                });
+
+                $.each(distOfManager, function(index, distOfManager) {
+                    console.log(distOfManager)
+                    $('#managerSelect').append($('<option>').val(distOfManager.managerName).text(distOfManager.managerName));
+                });
+
+            },
+            error: function(xhr, status, error) {
+                console.error('Failed to retrieve stores: ' + error);
+            }
+        });
+
+    };
+
+
 
 
     
     //값 반환
     return {
         selectDistOfStore  : selectDistOfStore,
-        selectDistAndBrandOfStore : selectDistAndBrandOfStore
-        // selectRoleType : selectRoleType
+        selectDistAndBrandOfStore : selectDistAndBrandOfStore,
+        registerDistOfStore : registerDistOfStore
     };
 
 })();

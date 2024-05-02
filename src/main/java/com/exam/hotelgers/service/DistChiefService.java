@@ -7,8 +7,10 @@ import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.*;
+import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.repository.DistRepository;
+import com.exam.hotelgers.repository.ManagerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -29,6 +31,8 @@ import java.util.stream.Collectors;
 public class DistChiefService {
 
     private final DistChiefRepository distChiefRepository;
+    private final AdminRepository adminRepository;
+    private final ManagerRepository managerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final DistRepository distRepository;
@@ -38,15 +42,12 @@ public class DistChiefService {
     public Long register(DistChiefDTO distChiefDTO){
 
 
+        List<String> adminIdCheck = adminRepository.registerCheck(distChiefDTO.getDistChiefId());
+        List<String> distChiefIdCheck = distChiefRepository.registerCheck(distChiefDTO.getDistChiefId());
+        List<String> managerIdCheck = managerRepository.registerCheck(distChiefDTO.getDistChiefId());
 
 
-
-
-
-        Optional<DistChief> distChiefidCheck = distChiefRepository.findByDistChiefId(distChiefDTO.getDistChiefId());
-
-
-        if(distChiefidCheck.isPresent()) {
+        if(!adminIdCheck.isEmpty() || !distChiefIdCheck.isEmpty() || !managerIdCheck.isEmpty()) {
             throw new IllegalStateException("중복된 아이디가 있습니다.");
         }
 

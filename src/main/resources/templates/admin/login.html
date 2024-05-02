@@ -40,36 +40,8 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <th:block layout:fragment="script"></th:block>
     <th:block layout:fragment="css"></th:block>
-    <script>
-        $(document).ready(function(){
-            $('select1').change(function(){
-                var selectedLanguage = $(this).val();
-                $('body').removeClass(); // 기존 클래스 제거
-                $('body').addClass(selectedLanguage); // 선택한 언어에 해당하는 클래스 추가
 
-                // 선택한 언어에 따라 텍스트 변경
-                if(selectedLanguage === 'ko') {
-                    $('h4.mb-4').text('운영자 로그인');
-                    $('#adminid').attr('placeholder', '아이디');
-                    $('#password').attr('placeholder', '비밀번호');
-                    $('.btn-success').text('로그인');
-                    $('.btn-primary').text('등록');
-                } else if(selectedLanguage === 'en') {
-                    $('h4.mb-4').text('Admin Login');
-                    $('#adminid').attr('placeholder', 'Username');
-                    $('#password').attr('placeholder', 'Password');
-                    $('.btn-success').text('Login');
-                    $('.btn-primary').text('Register');
-                } else if(selectedLanguage === 'jp') {
-                    $('h4.mb-4').text('管理者ログイン');
-                    $('#adminid').attr('placeholder', 'ユーザー名');
-                    $('#password').attr('placeholder', 'パスワード');
-                    $('.btn-success').text('ログイン');
-                    $('.btn-primary').text('登録');
-                }
-            });
-        });
-    </script>
+
 </head>
 
 <body class="bg-gradient-secondary">
@@ -86,19 +58,13 @@
                         </div>
                         <form class="user" th:action="@{/admin/login}" method="post">
 
-                            <select class="mb-3 mt-3">
-                                <option value="" selected disabled>언어 선택</option>
-                                <option value="ko">한국어</option>
-                                <option value="en">영어</option>
-                                <option value="jp">일본어</option>
-                            </select>
 
-                            <select class="mb-3 mt-3" name="roleType" id="roleTypeSelect">
-                                <option value="" selected disabled>(선택)</option>
-                                <option value="ADMIN">슈퍼어드민</option>
-                                <option value="DISTCHIEF">총판장</option>
-                                <option value="MANAGER">매니저</option>
-                            </select>
+<!--                            <select class="mb-3 mt-3" name="roleType" id="roleTypeSelect">-->
+<!--                                <option value="" selected disabled>(선택)</option>-->
+<!--                                <option value="ADMIN">슈퍼어드민</option>-->
+<!--                                <option value="DISTCHIEF">총판장</option>-->
+<!--                                <option value="MANAGER">매니저</option>-->
+<!--                            </select>-->
 
                             <div class="mb-3"><input class="form-control form-control-user" type="text" id="adminid" placeholder="아이디" name="adminid"></div>
                             <div class="mb-3"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password"></div>
@@ -119,32 +85,8 @@
     </div>
 </div>
 
-<script type="text/javascript" src="/js/hotel.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
 
-    // $(document).ready(function() {
-    //
-    //
-    //     var selectedRoleType = sessionStorage.getItem('selectedRoleType');
-    //
-    //
-    //     if (selectedRoleType) {
-    //         $('#roleTypeSelect').val(selectedRoleType);
-    //     }
-    //
-    //
-    //     $('#roleTypeSelect').change(function () {
-    //
-    //         var selectedRoleType = $('#roleTypeSelect').val();
-    //
-    //         hotel.selectRoleType(selectedRoleType)
-    //
-    //     });
-    //
-    // });
 
-</script>
 </body>
 
 </html>

@@ -22,7 +22,7 @@
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
                 객실 등록
             </div>
-            <form method="post" th:action="@{/window/roomregister}" enctype="multipart/form-data">
+            <form method="post" th:action="@{/window/roomregister}" enctype="multipart/form-data" onsubmit="submitFormAndCloseWindow()">
             <div class="table-responsive">
                 <table class="table head">
 
@@ -68,7 +68,7 @@
 
                 </table>
                 <div style="text-align: center;">
-                    <button type="submit" class="btn button" onclick="closeWindow()">등록</button>
+                    <button type="submit" class="btn button">등록</button>
                     <button type="button" class="btn btn-secondary"
                             onclick="window.history.back()">이전</button>
                 </div>
@@ -79,11 +79,15 @@
     </div>
 
         <script>
-            //창 닫기
-            function closeWindow() {
+
+
+            // 폼 제출 후 창 닫기
+            function submitFormAndCloseWindow() {
                 document.getElementById("roomForm").submit();
                 window.close();
             }
+
+
         </script>
 
 </body>

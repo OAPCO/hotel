@@ -4,8 +4,13 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.entity.Admin;
+import com.exam.hotelgers.entity.DistChief;
+import com.exam.hotelgers.entity.Manager;
 import com.exam.hotelgers.repository.AdminRepository;
+import com.exam.hotelgers.repository.DistChiefRepository;
+import com.exam.hotelgers.repository.ManagerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,13 +19,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class AdminService {
 
     private final AdminRepository adminRepository;
+    private final DistChiefRepository distChiefRepository;
+    private final ManagerRepository managerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -28,12 +38,18 @@ public class AdminService {
 
     public Long register(AdminDTO adminDTO){
 
-        Optional<Admin> adminidCheck = adminRepository.findByAdminId(adminDTO.getAdminId());
 
 
-        if(adminidCheck.isPresent()) {
+        List<String> adminIdCheck = adminRepository.registerCheck(adminDTO.getAdminId());
+        List<String> distChiefIdCheck = distChiefRepository.registerCheck(adminDTO.getAdminId());
+        List<String> managerIdCheck = managerRepository.registerCheck(adminDTO.getAdminId());
+
+
+        if(!adminIdCheck.isEmpty() || !distChiefIdCheck.isEmpty() || !managerIdCheck.isEmpty()) {
             throw new IllegalStateException("중복된 아이디가 있습니다.");
         }
+
+
 
         String password = passwordEncoder.encode(adminDTO.getPassword());
         Admin admin = modelMapper.map(adminDTO, Admin.class);
