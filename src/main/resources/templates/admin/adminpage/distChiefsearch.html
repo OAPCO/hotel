@@ -26,7 +26,7 @@
                 </thead>
                 <div>
                     <form class="d-flex" th:action="@{/admin/adminpage/distChiefsearch}" method="post">
-                        <input type="search" name="distChief" class="form-control me-2" placeholder="총판장이름" style="width:300px;">
+                        <input type="search" name="distChiefName" class="form-control me-2" placeholder="총판장이름" style="width:300px;">
                         <button type="submit" class="btn text-white" style="background-color: #36b9cc; margin-left: 5px;">조회</button>
                     </form>
 
@@ -34,8 +34,8 @@
                 <tbody>
                 <tr th:each="data:${list}">
                     <!--아이디를 클릭시 해당 태그의 정보를 가지고 스크립트를 실행한다.-->
-                    <td><a href="#" th:id="${data.distChiefDTO.distChiefName}" th:onclick="sendDataToParent(this)"
-                           th:text="${data.distChiefDTO.distChiefName}">임시</a></td>
+                    <td><a href="#" th:id="${data.distChiefName}" th:onclick="sendDataToParent(this)"
+                           th:text="${data.distChiefName}">임시</a></td>
                 </tr>
                 </tbody>
             </table>

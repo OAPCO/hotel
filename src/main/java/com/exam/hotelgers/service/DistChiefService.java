@@ -4,6 +4,8 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.DistChiefDTO;
 import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.dto.SearchDTO;
+import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
@@ -108,4 +110,24 @@ public class DistChiefService {
                 .map(dist -> modelMapper.map(dist, DistDTO.class))
                 .collect(Collectors.toList());
     }
+
+
+
+    public Page<DistChiefDTO> distChiefSearch(SearchDTO searchDTO, Pageable pageable) {
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distChiefIdx"));
+
+        Page<DistChief> distChiefs = distChiefRepository.distChiefSearch(searchDTO, page);
+        return distChiefs.map(this::convertToDTO);
+    }
+
+
+    private DistChiefDTO convertToDTO(DistChief distChief) {
+        DistChiefDTO dto = modelMapper.map(distChief, DistChiefDTO.class);
+        return dto;
+    }
+
+
 }

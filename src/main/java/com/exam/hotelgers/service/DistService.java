@@ -1,5 +1,6 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.dto.DistChiefDTO;
 import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
@@ -45,7 +46,8 @@ public class DistService {
     public Long register(DistDTO distDTO) {
 
 
-        Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
+      Optional<DistChief> distChief = distChiefRepository.findByDistChiefName(distDTO.getDistChiefDTO().getDistChiefName());
+
 
         if (!distChief.isPresent()) {
             throw new IllegalStateException("존재하지 않는 총판장입니다.");
@@ -139,17 +141,6 @@ public class DistService {
 
 
 
-
-
-
-    public Page<DistDTO> searchadmindr(SearchDTO searchDTO, Pageable pageable) {
-        int currentPage = pageable.getPageNumber() - 1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distIdx"));
-
-        Page<Dist> dists = distRepository.multiSearchadmdr(searchDTO, page);
-        return dists.map(this::convertToDistDTO);
-    }
 
 
 

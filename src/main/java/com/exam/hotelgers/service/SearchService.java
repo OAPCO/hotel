@@ -37,6 +37,13 @@ public class SearchService {
     private final ManagerRepository managerRepository;
 
 
+    public List<DistChiefDTO> distChiefList() {
+        List<DistChief> distChiefs = distChiefRepository.findAll();
+        return distChiefs.stream()
+                .map(distChief -> modelMapper.map(distChief, DistChiefDTO.class))
+                .collect(Collectors.toList());
+    }
+
 
     public List<ManagerDTO> managerList() {
         List<Manager> managers = managerRepository.findAll();
