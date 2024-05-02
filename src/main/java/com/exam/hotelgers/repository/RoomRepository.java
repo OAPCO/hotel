@@ -36,9 +36,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             Pageable pageable
     );
 
-    
-
-
 
 
 

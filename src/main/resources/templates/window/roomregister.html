@@ -40,18 +40,18 @@
                     <tr>
                         <th>객실명</th>
                         <td>
-                            <input type="text" name="roomName">
+                            <input type="text" name="roomName" id="roomName">
                         </td>
-                        <th>객실코드</th>
-                        <td>
-                            <input type="text" name="roomCd">
-                        </td>
+
+
+                            <input type="hidden" name="roomCd" id="roomCd">
+
                     </tr>
                     <tr>
                         <th>타입</th>
                         <td>
                         <div>
-                            <select class="form-select" name="roomType">
+                            <select class="form-select" name="roomType" id="roomType">
                                 <option value="NORMAL">일반실</option>
                                 <option value="SPECIAL">특실</option>
                                 <option value="PARTYROOM">파티룸</option>
@@ -80,9 +80,36 @@
 
         <script>
 
+            //부모창에서 가져온 카드의 id 값 추출해서 roomCd에 집어넣음
+            var urlParams = new URLSearchParams(window.location.search);
+            var roomCd = urlParams.get('id');
+            var roomCdInput = document.getElementById('roomCd');
+            console.log(roomCd);
+
+            //자리 값을 roomCd 인풋(히든)에 넣음
+            var roomCdInput = document.getElementById('roomCd');
+            roomCdInput.value = roomCd;
+            console.log(roomCdInput);
+
 
             // 폼 제출 후 창 닫기
             function submitFormAndCloseWindow() {
+
+
+
+                // //부모창에 보내기 위한 것들임
+                // var roomName = document.getElementById("roomName").value;
+                // var roomType = document.getElementById("roomType").value;
+
+                //부모창에 값을 보냄
+                // var parentWindow = window.opener;
+                // parentWindow.postMessage({ roomName: roomName, roomCd: roomCd, roomType: roomType }, '*');
+
+                // //roomCd 인풋에 roomCd 변수값을 넣음
+                // document.getElementById("roomCd").value = roomCd;
+
+
+
                 document.getElementById("roomForm").submit();
                 window.close();
             }

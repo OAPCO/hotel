@@ -6,6 +6,7 @@ import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.entity.Member;
+import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

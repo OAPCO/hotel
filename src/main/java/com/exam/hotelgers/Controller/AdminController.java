@@ -285,27 +285,27 @@ public class AdminController {
     }
 
 
-    @PostMapping("/admin/adminpage/distChiefsearch")
-    public String dccsearch(Model model,
-                           SearchDTO searchDTO,@PageableDefault(page = 1)Pageable pageable) {
-
-
-
-        Page<DistChiefDTO> distChiefDTOS = distChiefService.distChiefSearch(searchDTO,pageable);
-
-
-
-        List<DistDTO> distList = searchService.distList();
-
-
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(distChiefDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distList);
-        model.addAttribute("list", distChiefDTOS);
-        return "admin/adminpage/distChiefsearch";
-    }
+//    @PostMapping("/admin/adminpage/distChiefsearch")
+//    public String dccsearch(Model model,
+//                           SearchDTO searchDTO,@PageableDefault(page = 1)Pageable pageable) {
+//
+//
+//
+//        Page<DistChiefDTO> distChiefDTOS = distChiefService.distChiefSearch(searchDTO,pageable);
+//
+//
+//
+//        List<DistDTO> distList = searchService.distList();
+//
+//
+//
+//        Map<String, Integer> pageinfo = PageConvert.Pagination(distChiefDTOS);
+//
+//        model.addAllAttributes(pageinfo);
+//        model.addAttribute("distList",distList);
+//        model.addAttribute("list", distChiefDTOS);
+//        return "admin/adminpage/distChiefsearch";
+//    }
 
 
 

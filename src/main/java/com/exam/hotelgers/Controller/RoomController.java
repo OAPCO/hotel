@@ -75,8 +75,10 @@ public class RoomController {
 
         redirectAttributes.addFlashAttribute("result", roomIdx);
 
-        String previousUrl = request.getHeader("referer");
-        return "redirect:" + previousUrl;
+//        String previousUrl = request.getHeader("referer");
+//        return "redirect:" + previousUrl;
+
+        return "admin/manager/room/list";
     }
 
 
@@ -99,7 +101,6 @@ public class RoomController {
         model.addAttribute("list", roomDTOS);
         return "admin/manager/room/list";
     }
-
 
 
 
@@ -214,5 +215,33 @@ public class RoomController {
         String previousUrl = request.getHeader("referer");
         return "redirect:" + previousUrl;
     }
+
+
+
+
+
+    @GetMapping("/admin/manager/room/listboard")
+    public String listBoardForm(@PageableDefault(page = 1) Pageable pageable, Model model,Principal principal
+    ) {
+
+        log.info("room listboardForm 도착 ");
+
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
+        Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(roomDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("storeDTO",storeDTO);
+        model.addAttribute("list", roomDTOS);
+        return "admin/manager/room/listboard";
+    }
+
+
+
+
+
 
 }
