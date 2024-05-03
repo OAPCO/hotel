@@ -349,7 +349,7 @@ public class OrderController {
         model.addAttribute("distDTO",distDTO);
         model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("roomList",roomDTOS);
-        model.addAttribute("list", orderDTOS);
+        model.addAttribute("orderlist", orderDTOS);
 
 
         return "admin/manager/order/select";
