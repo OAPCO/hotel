@@ -1,0 +1,416 @@
+.menu ::before{
+    font-size: 25px;
+    float: left;
+    clear: left;
+}
+.menu ul li {
+    display: flex;
+    align-items: center;
+    height: 90px; /* 원하는 높이로 설정하세요 */
+}
+
+
+.menu {
+    display: block;
+    width: 350px;
+    background-color: #fff;
+    color: #3a3b45;
+    border-radius: 20px;
+    padding: 0px;
+    box-sizing: border-box;
+
+
+}
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.menu a, .menu > label {
+    display: block;
+    height: 20px;
+    padding: 20px;
+    cursor: pointer;
+    color: #3a3b45;
+    text-decoration: none;
+}
+.menu a:hover {/* 마우스커서 반응*/
+    color: #ffffff;
+}
+.menu ul li:hover, .menu > label:hover { /* 마우스커서 반응*/
+    background-color: #4ac0d1;
+    color: #ffffff;
+    border-radius: 10px;
+
+}
+.menu div {
+    line-height: 200px;
+    font-size: 30px;
+    font-family: 'Noto Sans KR';
+    padding: 0 0 50px 20px; /* 아이콘과 텍스트 사이 여백 */
+}
+/* 수정된 부분 시작 */
+.menu ul li {
+    display: flex;
+    align-items: center;
+}
+.menu ul li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+
+    color: #3a3b45;
+    padding: 20px;
+    transition: background-color 0.3s ease;
+}
+.menu ul li a:hover {
+    background-color: #4ac0d1;
+    color: #ffffff;
+    border-radius: 10px;
+}
+.menu ul li i {
+    margin-right: 20px;
+}
+
+.menu ul li {
+    border: 1px solid #e3e4e5; /* 테두리 스타일을 설정합니다 */
+    border-radius: 5px; /* 테두리의 모서리를 둥글게 만듭니다 */
+    margin-bottom: 1px; /* 각 li 요소 사이의 간격을 설정합니다 */
+
+}
+.title{
+    border: 1px solid white;
+    margin: 0 0 0 25%; /* 좌우 여백을 자동으로 설정하여 요소를 가운데로 정렬합니다 */
+    width: 30%;
+    left: 35%;
+    box-sizing: border-box;
+    padding-top: 30px;
+
+}
+
+
+.second {
+    border: 1px solid #e3e4e5;
+    width: 60%;
+    height: 85%;
+    box-sizing: border-box;
+    margin: auto; /* 좌우 여백을 자동으로 설정하여 요소를 가운데로 정렬합니다 */
+    position: absolute; /* 부모 요소에 대해 상대적으로 위치를 설정합니다 */
+    top: 55%; /* 부모 요소의 상단을 기준으로 50% 높이로 설정합니다 */
+    left: 55%; /* 부모 요소의 왼쪽을 기준으로 50% 너비로 설정합니다 */
+    transform: translate(-50%, -50%); /* 요소를 수직 및 수평으로 중앙으로 이동시킵니다 */
+    padding: 20px; /* 내부 여백을 설정합니다 */
+    /*text-align: center; !* 텍스트를 가운데 정렬합니다 *!*/
+    display: flex;
+    max-width: 70%;
+    border-radius: 8px;
+    box-shadow: 0 0 20px gainsboro;
+
+    input:not(:last-of-type) {
+        display: block;
+
+        margin-bottom: 20px;
+        border: 1px solid #E5E9F5;
+        background-color: #F6F7FA;
+        padding: 20px;
+        margin-top: 10px;
+        border-radius: 10px;
+        width: 150%;
+        max-width: 100%; /* 부모 요소를 넘어가지 않도록 최대 너비 지정 */
+
+
+
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+h3 {
+    color: #1cc88a;
+    font-size: 150%;
+    font-weight: 500;
+}
+
+label {
+    color: #7369AB;
+}
+
+::placeholder {
+    color: #C0C7DB;
+    font-size: larger;
+    letter-spacing: 1.2px;
+}
+
+
+
+
+
+
+
+
+
+label[for="terms"] {
+    display: inline-block;
+    width: 80%;
+    margin-left: 10px;
+}
+
+
+.hide {
+    display: none!important;
+}
+
+
+/* responsive display */
+
+@media(max-width:1438px) {
+    lottie-player {
+        width: 300px!important;
+    }
+}
+#sign-up-container .btn--blue, #sign-up-container .btn--purple {
+    background: hsl(var(--hue), 98%, 80%);
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    color: black;
+    font: 600 1.05rem/1 "Nunito", sans-serif;
+    letter-spacing: 0.05em;
+    overflow: hidden;
+    padding: 1.15em 3.5em;
+    min-height: 3.3em;
+    position: relative;
+    text-transform: lowercase;
+    margin-left:50px;
+    margin-right:100px ;
+}
+
+
+#sign-up-container .btn--blue {
+    --hue: 210;
+}
+
+#sign-up-container .btn--purple {
+    --hue: 244;
+}
+
+#sign-up-container .btn--blue:active, #sign-up-container .btn--blue:focus,
+#sign-up-container .btn--purple:active, #sign-up-container .btn--purple:focus {
+    outline: 3px solid hsl(calc(var(--hue) + 90), 98%, 80%);
+}
+
+#sign-up-container .btn--blue + .btn--purple {
+    margin-top: 2.5em;
+}
+
+#sign-up-container .btn__txt {
+    position: relative;
+    z-index: 2;
+}
+
+#sign-up-container .btn__bg {
+    background: hsl(var(--hueBg), 98%, 80%);
+    border-radius: 50%;
+    display: block;
+    height: 0;
+    left: 50%;
+    margin: -50% 0 0 -50%;
+    padding-top: 100%;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: scale(0);
+    transform-origin: 50% 50%;
+    transition: transform 0.175s cubic-bezier(0.5, 1, 0.89, 1);
+    z-index: 1;
+}
+
+#sign-up-container .btn--blue:hover .btn__bg,
+#sign-up-container .btn--blue:focus .btn__bg,
+#sign-up-container .btn--blue:active .btn__bg,
+#sign-up-container .btn--purple:hover .btn__bg,
+#sign-up-container .btn--purple:focus .btn__bg,
+#sign-up-container .btn--purple:active .btn__bg {
+    transform: scale(1.5);
+    transition: transform 0.35s cubic-bezier(0.11, 0, 0.5, 0);
+}
+
+#sign-up-container .btn__bg:nth-of-type(1) {
+    --hueBg: calc(var(--hue) - 90);
+    transition-delay: 0.1725s;
+}
+
+#sign-up-container .btn__bg:nth-of-type(2) {
+    --hueBg: calc(var(--hue) - 180);
+    transition-delay: 0.115s;
+}
+
+#sign-up-container .btn__bg:nth-of-type(3) {
+    --hueBg: calc(var(--hue) - 270);
+    transition-delay: 0.0575s;
+}
+
+#sign-up-container .btn__bg:nth-of-type(4) {
+    --hueBg: calc(var(--hue) - 360);
+    transition-delay: 0s;
+}
+
+#sign-up-container .btn:hover .btn__bg,
+#sign-up-container .btn:focus .btn__bg,
+#sign-up-container .btn:active .btn__bg {
+    transform: scale(1.5);
+    transition: transform 0.35s cubic-bezier(0.11, 0, 0.5, 0);
+}
+
+#sign-up-container .btn:hover .btn__bg:nth-of-type(1),
+#sign-up-container .btn:focus .btn__bg:nth-of-type(1),
+#sign-up-container .btn:active .btn__bg:nth-of-type(1) {
+    transition-delay: 0.115s;
+}
+
+#sign-up-container .btn:hover .btn__bg:nth-of-type(2),
+#sign-up-container .btn:focus .btn__bg:nth-of-type(2),
+#sign-up-container .btn:active .btn__bg:nth-of-type(2) {
+    transition-delay: 0.23s;
+}
+
+#sign-up-container .btn:hover .btn__bg:nth-of-type(3),
+#sign-up-container .btn:focus .btn__bg:nth-of-type(3),
+#sign-up-container .btn:active .btn__bg:nth-of-type(3) {
+    transition-delay: 0.345s;
+}
+
+#sign-up-container .btn:hover .btn__bg:nth-of-type(4),
+#sign-up-container .btn:focus .btn__bg:nth-of-type(4),
+#sign-up-container .btn:active .btn__bg:nth-of-type(4) {
+    transition-delay: 0.46s;
+}
+
+
+
+
+    #form-inner-container{
+        display: flex;
+        justify-content: center;
+    }
+
+
+@media(max-width: 684px) {
+    #form-controls {
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+
+
+
+    input:not(:last-of-type) {
+        width: 85%;
+    }
+
+    #toggleSignIn, #toggleSignUp {
+        padding: 16px 75px;
+    }
+
+    #terms {
+        width: 20px;
+        height: 20px;
+    }
+
+    label[for="terms"] {
+        display: inline-block;
+        font-size: smaller;
+        color: #7369AB;
+    }
+
+
+ }
+/*공지사항*/
+table {
+    border: 1px #a39485 solid;
+    font-size: .9em;
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    width: 180%;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+th {
+    text-align: left;
+}
+
+thead {
+    font-weight: bold;
+    color: #fff;
+    background: #1cc88a;
+}
+
+td, th {
+    padding: 1em .5em;
+    vertical-align: middle;
+}
+
+td {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    background: #fff;
+}
+
+a {
+    color: #73685d;
+}
+
+@media all and (max-width: 768px) {
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    th {
+        text-align: right;
+    }
+
+    table {
+        position: relative;
+        padding-bottom: 0;
+        border: none;
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
+    }
+
+    thead {
+        float: left;
+        white-space: nowrap;
+    }
+
+    tbody {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        white-space: nowrap;
+    }
+
+    tr {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    th {
+        border-bottom: 1px solid #a39485;
+    }
+
+    td {
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+
+}

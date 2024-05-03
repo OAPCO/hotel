@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>mypagelayout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/9a9fc2607f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/mypage.css">
+    <link rel="stylesheet" href="/button.css">
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Nunito", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+
+
+    </style>
+    <script>
+        // second 요소의 너비를 가져옵니다.
+        var secondWidth = document.querySelector('.second').offsetWidth;
+
+        // 입력 요소(input)를 선택합니다.
+        var inputElement = document.querySelector('input');
+
+        // 입력 요소(input)의 최대 너비를 계산합니다. (second 너비의 90%)
+        var maxInputWidth = secondWidth * 0.9;
+
+        // 입력 요소(input)의 스타일을 설정합니다.
+        inputElement.style.maxWidth = maxInputWidth + 'px';
+    </script>
+</head>
+
+<body>
+<div >
+    <div layout:fragment="title" id="title" class="title" style="background-color: white">
+
+    </div><!--본문-->
+
+</div>
+<div style="margin-top: 50px; margin-bottom: 20px;  padding-left: 50px; padding-right: 0px;" >
+    <div class="menu">
+        <ul>
+            <h1><strong>My page</strong></h1>
+            <li><a href="/member/memberpage/mypage"><i class="fa-solid fa-cart-shopping"></i><span>주문내역</span></a><i class="fa-solid fa-angle-right"></i></li>
+            <li><a href="/member/memberpage/mypagepo" ><i class="fa-solid fa-p"></i><span>포인트내역</span></a><i class="fa-solid fa-angle-right"></i></li>
+            <li><a href="/member/memberpage/mypagean" ><i class="fa fa-envelope"></i><span>공지사항</span></a><i class="fa-solid fa-angle-right"></i></li>
+            <li><a href="/member/memberpage/mypagepw" ><i class="fa-solid fa-user"></i><span>개인정보수정</span></a><i class="fa-solid fa-angle-right"></i></li>
+            <li><a href="/member/memberpage/logout"><i class="fa-solid fa-right-from-bracket"></i><span>로그아웃</span></a><i class="fa-solid fa-angle-right"></i></li>
+        </ul>
+    </div>
+    <div id="content" class="second" >
+
+        <div layout:fragment="content" style="background-color: white">
+
+        </div><!--본문-->
+
+    </div>
+</div>
+</body>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<script type="text/JavaScript" src="./my-script.js"></script>
+</html>

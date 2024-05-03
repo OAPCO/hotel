@@ -42,6 +42,49 @@
             margin-top: 10px;
         }
     </style>
+<script>
+    // 서비스 버튼을 클릭했을 때 실행되는 함수
+    function ServiceSection() {
+        // 서비스 섹션의 상단 위치를 가져옴
+        var serviceSectionTop = document.getElementById('service-section').offsetTop;
+
+        // 스크롤 이동 애니메이션
+        window.scrollTo({
+            top: serviceSectionTop,
+            behavior: 'smooth'
+        });
+    }
+    function eventSection() {
+        // 서비스 섹션의 상단 위치를 가져옴
+        var eventSectionTop = document.getElementById('event-section').offsetTop;
+
+        // 스크롤 이동 애니메이션
+        window.scrollTo({
+            top: eventSectionTop,
+            behavior: 'smooth'
+        });
+    }
+    function reviewSection() {
+        // 서비스 섹션의 상단 위치를 가져옴
+        var reviewTop = document.getElementById('review-section').offsetTop;
+
+        // 스크롤 이동 애니메이션
+        window.scrollTo({
+            top: reviewTop,
+            behavior: 'smooth'
+        });
+    }
+    function announcementSection() {
+        // 서비스 섹션의 상단 위치를 가져옴
+        var announcementTop = document.getElementById('announcement-section').offsetTop;
+
+        // 스크롤 이동 애니메이션
+        window.scrollTo({
+            top: announcementTop,
+            behavior: 'smooth'
+        });
+    }
+</script>
 
 </head>
 
@@ -54,11 +97,12 @@
                     </svg></span><span>Hotelgers</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link active" href="index">총판</a></li>
-                <li class="nav-item"><a class="nav-link" href="services">지사</a></li>
-                <li class="nav-item"><a class="nav-link" href="projects">찾아오시는길</a></li>
-                <li class="nav-item"><a class="nav-link" href="pricing">Pricing</a></li>
-                <li class="nav-item"><a class="nav-link" href="contacts">Contacts</a></li>
+
+                <li class="nav-item"><button class="nav-link active" onclick="ServiceSection()">Service</button></li>
+                <li class="nav-item"><button class="nav-link active" onclick="eventSection()">이벤트</button></li>
+                <li class="nav-item"><button class="nav-link active" onclick="reviewSection()">Review</button></li>
+                <li class="nav-item"><button class="nav-link active" onclick="announcementSection()">공지사항</button></li>
+
 
                 <a sec:authorize="hasRole('ROLE_USER')" class="btn btn-outline-warning shadow" th:href="@{/member/memberpage/mypage}">마이페이지</a>
                 <a sec:authorize="hasRole('ROLE_USER')" class="btn btn-outline-warning shadow" th:href="@{/logout}">로그아웃</a>
@@ -70,13 +114,14 @@
 
             </ul>
             </ul>
+
         </div>
     </div>
 </nav>
 <!--본문-->
 <div id="content">
 
-    <div layout:fragment="content" style="background-color: #dddfeb">
+    <div layout:fragment="content" style="background-color: #ffffff">
 
     </div><!--본문-->
 

@@ -29,4 +29,20 @@ public class MemberpageController {
 
         return "member/memberpage/index";
     }
+    @GetMapping("/member/memberpage/mypagean")
+    public String mypageanform() {
+
+        return "member/memberpage/mypagean";
+    }
+    @GetMapping("/member/memberpage/mypagepo")
+    public String mypagepoform() {
+
+        return "member/memberpage/mypagepo";
+    }
+    @GetMapping("/member/memberpage/mypagepw")
+    public String mypagepwform() {
+
+        return "member/memberpage/mypagepw";
+    }
+
 }

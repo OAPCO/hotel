@@ -32,14 +32,14 @@
                                     <span class="room-text2" th:case="SPECIAL">특실</span>
                                     <span class="room-text2" th:case="PARTYROOM">파티룸</span>
                                 </th:block>
-                                <span class="room-text" th:text="${data.roomStatus}"></span>
+<!--                                <span class="room-text" th:text="${data.roomStatus}"></span>-->
                             </div>
 
-                            <div th:unless="${data.roomCd.contains('roomCard' + index)}" class="card room-card-empty"
-                                 th:id="'roomCard' + ${index}" onclick="roomRegister(this)">
+
+                            <div th:unless="${data.roomCd.contains('roomCard' + index)}" class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)">
                             </div>
+
                         </div>
-
 
                     </div>
 
@@ -50,26 +50,20 @@
 
     <script th:inline="javascript">
 
-        //카드id
-        var cardId = null;
 
-        function roomRegister(button) {
+
+        function roomRegister(element) {
 
 
             //버튼이 속한 카드의 ID를 변수에 넣음
-            cardId = button.parentNode.getAttribute('id');
+            var cardId = element.id;
             console.log('객실 등록 버튼을 누른 카드의 ID:', cardId);
-
 
             //객실 추가 팝업창 생성
             var popupUrl = "/window/roomregister?id=" + cardId;
             var popupOption = "width=1500, height=500";
             window.open(popupUrl, "객실 추가", popupOption);
         }
-
-
-
-
 
 
 
