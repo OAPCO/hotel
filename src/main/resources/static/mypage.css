@@ -1,18 +1,17 @@
-.menu ::before{
-    font-size: 25px;
-    float: left;
-    clear: left;
-}
+
+
 .menu ul li {
     display: flex;
     align-items: center;
     height: 90px; /* 원하는 높이로 설정하세요 */
+    font-size:25px;
+    font-family: "Nunito", sans-serif;
 }
 
 
 .menu {
     display: block;
-    width: 350px;
+    width: 19%;
     background-color: #fff;
     color: #3a3b45;
     border-radius: 20px;
@@ -91,7 +90,7 @@
 
 .second {
     border: 1px solid #e3e4e5;
-    width: 60%;
+    width: 80%;
     height: 85%;
     box-sizing: border-box;
     margin: auto; /* 좌우 여백을 자동으로 설정하여 요소를 가운데로 정렬합니다 */
@@ -106,7 +105,7 @@
     border-radius: 8px;
     box-shadow: 0 0 20px gainsboro;
 
-    input:not(:last-of-type) {
+    input{
         display: block;
 
         margin-bottom: 20px;
@@ -177,6 +176,9 @@ label[for="terms"] {
     lottie-player {
         width: 300px!important;
     }
+}
+#sign-up-container h3 {
+    font-family: "Nunito", sans-serif; /* 혹은 다른 원하는 글꼴명으로 변경 가능 */
 }
 #sign-up-container .btn--blue, #sign-up-container .btn--purple {
     background: hsl(var(--hue), 98%, 80%);
@@ -314,9 +316,7 @@ label[for="terms"] {
 
 
 
-    input:not(:last-of-type) {
-        width: 85%;
-    }
+
 
     #toggleSignIn, #toggleSignUp {
         padding: 16px 75px;
@@ -377,7 +377,8 @@ a {
     }
 
     th {
-        text-align: right;
+        text-align: center;
+
     }
 
     table {
@@ -411,6 +412,7 @@ a {
     td {
         border-bottom: 1px solid #e5e5e5;
     }
+
 
 
 }
