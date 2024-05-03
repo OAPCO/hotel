@@ -1,5 +1,6 @@
 package com.exam.hotelgers.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
@@ -237,6 +238,14 @@ public class SearchService {
 
     }
 
+
+    public class RoomDetailsDto {
+        private RoomDTO room;
+        private StoreDTO store;
+        private List<DetailmenuDTO> detailMenus;
+
+        // getters, setters 등의 메소드들...
+    }
 
 
 
