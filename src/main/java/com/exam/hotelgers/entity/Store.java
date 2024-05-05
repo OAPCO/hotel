@@ -98,6 +98,10 @@ public class Store extends BaseEntity{
     @JoinColumn(name="brandIdx")
     private Brand brand;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="managerIdx")
+    private Manager manager;
+
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
 
@@ -109,10 +113,6 @@ public class Store extends BaseEntity{
 
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Detailmenu> detailMenuList = new ArrayList<>();
-
-    @OneToOne
-    @JoinColumn(name = "managerIdx")
-    private Manager manager;
 
 
 

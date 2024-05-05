@@ -34,7 +34,7 @@ public class BrandService {
 
     public Long register(BrandDTO brandDTO) {
 
-        //받은 distcd로 dist객체 하나 찾아서
+
         Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistDTO().getDistCd());
 
 
@@ -46,7 +46,7 @@ public class BrandService {
 
 
         Brand brand = modelMapper.map(brandDTO, Brand.class);
-        //brand에다가 dist를 추가해버림
+
         brand.setDist(dist.get());
 
 

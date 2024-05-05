@@ -1,6 +1,7 @@
 package com.exam.hotelgers.dto;
 
 import com.exam.hotelgers.constant.RoomType;
+import com.exam.hotelgers.entity.Store;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,19 +17,15 @@ public class RoomDTO {
     private String roomCd;
 
     private String roomName;
-
+    private String roomimgName;
+    private Boolean roomStatus;
 
     private DistDTO distDTO;
-    private StoreDTO storeDTO;
-
-    private String roomimgName;
 
     private List<OrderDTO> orderDTOList;
-
+    private List<StoreDTO> storeDTOList;
 
     private RoomType roomType;
-
-    private Boolean roomStatus;
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;

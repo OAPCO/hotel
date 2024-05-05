@@ -47,9 +47,8 @@ public class Manager extends BaseEntity {
 
 
 
-    @OneToOne(mappedBy = "manager", cascade = CascadeType.ALL)
-    private Store store;
-
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<Store> storeList = new ArrayList<>();
 
 
     @ManyToOne(fetch = FetchType.LAZY)
