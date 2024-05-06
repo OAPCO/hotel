@@ -31,7 +31,7 @@
                                         <tr>
                                             <td class="col">총판이름 </td>
                                             <td class="col">
-                                                <select class="form-control" name="distDTO.distName" id="distSelect">
+                                                <select class="form-control" name="distName" id="distSelect">
                                                     <th:block th:each="dist : ${distList}">
                                                         <option value="" selected>선택</option>
                                                         <option th:value="${dist.distName}"
@@ -43,7 +43,7 @@
                                             </td>
                                             <td class="col">총판 코드</td>
                                             <td class="col"><input class="form-control" type="text"
-                                                                   name="distDTO.distCd"  id="distCd"></td>
+                                                                   name="distCd"  id="distCd"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -57,7 +57,7 @@
                                         <tr>
                                             <td class="col">브랜드 이름 </td>
                                             <td class="col">
-                                                <select class="form-control" name="brandDTO.brandName" id="brandSelect">
+                                                <select class="form-control" name="brandName" id="brandSelect">
                                                     <th:block th:each="brand : ${brandList}">
                                                         <option value="" selected>선택</option>
                                                         <option th:value="${brand.brandName}"
@@ -74,7 +74,7 @@
                                             <td class="col">브랜드 코드</td>
                                             <td class="col"><input class="form-control" type="text"
                                                                    id="brandCd"
-                                                                   name="brandDTO.brandCd"></td>
+                                                                   name="brandCd"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -93,27 +93,22 @@
                                                                      name="storeCd" required></td>
                                         </tr>
                                         <tr>
-                                            <td class="col">매장주 이메일</td>
-                                            <td class="col"><input class="form-control" type="text"
-                                                                   name="managerDTO.managerEmail" required></td>
-                                            <td class="col">매장 대표 이미지</td>
-                                            <td class="col>"><input type="file" class="form-control" id="imgFile"
-                                                                    name="imgFile" required></td>
-                                        </tr>
-                                        <tr>
+
                                             <td class="col">매장주 성명</td>
                                             <td class="col">
                                                 <div>
-                                                    <select class="d-inline-block form-select form-select-sm" name="managerDTO.managerName" id="managerSelect">
+                                                    <select class="d-inline-block form-select form-select-sm" name="managerName" id="managerSelect">
                                                         <option value="" selected>선택</option>
-                                                        <option th:each="managerList : ${managerList}" th:value="${managerList.managerName}" th:text="${managerList.managerName}"></option>
+                                                        <option th:each="managerList : ${managerList}"
+                                                                th:value="${managerList.managerName}"
+                                                                th:text="${managerList.managerName}"
+                                                                th:data-cd="${managerList.managerId}"></option>
                                                     </select>
                                                 </div>
                                             </td>
-
-                                            <td class="col">매장주 연락처</td>
-                                            <td class="col"><input class="form-control" type="text"
-                                                                   name="managerDTO.managerPhone" required></td>
+                                            <td class="col-2">매장주 아이디</td>
+                                            <td class="col-4"><input class="form-control" type="text" id="managerId"
+                                                                     name="managerId" required></td>
                                         </tr>
 
                                         <tr>
@@ -129,7 +124,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="6">주소</td>
+                                            <td colspan="2">주소</td>
+                                            <td class="col">매장 대표 이미지</td>
+                                            <td class="col>"><input type="file" class="form-control" id="imgFile"
+                                                                    name="imgFile" required></td>
                                         </tr>
                                         <tr>
                                             <td colspan="6">
@@ -228,17 +226,6 @@
                                                        name="storeRestDetail" required>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                영업 여부
-                                            </td>
-                                            <td>
-                                                <select  class="form-control" name="storeOpenState" required>
-                                                    <option value="Y">영업중</option>
-                                                    <option value="N">폐점</option>
-                                                </select>
-                                            </td>
-                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -278,6 +265,12 @@
             let selectedOption = this.options[this.selectedIndex];
             document.getElementById('brandCd').value = selectedOption.dataset.cd;
         });
+
+        document.getElementById('managerSelect').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            document.getElementById('managerId').value = selectedOption.dataset.cd;
+        });
+
 
     </script>
 

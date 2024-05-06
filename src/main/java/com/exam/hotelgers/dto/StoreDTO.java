@@ -68,9 +68,11 @@ public class StoreDTO {
     private DistDTO distDTO;
     private BrandDTO brandDTO;
     private ManagerDTO managerDTO;
+//    private String ManagerId;
 
     private List<OrderDTO> orderDTOList;
     private List<RoomDTO> roomDTOList;
+
     private List<MenuCateDTO> menuCateDTOList;
     private List<DetailmenuDTO> detailmenuDTOList;
 

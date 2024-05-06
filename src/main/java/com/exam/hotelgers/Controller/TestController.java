@@ -45,47 +45,5 @@ public class TestController {
     }
 
 
-    @GetMapping("/test/register")
-    public String register123(Model model) throws Exception{
-
-        List<DistDTO> distList = searchService.distList();
-        List<BrandDTO> brandList = searchService.brandList();
-        List<ManagerDTO> managerList = searchService.managerList();
-
-        model.addAttribute("distList", distList);
-        model.addAttribute("brandList", brandList);
-        model.addAttribute("managerList", managerList);
-
-
-        return "test/register";
-    }
-
-
-    @PostMapping("/test/register")
-    public String registerProc123(@Valid StoreDTO storeDTO,
-                                  BindingResult bindingResult,
-                                  RedirectAttributes redirectAttributes,
-                                  MultipartFile imgFile) throws Exception{
-
-        log.info("store registerProc 도착 " + storeDTO);
-
-
-        if (bindingResult.hasErrors()) {
-            log.info("has error@@@@@@@@@");
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-        }
-
-
-
-        Long storeIdx = storeService.register(storeDTO, imgFile);
-
-
-        redirectAttributes.addFlashAttribute("result", storeIdx);
-
-        return "redirect:/test/register";
-    }
-
-
-
 
 }

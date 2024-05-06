@@ -17,6 +17,9 @@ import java.util.Optional;
 @Repository
 public interface BrandRepository extends JpaRepository<Brand, Long> {
 
+    @Query("select b from Brand b where b.brandCd LIKE %:#{#searchDTO.brandCd}%")
+    Optional<Brand> brandCheckGet(SearchDTO searchDTO);
+
 
     Optional<Brand> findByBrandIdx(Long brandIdx);
     Optional<Brand> findByBrandCd(String brandCd);
@@ -38,6 +41,9 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     @Query("select b from Brand b where (:#{#searchDTO.distName} is null or b.dist.distName LIKE %:#{#searchDTO.distName}%)")
     List<Brand> distOfBrand(SearchDTO searchDTO);
+
+
+
 
 
 

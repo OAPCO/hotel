@@ -4,6 +4,7 @@ import com.exam.hotelgers.constant.RoleType;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ToString
 @Getter
@@ -24,11 +25,14 @@ public class ManagerDTO {
 
     private RoleType roleType;
 
+
     private LocalDateTime regdate;
     private LocalDateTime moddate;
 
 
-    private StoreDTO storeDTO;
+    private List<StoreDTO> storeDTOList;
+
     private DistDTO distDTO;
+
 
 }

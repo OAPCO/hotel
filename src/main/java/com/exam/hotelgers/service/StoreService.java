@@ -9,6 +9,7 @@ import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +39,7 @@ public class StoreService {
     private final ManagerRepository managerRepository;
 
 
+
     //Application.properties에 선언한 파일이 저장될 경로
     @Value("${imgUploadLocation}")
     private String imgUploadLocation;
@@ -47,11 +49,18 @@ public class StoreService {
 
 
 
-    public Long register(StoreDTO storeDTO, MultipartFile imgFile) throws Exception{
+    public Long register(StoreDTO storeDTO,SearchDTO searchDTO, MultipartFile imgFile) throws Exception{
 
-        Optional<Dist> dist = distRepository.findByDistCd(storeDTO.getDistDTO().getDistCd());
-        Optional<Brand> brand = brandRepository.findByBrandCd(storeDTO.getBrandDTO().getBrandCd());
-        Optional<Manager> manager = managerRepository.findByManagerName(storeDTO.getManagerDTO().getManagerName());
+
+
+//        Optional<Dist> dist = distRepository.findByDistCd(storeDTO.getDistDTO().getDistCd());
+        Optional<Dist> dist = distRepository.distCheckGet(searchDTO);
+
+//        Optional<Manager> manager = managerRepository.findByManagerName(storeDTO.getManagerDTO().getManagerName());
+        Optional<Manager> manager = managerRepository.managerCheckGet(searchDTO);
+
+//        Optional<Brand> brand = brandRepository.findByBrandCd(storeDTO.getBrandDTO().getBrandCd());
+        Optional<Brand> brand = brandRepository.brandCheckGet(searchDTO);
 
 
         if (!dist.isPresent()) {
@@ -118,9 +127,12 @@ public class StoreService {
         }
 
 
-        store.setDist(dist.get());
         store.setBrand(brand.get());
-        store.setManager(manager.get());
+
+
+        store.setDist(dist.get());
+
+//        store.setManager(manager.get());
 
 
 

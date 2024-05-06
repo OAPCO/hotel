@@ -61,6 +61,7 @@ public class StoreController {
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
+                               SearchDTO searchDTO,
                                MultipartFile imgFile) throws Exception{
 
         log.info("store registerProc 도착 " + storeDTO);
@@ -73,7 +74,7 @@ public class StoreController {
 
 
 
-        Long storeIdx = storeService.register(storeDTO, imgFile);
+        Long storeIdx = storeService.register(storeDTO, searchDTO, imgFile);
 
 
         redirectAttributes.addFlashAttribute("result", storeIdx);

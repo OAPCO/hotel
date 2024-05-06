@@ -21,9 +21,9 @@ public class RoomDTO {
     private Boolean roomStatus;
 
     private DistDTO distDTO;
-
+    private StoreDTO storeDTO;
     private List<OrderDTO> orderDTOList;
-    private List<StoreDTO> storeDTOList;
+
 
     private RoomType roomType;
 

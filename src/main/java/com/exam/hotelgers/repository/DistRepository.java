@@ -19,6 +19,9 @@ import java.util.Optional;
 public interface DistRepository extends JpaRepository<Dist, Long> {
     //사용자 아이디로 조회
 
+    @Query("select d from Dist d where d.distCd LIKE %:#{#searchDTO.distCd}%")
+    Optional<Dist> distCheckGet(SearchDTO searchDTO);
+
     Optional<Dist> findByDistCd(String distCd);
     Optional<Dist> findByDistName(String distName);
 
