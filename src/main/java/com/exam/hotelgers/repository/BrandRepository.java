@@ -26,7 +26,12 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     Optional<Brand> findByBrandName(String BrandName);
 
-    @Query("select b from Brand b join b.storeList s where (:distName is null or b.dist.distName LIKE %:distName%)"+
+    //수정전
+//    @Query("select b from Brand b join b.storeList s where (:distName is null or b.dist.distName LIKE %:distName%)"+
+//            "AND (:brandName IS NULL OR b.brandName LIKE %:brandName%) " +
+//            "AND (:brandCd IS NULL OR b.brandCd LIKE %:brandCd%)"
+//    )
+    @Query("select b from Brand b join Store s where (:distName is null or b.distCd LIKE %:distName%)"+
             "AND (:brandName IS NULL OR b.brandName LIKE %:brandName%) " +
             "AND (:brandCd IS NULL OR b.brandCd LIKE %:brandCd%)"
     )
@@ -39,7 +44,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
 
 
-    @Query("select b from Brand b where (:#{#searchDTO.distName} is null or b.dist.distName LIKE %:#{#searchDTO.distName}%)")
+    @Query("select b from Brand b where (:#{#searchDTO.distName} is null or b.distCd LIKE %:#{#searchDTO.distName}%)")
     List<Brand> distOfBrand(SearchDTO searchDTO);
 
 

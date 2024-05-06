@@ -29,7 +29,12 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     Optional<Store> findByStoreIdx(Long storeIdx);
 
-    Optional<Store> findByManager_ManagerId(String managerId);
+    //수정전.
+//    Optional<Store> findByManager_ManagerId(String managerId);
+
+    //수정후. managerId 컬럼으로 매장을 찾게 변경
+    @Query("select s from Store s where (s.managerId LIKE %:managerId%)")
+    Optional<Store> managerToStoreSearch(String managerId);
 
 
     
@@ -41,21 +46,24 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     @Query("select s from Store s where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
     "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)"+
-    "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)"+
     "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)"+
-    "and (:#{#searchDTO.managerEmail} is null or s.manager.managerEmail LIKE %:#{#searchDTO.managerEmail}%)"+
-    "and (:#{#searchDTO.managerName} is null or s.manager.managerName LIKE %:#{#searchDTO.managerName}%)"+
-    "and (:#{#searchDTO.brandName} is null or s.brand.brandName LIKE %:#{#searchDTO.brandName}%)"+
+    "and (:#{#searchDTO.managerName} is null or s.managerId LIKE %:#{#searchDTO.managerName}%)"+
+    "and (:#{#searchDTO.brandName} is null or s.brandCd LIKE %:#{#searchDTO.brandName}%)"+
     "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)"+
-    "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)"
+    "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)"+
+            "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)"
     )
     Page<Store> multiSearch(SearchDTO searchDTO,
                             Pageable pageable);
 
 
 
+    //수정전
+//    @Query("select s from Store s where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
+//            "and (:#{#searchDTO.brandName} is null or s.brand.brandName LIKE %:#{#searchDTO.brandName}%)"
+//    )
     @Query("select s from Store s where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
-            "and (:#{#searchDTO.brandName} is null or s.brand.brandName LIKE %:#{#searchDTO.brandName}%)"
+            "and (:#{#searchDTO.brandName} is null or s.brandCd LIKE %:#{#searchDTO.brandName}%)"
     )
     List<Store> distbrandOfStore(SearchDTO searchDTO);
 

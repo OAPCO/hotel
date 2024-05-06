@@ -1,9 +1,7 @@
 package com.exam.hotelgers.repository;
 
 import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.entity.Brand;
-import com.exam.hotelgers.entity.Dist;
-import com.exam.hotelgers.entity.Manager;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.entity.Manager;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

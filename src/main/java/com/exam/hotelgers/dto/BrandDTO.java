@@ -25,9 +25,11 @@ public class BrandDTO {
 
     private LocalDateTime moddate;
 
-    private DistDTO distDTO;
+//    private DistDTO distDTO;
+    private String distCd;
 
-    private List<StoreDTO> storeDTOList = new ArrayList<>();
+
+//    private List<StoreDTO> storeDTOList = new ArrayList<>();
 
 
 

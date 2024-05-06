@@ -30,7 +30,7 @@ public class ManagerDTO {
     private LocalDateTime moddate;
 
 
-    private List<StoreDTO> storeDTOList;
+//    private List<StoreDTO> storeDTOList;
 
     private DistDTO distDTO;
 

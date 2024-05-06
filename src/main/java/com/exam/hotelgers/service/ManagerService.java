@@ -119,7 +119,7 @@ public class ManagerService {
     public StoreDTO managerOfStore(Principal principal) {
 
         String userId = principal.getName();
-        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
+        Optional<Store> store = storeRepository.managerToStoreSearch(userId);
 
         return modelMapper.map(store.get(),StoreDTO.class);
     }
@@ -144,7 +144,7 @@ public class ManagerService {
         Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomIdx"));
 
         String userId = principal.getName();
-        Optional<Store> store = storeRepository.findByManager_ManagerId(userId);
+        Optional<Store> store = storeRepository.managerToStoreSearch(userId);
 
         StoreDTO storeDTO = modelMapper.map(store.get(),StoreDTO.class);
 

@@ -94,13 +94,16 @@ public class Store extends BaseEntity{
     @JoinColumn(name="distIdx")
     private Dist dist;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="brandIdx")
-    private Brand brand;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="brandIdx")
+//    private Brand brand;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="managerIdx")
-    private Manager manager;
+    private String brandCd;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name="managerIdx")
+//    private Manager manager;
+    private String managerId;
 
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();

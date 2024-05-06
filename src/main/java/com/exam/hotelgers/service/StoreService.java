@@ -127,7 +127,7 @@ public class StoreService {
         }
 
 
-        store.setBrand(brand.get());
+//        store.setBrand(brand.get());
 
 
         store.setDist(dist.get());
@@ -200,7 +200,7 @@ public class StoreService {
             Store store = optionalStore.get();
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
             dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
-            dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
+//            dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
 
             dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
             dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
@@ -208,13 +208,13 @@ public class StoreService {
             dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getDetailMenuList()));
 
             // 스토어와 연관된 매니저 정보를 가져옵니다
-            Manager manager = store.getManager();
+//            Manager manager = store.getManager();
 
             // 매니저 객체가 존재할 경우 매니저 정보를 StoreDTO에 추가합니다
-            if (manager != null) {
-                ManagerDTO managerDTO = modelMapper.map(manager, ManagerDTO.class);
-                dto.setManagerDTO(managerDTO);
-            }
+//            if (manager != null) {
+//                ManagerDTO managerDTO = modelMapper.map(manager, ManagerDTO.class);
+//                dto.setManagerDTO(managerDTO);
+//            }
 
             // 메뉴 카테고리와 그에 해당하는 상세 메뉴를 설정합니다
             List<MenuCateDTO> menuCateDTOList = searchService.convertToMenuCateDTOList(store.getMenuCateList());
@@ -265,8 +265,8 @@ public class StoreService {
     private StoreDTO convertToDTO(Store store) {
         StoreDTO dto = modelMapper.map(store, StoreDTO.class);
         dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
-        dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
-        dto.setManagerDTO(searchService.convertToManagerDTO(store.getManager()));
+//        dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
+//        dto.setManagerDTO(searchService.convertToManagerDTO(store.getManager()));
         return dto;
     }
 

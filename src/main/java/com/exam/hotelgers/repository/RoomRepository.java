@@ -25,17 +25,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     @Query("select r from Room r join r.store s where (r.store.storeCd LIKE %:storeCd%)")
     Page<Room> loginManagerRoomSearch(String storeCd,Pageable pageable);
 
-    @Query("select b from Brand b join b.storeList s where (:distName is null or b.dist.distName LIKE %:distName%)"+
-            "AND (:brandName IS NULL OR b.brandName LIKE %:brandName%) " +
-            "AND (:brandCd IS NULL OR b.brandCd LIKE %:brandCd%)"
-    )
-    Page<Brand> multisearch2(
-            @Param("distName") String distName,
-            @Param("brandName") String brandName,
-            @Param("brandCd") String brandCd,
-            Pageable pageable
-    );
-
 
 
 

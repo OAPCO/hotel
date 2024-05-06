@@ -35,7 +35,7 @@ public class BrandService {
     public Long register(BrandDTO brandDTO) {
 
 
-        Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistDTO().getDistCd());
+        Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistCd());
 
 
         if (!dist.isPresent()) {
@@ -47,7 +47,7 @@ public class BrandService {
 
         Brand brand = modelMapper.map(brandDTO, Brand.class);
 
-        brand.setDist(dist.get());
+//        brand.setDist(dist.get());
 
 
         brandRepository.save(brand);
@@ -62,7 +62,7 @@ public class BrandService {
 
         if (temp.isPresent()) {
             // 입력된 brandDTO의 distCd를 기반으로 Dist를 검색합니다.
-            Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistDTO().getDistCd());
+            Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistCd());
 
             if (!dist.isPresent()) {
                 throw new IllegalArgumentException("DistCd로 검색된 Dist가 존재하지 않습니다.");
@@ -71,7 +71,7 @@ public class BrandService {
             Brand brand = temp.get(); // 존재하는 Brand 찾기
 
             // 위에서 찾은 Dist를 Brand의 Dist로 변경합니다.
-            brand.setDist(dist.get());
+//            brand.setDist(dist.get());
 
             // Brand 정보 업데이트
             brand.setBrandName(brandDTO.getBrandName());
@@ -94,23 +94,23 @@ public class BrandService {
             brandDTO = modelMapper.map(brand.get(), BrandDTO.class);
 
             // Brand와 연관된 Dist 객체를 가져옵니다
-            Dist dist = brand.get().getDist();
+//            Dist dist = brand.get().getDist();
 
             // Dist를 DistDTO로 변환합니다
             // 이 때 DistChief가 있으면 DistChief도 함께 변환하도록 기능을 추가했습니다
-            DistDTO distDTO = this.searchService.convertToDistDTO(dist);
+//            DistDTO distDTO = this.searchService.convertToDistDTO(dist);
 
             // 변환한 DistDTO를 BrandDTO에 설정해 줍니다
-            brandDTO.setDistDTO(distDTO);
+//            brandDTO.setDistDTO(distDTO);
 
             // Brand와 연관된 Store 객체들을 가져옵니다
-            List<Store> stores = brand.get().getStoreList();   //  변동한 부분
+//            List<Store> stores = brand.get().getStoreList();   //  변동한 부분
 
             // Store 목록을 StoreDTO 목록으로 변환합니다
-            List<StoreDTO> storeDTOS = stores.stream().map(store -> modelMapper.map(store, StoreDTO.class)).collect(Collectors.toList());
+//            List<StoreDTO> storeDTOS = stores.stream().map(store -> modelMapper.map(store, StoreDTO.class)).collect(Collectors.toList());
 
             // 변환한 StoreDTO 목록을 BrandDTO에 설정해 줍니다
-            brandDTO.setStoreDTOList(storeDTOS);
+//            brandDTO.setStoreDTOList(storeDTOS);
         }
 
         // 완성한 BrandDTO를 반환합니다
@@ -144,13 +144,13 @@ public class BrandService {
 
     private BrandDTO convertToDTO(Brand brand) {
         BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
-        dto.setDistDTO(convertToStoreDistDTO(brand.getDist()));
+//        dto.setDistCd(convertToStoreDistDTO(brand.getDistCd());
         return dto;
     }
 
-    private DistDTO convertToStoreDistDTO(Dist dist) {
-        return modelMapper.map(dist, DistDTO.class);
-    }
+//    private DistDTO convertToStoreDistDTO(Dist dist) {
+//        return modelMapper.map(dist, DistDTO.class);
+//    }
 
 
 
