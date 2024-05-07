@@ -23,6 +23,24 @@
                     <div class="row">
 
 
+<!--                        <div class="col-custom-12" th:each="index : ${#numbers.sequence(13,24)}">-->
+
+<!--                            <div th:if="${data.roomCd.contains('roomCard' + index)}" class="card room-card" th:id="'roomCard' + ${index}">-->
+<!--                                <span class="room-text" th:text="${data.roomName}"></span>-->
+<!--                                <th:block th:switch="${data.roomType.name()}">-->
+<!--                                    <span class="room-text2" th:case="NORMAL">일반실</span>-->
+<!--                                    <span class="room-text2" th:case="SPECIAL">특실</span>-->
+<!--                                    <span class="room-text2" th:case="PARTYROOM">파티룸</span>-->
+<!--                                </th:block>-->
+<!--                                &lt;!&ndash;                                <span class="room-text" th:text="${data.roomStatus}"></span>&ndash;&gt;-->
+<!--                            </div>-->
+
+
+<!--                            <div th:unless="${data.roomCd.contains('roomCard' + index)}" class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)">-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
                         <div class="col-custom-12" th:each="index : ${#numbers.sequence(1,12)}">
 
                             <div th:if="${data.roomCd.contains('roomCard' + index)}" class="card room-card" th:id="'roomCard' + ${index}">
@@ -32,13 +50,10 @@
                                     <span class="room-text2" th:case="SPECIAL">특실</span>
                                     <span class="room-text2" th:case="PARTYROOM">파티룸</span>
                                 </th:block>
-<!--                                <span class="room-text" th:text="${data.roomStatus}"></span>-->
                             </div>
-
 
                             <div th:unless="${data.roomCd.contains('roomCard' + index)}" class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)">
                             </div>
-
                         </div>
 
                     </div>

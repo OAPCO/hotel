@@ -53,8 +53,6 @@ public class StoreService {
     public Long register(StoreDTO storeDTO,SearchDTO searchDTO, MultipartFile imgFile) throws Exception{
 
 
-
-
         Optional<Dist> dist = distRepository.distCheckGet(searchDTO);
         Optional<Manager> manager = managerRepository.managerCheckGet(searchDTO);
         Optional<Brand> brand = brandRepository.brandCheckGet(searchDTO);

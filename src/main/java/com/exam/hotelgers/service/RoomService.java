@@ -1,7 +1,5 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.constant.StorePType;
-import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.RoomRepository;
@@ -33,12 +31,11 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
+    private final SearchService searchService;
 
-    //Application.properties에 선언한 파일이 저장될 경로
     @Value("${imgUploadLocation}")
     private String imgUploadLocation;
 
-    //파일저장을 위한 클래스
     private final S3Uploader s3Uploader;
 
 
@@ -59,14 +56,14 @@ public class RoomService {
             throw new IllegalStateException("이미 존재하는 코드입니다.");
         }
 
-        String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
-        String newFileName = ""; //새로 만든 파일명
+        String originalFileName = imgFile.getOriginalFilename();
+        String newFileName = "";
 
-        if (originalFileName != null) { //파일이 존재하면
+        if (originalFileName != null) {
             newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
         }
 
-        roomDTO.setRoomimgName(newFileName); //새로운 파일명을 재등록
+        roomDTO.setRoomimgName(newFileName);
 
         Room room = modelMapper.map(roomDTO, Room.class);
 
@@ -116,7 +113,7 @@ public class RoomService {
         if (roomEntityOptional.isPresent()) {
             Room room = roomEntityOptional.get();
             RoomDTO dto = modelMapper.map(room, RoomDTO.class);
-            dto.setStoreDTO(convertToRoomStoreDTO(room.getStore()));
+            dto.setStoreDTO(searchService.convertToStoreDTO(room.getStore()));
             dto.setOrderDTOList(convertOrderToDTOs(room.getOrderList()));
             return dto;
 
@@ -149,25 +146,18 @@ public class RoomService {
 
     private RoomDTO convertToDTO(Room room) {
         RoomDTO dto = modelMapper.map(room, RoomDTO.class);
-        dto.setStoreDTO(convertToRoomStoreDTO(room.getStore()));
+        dto.setStoreDTO(searchService.convertToStoreDTO(room.getStore()));
         return dto;
     }
 
 
-    //매장 준비물
-    private StoreDTO convertToRoomStoreDTO(Store store) {
-        return modelMapper.map(store, StoreDTO.class);
-    }
-
 
     public void delete(Long roomIdx) throws IOException {
 
-        //물리적위치에 저장된 이미지를 삭제
         Room room = roomRepository
                 .findById(roomIdx)
                 .orElseThrow();
-        ; //조회->저장
-        //deleteFile(파일명, 폴더명)
+
         s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
 
         roomRepository.deleteById(roomIdx);
