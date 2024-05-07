@@ -78,6 +78,7 @@
                         <th>브랜드 코드</th>
                         <th>등록일자</th>
                         <th>수정일자</th>
+                        <th>임시</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -86,7 +87,7 @@
                         <td>
                             <a th:text="${data.brandName}" th:href="@{'/admin/distchief/brand/'+${data.brandIdx}}" ></a>
                         </td>
-                        <td th:text="${data.distDTO.distCd}"></td>
+                        <td th:text="${data.distCd}"></td>
                         <td th:text="${data.brandCd}"></td>
                         <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>

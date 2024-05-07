@@ -16,15 +16,17 @@ import java.util.Optional;
 public interface DistChiefRepository extends JpaRepository<DistChief,Long> {
 
 
+    //중복 아이디 체크용
+    @Query("select d.distChiefId from DistChief d where (d.distChiefId LIKE %:userid%)")
+    List<String> registerCheck (String userid);
+
 
     Optional<DistChief> findByDistChiefId(String distChiefid);
 
     Optional<DistChief> findByDistChiefName(String distChiefName);
 
 
-    //중복 아이디 체크용
-    @Query("select d.distChiefId from DistChief d where (d.distChiefId LIKE %:userid%)")
-    List<String> registerCheck (String userid);
+
 
 
 

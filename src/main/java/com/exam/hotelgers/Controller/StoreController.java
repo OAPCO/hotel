@@ -88,12 +88,12 @@ public class StoreController {
 
     @PostMapping("/admin/distchief/store/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-                           @Valid SearchDTO searchDTO
+                           @Valid SearchDTO searchDTO,Principal principal
     ) throws Exception{
 
 
 
-        Page<StoreDTO> storeDTOS = storeService.searchList(searchDTO, pageable);
+        Page<StoreDTO> storeDTOS = storeService.searchList(searchDTO, pageable,principal);
 
         List<DistDTO> distList = searchService.distList();
         List<BrandDTO> brandList = searchService.brandList();
@@ -119,8 +119,7 @@ public class StoreController {
         log.info("store listForm 도착 ");
 
         List<DistDTO> distDTOS = distChiefService.distChiefOfDistList(principal);
-
-        Page<StoreDTO> storeDTOS = storeService.list(pageable);
+        Page<StoreDTO> storeDTOS = storeService.list(pageable,principal);
 
         List<BrandDTO> brandList = searchService.brandList();
         List<ManagerDTO> managerList = searchService.managerList();

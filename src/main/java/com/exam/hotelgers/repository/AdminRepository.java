@@ -16,6 +16,8 @@ import java.util.Optional;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin,Long> {
 
+    @Query("select a.adminId from Admin a where (a.adminId LIKE %:userid%)")
+    List<String> registerCheck (String userid);
 
     Optional<Admin> findByAdminId(String adminid);
 
@@ -34,8 +36,7 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 //                                    Pageable pageable);
 
 
-    @Query("select a.adminId from Admin a where (a.adminId LIKE %:userid%)")
-    List<String> registerCheck (String userid);
+
 
 
 }
