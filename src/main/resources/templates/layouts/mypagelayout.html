@@ -21,22 +21,11 @@
         }
 
     </style>
-    <script>
-        // second 요소의 너비를 가져옵니다.
-        var secondWidth = document.querySelector('.second').offsetWidth;
 
-        // 입력 요소(input)를 선택합니다.
-        var inputElement = document.querySelector('input');
-
-        // 입력 요소(input)의 최대 너비를 계산합니다. (second 너비의 90%)
-        var maxInputWidth = secondWidth * 0.9;
-
-        // 입력 요소(input)의 스타일을 설정합니다.
-        inputElement.style.maxWidth = maxInputWidth + 'px';
-    </script>
 </head>
 
 <body>
+
 <div >
     <div layout:fragment="title" id="title" class="title" style="background-color: white">
 
@@ -49,7 +38,7 @@
             <h1><strong>My page</strong></h1>
             <li><a href="/member/memberpage/mypage"><i class="fa-solid fa-cart-shopping"></i><span>주문내역</span></a><i class="fa-solid fa-angle-right"></i></li>
             <li><a href="/member/memberpage/mypagepo" ><i class="fa-solid fa-p"></i><span>포인트내역</span></a><i class="fa-solid fa-angle-right"></i></li>
-            <li><a href="/member/memberpage/mypagean" ><i class="fa fa-envelope"></i><span>공지사항</span></a><i class="fa-solid fa-angle-right"></i></li>
+            <li><a href="/member/memberpage/mypagean" ><i class="fa fa-envelope"></i><span>문의내역</span></a><i class="fa-solid fa-angle-right"></i></li>
             <li><a href="/member/memberpage/mypagepw" ><i class="fa-solid fa-user"></i><span>개인정보수정</span></a><i class="fa-solid fa-angle-right"></i></li>
             <li><a href="/member/memberpage/logout"><i class="fa-solid fa-right-from-bracket"></i><span>로그아웃</span></a><i class="fa-solid fa-angle-right"></i></li>
         </ul>
