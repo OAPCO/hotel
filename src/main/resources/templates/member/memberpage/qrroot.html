@@ -8,7 +8,109 @@
 
 <body>
 <div layout:fragment="content">
+    <!--    매장 정보-->
+    <div class="container-fluid">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h3 class="text-primary m-0 fw-bold">
+                    <span th:text="${store.storeName}"></span>
+                </h3>
+            </div>
+            <div class="card-body">
+                <div>
+                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${store.storeimgName}|"
+                         width="150" height="100">
+                </div>
+                <table class="table">
+                    <tbody>
+                    <tr class="row">
+                        <td class="col-2 ">영업시간</td>
+                        <td class="col-9">
+                            <div>영업 시작: <input type="time" th:value="${store.storeOpenTime}"
+                                               readonly> ~ 영업
+                                끝:<input type="time" th:value="${store.storeCloseTime}" readonly></div>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td class="col-2">휴무일</td>
+                        <td class="col-9"  th:text="${store.storeRestDay}" >[휴무일]</td>
+                    </tr>
+                    <tr class="row">
+                        <td class="col-2">휴무일내용</td>
+                        <td class="col-9" th:text="${store.storeRestDetail}">[휴무일 내용]</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><!--매장 상세 정보-->
+    <p></p>
+    <div class="container-fluid">
+        <!--        룸 정보-->
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h3 class="text-primary fw-bold"><span th:text="${room.roomName}"></span></h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div>
+                        <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${room.roomimgName}|"
+                             width="150" height="100">
+                    </div>
+                    <div>
+                        <span th:text="${room.roomType}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!--룸-->
+    <p></p>
+    <!--    메뉴 리스트-->
+    <div class="container-fluid"><!--메뉴카테고리-->
+        <div class="card shadow">
+            <div id="categories">
+                <th:block th:each="menucate : ${menuCateList}">
+                    <button th:text="${menucate.menuCateName}"
+                            th:id="'cat-' + ${menucate.menuCateIdx}"
+                            th:onClick="'changeDetails(\'' + ${menucate.menuCateIdx} + '\')'">
+                    </button>
+                </th:block>
+            </div>
 
+            <!-- 상세 메뉴 그룹 -->
+            <div id="details">
+                <th:block th:id="detail-group" th:if="${menuCateList.size() > 0}"
+                          th:each="menu : ${menuCateList.get(0).detailMenuDTOList}">
+                    <div th:text="${menu.detailMenuName}"></div>
+                    <!-- 다른 세부 정보도 이 곳에 추가할 수 있습니다. -->
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var menuCateList = /*[[${menuCateList}]]*/ []; // JSON 문자열로 메뉴 카테고리 리스트를 JavaScript 변수로 변환
+
+        function changeDetails(categoryIdx) {
+            // idx 기준으로 선택된 카테고리 찾기
+            var selectedCate = menuCateList.find(function(m) { return m.menuCateIdx == categoryIdx; });
+
+            var detailGroup = document.getElementById('detail-group'); // 상세 메뉴 그룹 가져오기
+            detailGroup.innerHTML = ''; // 상세 메뉴 그룹 비우기
+
+            selectedCate.detailMenuDTOList.forEach(function(menu) { // 새로운 상세 메뉴 그룹 만들기
+                var div = document.createElement('div');
+                div.textContent = menu.name; // 메뉴 이름 설정
+                // 다른 세부 정보 설정 코드도 이곳에 추가할 수 있습니다.
+
+                detailGroup.appendChild(div); // 상세 메뉴 그룹에 이 메뉴 추가
+            });
+        }
+
+        /*]]>*/
+    </script>
 </div>
 </body>
 </html>

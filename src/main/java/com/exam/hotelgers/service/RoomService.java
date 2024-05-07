@@ -52,19 +52,18 @@ public class RoomService {
         }
 
 
-
         Optional<Room> temp = roomRepository
                 .findByRoomCd(roomDTO.getRoomCd());
 
-        if(temp.isPresent()) {
+        if (temp.isPresent()) {
             throw new IllegalStateException("이미 존재하는 코드입니다.");
         }
 
         String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
         String newFileName = ""; //새로 만든 파일명
 
-        if(originalFileName != null) { //파일이 존재하면
-            newFileName = s3Uploader.upload(imgFile,imgUploadLocation);
+        if (originalFileName != null) { //파일이 존재하면
+            newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
         }
 
         roomDTO.setRoomimgName(newFileName); //새로운 파일명을 재등록
@@ -74,19 +73,17 @@ public class RoomService {
         room.setStore(store.get());
 
 
-
         roomRepository.save(room);
 
         return roomRepository.save(room).getRoomIdx();
     }
 
 
-
     public void modify(RoomDTO newRoom, @Nullable MultipartFile imgFile) throws IOException {
 
         Optional<Room> optionalRoom = roomRepository.findByRoomIdx(newRoom.getRoomIdx());
 
-        if(optionalRoom.isPresent()) {
+        if (optionalRoom.isPresent()) {
             Room room = optionalRoom.get();
 
             if (imgFile != null && !imgFile.isEmpty()) {
@@ -113,7 +110,6 @@ public class RoomService {
     }
 
 
-
     //읽기
     public RoomDTO read(Long roomIdx) {
         Optional<Room> roomEntityOptional = roomRepository.findById(roomIdx);
@@ -130,8 +126,6 @@ public class RoomService {
     }
 
 
-
-
     private List<OrderDTO> convertOrderToDTOs(List<Order> orders) {
         if (orders == null || orders.isEmpty()) {
             return Collections.emptyList();
@@ -140,10 +134,6 @@ public class RoomService {
                 .map(order -> modelMapper.map(order, OrderDTO.class))
                 .collect(Collectors.toList());
     }
-
-
-
-
 
 
     public Page<RoomDTO> list(Pageable pageable) {
@@ -157,15 +147,11 @@ public class RoomService {
     }
 
 
-
-
-
     private RoomDTO convertToDTO(Room room) {
         RoomDTO dto = modelMapper.map(room, RoomDTO.class);
         dto.setStoreDTO(convertToRoomStoreDTO(room.getStore()));
         return dto;
     }
-
 
 
     //매장 준비물
@@ -174,18 +160,44 @@ public class RoomService {
     }
 
 
-
-
-
     public void delete(Long roomIdx) throws IOException {
 
         //물리적위치에 저장된 이미지를 삭제
         Room room = roomRepository
                 .findById(roomIdx)
-                .orElseThrow();; //조회->저장
+                .orElseThrow();
+        ; //조회->저장
         //deleteFile(파일명, 폴더명)
         s3Uploader.deleteFile(room.getRoomimgName(), imgUploadLocation);
 
         roomRepository.deleteById(roomIdx);
+    }
+
+
+    public RoomDTO userRoom(Long roomIdx) {
+        Optional<Room> roomEntityOptional = roomRepository.findByRoomIdx(roomIdx);
+
+        if (roomEntityOptional.isPresent()) {
+            Room room = roomEntityOptional.get();
+            RoomDTO dto = modelMapper.map(room, RoomDTO.class);
+
+            StoreDTO storeDTO = modelMapper.map(room.getStore(), StoreDTO.class);
+
+            List<DetailmenuDTO> detailMenuDTOList = room.getStore().getDetailMenuList()
+                    .stream()
+                    .map(detailMenu -> modelMapper.map(detailMenu, DetailmenuDTO.class))
+                    .collect(Collectors.toList());
+
+            storeDTO.setDetailmenuDTOList(detailMenuDTOList);
+            dto.setStoreDTO(storeDTO);
+            dto.setOrderDTOList(room.getOrderList().stream()
+                    .map(order -> modelMapper.map(order, OrderDTO.class))
+                    .collect(Collectors.toList()));
+
+            return dto;
+
+        } else {
+            return null;
+        }
     }
 }

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="/assets2/bootstrap/css/bootstrap.min.css?h=d2583ee8ec2f1044947cb8b625ef9c8d">
+    <link rel="stylesheet" href="/assets2/css/styles.min.css?h=1fe195cb13da49b6f8955ef23d6b7bc3">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <!--ajax-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        a.btn-outline-warning {
+            margin-right: 10px;
+        }
+
+
+        a.btn-primary {
+            margin-left: 10px;
+        }
+    </style>
+    <style>
+        .navbar-nav {
+            display: flex;
+            align-items: center; /* 수직 정렬 */
+        }
+
+        .navbar-nav .btn {
+            margin-top: 10px;
+            margin-left: 10px; /* 버튼 사이의 간격 조정 */
+        }
+
+        .navbar-nav .btn:first-child {
+            margin-left: 0; /* 첫 번째 버튼의 왼쪽 마진 제거 */
+        }
+    </style>
+    <style>
+        .navbar-nav .btn {
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        // 서비스 버튼을 클릭했을 때 실행되는 함수
+        function ServiceSection() {
+            // 서비스 섹션의 상단 위치를 가져옴
+            var serviceSectionTop = document.getElementById('section1').offsetTop;
+
+            // 스크롤 이동 애니메이션
+            window.scrollTo({
+                top: serviceSectionTop,
+                behavior: 'smooth'
+            });
+        }
+        function eventSection() {
+            // 서비스 섹션의 상단 위치를 가져옴
+            var eventSectionTop = document.getElementById('section2').offsetTop;
+
+            // 스크롤 이동 애니메이션
+            window.scrollTo({
+                top: eventSectionTop,
+                behavior: 'smooth'
+            });
+        }
+        function reviewSection() {
+            // 서비스 섹션의 상단 위치를 가져옴
+            var reviewTop = document.getElementById('section3').offsetTop;
+
+            // 스크롤 이동 애니메이션
+            window.scrollTo({
+                top: reviewTop,
+                behavior: 'smooth'
+            });
+        }
+        function announcementSection() {
+            // 서비스 섹션의 상단 위치를 가져옴
+            var announcementTop = document.getElementById('announcement-section').offsetTop;
+
+            // 스크롤 이동 애니메이션
+            window.scrollTo({
+                top: announcementTop,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+<div th:replace="~{fragments/header::header}"></div>
+<nav class="navbar navbar-light navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/member/memberpage/index">
+         <span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bezier">
+               <!-- svg content -->
+            </svg>
+         </span>
+            <span>Hotelgers</span>
+        </a>
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <div class="d-flex flex-row justify-content-between w-100">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="nav-link active me-3" onclick="ServiceSection()">매장 안내</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link active me-3" onclick="eventSection()">객실 정보</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link active" onclick="reviewSection()">룸 서비스</button>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/member/memberpage/mypage"><i class="bi bi-person-circle"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/member/memberpage/basket"><i class="bi bi-cart"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav><!--본문-->
+<div id="content">
+
+    <div layout:fragment="content" style="background-color: #ffffff">
+
+    </div><!--본문-->
+
+</div>
+
+
+
+
+<div th:replace="~{fragments/footer::footer}"></div>
+<script src="/assets2/bootstrap/js/bootstrap.min.js?h=b4349cf7232e6b66621e089f2b9beee5"></script>
+<script src="/assets2/js/script.min.js?h=9a9b12d9479055b6ccf322643488f6dd"></script>
+</body>
+
+</html>
