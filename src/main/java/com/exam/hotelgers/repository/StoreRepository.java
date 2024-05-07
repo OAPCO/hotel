@@ -41,6 +41,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> storeNameSearch(String storeName);
 
 
+    //매장생성시 해당 매니저가 이미 매장을 가지고 있는지 확인
+    Optional<Store> findByManagerId(String ManagerId);
+
+
 
     //매장조회 다중검색
     @Query("select s,b,m from Store s left join Brand b on s.brandCd = b.brandCd left join Manager m on s.managerId = m.managerId " +

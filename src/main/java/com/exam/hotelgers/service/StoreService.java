@@ -69,6 +69,8 @@ public class StoreService {
         }
 
 
+
+
         Optional<Store> temp = storeRepository
                 .findByStoreCd(storeDTO.getStoreCd());
 
@@ -77,6 +79,11 @@ public class StoreService {
         }
 
 
+        Optional<Store> storeCheck = storeRepository.findByManagerId(storeDTO.getManagerId());
+
+        if(!storeCheck.isEmpty()) {
+            throw new IllegalStateException("이미 존재하는 코드입니다.");
+        }
 
 
         String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
