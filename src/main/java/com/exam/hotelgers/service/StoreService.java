@@ -133,6 +133,57 @@ public class StoreService {
 
 
 
+
+    private StoreDTO convertToDTO(Object[] result) {
+        Store store = (Store) result[0];
+        Brand brand = (Brand) result[1];
+        Manager manager = (Manager) result[2];
+        StoreDTO dto = modelMapper.map(store, StoreDTO.class);
+        dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
+        dto.setBrandDTO(modelMapper.map(brand, BrandDTO.class));
+        dto.setManagerDTO(modelMapper.map(manager, ManagerDTO.class));
+        return dto;
+    }
+
+
+
+
+    //로그인 총판장 id로 매장 list 찾기
+    public Page<StoreDTO> list(Pageable pageable,Principal principal) throws Exception{
+
+        String userId = principal.getName();
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+
+        Page<Object[]> stores = storeRepository.storeToBrand(page,userId);
+
+
+        return stores.map(this::convertToDTO);
+    }
+
+
+    public Page<StoreDTO> searchList(SearchDTO searchDTO, Pageable pageable,Principal principal) {
+
+        String userId = principal.getName();
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+
+
+        Page<Object[]> stores = storeRepository.multiSearch(searchDTO,page,userId);
+
+        return stores.map(this::convertToDTO);
+    }
+
+
+
+
+
+
+
     public Store modify(StoreDTO storeDTO, MultipartFile imgFile) throws IOException {
         Long storeIdx = storeDTO.getStoreIdx();
         if (storeIdx == null) {
@@ -228,73 +279,6 @@ public class StoreService {
 
 
 
-    public StoreDTO distOfStore(Principal principal) {
-
-        String userId = principal.getName();
-        Optional<Store> store = storeRepository.managerToStoreSearch(userId);
-
-        return modelMapper.map(store.get(),StoreDTO.class);
-    }
-
-
-
-
-    //로그인 총판장 id로 매장 list 찾기
-    public Page<StoreDTO> list(Pageable pageable,Principal principal) throws Exception{
-
-
-        String userId = principal.getName();
-
-        int currentPage = pageable.getPageNumber() - 1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
-
-        Page<Object[]> stores = storeRepository.storeToBrand(page,userId);
-
-
-        return stores.map(this::convertToDTO);
-    }
-
-
-
-
-//    private StoreDTO convertToDTO(Store store) {
-//
-//        StoreDTO dto = modelMapper.map(store, StoreDTO.class);
-//        dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
-//        return dto;
-//    }
-
-
-
-    private StoreDTO convertToDTO(Object[] result) {
-        Store store = (Store) result[0];
-        Brand brand = (Brand) result[1];
-        Manager manager = (Manager) result[2];
-        StoreDTO dto = modelMapper.map(store, StoreDTO.class);
-        dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
-        dto.setBrandDTO(modelMapper.map(brand, BrandDTO.class));
-        dto.setManagerDTO(modelMapper.map(manager, ManagerDTO.class));
-        return dto;
-    }
-
-
-    public Page<StoreDTO> searchList(SearchDTO searchDTO, Pageable pageable,Principal principal) {
-
-        String userId = principal.getName();
-
-        int currentPage = pageable.getPageNumber() - 1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
-
-//        Page<Store> stores = storeRepository.multiSearch(searchDTO, page);
-
-        Page<Object[]> stores = storeRepository.multiSearch(searchDTO,page,userId);
-
-        return stores.map(this::convertToDTO);
-    }
-
-
 
 
     //총판,브랜드로 매장 찾기
@@ -307,8 +291,6 @@ public class StoreService {
     }
     
     
-
-
 
 
     public void delete(Long storeIdx){

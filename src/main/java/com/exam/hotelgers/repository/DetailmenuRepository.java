@@ -9,7 +9,6 @@ import java.util.Optional;
 @Repository
 public interface DetailmenuRepository extends JpaRepository<Detailmenu,Long> {
 
-    Optional<Detailmenu> findByDetailMenuName(String detailMenuName);
 
     Optional<Detailmenu> findByDetailmenuIdx(Long detailmenuIdx);
 

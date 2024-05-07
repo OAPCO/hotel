@@ -12,57 +12,6 @@
 <body>
 <div layout:fragment="content">
     <h4 class="card-title">브랜드 관리</h4>
-    <div class="card">
-        <div class="card-header">
-            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-                브랜드 검색
-            </div>
-            <form id="searchForm" method="post" th:action="@{/admin/distchief/brand/list}">
-                <div class="table-responsive">
-                    <table class="table head">
-                        <thead>
-                        <tr>
-                            <th>총판조직명</th>
-                            <td colspan="3">
-                                <div class="d-inline-block">
-                                    <select class="d-inline-block form-select form-select-sm" id="distName" name="distName" >
-                                        <option value="">(선택)</option>
-                                        <option th:each="distList : ${distList}" th:value="${distList.DistName}" th:text="${distList.DistName}"></option>
-                                    </select>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>브랜드코드</th>
-                            <td>
-                                <div class="d-inline-block">
-                                    <select class="d-inline-block form-select form-select-sm" id="brandCd" name="brandCd" >
-                                        <option value="">(선택)</option>
-                                        <option th:each="brandList : ${brandList}" th:value="${brandList.brandCd}" th:text="${brandList.brandCd}"></option>
-                                    </select>
-                                </div>
-                            </td>
-                            <th>브랜드명</th>
-                            <td>
-                                <div class="d-inline-block">
-                                    <select class="d-inline-block form-select form-select-sm" id="brandName" name="brandName" >
-                                        <option value="">(선택)</option>
-                                        <option th:each="brandList : ${brandList}" th:value="${brandList.brandName}" th:text="${brandList.brandName}"></option>
-                                    </select>
-                                </div>
-                            </td>
-                        </tr>
-                        </thead>
-                    </table>
-
-
-                    <div class="container d-flex justify-content-center align-items-center">
-                        <button type="submit" class="btn btn-primary">조회</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
     <div class="card" style="margin: 50px 20px;">
         <div class="card-body">
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
@@ -82,12 +31,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="data:${brandList}">
+                    <tr th:each="data:${list}">
                         <td th:text="${data.brandIdx}"></td>
                         <td>
                             <a th:text="${data.brandName}" th:href="@{'/admin/distchief/brand/'+${data.brandIdx}}" ></a>
                         </td>
-                        <td th:text="${data.distCd}"></td>
+                        <td th:text="${data.distDTO.distCd}"></td>
                         <td th:text="${data.brandCd}"></td>
                         <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                         <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
@@ -124,23 +73,6 @@
         </div>
     </div>
 
-    <script th:inline="javascript">
-        document.getElementById("distName").addEventListener("change", function() {
-            var selectedValue = this.value; //선택한 값
-            var distList = /*[[${distList}]]*/ []; //총판정보 목록
-
-            for(var i = 0; i<distList.length; i++ ) { //목록을 개별적으로 조회
-                if(distList[i].distName == selectedValue)  { //목록에서 선택한 내용이 일치하면
-
-                    //총판ID와 대표자ID가 동일한 변수명을 사용
-                    document.getElementsByName("distChiefEmail2")[0].value = distList[i].distChiefEmail;
-                    document.getElementsByName("distChief")[0].value = distList[i].distChief;
-                    document.getElementsByName("distTel")[0].value = distList[i].distTel;
-                }
-            }
-
-        })
-    </script>
 </div>
 
 

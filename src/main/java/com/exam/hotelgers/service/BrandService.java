@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,18 +38,13 @@ public class BrandService {
 
         Optional<Dist> dist = distRepository.findByDistCd(brandDTO.getDistCd());
 
-
         if (!dist.isPresent()) {
             throw new IllegalStateException("존재하지 않는 총판 코드입니다.");
         }
 
 
 
-
         Brand brand = modelMapper.map(brandDTO, Brand.class);
-
-//        brand.setDist(dist.get());
-
 
         brandRepository.save(brand);
 
@@ -119,40 +115,28 @@ public class BrandService {
 
 
 
-    public Page<BrandDTO> list(Pageable pageable) {
+    public Page<BrandDTO> list(Pageable pageable, Principal principal) {
+
+        String userId = principal.getName();
 
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "brandIdx"));
 
-        Page<Brand> brands = brandRepository.findAll(page);
-        return brands.map(this::convertToDTO);
-    }
+        Page<Object[]> brands = brandRepository.distChiefToBrandSearch(page,userId);
 
-    public Page<BrandDTO> searchList(String distName, String brandName,String brandCd,
-                                     Pageable pageable) {
-
-        int currentPage = pageable.getPageNumber() - 1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "brandIdx"));
-
-        Page<Brand> brands = brandRepository.multisearch(distName,brandName,brandCd,page);
         return brands.map(this::convertToDTO);
     }
 
 
-
-    private BrandDTO convertToDTO(Brand brand) {
+    private BrandDTO convertToDTO(Object[] result) {
+        Brand brand = (Brand) result[0];
+        Dist dist = (Dist) result[1];
         BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
-//        dto.setDistCd(convertToStoreDistDTO(brand.getDistCd());
+        dto.setDistDTO(modelMapper.map(dist, DistDTO.class));
+
         return dto;
     }
-
-//    private DistDTO convertToStoreDistDTO(Dist dist) {
-//        return modelMapper.map(dist, DistDTO.class);
-//    }
-
-
 
 
     public void delete(Long brandIdx){

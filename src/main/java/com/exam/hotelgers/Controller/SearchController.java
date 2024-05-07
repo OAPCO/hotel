@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -43,9 +44,9 @@ public class SearchController {
 
 
     @GetMapping("/window/brandsearch")
-    public String brandSearch(@PageableDefault(page=1) Pageable pageable, Model model) {
+    public String brandSearch(@PageableDefault(page=1) Principal principal,Pageable pageable, Model model) {
 
-        Page<BrandDTO> brandDTOS = brandService.list(pageable);
+        Page<BrandDTO> brandDTOS = brandService.list(pageable,principal);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(brandDTOS);
         model.addAllAttributes(pageinfo);

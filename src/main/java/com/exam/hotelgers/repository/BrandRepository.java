@@ -20,36 +20,16 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
     @Query("select b from Brand b where b.brandCd LIKE %:#{#searchDTO.brandCd}%")
     Optional<Brand> brandCheckGet(SearchDTO searchDTO);
 
-
     Optional<Brand> findByBrandIdx(Long brandIdx);
-    Optional<Brand> findByBrandCd(String brandCd);
 
-    Optional<Brand> findByBrandName(String BrandName);
 
-    //수정전
-//    @Query("select b from Brand b join b.storeList s where (:distName is null or b.dist.distName LIKE %:distName%)"+
-//            "AND (:brandName IS NULL OR b.brandName LIKE %:brandName%) " +
-//            "AND (:brandCd IS NULL OR b.brandCd LIKE %:brandCd%)"
-//    )
-    @Query("select b from Brand b join Store s where (:distName is null or b.distCd LIKE %:distName%)"+
-            "AND (:brandName IS NULL OR b.brandName LIKE %:brandName%) " +
-            "AND (:brandCd IS NULL OR b.brandCd LIKE %:brandCd%)"
-    )
-    Page<Brand> multisearch(
-            @Param("distName") String distName,
-            @Param("brandName") String brandName,
-            @Param("brandCd") String brandCd,
-            Pageable pageable
-    );
+    @Query("select b,d from Brand b left join Dist d on b.distCd = d.distCd where (d.distChief.distChiefId LIKE %:userId%)")
+    Page<Object[]> distChiefToBrandSearch(Pageable pageable,String userId);
 
 
 
     @Query("select b from Brand b where (:#{#searchDTO.distName} is null or b.distCd LIKE %:#{#searchDTO.distName}%)")
     List<Brand> distOfBrand(SearchDTO searchDTO);
-
-
-
-
 
 
 }
