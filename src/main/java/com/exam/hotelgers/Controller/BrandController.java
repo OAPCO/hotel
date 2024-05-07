@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -87,7 +88,7 @@ public class BrandController {
 
         log.info("brand modifyProc 도착 " + brandIdx);
 
-        BrandDTO brandDTO = brandService.read(brandIdx);
+        BrandDTO brandDTO = (BrandDTO) brandService.read(brandIdx);
 
         List<String> distCd = distRepository.findAllDistCds();
         model.addAttribute("distCd", distCd);
@@ -129,7 +130,11 @@ public class BrandController {
 
     @GetMapping("/admin/distchief/brand/{brandIdx}")
     public String readForm(@PathVariable Long brandIdx, Model model) {
-        BrandDTO brandDTO=brandService.read(brandIdx);
+
+
+        BrandDTO brandDTO = (BrandDTO) brandService.read(brandIdx);
+
+        log.info("!@#!@#@!#!@#!@#!@#!@" + brandDTO);
         //서비스에서 값을 받으면 반드시 model로 전달
         model.addAttribute("brandDTO",brandDTO);
         return "admin/distchief/brand/read";

@@ -29,17 +29,17 @@
                         <tr>
 
                             <td class="col-2">총판명</td>
-                            <td class="col-4" th:text="${brandDTO.distDTO.distName}">
+                            <td class="col-4" >
                             </td>
                             <td class="col-3">대표자 성명</td>
-                            <td class="col-4" th:text="${brandDTO.distDTO.distChiefDTO.distChiefName}">김 아무개 대표</td>
+                            <td class="col-4">김 아무개 대표</td>
                         </tr>
                         <tr>
                             <td class="col-2">총판 ID</td>
-                            <td class="col-3" th:text="${brandDTO.distDTO.distChiefDTO.distChiefEmail}">[eovywk@gogle
+                            <td class="col-3" >[eovywk@gogle
                                 .com]</td>
                             <td>대표자 연락처</td>
-                            <td th:text="${brandDTO.distDTO.distTel}">[010-0000-0000]</td>
+                            <td >[010-0000-0000]</td>
                         </tr>
                         </tbody>
                     </table>
@@ -66,20 +66,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="storeDTO : ${brandDTO.storeDTOList}">
-                            <td th:text="${storeDTO.storeIdx}"></td>
-                            <td th:text="${storeDTO.storeGrade}"></td>
-                            <td th:text="${storeDTO.storePType}"></td>
-                            <td th:text="${storeDTO.storeAddr}"></td>
-                            <td th:text="${storeDTO.storeCd}"></td>
+                        <tr th:each="store : ${brandDTO.storeDTO}">
+                            <td th:text="${store.storeIdx}"></td>
+                            <td th:text="${store.storeGrade}"></td>
+                            <td th:text="${store.storePType}"></td>
+                            <td th:text="${store.storeAddr}"></td>
+                            <td th:text="${store.storeCd}"></td>
                             <td>
-                                <a th:href="@{'/admin/distchief/store/'+${storeDTO.storeIdx}}"
-                                   th:text="${storeDTO.storeName}">
+                                <a th:href="@{'/admin/distchief/store/'+${brandDTO.storeDTO.storeIdx}}"
+                                   th:text="${brandDTO.storeDTO.storeName}">
                                 </a>
                             </td>
-                            <td th:text="${storeDTO.managerDTO.managerEmail}"></td>
-                            <td th:text="${storeDTO.managerDTO.managerName}"></td>
-                            <td th:text="${storeDTO.storeStatus}"></td>
+                            <td th:text="${brandDTO.managerDTO.managerEmail}"></td>
+                            <td th:text="${brandDTO.managerDTO.managerName}"></td>
+                            <td th:text="${brandDTO.storeDTO.storeStatus}"></td>
                         </tr>
                         </tbody>
                     </table>

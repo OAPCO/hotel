@@ -4,8 +4,7 @@ import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.entity.Brand;
-import com.exam.hotelgers.repository.BrandRepository;
-import com.exam.hotelgers.repository.DistRepository;
+import com.exam.hotelgers.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -17,7 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,11 @@ public class BrandService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final SearchService searchService;
+    private final DistChiefRepository distChiefRepository;
+    private final StoreRepository storeRepository;
+    private final ManagerRepository managerRepository;
+
+
 
     public Long register(BrandDTO brandDTO) {
 
@@ -80,37 +86,32 @@ public class BrandService {
         }
     }
 
-    public BrandDTO read(Long brandIdx) {
-        // brandIdx에 해당하는 Brand를 찾습니다
-        Optional<Brand> brand = brandRepository.findById(brandIdx);
-        BrandDTO brandDTO = null;
+    public Map<String, Object> read(Long brandIdx) {
+        Map<String, Object> modelMap = new HashMap<>();
 
-        if(brand.isPresent()){
-            // Brand를 BrandDTO로 변환합니다
-            brandDTO = modelMapper.map(brand.get(), BrandDTO.class);
+        // brandIdx를 기반으로 Brand 조회
+        Brand brand = brandRepository.findById(brandIdx).orElseThrow(() -> new ResourceNotFoundException("Brand 정보를 찾을 수 없습니다"));
 
-            // Brand와 연관된 Dist 객체를 가져옵니다
-//            Dist dist = brand.get().getDist();
+        // Brand의 distCd를 기반으로 Dist 조회
+        Dist dist = distRepository.findByDistCd(brand.getDistCd()).orElseThrow(() -> new ResourceNotFoundException("Dist 정보를 찾을 수 없습니다"));
 
-            // Dist를 DistDTO로 변환합니다
-            // 이 때 DistChief가 있으면 DistChief도 함께 변환하도록 기능을 추가했습니다
-//            DistDTO distDTO = this.searchService.convertToDistDTO(dist);
+        // Dist의 distIdx를 기반으로 DistChief 조회
+        DistChief distChief = distChiefRepository.findByDistIdx(dist.getDistIdx()).orElseThrow(() -> new ResourceNotFoundException("DistChief 정보를 찾을 수 없습니다"));
 
-            // 변환한 DistDTO를 BrandDTO에 설정해 줍니다
-//            brandDTO.setDistDTO(distDTO);
+        // Dist의 distIdx를 기반으로 Manager 조회
+        Manager manager = managerRepository.findByDistIdx(dist.getDistIdx()).orElseThrow(() -> new ResourceNotFoundException("Manager 정보를 찾을 수 없습니다"));
 
-            // Brand와 연관된 Store 객체들을 가져옵니다
-//            List<Store> stores = brand.get().getStoreList();   //  변동한 부분
+        // distIdx를 기반으로 Store 목록 조회
+        List<Store> storeList = storeRepository.findByDistIdx(dist.getDistIdx());
 
-            // Store 목록을 StoreDTO 목록으로 변환합니다
-//            List<StoreDTO> storeDTOS = stores.stream().map(store -> modelMapper.map(store, StoreDTO.class)).collect(Collectors.toList());
+        // 각각의 객체를 modelMap에 할당
+        modelMap.put("brand", brand);
+        modelMap.put("dist", dist);
+        modelMap.put("distChief", distChief);
+        modelMap.put("manager", manager);
+        modelMap.put("storeList", storeList);
 
-            // 변환한 StoreDTO 목록을 BrandDTO에 설정해 줍니다
-//            brandDTO.setStoreDTOList(storeDTOS);
-        }
-
-        // 완성한 BrandDTO를 반환합니다
-        return brandDTO;
+        return modelMap;
     }
 
 
@@ -138,6 +139,18 @@ public class BrandService {
         return dto;
     }
 
+    private BrandDTO convertToDTO2(Object[] result) {
+
+        Brand brand = (Brand) result[0];
+        Store store = (Store) result[1];
+        Manager manager = (Manager) result[2];
+        BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
+        dto.setStoreDTO(modelMapper.map(store, StoreDTO.class));
+        dto.setManagerDTO(modelMapper.map(manager, ManagerDTO.class));
+
+        return dto;
+    }
+
 
     public void delete(Long brandIdx){
         brandRepository.deleteById(brandIdx);
@@ -152,4 +165,5 @@ public class BrandService {
                 .map(brand -> modelMapper.map(brand, BrandDTO.class))
                 .collect(Collectors.toList());
     }
+
 }

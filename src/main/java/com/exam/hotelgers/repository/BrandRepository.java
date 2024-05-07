@@ -31,5 +31,11 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
     @Query("select b from Brand b where (:#{#searchDTO.distName} is null or b.distCd LIKE %:#{#searchDTO.distName}%)")
     List<Brand> distOfBrand(SearchDTO searchDTO);
 
+    @Query("SELECT b, m, d, dc FROM Brand b " +
+            "JOIN Dist d ON d.distCd = b.distCd " +
+            "JOIN Manager m ON m.dist = d.distCd " +
+            "JOIN DistChief dc ON dc.distList = d.distChief " +
+            "WHERE b.brandIdx = :brandIdx")
+    Object[] brandManagerDistDistChief(Long brandIdx);
 
 }
