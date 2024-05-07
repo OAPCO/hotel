@@ -23,11 +23,6 @@ public interface DistChiefRepository extends JpaRepository<DistChief,Long> {
 
     Optional<DistChief> findByDistChiefId(String distChiefid);
 
-    Optional<DistChief> findByDistChiefName(String distChiefName);
-
-
-
-
 
 
 }

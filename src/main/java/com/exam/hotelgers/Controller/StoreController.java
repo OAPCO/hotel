@@ -121,16 +121,11 @@ public class StoreController {
         List<DistDTO> distDTOS = distChiefService.distChiefOfDistList(principal);
         Page<StoreDTO> storeDTOS = storeService.list(pageable,principal);
 
-        List<BrandDTO> brandList = searchService.brandList();
-        List<ManagerDTO> managerList = searchService.managerList();
-
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distDTOS);
-        model.addAttribute("brandList",brandList);
-        model.addAttribute("managerList",managerList);
         model.addAttribute("list", storeDTOS);
         //S3 이미지정보전달
         model.addAttribute("bucket", bucket);

@@ -21,8 +21,6 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 
     Optional<Admin> findByAdminId(String adminid);
 
-    Optional<Admin> findByAdminIdx(Long adminIdx);
-
 //    @Query("select d from Dist d join Store s,DistChief c,Manager m where (:distName is null or d.distName LIKE %:distName%)"+
 //            "and (:distChiefEmail is null or d.distChief.distChiefEmail LIKE %:distChiefEmail%)"+
 //            "and (:distChief is null or d.distChief.distChiefName LIKE %:distChief%)"+

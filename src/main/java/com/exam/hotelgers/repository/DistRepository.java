@@ -36,30 +36,20 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
 
 
 
+    @Query("select d from Dist d where (:#{#searchDTO.distName} is null or d.distName LIKE %:#{#searchDTO.distName}%)"+
+            "and (:#{#searchDTO.distChiefName} is null or d.distChief.distChiefName LIKE %:#{#searchDTO.distChiefName}%)")
+    Page<Dist> multiSearchadminsdm(SearchDTO searchDTO, Pageable pageable);
+
+
+    @Query("select d from DistChief d where (:#{#searchDTO.distChiefName} is null or d.distChiefName LIKE %:#{#searchDTO.distChiefName}%)")
+    Page<DistChief> multiSearchadmdr(SearchDTO searchDTO, Pageable pageable);
+
 
     @Query("select d from Dist d where (:#{#searchDTO.distName} is null or d.distName LIKE %:#{#searchDTO.distName}%)"+
-            "and (:#{#searchDTO.distChiefName} is null or d.distChief.distChiefName LIKE %:#{#searchDTO.distChiefName}%)"
-    )
-    Page<Dist> multiSearchadminsdm(SearchDTO searchDTO,
-                                   Pageable pageable);
-
-    @Query("select d from DistChief d where (:#{#searchDTO.distChiefName} is null or d.distChiefName LIKE %:#{#searchDTO.distChiefName}%)"
-    )
-    Page<DistChief> multiSearchadmdr(SearchDTO searchDTO,
-                                     Pageable pageable);
-
-
-    @Query("select d from Dist d where (:distName is null or d.distName LIKE %:distName%)"+
-            "and (:distChiefEmail is null or d.distChief.distChiefEmail LIKE %:distChiefEmail%)"+
-            "and (:distChiefName is null or d.distChief.distChiefName LIKE %:distChiefName%)"+
-            "and (:distTel is null or d.distTel LIKE %:distTel%)"
-
-    )
-
-    Page<Dist> multiSearchmemadmin(@Param("distName") String distName,
-                                   @Param("distChiefEmail") String distChiefEmail,
-                                   @Param("distChiefName") String distChiefName,
-                                   @Param("distTel") String distTel,
+            "and (:#{#searchDTO.distChiefEmail} is null or d.distChief.distChiefEmail LIKE %:#{#searchDTO.distChiefEmail}%)"+
+            "and (:#{#searchDTO.distChiefName} is null or d.distChief.distChiefName LIKE %:#{#searchDTO.distChiefName}%)"+
+            "and (:#{#searchDTO.distTel} is null or d.distTel LIKE %:#{#searchDTO.distTel}%)")
+    Page<Dist> multiSearchmemadmin(SearchDTO searchDTO,
                                    Pageable pageable);
 
 

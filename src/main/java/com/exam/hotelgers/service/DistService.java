@@ -149,14 +149,13 @@ public class DistService {
 
 
 
-    public Page<DistDTO> searchmemadmin(String distName,String distChiefEmail, String distChiefName,
-                                        String distTel, Pageable pageable) {
+    public Page<DistDTO> searchmemadmin(SearchDTO searchDTO, Pageable pageable) {
         //유저권한,총판조직명,지사명,매장명,아이디,이름,연락처,상태
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "distIdx"));
 
-        Page<Dist> dists = distRepository.multiSearchmemadmin(distName,distChiefEmail,distChiefName,distTel,page);
+        Page<Dist> dists = distRepository.multiSearchmemadmin(searchDTO,page);
         return dists.map(this::convertToDistDTO);
     }
 }

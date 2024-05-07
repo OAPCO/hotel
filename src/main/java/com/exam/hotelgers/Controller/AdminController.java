@@ -131,23 +131,12 @@ public class AdminController {
     }
 
     @PostMapping("/admin/adminpage/storemembermange")
-    public String sdmProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-                          @RequestParam(value="distName", required = false) String distName,
-                          @RequestParam(value="distChiefEmail", required = false) String distChiefEmail,
-                          @RequestParam(value="distChiefName", required = false) String distChiefName,
-                          @RequestParam(value="distTel", required = false) String distTel
-    ){
-
-
-        log.info("들어온 첫 값 : @@ + " + distName);
-        log.info("들어온 메일 : @@ + " + distChiefEmail);
-        log.info("들어온 점주 : @@ + " + distChiefName);
-        log.info("들어온 마지막 값 : @@ + " + distTel);
+    public String sdmProc2(@PageableDefault(page = 1) Pageable pageable, Model model,
+                          SearchDTO searchDTO){
 
 
 
-        Page<DistDTO> distDTOS = distService.searchmemadmin(distName,
-                distChiefEmail,distChiefName,distTel,pageable);
+        Page<DistDTO> distDTOS = distService.searchmemadmin(searchDTO,pageable);
 
 
 

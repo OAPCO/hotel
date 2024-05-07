@@ -44,12 +44,10 @@ public class Room extends BaseEntity{
 
 
 
-
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeIdx")
     private Store store;
+
 
     @OneToMany(mappedBy="room", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();

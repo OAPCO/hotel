@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -63,48 +64,17 @@ public class BrandController {
     }
 
 
-    //전체 목록
+
     @GetMapping("/admin/distchief/brand/list")
-    public String selectForm(@PageableDefault(page=1) Pageable pageable, Model model) {
+    public String selectForm(@PageableDefault(page=1) Pageable pageable, Principal principal, Model model) {
         log.info("brand listForm 도착 ");
 
-        Page<BrandDTO> brandDTOS = brandService.list(pageable);
-
-        List<DistDTO> distList = searchService.distList();
-
+        Page<BrandDTO> brandDTOS = brandService.list(pageable,principal);
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(brandDTOS);
-
         model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distList);
-        model.addAttribute("brandList", brandDTOS);
-        return "admin/distchief/brand/list";
-    }
 
-
-
-
-
-
-    @PostMapping("/admin/distchief/brand/list")
-    public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-                           @RequestParam(value="distName", required = false) String distName,
-                           @RequestParam(value="brandName", required = false) String brandName,
-                           @RequestParam(value="brandCd", required = false) String brandCd)
-    {
-
-
-        Page<BrandDTO> brandDTOS = brandService.searchList(distName, brandName, brandCd, pageable);
-
-
-        List<DistDTO> distList = searchService.distList();
-
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(brandDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distList);
-        model.addAttribute("brandList", brandDTOS);
+        model.addAttribute("list", brandDTOS);
 
         return "admin/distchief/brand/list";
     }

@@ -58,6 +58,7 @@ public class ScriptController {
     }
 
 
+
     @GetMapping(value = "/registerstore", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> registerStore(SearchDTO searchDTO) throws Exception {
 
