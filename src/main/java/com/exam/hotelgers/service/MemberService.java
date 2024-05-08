@@ -2,6 +2,7 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.MemberDTO;
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Store;
@@ -125,6 +126,21 @@ public class MemberService {
         String userId = principal.getName();
         Optional<Member> member = memberRepository.memberInfoSearch(userId);
 
+        if(!member.isPresent()) {
+            throw new IllegalStateException("없는 회원입니다.");
+        }
+
+
         return modelMapper.map(member.get(),MemberDTO.class);
+    }
+
+
+
+    @Transactional
+    //회원 정보수정
+    public void memberInfoUpdate(SearchDTO searchDTO) {
+
+        memberRepository.memberInfoUpdate(searchDTO);
+
     }
 }
