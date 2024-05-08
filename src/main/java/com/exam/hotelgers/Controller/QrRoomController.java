@@ -39,7 +39,11 @@ public class QrRoomController {
     @Value("${imgUploadLocation}")
     public String folder;
 
+    @GetMapping("/member/memberpage/newindex")
+    public String newindex() {
 
+        return "member/memberpage/newindex";
+    }
 
     @GetMapping("/member/memberpage/scroll")
     public String scroll() {
