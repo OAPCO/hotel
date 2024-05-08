@@ -5,6 +5,7 @@
       layout:decorate="~{layouts/membermain}">
 
 <head>
+
 <title>메인</title>
     <style>
         .search1{background-color:#ffffff; position:relative; top:-10%; left:0%;}
@@ -16,21 +17,37 @@
         }
     </style>
     <style>
-        .input-with-icon input[type="text"] {
-            padding-left: 10%; /* Adjust according to icon size */
+        #sear input{
+            background-image: url("/assets2/img/brands/search.png");
+            background-size: 40px;
+            background-position: left;
+            background-repeat: no-repeat;
+
         }
-        .input-with-icon i {
-            position: absolute;
-            left: 9%; /* Adjust according to desired position */
-            top: 19%;
-            transform: translateY(-50%);
-        }
+
+    </style>
+    <style>
+    #cal input, #cal2 input{
+    background-image: url("/assets2/img/brands/calendar.png");
+    background-size: 40px;
+    background-position: right;
+    background-repeat: no-repeat;
+
+    }
+
     </style>
 </head>
 
 <body>
 <div layout:fragment="content" >
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".date-input").datepicker();
+        });
+    </script>
     <header class="bg-primary-gradient" style="background-image: url('/assets2/img/brands/bed1.jpg'); background-size: cover; background-position: center;">
         <div class="container pt-4 pt-xl-5">
             <div class="row pt-5">
@@ -49,16 +66,15 @@
             <div class="col-md-8 col-xl-6 text-center mx-auto " >
 <div class="search1 text-center" >
                 <h3 class="fw-bold " >reservation </h3>
-    <div class="input-with-icon">
-        <i class="fas fa-search"></i>
+    <div id="sear">
         <input type="text" placeholder="Search...">
         </div>
     <div id="cal" class="row">
         <div class="col-md-6">
-            <input type="date"  placeholder="Start Date">
+            <input type="text"  class="date-input" placeholder="Start Date">
         </div>
         <div id="cal2" class="col-md-6">
-            <input type="date" placeholder="End Date">
+            <input type="text"  class="date-input" placeholder="End Date">
         </div>
         <div class="col-md-8">
             <select class="form-control" placeholder="성인2명">

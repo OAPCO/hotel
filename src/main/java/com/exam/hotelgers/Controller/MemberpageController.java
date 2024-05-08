@@ -44,9 +44,10 @@ public class MemberpageController {
 
         return "member/memberpage/mypagepw";
     }
-    @GetMapping("/member/memberpage/test")
+    @GetMapping("/member/memberpage/basket")
     public String testform() {
 
-        return "member/memberpage/test";
+        return "member/memberpage/basket";
     }
+
 }

@@ -90,7 +90,7 @@
 
 .second {
     border: 1px solid #e3e4e5;
-    width: 80%;
+    width: 1500px;
     height: 85%;
 
     display: flex;
@@ -98,7 +98,7 @@
     align-items: center; /* 세로 중앙 정렬 */
     padding: 20px; /* 내부 여백을 설정합니다 */
     margin: auto; /* 좌우 여백을 자동으로 설정하여 요소를 가운데로 정렬합니다 */
-    margin-top: 2%;
+    margin-top: 3%;
     margin-bottom: 2%;
     border-radius: 8px;
     box-shadow: 0 0 20px gainsboro;
@@ -106,15 +106,16 @@
 
     input {
         display: block;
-
+        margin: auto;
+        margin-left: -300px;
         margin-bottom: 2%;
         border: 1px solid #E5E9F5;
         background-color: #F6F7FA;
         padding: 20px;
         margin-top: 10px;
         border-radius: 10px;
-        width: 80%;
-        max-width: 80%; /* 부모 요소를 넘어가지 않도록 최대 너비 지정 */
+        width: 700px;
+
 
 
     }
@@ -136,6 +137,8 @@
 
 
 h3 {
+    margin-left: -200px;
+    margin-bottom: 50px;
     color: #1cc88a;
     font-size: 150%;
 
@@ -144,6 +147,8 @@ h3 {
 
 label {
     color: #7369AB;
+    font-size: 25px;
+    margin-left: -300px;
 }
 
 ::placeholder {
@@ -188,7 +193,7 @@ label[for="terms"] {
     padding: 1.15em 3.5em;
     min-height: 3.3em;
     position: relative;
-    width:20em;
+    width:400px;
     text-transform: lowercase;
     margin-left:2%;
     margin-right:4%;
@@ -240,9 +245,10 @@ label[for="terms"] {
 
 
 
-    #form-inner-container{
+#form-inner-container{
         display: flex;
         justify-content: center;
+
     }
 
 
@@ -254,7 +260,7 @@ label[for="terms"] {
 
     label[for="terms"] {
         display: inline-block;
-        font-size: smaller;
+        font-size: medium;
         color: #7369AB;
     }
 
@@ -265,11 +271,11 @@ table {
     border: 1px #a39485 solid;
     font-size: .9em;
     box-shadow: 0 2px 5px rgba(0,0,0,.25);
-    width: 180%;
+    width: 900px;
     border-collapse: collapse;
     border-radius: 5px;
     overflow: hidden;
-    margin-left: -40%;
+    margin: 0 auto;
 }
 
 th {
@@ -298,49 +304,40 @@ a {
     color: #73685d;
 }
 
+
+
 @media all and (max-width: 768px) {
-
-    table, thead, tbody, th, td, tr {
-        display: block;
+    .title {
+        margin: 0 auto; /* 가운데 정렬을 위해 자동 마진을 추가합니다 */
+        width: 90%; /* 화면 너비의 90%로 설정하여 화면에 맞게 조절합니다 */
+        padding-top: 20px; /* 위쪽 여백을 추가합니다 */
     }
-
-    th {
-        text-align: center;
-
-    }
-
     table {
-        position: relative;
-        padding-bottom: 0;
-        border: none;
-        box-shadow: 0 0 10px rgba(0,0,0,.2);
+        width: 100%; /* 화면 너비의 100%로 설정하여 화면에 맞게 조절합니다 */
+        overflow-x: auto; /* 가로 스크롤이 작은 화면에서 생성되도록 설정합니다 */
+    }
+    .second {
+        width: 100%; /* 화면 너비의 100%로 설정하여 화면에 맞게 조절합니다 */
+        padding: 20px 10px; /* 내부 여백을 화면 크기에 맞게 조절합니다 */
+        margin: auto; /* 가운데 정렬을 위해 자동 마진을 추가합니다 */
+        margin-top:30px;
+        margin-left:15px;
+        margin-right:40px;
     }
 
-    thead {
-        float: left;
-        white-space: nowrap;
+    .second input {
+        width: 80%; /* 화면 너비의 100%로 설정하여 화면에 맞게 조절합니다 */
+        max-width: none; /* 최대 너비 제한을 해제합니다 */
+        margin-left: 0; /* 좌측 마진을 초기화합니다 */
     }
 
-    tbody {
-        overflow-x: auto;
-        overflow-y: hidden;
-        position: relative;
-        white-space: nowrap;
+    h3 {
+        margin-left: 0; /* 좌측 마진을 초기화합니다 */
+        margin-bottom: 20px; /* 아래쪽 마진을 조정합니다 */
     }
 
-    tr {
-        display: inline-block;
-        vertical-align: top;
+    label {
+        margin-left: 0; /* 좌측 마진을 초기화합니다 */
+        font-size: 18px; /* 폰트 크기를 조정합니다 */
     }
-
-    th {
-        border-bottom: 1px solid #a39485;
-    }
-
-    td {
-        border-bottom: 1px solid #e5e5e5;
-    }
-
-
-
 }
