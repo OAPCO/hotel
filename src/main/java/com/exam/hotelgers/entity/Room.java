@@ -46,7 +46,7 @@ public class Room extends BaseEntity{
 
 
 
-
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="storeIdx")
     private Store store;

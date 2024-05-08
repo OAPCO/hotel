@@ -22,6 +22,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     Optional<Store> findByStoreCd(String storeCd);
 
+    List<Store> findByBrandCd(String brandCd);
 
     //로그인중인 매장주 아이디로 매장 조회
     @Query("select s from Store s where (s.managerId LIKE %:managerId%)")
@@ -65,6 +66,13 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     )
     List<Store> distbrandOfStore(SearchDTO searchDTO);
 
-
+    //read할때 StoreIdx를 이용해서 상위 객체들 한번에 가져오기
+    @Query("SELECT s, b, d, dc, m FROM Store s " +
+            "JOIN Dist d ON d.distCd = s.dist.distCd " +
+            "JOIN Brand b ON b.brandCd = s.brandCd " +
+            "JOIN DistChief dc ON dc.distChiefIdx = d.distChief.distChiefIdx " +
+            "JOIN Manager m ON m.dist.distCd = d.distCd " +
+            "WHERE s.storeIdx = :storeIdx")
+    List<Object[]> storeBrandDistDistChiefManager(Long storeIdx);
 
 }

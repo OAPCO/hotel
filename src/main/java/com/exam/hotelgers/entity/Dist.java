@@ -37,6 +37,7 @@ public class Dist extends BaseEntity {
 
 
 
+    @ToString.Exclude
     @OneToMany(mappedBy="dist", cascade = CascadeType.ALL)
     private List<Store> storeList = new ArrayList<>();
 

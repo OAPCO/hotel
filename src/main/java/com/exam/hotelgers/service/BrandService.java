@@ -88,29 +88,26 @@ public class BrandService {
 
     public Map<String, Object> read(Long brandIdx) {
         Map<String, Object> modelMap = new HashMap<>();
+        List<Object[]> results = brandRepository.brandManagerDistDistChief(brandIdx);
 
-        // brandIdx를 기반으로 Brand 조회
-        Brand brand = brandRepository.findById(brandIdx).orElseThrow(() -> new ResourceNotFoundException("Brand 정보를 찾을 수 없습니다"));
+        if (results.size() > 0) {
+            Object[] result = results.get(0); // assuming only one result
+            Brand brand = (Brand) result[0];
+            Manager manager = (Manager) result[1];
+            Dist dist = (Dist) result[2];
+            DistChief distChief = (DistChief) result[3];
+            modelMap.put("brand", brand);
+            modelMap.put("manager", manager);
+            modelMap.put("dist", dist);
+            modelMap.put("distChief", distChief);
 
-        // Brand의 distCd를 기반으로 Dist 조회
-        Dist dist = distRepository.findByDistCd(brand.getDistCd()).orElseThrow(() -> new ResourceNotFoundException("Dist 정보를 찾을 수 없습니다"));
-
-        // Dist의 distIdx를 기반으로 DistChief 조회
-        DistChief distChief = distChiefRepository.findByDistIdx(dist.getDistIdx()).orElseThrow(() -> new ResourceNotFoundException("DistChief 정보를 찾을 수 없습니다"));
-
-        // Dist의 distIdx를 기반으로 Manager 조회
-        Manager manager = managerRepository.findByDistIdx(dist.getDistIdx()).orElseThrow(() -> new ResourceNotFoundException("Manager 정보를 찾을 수 없습니다"));
-
-        // distIdx를 기반으로 Store 목록 조회
-        List<Store> storeList = storeRepository.findByDistIdx(dist.getDistIdx());
-
-        // 각각의 객체를 modelMap에 할당
-        modelMap.put("brand", brand);
-        modelMap.put("dist", dist);
-        modelMap.put("distChief", distChief);
-        modelMap.put("manager", manager);
-        modelMap.put("storeList", storeList);
-
+            // Store 정보를 brandCd를 기반으로 가져옴
+            String brandCd = brand.getBrandCd();
+            List<Store> storeList = storeRepository.findByBrandCd(brandCd);
+            modelMap.put("storeList", storeList);
+        }  else {
+            log.info("아이디" + brandIdx + "에 해당하는 정보를 찾지 못했습니다.");
+        }
         return modelMap;
     }
 
@@ -139,17 +136,7 @@ public class BrandService {
         return dto;
     }
 
-    private BrandDTO convertToDTO2(Object[] result) {
 
-        Brand brand = (Brand) result[0];
-        Store store = (Store) result[1];
-        Manager manager = (Manager) result[2];
-        BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
-        dto.setStoreDTO(modelMapper.map(store, StoreDTO.class));
-        dto.setManagerDTO(modelMapper.map(manager, ManagerDTO.class));
-
-        return dto;
-    }
 
 
     public void delete(Long brandIdx){

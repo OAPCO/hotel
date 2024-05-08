@@ -33,9 +33,9 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     @Query("SELECT b, m, d, dc FROM Brand b " +
             "JOIN Dist d ON d.distCd = b.distCd " +
-            "JOIN Manager m ON m.dist = d.distCd " +
-            "JOIN DistChief dc ON dc.distList = d.distChief " +
+            "JOIN Manager m ON m.dist.distCd = d.distCd " +
+            "JOIN DistChief dc ON dc.distChiefIdx = d.distChief.distChiefIdx " +
             "WHERE b.brandIdx = :brandIdx")
-    Object[] brandManagerDistDistChief(Long brandIdx);
+    List<Object[]> brandManagerDistDistChief(Long brandIdx);
 
 }

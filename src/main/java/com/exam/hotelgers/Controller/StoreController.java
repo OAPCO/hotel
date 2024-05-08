@@ -194,24 +194,28 @@ public class StoreController {
 
 
     @GetMapping("/admin/distchief/store/{storeIdx}")
-    public String readForm(@PathVariable Long storeIdx, Model model) throws Exception{
-
-
+    public String readForm(@PathVariable Long storeIdx, Model model) throws Exception {
         StoreDTO storeDTO = storeService.read(storeIdx);
-        model.addAttribute("storeDTO", storeDTO);
-
-
-        model.addAttribute("bucket", bucket);
-        model.addAttribute("region", region);
-        model.addAttribute("folder", folder);
 
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
             return "redirect:/admin/distchief/store/list";
         }
 
-        log.info("디테일메뉴 리스트: " + storeDTO.getDetailmenuDTOList());
-        log.info("메뉴카테고리 리스트: " + storeDTO.getMenuCateDTOList());
+        model.addAttribute("store", storeDTO);
+        model.addAttribute("brand", storeDTO.getBrandDTO());
+        model.addAttribute("dist", storeDTO.getDistDTO());
+        model.addAttribute("distChief", storeDTO.getDistDTO().getDistChiefDTO());
+        model.addAttribute("manager", storeDTO.getManagerDTO());
+        model.addAttribute("roomList", storeDTO.getRoomDTOList());
+        model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
+
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
+        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
 
         return "admin/distchief/store/read";
     }
