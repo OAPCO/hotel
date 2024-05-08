@@ -58,6 +58,19 @@ public class SearchDTO {
     private String managerEmail;
 
 
+    //회원
+    private Long memberIdx;
+    private Character memberJoinType; //"회원가입타입(C:일반,K:카카오톡,F:페이스북,N:네이버
+    private String memberType; //회원타입
+    private String memberEmail;//"회원 이메일
+    private String memberNickname;//"회원 별명
+    private String memberId;
+    private String memberName;
+    private String memberNum;
+    private String memberPhone;//회원 전화번호
+
+
+
 
     //총판
     private Long distIdx;

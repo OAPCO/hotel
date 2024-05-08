@@ -26,6 +26,12 @@ public class Member extends BaseEntity {
     private String memberId;
     private String memberName;
 
+    //주민번호
+    private String memberNum;
+
+    //프로필사진
+    private String memberimgName;
+
 
     @Column(length = 1)
     private Character memberJoinType; //"회원가입타입(C:일반,K:카카오톡,F:페이스북,N:네이버
@@ -64,7 +70,7 @@ public class Member extends BaseEntity {
     private String pwdKey; //비밀번호 재설정키
 
 
-    private String memberimgName;
+
 
 
     private LocalDateTime socialInfoLoginDatetime;//Social정보(카카오톡) 로그인시간

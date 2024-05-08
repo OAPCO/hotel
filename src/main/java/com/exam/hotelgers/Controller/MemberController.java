@@ -57,7 +57,7 @@ public class MemberController {
 
         redirectAttributes.addFlashAttribute("result", memberIdx);
 
-        return "redirect:/member/list";
+        return "redirect:/member/memberpage/index";
     }
 
 

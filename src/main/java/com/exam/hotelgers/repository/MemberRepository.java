@@ -1,8 +1,10 @@
 package com.exam.hotelgers.repository;
 
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +20,17 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     
     //회원 본인 정보 조회
-    @Query("select m from Member m where (m.memberId LIKE %:userId%)")
+    @Query("select m from Member m where (m.memberEmail LIKE %:userId%)")
     Optional<Member> memberInfoSearch(String userId);
+
+
+
+    //회원 정보 수정
+    @Modifying
+    @Query("update Member m set " +
+            "m.memberEmail = :#{#searchDTO.memberEmail}, " +
+            "m.memberName = :#{#searchDTO.memberName} " +
+            "where m.memberIdx = :#{#searchDTO.memberIdx}")
+    void memberInfoUpdate(SearchDTO searchDTO);
 
 }

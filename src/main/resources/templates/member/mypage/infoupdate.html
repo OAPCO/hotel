@@ -17,19 +17,19 @@
         <div id="form-inner-container">
             <!-- Sign up form -->
             <div id="sign-up-container">
-                <h3>회원정보</h3>
-                <form>
+                <h3>정보 수정</h3>
+                <form method="post" action="/member/mypage/infoupdate">
+
+                    <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+
                     <label>이름</label>
-                    <input type="text" th:value="${memberDTO.memberName}" readonly="readonly">
+                    <input type="text" th:placeholder="${memberDTO.memberName}" name="memberName">
 
                     <label>아이디</label>
-                    <input type="text" th:value="${memberDTO.memberEmail}" readonly="readonly">
+                    <input type="text" th:placeholder="${memberDTO.memberEmail}" name="memberEmail">
 
+                    <button type="submit" class="btn--blue">수정하기</button>
 
-                    <div>
-<!--                        <button type="submit" class="btn&#45;&#45;blue"></button>-->
-                        <button type="button" class="btn--purple" id="toggleSignIn" th:onclick="|location.href='@{/member/mypage/infoupdate}'|">회원정보 수정</button>
-                    </div>
 
 
                 </form>
