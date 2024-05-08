@@ -175,13 +175,13 @@
                 <li class="nav-item" style="margin-left: 10%;"><button class="nav-link active" onclick="announcementSection()">공지사항</button></li>
 
 
-                <li sec:authorize="hasRole('ROLE_USER')" class="btn--purple" th:href="@{/member/mypage/mypage}" style="margin-left: 10%">마이페이지</li>
+                <li sec:authorize="hasRole('ROLE_USER')" class="btn--purple" th:href="@{/member/memberpage/mypage}" style="margin-left: 10%">마이페이지</li>
                 <li sec:authorize="hasRole('ROLE_USER')" class="btn--blue" th:href="@{/logout}" style="margin-left: 10%">로그아웃</li>
                 <li sec:authorize="isAnonymous()" class="btn btn-outline-warning shadow" th:href="@{/member/login}" style="margin-left: 10%">로그인</li>
 
             <a class="btn btn-primary shadow" role="button" href="/member/register" style="margin-left: 10%">회원가입</a>
                 <li class="nav-item"><a class="nav-link" href="/member/memberpage/basket" style="margin-left: 300%"> <i class="bi bi-cart "></i></a></li>
-                <li class="nav-item"><a class="nav-link" href="/member/memberpage/mypage" style="margin-left: 400%"> <i class="bi bi-person-circle"></i></a></li><!--fs로크기조절가능-->
+                <li class="nav-item"><a class="nav-link" href="/member/mypage/mypage" style="margin-left: 400%"> <i class="bi bi-person-circle"></i></a></li><!--fs로크기조절가능-->
 
             </ul>
 
