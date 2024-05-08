@@ -23,6 +23,10 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_sql")
     private Long memberIdx;
 
+    private String memberId;
+    private String memberName;
+
+
     @Column(length = 1)
     private Character memberJoinType; //"회원가입타입(C:일반,K:카카오톡,F:페이스북,N:네이버
 

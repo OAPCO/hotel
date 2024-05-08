@@ -28,6 +28,7 @@ import java.util.Map;
 public class StoreController {
 
     private final StoreService storeService;
+    private final DistService distService;
     private final SearchService searchService;
     private final DistChiefService distChiefService;
 
@@ -213,6 +214,54 @@ public class StoreController {
         log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
 
         return "admin/distchief/store/read";
+    }
+
+
+
+
+    @PostMapping("/admin/admin/manage/storelist")
+    public String adminlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           @Valid SearchDTO searchDTO
+    ) throws Exception{
+
+        Page<StoreDTO> storeDTOS = storeService.adminSearchList(searchDTO, pageable);
+
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("brandList",brandList);
+        model.addAttribute("list", storeDTOS);
+        return "admin/admin/manage/storelist";
+    }
+
+
+
+    @GetMapping("/admin/admin/manage/storelist")
+    public String adminlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    ) throws Exception {
+
+        log.info("store listForm 도착 ");
+
+        Page<DistDTO> distDTOS = distService.list(pageable);
+        Page<StoreDTO> storeDTOS = storeService.listAll(pageable);
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distDTOS);
+        model.addAttribute("list", storeDTOS);
+        //S3 이미지정보전달
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        return "admin/admin/manage/storelist";
     }
 
 

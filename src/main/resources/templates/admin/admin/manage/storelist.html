@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main}">
+      layout:decorate="~{layouts/adminlayout}">
 <head>
     <title>매장관리</title>
     <link rel="stylesheet" href="/yhh.css">
@@ -18,7 +18,7 @@
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
                 매장 검색
             </div>
-            <form method="post" th:action="@{/admin/distchief/store/list}">
+            <form method="post" th:action="@{/admin/admin/manage/storelist}">
                 <div class="table-responsive">
                     <table class="table head">
 

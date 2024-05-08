@@ -13,6 +13,10 @@ import java.util.List;
 @Builder
 public class SearchDTO {
 
+    //검색용 별도 컬럼
+    private String name;
+    private String id;
+
     //열거형,날짜,사진 등
     private RoleType roleType;
     private StorePType storePType;

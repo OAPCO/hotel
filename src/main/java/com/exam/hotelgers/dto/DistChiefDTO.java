@@ -28,6 +28,7 @@ public class DistChiefDTO {
     private List<DistDTO> distDTOList;
 
 
+
     private RoleType roleType;
 
 

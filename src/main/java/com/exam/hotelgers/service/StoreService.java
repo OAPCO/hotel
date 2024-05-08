@@ -169,6 +169,24 @@ public class StoreService {
     }
 
 
+
+
+    public Page<StoreDTO> listAll(Pageable pageable) throws Exception{
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+
+        Page<Store> store = storeRepository.findAll(pageable);
+
+
+        return store.map(storeItem -> modelMapper.map(storeItem, StoreDTO.class));
+    }
+
+
+
+
+
     public Page<StoreDTO> searchList(SearchDTO searchDTO, Pageable pageable,Principal principal) {
 
         String userId = principal.getName();
@@ -179,6 +197,22 @@ public class StoreService {
 
 
         Page<Object[]> stores = storeRepository.multiSearch(searchDTO,page,userId);
+
+        return stores.map(this::convertToDTO);
+    }
+
+
+
+
+
+    public Page<StoreDTO> adminSearchList(SearchDTO searchDTO, Pageable pageable) {
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+
+
+        Page<Object[]> stores = storeRepository.adminStoreSearch(searchDTO,page);
 
         return stores.map(this::convertToDTO);
     }

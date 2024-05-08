@@ -2,26 +2,22 @@ package com.exam.hotelgers.service;
 
 
 import com.exam.hotelgers.constant.RoleType;
-import com.exam.hotelgers.dto.AdminDTO;
-import com.exam.hotelgers.entity.Admin;
-import com.exam.hotelgers.entity.DistChief;
-import com.exam.hotelgers.entity.Manager;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.security.Principal;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -98,6 +94,63 @@ public class AdminService {
 
         return AdminDTOS;
     }
+
+
+
+    public Page<Object> memberList(Pageable pageable) {
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.unsorted());
+
+        List<DistChief> distChiefList = adminRepository.distChiefListSearch();
+        List<Manager> managerList = adminRepository.managerListSearch();
+        List<Member> memberList = adminRepository.memberListSearch();
+
+        List<Object> allList = Stream.of(distChiefList, managerList, memberList)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+
+        int start = (int) page.getOffset();
+        int end = Math.min((start + page.getPageSize()), allList.size());
+
+        List<Object> subList = allList.subList(start, end);
+
+        Page<Object> pageAllList = new PageImpl<>(subList, page, allList.size());
+
+        return pageAllList;
+    }
+
+
+
+
+    public Page<Object> memberListSearch(Pageable pageable,SearchDTO searchDTO) {
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.unsorted());
+
+        List<DistChief> distChiefList = adminRepository.distChiefListSearch1(searchDTO);
+        List<Manager> managerList = adminRepository.managerListSearch1(searchDTO);
+        List<Member> memberList = adminRepository.memberListSearch1(searchDTO);
+
+        List<Object> allList = Stream.of(distChiefList, managerList, memberList)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+
+        int start = (int) page.getOffset();
+        int end = Math.min((start + page.getPageSize()), allList.size());
+
+        List<Object> subList = allList.subList(start, end);
+
+        Page<Object> pageAllList = new PageImpl<>(subList, page, allList.size());
+
+        return pageAllList;
+    }
+
+
 
 
 }
