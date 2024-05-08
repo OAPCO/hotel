@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+
+<head>
+    <title>어드민</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+
+<div layout:fragment="content">
+        <h4 class="card-title">총판장 관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                총판장 등록
+            </div>
+            <form method="post" th:action="@{/admin/admin/distchief/register}">
+            <div class="table-responsive">
+                <table class="table head">
+
+                    <input type="hidden" name="roleType" value="DISTCHIEF">
+
+                    <thead>
+                    <tr>
+                        <th>이름</th>
+                        <td colspan="3"><input type="text" name="distChiefName"></td>
+                    </tr>
+                    <tr>
+                        <th>아이디</th>
+                        <td><input type="text" name="distChiefId"></td>
+                        <th>비밀번호</th>
+                        <td><input type="password" name="password"></td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td><input type="text" name="distChiefPhone"></td>
+                        <th>이메일</th>
+                        <td><input type="text" name="distChiefEmail"></td>
+                    </tr>
+
+
+                    </thead>
+
+                </table>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn button">등록</button>
+                    <button type="button" class="btn btn-secondary"
+                            onclick="window.history.back()">이전</button>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+</body>
+</html>

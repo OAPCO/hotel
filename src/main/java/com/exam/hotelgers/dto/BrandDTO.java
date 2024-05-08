@@ -1,5 +1,6 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.entity.Manager;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -26,10 +27,12 @@ public class BrandDTO {
     private LocalDateTime moddate;
 
     private DistDTO distDTO;
+    private ManagerDTO managerDTO;
+
     private String distCd;
 
 
-//    private List<StoreDTO> storeDTOList = new ArrayList<>();
+    private List<StoreDTO> storeDTOList = new ArrayList<>();
 
 
 

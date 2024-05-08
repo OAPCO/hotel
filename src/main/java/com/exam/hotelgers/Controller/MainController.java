@@ -35,8 +35,13 @@ public class MainController {
 
 
     @GetMapping("/")
-    public String start(){
+    public String index(){
         return "index";
+    }
+
+    @GetMapping("/admin")
+    public String adminindex(){
+        return "adminindex";
     }
 
 
@@ -55,9 +60,6 @@ public class MainController {
 
         log.info("member login 겟매핑 들어옴");
 
-        List<StoreDTO> storeDTOS = searchService.storeList();
-
-        model.addAttribute("storeDTOS",storeDTOS);
 
         return "member/login";
     }

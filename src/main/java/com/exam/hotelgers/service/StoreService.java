@@ -169,6 +169,24 @@ public class StoreService {
     }
 
 
+
+
+    public Page<StoreDTO> listAll(Pageable pageable) throws Exception{
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+
+        Page<Store> store = storeRepository.findAll(pageable);
+
+
+        return store.map(storeItem -> modelMapper.map(storeItem, StoreDTO.class));
+    }
+
+
+
+
+
     public Page<StoreDTO> searchList(SearchDTO searchDTO, Pageable pageable,Principal principal) {
 
         String userId = principal.getName();
@@ -179,6 +197,22 @@ public class StoreService {
 
 
         Page<Object[]> stores = storeRepository.multiSearch(searchDTO,page,userId);
+
+        return stores.map(this::convertToDTO);
+    }
+
+
+
+
+
+    public Page<StoreDTO> adminSearchList(SearchDTO searchDTO, Pageable pageable) {
+
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "storeIdx"));
+
+
+        Page<Object[]> stores = storeRepository.adminStoreSearch(searchDTO,page);
 
         return stores.map(this::convertToDTO);
     }
@@ -243,39 +277,37 @@ public class StoreService {
 
 
     public StoreDTO read(Long storeIdx) throws Exception {
-        Optional<Store> optionalStore = storeRepository.findById(storeIdx);
-        if (optionalStore.isPresent()) {
-            Store store = optionalStore.get();
+        List<Object[]> resultList = storeRepository.storeBrandDistDistChiefManager(storeIdx);
+
+        if (!resultList.isEmpty()) {
+            Object[] array = resultList.get(0);
+            Store store = (Store) array[0];
+            Brand brand = (Brand) array[1]; // Brand 항목 추가
+            Dist dist = (Dist) array[2];
+            DistChief distChief = (DistChief) array[3];
+            Manager manager = (Manager) array[4]; // Brand가 추가되면서 index가 변경되었습니다.
+
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
-            dto.setDistDTO(searchService.convertToDistDTO(store.getDist()));
-//            dto.setBrandDTO(searchService.convertToBrandDTO(store.getBrand()));
+            dto.setDistDTO(searchService.convertToDistDTO(dist));
 
             dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
             dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
-            dto.setMenuCateDTOList(searchService.convertToMenuCateDTOList(store.getMenuCateList()));
-            dto.setDetailmenuDTOList(searchService.convertToDetailMenuDTOList(store.getDetailMenuList()));
 
-            // 스토어와 연관된 매니저 정보를 가져옵니다
-//            Manager manager = store.getManager();
-
-            // 매니저 객체가 존재할 경우 매니저 정보를 StoreDTO에 추가합니다
-//            if (manager != null) {
-//                ManagerDTO managerDTO = modelMapper.map(manager, ManagerDTO.class);
-//                dto.setManagerDTO(managerDTO);
-//            }
-
-            // 메뉴 카테고리와 그에 해당하는 상세 메뉴를 설정합니다
             List<MenuCateDTO> menuCateDTOList = searchService.convertToMenuCateDTOList(store.getMenuCateList());
             dto.setMenuCateDTOList(menuCateDTOList);
 
             for (MenuCateDTO menuCateDTO : menuCateDTOList) {
-                // 각 MenuCateDTO에 해당하는 DetailMenu 리스트를 받아옵니다.
                 List<Detailmenu> detailMenus = detailmenuRepository.findByMenuCateMenuCateIdx(menuCateDTO.getMenuCateIdx());
-                // DetailMenu 리스트를 DetailMenuDTO로 변환합니다.
                 List<DetailmenuDTO> detailMenuDTOList = searchService.convertToDetailMenuDTOList(detailMenus);
-                // DetailMenuDTO 리스트를 MenuCateDTO에 추가합니다.
                 menuCateDTO.setDetailMenuDTOList(detailMenuDTOList);
             }
+
+            ManagerDTO managerDTO = modelMapper.map(manager, ManagerDTO.class);
+            dto.setManagerDTO(managerDTO);
+
+            BrandDTO brandDTO = modelMapper.map(brand, BrandDTO.class); // BrandDTO를 생성합니다.
+            dto.setBrandDTO(brandDTO); // DTO에 넣어줍니다.
+
             return dto;
         } else {
             return null;

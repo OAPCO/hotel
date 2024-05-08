@@ -22,6 +22,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     Optional<Store> findByStoreCd(String storeCd);
 
+    List<Store> findByBrandCd(String brandCd);
 
     //로그인중인 매장주 아이디로 매장 조회
     @Query("select s from Store s where (s.managerId LIKE %:managerId%)")
@@ -43,6 +44,24 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     //매장생성시 해당 매니저가 이미 매장을 가지고 있는지 확인
     Optional<Store> findByManagerId(String ManagerId);
+
+
+    //어드민의 매장 조회용
+    Page<Store> findAll(Pageable pageable);
+
+
+    //어드민의 매장 다중검색
+    @Query("select s,b,m from Store s left join Brand b on s.brandCd = b.brandCd left join Manager m on s.managerId = m.managerId " +
+            "where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
+            "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)"+
+            "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)"+
+            "and (:#{#searchDTO.managerName} is null or m.managerName LIKE %:#{#searchDTO.managerName}%)"+
+            "and (:#{#searchDTO.brandName} is null or b.brandName LIKE %:#{#searchDTO.brandName}%)"+
+            "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)"+
+            "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)"+
+            "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)")
+    Page<Object[]> adminStoreSearch(SearchDTO searchDTO,
+                               Pageable pageable);
 
 
 
@@ -69,6 +88,13 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     )
     List<Store> distbrandOfStore(SearchDTO searchDTO);
 
-
+    //read할때 StoreIdx를 이용해서 상위 객체들 한번에 가져오기
+    @Query("SELECT s, b, d, dc, m FROM Store s " +
+            "JOIN Dist d ON d.distCd = s.dist.distCd " +
+            "JOIN Brand b ON b.brandCd = s.brandCd " +
+            "JOIN DistChief dc ON dc.distChiefIdx = d.distChief.distChiefIdx " +
+            "JOIN Manager m ON m.dist.distCd = d.distCd " +
+            "WHERE s.storeIdx = :storeIdx")
+    List<Object[]> storeBrandDistDistChiefManager(Long storeIdx);
 
 }

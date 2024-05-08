@@ -23,7 +23,7 @@
 <div layout:fragment="content">
     <div class="container-fluid">
         <p></p>
-        <h3 class="text-dark mb-4">[ [[${storeDTO.storeName}]] ] 매장 정보</h3>
+        <h3 class="text-dark mb-4">[ [[${store.storeName}]] ] 매장 정보</h3>
         <div class="card shadow">
             <div class="card-header py-3">
                 <h3 class="text-primary m-0 fw-bold">브랜드/총판 정보</h3>
@@ -35,7 +35,7 @@
                         <tr>
                             <td class="col-2">등급</td>
                             <td class="col-3">
-                                <th:block th:switch="${storeDTO.storeGrade.name()}">
+                                <th:block th:switch="${store.storeGrade.name()}">
                                     <span th:case="ONE">1성</span>
                                     <span th:case="TWO">2성</span>
                                     <span th:case="THREE">3성</span>
@@ -44,21 +44,21 @@
                                 </th:block>
                             </td>
                             <td class="col-3">브랜드명</td>
-                            <td class="col-4">[[${storeDTO.brandDTO.brandName}]]</td>
+                            <td class="col-4" th:text="${brand.brandName}"></td>
                         </tr>
                         <tr>
                             <td class="col-2">대표자 메일</td>
                             <td class="col-3">
-                                <span th:text="${storeDTO.distDTO.distChiefDTO.distChiefEmail}"></span>
+                                <span th:text="${distChief.distChiefEmail}"></span>
                             </td>
                             <td class="col-3">대표자 성명</td>
                             <td class="col-4">
-                                <span th:text="${storeDTO.distDTO.distChiefDTO.distChiefName}"></span>
+                                <span th:text="${distChief.distChiefName}"></span>
                             </td>
                         </tr>
                         <tr>
-                            <td>연락처</td>
-                            <td>[[${storeDTO.distDTO.distTel}]]</td>
+                            <td>대표자 연락처</td>
+                            <td th:text="${distChief.distChiefPhone}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -78,56 +78,54 @@
                         <tbody>
                         <tr>
                             <td class="col-2">총판조직</td>
-                            <td class="col-4">[[${storeDTO.distDTO.distName}]]</td>
+                            <td class="col-4" th:text="${dist.distName}"></td>
                         </tr>
                         <tr>
                             <td class="col">매장주 이메일</td>
-                            <td class="col">[[${storeDTO.managerDTO.managerEmail}]]</td>
+                            <td class="col" th:text="${manager.managerEmail}"></td>
                         </tr>
                         <tr>
                             <td class="col">매장주 성명</td>
-                            <td class="col" th:text="${storeDTO.managerDTO.managerName}"></td>
+                            <td class="col" th:text="${manager.managerName}"></td>
                             <td class="col">매장주 연락처</td>
-                            <td class="col" th:text="${storeDTO.managerDTO.managerPhone}"></td>
+                            <td class="col" th:text="${manager.managerPhone}"></td>
                         </tr>
                         <tr>
                             <td class="col">매장코드</td>
-                            <td class="col">[[${storeDTO.storeCd}]]</td>
+                            <td class="col" th:text="${store.storeCd}"></td>
                             <td class="col">매장명</td>
-                            <td class="col">[[${storeDTO.storeName}]]</td>
+                            <td class="col" th:text="${store.storeName}"></td>
                         </tr>
                         <tr>
                             <td class="col-2">매장 연락처</td>
-                            <td class="col-4">[[${storeDTO.storeTel}]]</td>
+                            <td class="col-4" th:text="${store.storeTel}"></td>
                             <td class="col-2">지역</td>
-                            <td class="col-4">
-                                [[${storeDTO.regionCd}]]
-                            </td>
+                            <td class="col-4" th:text="${store.regionCd}"></td>
                         </tr>
                         <tr>
                             <td rowspan="3">주소</td>
-                            <td th:text="${storeDTO.storePostNo}">[우편번호]</td>
+                            <td th:text="${store.storePostNo}">[우편번호]</td>
                         </tr>
                         <tr>
-                            <td th:text="${storeDTO.storeAddr}">[주소]</td>
+                            <td th:text="${store.storeAddr}">[주소]</td>
                         </tr>
                         <tr>
-                            <td th:text="${storeDTO.storeAddrDetail}">[상세주소]</td>
+                            <td th:text="${store.storeAddrDetail}">[상세주소]</td>
                         </tr>
                         <tr>
                             <td class="col">제휴 상태</td>
                             <td class="col">
-                                <th:block th:switch="${storeDTO.storeStatus.name()}">
+                                <th:block th:switch="${store.storeStatus.name()}">
                                     <span th:case="ON">제휴중</span>
                                     <span th:case="OFF">미제휴</span>
                                 </th:block>
                             </td>
                             <td class="col">매장 등록일</td>
-                            <td th:text="${#temporals.format(storeDTO.regdate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(store.regdate, 'yyyy-MM-dd')}"></td>
                         </tr>
                         <tr>
                             <td class="col-2">매장 상세</td>
-                            <td class="col" th:text="${storeDTO.storeSummary}">
+                            <td class="col" th:text="${store.storeSummary}">
                             </td>
                         </tr>
                         <tr>
@@ -135,7 +133,7 @@
                             <td class="col-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
-                                           th:checked="${storeDTO.storeOpenState == 0}"
+                                           th:checked="${store.storeOpenState == 0}"
 
                                            disabled>
                                 </div>
@@ -159,7 +157,8 @@
                     <tr class="row">
                         <td rowspan="7" class="col-2">이미지(필수)</td>
                         <td rowspan="7" class="col-10">
-                            <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|" width="150" height="100">
+                            <img
+                                    th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${store.storeimgName}|" width="150" height="100">
                         </td>
                     </tr>
 
@@ -168,14 +167,14 @@
                         <td rowspan="7" class="col-4">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="storePaymentType" value="1"
-                                       th:checked="${storeDTO.storePaymentType == 1}" disabled>
+                                       th:checked="${store.storePaymentType == 1}" disabled>
                                 <label class="form-check-label">
                                     선불
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="storePaymentType" value="0"
-                                       th:checked="${storeDTO.storePaymentType == 0}" disabled>
+                                       th:checked="${store.storePaymentType == 0}" disabled>
                                 <label class="form-check-label">
                                     후불
                                 </label>
@@ -183,18 +182,18 @@
                         </td>
                         <td rowspan="2" class="col-2 ">영업시간</td>
                         <td class="col-4">
-                            <div>영업 시작: <input type="time" th:value="${storeDTO.storeOpenTime}" readonly> ~ 영업
-                                끝:<input type="time" th:value="${storeDTO.storeCloseTime}" readonly></div>
+                            <div>영업 시작: <input type="time" th:value="${store.storeOpenTime}" readonly> ~ 영업
+                                끝:<input type="time" th:value="${store.storeCloseTime}" readonly></div>
                         </td>
                     </tr>
                     <tr class="row">
                         <td class="col-2">휴무일</td>
-                        <td class="col-4"  th:text="${storeDTO.storeRestDay}" >[휴무일내용]</td>
+                        <td class="col-4"  th:text="${store.storeRestDay}" >[휴무일내용]</td>
                         <td class="col-2">카카오톡 전송 여부</td>
                         <td class="col-4">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="kakaoSendYn"
-                                       th:checked="${storeDTO.kakaoSendYn == 'Y'}" disabled>
+                                       th:checked="${store.kakaoSendYn == 'Y'}" disabled>
                                 <label class="form-check-label">
                                     카카오톡 전송
                                 </label>
@@ -203,7 +202,7 @@
                     </tr>
                     <tr class="row">
                         <td class="col-2">휴무일내용</td>
-                        <td class="col-10">[[${storeDTO.storeRestDetail}]]</td>
+                        <td class="col-10" th:text="${store.storeRestDetail}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -248,13 +247,13 @@
                                                 <label>매장 번호 : </label>
                                                 <input class="form-control form-control-user" type="text"
                                                        placeholder="매장 번호" name="storeDTO.storeIdx"
-                                                       th:value="${storeDTO.storeIdx}" readonly>
+                                                       th:value="${store.storeIdx}" readonly>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label>매장 코드 : </label>
                                                 <input class="form-control form-control-user" type="text"
                                                        placeholder="매장 코드" name="storeDTO.storeCd"
-                                                       th:value="${storeDTO.storeCd}" readonly>
+                                                       th:value="${store.storeCd}" readonly>
                                             </div>
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <label>룸 코드 : </label>
@@ -299,7 +298,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <table th:each="room : ${storeDTO.roomDTOList}">
+                    <table th:each="room : ${roomList}">
                         <thead>
                         <tr>
                             <th scope="col" class="col-2">룸 순서</th>
@@ -352,7 +351,7 @@
                                                                 <td>
                                                                     <input class="form-control form-control-user" type="text"
                                                                            placeholder="매장 번호" name="storeDTO.storeIdx"
-                                                                           th:value="${storeDTO.storeIdx}" readonly>
+                                                                           th:value="${store.storeIdx}" readonly>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -471,7 +470,7 @@
                                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                                             <input class="form-control form-control-user" type="text"
                                                                    placeholder="매장 코드" name="tblStoreStoreIdx"
-                                                                   th:value="${storeDTO.storeIdx}" readonly>
+                                                                   th:value="${store.storeIdx}" readonly>
                                                         </div>
                                                         <button class="btn btn-primary d-block btn-user w-100"
                                                                 type="submit">등록
@@ -489,7 +488,7 @@
                 </div>
             </div>
 
-            <div th:each="category : ${storeDTO.menuCateDTOList}" class="card">
+            <div th:each="category : ${menuCateList}" class="card">
                 <div class="card-header">
                     <div class="d-flex justify-content-between">
                         <h4 class="text-primary fw-bold align-self-start" th:text="${category.menuCateName}">카테고리 이름</h4>
@@ -523,7 +522,7 @@
                                                                         매장 id
                                                                     </div>
                                                                     <input class="form-control form-control-user" type="text" name="tblStoreStoreIdx"
-                                                                           th:value="${storeDTO.storeIdx}" readonly>
+                                                                           th:value="${store.storeIdx}" readonly>
                                                                 </div>
                                                                 <div class="mb-3">
                                                                     <div>

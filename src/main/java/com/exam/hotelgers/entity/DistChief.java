@@ -45,7 +45,8 @@ public class DistChief extends BaseEntity {
     private String distChiefimgName;
 
 
-    @OneToMany(mappedBy="distChief", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @OneToMany(mappedBy = "distChief", cascade = CascadeType.ALL)
     private List<Dist> distList = new ArrayList<>();
 
 

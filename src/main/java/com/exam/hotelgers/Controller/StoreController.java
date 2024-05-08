@@ -28,6 +28,7 @@ import java.util.Map;
 public class StoreController {
 
     private final StoreService storeService;
+    private final DistService distService;
     private final SearchService searchService;
     private final DistChiefService distChiefService;
 
@@ -189,26 +190,78 @@ public class StoreController {
 
 
     @GetMapping("/admin/distchief/store/{storeIdx}")
-    public String readForm(@PathVariable Long storeIdx, Model model) throws Exception{
-
-
+    public String readForm(@PathVariable Long storeIdx, Model model) throws Exception {
         StoreDTO storeDTO = storeService.read(storeIdx);
-        model.addAttribute("storeDTO", storeDTO);
-
-
-        model.addAttribute("bucket", bucket);
-        model.addAttribute("region", region);
-        model.addAttribute("folder", folder);
 
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
             return "redirect:/admin/distchief/store/list";
         }
 
-        log.info("디테일메뉴 리스트: " + storeDTO.getDetailmenuDTOList());
-        log.info("메뉴카테고리 리스트: " + storeDTO.getMenuCateDTOList());
+        model.addAttribute("store", storeDTO);
+        model.addAttribute("brand", storeDTO.getBrandDTO());
+        model.addAttribute("dist", storeDTO.getDistDTO());
+        model.addAttribute("distChief", storeDTO.getDistDTO().getDistChiefDTO());
+        model.addAttribute("manager", storeDTO.getManagerDTO());
+        model.addAttribute("roomList", storeDTO.getRoomDTOList());
+        model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
+
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
+        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
 
         return "admin/distchief/store/read";
+    }
+
+
+
+
+    @PostMapping("/admin/admin/manage/storelist")
+    public String adminlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           @Valid SearchDTO searchDTO
+    ) throws Exception{
+
+        Page<StoreDTO> storeDTOS = storeService.adminSearchList(searchDTO, pageable);
+
+        List<DistDTO> distList = searchService.distList();
+        List<BrandDTO> brandList = searchService.brandList();
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distList);
+        model.addAttribute("brandList",brandList);
+        model.addAttribute("list", storeDTOS);
+        return "admin/admin/manage/storelist";
+    }
+
+
+
+    @GetMapping("/admin/admin/manage/storelist")
+    public String adminlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
+    ) throws Exception {
+
+        log.info("store listForm 도착 ");
+
+        Page<DistDTO> distDTOS = distService.list(pageable);
+        Page<StoreDTO> storeDTOS = storeService.listAll(pageable);
+
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distList",distDTOS);
+        model.addAttribute("list", storeDTOS);
+        //S3 이미지정보전달
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        return "admin/admin/manage/storelist";
     }
 
 

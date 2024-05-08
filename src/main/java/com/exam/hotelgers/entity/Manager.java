@@ -52,8 +52,9 @@ public class Manager extends BaseEntity {
     private String storeCd;
 
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="distIdx")
+    @JoinColumn(name = "distIdx")
     private Dist dist;
 
 

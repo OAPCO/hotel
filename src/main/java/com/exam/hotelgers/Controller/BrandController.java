@@ -2,6 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.DistRepository;
 import com.exam.hotelgers.service.BrandService;
 import com.exam.hotelgers.service.SearchService;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -87,7 +89,7 @@ public class BrandController {
 
         log.info("brand modifyProc 도착 " + brandIdx);
 
-        BrandDTO brandDTO = brandService.read(brandIdx);
+        BrandDTO brandDTO = (BrandDTO) brandService.read(brandIdx);
 
         List<String> distCd = distRepository.findAllDistCds();
         model.addAttribute("distCd", distCd);
@@ -129,9 +131,30 @@ public class BrandController {
 
     @GetMapping("/admin/distchief/brand/{brandIdx}")
     public String readForm(@PathVariable Long brandIdx, Model model) {
-        BrandDTO brandDTO=brandService.read(brandIdx);
-        //서비스에서 값을 받으면 반드시 model로 전달
-        model.addAttribute("brandDTO",brandDTO);
+
+        Map<String, Object> modelMap = brandService.read(brandIdx);
+        log.info("modelMap: " + modelMap);
+
+        Brand brand = (Brand) modelMap.get("brand");
+        Manager manager = (Manager) modelMap.get("manager");
+        Dist dist = (Dist) modelMap.get("dist");
+        DistChief distChief = (DistChief) modelMap.get("distChief");
+        List<Store> storeList = (List<Store>) modelMap.get("storeList");
+
+        // 'BrandDTO'를 새로 생성하고 필요한 정보를 설정하세요.
+        // 이 예제에서는 'Brand' 객체의 필드만 사용하고 있습니다.
+        BrandDTO brandDTO = new BrandDTO();
+        brandDTO.setBrandIdx(brand.getBrandIdx());
+        brandDTO.setBrandCd(brand.getBrandCd());
+        brandDTO.setBrandName(brand.getBrandName());
+
+        // model에 추가
+        model.addAttribute("brandDTO", brandDTO);
+        model.addAttribute("manager", manager);
+        model.addAttribute("dist", dist);
+        model.addAttribute("distChief", distChief);
+        model.addAttribute("storeList", storeList);
+
         return "admin/distchief/brand/read";
     }
 }
