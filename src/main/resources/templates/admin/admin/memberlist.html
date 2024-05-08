@@ -14,7 +14,7 @@
     <div class="card">
         <div class="card-header" style="margin: 50px 20px;">
             <h4 class="card-title">총판장관리</h4>
-            <form method="post" th:action="@{/admin/adminpage/storemembermange}">
+            <form method="post" th:action="@{/admin/admin/manage/memberlist}">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -119,16 +119,16 @@
             <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
 
                 <ul class="mt-3 pagination">
-                    <li class="page-item"><a class="page-link" th:href="@{/admin/adminpage/storemembermange(page=${prevPage})}"><</a></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/admin/admin/manage/memberlist(page=${prevPage})}"><</a></li>
                     <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
                         <li class="page-item active" th:if="${page == currentPage}">
                             <a class="page-link" href="#">[[${page}]]</a>
                         </li>
                         <li class="page-item" th:unless="${page == currentPage}">
-                            <a class="page-link" th:href="@{/admin/adminpage/storemembermange(page=${page})}">[[${page}]]</a>
+                            <a class="page-link" th:href="@{/admin/admin/manage/memberlist(page=${page})}">[[${page}]]</a>
                         </li>
                     </span>
-                    <li class="page-item"><a class="page-link" th:href="@{/admin/adminpage/storemembermange(page=${nextPage})}">></a></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/admin/admin/manage/memberlist(page=${nextPage})}">></a></li>
                 </ul>
             </nav>
 

@@ -66,37 +66,6 @@ public class DistController {
 
 
 
-    @GetMapping("/admin/distchief/register")
-    public String register2() {
-        return "admin/distchief/register";
-    }
-
-
-    @PostMapping("/admin/distchief/register")
-    public String registerProc2(@Valid DistChiefDTO distChiefDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
-
-        log.info("dist registerProc 도착 " + distChiefDTO);
-
-
-        if (bindingResult.hasErrors()) {
-            log.info("has error@@@@@@@@@");
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-        }
-
-        log.info(distChiefDTO);
-
-        Long distChiefIdx = distChiefService.register(distChiefDTO);
-
-        redirectAttributes.addFlashAttribute("result", distChiefIdx);
-
-        return "redirect:/admin/distchief/list";
-    }
-
-
-
-
 
     @GetMapping("/dist/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
@@ -110,20 +79,6 @@ public class DistController {
         model.addAllAttributes(pageinfo);
         model.addAttribute("list", distDTOS);
         return "dist/list";
-    }
-
-    @GetMapping("/admin/distchief/list")
-    public String listForm2(@PageableDefault(page = 1) Pageable pageable, Model model) {
-
-        log.info("dist listForm 도착 ");
-
-        Page<DistChiefDTO> distChiefDTOS = distChiefService.list(pageable);
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(distChiefDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", distChiefDTOS);
-        return "admin/distchief/list";
     }
 
 
@@ -178,4 +133,7 @@ public class DistController {
         model.addAttribute("distDTO",distDTO);
         return "dist/read";
     }
+
+
+
 }

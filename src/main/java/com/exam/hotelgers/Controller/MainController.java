@@ -55,9 +55,6 @@ public class MainController {
 
         log.info("member login 겟매핑 들어옴");
 
-        List<StoreDTO> storeDTOS = searchService.storeList();
-
-        model.addAttribute("storeDTOS",storeDTOS);
 
         return "member/login";
     }

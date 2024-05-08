@@ -25,7 +25,7 @@
                 </tr>
                 </thead>
                 <div>
-                    <form class="d-flex" th:action="@{/admin/adminpage/distChiefsearch}" method="post">
+                    <form class="d-flex" th:action="@{/templates/admin/admin/distChiefsearch}" method="post">
                         <input type="search" name="distChiefName" class="form-control me-2" placeholder="총판장이름" style="width:300px;">
                         <button type="submit" class="btn text-white" style="background-color: #36b9cc; margin-left: 5px;">조회</button>
                     </form>
@@ -44,16 +44,16 @@
                 <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
 
                     <ul class="mt-3 pagination">
-                        <li class="page-item"><a class="page-link" th:href="@{/admin/adminpage/distChiefsearch(page=${prevPage})}"><</a></li>
+                        <li class="page-item"><a class="page-link" th:href="@{/templates/admin/admin/distChiefsearch(page=${prevPage})}"><</a></li>
                         <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
                         <li class="page-item active" th:if="${page == currentPage}">
                             <a class="page-link" href="#">[[${page}]]</a>
                         </li>
                         <li class="page-item" th:unless="${page == currentPage}">
-                            <a class="page-link" th:href="@{/admin/adminpage/distChiefsearch(page=${page})}">[[${page}]]</a>
+                            <a class="page-link" th:href="@{/templates/admin/admin/distChiefsearch(page=${page})}">[[${page}]]</a>
                         </li>
                     </span>
-                        <li class="page-item"><a class="page-link" th:href="@{/admin/adminpage/distChiefsearch(page=${nextPage})}">></a></li>
+                        <li class="page-item"><a class="page-link" th:href="@{/templates/admin/admin/distChiefsearch(page=${nextPage})}">></a></li>
                     </ul>
                 </nav>
 
