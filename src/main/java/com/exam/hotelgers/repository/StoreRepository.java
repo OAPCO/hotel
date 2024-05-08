@@ -42,14 +42,18 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> storeNameSearch(String storeName);
 
 
+    //매장생성시 해당 매니저가 이미 매장을 가지고 있는지 확인
+    Optional<Store> findByManagerId(String ManagerId);
+
+
 
     //매장조회 다중검색
     @Query("select s,b,m from Store s left join Brand b on s.brandCd = b.brandCd left join Manager m on s.managerId = m.managerId " +
             "where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
     "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)"+
     "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)"+
-    "and (:#{#searchDTO.managerName} is null or s.managerId LIKE %:#{#searchDTO.managerName}%)"+
-    "and (:#{#searchDTO.brandName} is null or s.brandCd LIKE %:#{#searchDTO.brandName}%)"+
+    "and (:#{#searchDTO.managerName} is null or m.managerName LIKE %:#{#searchDTO.managerName}%)"+
+    "and (:#{#searchDTO.brandName} is null or b.brandName LIKE %:#{#searchDTO.brandName}%)"+
     "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)"+
     "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)"+
             "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)"+

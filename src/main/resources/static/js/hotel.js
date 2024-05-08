@@ -1,6 +1,6 @@
 console.log("hotel.js 호출되었음");
 
-let storeSelect = (function () {
+let hotel = (function () {
 
     
     //distchief/store/list의 총판 셀렉트박스 선택시
