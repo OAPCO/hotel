@@ -175,7 +175,7 @@
                 <li class="nav-item" style="margin-left: 10%;"><button class="nav-link active" onclick="announcementSection()">공지사항</button></li>
 
 
-                <li sec:authorize="hasRole('ROLE_USER')" class="btn--purple" th:href="@{/member/memberpage/mypage}" style="margin-left: 10%">마이페이지</li>
+                <li sec:authorize="hasRole('ROLE_USER')" class="btn--purple" th:href="@{/member/mypage/mypage}" style="margin-left: 10%">마이페이지</li>
                 <li sec:authorize="hasRole('ROLE_USER')" class="btn--blue" th:href="@{/logout}" style="margin-left: 10%">로그아웃</li>
                 <li sec:authorize="isAnonymous()" class="btn btn-outline-warning shadow" th:href="@{/member/login}" style="margin-left: 10%">로그인</li>
 

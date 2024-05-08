@@ -4,10 +4,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MemberpageController {
-    @GetMapping ("/member/memberpage/mypage")
+    @GetMapping ("/member/mypage/mypage")
     public String mypageform(){
-        return "member/memberpage/mypage";
+        return "member/mypage/mypage";
     }
+
+    @GetMapping("/member/mypage/mypagean")
+    public String mypageanform() {
+
+        return "member/mypage/mypagean";
+    }
+    @GetMapping("/member/mypage/mypagepo")
+    public String mypagepoform() {
+
+        return "member/mypage/mypagepo";
+    }
+    @GetMapping("/member/mypage/mypagepw")
+    public String mypagepwform() {
+
+        return "member/mypage/mypagepw";
+    }
+
 
     @GetMapping ("/member/memberpage/koreafood")
     public String koreafoodform(){
@@ -29,21 +46,8 @@ public class MemberpageController {
 
         return "member/memberpage/index";
     }
-    @GetMapping("/member/memberpage/mypagean")
-    public String mypageanform() {
 
-        return "member/memberpage/mypagean";
-    }
-    @GetMapping("/member/memberpage/mypagepo")
-    public String mypagepoform() {
 
-        return "member/memberpage/mypagepo";
-    }
-    @GetMapping("/member/memberpage/mypagepw")
-    public String mypagepwform() {
-
-        return "member/memberpage/mypagepw";
-    }
     @GetMapping("/member/memberpage/test")
     public String testform() {
 
