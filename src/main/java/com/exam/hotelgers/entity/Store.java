@@ -104,6 +104,8 @@ public class Store extends BaseEntity{
 //    @JoinColumn(name="managerIdx")
 //    private Manager manager;
     private String managerId;
+
+
     @ToString.Exclude
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();

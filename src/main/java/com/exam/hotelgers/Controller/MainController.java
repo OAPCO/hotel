@@ -35,8 +35,13 @@ public class MainController {
 
 
     @GetMapping("/")
-    public String start(){
+    public String index(){
         return "index";
+    }
+
+    @GetMapping("/admin")
+    public String adminindex(){
+        return "adminindex";
     }
 
 

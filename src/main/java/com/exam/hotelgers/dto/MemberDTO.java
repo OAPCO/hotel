@@ -26,6 +26,9 @@ public class MemberDTO {
 
     private String memberNickname;//"회원 별명
 
+    private String memberId;
+    private String memberName;
+
     private String memberPhone;//회원 전화번호
 
     private String alramNotice;//알람수신여부(공지) : Y수신 N수신안함

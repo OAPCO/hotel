@@ -40,9 +40,9 @@
 <div id="wrapper">
     <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-dark p-0">
         <div class="container-fluid d-flex flex-column p-0">
-            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/">
+            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/admin">
                 <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
-                <div class="sidebar-brand-text mx-3"><span>Hoteljers</span></div>
+                <div class="sidebar-brand-text mx-3"><span>Hotelgers</span></div>
             </a>
             <hr class="sidebar-divider my-0">
             <ul class="navbar-nav text-light" id="accordionSidebar">
@@ -56,7 +56,6 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/admin/admin/manage/memberlist">회원관리</a></li>
                         <li><a class="dropdown-item" href="/admin/admin/distchief/list">총판장 관리</a></li>
-                        <li><a class="dropdown-item" href="/admin/admin/storedistmange">총판조직관리</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -65,15 +64,21 @@
                         <span>매장관리</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/admin/adminpage/codemange">공통코드관리</a></li>
+                        <li><a class="dropdown-item" href="/admin/admin/manage/storelist">매장 조회</a></li>
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <button class="nav-link" onclick="pwchange()">
-                        <i class="bi bi-gear-fill"></i><span>비밀번호변경</span>
-                    </button>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-gear-fill"></i>
+                        <span>사이트관리</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/admin/banner/list">광고목록</a></li>
+                    </ul>
                 </li>
+
+
 
 
                 <li class="nav-item dropdown">
@@ -87,9 +92,12 @@
                         <li><a class="dropdown-item change-language" data-lang="jp">日本語</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/admin/register}"><i class="far fa-user-circle"></i><span>회원가입</span></a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/member/login}"><i class="fas fa-user-circle"></i><span>로그인</span></a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
+                <li class="nav-item">
+                    <button class="nav-link" onclick="pwchange()">
+                        <i class="bi bi-gear-fill"></i><span> 비밀번호변경</span>
+                    </button>
+                </li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}"><i class="fas fa-user-circle"></i><span> 로그아웃</span></a></li>
             </ul>
             <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
         </div>
