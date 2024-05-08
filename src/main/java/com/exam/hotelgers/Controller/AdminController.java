@@ -20,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -107,7 +106,9 @@ public class AdminController {
 
 
 
-    @GetMapping("/admin/adminpage/storemembermange")
+
+
+    @GetMapping("/admin/admin/manage/memberlist")
     public String storemembermange(@PageableDefault(page = 1)Pageable pageable,Model model){
 
         log.info("storemangelist 도착");
@@ -127,19 +128,21 @@ public class AdminController {
         model.addAttribute("list", distDTOS);
 
 
-        return "admin/adminpage/storemembermange";
+        return "admin/admin/manage/memberlist";
     }
 
-    @PostMapping("/admin/adminpage/storemembermange")
+
+
+
+
+
+    @PostMapping("/admin/admin/manage/memberlist")
     public String sdmProc2(@PageableDefault(page = 1) Pageable pageable, Model model,
                           SearchDTO searchDTO){
 
 
 
         Page<DistDTO> distDTOS = distService.searchmemadmin(searchDTO,pageable);
-
-
-
 
 
 
@@ -152,8 +155,10 @@ public class AdminController {
         model.addAttribute("distList",distList);
         model.addAttribute("list", distDTOS);
 
-        return "admin/adminpage/storemembermange";
+        return "admin/admin/manage/memberlist";
     }
+
+
 
 
     @GetMapping("/admin/adminpage/codemange")
@@ -295,8 +300,6 @@ public class AdminController {
 //        model.addAttribute("list", distChiefDTOS);
 //        return "admin/adminpage/distChiefsearch";
 //    }
-
-
 
 
 
