@@ -2,7 +2,9 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.MemberDTO;
+import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.Member;
+import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +31,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    
+    
+    //이 부분은 회원 crud 부분
 
 
     public Long register(MemberDTO memberDTO) {
@@ -103,5 +109,22 @@ public class MemberService {
 
     public void delete(Long memberIdx){
         memberRepository.deleteById(memberIdx);
+    }
+
+
+
+
+
+    //여기서부터 실제 회원 사이트의 서비스들
+
+
+    
+    //마이페이지 - 내 정보 조회
+    public MemberDTO memberInfoSearch(Principal principal) {
+
+        String userId = principal.getName();
+        Optional<Member> member = memberRepository.memberInfoSearch(userId);
+
+        return modelMapper.map(member.get(),MemberDTO.class);
     }
 }
