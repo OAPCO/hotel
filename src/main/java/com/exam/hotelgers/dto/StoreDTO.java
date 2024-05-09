@@ -54,7 +54,7 @@ public class StoreDTO {
     private Character deliveryFeeYn; //배달료여부
     private int deliveryFee; //배달료
     private int deliveryMinFee; //최소배달금액
-
+    private String facilities; //편의시설들
 
     private String storeimgName; //스토어 이미지
 

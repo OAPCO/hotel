@@ -97,4 +97,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "WHERE s.storeIdx = :storeIdx")
     List<Object[]> storeBrandDistDistChiefManager(Long storeIdx);
 
+
+    @Query("SELECT s FROM Store s WHERE s.storeName LIKE %:keyword% OR s.regionCd LIKE %:keyword% OR s.storeAddr LIKE %:keyword%")
+    List<Store> findByKeyword(String keyword);
 }

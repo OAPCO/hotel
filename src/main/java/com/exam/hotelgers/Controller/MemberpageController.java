@@ -2,25 +2,67 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.service.MemberService;
-import com.exam.hotelgers.service.SearchService;
+import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @Log4j2
 @RequiredArgsConstructor
 public class MemberpageController {
-
+    private final MemberpageService memberpageService;
     private final MemberService memberService;
     private final SearchService searchService;
+    private final StoreService storeService;
+    private final DistService distService;
+    private final DistChiefService distChiefService;
 
+    @Value("${cloud.aws.s3.bucket}")
+    public String bucket;
+    @Value("${cloud.aws.region.static}")
+    public String region;
+    @Value("${imgUploadLocation}")
+    public String folder;
+
+
+
+    @GetMapping("/member/memberpage/index")
+    public String indexform() {
+
+        return "member/memberpage/index";
+    }
+    @PostMapping("/member/memberpage/index")
+    public String indexproc(@RequestParam("keyword") String keyword, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("keyword", keyword);
+        return "redirect:/member/memberpage/list";
+    }
+
+    @GetMapping("/member/memberpage/list")
+    public String listform(Model model, @ModelAttribute("keyword") String keyword) {
+        //S3 이미지정보전달
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        // Perform the search operation with the given keyword
+        List<StoreDTO> storeList = memberpageService.searchList(keyword);
+        model.addAttribute("storeList", storeList);
+
+        return "member/memberpage/list";
+    }
 
     @GetMapping ("/member/mypage/history")
     public String historyForm(){
@@ -99,11 +141,7 @@ public class MemberpageController {
         return "member/memberpage/roomservice";
     }
 
-    @GetMapping("/member/memberpage/index")
-    public String indexform() {
 
-        return "member/memberpage/index";
-    }
 
 
     @GetMapping("/member/memberpage/test")
