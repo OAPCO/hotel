@@ -21,6 +21,7 @@
                 <form method="post" action="/member/memberpage/question">
 
                     <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+                    <input type="hidden" name="memberName" th:value="${memberDTO.memberName}">
 
                     <label>제목</label>
                     <input type="text" name="qnaTitle">

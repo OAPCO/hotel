@@ -35,6 +35,7 @@ public class Qna extends BaseEntity {
     
     //0=미답변, 1=답변완료
     private int qnaStatus;
+    private String qnaAnswer;
 
 
 }

@@ -208,4 +208,19 @@ public class AdminController {
     }
 
 
+
+    @PostMapping("/admin/admin/manage/answer")
+    public String answerProc(@PageableDefault(page = 1)Pageable pageable,Model model,SearchDTO searchDTO) throws Exception{
+
+
+        log.info(searchDTO.getQnaIdx());
+        log.info(searchDTO.getQnaAnswer());
+
+        qnaService.answerUpdate(searchDTO);
+
+        return "redirect:/admin/admin/manage/qnalist";
+
+    }
+
+
 }

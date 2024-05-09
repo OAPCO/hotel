@@ -59,16 +59,15 @@
                     <tr>
                         <th>No</th>
                         <th>제목</th>
-                        <th>내용</th>
                         <th>답변여부</th>
                         <th>질문자</th>
+                        <th>답변하기</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="data:${list}">
+                    <tr th:each="data:${list}" id="table-row">
                         <td th:text="${data.qnaIdx}"></td>
                         <td th:text="${data.qnaTitle}"></td>
-                        <td th:text="${data.qnaContent}"></td>
 
                         <td>
                             <th:block th:if="${data.qnaStatus == 0}">
@@ -79,17 +78,82 @@
 
                         <td th:text="${data.memberIdx}"></td>
 
+                        <td>
+                            <button class="btn btn-primary open-modal-btn"
+                                    th:data-qna-content="${data.qnaContent}"
+                                    th:data-qna-idx="${data.qnaIdx}">
+                                답변하기
+                            </button>
+                        </td>
+
                     </tr>
+
                     </tbody>
                 </table>
 
+                <div id="myModal" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- 모달 헤더 -->
+
+                            <form method="post" th:action="@{/admin/admin/manage/answer}">
+
+                                <input type="hidden" name="qnaIdx" id="qnaIdxHidden">
+
+                            <div class="modal-header">
+                                <h4 class="modal-title">답변 등록</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- 모달 바디 -->
+                            <div class="modal-body">
+                                <p><span id="qnaModalContent"></span></p>
+
+                                <div class="form-group">
+                                    <label for="replyContent">답변 작성:</label>
+                                    <textarea class="form-control" id="replyContent" rows="5" placeholder="답변을 입력하세요" name="qnaAnswer"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- 모달 푸터 -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">답변하기</button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
             </div>
         </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+
+        $(document).ready(function(){
+
+            // 모달 열기 버튼 클릭 이벤트 리스너
+            $(".open-modal-btn").click(function(){
+
+                // 클릭한 버튼에 대한 데이터 가져오기
+                var qnaContent = $(this).data("qna-content");
+                var qnaIdx = $(this).data("qna-idx");
+
+                // 모달에 질문내용 표시, dix 값 전달
+                $("#qnaModalContent").text(qnaContent);
+                $("#qnaIdxHidden").val(qnaIdx);
+
+                // 모달 열기
+                $('#myModal').modal('show');
+            });
+        });
+    </script>
+
     </div>
-
-
-
-</div>
 </body>
 
 </html>
