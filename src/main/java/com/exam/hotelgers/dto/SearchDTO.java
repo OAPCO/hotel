@@ -75,6 +75,7 @@ public class SearchDTO {
     private String qnaTitle;
     private String qnaContent;
     private int qnaStatus;
+    private String qnaAnswer;
 
 
 
