@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+    <title>매장관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+
+
+    <h4 class="card-title">문의 관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                검색
+            </div>
+            <form method="post" th:action="@{/admin/admin/manage/qnalist}">
+                <div class="table-responsive">
+                    <table class="table head">
+
+                        <thead>
+                        <tr>
+                            <th>문의 제목</th>
+                            <td><input type="text" name="qnaTitle"></td>
+                            <th>문의 내용</th>
+                            <td><input type="text" name="qnaContent"></td>
+                        </tr>
+                        </thead>
+
+                        <tr>
+                            <th>상태</th>
+                            <td>
+                                <input type="radio" name="qnaStatus" value="" checked>전체
+                                <input type="radio" name="qnaStatus" value="0"> 미답변 문의만 보기
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">조회</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                문의 목록
+            </div>
+            <div class="table-responsive">
+                <table class="table body">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>답변여부</th>
+                        <th>질문자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}">
+                        <td th:text="${data.qnaIdx}"></td>
+                        <td th:text="${data.qnaTitle}"></td>
+                        <td th:text="${data.qnaContent}"></td>
+
+                        <td>
+                            <th:block th:if="${data.qnaStatus == 0}">
+                                <span class="badge rounded-pill bg-secondary">미회신</span></th:block>
+                            <th:block th:if="${data.qnaStatus == 1}">
+                                <span class="badge rounded-pill bg-primary">답변완료</span></th:block>
+                        </td>
+
+                        <td th:text="${data.memberIdx}"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+</body>
+
+</html>

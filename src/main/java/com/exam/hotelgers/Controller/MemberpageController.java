@@ -1,8 +1,10 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.MemberDTO;
+import com.exam.hotelgers.dto.QnaDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.service.MemberService;
+import com.exam.hotelgers.service.QnaService;
 import com.exam.hotelgers.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,6 +22,7 @@ public class MemberpageController {
 
     private final MemberService memberService;
     private final SearchService searchService;
+    private final QnaService qnaService;
 
 
     @GetMapping ("/member/mypage/history")
@@ -39,6 +42,48 @@ public class MemberpageController {
 
         return "member/mypage/info";
     }
+
+
+    @GetMapping("/member/memberpage/question")
+    public String questionForm(MemberDTO memberDTO, Principal principal, Model model) {
+
+        memberDTO = memberService.memberInfoSearch(principal);
+
+        log.info(memberDTO);
+
+
+        model.addAttribute("memberDTO",memberDTO);
+
+        return "member/memberpage/question";
+    }
+
+
+    @PostMapping("/member/memberpage/question")
+    public String questionProc(QnaDTO qnaDTO) {
+
+
+        qnaService.register(qnaDTO);
+
+
+        return "redirect:/member/mypage/myqna";
+    }
+
+
+
+
+
+
+    @GetMapping("/member/memberpage/qnacenter")
+    public String qnaCenterForm() {
+
+
+
+        return "member/memberpage/qnacenter";
+    }
+
+
+
+
     @GetMapping("/member/mypage/point")
     public String pointForm() {
 

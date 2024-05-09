@@ -70,6 +70,13 @@ public class SearchDTO {
     private String memberPhone;//회원 전화번호
 
 
+    //문의
+    private Long qnaIdx;
+    private String qnaTitle;
+    private String qnaContent;
+    private int qnaStatus;
+
+
 
 
     //총판

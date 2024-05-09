@@ -171,7 +171,7 @@
             <div>
                 <span class="text1" style="text-align: left;">"질문 있으세요? 우리가 답변해 드릴게요."</span>
                 <div style="margin-top: 20px;">
-                    <button class="btn btn-primary" style="width: 20%;">문의하기</button>
+                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/member/memberpage/qnacenter}'|">고객센터 가기</button>
                 </div>
             </div>
             </div>
@@ -249,7 +249,7 @@
         let section = document.querySelector('.text_box');
         observer.observe(section);
 
-        typeFixedText();
+        typeFixedText();기
         typeRotateText1();
         typeRotateText();
 

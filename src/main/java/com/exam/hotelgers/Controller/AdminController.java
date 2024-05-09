@@ -3,10 +3,7 @@ package com.exam.hotelgers.Controller;
 
 
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.service.AdminService;
-import com.exam.hotelgers.service.DistChiefService;
-import com.exam.hotelgers.service.DistService;
-import com.exam.hotelgers.service.SearchService;
+import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +33,7 @@ public class AdminController {
     private final DistService distService;
     private final SearchService searchService;
     private final DistChiefService distChiefService;
+    private final QnaService qnaService;
 
 
 
@@ -176,6 +174,38 @@ public class AdminController {
         return "redirect:/admin/adminpage/storedistmange";
     }
 
+
+
+
+
+
+
+    @GetMapping("/admin/admin/manage/qnalist")
+    public String qnaListForm(@PageableDefault(page = 1)Pageable pageable,Model model) throws Exception{
+
+
+        Page<QnaDTO> qnaDTOS = qnaService.list(pageable);
+
+        model.addAttribute("list", qnaDTOS);
+
+        return "admin/admin/manage/qnalist";
+    }
+
+
+
+    @PostMapping("/admin/admin/manage/qnalist")
+    public String qnaListProc(@PageableDefault(page = 1)Pageable pageable,Model model,SearchDTO searchDTO) throws Exception{
+
+
+        Page<QnaDTO> qnaDTOS = qnaService.getQna(pageable,searchDTO);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(qnaDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", qnaDTOS);
+
+        return "admin/admin/manage/qnalist";
+    }
 
 
 }
