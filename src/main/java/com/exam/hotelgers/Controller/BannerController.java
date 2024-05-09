@@ -1,8 +1,11 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.BannerDTO;
+import com.exam.hotelgers.dto.ImageDTO;
 import com.exam.hotelgers.service.BannerService;
+import com.exam.hotelgers.service.ImageService;
 import com.exam.hotelgers.util.PageConvert;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +38,16 @@ public class BannerController {
 
 
     private final BannerService bannerService;
+    private final ImageService imageService;
+    private final HttpServletRequest request;
+
+
+    @Value("${cloud.aws.s3.bucket}")
+    public String bucket;
+    @Value("${cloud.aws.region.static}")
+    public String region;
+    @Value("${imgUploadLocation}")
+    public String folder;
 
 
 
@@ -46,8 +60,8 @@ public class BannerController {
     @PostMapping("/banner/register")
     public String registerProc(@Valid BannerDTO bannerDTO,
                                BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes,
-                               @RequestParam("file") MultipartFile file){
+                               @RequestParam("imgFile") List<MultipartFile> imgFile,
+                               RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("banner registerProc 도착" + bannerDTO);
 
@@ -57,13 +71,7 @@ public class BannerController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
 
-
-
-
-
-        Long bannerIdx = bannerService.register(bannerDTO);
-        bannerDTO.setBannerIdx(bannerIdx);
-
+        Long bannerIdx = bannerService.register(bannerDTO,imgFile);
 
 
         redirectAttributes.addFlashAttribute("result", bannerIdx);
@@ -90,7 +98,7 @@ public class BannerController {
 
 
     @GetMapping("/banner/modify/{bannerIdx}")
-    public String modifyForm(@PathVariable Long bannerIdx, Model model) {
+    public String modifyForm(@PathVariable Long bannerIdx, Model model)throws IOException {
 
         log.info("Banner modifyForm 도착 " + bannerIdx);
 
@@ -132,11 +140,18 @@ public class BannerController {
     }
 
     @GetMapping("/banner/{bannerIdx}")
-    public String read(@PathVariable Long bannerIdx, Model model){
+    public String read(@PathVariable Long bannerIdx, Model model) throws IOException {
+
+        //idx로 이미지 목록 조회
+        List<ImageDTO> imageDTOList = imageService.getBannerImages(bannerIdx);
 
         BannerDTO bannerDTO = bannerService.read(bannerIdx);
 
         model.addAttribute("bannerDTO",bannerDTO);
+        model.addAttribute("images",imageDTOList);
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
 
         return "banner/read";
     }

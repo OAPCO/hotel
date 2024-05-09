@@ -1,6 +1,7 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.dto.ImageDTO;
 import com.exam.hotelgers.dto.RoomDTO;
 import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.service.ManagerService;
@@ -55,7 +56,7 @@ public class RoomController {
 
 
     @PostMapping("/admin/manager/room/register")
-    public String registerProc(@Valid RoomDTO roomDTO,
+    public String registerProc(@Valid RoomDTO roomDTO,List<ImageDTO> imageDTOs,
                                BindingResult bindingResult,
                                @RequestParam(required = false)MultipartFile imgFile,
                                RedirectAttributes redirectAttributes) throws IOException {

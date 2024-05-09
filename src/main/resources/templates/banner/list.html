@@ -54,6 +54,7 @@
                         <tr>
                             <th>번호</th>
                             <th>광고제목</th>
+                            <th>배너이미지</th>
                             <th>등록일자</th>
                             <th>수정일자</th>
                         </tr>
@@ -64,6 +65,11 @@
                             <td>
                                 <a th:text="${data.bannerTitle}" th:href="@{'/banner/'+${data.bannerIdx}}" ></a>
                             </td>
+
+<!--                            배너이미지-->
+
+
+
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
                             <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 

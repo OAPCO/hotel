@@ -34,13 +34,11 @@
         <td th:text="${#temporals.format(bannerDTO.moddate, 'yyyy-MM-dd')}"></td>
         </tr>
 
-        <tr>
+        <tr th:each="image : ${images}">
             <td>이미지</td>
-        <td>
-            <th:block th:each=" imgdtolist : ${bannerDTO.dtoList}">
-                <img th:src="@{|/images/@{${#temporals.format(imgdtolist.regdate,'yyMMdd')}}/@{${imgdtolist.imageName}}|}" alt="이건 사진입니다." width="200px">
-            </th:block>
-        </td>
+            <td>
+                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${image.imgName}|" width="150" height="100">
+            </td>
         </tr>
 
 

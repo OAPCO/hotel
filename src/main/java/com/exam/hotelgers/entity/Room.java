@@ -34,13 +34,13 @@ public class Room extends BaseEntity{
 
     private String roomName;
 
-    private String roomimgName;
-
     @Builder.Default
     private Boolean roomStatus = false;
 
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
+
+    private String roomimgName;
 
 
 
