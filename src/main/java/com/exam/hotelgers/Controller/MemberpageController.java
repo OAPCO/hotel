@@ -106,9 +106,5 @@ public class MemberpageController {
     }
 
 
-    @GetMapping("/member/memberpage/test")
-    public String testform() {
 
-        return "member/memberpage/test";
-    }
 }
