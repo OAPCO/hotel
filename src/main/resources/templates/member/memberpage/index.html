@@ -3,7 +3,6 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/membermain}">
-
 <head>
     <meta charset="UTF-8">
     <title>메인</title>
@@ -115,13 +114,18 @@
                 <span id="rotateText" class="text"></span><span class="blink">|</span>
             </div>
             <div class="search-container">
+
                 <div class="search-inputs">
                     <input type="date" placeholder="Start Date">
                     <input type="date" placeholder="End Date">
                 </div>
-                <div class="search-box" id="id1">
-                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-primary" type="button" id="button-addon2">검색</button>
+
+                <div class="search-box" id="id1" >
+                    <form th:action="@{/member/memberpage/index}" method="post" style="display: flex;">
+                        <input type="text" class="form-control" aria-label="Recipient's username"
+                               aria-describedby="button-addon2" name="keyword" style="flex: 8;">
+                        <button class="btn btn-primary" type="submit" id="button-addon2" style="flex: 2;margin-top: 1px;">검색</button>
+                    </form>
                 </div>
             </div>
         </div>

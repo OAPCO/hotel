@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/membermain}">
+<head>
+    <meta charset="UTF-8">
+    <title>매장 검색</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="section1" class="container-fluid pt-5">
+        <div class="container" style="margin: auto; width: 80%;">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form th:action="@{/member/memberpage/index}" method="post">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="id1" aria-label="Recipient's username"
+                               aria-describedby="button-addon2" style="border-top-right-radius: 0;
+                               border-bottom-right-radius: 0" name="keyword">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit" style="border-top-left-radius: 0;
+                            border-bottom-left-radius: 0; height: 30px; padding-top: 5px" >검색</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="container" style="margin: auto; width: 80%;">
+            <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
+            border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="store : ${storeList}">
+                <div style="display: flex;">
+                    <!-- 왼쪽 이미지 -->
+                    <div style="flex: 1;">
+                        <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${store.storeimgName}|"
+                             style="width: 100%; height: auto; border-top-left-radius: 10px; border-bottom-left-radius: 10px;"/>
+                    </div>
+
+                    <!-- 가운데 텍스트 -->
+                    <div style="flex: 3; padding: 20px;">
+                        <p style="margin: 0; font-size: 16px; font-weight: bold;" th:text="${store.storeName}">Card
+                            Title</p>
+                        <th:block th:each="option : ${#strings.arraySplit(store.option, ',')}">
+                            <!-- 각 옵션에 따라 다른 아이콘을 표시 -->
+                            <i th:if="${#strings.equals(option, 'wifi')}" class="icon-wifi"></i>
+                            <i th:if="${#strings.equals(option, 'parking')}" class="icon-parking"></i>
+                            <!-- ... 추가 편의시설 옵션 ... -->
+                        </th:block>
+                        <p style="margin: 10px 0 0; font-size: 14px;" th:text="${store.storeSummary}"></p>
+                    </div>
+
+                    <!-- 오른쪽 정보 -->
+                    <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;"
+                           th:text="${store.recommendYn}"></p>
+                        <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius:
+                        5px; color: white; font-weight: bold;">상세보기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

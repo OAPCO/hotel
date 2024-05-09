@@ -30,7 +30,7 @@ public class Room extends BaseEntity{
     private Long roomIdx;
 
     @Column(unique = true)
-    private String roomCd;
+    private String roomCd; //방 호수 202호 등
 
     private String roomName;
 
@@ -54,5 +54,6 @@ public class Room extends BaseEntity{
     @OneToMany(mappedBy="room", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
 
-
+    @OneToMany(mappedBy="room", cascade = CascadeType.ALL)
+    private List<RoomOrder> roomOrderList = new ArrayList<>();
 }

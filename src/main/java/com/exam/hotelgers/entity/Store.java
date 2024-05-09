@@ -87,7 +87,7 @@ public class Store extends BaseEntity{
     private Character deliveryFeeYn; //배달료여부
     private int deliveryFee; //배달료
     private int deliveryMinFee; //최소배달금액
-
+    private String facilities; //편의시설들
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -119,7 +119,9 @@ public class Store extends BaseEntity{
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Detailmenu> detailMenuList = new ArrayList<>();
 
-
+    @ToString.Exclude
+    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
+    private List<RoomOrder> roomOrderList = new ArrayList<>();
 
 
     @Enumerated(EnumType.STRING)
