@@ -11,6 +11,7 @@ import com.exam.hotelgers.entity.Image;
 import com.exam.hotelgers.entity.Qna;
 import com.exam.hotelgers.repository.ImageRepository;
 import com.exam.hotelgers.repository.QnaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -82,6 +83,14 @@ public class QnaService {
         Page<QnaDTO> qnaDTOS = qnas.map(data->modelMapper.map(data,QnaDTO.class));
 
         return qnaDTOS;
+    }
+
+    @Transactional
+    //회원 정보수정
+    public void answerUpdate(SearchDTO searchDTO) {
+
+        qnaRepository.answerUpdate(searchDTO);
+
     }
 
 }

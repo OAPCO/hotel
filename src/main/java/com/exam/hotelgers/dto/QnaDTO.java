@@ -25,6 +25,7 @@ public class QnaDTO {
 
     //0=미답변, 1=답변완료
     private int qnaStatus;
+    private String qnaAnswer;
 
     private LocalDateTime regdate;
 
