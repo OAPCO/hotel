@@ -137,7 +137,7 @@ public class SecurityConfig {
 
         http.logout(logout-> logout
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/member/memberpage/index"));
+                .logoutSuccessUrl("/member/login"));
 
         http.authenticationProvider(memberProvider());
         return http.build();
