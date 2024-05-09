@@ -1,8 +1,6 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Detailmenu;
-import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.MenuCateRepository;
 import com.exam.hotelgers.repository.StoreRepository;
@@ -39,7 +37,11 @@ public class QrRoomController {
     @Value("${imgUploadLocation}")
     public String folder;
 
+    @GetMapping("/member/memberpage/newindex")
+    public String newindex() {
 
+        return "index";
+    }
 
     @GetMapping("/member/memberpage/scroll")
     public String scroll() {
