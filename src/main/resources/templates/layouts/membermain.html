@@ -151,18 +151,27 @@
                                                                        onclick="reviewSection()">룸 서비스</button></li>
                 <li class="nav-item" style="margin-left: 10%;"><button class="nav-link active"
                                                                        onclick="announcementSection()">고객센터</button></li>
-
-
-                <li sec:authorize="hasRole('ROLE_USER')" class="nav-link" th:href="@{/member/memberpage/mypage}" style="margin-left: 10%">마이페이지</li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}" class="nav-item"><a class="nav-link" href="/logout" style="margin-left: 10%">로그아웃</a></li>
-                <li sec:authorize="isAnonymous()" class="btn btn-outline-warning shadow" ><a class="nav-link" href="/member/login" style="margin-left: 10%">로그인</a></li>
-
-                <a class="btn btn-primary shadow" role="button" href="/member/register" style="margin-left: 10%">회원가입</a>
-                <li class="nav-item"><a class="nav-link" th:href="${#authorization.expression('hasRole(''ROLE_USER'')') ? '/member/memberpage/basket' : '/member/login'}" style="margin-left: 300%"> <i class="bi bi-cart "></i></a></li>
-                <li class="nav-item"><a class="nav-link" th:href="${#authorization.expression('hasRole(''ROLE_USER'')') ? '/member/memberpage/mypage' : '/member/login'}" style="margin-left: 400%"> <i class="bi bi-person-circle"></i></a></li>
-
             </ul>
 
+
+            <ul class="navbar-nav">
+
+                <li class="nav-item dropdown">
+                    <a id="menuToggle" class="nav-link dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-person-circle" style="font-size: 24px;"></i>
+                    </a>
+                    <div id="dropdownMenu" class="dropdown-menu">
+                        <a sec:authorize="isAnonymous()" class="dropdown-item" href="/member/login">로그인</a>
+                        <a sec:authorize="isAnonymous()" class="dropdown-item" href="/member/register">회원가입</a>
+                        <a sec:authorize="hasRole('ROLE_USER')" class="dropdown-item" href="/member/mypage/info">마이페이지</a>
+                        <a sec:authorize="hasRole('ROLE_USER')" class="dropdown-item" href="/logout">로그아웃</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/member/memberpage/basket"><i class="bi bi-cart"></i></a>
+                </li>
+            </ul>
 
         </div>
     </div>

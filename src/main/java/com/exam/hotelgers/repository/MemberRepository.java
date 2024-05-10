@@ -1,5 +1,6 @@
 package com.exam.hotelgers.repository;
 
+import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Store;
@@ -13,6 +14,8 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
+
+
     //사용자 아이디로 조회
     Optional<Member> findByMemberEmail(String memberEmail);
 
@@ -37,11 +40,15 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     //회원 탈퇴
     @Modifying
-    @Query("delete from Member m where m.memberIdx = :#{#searchDTO.memberIdx}")
-    void memberInfoDelete(SearchDTO searchDTO);
+    @Query("delete from Member m where m.memberIdx = :memberIdx")
+    void memberInfoDelete(Long memberIdx);
 
 
     //비밀번호 체크 쿼리 - 사용처 : 탈퇴 전 본인확인
-    @Query("select m from Member m where (m.memberId LIKE %:userId%)")
-    Optional<Member> memberPwdCheck(SearchDTO searchDTO);
+    @Query("select m.memberIdx from Member m where (m.password LIKE :#{#searchDTO.password}) " +
+            "and m.memberIdx = :#{#searchDTO.memberIdx}")
+    Long memberPwdCheck(SearchDTO searchDTO);
+
+
+
 }

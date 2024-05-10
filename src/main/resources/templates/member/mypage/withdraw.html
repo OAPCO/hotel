@@ -18,7 +18,7 @@
             <!-- Sign up form -->
             <div id="sign-up-container">
                 <h3>회원 탈퇴</h3>
-                <form method="post" action="/member/mypage/delete">
+                <form method="post" action="/member/mypage/withdraw">
 
                     <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
 
@@ -29,8 +29,6 @@
                     <input type="text" th:placeholder="${memberDTO.memberEmail}" name="memberEmail">
 
                     <button type="submit" class="btn--blue">수정하기</button>
-
-
 
                 </form>
             </div>

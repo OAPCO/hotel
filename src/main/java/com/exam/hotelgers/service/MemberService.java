@@ -143,4 +143,20 @@ public class MemberService {
         memberRepository.memberInfoUpdate(searchDTO);
 
     }
+
+
+
+    @Transactional
+    //회원탈퇴
+    public void memberInfoDelete(SearchDTO searchDTO) {
+
+        Long memberIdx = memberRepository.memberPwdCheck(searchDTO);
+
+        if (memberIdx==null) {
+            throw new IllegalStateException("비밀번호가 다릅니다.");
+        }
+
+        memberRepository.memberInfoDelete(memberIdx);
+
+    }
 }
