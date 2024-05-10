@@ -172,7 +172,6 @@ public class MemberpageController {
 
         memberDTO = memberService.memberInfoSearch(principal);
 
-        log.info(memberDTO);
 
 
         model.addAttribute("memberDTO",memberDTO);
@@ -188,6 +187,32 @@ public class MemberpageController {
 
 
         memberService.memberInfoUpdate(searchDTO);
+
+
+        return "redirect:/logout";
+    }
+
+
+    //삭제페이지get
+    @GetMapping("/member/mypage/withdraw")
+    public String withdrawForm(MemberDTO memberDTO, Principal principal, Model model) {
+
+        memberDTO = memberService.memberInfoSearch(principal);
+
+
+        model.addAttribute("memberDTO",memberDTO);
+
+
+        return "member/mypage/infoupdate";
+    }
+
+
+
+    //삭제post
+    @PostMapping("/member/mypage/withdraw")
+    public String withdrawProc(MemberDTO memberDTO, SearchDTO searchDTO) {
+
+        memberService.memberInfoDelete(searchDTO);
 
 
         return "redirect:/logout";
