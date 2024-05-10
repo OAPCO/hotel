@@ -23,7 +23,7 @@ import java.util.List;
         allocationSize = 1
 )
 @QueryEntity
-public class Room extends BaseEntity{
+public class Room extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_sql")
@@ -43,17 +43,12 @@ public class Room extends BaseEntity{
     private String roomimgName;
 
 
-
-
-
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="storeIdx")
+    @JoinColumn(name = "storeIdx")
     private Store store;
 
-    @OneToMany(mappedBy="room", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
-    @ToString.Exclude
-    @OneToMany(mappedBy="room", cascade = CascadeType.ALL)
-    private List<RoomOrder> roomOrderList = new ArrayList<>();
 }
+

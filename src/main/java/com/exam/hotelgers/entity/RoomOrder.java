@@ -28,14 +28,8 @@ public class RoomOrder extends BaseEntity{
     private String userPhone;
     private String startTime;
     private String endTime;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="roomCd")
-    private Room room;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="storeIdx")
-    private Store store;
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String roomCd;
+    private Long storeIdx;
 
 }

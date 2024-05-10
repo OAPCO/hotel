@@ -42,8 +42,8 @@ public class RoomOrderService {
         if(optionalRoom.isPresent()){
             Room room = optionalRoom.get();
             RoomOrder roomOrder = convertToEntity(roomOrderDTO);
-            roomOrder.setRoom(room);
-            roomOrder.setStore(room.getStore());
+            roomOrder.setRoomCd(room.getRoomCd());
+            roomOrder.setStoreIdx(room.getStore().getStoreIdx());
             RoomOrder savedRoomOrder = roomOrderRepository.save(roomOrder);
             return savedRoomOrder.getRoomorderIdx();
         }
@@ -51,6 +51,11 @@ public class RoomOrderService {
     }
 
     private RoomOrder convertToEntity(RoomOrderDTO roomOrderDTO) {
+        if(modelMapper.getTypeMap(RoomOrderDTO.class, RoomOrder.class) == null) {
+            modelMapper.createTypeMap(RoomOrderDTO.class, RoomOrder.class)
+                    .addMapping(RoomOrderDTO::getRoomCd, RoomOrder::setRoomCd)
+                    .addMapping(RoomOrderDTO::getStoreIdx, RoomOrder::setStoreIdx);
+        }
         RoomOrder roomOrder = modelMapper.map(roomOrderDTO, RoomOrder.class);
         return roomOrder;
     }

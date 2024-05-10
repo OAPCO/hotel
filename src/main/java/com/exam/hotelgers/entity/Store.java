@@ -119,10 +119,6 @@ public class Store extends BaseEntity{
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Detailmenu> detailMenuList = new ArrayList<>();
 
-    @ToString.Exclude
-    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
-    private List<RoomOrder> roomOrderList = new ArrayList<>();
-
 
     @Enumerated(EnumType.STRING)
     private StorePType storePType;
