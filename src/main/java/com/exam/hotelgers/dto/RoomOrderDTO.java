@@ -17,4 +17,6 @@ public class RoomOrderDTO {
     private String startTime;
     private String endTime;
     private String roomCd;
+    private Long storeIdx;
+
 }
