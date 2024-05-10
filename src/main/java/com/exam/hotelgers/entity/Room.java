@@ -53,7 +53,7 @@ public class Room extends BaseEntity{
 
     @OneToMany(mappedBy="room", cascade = CascadeType.ALL)
     private List<Order> orderList = new ArrayList<>();
-
+    @ToString.Exclude
     @OneToMany(mappedBy="room", cascade = CascadeType.ALL)
     private List<RoomOrder> roomOrderList = new ArrayList<>();
 }

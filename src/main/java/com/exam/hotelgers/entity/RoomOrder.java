@@ -30,11 +30,6 @@ public class RoomOrder extends BaseEntity{
     private String endTime;
 
 
-
-
-
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="roomCd")
     private Room room;

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/memberread}">
+
+<head>
+    <title>룸 예약</title>
+    <style>
+        /* search-container를 flex로 설정하고 요소들을 중앙에 정렬합니다. */
+        .search-container {
+            padding-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;  /* 추가로 요소들 사이의 간격을 조정했습니다. */
+        }
+        /* .search-inputs와 .search-box를 flex로 설정하고 요소들을 가로로 정렬합니다. 이들의 너비는 상위 컨테이너인 search-container의 50%입니다. */
+        .search-inputs, .search-box {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            gap: 20px;  /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
+            align-items: center; /* 이 코드를 추가하여 요소들이 동일한 기준선에 정렬되게 합니다. */
+
+            /* 각 input, select, button 요소의 높이를 50px로 설정하고, 모서리를 각진 형태로 만듭니다. */
+            select, input[type="date"], .form-control, .btn {
+                height: 50px;
+                border-radius: 0;
+                border: 2px; /* 추가하면 브라우저 기본 스타일을 제거하여 높이를 정확히 조정할 수 있습니다. */
+                box-sizing: border-box; /* 이건 전체 너비를 정확하게 계산합니다(패딩과 경계 포함). */
+            }
+        }
+
+        /* .search-box 내의 input 요소와 button 요소에 flex 속성을 추가해 일관된 너비를 유지합니다. */
+        .search-box .form-control {
+            flex: 8;
+        }
+    </style>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div id="section1" class="container-fluid pt-5">
+        <!-- 매장 정보 -->
+        <div class="container" style="margin: auto; width: 80%;">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <div class="sub_title">
+                        <h2 th:text="${roomDTO.roomName}">매장 안내 </h2>
+                        <p>room information</p>
+                        <span>동해와 설악의 청정한 자연과 스페인의 건축 미학이 깃든 리조트의 만남!<br>
+자연과 하나되는 고품격 리조트에서 지중해 스페인의 멋과 낭만을 경험할 수 있을 것 입니다.<br>
+또한 고객의 마음을 헤아리는 품격 높은 서비스로 달콤하고 아늑한 휴식을 즐길 수 있을 것 입니다.
+                        <br>
+                    </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                        <tr class="row">
+                            <img
+                                    th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomDTO.roomimgName}|"
+                                 class="d-block w-100">
+                        </tr>
+                        <tr class="row">
+                            <td class="col-2 ">룸 등급</td>
+                            <td class="col-9">
+                                <div th:text="${roomDTO.roomType}"></div>
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-2">휴무일</td>
+                            <td class="col-9" >토요일</td>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-2">휴무일내용</td>
+                            <td class="col-9" >가족 행사로 인한 휴무</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> <!-- 매장 상세 정보 -->
+    </div>
+    <p></p>
+
+    <div class="container" style="margin: auto; width: 80%;">
+        <form style="display: flex; flex-direction: column; align-items: center;"
+              th:action="@{/member/memberpage/roomorder}" method="post">
+            <div class="search-container">
+                <div class="search-inputs">
+                    <p>체크인</p>
+                    <input type="date" placeholder="Start Date" name="startTime">
+                    <p>체크아웃</p>
+                    <input type="date" placeholder="End Date" name="endTime">
+                </div>
+            </div>
+            <div>
+                <span>예약자 이름:</span>  <input type="text" class="form-control" name="userName">
+            </div>
+            <div>
+                <span>예약자 전화번호:</span>  <input type="text" class="form-control" name="userPhone">
+            </div>
+            <div style="display: none;">
+                <input type="text" name="roomCd" th:value="${roomDTO.roomCd}">
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">예약하기</button>
+            </div>
+        </form>
+    </div>
+<p></p>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
+</body>
+</html>

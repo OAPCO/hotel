@@ -40,18 +40,18 @@ public class QrRoomService {
     //파일저장을 위한 클래스
     private final S3Uploader s3Uploader;
 
-    public RoomOrderDTO Qrread(Long roomIdx) {
-        Room room = roomRepository.findById(roomIdx)
-                .orElseThrow(() -> new NotFoundException("Room not found with id: " + roomIdx));
-
-        return new RoomOrderDTO(
-                modelMapper.map(room, RoomDTO.class),
-                modelMapper.map(room.getStore(), StoreDTO.class),
-                room.getStore().getDetailMenuList().stream()
-                        .map(detailMenu -> modelMapper.map(detailMenu, DetailmenuDTO.class))
-                        .collect(Collectors.toList())
-        );
-    }
+//    public RoomOrderDTO Qrread(Long roomIdx) {
+//        Room room = roomRepository.findById(roomIdx)
+//                .orElseThrow(() -> new NotFoundException("Room not found with id: " + roomIdx));
+//
+//        return new RoomOrderDTO(
+//                modelMapper.map(room, RoomDTO.class),
+//                modelMapper.map(room.getStore(), StoreDTO.class),
+//                room.getStore().getDetailMenuList().stream()
+//                        .map(detailMenu -> modelMapper.map(detailMenu, DetailmenuDTO.class))
+//                        .collect(Collectors.toList())
+//        );
+//    }
 
 
 }
