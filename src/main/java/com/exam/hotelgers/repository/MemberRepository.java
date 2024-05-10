@@ -34,4 +34,14 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "where m.memberIdx = :#{#searchDTO.memberIdx}")
     void memberInfoUpdate(SearchDTO searchDTO);
 
+
+    //회원 탈퇴
+    @Modifying
+    @Query("delete from Member m where m.memberIdx = :#{#searchDTO.memberIdx}")
+    void memberInfoDelete(SearchDTO searchDTO);
+
+
+    //비밀번호 체크 쿼리 - 사용처 : 탈퇴 전 본인확인
+    @Query("select m from Member m where (m.memberId LIKE %:userId%)")
+    Optional<Member> memberPwdCheck(SearchDTO searchDTO);
 }
