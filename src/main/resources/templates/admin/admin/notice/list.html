@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+    <title>매장관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+
+
+    <h4 class="card-title">공지 관리</h4>
+
+    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/admin/notice/register}'|">등록</button>
+
+
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                검색
+            </div>
+            <form method="post" th:action="@{/admin/admin/notice/list}">
+                <div class="table-responsive">
+                    <table class="table head">
+
+                        <thead>
+                        <tr>
+                            <th>제목</th>
+                            <td><input type="text" name="noticeTitle"></td>
+                            <th>내용</th>
+                            <td><input type="text" name="noticeContent"></td>
+                        </tr>
+                        <tr>
+                            <th>유형</th>
+                            <td colspan="3">
+                                <select name="noticeType">
+                                    <option value="" selected>전체</option>
+                                    <option value="notice">공지사항</option>
+                                    <option value="ask">자주 묻는 질문</option>
+                                </select>
+                            </td>
+                        </tr>
+                        </thead>
+
+                    </table>
+
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">조회</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+            </div>
+            <div class="table-responsive">
+
+
+
+
+
+                <div id="accordion">
+                    <div class="card" th:each="data, status:${list}">
+                        <div class="card-header">
+                            <a class="btn" data-bs-toggle="collapse" th:href="'#collapse' + ${status.index}" href="javascript:void(0)">
+                                [[${data.noticeTitle}]]
+                            </a>
+                        </div>
+                        <div th:id="'collapse' + ${status.index}" class="collapse" data-bs-parent="#accordion">
+                            <div class="card-body">
+                                [[${data.noticeContent}]]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

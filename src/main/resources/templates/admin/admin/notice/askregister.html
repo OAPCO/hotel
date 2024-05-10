@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+
+<head>
+    <title>광고 생성</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+
+<div layout:fragment="content">
+        <h4 class="card-title">공지 관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                자주묻는 질문 등록
+            </div>
+            <form method="post" th:action="@{/admin/admin/notice/register}" enctype="multipart/form-data">
+            <div class="table-responsive">
+                <table class="table head">
+
+
+                    <input type="hidden" name="noticeType" value="ask">
+
+                    <thead>
+
+                    <tr>
+                        <th>제목</th>
+                        <td><input type="text" name="noticeTitle"></td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td>
+                            <textarea class="form-control col-lg-10" name="noticeContent"></textarea>
+                        </td>
+                    </tr>
+
+
+                    </thead>
+                </table>
+
+                <div style="text-align: center;">
+                    <button type="submit" class="btn button">등록</button>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+</body>
+</html>

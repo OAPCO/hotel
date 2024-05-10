@@ -4,6 +4,7 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.dto.NoticeDTO;
+import com.exam.hotelgers.dto.NoticeDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.AdminRepository;
@@ -47,6 +48,37 @@ public class NoticeService {
     public void delete(Long noticeIdx){
 
         noticeRepository.deleteById(noticeIdx);
+    }
+
+
+
+    public Page<NoticeDTO> getNoticeList(Pageable pageable, SearchDTO searchDTO) {
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"noticeIdx"));
+
+        Page<Notice> notices = noticeRepository.selectNotice(page,searchDTO);
+
+        Page<NoticeDTO> noticeDTOS = notices.map(data->modelMapper.map(data,NoticeDTO.class));
+
+        return noticeDTOS;
+    }
+
+
+
+    public Page<NoticeDTO> list(Pageable pageable){
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"noticeIdx"));
+
+        Page<Notice> notices = noticeRepository.findAll(page);
+
+
+        Page<NoticeDTO> noticeDTOS = notices.map(data->modelMapper.map(data,NoticeDTO.class));
+
+        return noticeDTOS;
     }
 
 
