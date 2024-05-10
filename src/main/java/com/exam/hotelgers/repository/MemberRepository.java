@@ -38,16 +38,24 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     void memberInfoUpdate(SearchDTO searchDTO);
 
 
+
+
+
+    //회원 탈퇴 처리부분
+
+    //암호화된 비밀번호를 먼저 찾기 위한 쿼리.
+    @Query("select m.password from Member m where m.memberIdx = :#{#searchDTO.memberIdx}")
+    String memberPwdFind(SearchDTO searchDTO);
+
+    //필요x?
+    @Query("select m.memberIdx from Member m where (m.password LIKE :passwordEnc) " +
+            "and m.memberIdx = :#{#searchDTO.memberIdx}")
+    Long memberPwdCheck(SearchDTO searchDTO,String passwordEnc);
+
     //회원 탈퇴
     @Modifying
     @Query("delete from Member m where m.memberIdx = :memberIdx")
     void memberInfoDelete(Long memberIdx);
-
-
-    //비밀번호 체크 쿼리 - 사용처 : 탈퇴 전 본인확인
-    @Query("select m.memberIdx from Member m where (m.password LIKE :#{#searchDTO.password}) " +
-            "and m.memberIdx = :#{#searchDTO.memberIdx}")
-    Long memberPwdCheck(SearchDTO searchDTO);
 
 
 

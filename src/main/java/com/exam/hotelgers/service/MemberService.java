@@ -146,17 +146,54 @@ public class MemberService {
 
 
 
+//    @Transactional
+//    //회원탈퇴
+//    public void memberInfoDelete(SearchDTO searchDTO) {
+//
+//
+//        String password = passwordEncoder.encode(searchDTO.getPassword());
+//        String passwordEnc = memberRepository.memberPwdFind(searchDTO);
+//
+//        Long memberIdx = memberRepository.memberPwdCheck(searchDTO,passwordEnc);
+//
+//        if (memberIdx==null) {
+//            throw new IllegalStateException("비밀번호가 다릅니다.");
+//        }
+//
+//
+//        memberRepository.memberInfoDelete(memberIdx);
+//
+//    }
+
+
     @Transactional
     //회원탈퇴
     public void memberInfoDelete(SearchDTO searchDTO) {
 
-        Long memberIdx = memberRepository.memberPwdCheck(searchDTO);
+        //암호화되어있는 비밀번호 찾기
+        String passwordEnc = memberRepository.memberPwdFind(searchDTO);
 
-        if (memberIdx==null) {
+        //사용자가 입력한 암호
+        String password = searchDTO.getPassword();
+
+        //두개가 일치하는지 비교
+        boolean matches = passwordEncoder.matches(passwordEnc,password);
+
+        log.info("비밀번호 대조 결과@@" + matches);
+
+
+//        Long memberIdx = memberRepository.memberPwdCheck(searchDTO,passwordEnc);
+
+        if (matches==false) {
             throw new IllegalStateException("비밀번호가 다릅니다.");
         }
 
-        memberRepository.memberInfoDelete(memberIdx);
+        if (matches==true) {
+            memberRepository.memberInfoDelete(searchDTO.getMemberIdx());
+        }
+
 
     }
+
+
 }

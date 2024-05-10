@@ -51,14 +51,15 @@ public class BannerController {
 
 
 
-    @GetMapping("/banner/register")
-    public String register() {
-        return "banner/register";
+
+    @GetMapping("/admin/admin/banner/register")
+    public String bannerRegister() {
+        return "admin/admin/banner/register";
     }
 
 
-    @PostMapping("/banner/register")
-    public String registerProc(@Valid BannerDTO bannerDTO,
+    @PostMapping("/admin/admin/banner/register")
+    public String bannerRegisterProc(@Valid BannerDTO bannerDTO,
                                BindingResult bindingResult,
                                @RequestParam("imgFile") List<MultipartFile> imgFile,
                                RedirectAttributes redirectAttributes) throws IOException {
@@ -76,14 +77,12 @@ public class BannerController {
 
         redirectAttributes.addFlashAttribute("result", bannerIdx);
 
-        return "redirect:/banner/list";
+        return "redirect:/admin/admin/banner/list";
     }
 
 
-    @GetMapping("/banner/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
-
-        log.info("Banner listForm 도착 ");
+    @GetMapping("/admin/admin/banner/list")
+    public String bannerListForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
         Page<BannerDTO> bannerDTOS = bannerService.list(pageable);
 
@@ -91,58 +90,22 @@ public class BannerController {
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("list", bannerDTOS);
-        return "banner/list";
+        return "admin/admin/banner/list";
     }
 
 
 
-
-    @GetMapping("/banner/modify/{bannerIdx}")
-    public String modifyForm(@PathVariable Long bannerIdx, Model model)throws IOException {
-
-        log.info("Banner modifyForm 도착 " + bannerIdx);
-
-        BannerDTO bannerDTO = bannerService.read(bannerIdx);
-
-        log.info("수정 전 정보" + bannerDTO);
-        model.addAttribute("bannerDTO", bannerDTO);
-        return "banner/modify";
-    }
-
-
-    @PostMapping("/banner/modify")
-    public String modifyProc(@Validated BannerDTO bannerDTO,
-                             BindingResult bindingResult, Model model) {
-
-
-        log.info("Banner modifyProc 도착 " + bannerDTO);
-
-
-
-        if (bindingResult.hasErrors()) {
-
-            log.info("업데이트 에러 발생");
-
-            return "/banner/modify";
-        }
-        bannerService.modify(bannerDTO);
-
-        log.info("업데이트 이후 정보 " + bannerDTO);
-
-        return "redirect:/banner/list";
-    }
-
-    @GetMapping("/banner/delete/{bannerIdx}")
+    @GetMapping("/admin/admin/banner/delete/{bannerIdx}")
     public String deleteProc(@PathVariable Long bannerIdx) {
+
+
         bannerService.delete(bannerIdx);
-        //서비스처리(삭제)
-        return "redirect:/banner/list";
+        return "redirect:/admin/admin/banner/list";
     }
 
-    @GetMapping("/banner/{bannerIdx}")
+    @GetMapping("/admin/admin/banner/{bannerIdx}")
     public String read(@PathVariable Long bannerIdx, Model model) throws IOException {
 
-        //idx로 이미지 목록 조회
         List<ImageDTO> imageDTOList = imageService.getBannerImages(bannerIdx);
 
         BannerDTO bannerDTO = bannerService.read(bannerIdx);
@@ -153,6 +116,32 @@ public class BannerController {
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
 
-        return "banner/read";
+        return "admin/admin/banner/read";
     }
+
+
+
+
+    @PostMapping("/banner/modify")
+    public String modifyProc(@RequestParam Long bannerIdx,
+                             @RequestParam("imgFile") List<MultipartFile> imgFile,
+                             Model model) throws IOException {
+
+
+        imageService.bannerImageregister(imgFile,bannerIdx);
+
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        String referer = request.getHeader("referer");
+
+        if (referer != null && !referer.isEmpty()) {
+            return "redirect:" + referer;
+        } else {
+            return "redirect:/admin/admin/banner/list";
+        }
+    }
+
+
 }

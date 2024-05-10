@@ -72,4 +72,9 @@ public class ImageService {
                 .collect(Collectors.toList());
     }
 
+
+    public void delete(Long imageIdx){
+        imageRepository.deleteById(imageIdx);
+    }
+
 }

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+<head>
+    <title>광고 목록</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+
+
+    <h4 class="card-title">광고 관리</h4>
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                광고 목록
+                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/admin/banner/register}'|">등록</button>
+            </div>
+            <div class="table-responsive">
+                <table class="table body">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>광고명</th>
+                        <th>광고주</th>
+                        <th>광고주 연락처</th>
+                        <th>클릭단가</th>
+                        <th>클릭횟수</th>
+                        <th>연결 url</th>
+                        <th>조회</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${list}" id="table-row">
+
+                        <td th:text="${data.bannerIdx}"></td>
+                        <td th:text="${data.bannerTitle}"></td>
+                        <td th:text="${data.bannerClient}"></td>
+                        <td th:text="${data.bannerClientTel}"></td>
+                        <td th:text="${data.bannerPrice}"></td>
+                        <td th:text="${data.bannerClickCount}"></td>
+                        <td th:text="${data.bannerLinkUrl}"></td>
+
+
+                        <td>
+                            <button class="btn btn-primary" type="button"
+                                    th:onclick="|location.href='@{'/admin/admin/banner/'+${data.bannerIdx}}'|">조회</button>
+                        </td>
+
+                        <td>
+                            <button class="btn btn-danger" type="button"
+                                    th:onclick="|location.href='@{'/admin/admin/banner/delete/'+${data.bannerIdx}}'|">삭제</button>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

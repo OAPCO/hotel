@@ -203,7 +203,7 @@ public class MemberpageController {
         model.addAttribute("memberDTO",memberDTO);
 
 
-        return "member/mypage/infoupdate";
+        return "member/mypage/withdraw";
     }
 
 
@@ -211,6 +211,11 @@ public class MemberpageController {
     //삭제post
     @PostMapping("/member/mypage/withdraw")
     public String withdrawProc(MemberDTO memberDTO, SearchDTO searchDTO) {
+
+        log.info("들어온 idx@@@@ " + searchDTO.getMemberIdx());
+        log.info("들어온 패스어드"+ searchDTO.getPassword());
+
+
 
         memberService.memberInfoDelete(searchDTO);
 

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/adminlayout}">
+
+<head>
+    <title>광고 생성</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+
+<div layout:fragment="content">
+        <h4 class="card-title">광고 관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                광고 등록
+            </div>
+            <form method="post" th:action="@{/admin/admin/banner/register}" enctype="multipart/form-data">
+            <div class="table-responsive">
+                <table class="table head">
+
+                    <input type="hidden" name="bannerClickCount" value="0">
+
+                    <thead>
+                    <tr>
+                        <th>광고명</th>
+                        <td colspan="3"><input type="text" name="bannerTitle"></td>
+                    </tr>
+                    <tr>
+                        <th>광고주</th>
+                        <td><input type="text" name="bannerClient"></td>
+                        <th>광고주 연락처</th>
+                        <td><input type="text" name="bannerClientTel"></td>
+                    </tr>
+                    <tr>
+                        <th>클릭 단가</th>
+                        <td><input type="text" name="bannerPrice"></td>
+                        <th>링크url</th>
+                        <td><input type="text" name="bannerLinkUrl"></td>
+                    </tr>
+
+
+                    <tr>
+                        <th>배너 이미지</th>
+                        <td><input type="file" class="form-control" id="imgFile" name="imgFile" multiple required></td>
+                    </tr>
+
+
+                    </thead>
+                </table>
+                <div id="preview"></div>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn button">등록</button>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('imgFile');
+        const preview = document.getElementById('preview');
+
+        input.addEventListener('change', function() {
+            preview.innerHTML = ''; // 이미지 미리보기 초기화
+
+            const files = this.files;
+            for (const file of files) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '200px'; // 이미지 최대 너비 설정
+                    img.style.marginRight = '10px'; // 이미지 간격 설정
+                    preview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+</div>
+
+
+</body>
+</html>
