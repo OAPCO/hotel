@@ -204,6 +204,14 @@
                         <td class="col-2">휴무일내용</td>
                         <td class="col-10" th:text="${store.storeRestDetail}"></td>
                     </tr>
+                    <tr class="row">
+                        <td class="col-2">
+                            편의시설
+                        </td>
+                        <td class="col-10">
+                            <div th:text="${store.facilities.replace(',', ' ')}" />
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
 

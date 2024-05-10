@@ -1,9 +1,6 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.MemberDTO;
-import com.exam.hotelgers.dto.QnaDTO;
-import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.service.QnaService;
@@ -72,6 +69,18 @@ public class MemberpageController {
         model.addAttribute("storeList", storeList);
 
         return "member/memberpage/list";
+    }
+    @GetMapping("/member/memberpage/{storeIdx}")
+    public String readform(Model model, Long storeIdx) throws Exception {
+        //S3 이미지정보전달
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        StoreDTO storeDTO = storeService.read(storeIdx);
+
+        model.addAttribute("storeDTO",storeDTO);
+        return "member/memberpage/read";
     }
 
     @GetMapping ("/member/mypage/history")
