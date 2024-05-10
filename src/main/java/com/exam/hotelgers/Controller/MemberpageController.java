@@ -195,8 +195,6 @@ public class MemberpageController {
     @GetMapping("/member/memberpage/qnacenter")
     public String qnaCenterForm() {
 
-
-
         return "member/memberpage/qnacenter";
     }
 

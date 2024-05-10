@@ -22,6 +22,7 @@
         }
 
 
+
         a.btn-primary {
             margin-left: 10px;
         }
@@ -195,7 +196,7 @@
                         <i class="bi bi-person-circle" style="font-size: 24px;"></i>
                     </a>
                     <div id="dropdownMenu" class="dropdown-menu">
-                        <a sec:authorize="isAnonymous()" class="dropdown-item" href="/member">로그인</a>
+                        <a sec:authorize="isAnonymous()" class="dropdown-item" href="/member/login">로그인</a>
                         <a sec:authorize="isAnonymous()" class="dropdown-item" href="/member/register">회원가입</a>
                         <a sec:authorize="hasRole('ROLE_USER')" class="dropdown-item" href="/member/mypage/info">마이페이지</a>
                         <a sec:authorize="hasRole('ROLE_USER')" class="dropdown-item" href="/member/logout">로그아웃</a>
