@@ -6,9 +6,7 @@
       layout:decorate="~{layouts/mypagelayout}">
 <head>
     <title>상담 문의</title>
-
-
-
+    <link rel="stylesheet" href="/yhh.css">
 </head>
 <body>
 <div layout:fragment="title"><h1><strong>상담 문의</strong></h1></div>
@@ -16,28 +14,118 @@
 
     <div id="form-container">
         <div id="form-inner-container">
-            <!-- Sign up form -->
+
             <div id="sign-up-container">
                 <h3>문의내역</h3>
                 <table>
                     <thead>
                     <tr>
                         <th colspan="2">제목</th>
-                        <th>제목</th>
+                        <th>문의날짜</th>
+                        <th>답변여부</th>
+                        <th>상세보기</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>ㅁㄴㅇ</td>
-                        <td><a href="mailto:jmatman@stewart.com">jmatman@stewart.com</a></td>
-                        <td>01/13/1979</td>
+
+
+                    <tr th:each="data:${list}" class="open-modal-btn" th:data-qna-content="${data.qnaContent}" th:data-qna-idx="${data.qnaIdx}">
+                        <td colspan="2" th:text="${data.qnaTitle}"></td>
+
+                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
+
+                        <td>
+                            <th:block th:if="${data.qnaStatus == 0}">
+                                <span class="badge rounded-pill bg-secondary">미회신</span></th:block>
+                            <th:block th:if="${data.qnaStatus == 1}">
+                                <span class="badge rounded-pill bg-primary">답변완료</span></th:block>
+                        </td>
+
+
+                        <td>
+                            <button class="btn btn-info open-modal-btn"
+                                    th:data-qna-content="${data.qnaContent}"
+                                    th:data-qna-title="${data.qnaTitle}"
+                                    th:data-qna-answer="${data.qnaAnswer}"
+                                    th:data-qna-idx="${data.qnaIdx}">
+                                문의 확인
+                            </button>
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>
+
+                <div id="myModal" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- 모달 헤더 -->
+
+                            <form method="post" th:action="@{/admin/admin/manage/answer}">
+
+                                <input type="hidden" name="qnaIdx" id="qnaIdxHidden">
+
+                                <div class="modal-header">
+                                    <h4 class="modal-title"> <p><span id="qnaModalTitle"></span></p></h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- 모달 바디 -->
+                                <div class="modal-body">
+                                    <h5>고객님의 문의 내용</h5>
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="qnaModalContent" rows="5" readonly="readonly"></textarea>
+                                    </div><br><br>
+
+                                    <h5>답변</h5>
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="qnaModalAnswer" rows="10" readonly="readonly"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
 
         </div>
     </div>
+
+
+    <script type="text/javascript" src="/js/hotel.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            console.log("스크립트 호출됨");
+
+            // 모달 열기 버튼 클릭 이벤트 리스너
+            $(".open-modal-btn").click(function(){
+
+                console.log("버튼 클릭됨");
+
+                // 클릭한 버튼에 대한 데이터 가져오기
+                var qnaContent = $(this).data("qna-content");
+                var qnaIdx = $(this).data("qna-idx");
+                var qnaTitle = $(this).data("qna-title");
+                var qnaAnswer = $(this).data("qna-answer");
+
+
+                // 모달에 질문내용 표시, dix 값 전달
+                $("#qnaModalContent").text(qnaContent);
+                $("#qnaModalTitle").text(qnaTitle);
+                $("#qnaModalAnswer").text(qnaAnswer);
+                $("#qnaIdxHidden").val(qnaIdx);
+
+                // 모달 열기
+                $('#myModal').modal('show');
+            });
+        });
+    </script>
+
 </div>
 
 

@@ -23,14 +23,25 @@ public class Banner extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "banner_sql")
-    private Long bannerIdx; //광고키
+    private Long bannerIdx;
 
-    @Column(length = 200)
-    private String bannerTitle; //제목
-    @Column(length = 200)
+    @Column
+    private String bannerTitle;
+
+    @Column
+    private String bannerClient;
+
+    @Column
+    private String bannerClientTel;
+
+    @Column
+    private String bannerPrice;
+
+    @Column
+    private String bannerClickCount;
+
+    @Column
     private String bannerLinkUrl;
-
-    private String bannerimgName;
 
 
 

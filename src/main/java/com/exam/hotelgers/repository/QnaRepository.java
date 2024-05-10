@@ -28,4 +28,9 @@ public interface QnaRepository extends JpaRepository<Qna,Long> {
             "where q.qnaIdx = :#{#searchDTO.qnaIdx}")
     void answerUpdate(SearchDTO searchDTO);
 
+
+
+    @Query("select a from Qna a where a.memberIdx = :memberIdx")
+    Page<Qna> selectMyQna (Pageable pageable,Long memberIdx);
+
 }

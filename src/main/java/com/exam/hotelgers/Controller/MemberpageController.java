@@ -6,10 +6,14 @@ import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.service.QnaService;
 import com.exam.hotelgers.service.SearchService;
 import jakarta.validation.Valid;
+import com.exam.hotelgers.util.PageConvert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Log4j2
@@ -167,6 +172,23 @@ public class MemberpageController {
 
 
 
+    @GetMapping("/member/mypage/myqna")
+    public String myqnaForm(MemberDTO memberDTO, @PageableDefault(page = 1)Pageable pageable, Principal principal, Model model) {
+
+        memberDTO = memberService.memberInfoSearch(principal);
+
+        Page<QnaDTO> qnaDTOS = qnaService.myQnalist(pageable,memberDTO.getMemberIdx());
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(qnaDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", qnaDTOS);
+
+
+        return "member/mypage/myqna";
+    }
+
+
 
 
 
@@ -186,11 +208,6 @@ public class MemberpageController {
 
         return "member/mypage/point";
     }
-    @GetMapping("/member/mypage/myqna")
-    public String myqnaForm() {
-
-        return "member/mypage/myqna";
-    }
 
 
 
@@ -199,7 +216,6 @@ public class MemberpageController {
 
         memberDTO = memberService.memberInfoSearch(principal);
 
-        log.info(memberDTO);
 
 
         model.addAttribute("memberDTO",memberDTO);
@@ -215,6 +231,37 @@ public class MemberpageController {
 
 
         memberService.memberInfoUpdate(searchDTO);
+
+
+        return "redirect:/logout";
+    }
+
+
+    //삭제페이지get
+    @GetMapping("/member/mypage/withdraw")
+    public String withdrawForm(MemberDTO memberDTO, Principal principal, Model model) {
+
+        memberDTO = memberService.memberInfoSearch(principal);
+
+
+        model.addAttribute("memberDTO",memberDTO);
+
+
+        return "member/mypage/withdraw";
+    }
+
+
+
+    //삭제post
+    @PostMapping("/member/mypage/withdraw")
+    public String withdrawProc(MemberDTO memberDTO, SearchDTO searchDTO) {
+
+        log.info("들어온 idx@@@@ " + searchDTO.getMemberIdx());
+        log.info("들어온 패스어드"+ searchDTO.getPassword());
+
+
+
+        memberService.memberInfoDelete(searchDTO);
 
 
         return "redirect:/logout";

@@ -60,7 +60,12 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
     box-sizing: border-box;
 }
 
-body {
+body.wrap {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Droid Serif", serif;
+}
+.subtotal{
     color: #333;
     -webkit-font-smoothing: antialiased;
     font-family: "Droid Serif", serif;

@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mypagelayout}">
+<head>
+    <title>개인정보 수정</title>
+
+
+
+</head>
+<body>
+<div layout:fragment="title"><h1><strong>개인정보</strong></h1></div>
+<div layout:fragment="content">
+    <div id="form-container">
+        <div id="form-inner-container">
+            <!-- Sign up form -->
+            <div id="sign-up-container">
+                <h3>회원 탈퇴</h3>
+                <form method="post" action="/member/mypage/withdraw">
+
+                    <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+
+                    <label>비밀번호</label>
+                    <input type="password" name="password">
+
+                    <button type="submit" class="btn--blue">탈퇴하기</button>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

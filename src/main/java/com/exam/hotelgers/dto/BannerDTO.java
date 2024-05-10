@@ -1,6 +1,9 @@
 package com.exam.hotelgers.dto;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,15 +20,21 @@ import java.util.List;
 public class BannerDTO {
 
 
-        private Long bannerIdx; //광고키
+        private Long bannerIdx;
 
-        private String bannerTitle; //제목
+        private String bannerTitle;
+
+        private String bannerClient;
+
+        private String bannerClientTel;
+
+        private String bannerPrice;
+
+        private String bannerClickCount;
+
         private String bannerLinkUrl;
 
-        private LocalDateTime bannerSdate;
-        private LocalDateTime bannerEdate;
 
-        private String storeCd; //제휴사 코드
 
         private LocalDateTime regdate;
         private LocalDateTime moddate;

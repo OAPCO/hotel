@@ -85,12 +85,29 @@ public class QnaService {
         return qnaDTOS;
     }
 
+
+
     @Transactional
     //회원 정보수정
     public void answerUpdate(SearchDTO searchDTO) {
 
         qnaRepository.answerUpdate(searchDTO);
 
+    }
+
+
+
+    public Page<QnaDTO> myQnalist(Pageable pageable,Long memberIdx){
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"qnaIdx"));
+
+        Page<Qna> qnas = qnaRepository.selectMyQna(page,memberIdx);
+
+        Page<QnaDTO> qnaDTOS = qnas.map(data->modelMapper.map(data,QnaDTO.class));
+
+        return qnaDTOS;
     }
 
 }
