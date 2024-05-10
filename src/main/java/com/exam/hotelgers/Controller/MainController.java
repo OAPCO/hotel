@@ -88,6 +88,22 @@ public class MainController {
     }
 
 
+
+
+    @GetMapping("/login/proc")
+    public String loginProc(Principal principal) {
+
+        log.info("logout 겟매핑 들어옴");
+
+
+
+
+        return "redirect:/";
+    }
+
+
+
+
     @GetMapping("/layouts/main")
     public void mainForm(Principal principal, Model model){
 

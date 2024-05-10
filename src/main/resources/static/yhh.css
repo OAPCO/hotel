@@ -155,3 +155,13 @@ table.body th{
     /* 마우스를 올렸을 때 투명도를 조절하여 이미지가 나타나게 합니다. */
     opacity: 1;
 }
+
+
+.btn.open-modal-btn {
+    width: auto; /* 버튼의 너비를 자동으로 설정하여 텍스트에 맞춤 */
+    vertical-align: middle; /* 텍스트를 수직으로 가운데 정렬 */
+    height: 40px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+}
