@@ -98,9 +98,14 @@
             flex: 8;
         }
 
-        .search-box .btn {
+        .search-box .btn{
             flex: 2;
+            height: 50px;
             margin-top: 1px;
+        }
+        #id1 input{
+            height: 60px;
+
         }
     </style>
 
@@ -124,7 +129,7 @@
                     <form th:action="@{/member/memberpage/index}" method="post" style="display: flex;">
                         <input type="text" class="form-control" aria-label="Recipient's username"
                                aria-describedby="button-addon2" name="keyword" style="flex: 8; position: relative; top: -9px;">
-                        <button class="btn btn-primary" type="submit" id="button-addon2" style="flex: 2;margin-top: 1px;">검색</button>
+                        <button class="btn btn-primary" type="submit" id="button-addon2" style="flex: 2;margin-top: 1px; ">검색</button>
                     </form>
                 </div>
             </div>
@@ -253,7 +258,7 @@
         let section = document.querySelector('.text_box');
         observer.observe(section);
 
-        typeFixedText();기
+        typeFixedText();
         typeRotateText1();
         typeRotateText();
 
