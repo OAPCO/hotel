@@ -28,8 +28,10 @@ public class RoomOrder extends BaseEntity{
     private String userPhone;
     private String startTime;
     private String endTime;
-    @Column(columnDefinition = "VARCHAR(255)")
-    private String roomCd;
-    private Long storeIdx;
+
+//    @Column(columnDefinition = "VARCHAR(255)")
+    private Long roomIdx;
+    private Long memberIdx;
+    private int roomStatus;
 
 }

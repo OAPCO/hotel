@@ -89,6 +89,10 @@
     <div class="container" style="margin: auto; width: 80%;">
         <form style="display: flex; flex-direction: column; align-items: center;"
               th:action="@{/member/memberpage/roomorder}" method="post">
+
+            <input type="hidden" name="roomStatus" value="1">
+            <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+
             <div class="search-container">
                 <div class="search-inputs">
                     <p>체크인</p>
@@ -98,17 +102,17 @@
                 </div>
             </div>
             <div>
-                <span>예약자 이름:</span>  <input type="text" class="form-control" name="userName">
+                <span>예약자 이름:</span>  <input type="text" class="form-control" name="memberName" th:value="${memberDTO.memberName}" readonly="readonly">
             </div>
             <div>
-                <span>예약자 전화번호:</span>  <input type="text" class="form-control" name="userPhone">
+                <span>예약자 전화번호:</span>  <input type="text" class="form-control" name="memberPhone"  th:value="${memberDTO.memberPhone}" readonly="readonly">
             </div>
             <div style="display: none;">
-                <input type="text" name="roomCd" th:value="${roomDTO.roomCd}">
+                <input type="text" name="roomIdx" th:value="${roomDTO.roomIdx}">
             </div>
-            <div style="display: none;">
-                <input type="text" name="storeIdx" th:value="${roomDTO.storeDTO.storeIdx}">
-            </div>
+<!--            <div style="display: none;">-->
+<!--                <input type="text" name="storeIdx" th:value="${roomDTO.storeDTO.storeIdx}">-->
+<!--            </div>-->
             <div>
                 <button class="btn btn-primary" type="submit">예약하기</button>
             </div>

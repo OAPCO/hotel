@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
 
+
 }

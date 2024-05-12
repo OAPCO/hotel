@@ -11,12 +11,15 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class RoomOrderDTO {
+
     private Long roomorderIdx;
     private String userName;
     private String userPhone;
     private String startTime;
     private String endTime;
-    private String roomCd;
-    private Long storeIdx;
+    private Long roomIdx;
+    private Long memberIdx;
+    private int roomStatus;
+
 
 }

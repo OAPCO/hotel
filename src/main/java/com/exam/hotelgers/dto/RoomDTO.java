@@ -18,7 +18,7 @@ public class RoomDTO {
 
     private String roomName;
     private String roomimgName;
-    private Boolean roomStatus;
+    private int roomStatus;
 
     private DistDTO distDTO;
     private StoreDTO storeDTO;
