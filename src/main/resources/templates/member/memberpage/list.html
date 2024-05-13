@@ -11,8 +11,13 @@
             position: relative;
             bottom: 40px;
         }
+        .facilities-div {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
     </style>
-</head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <body>
 <div layout:fragment="content">
     <div id="section1" class="container-fluid pt-5">
@@ -63,7 +68,6 @@
                             </div>
                         </div>
                         <div class="input-group mb-3">
-
                             <input type="text" class="form-control" id="id1" aria-label="Recipient's username"
                                    aria-describedby="button-addon2" style="border-top-right-radius: 0;
                                    border-bottom-right-radius: 0" name="keyword" required>
@@ -91,16 +95,14 @@
                     <!-- 가운데 텍스트 -->
                     <div style="flex: 3; padding: 20px;">
                         <a th:href="@{'/member/memberpage/'+${store.storeIdx}}">
-                            <p style="margin: 0; font-size: 16px; font-weight: bold;"
+                            <p style="margin: 0; font-size: 18px; font-weight: bold;"
                                  th:text="${store.storeName}" >
                             </p>
                         </a>
-                        <th:block th:each="option : ${#strings.arraySplit(store.facilities, ',')}">
-                            <!-- 각 옵션에 따라 다른 아이콘을 표시 -->
-                            <i th:if="${#strings.equals(option, '와이파이')}" class="icon-wifi"></i>
-                            <i th:if="${#strings.equals(option, '주차장')}" class="icon-parking"></i>
-                            <!-- ... 추가 편의시설 옵션 ... -->
-                        </th:block>
+
+                        <div th:id="'facilities-div-' + ${store.storeIdx}">
+                            <span class="material-icons">genres</span>
+                        </div>
                         <p style="margin: 10px 0 0; font-size: 14px;" th:text="${store.storeSummary}"></p>
                     </div>
 
@@ -119,6 +121,58 @@
             </div>
         </div>
     </div>
+    <script src="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"></script>
+    <script th:inline="javascript">
+
+        /*<![CDATA[*/
+        const stores = /*[[${storeList}]]*/ [];
+        /*]]>*/
+
+        stores.forEach(store => {
+            const facilitiesDiv = document.getElementById(`facilities-div-${store.storeIdx}`);
+            const facilities = store.facilities.split(',');
+
+            facilities.forEach(facility => {
+                const icon = document.createElement('span');
+                icon.className = 'material-icons';
+                switch (facility) {
+                    case '와이파이':
+                        icon.textContent = 'wifi';
+                        break;
+                    case '주차장':
+                        icon.textContent = 'local_parking';
+                        break;
+                    case '피트니스':
+                        icon.textContent = 'fitness_center';
+                        break;
+                    case '수영장':
+                        icon.textContent = 'pool';
+                        break;
+                    case '사우나':
+                        icon.textContent = 'sauna';  // You need to replace this with an appropriate Material Icons value
+                        break;
+                    case '라운지':
+                        icon.textContent = 'lounge';  // You need to replace this with an appropriate Material Icons value
+                        break;
+                    case '카페':
+                        icon.textContent = 'cafe';  // You need to replace this with an appropriate Material Icons value
+                        break;
+                    case '편의점':
+                        icon.textContent = 'storefront';
+                        break;
+                    case '조식 제공':
+                        icon.textContent = 'restaurant';
+                        // You need to replace this with an appropriate Material Icons value
+                        break;
+                    case '노래방':
+                        icon.textContent = 'genres';
+                        // You need to replace this with an appropriate Material Icons value
+                        break;
+                }
+                facilitiesDiv.appendChild(icon);
+            });
+        });
+    </script>
 </div>
 </body>
 </html>
