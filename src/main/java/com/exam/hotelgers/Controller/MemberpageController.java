@@ -9,6 +9,7 @@ import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.service.QnaService;
 import com.exam.hotelgers.service.SearchService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import com.exam.hotelgers.util.PageConvert;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,31 @@ public class MemberpageController {
     public String indexform() {
 
         return "member/memberpage/index";
+    }
+    @GetMapping("/member/memberpage/menuorder/{storeIdx}")
+    public String menuorder(Model model, @PathVariable Long storeIdx) throws Exception {
+        StoreDTO storeDTO = storeService.read(storeIdx);
+
+        if(storeDTO == null) {
+            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
+            return "redirect:/admin/distchief/store/list";
+        }
+
+        model.addAttribute("store", storeDTO);
+        model.addAttribute("brand", storeDTO.getBrandDTO());
+        model.addAttribute("dist", storeDTO.getDistDTO());
+        model.addAttribute("distChief", storeDTO.getDistDTO().getDistChiefDTO());
+        model.addAttribute("manager", storeDTO.getManagerDTO());
+        model.addAttribute("roomList", storeDTO.getRoomDTOList());
+        model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
+
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
+        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
+        return "member/memberpage/menuorder";
     }
     @PostMapping("/member/memberpage/index")
     public String indexproc(@RequestParam("keyword") String keyword, @RequestParam(name="facilities", required=false) String[] facilities, RedirectAttributes redirectAttributes) {

@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
+    Optional<Store>findByStoreIdx(Long storeIdx);
 
     Optional<Store> findByStoreCd(String storeCd);
 
@@ -97,4 +98,12 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     @Query("SELECT s FROM Store s WHERE s.storeName LIKE %:keyword% OR s.regionCd LIKE %:keyword% OR s.storeAddr LIKE %:keyword%")
     List<Store> findByKeyword(@Param("keyword") String keyword);
+
+    @Query("SELECT s FROM Store s JOIN FETCH s.menuCateList m JOIN FETCH m.detailMenuList WHERE s.storeIdx = ?1")
+    Optional<Store> findByStoreIdxWithDetails(Long storeIdx);
+    @Query("SELECT s FROM Store s LEFT JOIN FETCH s.menuCateList WHERE s.storeIdx = :storeIdx")
+    Optional<Store> findWithMenuCateByStoreIdx(@Param("storeIdx") Long storeIdx);
+
+    @Query("SELECT m FROM MenuCate m LEFT JOIN FETCH m.detailMenuList WHERE m in :menuList")
+    List<MenuCate> findWithDetailMenuByMenuCateList(@Param("menuList") List<MenuCate> menuList);
 }

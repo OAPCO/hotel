@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/membermain}" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>메뉴 주문</title>
+    <style>
+        .btn-outline-dark {
+            border-color: lightblue !important;
+            border-radius: 0 !important;
+        }
+        .btn-group-vertical {
+            flex-direction: row;
+            justify-content: center;
+        }
+         .card {
+             display: flex;
+             flex-direction: row;
+             margin-bottom: 20px;
+             background-color: #fff;
+             border-radius: 10px;
+             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+         }
+        .card > div.img-container {
+            flex: 1;
+        }
+        .card div.img-container > img {
+            max-width: 100%;
+            height: auto;
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+        .card > div.text-container {
+            flex: 3;
+            padding: 20px;
+        }
+        .card > div.info-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
+
+</head>
+<body>
+<div layout:fragment="content">
+    <div id="section1" class="container-fluid pt-5">
+        <!-- 메뉴 리스트 -->
+        <div class="container" style="margin: auto; width: 80%;">
+            <!-- 메뉴카테고리 -->
+            <div class="btn-group-vertical" role="group" aria-label="Menu categories">
+                <button th:each="cate : ${menuCateList}"
+                        type="button"
+                        class="btn btn-outline-dark flex-fill"
+                        th:id="${cate.menuCateIdx}"
+                        th:onclick="'changeDetails(\'' + ${cate.menuCateIdx} + '\');'"
+                        th:text="${cate.menuCateName}">
+                </button>
+            </div>
+            <div class="menu-list">
+                <div th:each="cate : ${menuCateList}">
+                    <div class="card" th:each="menu : ${cate.detailMenuDTOList}" th:data-category="${menu.menuCateIdx}" style="display: flex; flex-direction: row; margin-bottom: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+                        <!-- 왼쪽 이미지 -->
+                        <div style="flex: 1;" class="img-container">
+                            <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${menu.menuImg}|"
+                                 alt="Card image cap"
+                                 style="max-width:100%; height: auto; border-top-left-radius: 10px;
+             border-bottom-left-radius: 10px;"/>
+                        </div>
+                        <!-- 가운데 텍스트 -->
+                        <div style="flex: 3; padding: 20px;" class="text-container">
+                            <h5 class="card-title" th:text="${menu.detailMenuName}"></h5>
+                            <p class="card-text" th:text="${menu.menuDescription}"></p>
+                            <p class="card-text"><small class="text-muted" th:text="${menu.menuprice}"></small></p>
+                        </div>
+                        <!-- 오른쪽 정보 -->
+                        <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content:
+                        space-between;" class="info-container">
+                            <div class="badge">추천</div>
+                            <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">장바구니</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="section2">
+        <div class="container" style="margin: auto; width: 80%;">
+            <table>
+                <tr>
+                    <th>메뉴명</th>
+                    <th>가격</th>
+                    <th>개수</th>
+                    <th>총 합</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+            function changeDetails(categoryId) {
+                let menuCards = Array.from(document.querySelectorAll(".card"));
+
+                menuCards.forEach(card => {
+                    let cardCategory = card.dataset.category;
+
+                    if (cardCategory === categoryId) {
+                        card.style.display = "block";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            }
+        </script>
+</div>
+</body>
+</html>

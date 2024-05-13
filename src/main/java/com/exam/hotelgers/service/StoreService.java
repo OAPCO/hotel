@@ -276,7 +276,25 @@ public class StoreService {
         return store;
     }
 
+    public StoreDTO orderread(Long storeIdx) throws Exception {
+        Optional<Store> optStore = storeRepository.findWithMenuCateByStoreIdx(storeIdx);
 
+        if (!optStore.isPresent()) {
+            throw new Exception("Store with storeIdx " + storeIdx + " not found");
+        }
+
+        Store store = optStore.get();
+        List<MenuCate> menuCateList = store.getMenuCateList();
+        List<MenuCate> fullMenuCateList = storeRepository.findWithDetailMenuByMenuCateList(menuCateList);
+
+        // Replace store's menuCateList with fullMenuCateList
+        store.setMenuCateList(fullMenuCateList);
+
+        // Map Store to StoreDTO
+        StoreDTO storeDTO = modelMapper.map(store, StoreDTO.class);
+
+        return storeDTO;
+    }
     public StoreDTO read(Long storeIdx) throws Exception {
         List<Object[]> resultList = storeRepository.storeBrandDistDistChiefManager(storeIdx);
 
