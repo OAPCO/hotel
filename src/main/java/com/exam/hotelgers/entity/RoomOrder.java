@@ -24,15 +24,23 @@ public class RoomOrder extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roomorder_sql")
     private Long roomorderIdx;
 
-    private String userName;
-    private String userPhone;
     private String startTime;
     private String endTime;
 
-//    @Column(columnDefinition = "VARCHAR(255)")
+    private String reservationDateCheckin;
+    private String reservationDateCheckout;
+    private String checkinTime;
+    private String checkoutTime;
+
+
+    private String roomOrderType;
+    private String peopleNum;
+
+
     private Long roomIdx;
     private Long memberIdx;
-    private int roomStatus;
     private Long storeIdx;
+    private int roomStatus;
+    private String storeCd;
 
 }

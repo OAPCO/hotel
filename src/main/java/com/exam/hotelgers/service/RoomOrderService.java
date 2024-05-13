@@ -1,9 +1,6 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.OrderDTO;
-import com.exam.hotelgers.dto.QnaDTO;
-import com.exam.hotelgers.dto.RoomDTO;
-import com.exam.hotelgers.dto.RoomOrderDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.RoomOrderRepository;
 import com.exam.hotelgers.repository.RoomRepository;
@@ -12,8 +9,14 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,12 +38,60 @@ public class RoomOrderService {
 
     public Long register(RoomOrderDTO roomOrderDTO){
 
+        Optional<RoomOrder> roomOrderCheck = roomOrderRepository.roomOrderIspresentCheck(roomOrderDTO.getRoomorderIdx());
+
+        if(roomOrderCheck.isPresent()) {
+            throw new IllegalStateException("이미 예약된 방입니다.");
+        }
+
 
         RoomOrder roomOrder = modelMapper.map(roomOrderDTO, RoomOrder.class);
 
         return roomOrderRepository.save(roomOrder).getRoomorderIdx();
 
     }
+
+
+
+    public Page<RoomOrderDTO> roomOrderSearch(Pageable pageable,Long storeIdx){
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomorderIdx"));
+
+        Page<RoomOrder> roomOrders = roomOrderRepository.roomOrderSearch(pageable,storeIdx);
+
+        return roomOrders.map(data->modelMapper.map(data,RoomOrderDTO.class));
+    }
+
+
+    public Page<RoomOrderDTO> endRoomOrderSearch(Pageable pageable,SearchDTO searchDTO){
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomorderIdx"));
+
+        Page<RoomOrder> roomOrders = roomOrderRepository.endRoomOrderSearch(pageable,searchDTO);
+
+        return roomOrders.map(data->modelMapper.map(data,RoomOrderDTO.class));
+    }
+
+
+    public RoomOrderDTO roomOrderStatusCheck(SearchDTO searchDTO){
+
+        Optional<RoomOrder> roomOrder = roomOrderRepository.roomOrderStatusCheck(searchDTO);
+
+        return modelMapper.map(roomOrder,RoomOrderDTO.class);
+    }
+
+
+    public MemberDTO roomOrderMemberCheck(SearchDTO searchDTO){
+
+        Optional<Member> member = roomOrderRepository.roomOrderMemberCheck(searchDTO);
+
+        return modelMapper.map(member,MemberDTO.class);
+    }
+
 
 
 
