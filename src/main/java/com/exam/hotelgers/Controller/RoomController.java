@@ -1,13 +1,7 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.DistDTO;
-import com.exam.hotelgers.dto.ImageDTO;
-import com.exam.hotelgers.dto.RoomDTO;
-import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.service.ManagerService;
-import com.exam.hotelgers.service.RoomService;
-import com.exam.hotelgers.service.SearchService;
-import com.exam.hotelgers.service.StoreService;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -39,6 +33,7 @@ public class RoomController {
     private final ManagerService managerService;
     private final SearchService searchService;
     private final HttpServletRequest request;
+    private final RoomOrderService roomOrderService;
 
 
     @Value("${cloud.aws.s3.bucket}")
@@ -152,26 +147,26 @@ public class RoomController {
         return "redirect:" + previousUrl;
     }
 
+
+
     @GetMapping("/admin/manager/room/{roomIdx}")
-    public String readForm(@PathVariable Long roomIdx, Model model) {
+    public String readForm(@PathVariable Long roomIdx, Model model, SearchDTO searchDTO, @PageableDefault(page = 1) Pageable pageable) {
 
 
         RoomDTO roomDTO = roomService.read(roomIdx);
+
+        Page<RoomOrderDTO> roomOrderDTOS = roomOrderService.endRoomOrderSearch(pageable,searchDTO);
+        RoomOrderDTO roomOrderDTO = roomOrderService.roomOrderStatusCheck(searchDTO);
+        MemberDTO memberDTO = roomOrderService.roomOrderMemberCheck(searchDTO);
+
         model.addAttribute("roomDTO", roomDTO);
+        model.addAttribute("roomOrderList", roomOrderDTOS);
+        model.addAttribute("roomOrderDTO", roomOrderDTO);
+        model.addAttribute("memberDTO", memberDTO);
 
 
-
-        if(roomDTO == null) {
-            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
-            return "redirect:admin/manager/room/list";
-        }
-
-        return "admin/manager/room/orderlist";
+        return "admin/manager/room/read";
     }
-
-
-
-
 
 
 
@@ -230,12 +225,26 @@ public class RoomController {
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
         Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
+        Page<RoomOrderDTO> roomOrderList = roomOrderService.roomOrderSearch(pageable,storeDTO.getStoreIdx());
+
+
+
+        if (roomOrderList == null){
+            log.info("갑이없는데용");
+        }
+        for (RoomOrderDTO room : roomOrderList) {
+            log.info("예약필요한거@@@@@@@@@@@@@@ " + room.getRoomorderIdx());
+        }
+
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(roomDTOS);
+        Map<String, Integer> pageinfo2 = PageConvert.Pagination(roomOrderList);
 
         model.addAllAttributes(pageinfo);
+        model.addAllAttributes(pageinfo2);
         model.addAttribute("storeDTO",storeDTO);
+        model.addAttribute("roomOrderList",roomOrderList);
         model.addAttribute("list", roomDTOS);
         return "admin/manager/room/listboard";
     }
