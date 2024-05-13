@@ -63,20 +63,23 @@ public class MemberpageController {
         return "member/memberpage/index";
     }
     @PostMapping("/member/memberpage/index")
-    public String indexproc(@RequestParam("keyword") String keyword, RedirectAttributes redirectAttributes) {
+    public String indexproc(@RequestParam("keyword") String keyword, @RequestParam(name="facilities", required=false) String[] facilities, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("keyword", keyword);
+        if (facilities != null) {
+            redirectAttributes.addFlashAttribute("facilities", String.join(",", facilities));
+        }
         return "redirect:/member/memberpage/list";
     }
 
     @GetMapping("/member/memberpage/list")
-    public String listform(Model model, @ModelAttribute("keyword") String keyword) {
+    public String listform(Model model, @ModelAttribute("keyword") String keyword, @ModelAttribute("facilities") String facilities) {
         //S3 이미지정보전달
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
 
-        // Perform the search operation with the given keyword
-        List<StoreDTO> storeList = memberpageService.searchList(keyword);
+        // Perform the search operation with the given keyword and facilities
+        List<StoreDTO> storeList = memberpageService.searchList(keyword, facilities);
         model.addAttribute("storeList", storeList);
 
         return "member/memberpage/list";

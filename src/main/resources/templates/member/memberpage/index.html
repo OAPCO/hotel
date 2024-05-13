@@ -119,16 +119,53 @@
                 <span id="rotateText" class="text"></span><span class="blink">|</span>
             </div>
             <div class="search-container">
-
-                <div class="search-inputs">
-                    <input type="date" placeholder="Start Date">
-                    <input type="date" placeholder="End Date">
-                </div>
-
                 <div class="search-box" id="id1" >
                     <form th:action="@{/member/memberpage/index}" method="post" style="display: flex;">
+                        <div class="d-flex flex-wrap gap-3 justify-content-center align-items-center" style="margin-top: 40px">
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="wifi" value="와이파이" name="facilities">
+                                <label class="form-check-label" for="wifi">와이파이</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="parking" value="주차장" name="facilities">
+                                <label class="form-check-label" for="parking">주차장</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="fitness" value="피트니스" name="facilities">
+                                <label class="form-check-label" for="fitness">피트니스</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="swimming" value="수영장" name="facilities">
+                                <label class="form-check-label" for="swimming">수영장</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="sauna" value="사우나" name="facilities">
+                                <label class="form-check-label" for="sauna">사우나</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="lounge" value="라운지" name="facilities">
+                                <label class="form-check-label" for="lounge">라운지</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="cafe" value="카페" name="facilities">
+                                <label class="form-check-label" for="cafe">카페</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="store" value="편의점" name="facilities">
+                                <label class="form-check-label" for="store">편의점</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                                <input class="form-check-input" type="checkbox" id="breakfast" value="조식 제공" name="facilities">
+                                <label class="form-check-label" for="breakfast">조식 제공</label>
+                            </div>
+                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3" name="facilities">
+                                <input class="form-check-input" type="checkbox" id="karaoke" value="노래방">
+                                <label class="form-check-label" for="karaoke">노래방</label>
+                            </div>
+                        </div>
                         <input type="text" class="form-control" aria-label="Recipient's username"
-                               aria-describedby="button-addon2" name="keyword" style="flex: 8; position: relative; top: -9px;">
+                               aria-describedby="button-addon2" name="keyword" style="flex: 8; position: relative;
+                               top: -9px;" required>
                         <button class="btn btn-primary" type="submit" id="button-addon2" style="flex: 2;margin-top: 1px; ">검색</button>
                     </form>
                 </div>

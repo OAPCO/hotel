@@ -9,6 +9,7 @@
     <style>
         .darkroom {
             background-color: #696969; /* 원하는 어두운 색으로 설정 */
+
         }
         .normalroom {
             background-color: #ffffff; /* 원하는 밝은 색으로 설정 */
@@ -133,7 +134,7 @@
         <div class="container" style="margin: auto; width: 80%;">
             <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
             border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="room : ${roomList}" th:id="${'card' + room.roomIdx}">
-                <div style="display: flex;" th:classappend="${room.roomStatus} == 0 ? 'darkroom' : 'normalroom'">
+                <div style="display: flex;">
                     <!-- 왼쪽 이미지 -->
                     <div style="flex: 1;">
                         <img
@@ -180,6 +181,20 @@
         const year = date.getFullYear();
 
         document.querySelector('input[type="date"]').min = `${year}-${month}-${day}`;
+    };
+    window.onload = function () {
+        const date = new Date();
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+
+        const startTimeInput = document.querySelector('input[name="starttime"]');
+        const endTimeInput = document.querySelector('input[name="endtime"]');
+
+        document.querySelector('input[type="date"]').min = `${year}-${month}-${day}`;
+
+        startTimeInput.addEventListener('change', checkAvailability);
+        endTimeInput.addEventListener('change', checkAvailability);
     };
 </script>
 <script th:inline="javascript">
