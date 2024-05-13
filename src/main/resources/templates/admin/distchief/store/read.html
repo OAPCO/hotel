@@ -209,7 +209,7 @@
                             편의시설
                         </td>
                         <td class="col-10">
-                            <div th:text="${store.facilities.replace(',', ' ')}" />
+                            <div th:text="${store != null && store.facilities != null ? store.facilities.replace(',', ' ') : ''}" />
                         </td>
                     </tr>
                     </tbody>

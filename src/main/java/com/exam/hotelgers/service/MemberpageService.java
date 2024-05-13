@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +24,28 @@ import java.util.stream.Collectors;
 public class MemberpageService {
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
-    public List<StoreDTO> searchList(String keyword) {
-        List<Store> stores = storeRepository.findByKeyword(keyword);
+    public List<StoreDTO> searchList(String keyword, String facilities) {
+        List<Store> stores = new ArrayList<>();
+
+        if(keyword != null && !keyword.isEmpty()) {
+            // First, find all stores that match the keyword
+            stores = storeRepository.findByKeyword(keyword);
+
+            // If facilities are provided, filter the stores based on these
+            if(facilities != null && !facilities.isEmpty()) {
+                String[] facilitiesItems = facilities.split(",");
+                List<Store> filteredStores = new ArrayList<>();
+                for(String facility : facilitiesItems) {
+                    filteredStores.addAll(stores.stream().filter(
+                            store -> store.getFacilities().contains(facility)
+                    ).collect(Collectors.toList()));
+                }
+                stores = filteredStores;
+            }
+        }
         return stores.stream()
-                .map(this::convertToDTO) // this::convertToDTO is assumed to be a method which converts Store to StoreDTO
+                .distinct()
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
     private StoreDTO convertToDTO(Store store) {

@@ -33,5 +33,6 @@ public class RoomOrder extends BaseEntity{
     private Long roomIdx;
     private Long memberIdx;
     private int roomStatus;
+    private Long storeIdx;
 
 }

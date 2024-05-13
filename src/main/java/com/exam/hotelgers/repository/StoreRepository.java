@@ -33,8 +33,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("SELECT s, b, m FROM Store s LEFT JOIN Brand b ON s.brandCd = b.brandCd " +
             "LEFT JOIN Manager m ON s.managerId = m.managerId " +
             "where (s.dist.distChief.distChiefId LIKE %:userId%)")
-    Page<Object[]> storeToBrand(Pageable pageable,String userId);
-
+    Page<Object[]> storeToBrand(Pageable pageable, String userId);
 
 
     //store name을 입력받았을 때 가입시 필요한 유니크 컬럼인 storeCd 값을 구하기 위한 쿼리
@@ -52,38 +51,36 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     //어드민의 매장 다중검색
     @Query("select s,b,m from Store s left join Brand b on s.brandCd = b.brandCd left join Manager m on s.managerId = m.managerId " +
-            "where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
-            "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)"+
-            "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)"+
-            "and (:#{#searchDTO.managerName} is null or m.managerName LIKE %:#{#searchDTO.managerName}%)"+
-            "and (:#{#searchDTO.brandName} is null or b.brandName LIKE %:#{#searchDTO.brandName}%)"+
-            "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)"+
-            "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)"+
+            "where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)" +
+            "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)" +
+            "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)" +
+            "and (:#{#searchDTO.managerName} is null or m.managerName LIKE %:#{#searchDTO.managerName}%)" +
+            "and (:#{#searchDTO.brandName} is null or b.brandName LIKE %:#{#searchDTO.brandName}%)" +
+            "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)" +
+            "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)" +
             "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)")
     Page<Object[]> adminStoreSearch(SearchDTO searchDTO,
-                               Pageable pageable);
-
+                                    Pageable pageable);
 
 
     //매장조회 다중검색
     @Query("select s,b,m from Store s left join Brand b on s.brandCd = b.brandCd left join Manager m on s.managerId = m.managerId " +
-            "where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
-    "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)"+
-    "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)"+
-    "and (:#{#searchDTO.managerName} is null or m.managerName LIKE %:#{#searchDTO.managerName}%)"+
-    "and (:#{#searchDTO.brandName} is null or b.brandName LIKE %:#{#searchDTO.brandName}%)"+
-    "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)"+
-    "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)"+
-            "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)"+
+            "where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)" +
+            "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)" +
+            "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)" +
+            "and (:#{#searchDTO.managerName} is null or m.managerName LIKE %:#{#searchDTO.managerName}%)" +
+            "and (:#{#searchDTO.brandName} is null or b.brandName LIKE %:#{#searchDTO.brandName}%)" +
+            "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)" +
+            "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)" +
+            "and (:#{#searchDTO.storeGrade} is null or s.storeGrade = %:#{#searchDTO.storeGrade}%)" +
             "and (s.dist.distChief.distChiefId LIKE %:userId%)"
     )
     Page<Object[]> multiSearch(SearchDTO searchDTO,
-                            Pageable pageable, String userId);
-
+                               Pageable pageable, String userId);
 
 
     //dist와 brand 선택시 매장 조회(셀렉트박스에 사용중)
-    @Query("select s from Store s where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)"+
+    @Query("select s from Store s where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)" +
             "and (:#{#searchDTO.brandName} is null or s.brandCd LIKE %:#{#searchDTO.brandName}%)"
     )
     List<Store> distbrandOfStore(SearchDTO searchDTO);
@@ -99,5 +96,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
 
     @Query("SELECT s FROM Store s WHERE s.storeName LIKE %:keyword% OR s.regionCd LIKE %:keyword% OR s.storeAddr LIKE %:keyword%")
-    List<Store> findByKeyword(String keyword);
+    List<Store> findByKeyword(@Param("keyword") String keyword);
 }
