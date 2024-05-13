@@ -96,9 +96,11 @@
             <div class="search-container">
                 <div class="search-inputs">
                     <p>체크인</p>
-                    <input type="date" placeholder="Start Date" name="startTime">
+                    <input type="date" placeholder="Start Date" id="startDate">
                     <p>체크아웃</p>
-                    <input type="date" placeholder="End Date" name="endTime">
+                    <input type="date" placeholder="End Date" id="endDate">
+                    <input type="hidden" id="isoStartDate" name="startTime">
+                    <input type="hidden" id="isoEndDate" name="endTime">
                 </div>
             </div>
             <div>
@@ -124,6 +126,35 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+
+
+        //날짜를 숫자로 변환
+        function formatDateToISO(date) {
+            console.log("포맷데이트투iso들어옴")
+            return date.toISOString().slice(0,10);
+        }
+
+        document.getElementById("startDate").addEventListener("change", function() {
+
+            var originalDate = this.value;
+
+            document.getElementById("startDate").value = originalDate;
+
+            console.log(document.getElementById("isoStartDate").value = originalDate);
+        });
+
+        document.getElementById("endDate").addEventListener("change", function() {
+
+            var originalDate = this.value;
+
+            document.getElementById("endDate").value = originalDate;
+            console.log(document.getElementById("isoEndDate").value = originalDate);
+        });
+    </script>
+
+
 </div>
 </body>
 </html>

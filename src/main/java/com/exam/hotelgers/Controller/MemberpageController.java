@@ -123,6 +123,9 @@ public class MemberpageController {
     @PostMapping("/member/memberpage/roomorder")
     public String roomorderproc(@Valid SearchDTO searchDTO, RoomOrderDTO roomOrderDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
+
+        log.info("날짜ㅣ값얻은거@@@@@@@@@@@@@@@@  " + roomOrderDTO.getStartTime());
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("message", "입력한 정보에 오류가 있습니다.");
             return "redirect:/member/memberpage/roomorder";
