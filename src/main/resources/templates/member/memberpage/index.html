@@ -79,7 +79,7 @@
         /* .search-inputs와 .search-box를 flex로 설정하고 요소들을 가로로 정렬합니다. 이들의 너비는 상위 컨테이너인 search-container의 50%입니다. */
         .search-inputs, .search-box {
             display: flex;
-            width: 50%;
+            width: 100%;
             justify-content: space-between;
             gap: 0;  /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
             align-items: center; /* 이 코드를 추가하여 요소들이 동일한 기준선에 정렬되게 합니다. */
@@ -94,18 +94,28 @@
         }
 
         /* .search-box 내의 input 요소와 button 요소에 flex 속성을 추가해 일관된 너비를 유지합니다. */
-        .search-box .form-control {
+        .search-box2 .form-control {
             flex: 8;
+
         }
 
-        .search-box .btn{
+        .search-box2 .btn{
             flex: 2;
-            height: 50px;
+            height: 60px;
             margin-top: 1px;
         }
-        #id1 input{
+        #id1  input{
+            height: 15px;
+        }
+
+
+        #id1 font{
             height: 60px;
 
+        }
+        label {
+            position: relative;
+            bottom: 40px;
         }
     </style>
 
@@ -113,63 +123,68 @@
 <body>
 <div layout:fragment="content">
     <div id="fullpage">
-        <div class="section" id="section0">
+        <div class="section" id="section0" style="color: white;">
             <div class="text_box">
                 <span id="fixedText" style="margin-bottom: 20px;">호텔져스와 함께 어디든<br></span>
                 <span id="rotateText" class="text"></span><span class="blink">|</span>
             </div>
+            <form th:action="@{/member/memberpage/index}" method="post" >
             <div class="search-container">
-                <div class="search-box" id="id1" >
-                    <form th:action="@{/member/memberpage/index}" method="post" style="display: flex;">
-                        <div class="d-flex flex-wrap gap-3 justify-content-center align-items-center" style="margin-top: 40px">
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="wifi" value="와이파이" name="facilities">
-                                <label class="form-check-label" for="wifi">와이파이</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="parking" value="주차장" name="facilities">
-                                <label class="form-check-label" for="parking">주차장</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="fitness" value="피트니스" name="facilities">
-                                <label class="form-check-label" for="fitness">피트니스</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="swimming" value="수영장" name="facilities">
-                                <label class="form-check-label" for="swimming">수영장</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="sauna" value="사우나" name="facilities">
-                                <label class="form-check-label" for="sauna">사우나</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="lounge" value="라운지" name="facilities">
-                                <label class="form-check-label" for="lounge">라운지</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="cafe" value="카페" name="facilities">
-                                <label class="form-check-label" for="cafe">카페</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="store" value="편의점" name="facilities">
-                                <label class="form-check-label" for="store">편의점</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                                <input class="form-check-input" type="checkbox" id="breakfast" value="조식 제공" name="facilities">
-                                <label class="form-check-label" for="breakfast">조식 제공</label>
-                            </div>
-                            <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3" name="facilities">
-                                <input class="form-check-input" type="checkbox" id="karaoke" value="노래방">
-                                <label class="form-check-label" for="karaoke">노래방</label>
-                            </div>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Recipient's username"
-                               aria-describedby="button-addon2" name="keyword" style="flex: 8; position: relative;
-                               top: -9px;" required>
-                        <button class="btn btn-primary" type="submit" id="button-addon2" style="flex: 2;margin-top: 1px; ">검색</button>
-                    </form>
+
+                <div class="d-flex flex-wrap gap-3 justify-content-center align-items-center" style="margin-top: 40px">
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="wifi" value="와이파이" name="facilities">
+                        <label class="form-check-label" for="wifi">와이파이</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="parking" value="주차장" name="facilities">
+                        <label class="form-check-label" for="parking">주차장</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="fitness" value="피트니스" name="facilities">
+                        <label class="form-check-label" for="fitness">피트니스</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="swimming" value="수영장" name="facilities">
+                        <label class="form-check-label" for="swimming">수영장</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="sauna" value="사우나" name="facilities">
+                        <label class="form-check-label" for="sauna">사우나</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="lounge" value="라운지" name="facilities">
+                        <label class="form-check-label" for="lounge">라운지</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="cafe" value="카페" name="facilities">
+                        <label class="form-check-label" for="cafe">카페</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="store" value="편의점" name="facilities">
+                        <label class="form-check-label" for="store">편의점</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                        <input class="form-check-input" type="checkbox" id="breakfast" value="조식 제공" name="facilities">
+                        <label class="form-check-label" for="breakfast">조식 제공</label>
+                    </div>
+                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3" name="facilities">
+                        <input class="form-check-input" type="checkbox" id="karaoke" value="노래방">
+                        <label class="form-check-label" for="karaoke">노래방</label>
+                    </div>
                 </div>
-            </div>
+                <div class="input-group mb-3" style="max-width: 800px;">
+                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword"  style="border-top-right-radius: 0 ; border-bottom-right-radius: 0;
+                                   border-bottom-right-radius: 0"  required>
+
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" id="button-addon2" style="border-radius: 0 10px 10px 0;height: 50px; padding-top: 5px; position: relative; left: 1px; bottom: -9px" >검색</button>
+                    </div>
+                </div>
+
+                </div>
+
+            </form>
         </div>
         <div class="section" id="section1">
             <div class="container" style="margin: auto; width: 80%;">
