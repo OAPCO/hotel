@@ -102,8 +102,12 @@
                     <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
                         <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;"
                            th:text="${store.recommendYn}"></p>
-                        <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius:
-                        5px; color: white; font-weight: bold;">상세보기</button>
+                        <a th:href="@{'/member/memberpage/'+${store.storeIdx}}">
+                            <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius:
+                            5px; color: white; font-weight: bold;">
+                                상세보기
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>

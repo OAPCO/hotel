@@ -38,6 +38,7 @@ public class StoreService {
     private final SearchService searchService;
     private final DetailmenuRepository detailmenuRepository;
     private final ManagerRepository managerRepository;
+    private final RoomOrderRepository roomOrderRepository;
 
 
 

@@ -1,6 +1,9 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.RoomOrder;
+import com.exam.hotelgers.repository.RoomOrderRepository;
+import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.service.QnaService;
@@ -9,6 +12,7 @@ import jakarta.validation.Valid;
 import com.exam.hotelgers.util.PageConvert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -23,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @Log4j2
@@ -36,7 +41,8 @@ public class MemberpageController {
     private final DistChiefService distChiefService;
     private final RoomService roomService;
     private final RoomOrderService roomOrderService;
-
+    private final RoomOrderRepository roomOrderRepository;
+    private final ModelMapper modelMapper;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -81,7 +87,13 @@ public class MemberpageController {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
             return "redirect:/member/memberpage/list";
         }
+        List<RoomOrder> roomOrderList = roomOrderRepository.findByStoreIdx(storeIdx);
 
+        List<RoomOrderDTO> roomOrderDTOList = roomOrderList.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+
+        model.addAttribute("roomOrderList", roomOrderDTOList);
         model.addAttribute("storeDTO", storeDTO);
         model.addAttribute("brand", storeDTO.getBrandDTO());
         model.addAttribute("dist", storeDTO.getDistDTO());
@@ -89,7 +101,7 @@ public class MemberpageController {
         model.addAttribute("manager", storeDTO.getManagerDTO());
         model.addAttribute("roomList", storeDTO.getRoomDTOList());
         model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
-
+        model.addAttribute("roomOrderList",roomOrderList);
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
@@ -97,6 +109,9 @@ public class MemberpageController {
         log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
         log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
         return "member/memberpage/read";
+    }
+    private RoomOrderDTO convertToDTO(RoomOrder roomOrder) {
+        return modelMapper.map(roomOrder, RoomOrderDTO.class);
     }
     @GetMapping("/member/memberpage/roomorder/{roomIdx}")
     public String roomorderform(Model model, @PathVariable Long roomIdx) throws Exception {

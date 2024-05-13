@@ -7,6 +7,11 @@
 <head>
     <title>매장 안내</title>
     <style>
+        .darkroom {
+            background-color: #696969; /* 원하는 어두운 색으로 설정 */
+        }
+        .normalroom {
+            background-color: #ffffff; /* 원하는 밝은 색으로 설정 */
         /* search-container를 flex로 설정하고 요소들을 중앙에 정렬합니다. */
         .search-container {
             padding-top: 25px;
@@ -35,6 +40,7 @@
         /* .search-box 내의 input 요소와 button 요소에 flex 속성을 추가해 일관된 너비를 유지합니다. */
         .search-box .form-control {
             flex: 8;
+        }
         }
     </style>
 </head>
@@ -85,12 +91,48 @@
         </div> <!-- 매장 상세 정보 -->
     </div>
     <p></p>
-    <div id="section2" class="container-fluid pt-5">
+    <div>
+        <div id="section2" class="container-fluid pt-5">
+            <!-- 매장 정보 -->
+            <div class="container" style="margin: auto; width: 80%;">
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h3>검색일</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td class="col-2" style="text-align: center;">
+                                            체크인 :
+                                        </td>
+                                        <td class="col-4">
+                                            <input type="date" name="starttime" style=" border: 1px solid; width:
+                                            100%;">
+                                        </td>
+                                        <td class="col-2" style="text-align: center;">
+                                            체크아웃 :
+                                        </td>
+                                        <td class="col-4">
+                                            <input type="date" name="endtime" style=" border: 1px solid; width: 100%;">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- 매장 상세 정보 -->
+        </div>
+    </div>
+    <p></p>
+    <div id="section3" class="container-fluid pt-5">
         <!-- 룸 정보 -->
         <div class="container" style="margin: auto; width: 80%;">
             <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
-            border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="room : ${roomList}">
-                <div style="display: flex;">
+            border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="room : ${roomList}" th:id="${'card' + room.roomIdx}">
+                <div style="display: flex;" th:classappend="${room.roomStatus} == 0 ? 'darkroom' : 'normalroom'">
                     <!-- 왼쪽 이미지 -->
                     <div style="flex: 1;">
                         <img
@@ -104,8 +146,6 @@
                         <p style="margin: 0; font-size: 16px; font-weight: bold;"
                            th:text="${room.roomName}">
                         </p>
-
-
                         <p style="margin: 10px 0 0; font-size: 14px;" th:text="${room.roomStatus}"></p>
                     </div>
 
@@ -130,7 +170,45 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    //오늘 이전의 날짜를 선택할 수 없도록 변경
+    window.onload = function(){
+        const date = new Date();
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
 
+        document.querySelector('input[type="date"]').min = `${year}-${month}-${day}`;
+    };
+</script>
+<script th:inline="javascript">
+    const roomOrderList = /*[[${roomOrderList}]]*/ 'roomOrderList';
+    // converts list into a map with date strings as keys for efficient access
+    const roomOrderMap = roomOrderList.reduce((result, roomOrder) => {
+        result[roomOrder.startTime.split('T')[0]] = roomOrder;
+        result[roomOrder.endTime.split('T')[0]] = roomOrder;
+        return result;
+    }, {});
+
+    function checkAvailability() {
+        var startDate = new Date(document.querySelector('input[name="starttime"]').value);
+        var endDate = new Date(document.querySelector('input[name="endtime"]').value);
+        var dates = getDatesInRange(startDate, endDate);
+
+        for (let date of dates) {
+            var dateString = date.toISOString().slice(0,10);
+            const roomOrder = roomOrderMap[dateString];
+            if (roomOrder ) {
+                var cardElement = document.getElementById('card' + roomOrder.roomIdx);
+                cardElement.style.backgroundColor = "grey";
+                cardElement.style.textAlign = "center";
+                cardElement.textContent = "매진되었습니다";
+                cardElement.style.color = "red";
+                break;
+            }
+        }
+    }
+</script>
 
 </div>
 </body>
