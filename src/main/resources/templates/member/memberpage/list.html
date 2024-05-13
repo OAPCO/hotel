@@ -6,6 +6,12 @@
 <head>
     <meta charset="UTF-8">
     <title>매장 검색</title>
+    <style>
+        #section1 label {
+            position: relative;
+            bottom: 40px;
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
@@ -14,7 +20,7 @@
             <div class="card shadow">
                 <div class="card-body">
                     <form th:action="@{/member/memberpage/index}" method="post">
-                        <div class="d-flex flex-wrap gap-3">
+                        <div class="d-flex flex-wrap gap-3 justify-content-center align-items-center" style="margin-top: 40px">
                             <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
                                 <input class="form-check-input" type="checkbox" id="wifi" value="와이파이">
                                 <label class="form-check-label" for="wifi">와이파이</label>

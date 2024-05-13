@@ -225,7 +225,7 @@ public class RoomController {
     public String listBoardForm(@PageableDefault(page = 1) Pageable pageable, Model model,Principal principal
     ) {
 
-        log.info("room listboardForm 도착 ");
+        log.info("room listboard Form 도착 ");
 
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 

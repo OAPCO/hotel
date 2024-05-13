@@ -4,6 +4,7 @@ import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.RoomOrder;
 import com.exam.hotelgers.repository.RoomOrderRepository;
 import com.exam.hotelgers.repository.RoomRepository;
+import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.service.QnaService;
@@ -41,6 +42,8 @@ public class MemberpageController {
     private final DistChiefService distChiefService;
     private final RoomService roomService;
     private final RoomOrderService roomOrderService;
+    private final RoomRepository roomRepository;
+
     private final RoomOrderRepository roomOrderRepository;
     private final ModelMapper modelMapper;
 
@@ -110,33 +113,44 @@ public class MemberpageController {
         log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
         return "member/memberpage/read";
     }
+
+
+
+
     private RoomOrderDTO convertToDTO(RoomOrder roomOrder) {
         return modelMapper.map(roomOrder, RoomOrderDTO.class);
     }
     @GetMapping("/member/memberpage/roomorder/{roomIdx}")
-    public String roomorderform(Model model, @PathVariable Long roomIdx) throws Exception {
+    public String roomorderform(Principal principal,Model model, @PathVariable Long roomIdx) throws Exception {
 
         RoomDTO roomDTO = roomService.read(roomIdx);
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
         model.addAttribute("roomDTO", roomDTO);
+        model.addAttribute("memberDTO", memberDTO);
 
         return "member/memberpage/roomorder";
     }
+
     @PostMapping("/member/memberpage/roomorder")
-    public String roomorderproc(@Valid RoomOrderDTO roomOrderDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String roomorderproc(@Valid SearchDTO searchDTO, RoomOrderDTO roomOrderDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("message", "입력한 정보에 오류가 있습니다.");
             return "redirect:/member/memberpage/roomorder";
         }
 
-        Long roomOrderIdx = roomOrderService.register(roomOrderDTO);
+        Long roomIdx = roomOrderService.register(roomOrderDTO);
 
-        String message = (roomOrderIdx != null) ? "방 주문이 성공적으로 완료되었습니다." : "방 주문에 실패하였습니다.";
-        redirectAttributes.addFlashAttribute("message", message);
+
+        if (roomIdx!=null){
+            roomService.roomStatusUpdate(roomOrderDTO);
+            redirectAttributes.addFlashAttribute("message", "방 주문이 성공적으로 완료되었습니다.");
+        }
 
         return "redirect:/member/memberpage/index";
     }

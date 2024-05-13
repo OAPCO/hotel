@@ -94,6 +94,15 @@ public class SearchDTO {
     private String brandName;
 
 
+    //roomorder
+    private Long roomorderIdx;
+    private String userName;
+    private String userPhone;
+    private String startTime;
+    private String endTime;
+
+
+
     //스토어
     private Long storeIdx;
     private String storeCd; //매장코드
@@ -138,6 +147,7 @@ public class SearchDTO {
     private Long roomIdx;
     private String roomCd;
     private String roomName;
+    private int roomStatus;
 
 
 

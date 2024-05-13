@@ -67,6 +67,7 @@ public class RoomService {
 
         Room room = modelMapper.map(roomDTO, Room.class);
 
+        room.setRoomStatus(0);
         room.setStore(store.get());
 
 
@@ -190,4 +191,12 @@ public class RoomService {
             return null;
         }
     }
+
+
+    @Transactional
+    public void roomStatusUpdate(RoomOrderDTO roomOrderDTO){
+        roomRepository.roomStatusUpdate(roomOrderDTO);
+    }
+
+
 }

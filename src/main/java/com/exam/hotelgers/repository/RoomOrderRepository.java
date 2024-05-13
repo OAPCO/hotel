@@ -11,4 +11,5 @@ import java.util.List;
 public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     List<RoomOrder>findByStoreIdx(Long storeIdx);
 
+
 }

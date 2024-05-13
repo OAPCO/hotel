@@ -21,14 +21,16 @@
             text-align: center; /* 가로 중앙 정렬 */
             vertical-align: middle; /* 세로 중앙 정렬 */
         }
+
     </style>
     <script th:inline="javascript">
         function pwchange() {
             var baseUrl = /*[[ @{/} ]]*/ '';
-            var popupUrl = baseUrl + "admin/adminpage/pwchange";  // Absolute URL
+            var popupUrl = baseUrl + "admin/admin/pwchange";  // Absolute URL
             var popupOption = "width=500, height=400"; // Popup window size
             // Open the popup window
             window.open(popupUrl, "비밀번호변경", popupOption);
+
         }
     </script>
 
@@ -76,6 +78,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/admin/admin/banner/list">광고목록</a></li>
+                        <li><a class="dropdown-item" href="/admin/admin/notice/list">공지사항 관리</a></li>
                     </ul>
                 </li>
 
@@ -85,7 +88,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
                         <i class="bi bi-gear-fill"></i>
-                        <span>다국어관리</span>
+                        <span>언어(Language)</span>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item change-language" data-lang="ko">한국어</a></li>

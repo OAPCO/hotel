@@ -28,7 +28,7 @@
                             </div>
 
                             <div th:if="${data.roomCd.contains('roomCard' + index)}" class="card room-card" th:id="'roomCard' + ${index}">
-                                <span class="room-text" th:text="${data.roomName}"></span>
+                                <a th:text="${data.roomName}" th:href="@{'/admin/manager/room/'+${data.roomIdx}}" ></a>
                                 <th:block th:switch="${data.roomType.name()}">
                                     <span class="room-text2" th:case="NORMAL">일반실</span>
                                     <span class="room-text2" th:case="SPECIAL">특실</span>

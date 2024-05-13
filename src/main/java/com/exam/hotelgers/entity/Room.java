@@ -34,8 +34,8 @@ public class Room extends BaseEntity {
 
     private String roomName;
 
-    @Builder.Default
-    private Boolean roomStatus = false;
+    //0=미예약,1=예약,2=체크인상태
+    private int roomStatus;
 
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
