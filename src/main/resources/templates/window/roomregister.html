@@ -109,6 +109,14 @@
                 // document.getElementById("roomCd").value = roomCd;
 
 
+                // 선택된 카드의 인덱스 가져오기
+                var selectedCardIndex = roomCd.replace('roomCard', '');
+
+                // 부모 창으로 인덱스 전송
+                var parentWindow = window.opener;
+                parentWindow.postMessage({ selectedCardIndex: selectedCardIndex }, '*');
+
+
 
                 document.getElementById("roomForm").submit();
                 window.close();

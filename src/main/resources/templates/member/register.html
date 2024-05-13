@@ -6,10 +6,71 @@
 
 <head>
     <title>Register - Brand</title>
+    <style>
+        .Duplicate {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 45px;
+        }
+
+        .Duplicate-check {
+            border-radius: 15px;
+            position: relative;
+            top: 10px;
+            left: -50px;
+            padding: 10px 20px; /* 버튼 내부 여백 설정 */
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
 <div layout:fragment="content">
+    <script>
+        function validateForm() {
+            var emailInput = document.querySelector('input[name="memberEmail"]');
+            var passwordInput = document.querySelector('input[name="password"]');
+            var nameInput = document.querySelector('input[name="memberName"]');
+            var isValid = true;
+
+            if (!emailInput.value.trim()) {
+                document.getElementById('emailFeedback').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('emailFeedback').style.display = 'none';
+            }
+
+            if (!passwordInput.value.trim()) {
+                document.getElementById('passwordFeedback').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('passwordFeedback').style.display = 'none';
+            }
+
+            if (!nameInput.value.trim()) {
+                document.getElementById('nameFeedback').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('nameFeedback').style.display = 'none';
+            }
+
+            return isValid;
+        }
+        function idCheck() {
+            var emailInput = document.querySelector('input[name="memberEmail"]');
+            var emailFeedback = document.getElementById('emailFeedback');
+
+            if (!emailInput.value.trim()) {
+                emailFeedback.style.display = 'block';
+                return false; // 이메일 입력란이 비어있으면 중복 확인을 하지 않음
+            } else {
+                emailFeedback.style.display = 'none';
+                // 이메일이 입력되었을 때 중복 확인을 진행하도록 원하는 코드를 여기에 추가
+                // 여기서는 단순히 false를 반환하여 실제로 중복 확인이 실행되지 않도록 하였음
+                return false;
+            }
+        }
+    </script>
     <div class="container">
         <div class="card shadow-lg o-hidden border-0 my-5">
             <div class="card-body p-0">
@@ -19,16 +80,20 @@
                             <div class="text-center">
                                 <h4 class="text-dark mb-4">회원 가입</h4>
                             </div>
-                            <form class="user" th:action="@{/member/register}" method="post">
+                            <form class="user" th:action="@{/member/register}" method="post" onsubmit="return validateForm();">
 
                                 <div class="row mb-3">
 
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <div class="col-sm-5 mb-3 mb-sm-0">
                                         <input class="form-control form-control-user" type="email" aria-describedby="emailHelp" placeholder="이메일" name="memberEmail">
+                                        <div class="invalid-feedback" id="emailFeedback" style="display: none; margin-left: 40px">이메일을 입력하세요.</div>
                                     </div>
-
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input class="form-control form-control-user" type="password" placeholder="비번" name="password">
+                                    <div  class="Duplicate col-sm-2 mb-3 mb-sm-0">
+                                    <button class="Duplicate-check btn btn-primary" onclick="return idCheck()">중복확인</button>
+                                    </div>
+                                    <div class="col-sm-5 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user" type="password" placeholder="비밀번호" name="password">
+                                        <div class="invalid-feedback" id="passwordFeedback" style="display: none; margin-left: 40px">비밀번호를 입력하세요.</div>
                                     </div>
 
                                 </div>
@@ -37,6 +102,7 @@
 
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input class="form-control form-control-user" type="text" placeholder="이름" name="memberName">
+                                        <div class="invalid-feedback" id="nameFeedback" style="display: none; margin-left: 40px">이름을 입력하세요.</div>
                                     </div>
 
                                 </div>
@@ -50,6 +116,9 @@
         </div>
     </div>
 </div>
+
+
+
 </body>
 
 </html>

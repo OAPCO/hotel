@@ -58,7 +58,7 @@ table.body th{
     background-color: #f8f9fc;
     border: 1px solid blue;
     width: 120px;
-    height: 70px;
+    height: 90px;
     margin-left: 5px;
     margin-top: 6px;
     margin-bottom: 6px;
@@ -71,7 +71,7 @@ table.body th{
     position: relative; /* 이 부분을 추가해주세요. */
     background-color: #ffffff;
     width: 120px;
-    height: 70px;
+    height: 90px;
     margin-left: 5px;
     margin-top: 6px;
     margin-bottom: 6px;

@@ -17,30 +17,129 @@
                 객실 목록
             </div>
 
+<!--            &lt;!&ndash;                    이게 변경 후 카드&ndash;&gt;-->
+<!--            <div class="card room-card" id="">-->
 
-                <div th:each="data: ${list}">
-                    <div class="row">
+<!--                <a th:text="${data.roomName}" th:href="@{'/admin/manager/room/'+${data.roomIdx}}" ></a>-->
+<!--                <th:block th:switch="${data.roomType.name()}">-->
+<!--                    <span class="room-text2" th:case="NORMAL">일반실</span>-->
+<!--                    <span class="room-text2" th:case="SPECIAL">특실</span>-->
+<!--                    <span class="room-text2" th:case="PARTYROOM">파티룸</span>-->
+<!--                </th:block>-->
 
-                        <div class="col-custom-12" th:each="index : ${#numbers.sequence(1,12)}">
+<!--            </div>-->
 
 
-                            <div th:unless="${data.roomCd.contains('roomCard' + index)}" class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)">
-                            </div>
 
-                            <div th:if="${data.roomCd.contains('roomCard' + index)}" class="card room-card" th:id="'roomCard' + ${index}">
-                                <a th:text="${data.roomName}" th:href="@{'/admin/manager/room/'+${data.roomIdx}}" ></a>
-                                <th:block th:switch="${data.roomType.name()}">
-                                    <span class="room-text2" th:case="NORMAL">일반실</span>
-                                    <span class="room-text2" th:case="SPECIAL">특실</span>
-                                    <span class="room-text2" th:case="PARTYROOM">파티룸</span>
-                                </th:block>
-                            </div>
+
+
+
+<!--배치처리-->
+            <div class="row">
+                <div class="col-custom-12" th:each="index : ${#numbers.sequence(49,60)}">
+                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
+                </div>
+
+                <div class="col-custom-12" th:each="index : ${#numbers.sequence(37,48)}">
+                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
+                </div>
+
+                <div class="col-custom-12" th:each="index : ${#numbers.sequence(25,36)}">
+                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
+                </div>
+
+                <div class="col-custom-12" th:each="index : ${#numbers.sequence(13,24)}">
+                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
+                </div>
+
+                <div class="col-custom-12" th:each="index : ${#numbers.sequence(1,12)}">
+
+                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
+
+                    <!--                    비교 후 변경 처리-->
+                    <div th:each="data: ${list}">
+
+
+<!--                        roomCard+인덱스번호와 동일한 룸코드가 있다면-->
+                        <div th:if="${data.roomCd.contains('roomCard' + index)}" class="col-custom-12">
+
+
+<!--                            스크립트 실행-->
+                            <script th:inline="javascript">
+
+                                //해당 룸의 값들을 먼저 변수로 선언하고, 룸카드의 id도 보냄
+                                var roomStatus2 = [[${data.roomStatus}]];
+                                var roomType2 = [[${data.roomType}]];
+                                var roomCd2 = [[${data.roomCd}]];
+                                var roomName2 = [[${data.roomName}]];
+                                var roomIdx2 = [[${data.roomIdx}]];
+
+                                console.log(roomName2);
+
+
+
+                                //###카드 변경 로직 처리
+                                changeCardType(roomIdx2,roomName2,roomCd2, roomType2, roomStatus2);
+
+                                function changeCardType(roomIdx2, roomName2, roomCd2, roomType2, roomStatus2) {
+
+                                    var card = document.getElementById(roomCd2);
+
+
+                                    if(card) {
+                                        console.log(roomCd2);
+
+                                        card.removeAttribute('onclick');
+                                        card.className = 'card room-card';
+
+                                        card.addEventListener('click', function () {
+                                            window.location.href = '/admin/manager/room/' + roomIdx2;
+                                        });
+
+
+                                        var roomType = null;
+                                        switch (roomType2){
+                                            case "NORMAL" : roomType = "일반실"; break;
+                                            case "SPECIAL" : roomType = "특실"; break;
+                                            case "PARTYROOM" : roomType = "파티룸"; break;
+                                        }
+
+                                        console.log(roomStatus2);
+
+                                        var roomStatus = null;
+                                        switch (roomStatus2){
+                                            case 0 : roomStatus = "[빈 방]"; break;
+                                            case 1 : roomStatus = "[예약됨]"; break;
+                                            case 2 : roomStatus = "[사용중]"; break;
+                                        }
+
+                                        var roomNameSpan = document.createElement("span");
+                                        roomNameSpan.textContent = roomName2;
+                                        roomNameSpan.style.fontSize = "24px"; // 크기 조정
+                                        roomNameSpan.style.fontStyle.bold();
+                                        card.appendChild(roomNameSpan);
+                                        card.appendChild(document.createTextNode(roomType));
+                                        card.appendChild(document.createElement("br"));
+                                        card.appendChild(document.createTextNode(roomStatus));
+
+                                    }
+
+
+                                }
+
+                            </script>
 
 
                         </div>
 
                     </div>
+
                 </div>
+
+            </div>
+
+
+
     </div>
 </div>
 
@@ -61,6 +160,8 @@
             var popupOption = "width=1500, height=500";
             window.open(popupUrl, "객실 추가", popupOption);
         }
+
+
 
 
 

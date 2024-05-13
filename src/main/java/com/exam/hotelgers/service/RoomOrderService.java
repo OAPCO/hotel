@@ -43,32 +43,5 @@ public class RoomOrderService {
     }
 
 
-//    public Long register(RoomOrderDTO roomOrderDTO) {
-//        if(roomOrderDTO == null || roomOrderDTO.getRoomCd() == null){
-//            throw new IllegalArgumentException("RoomOrderDTO 또는 내부의 객실 코드는 null이 아니어야 합니다.");
-//        }
-//        String roomCd = roomOrderDTO.getRoomCd();
-//        Optional<Room> optionalRoom = roomRepository.findByRoomCd(roomCd);
-//        if(optionalRoom.isPresent()){
-//            Room room = optionalRoom.get();
-//            RoomOrder roomOrder = convertToEntity(roomOrderDTO);
-//            roomOrder.setRoomCd(room.getRoomCd());
-//            roomOrder.setStoreIdx(room.getStore().getStoreIdx());
-//            RoomOrder savedRoomOrder = roomOrderRepository.save(roomOrder);
-//            return savedRoomOrder.getRoomorderIdx();
-//        }
-//        return null;
-//    }
-
-//    private RoomOrder convertToEntity(RoomOrderDTO roomOrderDTO) {
-//        if(modelMapper.getTypeMap(RoomOrderDTO.class, RoomOrder.class) == null) {
-//            modelMapper.createTypeMap(RoomOrderDTO.class, RoomOrder.class)
-//                    .addMapping(RoomOrderDTO::getRoomCd, RoomOrder::setRoomCd)
-//                    .addMapping(RoomOrderDTO::getStoreIdx, RoomOrder::setStoreIdx);
-//        }
-//        RoomOrder roomOrder = modelMapper.map(roomOrderDTO, RoomOrder.class);
-//        return roomOrder;
-//    }
-
 
 }
