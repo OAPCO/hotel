@@ -7,6 +7,7 @@ import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.repository.StoreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -18,10 +19,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class RoomOrderService {
 
     private final RoomRepository roomRepository;
@@ -65,6 +68,21 @@ public class RoomOrderService {
     }
 
 
+    public List<RoomOrderDTO> roomOrderSearch2(Long storeIdx){
+
+
+        List<RoomOrder> roomOrders = roomOrderRepository.roomOrderSearch2(storeIdx);
+
+
+        List<RoomOrderDTO> roomOrderDTOs = roomOrders.stream()
+                .map(roomOrder -> modelMapper.map(roomOrder, RoomOrderDTO.class))
+                .collect(Collectors.toList());
+
+        return roomOrderDTOs;
+
+    }
+
+
     public Page<RoomOrderDTO> endRoomOrderSearch(Pageable pageable,SearchDTO searchDTO){
 
         int currentPage = pageable.getPageNumber()-1;
@@ -91,7 +109,6 @@ public class RoomOrderService {
 
         return modelMapper.map(member,MemberDTO.class);
     }
-
 
 
 

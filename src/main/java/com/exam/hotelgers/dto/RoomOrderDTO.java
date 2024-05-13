@@ -2,6 +2,7 @@ package com.exam.hotelgers.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -32,6 +33,10 @@ public class RoomOrderDTO {
     private Long storeIdx;
     private int roomStatus;
     private String storeCd;
+
+    private LocalDateTime regdate;
+
+    private LocalDateTime moddate;
 
 
 }

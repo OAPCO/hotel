@@ -33,6 +33,11 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
             "and r.roomStatus = 3")
     Page<RoomOrder> roomOrderSearch(Pageable pageable,Long storeIdx);
 
+    @Query("SELECT r FROM RoomOrder r where r.storeIdx = :storeIdx " +
+            "and r.roomStatus = 3")
+    List<RoomOrder> roomOrderSearch2(Long storeIdx);
+
+
 
     //room의 지난 내역(roomstatus=4)들 확인
     @Query("select r from RoomOrder r where r.roomIdx = :#{#searchDTO.roomIdx} " +
