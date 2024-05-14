@@ -49,7 +49,6 @@
 <body>
 <div layout:fragment="content">
     <div id="section1" class="container-fluid pt-5">
-
         <!-- 메뉴 리스트 -->
         <div class="container" style="margin: auto; width: 80%;">
             <h2>메뉴 주문</h2>
@@ -92,10 +91,9 @@
     </div>
     <div id="section2" class="container-fluid pt-5">
         <div class="container" style="margin: auto; width: 80%;">
+            <form >
             <div>
-            <h2>
-                장바구니
-            </h2>
+                <h2>장바구니</h2>
                 <table class="form-control" style="width: 100%;">
                     <thead>
                     <tr class="row">
@@ -117,8 +115,9 @@
                 <p style="color: #0c3ee1; ">총 결제액:</p>
             </div>
             <div>
-                <button class="btn btn-outline-primary">결제하기</button>
+                <button class="btn btn-outline-primary" type="submit">주문하기</button>
             </div>
+            </form>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -224,6 +223,27 @@
                 }
             });
         }
+        fetch('http://localhost:9000/member/memberpage/menuorderpayment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: orderAsJson,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Do something with the response data
+                // if you want to redirect to another page you can do the following:
+                window.location.href = "/nextPageURL";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         </script>
 </div>
 </body>

@@ -24,26 +24,18 @@ import java.time.LocalTime;
 )
 public class MenuSheet extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menuoption_sql")
-    private Long menuSheetIdx;//메뉴 옵션키
-    private Integer newOrderNo;//신규 주문번호
-    private Integer menuSheetState;//주문서 상태 0.주문전, 1.조리요청, 2.결제요청, 3.결제완료, 4.결제취소, 5.조리완료, 6.배달요청, 7.배달완료
-    private String menuSheetName;//주문서 이름
-    private LocalDateTime orderdate;//조리 요청일
-    private String orderProgressStatus;//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
-    private String menu;//메뉴
-    private Integer Amount_of_payment;//결제금액
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menusheet_sql")
+    private Long menuSheetIdx;//메뉴 시트 키
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="storeIdx")
-    private Store store;//매장
+    private Long orderIdx;//묶인 주문번호
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="roomIdx")
-    private Room room;//룸(방)
+    private String menuorderName;//주문메뉴
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="orderIdx")
-    private Order order;//매장
+    private Long menuorderPrice; //주문메뉴단일가격
+
+    private Long menuorderQuantity; //주문갯수
+
+    private Long AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
+
 
 }
