@@ -1,5 +1,11 @@
 package com.exam.hotelgers.dto;
 
+import com.exam.hotelgers.entity.Order;
+import com.exam.hotelgers.entity.Room;
+import com.exam.hotelgers.entity.Store;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -14,22 +20,18 @@ import java.time.LocalTime;
 @Builder
 public class MenuSheetDTO {
     private Long menuSheetIdx;//메뉴 옵션키
-    private Integer newOrderNo;//신규 주문번호
-    private Integer menuSheetState;//주문서 상태 0.주문전, 1.조리요청, 2.결제요청, 3.결제완료, 4.결제취소, 5.조리완료, 6.배달요청, 7.배달완료
-    private String menuSheetName;//주문서 이름
-    private LocalDateTime orderdate;//조리 요청일
-    private String orderProgressStatus;//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
-    private String menu;//메뉴
-    private Integer Amount_of_payment;//결제금액
 
-    private StoreDTO storeDTO;//매장DTO
-    private RoomDTO roomDTO;//룸DTO
-    private OrderDTO orderDTO;//주문DTO
-    private LocalDateTime startDate;//시작날짜
-    private LocalDateTime endDate;//종료날짜
+    private Long orderIdx;//묶인 주문번호
+
+    private String menuorderName;//주문메뉴
+    private Long menuorderPrice; //주문메뉴단일가격
+    private Long menuorderQuantity; //주문갯수
+    private Long AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
 
     private LocalDateTime regdate;//등록일
 
     private LocalDateTime moddate;//수정일
+
+
 
 }

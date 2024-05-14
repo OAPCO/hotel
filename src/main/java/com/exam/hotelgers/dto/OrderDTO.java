@@ -15,12 +15,17 @@ public class OrderDTO {
 
     private Long orderIdx;
 
-    private String orderCd;
+    private Long orderCd;
 
+    private Long total;
 
-    private DistDTO distDTO;
-    private StoreDTO storeDTO;
-    private RoomDTO roomDTO;
+    private Long memberIdx;
+    private Long orderState;//주문서 상태 0.결제완료 1.조리완료 2.배달완료 3.결제취소
+    private String orderRequest;
+
+    private Long storeIdx;
+
+    private Long roomIdx;
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;

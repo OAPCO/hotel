@@ -51,6 +51,7 @@
     <div id="section1" class="container-fluid pt-5">
         <!-- 메뉴 리스트 -->
         <div class="container" style="margin: auto; width: 80%;">
+            <h2>메뉴 주문</h2>
             <!-- 메뉴카테고리 -->
             <div class="btn-group-vertical" role="group" aria-label="Menu categories">
                 <button th:each="cate : ${menuCateList}"
@@ -88,32 +89,161 @@
             </div>
         </div>
     </div>
-    <div id="section2">
+    <div id="section2" class="container-fluid pt-5">
         <div class="container" style="margin: auto; width: 80%;">
-            <table>
-                <tr>
-                    <th>메뉴명</th>
-                    <th>가격</th>
-                    <th>개수</th>
-                    <th>총 합</th>
-                </tr>
-            </table>
+            <form >
+            <div>
+                <h2>장바구니</h2>
+                <table class="form-control" style="width: 100%;">
+                    <thead>
+                    <tr class="row">
+                        <th class="col-2">메뉴명</th>
+                        <th class="col-3">가격</th>
+                        <th class="col-3">주문 개수</th>
+                        <th class="col-3">총합</th>
+                        <th class="col-1">삭제</th>
+                    </tr>
+                    </thead>
+                    <!-- 추가 정보를 이 곳에 넣어 주세요 -->
+                    <tbody id="tableBody">
+
+                    </tbody>
+                </table>
+            </div>
+            <p></p>
+            <div class="fa-align-right" style="text-align: right">
+                <p style="color: #0c3ee1; ">총 결제액:</p>
+            </div>
+            <div>
+                <button class="btn btn-outline-primary" type="submit">주문하기</button>
+            </div>
+            </form>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-            function changeDetails(categoryId) {
-                let menuCards = Array.from(document.querySelectorAll(".card"));
+        $(document).ready(function() {
+            // 장바구니 버튼 클릭 이벤트
+            $(".info-container button").click(function() {
+                var menuName = $(this).parent().siblings('.text-container').find('.card-title').text();
+                var price = parseFloat($(this).parent().siblings('.text-container').find('.text-muted').text());
 
-                menuCards.forEach(card => {
-                    let cardCategory = card.dataset.category;
-
-                    if (cardCategory === categoryId) {
-                        card.style.display = "block";
-                    } else {
-                        card.style.display = "none";
+                var existedRow = null;
+                $('#tableBody tr').each(function() {
+                    if ($(this).children('.col-2').text() === menuName) {
+                        existedRow = $(this);
                     }
                 });
-            }
+
+                if (existedRow) {
+                    var quantityElem = existedRow.find(".quantity");
+                    var valueElem = existedRow.find('.value');
+                    var quantity = parseInt(quantityElem.text()) + 1;
+                    quantityElem.text(quantity);
+                    valueElem.text((price * quantity).toFixed(2));
+                } else {
+                    var rowHtml = '<tr class="row"><td class="col-2">' + menuName + '</td><td class="col-3"><span>' +
+                        price.toFixed(2) + '</span></td><td class="col-3">' +
+                        '<button class="btn btn-warning minus">-</button>' +
+                        '<span class="quantity">' + '1' + '</span>' +
+                        '<button class="btn btn-success plus">+</button>' +
+                        '</td><td class="col-3"><span class="value">' +
+                        price.toFixed(2) + '</span></td><td class="col-1">' +
+                        '<button class="btn btn-danger remove">삭제</button>' + '</td></tr>';
+                    $("#tableBody").append(rowHtml);
+
+                    $(".plus").last().on("click", function() {
+                        var quantityElem = $(this).siblings('.quantity');
+                        var unitPriceElem = $(this).parent().prev().find('span');
+                        var valueElem = $(this).parent().next().find('.value');
+                        var quantity = parseInt(quantityElem.text()) + 1;
+                        quantityElem.text(quantity);
+                        var unitPrice = parseFloat(unitPriceElem.text());
+                        valueElem.text((unitPrice * quantity).toFixed(2));
+                        calculateTotal();
+                    });
+
+                    $(".minus").last().on("click", function() {
+                        var quantityElem = $(this).siblings('.quantity');
+                        var unitPriceElem = $(this).parent().prev().find('span');
+                        var valueElem = $(this).parent().next().find('.value');
+                        var quantity = parseInt(quantityElem.text()) - 1;
+                        if (quantity === 0) {
+                            $(this).parent().parent().remove();
+                        } else {
+                            quantityElem.text(quantity);
+                            var unitPrice = parseFloat(unitPriceElem.text());
+                            valueElem.text((unitPrice * quantity).toFixed(2));
+                        }
+                        calculateTotal();
+                    });
+
+                    $(".remove").last().click(function() {
+                        $(this).parents("tr").remove();
+                        calculateTotal();
+                    });
+                }
+                calculateTotal();
+            });
+        });
+
+        function calculateTotal() {
+            var total = 0;
+            $('#tableBody tr').each(function() {
+                var temp = $(this).find(".value").text();
+                total += parseFloat(temp);
+            });
+            total = total.toFixed(2);
+            $('.fa-align-right p').text("총 결제액: " + total);
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let menuCategories = Array.from(document.querySelectorAll(".card"));
+            let firstCategoryId = menuCategories[0].dataset.category;
+
+            changeDetails(firstCategoryId);
+        });
+
+            // 카테고리 누를 시 메뉴 변경
+        function changeDetails(categoryId) {
+            let menuCards = Array.from(document.querySelectorAll(".card"));
+
+            menuCards.forEach(card => {
+                let cardCategory = card.dataset.category;
+
+                if (cardCategory === categoryId) {
+                    card.style.display = "flex";
+                    card.style.flexDirection = "row";
+                    card.style.marginBottom = "20px";
+                    card.style.backgroundColor = "#fff";
+                    card.style.borderRadius = "10px";
+                    card.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.1)";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+        fetch('http://localhost:9000/member/memberpage/menuorderpayment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: orderAsJson,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Do something with the response data
+                // if you want to redirect to another page you can do the following:
+                window.location.href = "/nextPageURL";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         </script>
 </div>
 </body>
