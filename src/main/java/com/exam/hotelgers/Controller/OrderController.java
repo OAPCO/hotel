@@ -337,7 +337,7 @@ public class OrderController {
 
         StoreDTO storeDTO = managerService.managerOfStore(principal);
         DistDTO distDTO = managerService.managerOfDist(principal);
-        Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
+        List<RoomDTO> roomDTOS = managerService.managerOfLoom(principal);
 
         Page<OrderDTO> orderDTOS = orderService.list(pageable);
 

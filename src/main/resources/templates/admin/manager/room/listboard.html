@@ -6,130 +6,62 @@
 <head>
     <title>룸 관리</title>
     <link rel="stylesheet" href="/yhh.css">
+
+    <style>
+        .row {
+            display: flex;
+            margin-bottom: 10px; /* 행 사이 간격 조정 */
+            padding-left: 20px; /* 행의 왼쪽 간격 조정 */
+        }
+        .card {
+            margin: 5px; /* 카드 사이 간격 조정 */
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+
 </head>
 
 <body>
 <div layout:fragment="content">
-    <h4 class="card-title">[[${storeDTO.storeName}]] 관리</h4>
+
+    <h4 class="card-title">[[${storeDTO.storeName}]]</h4>
+
+
+    <div id="main-container"></div>
+
     <div class="card">
+    <div class="card-body">
+        <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+            예약 요청 현황
+        </div>
+        <div class="table-responsive">
+            <table class="table body">
+                <thead>
+                <tr>
+                    <th>우선순위</th>
+                    <th>룸 구분</th>
+                    <th>투숙 인원</th>
+                    <th>예약일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="orderList:${roomOrderDTOS}">
+                    <td th:text="${orderList.roomorderIdx}"></td>
+                    <td th:text="${orderList.roomOrderType}"></td>
+                    <td th:text="${orderList.peopleNum}"></td>
+                    <td th:text="${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}"></td>
+                </tr>
 
 
-        <div class="card-body">
-            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-                객실 목록
-            </div>
-
-            <script>
-                function changeCardType(roomIdx2, roomName2, roomCd2, roomType2, roomStatus2) {
-
-                    var card = document.getElementById(roomCd2);
-
-
-                    if(card) {
-                        console.log(roomCd2);
-
-                        card.removeAttribute('onclick');
-                        card.className = 'card room-card';
-
-                        card.addEventListener('click', function () {
-                            window.location.href = '/admin/manager/room/' + roomIdx2;
-                        });
-
-
-                        var roomType = null;
-                        switch (roomType2){
-                            case "NORMAL" : roomType = "일반실"; break;
-                            case "SPECIAL" : roomType = "특실"; break;
-                            case "PARTYROOM" : roomType = "파티룸"; break;
-                        }
-
-                        console.log(roomStatus2);
-
-                        var roomStatus = null;
-                        switch (roomStatus2){
-                            case 0 : roomStatus = "[빈 방]"; break;
-                            case 1 : roomStatus = "[예약됨]"; break;
-                            case 2 : roomStatus = "[사용중]"; break;
-                        }
-
-                        var roomNameSpan = document.createElement("span");
-                        roomNameSpan.textContent = roomName2;
-                        roomNameSpan.style.fontSize = "24px"; // 크기 조정
-                        roomNameSpan.style.fontStyle.bold();
-                        card.appendChild(roomNameSpan);
-                        card.appendChild(document.createTextNode(roomType));
-                        card.appendChild(document.createElement("br"));
-                        card.appendChild(document.createTextNode(roomStatus));
-
-                    }
-
-
-                }
-            </script>
-
-
-            <div class="row">
-
-                <div class="col-custom-12" th:each="index : ${#numbers.sequence(1, 60)}">
-                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
-
-                    <div th:each="data: ${list}">
-                        <div th:if="${data.roomCd.contains('roomCard' + index)}" class="col-custom-12">
-                            <script th:inline="javascript">
-
-                                var roomStatus2 = [[${data.roomStatus}]];
-                                var roomType2 = [[${data.roomType}]];
-                                var roomCd2 = [[${data.roomCd}]];
-                                var roomName2 = [[${data.roomName}]];
-                                var roomIdx2 = [[${data.roomIdx}]];
-
-                                changeCardType(roomIdx2,roomName2,roomCd2, roomType2, roomStatus2);
-
-                            </script>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
-
-
-            <div class="card-body">
-                <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-                    예약 요청 현황
-                </div>
-                <div class="table-responsive">
-                    <table class="table body">
-                        <thead>
-                        <tr>
-                            <th>우선순위</th>
-                            <th>룸 구분</th>
-                            <th>투숙 인원</th>
-                            <th>예약일</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="orderList:${roomOrderDTOS}">
-                            <td th:text="${orderList.roomorderIdx}"></td>
-                            <td th:text="${orderList.roomOrderType}"></td>
-                            <td th:text="${orderList.peopleNum}"></td>
-                            <td th:text="${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}"></td>
-                        </tr>
-
-
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-
+                </tbody>
+            </table>
+        </div>
 
     </div>
-</div>
+    </div>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script th:inline="javascript">
 
 
@@ -148,66 +80,94 @@
         }
 
 
+        function handleCardClick() {
+            roomRegister(this);
+        }
 
-        function changeCard(roomIdx, roomName, roomCd, roomType, roomStatus) {
-            var card = document.getElementById(roomCd);
 
-            if (card) {
-                card.removeAttribute('onclick');
-                card.className = 'card room-card';
 
-                card.addEventListener('click', function () {
-                    window.location.href = '/admin/manager/room/' + roomIdx;
-                });
+        var roomList = [[${list}]];
+        console.log(roomList[0]);
 
-                var roomTypeText = null;
-                switch (roomType) {
-                    case "NORMAL":
-                        roomTypeText = "일반실";
-                        break;
-                    case "SPECIAL":
-                        roomTypeText = "특실";
-                        break;
-                    case "PARTYROOM":
-                        roomTypeText = "파티룸";
-                        break;
+
+        function createCards(totalCards, cardsPerRow) {
+            const mainContainer = document.getElementById('main-container');
+
+            let row;
+            for (let i = 1; i <= totalCards; i++) {
+                if ((i - 1) % cardsPerRow === 0) {
+                    row = document.createElement('div');
+                    row.className = 'row';
+                    mainContainer.appendChild(row);
                 }
 
-                var roomStatusText = null;
-                switch (roomStatus) {
-                    case 0:
-                        roomStatusText = "[빈 방]";
-                        break;
-                    case 1:
-                        roomStatusText = "[예약됨]";
-                        break;
-                    case 2:
-                        roomStatusText = "[사용중]";
-                        break;
-                }
+                const card = document.createElement('div');
+                card.id = `roomCard${i}`;
+                card.className = 'card room-empty';
+                row.appendChild(card);
 
-                var roomNameSpan = document.createElement("span");
-                roomNameSpan.textContent = roomName;
-                roomNameSpan.style.fontSize = "24px"; // 크기 조정
-                card.appendChild(roomNameSpan);
-                card.appendChild(document.createTextNode(roomTypeText));
-                card.appendChild(document.createElement("br"));
-                card.appendChild(document.createTextNode(roomStatusText));
+                card.addEventListener('click', handleCardClick);
+
+
             }
         }
 
+        createCards(60, 12);
 
-    </script>
+        for(let i = 0; i < roomList.length; i++) {
+
+            console.log(roomList[i]);
+
+            var card = document.getElementById(roomList[i].roomCd);
+            console.log(card);
+
+            if(card) {
+
+                card.removeEventListener('click', handleCardClick);
+                card.className = 'card room-card';
 
 
-    <script th:inline="javascript">
-        var processMessage = null;
-        if (processMessage) {
-            alert(processMessage);
+                var roomTypeText = [];
+                switch (roomList[i].roomType) {
+                    case "NORMAL":
+                        roomTypeText[i] = "일반실";
+                        break;
+                    case "SPECIAL":
+                        roomTypeText[i] = "특실";
+                        break;
+                    case "PARTYROOM":
+                        roomTypeText[i] = "파티룸";
+                        break;
+                }
+
+                var roomStatus = [];
+                switch (roomList[i].roomStatus) {
+                    case 0:
+                        roomStatus[i] = "[빈 방]";
+                        break;
+                    case 1:
+                        roomStatus[i] = "[예약됨]";
+                        break;
+                    case 2:
+                        roomStatus[i] = "[사용중]";
+                        break;
+                }
+
+
+
+                var roomNameSpan = document.createElement("span");
+                roomNameSpan.textContent = roomList[i].roomName;
+                roomNameSpan.style.fontSize = "18px"; // 크기 조정
+                card.appendChild(roomNameSpan);
+                card.appendChild(document.createTextNode(roomTypeText[i]));
+                card.appendChild(document.createElement("br"));
+                card.appendChild(document.createTextNode(roomStatus[i]));
+            }
+
+
         }
+
     </script>
-
-
 
 </div>
 </body>

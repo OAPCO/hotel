@@ -2,6 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.dto.MemberDTO;
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.util.PageConvert;
@@ -16,10 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -127,4 +125,7 @@ public class MemberController {
         model.addAttribute("memberDTO",memberDTO);
         return "member/read";
     }
+
+
+
 }

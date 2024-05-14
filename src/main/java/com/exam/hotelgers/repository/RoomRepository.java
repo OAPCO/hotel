@@ -26,7 +26,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 
 
     @Query("select r from Room r join r.store s where (r.store.storeCd LIKE %:storeCd%)")
-    Page<Room> loginManagerRoomSearch(String storeCd,Pageable pageable);
+    List<Room> loginManagerRoomSearch(String storeCd);
 
 
 

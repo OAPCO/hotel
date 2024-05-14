@@ -56,19 +56,42 @@
 
             return isValid;
         }
+
         function idCheck() {
             var emailInput = document.querySelector('input[name="memberEmail"]');
             var emailFeedback = document.getElementById('emailFeedback');
+            var email = emailInput.value.trim();
 
-            if (!emailInput.value.trim()) {
+            if (!email) {
                 emailFeedback.style.display = 'block';
                 return false; // 이메일 입력란이 비어있으면 중복 확인을 하지 않음
             } else {
                 emailFeedback.style.display = 'none';
-                // 이메일이 입력되었을 때 중복 확인을 진행하도록 원하는 코드를 여기에 추가
-                // 여기서는 단순히 false를 반환하여 실제로 중복 확인이 실행되지 않도록 하였음
-                return false;
+
+                // AJAX를 이용해 서버로 중복 확인 요청을 보냄
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/emailcheck/' + encodeURIComponent(email), true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var result = JSON.parse(xhr.responseText);
+                            if (result === 0) {
+                                // 중복되지 않은 경우
+                                alert('사용 가능한 이메일입니다');
+                            } else {
+                                // 중복된 경우
+                                alert('이미 사용중인 이메일입니다.');
+                            }
+                        } else {
+                            // 서버에서 오류가 발생한 경우
+                            alert('서버 오류가 발생했습니다.');
+                        }
+                    }
+                };
+                xhr.send();
             }
+
+            return false; // 중복 확인 버튼 클릭 시 폼 전송 방지
         }
     </script>
     <div class="container">
@@ -87,13 +110,16 @@
                                     <div class="col-sm-5 mb-3 mb-sm-0">
                                         <input class="form-control form-control-user" type="email" aria-describedby="emailHelp" placeholder="이메일" name="memberEmail">
                                         <div class="invalid-feedback" id="emailFeedback" style="display: none; margin-left: 40px">이메일을 입력하세요.</div>
+                                        <span id="emailResult"></span>
                                     </div>
                                     <div  class="Duplicate col-sm-2 mb-3 mb-sm-0">
-                                    <button class="Duplicate-check btn btn-primary" onclick="return idCheck()">중복확인</button>
+                                        <button class="Duplicate-check btn btn-primary" onclick="return idCheck()">중복확인</button>
+
                                     </div>
                                     <div class="col-sm-5 mb-3 mb-sm-0">
                                         <input class="form-control form-control-user" type="password" placeholder="비밀번호" name="password">
                                         <div class="invalid-feedback" id="passwordFeedback" style="display: none; margin-left: 40px">비밀번호를 입력하세요.</div>
+
                                     </div>
 
                                 </div>

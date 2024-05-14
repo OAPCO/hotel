@@ -1,10 +1,7 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.service.BrandService;
-import com.exam.hotelgers.service.ManagerService;
-import com.exam.hotelgers.service.SearchService;
-import com.exam.hotelgers.service.StoreService;
+import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +34,7 @@ public class ScriptController {
     private final StoreService storeService;
     private final BrandService brandService;
     private final ManagerService managerService;
+    private final MemberService memberService;
 
 
 
@@ -75,7 +75,14 @@ public class ScriptController {
         return result;
     }
 
-
-
-
+    @GetMapping("/emailcheck/{memberEmail}")
+    public ResponseEntity<Integer> checkEmailDuplication(@PathVariable String memberEmail) {
+        SearchDTO searchDTO = new SearchDTO();
+        searchDTO.setMemberEmail(memberEmail);
+        int result = memberService.checkEmailDuplication(searchDTO);
+        log.info("중복확인"+result+memberEmail);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }
+
+
