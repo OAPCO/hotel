@@ -91,6 +91,27 @@
     </div>
     <div id="section2" class="container-fluid pt-5">
         <div class="container" style="margin: auto; width: 80%;">
+            <h2 class="text-primary">
+                주문자 정보
+            </h2>
+
+            <div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div id="section3" class="container-fluid pt-5">
+        <div class="container" style="margin: auto; width: 80%;">
             <form >
             <div>
                 <h2>장바구니</h2>
@@ -223,27 +244,7 @@
                 }
             });
         }
-        fetch('http://localhost:9000/member/memberpage/menuorderpayment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: orderAsJson,
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Do something with the response data
-                // if you want to redirect to another page you can do the following:
-                window.location.href = "/nextPageURL";
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+
         </script>
 </div>
 </body>

@@ -34,121 +34,43 @@ public class MenuSheetService {
 
 
 
-    //등록
-    public Long register(MenuSheetDTO menuSheetDTO) {
-
-        
-        Optional<Store> store = storeRepository.findByStoreCd(menuSheetDTO.getStoreDTO().getStoreCd());
-        Optional<Room> room = roomRepository.findByRoomCd(menuSheetDTO.getRoomDTO().getRoomCd());
-        Optional<Order> order = orderRepository.findByOrderCd(menuSheetDTO.getOrderDTO().getOrderCd());
-
-        
-        if (!store.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
-        }
-        if (!room.isPresent()) {
-            throw new IllegalStateException("존재하지 않는 룸 코드입니다.");
-        }
 
 
 
-
-        Optional<MenuSheet> temp = menuSheetRepository.findByNewOrderNo(menuSheetDTO.getNewOrderNo());
-
-        if(temp.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 코드입니다.");
-        }
-
-
-        MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
-
-        
-        menuSheet.setStore(store.get());
-        menuSheet.setRoom(room.get());
-        menuSheet.setOrder(order.get());
-
-
-        modelMapper.map(store.get(), menuSheetDTO.getStoreDTO());
-        modelMapper.map(room.get(), menuSheetDTO.getRoomDTO());
-        modelMapper.map(order.get(),menuSheetDTO.getOrderDTO());
-
-
-
-        return menuSheetRepository.save(menuSheet).getMenuSheetIdx();
-    }
-
-    
-
-    //수정
-    public void modify(MenuSheetDTO menuSheetDTO){
-
-
-        Optional<MenuSheet> temp = menuSheetRepository
-                .findByMenuSheetIdx(menuSheetDTO.getMenuSheetIdx());
-
-        if(temp.isPresent()) {
-
-            MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
-            menuSheetRepository.save(menuSheet);
-        }
-
-    }
-
-
-
-    //삭제
-    public void delete(Long orderIdx){
-        menuSheetRepository.deleteById(orderIdx);
-    }
-
-
-
-    public MenuSheetDTO read(Long id) {
-        Optional<MenuSheet> storeMember = menuSheetRepository.findByMenuSheetIdx(id);
-        //SalesDTO result = modelMapper.map(storeMember, SalesDTO.class);
-        MenuSheetDTO result = storeMember.map(data->modelMapper.map(data, MenuSheetDTO.class)).orElse(null);
-
-        return result;
-    }
-
-
-
-
-
-    public Page<MenuSheetDTO> searchList(Pageable pageable, MenuSheetDTO menuSheetDTO, StoreDTO storeDTO, RoomDTO roomDTO) {
-
-        int currentPage = pageable.getPageNumber() - 1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage, pageCnt,
-                Sort.by(Sort.Direction.DESC,"menuSheetIdx"));
-        String storeName = null;
-        String roomCd = null;
-
-        // 매장 DTO가 null이 아닌 경우에 매장명을 가져옴
-        if (menuSheetDTO.getStoreDTO() != null) {
-            storeName = menuSheetDTO.getStoreDTO().getStoreName();
-        }
-
-        // 룸 DTO가 null이 아닌 경우에 룸 코드를 가져옴
-        if (menuSheetDTO.getRoomDTO() != null) {
-            roomCd = menuSheetDTO.getRoomDTO().getRoomCd();
-        }
-
-
-        Page<MenuSheet> menuSheets = menuSheetRepository.menuSheetListSearch(
-                storeName,  // 수정: storeName 변수로 변경
-                roomCd, // 수정: roomCd 변수로 변경
-                menuSheetDTO.getNewOrderNo(), //신규 주문번호
-                menuSheetDTO.getMenuSheetState(),//주문서 상태 0.주문전, 1.조리요청, 2.결제요청, 3.결제완료, 4.결제취소, 5.조리완료, 6.배달요청, 7.배달완료
-                menuSheetDTO.getStartDate(),//시작날짜
-                menuSheetDTO.getEndDate(),//종료날짜
-                menuSheetDTO.getOrderProgressStatus(),//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
-                menuSheetDTO.getMenuSheetName(),//주문서 이름
-                pageable);
-
-
-        Page<MenuSheetDTO> result = menuSheets.map(data->modelMapper.map(data,MenuSheetDTO.class));
-
-        return result;
-    }
+//    public Page<MenuSheetDTO> searchList(Pageable pageable, MenuSheetDTO menuSheetDTO, StoreDTO storeDTO, RoomDTO roomDTO) {
+//
+//        int currentPage = pageable.getPageNumber() - 1;
+//        int pageCnt = 5;
+//        Pageable page = PageRequest.of(currentPage, pageCnt,
+//                Sort.by(Sort.Direction.DESC,"menuSheetIdx"));
+//        String storeName = null;
+//        String roomCd = null;
+//
+//        // 매장 DTO가 null이 아닌 경우에 매장명을 가져옴
+//        if (menuSheetDTO.getStoreDTO() != null) {
+//            storeName = menuSheetDTO.getStoreDTO().getStoreName();
+//        }
+//
+//        // 룸 DTO가 null이 아닌 경우에 룸 코드를 가져옴
+//        if (menuSheetDTO.getRoomDTO() != null) {
+//            roomCd = menuSheetDTO.getRoomDTO().getRoomCd();
+//        }
+//
+//
+//        Page<MenuSheet> menuSheets = menuSheetRepository.menuSheetListSearch(
+//                storeName,  // 수정: storeName 변수로 변경
+//                roomCd, // 수정: roomCd 변수로 변경
+//                menuSheetDTO.getNewOrderNo(), //신규 주문번호
+//                menuSheetDTO.getMenuSheetState(),//주문서 상태 0.주문전, 1.조리요청, 2.결제요청, 3.결제완료, 4.결제취소, 5.조리완료, 6.배달요청, 7.배달완료
+//                menuSheetDTO.getStartDate(),//시작날짜
+//                menuSheetDTO.getEndDate(),//종료날짜
+//                menuSheetDTO.getOrderProgressStatus(),//주문상태(NEW 신규,CHECK 접수,CANCEL 취소,CALL 호출,CLOSE 완료)
+//                menuSheetDTO.getMenuSheetName(),//주문서 이름
+//                pageable);
+//
+//
+//        Page<MenuSheetDTO> result = menuSheets.map(data->modelMapper.map(data,MenuSheetDTO.class));
+//
+//        return result;
+//    }
 }

@@ -64,13 +64,16 @@ public class MemberpageController {
         return "member/memberpage/index";
     }
     @GetMapping("/member/memberpage/menuorder/{storeIdx}")
-    public String menuorder(Model model, @PathVariable Long storeIdx) throws Exception {
+    public String menuorder(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
         StoreDTO storeDTO = storeService.read(storeIdx);
 
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
             return "redirect:/admin/distchief/store/list";
         }
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+        log.info(memberDTO.getMemberIdx());
 
         model.addAttribute("store", storeDTO);
         model.addAttribute("brand", storeDTO.getBrandDTO());
@@ -79,6 +82,7 @@ public class MemberpageController {
         model.addAttribute("manager", storeDTO.getManagerDTO());
         model.addAttribute("roomList", storeDTO.getRoomDTOList());
         model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
+        model.addAttribute("memberDTO", memberDTO);
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);

@@ -108,9 +108,6 @@ public class Store extends BaseEntity{
 
     @ToString.Exclude
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
-    private List<Order> orderList = new ArrayList<>();
-    @ToString.Exclude
-    @OneToMany(mappedBy="store", cascade = CascadeType.ALL)
     private List<Room> roomList = new ArrayList<>();
     @ToString.Exclude
     @OneToMany(mappedBy="store", cascade = CascadeType.ALL)

@@ -309,7 +309,6 @@ public class StoreService {
             StoreDTO dto = modelMapper.map(store, StoreDTO.class);
             dto.setDistDTO(searchService.convertToDistDTO(dist));
 
-            dto.setOrderDTOList(searchService.convertToOrderDTOList(store.getOrderList()));
             dto.setRoomDTOList(searchService.convertToRoomDTOList(store.getRoomList()));
 
             List<MenuCateDTO> menuCateDTOList = searchService.convertToMenuCateDTOList(store.getMenuCateList());

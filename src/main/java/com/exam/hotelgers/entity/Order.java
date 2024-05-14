@@ -27,7 +27,6 @@ public class Order extends BaseEntity {
     private Long orderIdx;
 
     @Column(length = 60, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long orderCd; //주문번호
 
     private Long total; //총 결제 금액
@@ -40,7 +39,10 @@ public class Order extends BaseEntity {
 
     private Long storeIdx;
 
-    private Long roomIdx;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="roomIdx")
+    private Room room;
 
 
 }
