@@ -53,6 +53,12 @@
             } else {
                 document.getElementById('nameFeedback').style.display = 'none';
             }
+            if (!nameInput.value.trim()) {
+                document.getElementById('telFeedback').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('telFeedback').style.display = 'none';
+            }
 
             return isValid;
         }
@@ -61,12 +67,25 @@
             var emailInput = document.querySelector('input[name="memberEmail"]');
             var emailFeedback = document.getElementById('emailFeedback');
             var email = emailInput.value.trim();
+            function validateEmail(email) {
+                // 이메일 형식 정규 표현식
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailPattern.test(email);
+            }
+            // 이메일 형식이 아닌 경우
 
             if (!email) {
                 emailFeedback.style.display = 'block';
                 return false; // 이메일 입력란이 비어있으면 중복 확인을 하지 않음
-            } else {
+            }
+            else if (!validateEmail(email)) {
+                emailFeedback.textContent = '올바른 이메일 주소를 입력하세요.';
+                emailFeedback.style.display = 'block';
+                return false;
+            }
+            else {
                 emailFeedback.style.display = 'none';
+
 
                 // AJAX를 이용해 서버로 중복 확인 요청을 보냄
                 var xhr = new XMLHttpRequest();
@@ -75,12 +94,14 @@
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             var result = JSON.parse(xhr.responseText);
-                            if (result === 0) {
-                                // 중복되지 않은 경우
-                                alert('사용 가능한 이메일입니다');
-                            } else {
-                                // 중복된 경우
+                            if(result === 1 || result === null) {
+                                // 중복된 경우 - 회원 가입 불가능
+                                document.getElementById('registerButton').disabled = true;
                                 alert('이미 사용중인 이메일입니다.');
+                            } else {
+                                // 중복되지 않은 경우 - 회원 가입 가능
+                                document.getElementById('registerButton').disabled = false;
+                                alert('사용 가능한 이메일입니다');
                             }
                         } else {
                             // 서버에서 오류가 발생한 경우
@@ -134,11 +155,12 @@
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <input class="form-control form-control-user" type="text" placeholder="전화번호" name="memberPhone">
                                         <div class="invalid-feedback" id="phone" style="display: none; margin-left: 40px">전화번호 입력</div>
+                                        <div class="invalid-feedback" id="telFeedback" style="display: none; margin-left: 40px">전화번호를 입력하세요.</div>
                                     </div>
 
                                 </div>
-                                <button class="btn btn-primary d-block btn-user w-100" type="submit">회원 가입
-                                </button>
+                                <button id="registerButton" class="btn btn-primary d-block btn-user w-100" type="submit">회원 가입</button>
+
                             </form>
                         </div>
                     </div>
