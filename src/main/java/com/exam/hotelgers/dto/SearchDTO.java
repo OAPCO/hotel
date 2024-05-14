@@ -96,10 +96,18 @@ public class SearchDTO {
 
     //roomorder
     private Long roomorderIdx;
-    private String userName;
-    private String userPhone;
+
     private String startTime;
     private String endTime;
+
+    private int reservationDateCheckin;
+    private int reservationDateCheckout;
+    private String checkinTime;
+    private String checkoutTime;
+
+
+    private String roomOrderType;
+    private String peopleNum;
 
 
 

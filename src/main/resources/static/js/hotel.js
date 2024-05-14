@@ -115,9 +115,39 @@ let hotel = (function () {
     };
 
 
+    function searchRoomImage(roomIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/roomimage/'+roomIdx,
+            contentType : "application/json; charset=utf-8",
+
+            success: function(data) {
+
+                // 데이터를 HTML 요소에 추가
+                var imageContainer = $('#image-container');
+                imageContainer.empty(); // 기존 내용을 비움
+
+                // data가 배열이므로 각 항목을 처리
+                data.forEach(function(imageDTO) {
+                    var imgElement = $('<img>').attr('src', imageDTO.url);
+                    imageContainer.append(imgElement);
+                });
 
 
-    
+            },
+            error: function(xhr, status, error) {
+                console.error('Failed to retrieve stores: ' + error);
+            }
+        });
+
+    };
+
+
+
+
+
+
     //값 반환
     return {
         selectDistOfStore  : selectDistOfStore,

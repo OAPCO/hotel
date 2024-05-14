@@ -21,9 +21,22 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
 
 
     
-    //룸 이미지 목록 조회
-//    @Query("select i from Image i where (i.roomIdx = :roomIdx)")
-//    List<Image> roomImageList (Long roomIdx);
+//    룸 이미지 목록 조회
+    @Query("select i from Image i where (i.roomIdx = :roomIdx)")
+    List<Image> roomImageList (Long roomIdx);
+
+
+
+    //객실 상세 사진 보기
+    @Query(value = "select i from Image i join Room r on i.roomIdx = r.roomIdx where r.roomIdx = :roomIdx")
+    List<Image> roomDetailImageSearch(Long roomIdx);
+
+
+    @Query(value = "select i from Image i join Room r on i.roomIdx = r.roomIdx " +
+            "join Store s on s.storeIdx = r.store.storeIdx " +
+            "where s.storeIdx = :storeIdx")
+    List<Image> roomDetailImageSearch2(Long StoreIdx);
+
 
 
 

@@ -4,6 +4,7 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.AdminDTO;
 import com.exam.hotelgers.dto.ImageDTO;
+import com.exam.hotelgers.dto.RoomDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.AdminRepository;
@@ -64,6 +65,30 @@ public class ImageService {
     }
 
 
+
+
+    public void roomImageregister(List<MultipartFile> imgFiles, Long roomIdx, String roomType) throws IOException {
+
+        for (MultipartFile imgFile : imgFiles) {
+            String originalFileName = imgFile.getOriginalFilename();
+            String newFileName = "";
+
+            if (originalFileName != null) {
+                newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
+            }
+
+            Image image = new Image();
+            image.setImgName(newFileName);
+            image.setRoomIdx(roomIdx);
+            image.setRoomImageType(roomType);
+
+            imageRepository.save(image);
+        }
+    }
+
+
+
+
     public List<ImageDTO> getBannerImages(Long bannerIdx) {
         List<Image> images = imageRepository.bannerImageList(bannerIdx);
         // 이미지 엔티티를 이미지 DTO로 변환
@@ -76,5 +101,32 @@ public class ImageService {
     public void delete(Long imageIdx){
         imageRepository.deleteById(imageIdx);
     }
+
+
+    public List<ImageDTO> roomImageSearch(Long roomIdx) {
+
+
+        List<Image> images = imageRepository.roomDetailImageSearch(roomIdx);
+
+
+        List<ImageDTO> imageDTOS = images.stream()
+                .map(image -> modelMapper.map(image, ImageDTO.class))
+                .collect(Collectors.toList());
+
+        return imageDTOS;
+    }
+
+//    public List<ImageDTO> roomImageSearch2(Long roomIdx) {
+//
+//
+//        List<Image> images = imageRepository.roomDetailImageSearch2(roomIdx);
+//
+//
+//        List<ImageDTO> imageDTOS = images.stream()
+//                .map(image -> modelMapper.map(image, ImageDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return imageDTOS;
+//    }
 
 }

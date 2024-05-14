@@ -35,6 +35,14 @@ public class ScriptController {
     private final BrandService brandService;
     private final ManagerService managerService;
     private final MemberService memberService;
+    private final ImageService imageService;
+
+    @Value("${cloud.aws.s3.bucket}")
+    public String bucket;
+    @Value("${cloud.aws.region.static}")
+    public String region;
+    @Value("${imgUploadLocation}")
+    public String folder;
 
 
 
@@ -82,6 +90,17 @@ public class ScriptController {
         int result = memberService.checkEmailDuplication(searchDTO);
         log.info("중복확인"+result+memberEmail);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+
+    //객실 사진 상세보기 페이지
+    @GetMapping(value = "/roomimage/{roomIdx}",consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ImageDTO> roomreadform(Model model, @PathVariable Long roomIdx) throws Exception {
+
+
+        List<ImageDTO> imageDTOS = imageService.roomImageSearch(roomIdx);
+
+        return imageDTOS;
     }
 }
 

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class RoomService {
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
     private final SearchService searchService;
+    private final ImageService imageService;
 
     @Value("${imgUploadLocation}")
     private String imgUploadLocation;
@@ -39,7 +41,8 @@ public class RoomService {
     private final S3Uploader s3Uploader;
 
 
-    public Long register(RoomDTO roomDTO, MultipartFile imgFile) throws IOException {
+
+    public Long register(RoomDTO roomDTO,List<MultipartFile> imgFiles) throws IOException {
 
         Optional<Store> store = storeRepository.storeNameSearch(roomDTO.getStoreDTO().getStoreName());
 
@@ -56,14 +59,6 @@ public class RoomService {
             throw new IllegalStateException("이미 존재하는 코드입니다.");
         }
 
-        String originalFileName = imgFile.getOriginalFilename();
-        String newFileName = "";
-
-        if (originalFileName != null) {
-            newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
-        }
-
-        roomDTO.setRoomimgName(newFileName);
 
         Room room = modelMapper.map(roomDTO, Room.class);
 
@@ -71,9 +66,13 @@ public class RoomService {
         room.setStore(store.get());
 
 
-        roomRepository.save(room);
+        Long roomIdx = roomRepository.save(room).getRoomIdx();
 
-        return roomRepository.save(room).getRoomIdx();
+        String roomType = room.getRoomType().toString();
+
+        imageService.roomImageregister(imgFiles,roomIdx,roomType);
+
+        return roomIdx;
     }
 
 
@@ -197,6 +196,22 @@ public class RoomService {
     public void roomStatusUpdate(RoomOrderDTO roomOrderDTO){
         roomRepository.roomStatusUpdate(roomOrderDTO);
     }
+
+
+    public List<RoomDTO> roomTypeSearch(Long storeIdx) {
+
+
+        List<Room> rooms = roomRepository.roomTypeSearch(storeIdx);
+
+
+        List<RoomDTO> roomDTOS = rooms.stream()
+                .map(room -> modelMapper.map(room, RoomDTO.class))
+                .collect(Collectors.toList());
+
+        return roomDTOS;
+    }
+
+
 
 
 }
