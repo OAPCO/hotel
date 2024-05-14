@@ -57,6 +57,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("delete from Member m where m.memberIdx = :memberIdx")
     void memberInfoDelete(Long memberIdx);
 
-
+    @Query("select m.memberEmail from Member m where m.memberEmail = :#{#searchDTO.memberEmail}")
+    String emailcheck(SearchDTO searchDTO);
 
 }

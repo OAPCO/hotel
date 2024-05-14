@@ -32,18 +32,18 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-    
-    
+
+
     //이 부분은 회원 crud 부분
 
 
     public Long register(MemberDTO memberDTO) {
-        
-        
+
+
         Optional<Member> memberEntity = memberRepository
                 .findByMemberEmail(memberDTO.getMemberEmail());
 
-        if(memberEntity.isPresent()) {
+        if (memberEntity.isPresent()) {
             throw new IllegalStateException("이미 가입된 이메일입니다.");
         }
 
@@ -58,13 +58,13 @@ public class MemberService {
     }
 
 
-    public void modify(MemberDTO memberDTO){
+    public void modify(MemberDTO memberDTO) {
 
 
         Optional<Member> memberEntity = memberRepository
                 .findByMemberIdx(memberDTO.getMemberIdx());
 
-        if(memberEntity.isPresent()) {
+        if (memberEntity.isPresent()) {
 
             String password = passwordEncoder.encode(memberDTO.getPassword());
             Member member = modelMapper.map(memberDTO, Member.class);
@@ -77,63 +77,53 @@ public class MemberService {
         }
 
 
-
-
-
     }
 
-    public MemberDTO read(Long memberIdx){
+    public MemberDTO read(Long memberIdx) {
 
-        Optional<Member> member= memberRepository.findById(memberIdx);
+        Optional<Member> member = memberRepository.findById(memberIdx);
 
 
-        return modelMapper.map(member,MemberDTO.class);
+        return modelMapper.map(member, MemberDTO.class);
     }
-    
 
 
-    public Page<MemberDTO> list(Pageable pageable){
+    public Page<MemberDTO> list(Pageable pageable) {
 
-        int currentPage = pageable.getPageNumber()-1;
+        int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"memberIdx"));
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "memberIdx"));
 
         Page<Member> members = memberRepository.findAll(page);
 
 
-        Page<MemberDTO> memberDTOS = members.map(data->modelMapper.map(data,MemberDTO.class));
+        Page<MemberDTO> memberDTOS = members.map(data -> modelMapper.map(data, MemberDTO.class));
 
         return memberDTOS;
     }
 
 
-
-    public void delete(Long memberIdx){
+    public void delete(Long memberIdx) {
         memberRepository.deleteById(memberIdx);
     }
-
-
-
 
 
     //여기서부터 실제 회원 사이트의 서비스들
 
 
-    
     //마이페이지 - 내 정보 조회
     public MemberDTO memberInfoSearch(Principal principal) {
 
         String userId = principal.getName();
         Optional<Member> member = memberRepository.memberInfoSearch(userId);
 
-        if(!member.isPresent()) {
+        if (!member.isPresent()) {
             throw new IllegalStateException("없는 회원입니다.");
         }
 
 
-        return modelMapper.map(member.get(),MemberDTO.class);
+        return modelMapper.map(member.get(), MemberDTO.class);
     }
-
 
 
     @Transactional
@@ -143,7 +133,6 @@ public class MemberService {
         memberRepository.memberInfoUpdate(searchDTO);
 
     }
-
 
 
 //    @Transactional
@@ -177,23 +166,34 @@ public class MemberService {
         String password = searchDTO.getPassword();
 
         //두개가 일치하는지 비교
-        boolean matches = passwordEncoder.matches(passwordEnc,password);
+        boolean matches = passwordEncoder.matches(passwordEnc, password);
 
         log.info("비밀번호 대조 결과@@" + matches);
 
 
 //        Long memberIdx = memberRepository.memberPwdCheck(searchDTO,passwordEnc);
 
-        if (matches==false) {
+        if (matches == false) {
             throw new IllegalStateException("비밀번호가 다릅니다.");
         }
 
-        if (matches==true) {
+        if (matches == true) {
             memberRepository.memberInfoDelete(searchDTO.getMemberIdx());
         }
 
 
     }
 
+    public int checkEmailDuplication(SearchDTO searchDTO) {
+        // 입력된 이메일과 중복된 이메일을 찾기 위해 리포지토리에서 확인
+        String existingEmail = memberRepository.emailcheck(searchDTO);
 
+        // 중복된 이메일이 없으면 0 반환
+        if (existingEmail == null) {
+            return 0;
+        } else {
+            // 중복된 이메일이 있으면 1 반환
+            return 1;
+        }
+    }
 }
