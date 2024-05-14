@@ -27,7 +27,7 @@ public class MenuSheet extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menusheet_sql")
     private Long menuSheetIdx;//메뉴 시트 키
 
-    private Long orderIdx;//묶인 주문번호
+
 
     private String menuorderName;//주문메뉴
 
@@ -37,5 +37,8 @@ public class MenuSheet extends BaseEntity{
 
     private Long AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
 
-
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menuorderIdx")
+    private MenuOrder menuOrder;//묶인 주문번호
 }

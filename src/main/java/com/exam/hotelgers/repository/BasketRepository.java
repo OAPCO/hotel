@@ -4,7 +4,7 @@ import com.exam.hotelgers.constant.StorePType;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Basket;
-import com.exam.hotelgers.entity.Order;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

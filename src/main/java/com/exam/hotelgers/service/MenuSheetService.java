@@ -27,7 +27,7 @@ public class MenuSheetService {
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
     private final RoomRepository roomRepository;
-    private final OrderRepository orderRepository;
+    private final MenuOrderRepository menuOrderRepository;
 
 
 

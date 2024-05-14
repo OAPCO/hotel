@@ -7,7 +7,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter @ToString
@@ -73,7 +72,7 @@ public class StoreDTO {
     private String brandCd;
 
 
-    private List<OrderDTO> orderDTOList;
+    private List<MenuOrderDTO> orderDTOList;
     private List<RoomDTO> roomDTOList;
 
     private List<MenuCateDTO> menuCateDTOList;

@@ -1,10 +1,9 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.constant.StorePType;
-import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.service.ManagerService;
-import com.exam.hotelgers.service.OrderService;
+
+import com.exam.hotelgers.service.MenuOrderService;
 import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -31,7 +30,7 @@ import java.util.Map;
 @Log4j2
 public class OrderController {
     
-    private final OrderService orderService;
+    private final MenuOrderService menuOrderService;
     private final SearchService searchService;
     private final ManagerService managerService;
 
@@ -44,7 +43,7 @@ public class OrderController {
 
 
     @PostMapping("/admin/manager/order/register")
-    public String registerProc(@Valid OrderDTO orderDTO,
+    public String registerProc(@Valid MenuOrderDTO orderDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
@@ -58,12 +57,12 @@ public class OrderController {
 
 
 
-        Long orderIdx = orderService.register(orderDTO);
+        Long menuorderIdx = menuOrderService.register(orderDTO);
 
 
-        redirectAttributes.addFlashAttribute("result", orderIdx);
+        redirectAttributes.addFlashAttribute("result", menuorderIdx);
 
-        return "redirect:/admin/manager/order/list";
+        return "redirect:/member/memberpage/index";
     }
 
 
@@ -122,21 +121,21 @@ public class OrderController {
 
 
 
-    @GetMapping("/admin/manager/order/modify/{orderIdx}")
-    public String modifyForm(@PathVariable Long orderIdx, Model model) {
+    @GetMapping("/admin/manager/order/modify/{menuorderIdx}")
+    public String modifyForm(@PathVariable Long menuorderIdx, Model model) {
 
-        log.info("order modifyProc 도착 " + orderIdx);
+        log.info("order modifyProc 도착 " + menuorderIdx);
 
-        OrderDTO orderDTO = orderService.read(orderIdx);
+        MenuOrderDTO menuOrderDTO = menuOrderService.read(menuorderIdx);
 
-        log.info("수정 전 정보" + orderDTO);
-        model.addAttribute("orderDTO", orderDTO);
+        log.info("수정 전 정보" + menuOrderDTO);
+        model.addAttribute("orderDTO", menuOrderDTO);
         return "admin/manager/order/modify";
     }
 
 
     @PostMapping("/admin/manager/order/modify")
-    public String modifyProc(@Validated OrderDTO orderDTO,
+    public String modifyProc(@Validated MenuOrderDTO orderDTO,
                              BindingResult bindingResult, Model model) {
 
         log.info("order modifyProc 도착 " + orderDTO);
@@ -149,7 +148,7 @@ public class OrderController {
         }
 
 
-        orderService.modify(orderDTO);
+        menuOrderService.modify(orderDTO);
 
         log.info("업데이트 이후 정보 " + orderDTO);
 
@@ -160,22 +159,22 @@ public class OrderController {
 
 
 
-    @GetMapping("/admin/manager/order/delete/{orderIdx}")
-    public String deleteProc(@PathVariable Long orderIdx) {
+    @GetMapping("/admin/manager/order/delete/{menuorderIdx}")
+    public String deleteProc(@PathVariable Long menuorderIdx) {
 
-        orderService.delete(orderIdx);
+        menuOrderService.delete(menuorderIdx);
 
         return "redirect:/admin/manager/order/list";
     }
 
 
 
-    @GetMapping("/admin/manager/order/{orderIdx}")
-    public String readForm(@PathVariable Long orderIdx, Model model) {
-        OrderDTO orderDTO=orderService.read(orderIdx);
+    @GetMapping("/admin/manager/order/{menuorderIdx}")
+    public String readForm(@PathVariable Long menuorderIdx, Model model) {
+        MenuOrderDTO menuOrderDTO=menuOrderService.read(menuorderIdx);
 
 
-        model.addAttribute("data",orderDTO);
+        model.addAttribute("data",menuOrderDTO);
         return "admin/manager/order/read";
     }
 
@@ -195,7 +194,7 @@ public class OrderController {
 
         log.info("order orderlistForm 도착 ");
 
-        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+        Page<MenuOrderDTO> menuOrderDTOS = menuOrderService.list(pageable);
 
         List<DistDTO> distList = searchService.distList();
         List<StoreDTO> storeList = searchService.storeList();
@@ -204,13 +203,13 @@ public class OrderController {
 
 
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(menuOrderDTOS);
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distList",distList);
         model.addAttribute("storeList",storeList);
         model.addAttribute("roomList",roomList);
-        model.addAttribute("list", orderDTOS);
+        model.addAttribute("list", menuOrderDTOS);
 
 
         return "admin/distchief/order/orderlist";
@@ -266,7 +265,7 @@ public class OrderController {
 
         log.info("order orderlistForm 도착 ");
 
-        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+        Page<MenuOrderDTO> orderDTOS = menuOrderService.list(pageable);
 
         List<DistDTO> distList = searchService.distList();
         List<StoreDTO> storeList = searchService.storeList();
@@ -339,17 +338,17 @@ public class OrderController {
         DistDTO distDTO = managerService.managerOfDist(principal);
         List<RoomDTO> roomDTOS = managerService.managerOfLoom(principal);
 
-        Page<OrderDTO> orderDTOS = orderService.list(pageable);
+        Page<MenuOrderDTO> menuOrderDTOS = menuOrderService.list(pageable);
 
 
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(menuOrderDTOS);
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("distDTO",distDTO);
         model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("roomList",roomDTOS);
-        model.addAttribute("orderlist", orderDTOS);
+        model.addAttribute("orderlist", menuOrderDTOS);
 
 
         return "admin/manager/order/select";

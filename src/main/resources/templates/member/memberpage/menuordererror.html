@@ -14,7 +14,9 @@
     height: 100vh;
     margin: 0;">
         <h1 style="color: red">예약하신 방이 없습니다</h1>
-        <h3 style="color: red">예약 후 다시 방문해 주십시오.</h3>
+        <a th:href="@{/member/memberpage/index}">
+        <button class="btn btn-outline-primary">예약하러 가기</button>
+        </a>
     </div>
 
 </div>

@@ -115,7 +115,7 @@ public class RoomService {
             Room room = roomEntityOptional.get();
             RoomDTO dto = modelMapper.map(room, RoomDTO.class);
             dto.setStoreDTO(searchService.convertToStoreDTO(room.getStore()));
-            dto.setOrderDTOList(convertOrderToDTOs(room.getOrderList()));
+            dto.setMenuOrderDTOList(convertOrderToDTOs(room.getMenuOrderList()));
             return dto;
 
         } else {
@@ -124,12 +124,12 @@ public class RoomService {
     }
 
 
-    private List<OrderDTO> convertOrderToDTOs(List<Order> orders) {
+    private List<MenuOrderDTO> convertOrderToDTOs(List<MenuOrder> orders) {
         if (orders == null || orders.isEmpty()) {
             return Collections.emptyList();
         }
         return orders.stream()
-                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .map(order -> modelMapper.map(order, MenuOrderDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -181,8 +181,8 @@ public class RoomService {
 
             storeDTO.setDetailmenuDTOList(detailMenuDTOList);
             dto.setStoreDTO(storeDTO);
-            dto.setOrderDTOList(room.getOrderList().stream()
-                    .map(order -> modelMapper.map(order, OrderDTO.class))
+            dto.setMenuOrderDTOList(room.getMenuOrderList().stream()
+                    .map(order -> modelMapper.map(order, MenuOrderDTO.class))
                     .collect(Collectors.toList()));
 
             return dto;
