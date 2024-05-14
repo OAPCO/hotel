@@ -1,7 +1,5 @@
 package com.exam.hotelgers.service;
 
-import com.amazonaws.services.kms.model.NotFoundException;
-import com.exam.hotelgers.constant.StoreGrade;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
@@ -28,7 +26,7 @@ public class SearchService {
     private final ModelMapper modelMapper;
     private final DistRepository distRepository;
     private final BrandRepository brandRepository;
-    private final OrderRepository orderRepository;
+    private final MenuOrderRepository menuOrderRepository;
     private final RoomRepository roomRepository;
     private final MenuCateRepository menuCateRepository;
     private final DetailmenuRepository detailmenuRepository;
@@ -82,10 +80,10 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDTO> orderList() {
-        List<Order> orders = orderRepository.findAll();
+    public List<MenuOrderDTO> orderList() {
+        List<MenuOrder> orders = menuOrderRepository.findAll();
         return orders.stream()
-                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .map(order -> modelMapper.map(order, MenuOrderDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -113,12 +111,12 @@ public class SearchService {
 
 
 
-    public List<OrderDTO> convertToOrderDTOList(List<Order> orders) {
+    public List<MenuOrderDTO> convertToOrderDTOList(List<MenuOrder> orders) {
         if (orders == null || orders.isEmpty()) {
             return Collections.emptyList();
         }
         return orders.stream()
-                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .map(order -> modelMapper.map(order, MenuOrderDTO.class))
                 .collect(Collectors.toList());
     }
 

@@ -58,5 +58,5 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
             "r.roomStatus = 1")
     Optional<Member> roomOrderMemberCheck(SearchDTO searchDTO);
 
-
+    Optional<RoomOrder> findByMemberIdx(Long memberIdx);
 }

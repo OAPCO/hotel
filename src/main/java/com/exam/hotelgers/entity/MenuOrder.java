@@ -1,9 +1,11 @@
 package com.exam.hotelgers.entity;
 
 
-import com.exam.hotelgers.constant.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,22 +14,21 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Table(name="storeorder")
+@Table(name="menuorder")
 @SequenceGenerator(
-        name = "storeorder_sql",
-        sequenceName = "storeorder_sql",
+        name = "menuorder_sql",
+        sequenceName = "menuorder_sql",
         initialValue = 1,
         allocationSize = 1
 )
-public class Order extends BaseEntity {
-    //Todo 1.메뉴 2.갯수 3.가격 4.갯수*가격=총결제금액 5.결제수단 6.주문시간v 7.주문번호v 8.주문자 정보v 9.방 idxv 10.매장 idxv
-    //주문 따로, 주문 상세보기 따로. orderIdx에 묶어서 menusheet에 상세주문. 메뉴이름 가격 갯수 합, 총 결제 금액은 order에.
+public class MenuOrder extends BaseEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "storeorder_sql")
-    private Long orderIdx;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menuorder_sql")
+    private Long menuorderIdx;
 
     @Column(length = 60, nullable = false)
-    private Long orderCd; //주문번호
+    private Long menuorderCd; //주문번호
 
     private Long total; //총 결제 금액
 
@@ -44,5 +45,7 @@ public class Order extends BaseEntity {
     @JoinColumn(name="roomIdx")
     private Room room;
 
+    @OneToMany(mappedBy = "menuOrder", cascade = CascadeType.ALL)
+    private List<MenuSheet> menuSheetList = new ArrayList<>();
 
 }

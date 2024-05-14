@@ -1,9 +1,9 @@
 package com.exam.hotelgers.dto;
 
-import com.exam.hotelgers.constant.RoleType;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @ToString
 @Getter
@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderDTO {
+public class MenuOrderDTO {
 
-    private Long orderIdx;
+    private Long menuorderIdx;
 
-    private Long orderCd;
+    private Long menuorderCd;
 
     private Long total;
 
@@ -30,4 +30,5 @@ public class OrderDTO {
     private LocalDateTime regdate;
     private LocalDateTime moddate;
 
+    private List<MenuSheetDTO> menuSheets;
 }

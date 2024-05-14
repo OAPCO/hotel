@@ -1,6 +1,5 @@
 package com.exam.hotelgers.dto;
 
-import com.exam.hotelgers.entity.Order;
 import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.entity.Store;
 import jakarta.persistence.FetchType;
@@ -27,10 +26,6 @@ public class MenuSheetDTO {
     private Long menuorderPrice; //주문메뉴단일가격
     private Long menuorderQuantity; //주문갯수
     private Long AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
-
-    private LocalDateTime regdate;//등록일
-
-    private LocalDateTime moddate;//수정일
 
 
 

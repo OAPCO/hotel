@@ -1,6 +1,7 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.RoomOrder;
 import com.exam.hotelgers.repository.RoomOrderRepository;
 import com.exam.hotelgers.repository.RoomRepository;
@@ -29,6 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,9 +46,9 @@ public class MemberpageController {
     private final RoomService roomService;
     private final RoomOrderService roomOrderService;
     private final RoomRepository roomRepository;
-    private final ImageService imageService;
 
     private final RoomOrderRepository roomOrderRepository;
+
     private final ModelMapper modelMapper;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -66,8 +68,6 @@ public class MemberpageController {
     }
     @GetMapping("/member/memberpage/menuorder/{storeIdx}")
     public String menuorder(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
-
-
         StoreDTO storeDTO = storeService.read(storeIdx);
 
         if(storeDTO == null) {
@@ -75,26 +75,8 @@ public class MemberpageController {
             return "redirect:/admin/distchief/store/list";
         }
 
-        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
-        log.info(memberDTO.getMemberIdx());
 
-        model.addAttribute("store", storeDTO);
-        model.addAttribute("brand", storeDTO.getBrandDTO());
-        model.addAttribute("dist", storeDTO.getDistDTO());
-        model.addAttribute("distChief", storeDTO.getDistDTO().getDistChiefDTO());
-        model.addAttribute("manager", storeDTO.getManagerDTO());
-        model.addAttribute("roomList", storeDTO.getRoomDTOList());
-        model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
-        model.addAttribute("memberDTO", memberDTO);
 
-        model.addAttribute("bucket", bucket);
-        model.addAttribute("region", region);
-        model.addAttribute("folder", folder);
-
-        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
-        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
-        return "member/memberpage/menuorder";
-    }
     @PostMapping("/member/memberpage/index")
     public String indexproc(@RequestParam("keyword") String keyword, @RequestParam(name="facilities", required=false) String[] facilities, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("keyword", keyword);
@@ -117,6 +99,7 @@ public class MemberpageController {
 
         return "member/memberpage/list";
     }
+
     @GetMapping("/member/memberpage/{storeIdx}")
     public String readform(Model model, @PathVariable Long storeIdx) throws Exception {
 
@@ -166,6 +149,77 @@ public class MemberpageController {
     }
 
 
+    //인덱스에서 메뉴 주문 버튼 누를 시 로그인 여부/예약 여부 확인해서 링크 타도록 변경
+    @GetMapping("/member/memberpage/menuordercheck")
+    public String menuordercheckform(Principal principal) throws Exception {
+        // Check if user is not logged in
+        if (principal == null) {
+            return "redirect:/member/login";
+        }
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+        log.info(memberDTO.getMemberIdx());
+
+        // Check if logged in user has reservation
+        Optional<RoomOrder> optedRoomOrder = roomOrderRepository.findByMemberIdx(memberDTO.getMemberIdx());
+
+        if (!optedRoomOrder.isPresent()) {
+            return "redirect:/member/memberpage/menuordererror";
+        }
+
+        // Obtain StoreID from RoomOrder Object
+        Long storeIdx = optedRoomOrder.get().getStoreIdx();
+
+        // Redirect to the Menu Order page of the Store
+        return "redirect:/member/memberpage/menuorder/" + storeIdx;
+    }
+
+    @GetMapping("/member/memberpage/menuorder/{storeIdx}")
+    public String menuorderform(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
+        StoreDTO storeDTO = storeService.read(storeIdx);
+
+        if(storeDTO == null) {
+            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
+            return "redirect:/admin/distchief/store/list";
+        }
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+        log.info(memberDTO.getMemberIdx());
+        Optional<RoomOrder> optedRoomOrder = roomOrderRepository.findByMemberIdx(memberDTO.getMemberIdx());
+        Long roomIdx = optedRoomOrder.get().getRoomIdx();
+        log.info(roomIdx);
+
+
+        model.addAttribute("store", storeDTO);
+        model.addAttribute("brand", storeDTO.getBrandDTO());
+        model.addAttribute("dist", storeDTO.getDistDTO());
+        model.addAttribute("distChief", storeDTO.getDistDTO().getDistChiefDTO());
+        model.addAttribute("manager", storeDTO.getManagerDTO());
+        model.addAttribute("roomList", storeDTO.getRoomDTOList());
+        model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
+        model.addAttribute("memberDTO", memberDTO);
+        model.addAttribute("roomIdx", roomIdx);
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
+        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
+        return "member/memberpage/menuorder";
+    }
+    @PostMapping("/member/memberpage/menuorder")
+    public String menuorderproc(){
+
+        return "redirect:/member/memberpage/index";
+    }
+
+
+
+    @GetMapping("/member/memberpage/menuordererror")
+    public String errorform(){
+
+        return "member/memberpage/menuordererror";
+    }
 
 
     @PostMapping("/member/memberpage/read")
@@ -196,6 +250,7 @@ public class MemberpageController {
     private RoomOrderDTO convertToDTO(RoomOrder roomOrder) {
         return modelMapper.map(roomOrder, RoomOrderDTO.class);
     }
+
     @GetMapping("/member/memberpage/roomorder/{roomIdx}")
     public String roomorderform(Principal principal,Model model, @PathVariable Long roomIdx) throws Exception {
 

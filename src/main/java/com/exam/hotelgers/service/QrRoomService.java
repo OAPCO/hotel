@@ -27,7 +27,7 @@ public class QrRoomService {
     private final StoreService storeService;
     private final RoomService roomService;
     private final DetailmenuService detailmenuService;
-    private  final OrderService orderService;
+    private  final MenuOrderService menuOrderServicerderService;
     private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
     private final SearchService searchService;
