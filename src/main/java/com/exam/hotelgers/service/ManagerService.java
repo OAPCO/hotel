@@ -137,11 +137,7 @@ public class ManagerService {
 
 
     //현재 로그인중인 매니저의 아이디로 소속 매장을 구한 뒤 매장의 코드를 이용해 room과 조인하여 보유 객실목록을 가져온다.
-    public Page<RoomDTO> managerOfLoom(Principal principal,Pageable pageable) {
-
-        int currentPage = pageable.getPageNumber()-1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomIdx"));
+    public List<RoomDTO> managerOfLoom(Principal principal) {
 
         String userId = principal.getName();
         Optional<Store> store = storeRepository.managerToStoreSearch(userId);
@@ -149,10 +145,12 @@ public class ManagerService {
         StoreDTO storeDTO = modelMapper.map(store.get(),StoreDTO.class);
 
 
-        Page<Room> rooms = roomRepository.loginManagerRoomSearch(storeDTO.getStoreCd(),page);
-        
+        List<Room> rooms = roomRepository.loginManagerRoomSearch(storeDTO.getStoreCd());
 
-        Page<RoomDTO> roomDTOS = rooms.map(data->modelMapper.map(data,RoomDTO.class));
+
+        List<RoomDTO> roomDTOS = rooms.stream()
+                .map(room -> modelMapper.map(room, RoomDTO.class))
+                .collect(Collectors.toList());
 
         return roomDTOS;
     }

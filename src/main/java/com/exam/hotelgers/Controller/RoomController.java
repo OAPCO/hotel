@@ -89,12 +89,9 @@ public class RoomController {
 
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
-        Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
+        List<RoomDTO> roomDTOS = managerService.managerOfLoom(principal);
 
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(roomDTOS);
-
-        model.addAllAttributes(pageinfo);
         model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("list", roomDTOS);
         return "admin/manager/room/list";
@@ -225,13 +222,10 @@ public class RoomController {
 
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
-        Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
+        List<RoomDTO> roomDTOS = managerService.managerOfLoom(principal);
         List<RoomOrderDTO> roomOrderDTOS = roomOrderService.roomOrderSearch2(storeDTO.getStoreIdx());
 
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(roomDTOS);
-
-        model.addAllAttributes(pageinfo);
         model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("roomOrderDTOS",roomOrderDTOS);
         model.addAttribute("list", roomDTOS);
