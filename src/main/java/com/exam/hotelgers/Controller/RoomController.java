@@ -1,12 +1,14 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.repository.RoomOrderRepository;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -217,34 +219,21 @@ public class RoomController {
 
 
     @GetMapping("/admin/manager/room/listboard")
-    public String listBoardForm(@PageableDefault(page = 1) Pageable pageable, Model model,Principal principal
-    ) {
+    public String listBoardForm(@PageableDefault(page = 1) Pageable pageable,Model model,Principal principal) {
 
         log.info("room listboard Form 도착 ");
 
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
         Page<RoomDTO> roomDTOS = managerService.managerOfLoom(principal,pageable);
-        Page<RoomOrderDTO> roomOrderList = roomOrderService.roomOrderSearch(pageable,storeDTO.getStoreIdx());
-
-
-
-        if (roomOrderList == null){
-            log.info("갑이없는데용");
-        }
-        for (RoomOrderDTO room : roomOrderList) {
-            log.info("예약필요한거@@@@@@@@@@@@@@ " + room.getRoomorderIdx());
-        }
-
+        List<RoomOrderDTO> roomOrderDTOS = roomOrderService.roomOrderSearch2(storeDTO.getStoreIdx());
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(roomDTOS);
-        Map<String, Integer> pageinfo2 = PageConvert.Pagination(roomOrderList);
 
         model.addAllAttributes(pageinfo);
-        model.addAllAttributes(pageinfo2);
         model.addAttribute("storeDTO",storeDTO);
-        model.addAttribute("roomOrderList",roomOrderList);
+        model.addAttribute("roomOrderDTOS",roomOrderDTOS);
         model.addAttribute("list", roomDTOS);
         return "admin/manager/room/listboard";
     }

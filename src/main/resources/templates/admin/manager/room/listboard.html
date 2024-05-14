@@ -70,7 +70,7 @@
 
             <div class="row">
 
-                <div class="col-custom-12" th:each="index : ${#numbers.sequence(49,60)}">
+                <div class="col-custom-12" th:each="index : ${#numbers.sequence(1, 60)}">
                     <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
 
                     <div th:each="data: ${list}">
@@ -88,93 +88,9 @@
                             </script>
                         </div>
                     </div>
-
                 </div>
 
-                <div class="col-custom-12" th:each="index : ${#numbers.sequence(37,48)}">
-                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
 
-                    <div th:each="data: ${list}">
-                        <div th:if="${data.roomCd.contains('roomCard' + index)}" class="col-custom-12">
-                            <script th:inline="javascript">
-
-                                var roomStatus2 = [[${data.roomStatus}]];
-                                var roomType2 = [[${data.roomType}]];
-                                var roomCd2 = [[${data.roomCd}]];
-                                var roomName2 = [[${data.roomName}]];
-                                var roomIdx2 = [[${data.roomIdx}]];
-
-                                changeCardType(roomIdx2,roomName2,roomCd2, roomType2, roomStatus2);
-
-                            </script>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-custom-12" th:each="index : ${#numbers.sequence(25,36)}">
-                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
-
-                    <div th:each="data: ${list}">
-                        <div th:if="${data.roomCd.contains('roomCard' + index)}" class="col-custom-12">
-                            <script th:inline="javascript">
-
-                                var roomStatus2 = [[${data.roomStatus}]];
-                                var roomType2 = [[${data.roomType}]];
-                                var roomCd2 = [[${data.roomCd}]];
-                                var roomName2 = [[${data.roomName}]];
-                                var roomIdx2 = [[${data.roomIdx}]];
-
-                                changeCardType(roomIdx2,roomName2,roomCd2, roomType2, roomStatus2);
-
-                            </script>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-custom-12" th:each="index : ${#numbers.sequence(13,24)}">
-                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
-
-                    <div th:each="data: ${list}">
-                        <div th:if="${data.roomCd.contains('roomCard' + index)}" class="col-custom-12">
-                            <script th:inline="javascript">
-
-                                var roomStatus2 = [[${data.roomStatus}]];
-                                var roomType2 = [[${data.roomType}]];
-                                var roomCd2 = [[${data.roomCd}]];
-                                var roomName2 = [[${data.roomName}]];
-                                var roomIdx2 = [[${data.roomIdx}]];
-
-                                changeCardType(roomIdx2,roomName2,roomCd2, roomType2, roomStatus2);
-
-                            </script>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-custom-12" th:each="index : ${#numbers.sequence(1,12)}">
-
-                    <div class="card room-empty" th:id="'roomCard' + ${index}" th:attr="data-index=${index}" onclick="roomRegister(this)"></div>
-
-                    <div th:each="data: ${list}">
-                        <div th:if="${data.roomCd.contains('roomCard' + index)}" class="col-custom-12">
-                            <script th:inline="javascript">
-
-                                var roomStatus2 = [[${data.roomStatus}]];
-                                var roomType2 = [[${data.roomType}]];
-                                var roomCd2 = [[${data.roomCd}]];
-                                var roomName2 = [[${data.roomName}]];
-                                var roomIdx2 = [[${data.roomIdx}]];
-
-                                changeCardType(roomIdx2,roomName2,roomCd2, roomType2, roomStatus2);
-
-                            </script>
-                        </div>
-                    </div>
-
-                </div>
 
             </div>
 
@@ -187,14 +103,20 @@
                     <table class="table body">
                         <thead>
                         <tr>
-                            <th>No</th>
+                            <th>우선순위</th>
                             <th>룸 구분</th>
+                            <th>투숙 인원</th>
+                            <th>예약일</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="orderList:${roomOrderList}">
+                        <tr th:each="orderList:${roomOrderDTOS}">
                             <td th:text="${orderList.roomorderIdx}"></td>
+                            <td th:text="${orderList.roomOrderType}"></td>
+                            <td th:text="${orderList.peopleNum}"></td>
+                            <td th:text="${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}"></td>
                         </tr>
+
 
                         </tbody>
                     </table>
