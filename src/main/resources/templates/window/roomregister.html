@@ -60,7 +60,8 @@
                         </td>
                         <th>객실 사진</th>
                         <td class="col>">
-                            <input type="file" class="form-control" id="imgFile" name="imgFile" multiple required>
+                            대표 이미지  <input type="file" class="form-control" id="mainimgFile" name="mainimgFile">
+                            세부 이미지  <input type="file" class="form-control" id="imgFile" name="imgFile" multiple required>
                         </td>
                     </tr>
 
@@ -69,6 +70,7 @@
 
                 </table>
 
+                <div id="preview2"></div>
                 <div id="preview"></div>
 
                 <div style="text-align: center;">
@@ -85,7 +87,9 @@
         <script>
 
             const input = document.getElementById('imgFile');
+            const input2 = document.getElementById('mainimgFile');
             const preview = document.getElementById('preview');
+            const preview2 = document.getElementById('preview2');
 
             input.addEventListener('change', function() {
                 preview.innerHTML = ''; // 이미지 미리보기 초기화
@@ -100,6 +104,25 @@
                         img.style.maxWidth = '200px'; // 이미지 최대 너비 설정
                         img.style.marginRight = '10px'; // 이미지 간격 설정
                         preview.appendChild(img);
+                    }
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            input2.addEventListener('change', function() {
+                preview2.innerHTML = ''; // 이미지 미리보기 초기화
+
+                const files = this.files;
+                for (const file of files) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.maxWidth = '200px'; // 이미지 최대 너비 설정
+                        img.style.marginRight = '10px'; // 이미지 간격 설정
+                        preview2.appendChild(img);
                     }
 
                     reader.readAsDataURL(file);

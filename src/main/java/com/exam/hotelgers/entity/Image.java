@@ -32,6 +32,8 @@ public class Image extends BaseEntity {
 
     private String roomImageType;
 
+    private int roomImageMain;
+
 
 
 }

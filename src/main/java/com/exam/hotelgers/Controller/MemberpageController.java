@@ -46,6 +46,7 @@ public class MemberpageController {
     private final RoomService roomService;
     private final RoomOrderService roomOrderService;
     private final RoomRepository roomRepository;
+    private final ImageService imageService;
 
     private final RoomOrderRepository roomOrderRepository;
 
@@ -66,14 +67,7 @@ public class MemberpageController {
 
         return "member/memberpage/index";
     }
-    @GetMapping("/member/memberpage/menuorder/{storeIdx}")
-    public String menuorder(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
-        StoreDTO storeDTO = storeService.read(storeIdx);
 
-        if(storeDTO == null) {
-            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
-            return "redirect:/admin/distchief/store/list";
-        }
 
 
 
@@ -105,8 +99,18 @@ public class MemberpageController {
 
         StoreDTO storeDTO = storeService.read(storeIdx);
 
+        //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
         List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeIdx);
 
+        //매장과 룸 인덱스가 일치하는 이미지중 세부이미지들을 불러오는 쿼리문을 실행한다.
+        List<ImageDTO> roomImageList = imageService.roomImageSearch(storeIdx);
+        
+        //위와 동일한데 대표이미지를 불러온다.
+        ImageDTO roomMainImage = imageService.roomMainImageSearch(storeIdx);
+
+
+        //불러온 객실 타입 열거형 종류들을 String 배열 형태로 볁환한다.
+        //이렇게 만든 roomTypes 변수는 모델에 담아 보낸 뒤 뷰에서 이미지 리스
         String[] roomTypes = roomTypeList.stream()
                 .map(room -> room.getRoomType().toString())
                 .toArray(String[]::new);
@@ -115,7 +119,6 @@ public class MemberpageController {
             log.info(roomType);
         }
 
-        List<ImageDTO> roomImageList = imageService.roomImageSearch(storeIdx);
 
 
 
@@ -138,7 +141,11 @@ public class MemberpageController {
         model.addAttribute("roomList", storeDTO.getRoomDTOList());
         model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
         model.addAttribute("roomOrderList",roomOrderList);
+
         model.addAttribute("roomTypeList",roomTypeList);
+        model.addAttribute("roomTypes",roomTypes);
+        model.addAttribute("roomImageList",roomImageList);
+
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
@@ -207,6 +214,9 @@ public class MemberpageController {
         log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
         return "member/memberpage/menuorder";
     }
+
+
+
     @PostMapping("/member/memberpage/menuorder")
     public String menuorderproc(){
 

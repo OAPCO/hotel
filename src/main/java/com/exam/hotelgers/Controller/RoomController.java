@@ -46,38 +46,6 @@ public class RoomController {
     public String folder;
 
 
-    @GetMapping("/admin/manager/room/register")
-    public String register() {
-        return "admin/manager/room/register";
-    }
-
-
-    @PostMapping("/admin/manager/room/register")
-    public String registerProc(@Valid RoomDTO roomDTO,
-                               BindingResult bindingResult,
-                               @RequestParam("imgFile") List<MultipartFile> imgFile,
-                               RedirectAttributes redirectAttributes) throws IOException {
-
-        log.info("room registerProc 도착 " + roomDTO);
-
-
-        if (bindingResult.hasErrors()) {
-            log.info("has error@@@@@@@@@");
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-        }
-
-
-
-        Long roomIdx = roomService.register(roomDTO, imgFile);
-
-
-        redirectAttributes.addFlashAttribute("result", roomIdx);
-
-//        String previousUrl = request.getHeader("referer");
-//        return "redirect:" + previousUrl;
-
-        return "admin/manager/room/list";
-    }
 
 
 
@@ -188,8 +156,9 @@ public class RoomController {
 
 
     @PostMapping("/window/roomregister")
-    public String registerRoomWindowProc(@Valid RoomDTO roomDTO,
-                               BindingResult bindingResult, @RequestParam("imgFile") List<MultipartFile> imgFile,
+    public String registerRoomWindowProc(@Valid RoomDTO roomDTO, BindingResult bindingResult,
+                                         @RequestParam("imgFile") List<MultipartFile> imgFile,
+                                         @RequestParam("mainimgFile") MultipartFile mainimgFile,
                                RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("객실생성 창 컨트롤러 Post 도착" + roomDTO);
@@ -201,7 +170,7 @@ public class RoomController {
         }
 
 
-        Long roomIdx = roomService.register(roomDTO, imgFile);
+        Long roomIdx = roomService.register(roomDTO, imgFile, mainimgFile);
 
 
         redirectAttributes.addFlashAttribute("result", roomIdx);

@@ -93,39 +93,111 @@
         </div> <!-- 매장 상세 정보 -->
     </div>
     <p></p>
+
+
+
+
+
     <div id="section3" class="container-fluid pt-5">
-        <!-- 룸 정보 -->
+
         <div class="container" style="margin: auto; width: 80%;">
             <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
-            border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="room : ${roomTypeList}">
+            border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);"
+                 th:each="roomTypeListView : ${roomTypeList}">
+
                 <div style="display: flex;">
                     <!-- 왼쪽 이미지 -->
-                    <div style="flex: 1;">
-                        <img
-                                th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${room.roomimgName}|"
-                                style="width: 100%; height: auto; border-top-left-radius: 10px; border-bottom-left-radius: 10px;"/>
-                    </div>
+                    <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
-                    <!-- 가운데 텍스트 -->
-                    <div style="flex: 3; padding: 20px;">
+                    <div class="carousel-inner">
 
-                    </div>
+                            <div class="carousel-item active">
+                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|"
+                                     class="d-block w-100">
+                            </div>
 
-                    <!-- 오른쪽 정보 -->
-                    <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
-                        <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;"
-                           th:text="${room.roomType}"></p>
-
-                        <button class="btn btn-primary open-modal-btn"
-                            th:data-qna-content="${room.roomIdx}">
-                            상세 보기
-                        </button>
+                             <div class="carousel-item" th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">
+                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="100" height="100" class="d-block w-100" alt="Slide"/>
+                             </div>
 
                     </div>
+
+<!--                        <a class="carousel-control-prev" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="prev">-->
+<!--                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--                            <span class="sr-only">Previous</span>-->
+<!--                        </a>-->
+<!--                        <a class="carousel-control-next" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="next">-->
+<!--                            <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                            <span class="sr-only">Next</span>-->
+<!--                        </a>-->
+
+
+
+                    </div>
+
                 </div>
+
+                <!-- 오른쪽 정보 -->
+                <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;"
+                       th:text="${roomTypeListView.roomType}"></p>
+                </div>
+
             </div>
         </div>
-    </div> <!-- 룸 -->
+
+    </div>
+
+
+
+
+
+
+
+
+<!--        <div id="section32" class="container-fluid pt-5">-->
+<!--            <div class="container" style="margin: auto; width: 80%;">-->
+<!--                <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;-->
+<!--        border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="roomTypeListView : ${roomTypeList}">-->
+<!--                    <div style="display: flex;">-->
+<!--                        <div id="carouselExampleIndicators-${roomTypeListView.roomType}" class="carousel slide" data-ride="carousel">-->
+<!--                            <div class="carousel-inner">-->
+<!--                                <div class="carousel-item active">-->
+<!--                                    <th:block th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">-->
+<!--                                        <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" class="d-block w-100" alt="Slide"/>-->
+<!--                                    </th:block>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <a class="carousel-control-prev" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="prev">-->
+<!--                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--                                <span class="sr-only">Previous</span>-->
+<!--                            </a>-->
+<!--                            <a class="carousel-control-next" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="next">-->
+<!--                                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                                <span class="sr-only">Next</span>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; 오른쪽 정보 &ndash;&gt;-->
+<!--                        <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">-->
+<!--                            <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;" th:text="${roomTypeListView.roomType}"></p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
     <p></p>
         <div id="section2" class="container-fluid pt-5">
             <!-- 매장 정보 -->
@@ -179,18 +251,6 @@
         $(document).ready(function(){
 
 
-            // const date = new Date();
-            // const day = String(date.getDate()).padStart(2, '0');
-            // const month = String(date.getMonth() + 1).padStart(2, '0');
-            // const year = date.getFullYear();
-            //
-            // const startTimeInput = document.querySelector('input[name="starttime"]');
-            // const endTimeInput = document.querySelector('input[name="endtime"]');
-            //
-            // document.querySelector('input[type="date"]').min = `${year}-${month}-${day}`;
-            //
-            // startTimeInput.addEventListener('change', checkAvailability);
-            // endTimeInput.addEventListener('change', checkAvailability);
 
 
 
@@ -201,9 +261,10 @@
 
                 console.log("클릭됨");
 
-                var roomIdx = $(this).data("roomIdx");
+                var roomType = $(this).data("roomType");
+                console.log(roomType);
 
-                hotel.searchRoomImage(roomIdx);
+                // hotel.searchRoomImage(roomIdx);
 
 
 

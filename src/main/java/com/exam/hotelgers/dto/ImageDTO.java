@@ -32,7 +32,7 @@ public class ImageDTO extends BaseEntity {
     private Long bannerIdx;
     private String roomImageType;
 
-
+    private int roomImageMain;
 
 
 

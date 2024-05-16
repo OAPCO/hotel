@@ -42,7 +42,7 @@ public class RoomService {
 
 
 
-    public Long register(RoomDTO roomDTO,List<MultipartFile> imgFiles) throws IOException {
+    public Long register(RoomDTO roomDTO,List<MultipartFile> imgFiles,MultipartFile mainimgFile) throws IOException {
 
         Optional<Store> store = storeRepository.storeNameSearch(roomDTO.getStoreDTO().getStoreName());
 
@@ -71,6 +71,7 @@ public class RoomService {
         String roomType = room.getRoomType().toString();
 
         imageService.roomImageregister(imgFiles,roomIdx,roomType);
+        imageService.roomMainImageregister(mainimgFile,roomIdx,roomType);
 
         return roomIdx;
     }

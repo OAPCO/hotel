@@ -67,6 +67,8 @@ public class ImageService {
 
 
 
+
+    //객실 세부 이미지 생성
     public void roomImageregister(List<MultipartFile> imgFiles, Long roomIdx, String roomType) throws IOException {
 
         for (MultipartFile imgFile : imgFiles) {
@@ -81,10 +83,35 @@ public class ImageService {
             image.setImgName(newFileName);
             image.setRoomIdx(roomIdx);
             image.setRoomImageType(roomType);
+            image.setRoomImageMain(0);
 
             imageRepository.save(image);
         }
     }
+
+
+
+
+    //객실 대표이미지 생성
+    public void roomMainImageregister(MultipartFile mainimgFile, Long roomIdx, String roomType) throws IOException {
+
+            String originalFileName = mainimgFile.getOriginalFilename();
+            String newFileName = "";
+
+            if (originalFileName != null) {
+                newFileName = s3Uploader.upload(mainimgFile, imgUploadLocation);
+            }
+
+            Image image = new Image();
+            image.setImgName(newFileName);
+            image.setRoomIdx(roomIdx);
+            image.setRoomImageType(roomType);
+            image.setRoomImageMain(1);
+
+            imageRepository.save(image);
+        }
+
+
 
 
 
@@ -103,10 +130,10 @@ public class ImageService {
     }
 
 
-    public List<ImageDTO> roomImageSearch(Long roomIdx) {
+    public List<ImageDTO> roomImageSearch(Long StoreIdx) {
 
 
-        List<Image> images = imageRepository.roomDetailImageSearch(roomIdx);
+        List<Image> images = imageRepository.roomDetailImageSearch(StoreIdx);
 
 
         List<ImageDTO> imageDTOS = images.stream()
@@ -116,17 +143,17 @@ public class ImageService {
         return imageDTOS;
     }
 
-//    public List<ImageDTO> roomImageSearch2(Long roomIdx) {
-//
-//
-//        List<Image> images = imageRepository.roomDetailImageSearch2(roomIdx);
-//
-//
-//        List<ImageDTO> imageDTOS = images.stream()
-//                .map(image -> modelMapper.map(image, ImageDTO.class))
-//                .collect(Collectors.toList());
-//
-//        return imageDTOS;
-//    }
+    public ImageDTO roomMainImageSearch(Long StoreIdx) {
+
+
+        Optional<Image> image = imageRepository.roomDetailMainImageSearch(StoreIdx);
+
+
+        ImageDTO imageDTO = modelMapper.map(image, ImageDTO.class);
+
+        return imageDTO;
+    }
+
+
 
 }
