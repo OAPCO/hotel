@@ -9,25 +9,44 @@
     <!--여기부터 카카오톡-->
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript">
-        Kakao.init('98b347ddff988e960446602a7113c40c');
+        Kakao.init('98b347ddff988e960446602a7113c40c'); //개인 코드
         function kakaoLogin() {
             Kakao.Auth.login({
                 success: function (response) {
                     Kakao.API.request({
                         url: '/v2/user/me',
-                        success: function (response) {
-                            alert(JSON.stringify(response))
+                        success: function (userInfo) {
+                            // 사용자 정보 확인
+                            console.log("Received Kakao user info:", userInfo);
+                            // 쿠키 설정 변경
+                            document.cookie = 'SameSite=None; Secure';
+                            // 서버로 사용자 정보 전송
+                            $.ajax({
+                                type: 'POST',
+                                url: '/api/kakao/userInfo',
+                                contentType: 'application/json',
+                                data: JSON.stringify(userInfo), // userInfo를 JSON 형태로 전송
+                                success: function (result) {
+                                    console.log("Received response from server:", result);
+                                    // 필요한 경우 성공 시의 추가 작업을 수행합니다.
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error("Error occurred while sending data to server:", error);
+                                    // 실패 시의 처리를 추가하세요
+                                }
+                            });
                         },
                         fail: function (error) {
-                            alert(JSON.stringify(error))
+                            alert(JSON.stringify(error));
                         },
-                    })
+                    });
                 },
                 fail: function (error) {
-                    alert(JSON.stringify(error))
+                    alert(JSON.stringify(error));
                 },
-            })
+            });
         }
+
     </script>
     <!--여기까지 카카오톡-->
 </head>

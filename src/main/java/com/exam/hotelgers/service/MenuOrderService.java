@@ -27,27 +27,41 @@ public class MenuOrderService {
     private final StoreRepository storeRepository;
     private final RoomRepository roomRepository;
     private final SearchService searchService;
-
-
+    private final MenuSheetRepository menuSheetRepository;
 
 
 
 
     //등록
     public Long register(MenuOrderDTO menuOrderDTO) {
-        // MenuOrderDTO를 MenuOrder 엔티티로 매핑합니다.
+        // 이미 값이 채워진 MenuOrder 엔티티를 생성합니다.
         MenuOrder menuOrder = modelMapper.map(menuOrderDTO, MenuOrder.class);
+        menuOrder.setMenuSheetList(null);
+        // MenuOrder를 저장하고 메뉴 오더의 ID를 반환합니다.
+        Long menuOrderId = menuOrderRepository.save(menuOrder).getMenuorderIdx();
 
-        // MenuOrder 엔티티에 있는 메뉴 시트 리스트에 데이터를 추가합니다.
-        for (MenuSheetDTO menuSheetDTO : menuOrderDTO.getMenuSheetDTOList()) {
-            MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
-            menuSheet.setMenuOrder(menuOrder);
-            menuOrder.getMenuSheetList().add(menuSheet);
+        // 저장한 MenuOrder의 ID를 가져옵니다.
+        if (menuOrderId != null) {
+            // MenuSheet를 저장하기 전에 해당 MenuOrder의 ID가 있는지 확인합니다.
+            for (MenuSheetDTO menuSheetDTO : menuOrderDTO.getMenuSheetDTOList()) {
+                // MenuOrderIdx를 설정합니다.
+                menuSheetDTO.setMenuorderIdx(menuOrderId);
+
+                // MenuOrderIdx가 있는 경우에만 MenuSheet를 저장합니다.
+                if (menuSheetDTO.getMenuorderIdx() != null) {
+                    MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
+                    menuSheet.setMenuOrder(menuOrder);
+                    menuSheetRepository.save(menuSheet);
+                }
+            }
         }
 
-        // MenuOrder를 저장하고 메뉴 오더의 ID를 반환합니다.
-        return menuOrderRepository.save(menuOrder).getMenuorderIdx();
+        return menuOrderId;
     }
+
+
+
+
 
 
     //수정

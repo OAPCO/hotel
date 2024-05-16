@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/membermain}" xmlns="http://www.w3.org/1999/html">
+      layout:decorate="~{layouts/membermain1}" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>메뉴 주문</title>
@@ -48,114 +48,137 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div id="section1" class="container-fluid pt-5">
-        <!-- 메뉴 리스트 -->
-        <div class="container" style="margin: auto; width: 80%;">
-            <h2>메뉴 주문</h2>
-            <!-- 메뉴카테고리 -->
-            <div class="btn-group-vertical" role="group" aria-label="Menu categories">
-                <button th:each="cate : ${menuCateList}"
-                        type="button"
-                        class="btn btn-outline-dark flex-fill"
-                        th:id="${cate.menuCateIdx}"
-                        th:onclick="'changeDetails(\'' + ${cate.menuCateIdx} + '\');'"
-                        th:text="${cate.menuCateName}">
-                </button>
-            </div>
-            <div class="menu-list">
-                <div th:each="cate : ${menuCateList}">
-                    <div class="card" th:each="menu : ${cate.detailMenuDTOList}" th:data-category="${menu.menuCateIdx}" style="display: flex; flex-direction: row; margin-bottom: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
-                        <!-- 왼쪽 이미지 -->
-                        <div style="flex: 1;" class="img-container">
-                            <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${menu.menuImg}|"
-                                 alt="Card image cap"
-                                 style="max-width:100%; height: auto; border-top-left-radius: 10px;
-             border-bottom-left-radius: 10px;"/>
-                        </div>
-                        <!-- 가운데 텍스트 -->
-                        <div style="flex: 3; padding: 20px;" class="text-container">
-                            <h5 class="card-title" th:text="${menu.detailMenuName}"></h5>
-                            <p class="card-text" th:text="${menu.menuDescription}"></p>
-                            <p class="card-text"><small class="text-muted" th:text="${menu.menuprice}"></small></p>
-                        </div>
-                        <!-- 오른쪽 정보 -->
-                        <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content:
-                        space-between;" class="info-container">
-                            <div class="badge">추천</div>
-                            <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">장바구니</button>
+    <div class="section" id="section0">
+        <div class="container-fluid pt-5">
+            <!-- 메뉴 리스트 -->
+            <div class="container" style="margin: auto; width: 80%;">
+                <h2 class="text-primary">메뉴 주문</h2>
+                <!-- 메뉴카테고리 -->
+                <div class="btn-group-vertical" role="group" aria-label="Menu categories">
+                    <button th:each="cate : ${menuCateList}"
+                            type="button"
+                            class="btn btn-outline-dark flex-fill"
+                            th:id="${cate.menuCateIdx}"
+                            th:onclick="'changeDetails(\'' + ${cate.menuCateIdx} + '\');'"
+                            th:text="${cate.menuCateName}">
+                    </button>
+                </div>
+                <div class="menu-list">
+                    <div th:each="cate : ${menuCateList}">
+                        <div class="card" th:each="menu : ${cate.detailMenuDTOList}" th:data-category="${menu.menuCateIdx}" style="display: flex; flex-direction: row; margin-bottom: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+                            <!-- 왼쪽 이미지 -->
+                            <div style="flex: 1;" class="img-container">
+                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${menu.menuImg}|"
+                                     alt="Card image cap"
+                                     style="max-width:100%; height: auto; border-top-left-radius: 10px;
+                 border-bottom-left-radius: 10px;"/>
+                            </div>
+                            <!-- 가운데 텍스트 -->
+                            <div style="flex: 3; padding: 20px;" class="text-container">
+                                <h5 class="card-title" th:text="${menu.detailMenuName}"></h5>
+                                <p class="card-text" th:text="${menu.menuDescription}"></p>
+                                <p class="card-text"><small class="text-muted" th:text="${menu.menuprice}"></small></p>
+                            </div>
+                            <!-- 오른쪽 정보 -->
+                            <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content:
+                            space-between;" class="info-container">
+                                <div class="badge">추천</div>
+                                <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">장바구니</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="section2" class="container-fluid pt-5">
-        <div class="container" style="margin: auto; width: 80%;">
-            <h2 class="text-primary">
-                주문자 정보
-            </h2>
-            <div>
-                이름: <span th:text="${memberDTO.memberName}"></span>
-            </div>
-            <div>
-                전화번호: <span th:text="${memberDTO.memberPhone}"></span>
-            </div>
+    <div class="section" id="section1">
+        <div class="container-fluid pt-5">
+            <div class="container" style="margin: auto; width: 80%;">
+                <h2 class="text-primary">
+                    주문자 정보
+                </h2>
+                <div>
+                    이름: <span th:text="${memberDTO.memberName}"></span>
+                </div>
+                <div>
+                    전화번호: <span th:text="${memberDTO.memberPhone}"></span>
+                </div>
 
+            </div>
         </div>
     </div>
-    <div id="section3" class="container-fluid pt-5">
-        <div class="container" style="margin: auto; width: 80%;">
-            <form action="/admin/manager/order/register" method="post">
-                <div style="display: none">
-                    Idx: <input type="text" th:value="${memberDTO.memberIdx}" name="memberIdx">
-                </div>
-            <div>
-                <h2>장바구니</h2>
-                <table class="form-control" style="width: 100%;">
-                    <thead>
-                    <tr class="row">
-                        <th class="col-2">메뉴명</th>
-                        <th class="col-3">가격</th>
-                        <th class="col-3">주문 개수</th>
-                        <th class="col-3">총합</th>
-                        <th class="col-1">삭제</th>
-                    </tr>
-                    </thead>
-                    <!-- 추가 정보를 이 곳에 넣어 주세요 -->
-                    <tbody id="tableBody">
-
-                    </tbody>
-                </table>
-            </div>
-            <p></p>
-            <div class="fa-align-right" style="text-align: right">
-                <p style="color: #0c3ee1; ">총 결제액:</p>
-            </div>
+    <div class="section" id="section2">
+        <div class="container-fluid pt-5">
+            <div class="container" style="margin: auto; width: 80%;">
+                <form action="/admin/manager/order/register" method="post">
+                    <div style="display: none">
+                        Idx: <input type="text" th:value="${memberDTO.memberIdx}" name="memberIdx">
+                        Idx: <input type="text" th:value="${store.storeIdx}" name="storeIdx">
+                        Idx: <input type="text" th:value="${roomIdx}" name="roomIdx">
+                        주문코드 : <input type="text" name="menuorderCd" value="menuorderCd" id="menuorderCd">
+                    </div>
                 <div>
+                    <h2 class="text-primary">장바구니</h2>
+                    <table class="form-control" style="width: 100%;">
+                        <thead>
+                        <tr class="row">
+                            <th class="col-2">메뉴명</th>
+                            <th class="col-3">가격</th>
+                            <th class="col-3">주문 개수</th>
+                            <th class="col-3">총합</th>
+                            <th class="col-1">삭제</th>
+                        </tr>
+                        </thead>
+                        <!-- 추가 정보를 이 곳에 넣어 주세요 -->
+                        <tbody id="tableBody">
 
-                    <p>요청사항:</p><textarea class="form-control-lg" style="width: 80%;" name="orderRequest"
-                              placeholder="요청사항을 입력하세요"></textarea>
+                        </tbody>
+                    </table>
                 </div>
-                <div style="display: none;">
-<!--                    주문완료 상태-->
-                    <input type="text" name="orderState" value="0">
-                    <input id="totalValue" type="text" name="total">
+                <p></p>
+                <div class="fa-align-right" style="text-align: right">
+                    <p style="color: #0c3ee1; ">총 결제액:</p>
                 </div>
+                    <div>
+
+                        <p>요청사항:</p><textarea class="form-control-lg" style="width: 80%;" name="orderRequest"
+                                  placeholder="요청사항을 입력하세요"></textarea>
+                    </div>
+                    <div style="display: none;">
+    <!--                    주문완료 상태-->
+                        <input type="text" name="orderState" value="0">
+                        <input id="totalValue" type="text" name="total">
+                    </div>
+                    <div id="post" style="display: none">
+
+                    </div>
                 <div>
-                    주문코드 : <input type="text" name="menuorderCd">
-                </div>
-                <div id="post">
+                    <button class="btn btn-outline-primary" type="submit">주문하기</button>
 
                 </div>
-            <div>
-                <button class="btn btn-outline-primary" type="submit">주문하기</button>
+
+                </form>
             </div>
-
-            </form>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        // 랜덤한 문자열을 생성하는 함수
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+
+        // 랜덤한 문자열 생성
+        const randomCd = generateRandomString(30);
+
+        // input 요소에 랜덤한 문자열 설정
+        document.getElementById("menuorderCd").value = randomCd.substring(0, 30);
+
         $(document).ready(function() {
 
             // 장바구니 버튼 클릭 이벤트
@@ -207,10 +230,10 @@
 
                     // Add inputs to #post
                     var hiddenInputsHtml =
-                        '<input type="text" name="menuSheetDTOList[0].menuorderName" value="' + menuName + '">' +
-                        '<input type="text" name="menuSheetDTOList[0].menuorderPrice" value="' + price.toFixed(2) + '">' +
-                        '<input type="text" name="menuSheetDTOList[0].menuorderQuantity" value="1">' +
-                        '<input type="text" name="menuSheetDTOList[0].AmountPrice" value="' + price.toFixed(2) + '">';
+                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderName" value="' + menuName + '">' +
+                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderPrice" value="' + price.toFixed(2) + '">' +
+                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity" value="1">' +
+                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].AmountPrice" value="' + (price*1).toFixed(2) + '">'; // 수정된 부분
                     $("#post").append(hiddenInputsHtml);
 
                     $(".plus").last().on("click", function(event) {
@@ -223,7 +246,14 @@
                         quantityElem.text(quantity);
                         var unitPrice = parseFloat(unitPriceElem.text());
                         valueElem.text((unitPrice * quantity).toFixed(2));
-                        // Update hidden field
+
+                        // Update hidden fields
+                        var menuIndex = $(this).closest('tr').index(); // 해당 행의 인덱스 가져오기
+                        $('input[name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity"]').val(quantity); // 숨겨진 필드의 수량 업데이트
+                        var hiddenAmountPrice = (unitPrice * quantity).toFixed(2); // 총 가격 계산
+                        $('input[name="menuSheetDTOList[' + menuIndex + '].AmountPrice"]').val(hiddenAmountPrice); // 숨겨진 필드의 총 가격 업데이트
+
+                        // Update total
                         calculateTotal();
                     });
 
@@ -247,9 +277,18 @@
                             quantityElem.text(quantity);
                             var unitPrice = parseFloat(unitPriceElem.text());
                             valueElem.text((unitPrice * quantity).toFixed(2));
+                            // Update hidden fields
+                            var menuIndex = $(this).closest('tr').index(); // 해당 행의 인덱스 가져오기
+                            $('input[name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity"]').val(quantity); // 숨겨진 필드의 수량 업데이트
+                            var hiddenAmountPrice = (unitPrice * quantity).toFixed(2); // 총 가격 계산
+                            $('input[name="menuSheetDTOList[' + menuIndex + '].AmountPrice"]').val(hiddenAmountPrice); // 숨겨진 필드의 총 가격 업데이트
+
+                            // Update total
                             calculateTotal();
                         }
                     });
+
+
 
                     $(".remove").last().click(function(event) {
                         event.preventDefault(); // 기본 동작 중지
