@@ -151,26 +151,21 @@
 
 
         //날짜를 숫자로 변환
-        function formatDateToISO(date) {
-            console.log("포맷데이트투iso들어옴")
-            return date.toISOString().slice(0,10);
-        }
 
         document.getElementById("startDate").addEventListener("change", function() {
 
             var originalDate = this.value;
+            var numericDate = originalDate.replace(/-/g, '');
 
-            document.getElementById("startDate").value = originalDate;
-
-            console.log(document.getElementById("isoStartDate").value = originalDate);
+            document.getElementById("isoStartDate").value = numericDate;
         });
 
         document.getElementById("endDate").addEventListener("change", function() {
 
             var originalDate = this.value;
+            var numericDate = originalDate.replace(/-/g, '');
 
-            document.getElementById("endDate").value = originalDate;
-            console.log(document.getElementById("isoEndDate").value = originalDate);
+            document.getElementById("isoEndDate").value = numericDate;
         });
     </script>
 

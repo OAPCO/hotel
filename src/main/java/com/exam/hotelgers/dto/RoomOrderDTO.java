@@ -18,8 +18,8 @@ public class RoomOrderDTO {
     private String startTime;
     private String endTime;
 
-    private String reservationDateCheckin;
-    private String reservationDateCheckout;
+    private int reservationDateCheckin;
+    private int reservationDateCheckout;
     private String checkinTime;
     private String checkoutTime;
 

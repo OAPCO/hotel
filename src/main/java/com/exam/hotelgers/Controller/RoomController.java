@@ -53,9 +53,9 @@ public class RoomController {
 
 
     @PostMapping("/admin/manager/room/register")
-    public String registerProc(@Valid RoomDTO roomDTO,List<ImageDTO> imageDTOs,
+    public String registerProc(@Valid RoomDTO roomDTO,
                                BindingResult bindingResult,
-                               @RequestParam(required = false)MultipartFile imgFile,
+                               @RequestParam("imgFile") List<MultipartFile> imgFile,
                                RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("room registerProc 도착 " + roomDTO);
@@ -189,8 +189,7 @@ public class RoomController {
 
     @PostMapping("/window/roomregister")
     public String registerRoomWindowProc(@Valid RoomDTO roomDTO,
-                               BindingResult bindingResult,
-                               @RequestParam(required = false)MultipartFile imgFile,
+                               BindingResult bindingResult, @RequestParam("imgFile") List<MultipartFile> imgFile,
                                RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("객실생성 창 컨트롤러 Post 도착" + roomDTO);

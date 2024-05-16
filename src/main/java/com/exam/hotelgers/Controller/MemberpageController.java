@@ -47,6 +47,7 @@ public class MemberpageController {
     private final RoomService roomService;
     private final RoomOrderService roomOrderService;
     private final RoomRepository roomRepository;
+
     private final RoomOrderRepository roomOrderRepository;
     private final MenuOrderService menuOrderService;
     private final ModelMapper modelMapper;
@@ -66,6 +67,14 @@ public class MemberpageController {
 
         return "member/memberpage/index";
     }
+    @GetMapping("/member/memberpage/menuorder/{storeIdx}")
+    public String menuorder(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
+        StoreDTO storeDTO = storeService.read(storeIdx);
+
+        if(storeDTO == null) {
+            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
+            return "redirect:/admin/distchief/store/list";
+        }
 
 
 
@@ -97,6 +106,20 @@ public class MemberpageController {
 
         StoreDTO storeDTO = storeService.read(storeIdx);
 
+        List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeIdx);
+
+        String[] roomTypes = roomTypeList.stream()
+                .map(room -> room.getRoomType().toString())
+                .toArray(String[]::new);
+
+        for (String roomType : roomTypes) {
+            log.info(roomType);
+        }
+
+        List<ImageDTO> roomImageList = imageService.roomImageSearch(storeIdx);
+
+
+
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
             return "redirect:/member/memberpage/list";
@@ -116,6 +139,7 @@ public class MemberpageController {
         model.addAttribute("roomList", storeDTO.getRoomDTOList());
         model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
         model.addAttribute("roomOrderList",roomOrderList);
+        model.addAttribute("roomTypeList",roomTypeList);
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
@@ -200,6 +224,31 @@ public class MemberpageController {
     }
 
 
+    @PostMapping("/member/memberpage/read")
+    public String readProc(Model model, @PathVariable Long storeIdx) throws Exception {
+
+        StoreDTO storeDTO = storeService.read(storeIdx);
+
+
+        if(storeDTO == null) {
+            model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
+            return "redirect:/member/memberpage/list";
+        }
+
+
+
+        //호텔예약페이지
+
+        model.addAttribute("storeDTO",storeDTO);
+
+
+        return "member/memberpage/index";
+    }
+
+
+
+
+
     private RoomOrderDTO convertToDTO(RoomOrder roomOrder) {
         return modelMapper.map(roomOrder, RoomOrderDTO.class);
     }
@@ -220,27 +269,10 @@ public class MemberpageController {
         return "member/memberpage/roomorder";
     }
 
-    @PostMapping("/member/memberpage/roomorder")
-    public String roomorderproc(@Valid SearchDTO searchDTO, RoomOrderDTO roomOrderDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
 
-        log.info("날짜ㅣ값얻은거@@@@@@@@@@@@@@@@  " + roomOrderDTO.getStartTime());
-
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("message", "입력한 정보에 오류가 있습니다.");
-            return "redirect:/member/memberpage/roomorder";
-        }
-
-        Long roomIdx = roomOrderService.register(roomOrderDTO);
 
 
-        if (roomIdx!=null){
-            roomService.roomStatusUpdate(roomOrderDTO);
-            redirectAttributes.addFlashAttribute("message", "방 주문이 성공적으로 완료되었습니다.");
-        }
-
-        return "redirect:/member/memberpage/index";
-    }
 
 
     @GetMapping ("/member/mypage/history")
