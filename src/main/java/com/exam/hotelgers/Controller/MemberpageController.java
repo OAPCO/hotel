@@ -106,8 +106,8 @@ public class MemberpageController {
         //매장과 룸 인덱스가 일치하는 이미지중 세부이미지들을 불러오는 쿼리문을 실행한다.
         List<ImageDTO> roomImageList = imageService.roomImageSearch(storeIdx);
 
-        //위와 동일한데 대표이미지를 불러온다.
-        ImageDTO roomMainImage = imageService.roomMainImageSearch(storeIdx);
+        //객실 대표이미지를 불러온다.
+        List<ImageDTO> roomMainImageList = imageService.roomMainImageSearch(storeIdx);
 
 
         //불러온 객실 타입 열거형 종류들을 String 배열 형태로 볁환한다.
@@ -146,6 +146,7 @@ public class MemberpageController {
         model.addAttribute("roomTypeList",roomTypeList);
         model.addAttribute("roomTypes",roomTypes);
         model.addAttribute("roomImageList",roomImageList);
+        model.addAttribute("roomMainImageList",roomMainImageList);
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
@@ -214,6 +215,9 @@ public class MemberpageController {
         log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
         return "member/memberpage/menuorder";
     }
+
+
+
     @PostMapping("/member/memberpage/menuorder")
     public String menuorderproc(@RequestBody MenuOrderDTO menuOrderDTO) {
         Long menuOrderId = menuOrderService.register(menuOrderDTO);
@@ -270,6 +274,16 @@ public class MemberpageController {
         model.addAttribute("folder", folder);
         model.addAttribute("roomDTO", roomDTO);
         model.addAttribute("memberDTO", memberDTO);
+
+        return "member/memberpage/roomorder";
+    }
+
+
+    @PostMapping("/member/memberpage/roomorder")
+    public String roomorderform2(Principal principal,Model model, RoomOrderDTO roomOrderDTO) throws Exception {
+
+        roomOrderService.register(roomOrderDTO);
+
 
         return "member/memberpage/roomorder";
     }

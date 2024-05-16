@@ -143,15 +143,17 @@ public class ImageService {
         return imageDTOS;
     }
 
-    public ImageDTO roomMainImageSearch(Long StoreIdx) {
+    public List<ImageDTO> roomMainImageSearch(Long StoreIdx) {
 
 
-        Optional<Image> image = imageRepository.roomDetailMainImageSearch(StoreIdx);
+        List<Image> images = imageRepository.roomDetailMainImageSearch(StoreIdx);
 
 
-        ImageDTO imageDTO = modelMapper.map(image, ImageDTO.class);
+        List<ImageDTO> imageDTOS = images.stream()
+                .map(image -> modelMapper.map(image, ImageDTO.class))
+                .collect(Collectors.toList());
 
-        return imageDTO;
+        return imageDTOS;
     }
 
 

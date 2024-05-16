@@ -49,6 +49,12 @@
 
 <body>
 <div layout:fragment="content">
+
+
+
+
+
+
     <div id="section1" class="container-fluid pt-5">
         <!-- 매장 정보 -->
         <div class="container" style="margin: auto; width: 80%;">
@@ -98,102 +104,94 @@
 
 
 
+
+    <div id="roomImageContainer">
+        <!-- 여기에 roomTypes 배열에 따라 생성된 div가 추가됩니다. -->
+
+    </div>
+
+
+
+    <script>
+            var index = 0;
+
+            const imageBox = [];
+            let roomImages;
+            let imageObject;
+            let roomType2;
+
+            var roomType1;
+            var roomImgName1;
+            let roomTypes = [];
+
+            var roomImageContainer = document.getElementById('roomImageContainer');
+
+    </script>
+
+
+
     <div id="section3" class="container-fluid pt-5">
 
         <div class="container" style="margin: auto; width: 80%;">
-            <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
+            <div class="card"
+                 style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
             border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);"
                  th:each="roomTypeListView : ${roomTypeList}">
 
+
+
+
+                <script th:inline="javascript">
+
+                    //객실 타입 갯수만큼 div를 만드는 지점.
+
+                    roomType1 = [[${roomTypeListView.roomType.toString()}]];
+                    roomImgName1 = [[${roomTypeListView.roomImgName}]];
+
+                    var div = document.createElement('div');
+
+                    div.textContent = roomType1; // 또는 다른 속성을 추가할 수 있습니다.
+                    div.id = roomType1; // roomType 변수의 값을 id로 설정합니다.
+
+                    console.log(roomType1);
+
+                    roomImageContainer.appendChild(div);
+
+                    // roomTypes.push(roomType1);
+
+                </script>
+
+
                 <div style="display: flex;">
-                    <!-- 왼쪽 이미지 -->
-                    <div id="demo" class="carousel slide" data-bs-ride="carousel">
+<!--                        타입에 맞는 이미지 개수만큼 반복하고 생성해둔 객체에 담는다.-->
+                        <div th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">
 
-                    <div class="carousel-inner">
+                            <script th:inline="javascript">
 
-                            <div class="carousel-item active">
-                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|"
-                                     class="d-block w-100">
-                            </div>
+                                // index += index;
+                                //
+                                // checkboxBasic = document.querySelector('#check' + checkboxId);
+                                // imageObject = { index : index, roomType: roomType1, imgName: roomImgName1 };
+                                // imageBox.push(imageObject);
 
-                             <div class="carousel-item" th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">
-                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="100" height="100" class="d-block w-100" alt="Slide"/>
-                             </div>
+                                // div.getAttribute(imageObject)
 
-                    </div>
+                            </script>
 
-<!--                        <a class="carousel-control-prev" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="prev">-->
-<!--                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                            <span class="sr-only">Previous</span>-->
-<!--                        </a>-->
-<!--                        <a class="carousel-control-next" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="next">-->
-<!--                            <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                            <span class="sr-only">Next</span>-->
-<!--                        </a>-->
-
-
-
-                    </div>
+                        </div>
 
                 </div>
 
                 <!-- 오른쪽 정보 -->
                 <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
                     <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;"
-                       th:text="${roomTypeListView.roomType}"></p>
+                       th:text="${roomTypeListView.roomType.toString()}"></p>
                 </div>
 
             </div>
         </div>
 
     </div>
-
-
-
-
-
-
-
-
-<!--        <div id="section32" class="container-fluid pt-5">-->
-<!--            <div class="container" style="margin: auto; width: 80%;">-->
-<!--                <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;-->
-<!--        border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="roomTypeListView : ${roomTypeList}">-->
-<!--                    <div style="display: flex;">-->
-<!--                        <div id="carouselExampleIndicators-${roomTypeListView.roomType}" class="carousel slide" data-ride="carousel">-->
-<!--                            <div class="carousel-inner">-->
-<!--                                <div class="carousel-item active">-->
-<!--                                    <th:block th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">-->
-<!--                                        <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" class="d-block w-100" alt="Slide"/>-->
-<!--                                    </th:block>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <a class="carousel-control-prev" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="prev">-->
-<!--                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                                <span class="sr-only">Previous</span>-->
-<!--                            </a>-->
-<!--                            <a class="carousel-control-next" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="next">-->
-<!--                                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                                <span class="sr-only">Next</span>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash; 오른쪽 정보 &ndash;&gt;-->
-<!--                        <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">-->
-<!--                            <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;" th:text="${roomTypeListView.roomType}"></p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-
-
-
-
-
-
-
 
 
 
@@ -234,49 +232,11 @@
         </div>
     <p></p>
 
-    <div id="roomImageModal" class="modal">
-        <!-- 모달 내용 -->
-        <div class="modal-content">
-            <p>모달 내용을 여기에 넣으세요.</p>
-        </div>
-    </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script>
 
-
-        $(document).ready(function(){
-
-
-
-
-
-            console.log("준비완료");
-
-
-            $(".open-modal-btn").click(function(){
-
-                console.log("클릭됨");
-
-                var roomType = $(this).data("roomType");
-                console.log(roomType);
-
-                // hotel.searchRoomImage(roomIdx);
-
-
-
-                // 모달 열기
-                $('#roomImageModal').modal('show');
-
-            });
-
-
-        });
-
-    </script>
 
 
 </div>

@@ -47,12 +47,12 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
 //    List<Image> roomDetailImageSearch2(Long StoreIdx);
 
 
-    @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomIdx = r.roomIdx JOIN Store s ON r.store.storeIdx = s.storeIdx where i.roomImageMain = 0")
+    @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomIdx = r.roomIdx JOIN Store s ON r.store.storeIdx = s.storeIdx")
     List<Image> roomDetailImageSearch(Long StoreIdx);
 
 
     @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomIdx = r.roomIdx JOIN Store s ON r.store.storeIdx = s.storeIdx where i.roomImageMain = 1")
-    Optional<Image> roomDetailMainImageSearch(Long StoreIdx);
+    List<Image> roomDetailMainImageSearch(Long StoreIdx);
 
 
 
