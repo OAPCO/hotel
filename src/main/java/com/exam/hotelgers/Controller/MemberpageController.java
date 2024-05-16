@@ -2,6 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Member;
+import com.exam.hotelgers.entity.MenuOrder;
 import com.exam.hotelgers.entity.RoomOrder;
 import com.exam.hotelgers.repository.RoomOrderRepository;
 import com.exam.hotelgers.repository.RoomRepository;
@@ -49,7 +50,7 @@ public class MemberpageController {
     private final ImageService imageService;
 
     private final RoomOrderRepository roomOrderRepository;
-
+    private final MenuOrderService menuOrderService;
     private final ModelMapper modelMapper;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -104,7 +105,7 @@ public class MemberpageController {
 
         //매장과 룸 인덱스가 일치하는 이미지중 세부이미지들을 불러오는 쿼리문을 실행한다.
         List<ImageDTO> roomImageList = imageService.roomImageSearch(storeIdx);
-        
+
         //위와 동일한데 대표이미지를 불러온다.
         ImageDTO roomMainImage = imageService.roomMainImageSearch(storeIdx);
 
@@ -174,10 +175,9 @@ public class MemberpageController {
             return "redirect:/member/memberpage/menuordererror";
         }
 
-        // Obtain StoreID from RoomOrder Object
         Long storeIdx = optedRoomOrder.get().getStoreIdx();
-
-        // Redirect to the Menu Order page of the Store
+        log.info(storeIdx  + ": 예약한 방 번호입니다 ");
+//        모든 조건 충족 시 아래 링크로 이동
         return "redirect:/member/memberpage/menuorder/" + storeIdx;
     }
 
@@ -214,12 +214,9 @@ public class MemberpageController {
         log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
         return "member/memberpage/menuorder";
     }
-
-
-
     @PostMapping("/member/memberpage/menuorder")
-    public String menuorderproc(){
-
+    public String menuorderproc(@RequestBody MenuOrderDTO menuOrderDTO) {
+        Long menuOrderId = menuOrderService.register(menuOrderDTO);
         return "redirect:/member/memberpage/index";
     }
 

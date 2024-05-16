@@ -1,8 +1,13 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.dto.MenuOrderDTO;
+import com.exam.hotelgers.dto.MenuSheetDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.entity.MenuOrder;
+import com.exam.hotelgers.entity.MenuSheet;
 import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.repository.MenuOrderRepository;
 import com.exam.hotelgers.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,6 +30,7 @@ import java.util.stream.Collectors;
 public class MemberpageService {
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
+    private final MenuOrderRepository menuOrderRepository;
     public List<StoreDTO> searchList(String keyword, String facilities) {
         List<Store> stores = new ArrayList<>();
 

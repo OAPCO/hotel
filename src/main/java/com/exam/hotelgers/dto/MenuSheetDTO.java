@@ -20,12 +20,12 @@ import java.time.LocalTime;
 public class MenuSheetDTO {
     private Long menuSheetIdx;//메뉴 옵션키
 
-    private Long orderIdx;//묶인 주문번호
+    private Long menuorderIdx;//묶인 주문번호
 
     private String menuorderName;//주문메뉴
-    private Long menuorderPrice; //주문메뉴단일가격
-    private Long menuorderQuantity; //주문갯수
-    private Long AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
+    private String menuorderPrice; //주문메뉴단일가격
+    private String menuorderQuantity; //주문갯수
+    private String AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
 
 
 
