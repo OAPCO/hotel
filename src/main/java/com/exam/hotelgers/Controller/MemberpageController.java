@@ -121,8 +121,6 @@ public class MemberpageController {
         }
 
 
-
-
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
             return "redirect:/member/memberpage/list";
