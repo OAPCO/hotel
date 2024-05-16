@@ -1,6 +1,7 @@
 package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.MenuOrderDTO;
+import com.exam.hotelgers.dto.MenuSheetDTO;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
@@ -34,18 +35,20 @@ public class MenuOrderService {
 
     //등록
     public Long register(MenuOrderDTO menuOrderDTO) {
+        // MenuOrderDTO를 MenuOrder 엔티티로 매핑합니다.
+        MenuOrder menuOrder = modelMapper.map(menuOrderDTO, MenuOrder.class);
 
-        Optional<MenuOrder> temp = menuOrderRepository.findByMenuorderIdx(menuOrderDTO.getMenuorderIdx());
-
-        if(temp.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 오더입니다.");
+        // MenuOrder 엔티티에 있는 메뉴 시트 리스트에 데이터를 추가합니다.
+        for (MenuSheetDTO menuSheetDTO : menuOrderDTO.getMenuSheetDTOList()) {
+            MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
+            menuSheet.setMenuOrder(menuOrder);
+            menuOrder.getMenuSheetList().add(menuSheet);
         }
 
-        MenuOrder menuOrder = modelMapper.map(menuOrderDTO, MenuOrder.class);
+        // MenuOrder를 저장하고 메뉴 오더의 ID를 반환합니다.
         return menuOrderRepository.save(menuOrder).getMenuorderIdx();
     }
 
-    
 
     //수정
     public void modify(MenuOrderDTO menuOrderDTO){

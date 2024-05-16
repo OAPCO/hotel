@@ -28,16 +28,13 @@ public class MenuOrder extends BaseEntity {
     private Long menuorderIdx;
 
     @Column(length = 60, nullable = false)
-    private Long menuorderCd; //주문번호
+    private String menuorderCd; //주문번호
 
-    private Long total; //총 결제 금액
+    private String total; //총 결제 금액
 
     private Long memberIdx; //결제자 정보
-    private Long orderState;//주문서 상태 0.결제완료 1.조리완료 2.배달완료 3.결제취소
+    private String orderState;//주문서 상태 0.결제완료 1.조리완료 2.배달완료 3.결제취소
     private String orderRequest;//주문요청사항
-
-
-
     private Long storeIdx;
 
 

@@ -141,37 +141,32 @@
                     <input type="text" name="orderState" value="0">
                     <input id="totalValue" type="text" name="total">
                 </div>
+                <div>
+                    주문코드 : <input type="text" name="menuorderCd">
+                </div>
+                <div id="post">
+
+                </div>
             <div>
                 <button class="btn btn-outline-primary" type="submit">주문하기</button>
             </div>
+
             </form>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
-            // 오더cd랜덤으로생성
-            var uuid = generateUUID();
-            $('<input>').attr({
-                type: 'hidden',
-                id: 'hiddenOrderCd',
-                name: 'orderCd',
-                value: uuid
-            }).appendTo('form');
-
-            function generateUUID() { // UUID v4 generator
-                return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-                    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-                )
-            }
 
             // 장바구니 버튼 클릭 이벤트
-            $(".info-container button").click(function() {
+            $(".info-container button").click(function(event) {
+                event.preventDefault(); // 기본 동작 중지
+
                 var menuName = $(this).parent().siblings('.text-container').find('.card-title').text();
                 var price = parseFloat($(this).parent().siblings('.text-container').find('.text-muted').text());
 
                 var existedRow = null;
-                var menuIndex = -1;
+                var menuIndex = 0;
                 $('#tableBody tr').each(function(index) {
                     if ($(this).children('.col-2').text() === menuName) {
                         existedRow = $(this);
@@ -187,9 +182,16 @@
                     valueElem.text((price * quantity).toFixed(2));
                     // Update existing hidden field
                     $('#hiddenMenuOrderPrice' + menuIndex).val(price.toFixed(2));
+
+                    // 동기화
+                    $('input[name="menuQuantity[]"]').eq(menuIndex).val(quantity);
+                    $('input[name="AmountPrice[]"]').eq(menuIndex).val((price * quantity).toFixed(2));
+
+
                     // Here we call the calculateTotal function whenever quantity or value is updated
                     calculateTotal();
-                } else {
+                }
+                else {
                     // Create new hidden field
                     menuIndex = $('#tableBody tr').length; // Assuming that the menuIndex is the current number of rows
                     var rowHtml = '<tr class="row"><td class="col-2">' + menuName + '</td><td class="col-3"><span>' +
@@ -200,14 +202,20 @@
                         '</td><td class="col-3"><span class="value">' +
                         price.toFixed(2) + '</span></td><td class="col-1">' +
                         '<button class="btn btn-danger remove">삭제</button>' +
-                        '<input type="hidden" id="hiddenMenuOrderName' + menuIndex + '" name="menuSheets[' + menuIndex + '].menuorderName" value="'+ menuName +'">'+
-                        '<input type="hidden" id="hiddenMenuOrderQuantity' + menuIndex + '" name="menuSheets[' + menuIndex + '].menuorderQuantity" value="'+ 1 +'">'+
-                        '<input type="hidden" id="hiddenMenuOrderPrice' + menuIndex + '" name="menuSheets[' + menuIndex + '].menuorderPrice" value="'+ price.toFixed(2) +'">'+
-                        '<input type="hidden" id="hiddenAmountPrice' + menuIndex + '" name="menuSheets[' + menuIndex + '].AmountPrice" value="'+ price.toFixed(2) +'">'+
                         '</td></tr>';
                     $("#tableBody").append(rowHtml);
 
-                    $(".plus").last().on("click", function() {
+                    // Add inputs to #post
+                    var hiddenInputsHtml =
+                        '<input type="text" name="menuSheetDTOList[0].menuorderName" value="' + menuName + '">' +
+                        '<input type="text" name="menuSheetDTOList[0].menuorderPrice" value="' + price.toFixed(2) + '">' +
+                        '<input type="text" name="menuSheetDTOList[0].menuorderQuantity" value="1">' +
+                        '<input type="text" name="menuSheetDTOList[0].AmountPrice" value="' + price.toFixed(2) + '">';
+                    $("#post").append(hiddenInputsHtml);
+
+                    $(".plus").last().on("click", function(event) {
+                        event.preventDefault(); // 기본 동작 중지
+
                         var quantityElem = $(this).siblings('.quantity');
                         var unitPriceElem = $(this).parent().prev().find('span');
                         var valueElem = $(this).parent().next().find('.value');
@@ -216,35 +224,42 @@
                         var unitPrice = parseFloat(unitPriceElem.text());
                         valueElem.text((unitPrice * quantity).toFixed(2));
                         // Update hidden field
-                        $('#hiddenMenuOrderPrice' + menuIndex).val(price.toFixed(2) * quantity);
                         calculateTotal();
                     });
 
-                    $(".minus").last().on("click", function() {
+                    $(".minus").last().on("click", function(event) {
+                        event.preventDefault(); // 기본 동작 중지
+
                         var quantityElem = $(this).siblings('.quantity');
                         var unitPriceElem = $(this).parent().prev().find('span');
                         var valueElem = $(this).parent().next().find('.value');
                         var quantity = parseInt(quantityElem.text()) - 1;
                         if (quantity === 0) {
                             $(this).parent().parent().remove();
-                            // Remove hidden field
-                            $('#hiddenMenuOrderPrice' + menuIndex).remove();
+                            // Remove inputs
+                            $("#post input").eq(menuIndex * 4).remove();
+                            $("#post input").eq(menuIndex * 4).remove();
+                            $("#post input").eq(menuIndex * 4).remove();
+                            $("#post input").eq(menuIndex * 4).remove();
                             updateMenuIndex();
                             calculateTotal();
                         } else {
                             quantityElem.text(quantity);
                             var unitPrice = parseFloat(unitPriceElem.text());
                             valueElem.text((unitPrice * quantity).toFixed(2));
-                            // Update hidden field
-                            $('#hiddenMenuOrderPrice' + menuIndex).val(price.toFixed(2) * quantity);
                             calculateTotal();
                         }
                     });
 
-                    $(".remove").last().click(function() {
+                    $(".remove").last().click(function(event) {
+                        event.preventDefault(); // 기본 동작 중지
+
                         $(this).parents("tr").remove();
-                        // Remove hidden field
-                        $('#hiddenMenuOrderPrice' + menuIndex).remove();
+                        // Remove inputs
+                        $("#post input").eq(menuIndex * 4).remove();
+                        $("#post input").eq(menuIndex * 4).remove();
+                        $("#post input").eq(menuIndex * 4).remove();
+                        $("#post input").eq(menuIndex * 4).remove();
                         updateMenuIndex();
                         calculateTotal();
                     });
@@ -255,9 +270,7 @@
         });
 
         function updateMenuIndex() {
-            $("#tableBody tr").each(function(index){
-                $(this).find("input[name^='menuSheets']").attr("name", "menuSheets[" + index + "].menuorderPrice");
-            });
+            // No need to update menuIndex in this version
         }
 
         function calculateTotal() {
@@ -278,7 +291,7 @@
             changeDetails(firstCategoryId);
         });
 
-            // 카테고리 누를 시 메뉴 변경
+        // 카테고리 누를 시 메뉴 변경
         function changeDetails(categoryId) {
             let menuCards = Array.from(document.querySelectorAll(".card"));
 
@@ -297,8 +310,10 @@
                 }
             });
         }
+    </script>
 
-        </script>
+
+
 </div>
 </body>
 </html>

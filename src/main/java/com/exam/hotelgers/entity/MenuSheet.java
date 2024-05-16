@@ -31,13 +31,13 @@ public class MenuSheet extends BaseEntity{
 
     private String menuorderName;//주문메뉴
 
-    private Long menuorderPrice; //주문메뉴단일가격
+    private String menuorderPrice; //주문메뉴단일가격
 
-    private Long menuorderQuantity; //주문갯수
+    private String menuorderQuantity; //주문갯수
 
-    private Long AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
+    private String AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
 
-    @ToString.Exclude
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menuorderIdx")
     private MenuOrder menuOrder;//묶인 주문번호
