@@ -92,6 +92,18 @@ public class ScriptController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @PostMapping("/api/kakao/userInfo")
+    public String receiveKakaoUserInfo(@RequestBody String userInfo, MemberDTO memberDTO) throws Exception {
+
+
+            memberService.kakaoregister(userInfo,memberDTO);
+
+            // 클라이언트에 응답합니다.
+            return "member/memberpage/index";
+    }
+
+
+
 
     //객실 사진 상세보기 페이지
     @GetMapping(value = "/roomimage/{roomIdx}",consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)

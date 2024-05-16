@@ -7,6 +7,8 @@ import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.MemberRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 //회원 가입, 수정, 삭제, 조회
@@ -32,6 +35,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final ObjectMapper objectMapper;
+
 
 
     //이 부분은 회원 crud 부분
@@ -195,5 +200,49 @@ public class MemberService {
             // 중복된 이메일이 있으면 1 반환
             return 1;
         }
+    }
+
+    public Long kakaoregister(String userInfo,MemberDTO memberDTO) throws Exception {
+
+
+        // 받은 JSON 데이터를 Map 형식으로 변환합니다.
+        Map<String, Object> userInfoMap = objectMapper.readValue(userInfo, new TypeReference<Map<String, Object>>() {});
+
+        // kakao_account와 properties 값을 다시 Map으로 변환합니다.
+        Map<String, Object> kakaoAccountMap = (Map<String, Object>) userInfoMap.get("kakao_account");
+        Map<String, Object> propertiesMap = (Map<String, Object>) userInfoMap.get("properties");
+
+        log.info("들어온 카카오 소셜 회원 정보: " + userInfo);
+
+        // 필요한 필드를 추출하여 새로운 객체에 담습니다.
+        String memberEmail = kakaoAccountMap.get("email").toString();
+        String memberNickname = propertiesMap.get("nickname").toString();
+        Character memberJoinType = 'k'; // 카카오 소셜 회원가입인 경우를 나타내는 플래그
+
+
+
+        // DTO에 필드 설정
+        memberDTO.setMemberEmail(memberEmail);
+        memberDTO.setMemberNickname(memberNickname);
+        memberDTO.setMemberJoinType(memberJoinType);
+
+
+
+
+        Optional<Member> memberEntity = memberRepository
+                .findByMemberEmail(memberDTO.getMemberEmail());
+
+        if (memberEntity.isPresent()) {
+            throw new IllegalStateException("이미 가입된 이메일입니다.");
+        }
+
+
+        Member member = modelMapper.map(memberDTO, Member.class);
+
+
+        member.setRoleType(RoleType.USER);
+        memberRepository.save(member);
+
+        return memberRepository.save(member).getMemberIdx();
     }
 }
