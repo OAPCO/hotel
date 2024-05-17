@@ -214,5 +214,19 @@ public class RoomService {
 
 
 
+    public List<RoomDTO> emptyRoomSearch(SearchDTO searchDTO){
+
+        List<Room> rooms = roomRepository.searchEmptyRoom(searchDTO);
+
+
+        List<RoomDTO> roomDTOS = rooms.stream()
+                .map(room -> modelMapper.map(room, RoomDTO.class))
+                .collect(Collectors.toList());
+
+        return roomDTOS;
+    }
+
+
+
 
 }

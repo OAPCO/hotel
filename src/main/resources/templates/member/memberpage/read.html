@@ -13,48 +13,42 @@
         }
         .normalroom {
             background-color: #ffffff; /* 원하는 밝은 색으로 설정 */
-        /* search-container를 flex로 설정하고 요소들을 중앙에 정렬합니다. */
-        .search-container {
-            padding-top: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;  /* 추가로 요소들 사이의 간격을 조정했습니다. */
-        }
-        /* .search-inputs와 .search-box를 flex로 설정하고 요소들을 가로로 정렬합니다. 이들의 너비는 상위 컨테이너인 search-container의 50%입니다. */
-        .search-inputs, .search-box {
-            display: flex;
-            width: 50%;
-            justify-content: space-between;
-            gap: 0;  /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
-            align-items: center; /* 이 코드를 추가하여 요소들이 동일한 기준선에 정렬되게 합니다. */
-
-            /* 각 input, select, button 요소의 높이를 50px로 설정하고, 모서리를 각진 형태로 만듭니다. */
-            select, input[type="date"], .form-control, .btn {
-                height: 50px;
-                border-radius: 0;
-                border: none; /* 추가하면 브라우저 기본 스타일을 제거하여 높이를 정확히 조정할 수 있습니다. */
-                box-sizing: border-box; /* 이건 전체 너비를 정확하게 계산합니다(패딩과 경계 포함). */
+            /* search-container를 flex로 설정하고 요소들을 중앙에 정렬합니다. */
+            .search-container {
+                padding-top: 25px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;  /* 추가로 요소들 사이의 간격을 조정했습니다. */
             }
-        }
+            /* .search-inputs와 .search-box를 flex로 설정하고 요소들을 가로로 정렬합니다. 이들의 너비는 상위 컨테이너인 search-container의 50%입니다. */
+            .search-inputs, .search-box {
+                display: flex;
+                width: 50%;
+                justify-content: space-between;
+                gap: 0;  /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
+                align-items: center; /* 이 코드를 추가하여 요소들이 동일한 기준선에 정렬되게 합니다. */
 
-        /* .search-box 내의 input 요소와 button 요소에 flex 속성을 추가해 일관된 너비를 유지합니다. */
-        .search-box .form-control {
-            flex: 8;
+                /* 각 input, select, button 요소의 높이를 50px로 설정하고, 모서리를 각진 형태로 만듭니다. */
+                select, input[type="date"], .form-control, .btn {
+                    height: 50px;
+                    border-radius: 0;
+                    border: none; /* 추가하면 브라우저 기본 스타일을 제거하여 높이를 정확히 조정할 수 있습니다. */
+                    box-sizing: border-box; /* 이건 전체 너비를 정확하게 계산합니다(패딩과 경계 포함). */
+                }
+            }
 
-        }
+            /* .search-box 내의 input 요소와 button 요소에 flex 속성을 추가해 일관된 너비를 유지합니다. */
+            .search-box .form-control {
+                flex: 8;
+
+            }
         }
     </style>
 </head>
 
 <body>
 <div layout:fragment="content">
-
-
-
-
-
-
     <div id="section1" class="container-fluid pt-5">
         <!-- 매장 정보 -->
         <div class="container" style="margin: auto; width: 80%;">
@@ -75,7 +69,7 @@
                         <tbody>
                         <tr class="row">
                             <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|"
-                                 class="d-block w-100">
+                                 width="1000" height="600">
                         </tr>
                         <tr class="row">
                             <td class="col-2 ">영업시간</td>
@@ -104,88 +98,51 @@
 
 
 
-
-    <div id="roomImageContainer">
-        <!-- 여기에 roomTypes 배열에 따라 생성된 div가 추가됩니다. -->
-
-    </div>
-
-
-
-    <script>
-            var index = 0;
-
-            const imageBox = [];
-            let roomImages;
-            let imageObject;
-            let roomType2;
-
-            var roomType1;
-            var roomImgName1;
-            let roomTypes = [];
-
-            var roomImageContainer = document.getElementById('roomImageContainer');
-
-    </script>
-
-
-
     <div id="section3" class="container-fluid pt-5">
 
         <div class="container" style="margin: auto; width: 80%;">
-            <div class="card"
-                 style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
+            <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
             border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);"
                  th:each="roomTypeListView : ${roomTypeList}">
 
-
-
-
-                <script th:inline="javascript">
-
-                    //객실 타입 갯수만큼 div를 만드는 지점.
-
-                    roomType1 = [[${roomTypeListView.roomType.toString()}]];
-                    roomImgName1 = [[${roomTypeListView.roomImgName}]];
-
-                    var div = document.createElement('div');
-
-                    div.textContent = roomType1; // 또는 다른 속성을 추가할 수 있습니다.
-                    div.id = roomType1; // roomType 변수의 값을 id로 설정합니다.
-
-                    console.log(roomType1);
-
-                    roomImageContainer.appendChild(div);
-
-                    // roomTypes.push(roomType1);
-
-                </script>
-
-
                 <div style="display: flex;">
-<!--                        타입에 맞는 이미지 개수만큼 반복하고 생성해둔 객체에 담는다.-->
-                        <div th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">
+                    <!-- 왼쪽 이미지 -->
+                    <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
-                            <script th:inline="javascript">
+                        <div class="carousel-inner">
 
-                                // index += index;
-                                //
-                                // checkboxBasic = document.querySelector('#check' + checkboxId);
-                                // imageObject = { index : index, roomType: roomType1, imgName: roomImgName1 };
-                                // imageBox.push(imageObject);
+                            <div th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">
+                                <div th:attr="class=${roomImageListView.roomImageMain == 1 ? 'carousel-item active' : 'carousel-item'}">
+                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="700" height="400" alt="Slide"/>
+                                </div>
 
-                                // div.getAttribute(imageObject)
 
-                            </script>
+                                <div th:attr="class=${roomImageListView.roomImageType}">
+                                    <a class="carousel-control-prev" href="#demo" role="button" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#demo" role="button" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </a>
+                                </div>
+
+
+                            </div>
 
                         </div>
+
+
+
+                    </div>
 
                 </div>
 
                 <!-- 오른쪽 정보 -->
                 <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
                     <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;"
-                       th:text="${roomTypeListView.roomType.toString()}"></p>
+                       th:text="${roomTypeListView.roomType}"></p>
                 </div>
 
             </div>
@@ -193,50 +150,141 @@
 
     </div>
 
-
-
-
     <p></p>
-        <div id="section2" class="container-fluid pt-5">
-            <!-- 매장 정보 -->
-            <div class="container" style="margin: auto; width: 80%;">
-                <div class="card shadow">
-                    <div class="card-header py-3">
-                        <h3>검색일</h3>
-                    </div>
-                    <div class="card-body">
-                        <form method="post" action="/member/memberpage/read">
-                            <table style="width: 100%;">
-                                <tbody>
-                                    <tr>
-                                        <td class="col-2" style="text-align: center;">
-                                            체크인 :
-                                        </td>
-                                        <td class="col-4">
-                                            <input type="date" name="sta    rttime" style=" border: 1px solid; width:
-                                            100%;">
-                                        </td>
-                                        <td class="col-2" style="text-align: center;">
-                                            체크아웃 :
-                                        </td>
-                                        <td class="col-4">
-                                            <input type="date" name="endtime" style=" border: 1px solid; width: 100%;">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
+
+
+
+    <div id="section2" class="container-fluid pt-5">
+        <!-- 매장 정보 -->
+        <div class="container" style="margin: auto; width: 80%;">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h3>조회</h3>
                 </div>
-            </div> <!-- 매장 상세 정보 -->
-        </div>
+                <div class="card-body">
+                    <form action="/member/memberpage/emptyroom" method="post">
+                        <table style="width: 100%;">
+
+                            <tbody>
+                            <tr>
+                                <td class="col-2" style="text-align: center;">
+                                    체크인 :
+                                </td>
+                                <td class="col-4">
+                                    <input type="date" name="startDate" style=" border: 1px solid; width: 100%;"  id="startDate">
+                                </td>
+                                <td class="col-2" style="text-align: center;">
+                                    체크아웃 :
+                                </td>
+                                <td class="col-4">
+                                    <input type="date" name="endDate" style=" border: 1px solid; width: 100%;"  id="endDate">
+                                </td>
+                                <input type="hidden" id="isoStartDate" name="reservationDateCheckin">
+                                <input type="hidden" id="isoEndDate" name="reservationDateCheckout">
+                                <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
+                            </tr>
+
+                            <tr>
+                                <td class="col-2" style="text-align: center;">
+                                    객실 :
+                                </td>
+                                <td>
+                                <select name="roomOrderType" class="form-control">
+                                    <option value="" selected>전체</option>
+                                    <option th:each="roomTypeSelect : ${roomTypeList}" th:value="${roomTypeSelect.roomType}" th:text="${roomTypeSelect.roomType}"></option>
+                                </select>
+                                </td>
+                                <td class="col-2" style="text-align: center;">
+                                    투숙인원 :
+                                </td>
+                                <td>
+                                <input type="text" class="form-control" name="peopleNum">
+                                </td>
+                            </tr>
+                            </tbody>
+                                <tr>
+                                    <td>
+                                <button type="submit">조회하기</button>
+                                    </td>
+                            </tr>
+                            </form>
+                        </table>
+                    </form>
+
+
+
+
+
+                    <div class="table-responsive">
+                        <table class="table body">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>룸타입</th>
+                                <th>룸이름</th>
+                                <th>룸상태</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="data:${emptyRoomList}" id="table-row">
+
+                                <td th:text="${data.roomIdx}"></td>
+                                <td th:text="${data.roomType}"></td>
+                                <td th:text="${data.roomName}"></td>
+                                <td th:text="${data.roomStatus}"></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div> <!-- 매장 상세 정보 -->
+    </div>
     <p></p>
+
+
+    <div id="roomImageModal" class="modal">
+        <!-- 모달 내용 -->
+        <div class="modal-content">
+            <p>모달 내용을 여기에 넣으세요.</p>
+        </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <script>
 
+        //날짜를 숫자로 변환
+
+        document.getElementById("startDate").addEventListener("change", function() {
+
+            var originalDate = this.value;
+            var numericDate = originalDate.replace(/-/g, '');
+
+            document.getElementById("isoStartDate").value = numericDate;
+
+            console.log(numericDate);
+        });
+
+        document.getElementById("endDate").addEventListener("change", function() {
+
+            var originalDate = this.value;
+            var numericDate = originalDate.replace(/-/g, '');
+
+            document.getElementById("isoEndDate").value = numericDate;
+        });
+
+    </script>
 
 
 </div>

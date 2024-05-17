@@ -34,8 +34,9 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     //room테이블,roomorder테이블 조인 후 roomstatus가 0(빈 방)이거나
     //1(예약됨),2(사용중)인데 뷰에서 받은 체크인 희망 날짜가 roomorder의 체크아웃 날짜보다 크다면 예약을 받을 수 있기 때문에 조회한다.
     @Query("select r from Room r join RoomOrder o on r.roomIdx = o.roomIdx " +
-            "where r.roomStatus = 0 " +
-            "or ((r.roomStatus IN (1,2)) and (o.reservationDateCheckout < :#{#searchDTO.reservationDateCheckin}))")
+            "where (r.store.storeIdx = :#{#searchDTO.reservationDateCheckin}) and " +
+            "((r.roomStatus = 0) " +
+            "or ((r.roomStatus IN (1,2)) and (o.reservationDateCheckout < :#{#searchDTO.reservationDateCheckin})))")
     List<Room> searchEmptyRoom(SearchDTO searchDTO);
 
 

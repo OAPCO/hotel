@@ -96,7 +96,7 @@ public class MemberpageController {
     }
 
     @GetMapping("/member/memberpage/{storeIdx}")
-    public String readform(Model model, @PathVariable Long storeIdx) throws Exception {
+    public String hotelreadform(Model model, @PathVariable Long storeIdx) throws Exception {
 
         StoreDTO storeDTO = storeService.read(storeIdx);
 
@@ -154,6 +154,37 @@ public class MemberpageController {
         log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
         return "member/memberpage/read";
     }
+
+
+
+
+
+
+
+    @PostMapping("/member/memberpage/emptyroom")
+    public String hotelreadProc(Model model,SearchDTO searchDTO) throws Exception {
+
+
+        List<RoomDTO> roomDTOS = roomService.emptyRoomSearch(searchDTO);
+
+        model.addAttribute("emptyRoomList",roomDTOS);
+
+
+
+
+        return "member/memberpage/read";
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     //인덱스에서 메뉴 주문 버튼 누를 시 로그인 여부/예약 여부 확인해서 링크 타도록 변경
