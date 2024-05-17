@@ -106,4 +106,8 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     @Query("SELECT m FROM MenuCate m LEFT JOIN FETCH m.detailMenuList WHERE m in :menuList")
     List<MenuCate> findWithDetailMenuByMenuCateList(@Param("menuList") List<MenuCate> menuList);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM Store ORDER BY RAND() LIMIT 5")
+    List<Store> findRandomStores();
+
 }
