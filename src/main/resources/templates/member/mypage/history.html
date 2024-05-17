@@ -11,58 +11,124 @@
 <body>
 <div layout:fragment="title"><h1><strong>이용 내역</strong></h1></div>
 <div layout:fragment="content">
-
-    <div id="form-container">
-        <div id="form-inner-container">
-
-            <div id="sign-up-container">
-                <h3>이용내역</h3>
+    <div class="container-fluid" style="max-width: 80%;">
+        <div class="card" style="max-width: 100%; padding-right: 20px;" >
+            <div class="card-title"><h2>룸 예약 내역</h2></div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                주문번호
+                            </th>
+                            <th>
+                                매장명
+                            </th>
+                            <th>
+                                룸 이름
+                            </th>
+                            <th>
+                                체크인
+                            </th>
+                            <th>
+                                체크아웃
+                            </th>
+                            <th>
+                                예약일자
+                            </th>
+                            <th>
+                                예약자명
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                롯데호텔 서울점
+                            </td>
+                            <td>
+                                괜찮은방
+                            </td>
+                            <td>
+                                2024-05-18
+                            </td>
+                            <td>
+                                2024-05-19
+                            </td>
+                            <td>
+                                2024-05-18
+                            </td>
+                            <td>
+                                철수
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card" style="max-width: 100%; padding-right: 20px;">
+            <div class="card-title">
+                <h2>음식 주문 내역</h2>
+            </div>
+            <div class="card-body">
                 <table>
                     <thead>
                     <tr>
-                        <th colspan="2">제목</th>
-                        <th>문의날짜</th>
-                        <th>답변여부</th>
-                        <th>상세보기</th>
+                        <th>
+                            주문번호
+                        </th>
+                        <th>
+                            주문 코드
+                        </th>
+                        <th>
+                            주문 상태
+                        </th>
+                        <th>
+                            총 가격
+                        </th>
+                        <th>
+                            주문자명
+                        </th>
+                        <th>
+                            요청사항
+                        </th>
+                        <th>
+                            상세보기
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-
-
-                    <tr th:each="data:${list}" class="open-modal-btn" th:data-qna-content="${data.qnaContent}" th:data-qna-idx="${data.qnaIdx}">
-                        <td colspan="2" th:text="${data.qnaTitle}"></td>
-
-                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
-
+                    <tr>
                         <td>
-                            <th:block th:if="${data.qnaStatus == 0}">
-                                <span class="badge rounded-pill bg-secondary">미회신</span></th:block>
-                            <th:block th:if="${data.qnaStatus == 1}">
-                                <span class="badge rounded-pill bg-primary">답변완료</span></th:block>
+                            1
                         </td>
-
-
                         <td>
-                            <button class="btn btn-info open-modal-btn"
-                                    th:data-qna-content="${data.qnaContent}"
-                                    th:data-qna-title="${data.qnaTitle}"
-                                    th:data-qna-answer="${data.qnaAnswer}"
-                                    th:data-qna-idx="${data.qnaIdx}">
-                                문의 확인
-                            </button>
+                            485314c78ss574
                         </td>
-
+                        <td>
+                            주문완료
+                        </td>
+                        <td>
+                            25000원
+                        </td>
+                        <td>
+                            철수
+                        </td>
+                        <td>
+                            리뷰이벤트 참여할게요 ^^
+                        </td>
+                        <td>
+                            <button class="button btn-outline-info">상세보기</button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
-
-
-
             </div>
-
         </div>
     </div>
-
 
 </div>
 

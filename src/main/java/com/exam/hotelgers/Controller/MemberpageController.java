@@ -64,8 +64,12 @@ public class MemberpageController {
     private final QnaService qnaService;
 
     @GetMapping("/member/memberpage/index")
-    public String indexform() {
-
+    public String indexform(Model model) {
+        List<StoreDTO> recommendedStores = storeService.getRandomRecommendedStores();
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+        model.addAttribute("recommendedStoreList", recommendedStores);
         return "member/memberpage/index";
     }
 
