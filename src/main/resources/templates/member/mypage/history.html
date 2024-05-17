@@ -42,26 +42,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
+                        <tr th:each="room : ${roomOrders}">
+                            <td th:text="${room.roomorderIdx}">
                                 1
                             </td>
-                            <td>
+                            <td th:text="${store.storeName}">
                                 롯데호텔 서울점
                             </td>
-                            <td>
+                            <td th:text="${room.roomorderIdx}">
                                 괜찮은방
                             </td>
-                            <td>
+                            <td th:text="${room.reservationDateCheckin}">
                                 2024-05-18
                             </td>
-                            <td>
+                            <td th:text="${room.reservationDateCheckout}">
                                 2024-05-19
                             </td>
-                            <td>
+                            <td th:text="${room.regdate}">
                                 2024-05-18
                             </td>
-                            <td>
+                            <td th:text="${memberDTO.memberName}">
                                 철수
                             </td>
                         </tr>

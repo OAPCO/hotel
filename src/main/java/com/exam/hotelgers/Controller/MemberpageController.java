@@ -4,8 +4,8 @@ import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.MenuOrder;
 import com.exam.hotelgers.entity.RoomOrder;
-import com.exam.hotelgers.repository.RoomOrderRepository;
-import com.exam.hotelgers.repository.RoomRepository;
+import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.repository.*;
 import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.service.MemberService;
@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,10 +49,12 @@ public class MemberpageController {
     private final RoomOrderService roomOrderService;
     private final RoomRepository roomRepository;
     private final ImageService imageService;
-
+    private final MemberRepository memberRepository;
+    private final MenuOrderRepository menuOrderRepository;
     private final RoomOrderRepository roomOrderRepository;
     private final MenuOrderService menuOrderService;
     private final ModelMapper modelMapper;
+    private final StoreRepository storeRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -370,7 +373,19 @@ public class MemberpageController {
 
 
     @GetMapping ("/member/mypage/history")
-    public String historyForm(){
+    public String historyForm(MemberDTO memberDTO, Principal principal, Model model) {
+        memberDTO = memberService.memberInfoSearch(principal);
+
+
+        List<RoomOrder> roomOrders = roomOrderRepository.RoomOrderfindByMemberIdx(memberDTO.getMemberIdx());
+
+        List<MenuOrder> menuOrders = menuOrderRepository.MenuOrderfindByMemberIdx(memberDTO.getMemberIdx());
+
+
+        model.addAttribute("roomOrders", roomOrders);
+        model.addAttribute("menuOrders", menuOrders);
+        model.addAttribute("memberDTO", memberDTO);
+
         return "member/mypage/history";
     }
 
