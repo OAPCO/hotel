@@ -13,36 +13,36 @@
         }
         .normalroom {
             background-color: #ffffff; /* 원하는 밝은 색으로 설정 */
-        /* search-container를 flex로 설정하고 요소들을 중앙에 정렬합니다. */
-        .search-container {
-            padding-top: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;  /* 추가로 요소들 사이의 간격을 조정했습니다. */
-        }
-        /* .search-inputs와 .search-box를 flex로 설정하고 요소들을 가로로 정렬합니다. 이들의 너비는 상위 컨테이너인 search-container의 50%입니다. */
-        .search-inputs, .search-box {
-            display: flex;
-            width: 50%;
-            justify-content: space-between;
-            gap: 0;  /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
-            align-items: center; /* 이 코드를 추가하여 요소들이 동일한 기준선에 정렬되게 합니다. */
-
-            /* 각 input, select, button 요소의 높이를 50px로 설정하고, 모서리를 각진 형태로 만듭니다. */
-            select, input[type="date"], .form-control, .btn {
-                height: 50px;
-                border-radius: 0;
-                border: none; /* 추가하면 브라우저 기본 스타일을 제거하여 높이를 정확히 조정할 수 있습니다. */
-                box-sizing: border-box; /* 이건 전체 너비를 정확하게 계산합니다(패딩과 경계 포함). */
+            /* search-container를 flex로 설정하고 요소들을 중앙에 정렬합니다. */
+            .search-container {
+                padding-top: 25px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;  /* 추가로 요소들 사이의 간격을 조정했습니다. */
             }
-        }
+            /* .search-inputs와 .search-box를 flex로 설정하고 요소들을 가로로 정렬합니다. 이들의 너비는 상위 컨테이너인 search-container의 50%입니다. */
+            .search-inputs, .search-box {
+                display: flex;
+                width: 50%;
+                justify-content: space-between;
+                gap: 0;  /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
+                align-items: center; /* 이 코드를 추가하여 요소들이 동일한 기준선에 정렬되게 합니다. */
 
-        /* .search-box 내의 input 요소와 button 요소에 flex 속성을 추가해 일관된 너비를 유지합니다. */
-        .search-box .form-control {
-            flex: 8;
+                /* 각 input, select, button 요소의 높이를 50px로 설정하고, 모서리를 각진 형태로 만듭니다. */
+                select, input[type="date"], .form-control, .btn {
+                    height: 50px;
+                    border-radius: 0;
+                    border: none; /* 추가하면 브라우저 기본 스타일을 제거하여 높이를 정확히 조정할 수 있습니다. */
+                    box-sizing: border-box; /* 이건 전체 너비를 정확하게 계산합니다(패딩과 경계 포함). */
+                }
+            }
 
-        }
+            /* .search-box 내의 input 요소와 button 요소에 flex 속성을 추가해 일관된 너비를 유지합니다. */
+            .search-box .form-control {
+                flex: 8;
+
+            }
         }
     </style>
 </head>
@@ -69,7 +69,7 @@
                         <tbody>
                         <tr class="row">
                             <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|"
-                                 class="d-block w-100">
+                                 width="1000" height="600">
                         </tr>
                         <tr class="row">
                             <td class="col-2 ">영업시간</td>
@@ -109,27 +109,29 @@
                     <!-- 왼쪽 이미지 -->
                     <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
-                    <div class="carousel-inner">
+                        <div class="carousel-inner">
 
-                            <div class="carousel-item active">
-                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|"
-                                     class="d-block w-100">
+                            <div th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">
+                                <div th:attr="class=${roomImageListView.roomImageMain == 1 ? 'carousel-item active' : 'carousel-item'}">
+                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="700" height="400" alt="Slide"/>
+                                </div>
+
+
+                                <div th:attr="class=${roomImageListView.roomImageType}">
+                                    <a class="carousel-control-prev" href="#demo" role="button" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#demo" role="button" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </a>
+                                </div>
+
+
                             </div>
 
-                             <div class="carousel-item" th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">
-                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="100" height="100" class="d-block w-100" alt="Slide"/>
-                             </div>
-
-                    </div>
-
-<!--                        <a class="carousel-control-prev" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="prev">-->
-<!--                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                            <span class="sr-only">Previous</span>-->
-<!--                        </a>-->
-<!--                        <a class="carousel-control-next" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="next">-->
-<!--                            <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                            <span class="sr-only">Next</span>-->
-<!--                        </a>-->
+                        </div>
 
 
 
@@ -148,91 +150,109 @@
 
     </div>
 
-
-
-
-
-
-
-
-<!--        <div id="section32" class="container-fluid pt-5">-->
-<!--            <div class="container" style="margin: auto; width: 80%;">-->
-<!--                <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;-->
-<!--        border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="roomTypeListView : ${roomTypeList}">-->
-<!--                    <div style="display: flex;">-->
-<!--                        <div id="carouselExampleIndicators-${roomTypeListView.roomType}" class="carousel slide" data-ride="carousel">-->
-<!--                            <div class="carousel-inner">-->
-<!--                                <div class="carousel-item active">-->
-<!--                                    <th:block th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">-->
-<!--                                        <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" class="d-block w-100" alt="Slide"/>-->
-<!--                                    </th:block>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <a class="carousel-control-prev" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="prev">-->
-<!--                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                                <span class="sr-only">Previous</span>-->
-<!--                            </a>-->
-<!--                            <a class="carousel-control-next" href="#carouselExampleIndicators-${roomTypeListView.roomType}" role="button" data-slide="next">-->
-<!--                                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                                <span class="sr-only">Next</span>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash; 오른쪽 정보 &ndash;&gt;-->
-<!--                        <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">-->
-<!--                            <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;" th:text="${roomTypeListView.roomType}"></p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
     <p></p>
-        <div id="section2" class="container-fluid pt-5">
-            <!-- 매장 정보 -->
-            <div class="container" style="margin: auto; width: 80%;">
-                <div class="card shadow">
-                    <div class="card-header py-3">
-                        <h3>검색일</h3>
-                    </div>
-                    <div class="card-body">
-                        <form method="post" action="/member/memberpage/read">
-                            <table style="width: 100%;">
-                                <tbody>
-                                    <tr>
-                                        <td class="col-2" style="text-align: center;">
-                                            체크인 :
-                                        </td>
-                                        <td class="col-4">
-                                            <input type="date" name="sta    rttime" style=" border: 1px solid; width:
-                                            100%;">
-                                        </td>
-                                        <td class="col-2" style="text-align: center;">
-                                            체크아웃 :
-                                        </td>
-                                        <td class="col-4">
-                                            <input type="date" name="endtime" style=" border: 1px solid; width: 100%;">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
+
+
+
+    <div id="section2" class="container-fluid pt-5">
+        <!-- 매장 정보 -->
+        <div class="container" style="margin: auto; width: 80%;">
+            <div class="card shadow">
+                <div class="card-header py-3">
+                    <h3>조회</h3>
                 </div>
-            </div> <!-- 매장 상세 정보 -->
-        </div>
+                <div class="card-body">
+                    <form action="/member/memberpage/emptyroom" method="post">
+                        <table style="width: 100%;">
+
+                            <tbody>
+                            <tr>
+                                <td class="col-2" style="text-align: center;">
+                                    체크인 :
+                                </td>
+                                <td class="col-4">
+                                    <input type="date" name="startDate" style=" border: 1px solid; width: 100%;"  id="startDate">
+                                </td>
+                                <td class="col-2" style="text-align: center;">
+                                    체크아웃 :
+                                </td>
+                                <td class="col-4">
+                                    <input type="date" name="endDate" style=" border: 1px solid; width: 100%;"  id="endDate">
+                                </td>
+                                <input type="hidden" id="isoStartDate" name="reservationDateCheckin">
+                                <input type="hidden" id="isoEndDate" name="reservationDateCheckout">
+                                <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
+                            </tr>
+
+
+                            </tbody>
+                                <tr>
+                                    <td>
+                                <button type="submit">조회하기</button>
+                                    </td>
+                            </tr>
+                        </table>
+                    </form>
+
+
+                    <div class="table-responsive">
+                        <table class="table body">
+                            <thead>
+                            <tr>
+                                <th colspan="3">조회결과</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <form action="/member/memberpage/paypage" method="post" id="reservationForm">
+                                <tr>
+                                <td class="col-2" style="text-align: center;">
+                                    투숙인원 :
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="peopleNum">
+                                </td>
+                                </tr>
+
+                                <input type="hidden" name="reservationDateCheckin" th:value="${checkinDate}">
+                                <input type="hidden" name="reservationDateCheckout" th:value="${checkoutDate}">
+                                <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
+                                <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+                                <input type="text" name="roomOrderType" id="selectedRoomOrderType"></td>
+                                <input type="text" name="roomIdx" id="selectedRoomIdx">
+
+                            </form>
+
+
+                            <tr th:each="data:${emptyRoomTypes}" id="table-row">
+
+
+
+
+                                <td th:text="${data.roomType}"></td>
+
+                                <td>
+                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${data.roomMainimgName}|"
+                                     width="400" height="200">
+                                </td>
+                                <td>
+                                    <button class="btn button reserve-btn" type="button" th:data-room-idx="${data.roomIdx}" th:data-room-type="${data.roomType}">예약하기</button>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div> <!-- 매장 상세 정보 -->
+    </div>
     <p></p>
+
 
     <div id="roomImageModal" class="modal">
         <!-- 모달 내용 -->
@@ -247,33 +267,39 @@
 
     <script>
 
-
-        $(document).ready(function(){
-
-
-
-
-
-            console.log("준비완료");
-
-
-            $(".open-modal-btn").click(function(){
-
-                console.log("클릭됨");
-
-                var roomType = $(this).data("roomType");
-                console.log(roomType);
-
-                // hotel.searchRoomImage(roomIdx);
-
-
-
-                // 모달 열기
-                $('#roomImageModal').modal('show');
-
+        document.querySelectorAll('.reserve-btn').forEach(item => {
+            item.addEventListener('click', event => {
+                const roomIdx = event.target.getAttribute('data-room-idx');
+                const roomType = event.target.getAttribute('data-room-type');
+                document.getElementById('selectedRoomIdx').value = roomIdx;
+                document.getElementById('selectedRoomOrderType').value = roomType;
+                // console.log(document.getElementById('selectedRoomIdx').value);
+                document.getElementById('reservationForm').submit();
             });
+        });
 
 
+        //날짜를 숫자로 변환
+
+        document.getElementById("startDate").addEventListener("change", function() {
+
+            var originalDate = this.value;
+            var numericDate = originalDate.replace(/-/g, '');
+
+            document.getElementById("isoStartDate").value = numericDate;
+            // document.getElementById("isoStartDate2").value = numericDate;
+
+            console.log(numericDate);
+            // console.log(document.getElementById("isoStartDate2").value);
+        });
+
+        document.getElementById("endDate").addEventListener("change", function() {
+
+            var originalDate = this.value;
+            var numericDate = originalDate.replace(/-/g, '');
+
+            document.getElementById("isoEndDate").value = numericDate;
+            // document.getElementById("isoEndDate2").value = numericDate;
         });
 
     </script>

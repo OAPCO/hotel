@@ -2,6 +2,7 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
+import com.exam.hotelgers.repository.ImageRepository;
 import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.repository.StoreRepository;
 import jakarta.annotation.Nullable;
@@ -34,6 +35,7 @@ public class RoomService {
     private final StoreRepository storeRepository;
     private final SearchService searchService;
     private final ImageService imageService;
+    private final ImageRepository imageRepository;
 
     @Value("${imgUploadLocation}")
     private String imgUploadLocation;
@@ -71,7 +73,15 @@ public class RoomService {
         String roomType = room.getRoomType().toString();
 
         imageService.roomImageregister(imgFiles,roomIdx,roomType);
-        imageService.roomMainImageregister(mainimgFile,roomIdx,roomType);
+
+        //대표파일의 이름을 반환받아온다.
+        String imgName = imageService.roomMainImageregister(mainimgFile,roomIdx,roomType);
+
+        //그 이름을 엔티티 대표이미지속성에 집어넣는다.
+        room.setRoomMainimgName(imgName);
+
+        //다시 저장한다.
+        roomRepository.save(room);
 
         return roomIdx;
     }
@@ -198,6 +208,12 @@ public class RoomService {
         roomRepository.roomStatusUpdate(roomOrderDTO);
     }
 
+    @Transactional
+    public void roomStatusUpdate3(RoomOrderDTO roomOrderDTO){
+        roomRepository.roomStatusUpdate3(roomOrderDTO);
+    }
+
+
 
     public List<RoomDTO> roomTypeSearch(Long storeIdx) {
 
@@ -211,6 +227,31 @@ public class RoomService {
 
         return roomDTOS;
     }
+
+
+
+
+
+    public List<RoomDTO> emptyRoomSearch(SearchDTO searchDTO){
+
+        List<Room> emptyRoomList = roomRepository.searchEmptyRoom(searchDTO);
+
+
+        List<RoomDTO> roomDTOS = emptyRoomList.stream()
+                .map(room -> modelMapper.map(room, RoomDTO.class))
+                .collect(Collectors.toList());
+
+        return roomDTOS;
+    }
+
+
+//    public List<String> emptyRoomSearch2(SearchDTO searchDTO){
+//
+//        List<String> emptyRoomList = roomRepository.searchEmptyRoom2(searchDTO);
+//
+//
+//        return emptyRoomList;
+//    }
 
 
 

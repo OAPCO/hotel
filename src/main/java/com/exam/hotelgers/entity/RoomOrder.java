@@ -24,17 +24,26 @@ public class RoomOrder extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roomorder_sql")
     private Long roomorderIdx;
 
+    //추후 없앨 칼럼 두개.
     private String startTime;
     private String endTime;
 
+    //예약 희망 날짜
     private int reservationDateCheckin;
     private int reservationDateCheckout;
+    
+    //실제 체크인/아웃 날짜,시간
     private String checkinTime;
     private String checkoutTime;
 
-
+    //예약한 방의 타입
     private String roomOrderType;
+    
+    //머릿수
     private String peopleNum;
+
+    //결제여부
+    private int payCheck;
 
 
     private Long roomIdx;

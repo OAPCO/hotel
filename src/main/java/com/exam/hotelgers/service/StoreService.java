@@ -352,4 +352,13 @@ public class StoreService {
         storeRepository.deleteById(storeIdx);
     }
 
+
+
+    public List<StoreDTO> getRandomRecommendedStores() {
+        List<Store> randomStores = storeRepository.findRandomStores();
+        return randomStores.stream()
+                .map(store -> modelMapper.map(store, StoreDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }
