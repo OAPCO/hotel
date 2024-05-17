@@ -1,6 +1,7 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.repository.MemberRepository;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -10,14 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,6 +36,7 @@ public class ScriptController {
     private final ManagerService managerService;
     private final MemberService memberService;
     private final ImageService imageService;
+
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -83,7 +84,7 @@ public class ScriptController {
         return result;
     }
 
-    @GetMapping("/emailcheck/{memberEmail}")
+    @GetMapping("/emailcheck/{memberEmail}") //여기에서 중복확인
     public ResponseEntity<Integer> checkEmailDuplication(@PathVariable String memberEmail) {
         SearchDTO searchDTO = new SearchDTO();
         searchDTO.setMemberEmail(memberEmail);
@@ -93,14 +94,43 @@ public class ScriptController {
     }
 
     @PostMapping("/api/kakao/userInfo")
-    public String receiveKakaoUserInfo(@RequestBody String userInfo, MemberDTO memberDTO) throws Exception {
+    public String receiveKakaoUserInfo(@RequestBody String userInfo, MemberDTO memberDTO, Model model) throws Exception {
+        String loginInfo = memberService.kakaoregister(userInfo, memberDTO);
 
 
-            memberService.kakaoregister(userInfo,memberDTO);
 
-            // 클라이언트에 응답합니다.
-            return "member/memberpage/index";
+        // Extract the email and password from the returned loginInfo
+        String[] loginDetails = loginInfo.split(":");
+        String memberEmail = loginDetails[0];
+        String memberPassword = loginDetails[1];
+        log.info(memberEmail + memberPassword);
+
+
+//        log.info("로그인 시도중 : 아이디 - " + memberEmail);
+//        log.info("로그인 시도중 : 비밀번호 - " + memberPassword);
+//
+//        model.addAttribute("loginInfo",loginInfo);
+
+
+
+//        // Create a map to hold the login details
+//        Map<String, String> loginPayload = new HashMap<>();
+//        loginPayload.put("userid", memberEmail);
+//        loginPayload.put("password", memberPassword);
+//
+//        // Send a POST request to the member/login endpoint
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_JSON);
+//        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(loginPayload, headers);
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        log.info("카카오 로그인 전송 "+requestEntity);
+//        ResponseEntity<String> response = restTemplate.postForEntity("/member/login", requestEntity, String.class);
+
+
+            return loginInfo;
     }
+
 
 
 
@@ -114,6 +144,10 @@ public class ScriptController {
 
         return imageDTOS;
     }
+
+
+
+
 }
 
 

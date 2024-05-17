@@ -124,6 +124,33 @@
         }
 
     </style>
+    <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script type="text/javascript">
+        Kakao.init('98b347ddff988e960446602a7113c40c');
+        Kakao.API.request({
+            url: '/v1/user/unlink',
+        })
+            .then(function(response) {
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        function kakaoLogout() {
+            Kakao.Auth.logout()
+                .then(function() {
+                    alert('로그아웃 되었습니다.');
+                    deleteCookie();
+                })
+                .catch(function(error) {
+                    console.error('로그아웃 중 오류가 발생했습니다.', error);
+                });
+        }
+
+        function deleteCookie() {
+            document.cookie = 'authorize-access-token=https://logout.com; Path=/member/logout; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+    </script>
 
     <script>
         // 서비스 버튼을 클릭했을 때 실행되는 함수
@@ -199,7 +226,7 @@
                         <a sec:authorize="isAnonymous()" class="dropdown-item" href="/member/login">로그인</a>
                         <a sec:authorize="isAnonymous()" class="dropdown-item" href="/member/register">회원가입</a>
                         <a sec:authorize="hasRole('ROLE_USER')" class="dropdown-item" href="/member/mypage/info">마이페이지</a>
-                        <a sec:authorize="hasRole('ROLE_USER')" class="dropdown-item" href="/logout">로그아웃</a>
+                        <a sec:authorize="hasRole('ROLE_USER')" class="dropdown-item" href="/logout" onclick="kakaoLogout()">로그아웃</a>
                     </div>
                 </li>
 
