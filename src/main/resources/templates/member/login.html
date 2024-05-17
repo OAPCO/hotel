@@ -10,9 +10,11 @@
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript">
         Kakao.init('98b347ddff988e960446602a7113c40c'); //개인 코드
+
         function kakaoLogin() {
             Kakao.Auth.login({
                 success: function (response) {
+
                     Kakao.API.request({
                         url: '/v2/user/me',
                         success: function (userInfo) {
@@ -28,7 +30,20 @@
                                 data: JSON.stringify(userInfo), // userInfo를 JSON 형태로 전송
                                 success: function (result) {
                                     console.log("Received response from server:", result);
-                                    // 필요한 경우 성공 시의 추가 작업을 수행합니다.
+
+                                    var loginDetails = result.split(":");
+                                    var memberEmail = loginDetails[0];
+                                    var memberPassword = loginDetails[1];
+
+                                    console.log(memberEmail);
+                                    console.log(memberPassword);
+
+
+
+                                    document.getElementById('userid').value = memberEmail;
+                                    document.getElementById('password').value = memberPassword;
+                                    document.getElementById('loginform').submit();
+
                                 },
                                 error: function (xhr, status, error) {
                                     console.error("Error occurred while sending data to server:", error);
@@ -48,6 +63,14 @@
         }
 
     </script>
+
+
+    <script th:inline="javascript">
+
+
+        </script>
+
+
     <!--여기까지 카카오톡-->
 </head>
 
@@ -66,8 +89,9 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h4 class="text-dark mb-4">회원 로그인</h4>
+
                                     </div>
-                                    <form class="user" th:action="@{/member/login}" method="post">
+                                    <form class="user" th:action="@{/member/login}" method="post" id="loginform">
                                         <div class="mb-3"><input class="form-control form-control-user" type="email" id="userid" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="userid"></div>
                                         <div class="mb-3"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password"></div>
                                         <div>
@@ -83,9 +107,9 @@
                                         </div><button class="btn btn-primary d-block btn-user w-100" type="submit">Login</button>
                                         <hr>
                                         <a href="/oauth2/authorization/google" class="btn btn-primary d-block btn-google btn-user w-100 mb-2" role="button"><i class="fab fa-google"></i>&nbsp; Login with Google</a>
-                                        <a class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Login with Facebook</a>
-                                        <a href="javascript:kakaoLogin()" class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; 카카오톡 로그인</a>
-
+<!--                                        <a class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Login with Facebook</a>-->
+                                        <a href="javascript:kakaoLogin()" class="btn btn-warning w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; 카카오톡 로그인</a>
+                                        <p id="token-result"></p>
                                         <hr>
                                     </form>
                                     <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>

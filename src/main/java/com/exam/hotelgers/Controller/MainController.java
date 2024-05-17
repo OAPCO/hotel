@@ -155,6 +155,9 @@ public class MainController {
         }
     }
 
-
+    @GetMapping("/oauth2/authorization/google")
+    public String googleProc(){
+        return "oauth2/authorization/google";
+    }
 
 }
