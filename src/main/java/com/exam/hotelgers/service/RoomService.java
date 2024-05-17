@@ -208,6 +208,12 @@ public class RoomService {
         roomRepository.roomStatusUpdate(roomOrderDTO);
     }
 
+    @Transactional
+    public void roomStatusUpdate3(RoomOrderDTO roomOrderDTO){
+        roomRepository.roomStatusUpdate3(roomOrderDTO);
+    }
+
+
 
     public List<RoomDTO> roomTypeSearch(Long storeIdx) {
 

@@ -67,6 +67,8 @@ public class StoreController {
 
         log.info("store registerProc 도착 " + storeDTO);
 
+        log.info("아이디확인@@@@@@ " + searchDTO.getManagerId());
+
 
         if (bindingResult.hasErrors()) {
             log.info("has error@@@@@@@@@");

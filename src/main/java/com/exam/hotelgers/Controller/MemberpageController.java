@@ -176,8 +176,6 @@ public class MemberpageController {
 
 
 
-
-
     @PostMapping("/member/memberpage/emptyroom")
     public String hotelreadProc(Model model,SearchDTO searchDTO, RedirectAttributes redirectAttributes) throws Exception {
 
@@ -214,6 +212,10 @@ public class MemberpageController {
         //결제 했을 시 결제상태 1로 변경
         roomOrderDTO.setPayCheck(1);
 
+        //예약된 방 하나를 상태를 3으로 바꾼다.
+        roomService.roomStatusUpdate3(roomOrderDTO);
+
+        //객실예약 추가
         roomOrderService.register(roomOrderDTO);
 
         return "redirect:/member/memberpage/index";

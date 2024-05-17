@@ -204,7 +204,7 @@
                             </thead>
                             <tbody>
 
-                            <form action="/member/memberpage/paypage" method="post">
+                            <form action="/member/memberpage/paypage" method="post" id="reservationForm">
                                 <tr>
                                 <td class="col-2" style="text-align: center;">
                                     투숙인원 :
@@ -213,29 +213,32 @@
                                     <input type="text" class="form-control" name="peopleNum">
                                 </td>
                                 </tr>
-                            <tr th:each="data:${emptyRoomTypes}" id="table-row">
 
-
-
-<!--                                <input type="hidden" id="isoStartDate2" name="reservationDateCheckin" value="1">-->
-<!--                                <input type="hidden" id="isoEndDate2" name="reservationDateCheckout" value="2">-->
                                 <input type="hidden" name="reservationDateCheckin" th:value="${checkinDate}">
                                 <input type="hidden" name="reservationDateCheckout" th:value="${checkoutDate}">
                                 <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
                                 <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+                                <input type="text" name="roomOrderType" id="selectedRoomOrderType"></td>
+                                <input type="text" name="roomIdx" id="selectedRoomIdx">
+
+                            </form>
+
+
+                            <tr th:each="data:${emptyRoomTypes}" id="table-row">
+
+
 
 
                                 <td th:text="${data.roomType}"></td>
+
                                 <td>
                                 <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${data.roomMainimgName}|"
                                      width="400" height="200">
                                 </td>
                                 <td>
-                                    <button class="btn button" type="submit">예약하기</button>
+                                    <button class="btn button reserve-btn" type="button" th:data-room-idx="${data.roomIdx}" th:data-room-type="${data.roomType}">예약하기</button>
                                 </td>
                             </tr>
-
-                            </form>
 
                             </tbody>
                         </table>
@@ -263,6 +266,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+
+        document.querySelectorAll('.reserve-btn').forEach(item => {
+            item.addEventListener('click', event => {
+                const roomIdx = event.target.getAttribute('data-room-idx');
+                const roomType = event.target.getAttribute('data-room-type');
+                document.getElementById('selectedRoomIdx').value = roomIdx;
+                document.getElementById('selectedRoomOrderType').value = roomType;
+                // console.log(document.getElementById('selectedRoomIdx').value);
+                document.getElementById('reservationForm').submit();
+            });
+        });
+
 
         //날짜를 숫자로 변환
 
