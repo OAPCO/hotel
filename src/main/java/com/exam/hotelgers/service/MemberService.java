@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -195,14 +196,59 @@ public class MemberService {
 
         // 중복된 이메일이 없으면 0 반환
         if (existingEmail == null) {
+            log.info("중복이메일x");
             return 0;
         } else {
             // 중복된 이메일이 있으면 1 반환
+            log.info("중복이메일o");
             return 1;
         }
+
     }
 
-    public Long kakaoregister(String userInfo,MemberDTO memberDTO) throws Exception {
+    public String kakaoregister(String userInfo, MemberDTO memberDTO) throws Exception {
+        Map<String, Object> userInfoMap = objectMapper.readValue(userInfo, new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> kakaoAccountMap = (Map<String, Object>) userInfoMap.get("kakao_account");
+        Map<String, Object> propertiesMap = (Map<String, Object>) userInfoMap.get("properties");
+        log.info("들어온 카카오 소셜 회원 정보: " + userInfo);
+        String memberEmail = kakaoAccountMap.get("email").toString();
+        String memberNickname = propertiesMap.get("nickname").toString();
+        Character memberJoinType = 'k'; // 카카오 소셜 회원가입인 경우를 나타내는 플래그
+        String randomPassword = generateRandomPassword(10);
+        memberDTO.setMemberEmail(memberEmail);
+        memberDTO.setMemberNickname(memberNickname);
+        memberDTO.setMemberJoinType(memberJoinType);
+        memberDTO.setPassword(randomPassword); // 랜덤 패스워드 설정
+        Optional<Member> memberEntity = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
+        if (memberEntity.isPresent()) {
+            log.info ("이미 가입된 카카오 계정이므로 로그인으로.");
+            return kakaologin(userInfo, memberDTO); //여기는 비번안넘어감
+        }
+        Member member = modelMapper.map(memberDTO, Member.class);
+
+        String password = passwordEncoder.encode(randomPassword);
+
+        member.setRoleType(RoleType.USER);
+        member.setPassword(password);
+
+        memberRepository.save(member);
+        log.info(memberEmail + password+" 카카오 소셜 가입완료");
+        return memberEmail + ":" + randomPassword;
+    }
+
+
+    private String generateRandomPassword(int length) { //패스워드 랜덤주입 (소셜전용)
+        final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            password.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        return password.toString();
+    }
+    public String kakaologin(String userInfo,MemberDTO memberDTO) throws Exception {
 
 
         // 받은 JSON 데이터를 Map 형식으로 변환합니다.
@@ -212,37 +258,16 @@ public class MemberService {
         Map<String, Object> kakaoAccountMap = (Map<String, Object>) userInfoMap.get("kakao_account");
         Map<String, Object> propertiesMap = (Map<String, Object>) userInfoMap.get("properties");
 
-        log.info("들어온 카카오 소셜 회원 정보: " + userInfo);
+        log.info("들어온 카카오 로그인: " + userInfo);
 
         // 필요한 필드를 추출하여 새로운 객체에 담습니다.
-        String memberEmail = kakaoAccountMap.get("email").toString();
-        String memberNickname = propertiesMap.get("nickname").toString();
-        Character memberJoinType = 'k'; // 카카오 소셜 회원가입인 경우를 나타내는 플래그
+        String userid = kakaoAccountMap.get("email").toString();
+        String password= memberRepository.kakaopassword(userid);
+        log.info("id:   "+userid+"    패스워드     "+password);
 
 
-
-        // DTO에 필드 설정
-        memberDTO.setMemberEmail(memberEmail);
-        memberDTO.setMemberNickname(memberNickname);
-        memberDTO.setMemberJoinType(memberJoinType);
-
-
-
-
-        Optional<Member> memberEntity = memberRepository
-                .findByMemberEmail(memberDTO.getMemberEmail());
-
-        if (memberEntity.isPresent()) {
-            throw new IllegalStateException("이미 가입된 이메일입니다.");
-        }
-
-
-        Member member = modelMapper.map(memberDTO, Member.class);
-
-
-        member.setRoleType(RoleType.USER);
-        memberRepository.save(member);
-
-        return memberRepository.save(member).getMemberIdx();
+        return userid + ":" + password;
     }
+
+
 }

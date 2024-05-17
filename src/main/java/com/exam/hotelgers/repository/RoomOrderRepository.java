@@ -60,6 +60,7 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
 
     Optional<RoomOrder> findByMemberIdx(Long memberIdx);
 
+    List<RoomOrder> RoomOrderfindByMemberIdx(Long memberIdx);
 
 
 }

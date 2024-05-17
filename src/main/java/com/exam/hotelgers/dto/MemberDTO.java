@@ -71,4 +71,6 @@ public class MemberDTO {
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
+
+
 }

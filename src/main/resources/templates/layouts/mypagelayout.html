@@ -43,8 +43,8 @@
                 <li class="nav-item" style="margin-left: 15%;"><a class="nav-link active" href="/member/mypage/myqna"><i class="fa fa-envelope"></i>문의내역</a></li>
                 <li class="nav-item" style="margin-left: 15%;"><a class="nav-link active" href="/member/mypage/point"><i class="fa-solid fa-p"></i>포인트내역</a></li>
                 <li class="nav-item" style="margin-left: 15%;"><a class="nav-link active" href="/member/mypage/info"><i class="fa-solid fa-user"></i>내 정보</a></li>
-                <li sec:authorize="hasRole('ROLE_USER')" th:href="@{/logout}" style="margin-left: 15%;"><i class="fa-solid fa-right-from-bracket"></i>로그아웃</a></li>
-                <li class="nav-item" style="margin-left: 15%;"><a class="nav-link active" href="/member/mypage/history">Mypage</a></li>
+                <li sec:authorize="hasRole('ROLE_USER')" style="margin-left: 15%;"><a class="nav-link active" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>logout</a></li>
+                <li class="nav-item" style="margin-left: 15%;"><a class="nav-link active" >Mypage</a></li>
 
 
 
