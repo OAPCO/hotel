@@ -93,7 +93,7 @@ public class ImageService {
 
 
     //객실 대표이미지 생성
-    public void roomMainImageregister(MultipartFile mainimgFile, Long roomIdx, String roomType) throws IOException {
+    public String roomMainImageregister(MultipartFile mainimgFile, Long roomIdx, String roomType) throws IOException {
 
             String originalFileName = mainimgFile.getOriginalFilename();
             String newFileName = "";
@@ -109,6 +109,8 @@ public class ImageService {
             image.setRoomImageMain(1);
 
             imageRepository.save(image);
+
+            return newFileName;
         }
 
 
@@ -143,15 +145,17 @@ public class ImageService {
         return imageDTOS;
     }
 
-    public ImageDTO roomMainImageSearch(Long StoreIdx) {
+    public List<ImageDTO> roomMainImageSearch(Long StoreIdx) {
 
 
-        Optional<Image> image = imageRepository.roomDetailMainImageSearch(StoreIdx);
+        List<Image> images = imageRepository.roomDetailMainImageSearch(StoreIdx);
 
 
-        ImageDTO imageDTO = modelMapper.map(image, ImageDTO.class);
+        List<ImageDTO> imageDTOS = images.stream()
+                .map(image -> modelMapper.map(image, ImageDTO.class))
+                .collect(Collectors.toList());
 
-        return imageDTO;
+        return imageDTOS;
     }
 
 

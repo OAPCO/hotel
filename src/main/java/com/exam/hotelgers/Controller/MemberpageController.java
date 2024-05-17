@@ -100,7 +100,10 @@ public class MemberpageController {
     }
 
     @GetMapping("/member/memberpage/{storeIdx}")
-    public String readform(Model model, @PathVariable Long storeIdx) throws Exception {
+    public String hotelreadform(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
+
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
         StoreDTO storeDTO = storeService.read(storeIdx);
 
@@ -110,8 +113,8 @@ public class MemberpageController {
         //매장과 룸 인덱스가 일치하는 이미지중 세부이미지들을 불러오는 쿼리문을 실행한다.
         List<ImageDTO> roomImageList = imageService.roomImageSearch(storeIdx);
 
-        //위와 동일한데 대표이미지를 불러온다.
-        ImageDTO roomMainImage = imageService.roomMainImageSearch(storeIdx);
+        //객실 대표이미지를 불러온다.
+        List<ImageDTO> roomMainImageList = imageService.roomMainImageSearch(storeIdx);
 
 
         //불러온 객실 타입 열거형 종류들을 String 배열 형태로 볁환한다.
@@ -135,6 +138,7 @@ public class MemberpageController {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
 
+        model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("roomOrderList", roomOrderDTOList);
         model.addAttribute("storeDTO", storeDTO);
         model.addAttribute("brand", storeDTO.getBrandDTO());
@@ -148,15 +152,85 @@ public class MemberpageController {
         model.addAttribute("roomTypeList",roomTypeList);
         model.addAttribute("roomTypes",roomTypes);
         model.addAttribute("roomImageList",roomImageList);
+        model.addAttribute("roomMainImageList",roomMainImageList);
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
 
-        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
-        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
+        if (model.containsAttribute("emptyRoomTypes")) {
+            List<RoomDTO> emptyRoomTypes = (List<RoomDTO>) model.getAttribute("emptyRoomTypes");
+            model.addAttribute("emptyRoomTypes", emptyRoomTypes);
+        }
+
+        if(model.containsAttribute("checkinDate")) {
+            int checkinDate = (int) model.getAttribute("checkinDate");
+            model.addAttribute("checkinDate", checkinDate);
+        }
+        if(model.containsAttribute("checkoutDate")) {
+            int checkoutDate = (int) model.getAttribute("checkoutDate");
+            model.addAttribute("checkoutDate", checkoutDate);
+        }
+
+
         return "member/memberpage/read";
     }
+
+
+
+
+
+
+
+    @PostMapping("/member/memberpage/emptyroom")
+    public String hotelreadProc(Model model,SearchDTO searchDTO, RedirectAttributes redirectAttributes) throws Exception {
+
+
+        log.info("서치dto의 storeIdx 확인 : "+ searchDTO.getStoreIdx());
+        log.info("서치dto의 reservationDateCheckin 확인 : "+ searchDTO.getReservationDateCheckin());
+
+        List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
+
+        Long storeIdx = searchDTO.getStoreIdx();
+
+
+        log.info("생성됏는지확인@@@@!#@!#@" + emptyRoomTypes);
+
+        redirectAttributes.addFlashAttribute("emptyRoomTypes", emptyRoomTypes);
+        redirectAttributes.addFlashAttribute("checkinDate", searchDTO.getReservationDateCheckin());
+        redirectAttributes.addFlashAttribute("checkoutDate", searchDTO.getReservationDateCheckout());
+
+
+        return "redirect:/member/memberpage/" + storeIdx;
+    }
+
+
+
+
+
+
+    @PostMapping("/member/memberpage/paypage")
+    public String paypageform(RoomOrderDTO roomOrderDTO){
+
+
+        //이 곳은 결제 페이지로 이용한다. 추후 결제 로직을 추가한 뒤 예약이 완료되게 변경한다.
+
+        //결제 했을 시 결제상태 1로 변경
+        roomOrderDTO.setPayCheck(1);
+
+        roomOrderService.register(roomOrderDTO);
+
+        return "redirect:/member/memberpage/index";
+
+    }
+
+
+
+
+
+
+
+
 
 
     //인덱스에서 메뉴 주문 버튼 누를 시 로그인 여부/예약 여부 확인해서 링크 타도록 변경
@@ -216,6 +290,9 @@ public class MemberpageController {
         log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
         return "member/memberpage/menuorder";
     }
+
+
+
     @PostMapping("/member/memberpage/menuorder")
     public String menuorderproc(@RequestBody MenuOrderDTO menuOrderDTO) {
         Long menuOrderId = menuOrderService.register(menuOrderDTO);
@@ -272,6 +349,16 @@ public class MemberpageController {
         model.addAttribute("folder", folder);
         model.addAttribute("roomDTO", roomDTO);
         model.addAttribute("memberDTO", memberDTO);
+
+        return "member/memberpage/roomorder";
+    }
+
+
+    @PostMapping("/member/memberpage/roomorder")
+    public String roomorderform2(Principal principal,Model model, RoomOrderDTO roomOrderDTO) throws Exception {
+
+        roomOrderService.register(roomOrderDTO);
+
 
         return "member/memberpage/roomorder";
     }
@@ -411,7 +498,6 @@ public class MemberpageController {
 
         log.info("들어온 idx@@@@ " + searchDTO.getMemberIdx());
         log.info("들어온 패스어드"+ searchDTO.getPassword());
-
 
 
         memberService.memberInfoDelete(searchDTO);

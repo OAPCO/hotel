@@ -40,6 +40,8 @@ public class Room extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
+    private String roomMainimgName;
+
     private String roomimgName;
 
 
