@@ -208,22 +208,39 @@ public class MemberpageController {
 
 
     @PostMapping("/member/memberpage/paypage")
-    public String paypageform(RoomOrderDTO roomOrderDTO){
+    public String paylogicProc(@ModelAttribute("roomOrderDTO") RoomOrderDTO roomOrderDTO,RedirectAttributes redirectAttributes,Model model){
 
 
-        //이 곳은 결제 페이지로 이용한다. 추후 결제 로직을 추가한 뒤 예약이 완료되게 변경한다.
+//        //이 곳은 결제 페이지로 이용한다. 추후 결제 로직을 추가한 뒤 예약이 완료되게 변경한다.
+//        //결제 했을 시 결제상태 1로 변경
+//        roomOrderDTO.setPayCheck(1);
+//
+//        //예약된 방 하나를 상태를 3으로 바꾼다.
+//        roomService.roomStatusUpdate3(roomOrderDTO);
+//
+//        //객실예약 추가
+//        roomOrderService.register(roomOrderDTO);
 
-        //결제 했을 시 결제상태 1로 변경
-        roomOrderDTO.setPayCheck(1);
+        redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
 
-        //예약된 방 하나를 상태를 3으로 바꾼다.
-        roomService.roomStatusUpdate3(roomOrderDTO);
+        log.info("포스트매핑 값 : " + roomOrderDTO);
 
-        //객실예약 추가
-        roomOrderService.register(roomOrderDTO);
+        return "redirect:/member/memberpage/paypage";
 
-        return "redirect:/member/memberpage/index";
+    }
 
+
+
+    @GetMapping("/member/memberpage/paypage")
+    public String paypageform(RoomOrderDTO roomOrderDTO,Model model){
+
+
+
+        log.info("겟매핑 값 : " + roomOrderDTO);
+
+        model.addAttribute("roomOrderDTO",roomOrderDTO);
+
+        return "member/memberpage/paypage";
     }
 
 

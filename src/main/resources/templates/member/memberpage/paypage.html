@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/memberread}">
+
+<head>
+    <title>결제페이지</title>
+    <style>
+        .darkroom {
+            background-color: #696969; /* 원하는 어두운 색으로 설정 */
+
+        }
+        .normalroom {
+            background-color: #ffffff; /* 원하는 밝은 색으로 설정 */
+            /* search-container를 flex로 설정하고 요소들을 중앙에 정렬합니다. */
+            .search-container {
+                padding-top: 25px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;  /* 추가로 요소들 사이의 간격을 조정했습니다. */
+            }
+            /* .search-inputs와 .search-box를 flex로 설정하고 요소들을 가로로 정렬합니다. 이들의 너비는 상위 컨테이너인 search-container의 50%입니다. */
+            .search-inputs, .search-box {
+                display: flex;
+                width: 50%;
+                justify-content: space-between;
+                gap: 0;  /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
+                align-items: center; /* 이 코드를 추가하여 요소들이 동일한 기준선에 정렬되게 합니다. */
+
+                /* 각 input, select, button 요소의 높이를 50px로 설정하고, 모서리를 각진 형태로 만듭니다. */
+                select, input[type="date"], .form-control, .btn {
+                    height: 50px;
+                    border-radius: 0;
+                    border: none; /* 추가하면 브라우저 기본 스타일을 제거하여 높이를 정확히 조정할 수 있습니다. */
+                    box-sizing: border-box; /* 이건 전체 너비를 정확하게 계산합니다(패딩과 경계 포함). */
+                }
+            }
+
+            /* .search-box 내의 input 요소와 button 요소에 flex 속성을 추가해 일관된 너비를 유지합니다. */
+            .search-box .form-control {
+                flex: 8;
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div layout:fragment="content">
+    번호@@@@@@@@ [[${roomOrderDTO.roomorderIdx}]]
+    <div id="section1" class="container-fluid pt-5">
+
+        <div class="container" style="margin: auto; width: 80%;">
+
+
+
+        </div>
+    </div>
+    <p></p>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+
+    </script>
+
+
+</div>
+</body>
+</html>
