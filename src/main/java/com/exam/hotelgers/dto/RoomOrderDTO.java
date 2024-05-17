@@ -27,6 +27,9 @@ public class RoomOrderDTO {
     private String roomOrderType;
     private String peopleNum;
 
+    private int payCheck;
+
+
 
     private Long roomIdx;
     private Long memberIdx;

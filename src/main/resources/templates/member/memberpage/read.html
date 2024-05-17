@@ -184,63 +184,63 @@
                                 <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
                             </tr>
 
-                            <tr>
-                                <td class="col-2" style="text-align: center;">
-                                    객실 :
-                                </td>
-                                <td>
-                                <select name="roomOrderType" class="form-control">
-                                    <option value="" selected>전체</option>
-                                    <option th:each="roomTypeSelect : ${roomTypeList}" th:value="${roomTypeSelect.roomType}" th:text="${roomTypeSelect.roomType}"></option>
-                                </select>
-                                </td>
-                                <td class="col-2" style="text-align: center;">
-                                    투숙인원 :
-                                </td>
-                                <td>
-                                <input type="text" class="form-control" name="peopleNum">
-                                </td>
-                            </tr>
+
                             </tbody>
                                 <tr>
                                     <td>
                                 <button type="submit">조회하기</button>
                                     </td>
                             </tr>
-                            </form>
                         </table>
                     </form>
-
-
-
 
 
                     <div class="table-responsive">
                         <table class="table body">
                             <thead>
                             <tr>
-                                <th>No</th>
-                                <th>룸타입</th>
-                                <th>룸이름</th>
-                                <th>룸상태</th>
+                                <th colspan="3">조회결과</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="data:${emptyRoomList}" id="table-row">
 
-                                <td th:text="${data.roomIdx}"></td>
+                            <form action="/member/memberpage/paypage" method="post">
+                                <tr>
+                                <td class="col-2" style="text-align: center;">
+                                    투숙인원 :
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" name="peopleNum">
+                                </td>
+                                </tr>
+                            <tr th:each="data:${emptyRoomTypes}" id="table-row">
+
+
+
+<!--                                <input type="hidden" id="isoStartDate2" name="reservationDateCheckin" value="1">-->
+<!--                                <input type="hidden" id="isoEndDate2" name="reservationDateCheckout" value="2">-->
+                                <input type="hidden" name="reservationDateCheckin" th:value="${checkinDate}">
+                                <input type="hidden" name="reservationDateCheckout" th:value="${checkoutDate}">
+                                <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
+                                <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+
+
                                 <td th:text="${data.roomType}"></td>
-                                <td th:text="${data.roomName}"></td>
-                                <td th:text="${data.roomStatus}"></td>
+                                <td>
+                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${data.roomMainimgName}|"
+                                     width="400" height="200">
+                                </td>
+                                <td>
+                                    <button class="btn button" type="submit">예약하기</button>
+                                </td>
                             </tr>
+
+                            </form>
 
                             </tbody>
                         </table>
 
                     </div>
-
-
-
 
 
 
@@ -272,8 +272,10 @@
             var numericDate = originalDate.replace(/-/g, '');
 
             document.getElementById("isoStartDate").value = numericDate;
+            // document.getElementById("isoStartDate2").value = numericDate;
 
             console.log(numericDate);
+            // console.log(document.getElementById("isoStartDate2").value);
         });
 
         document.getElementById("endDate").addEventListener("change", function() {
@@ -282,6 +284,7 @@
             var numericDate = originalDate.replace(/-/g, '');
 
             document.getElementById("isoEndDate").value = numericDate;
+            // document.getElementById("isoEndDate2").value = numericDate;
         });
 
     </script>

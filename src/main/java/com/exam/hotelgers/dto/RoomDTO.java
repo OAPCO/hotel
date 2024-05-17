@@ -16,6 +16,7 @@ public class RoomDTO {
     private String roomCd;
 
     private String roomName;
+    private String roomMainimgName;
     private String roomimgName;
     private int roomStatus;
 

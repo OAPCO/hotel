@@ -30,6 +30,8 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
     @Query("select i from Image i where (i.roomIdx = :roomIdx and i.roomImageMain = 1)")
     Optional<Image> roomMainImage (Long roomIdx);
 
+    
+
 
 
     //객실 상세 사진 보기
@@ -47,12 +49,18 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
 //    List<Image> roomDetailImageSearch2(Long StoreIdx);
 
 
+    //호텔의 모든 객실 상세 이미지 목록
     @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomIdx = r.roomIdx JOIN Store s ON r.store.storeIdx = s.storeIdx")
     List<Image> roomDetailImageSearch(Long StoreIdx);
 
-
+    //호텔의 모든 객실 대표 이미지 목록
     @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomIdx = r.roomIdx JOIN Store s ON r.store.storeIdx = s.storeIdx where i.roomImageMain = 1")
     List<Image> roomDetailMainImageSearch(Long StoreIdx);
+
+
+    //호텔의 비어있는 객실의 대표 이미지 목록을 만드는 쿼리
+    @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomIdx = r.roomIdx JOIN Store s ON r.store.storeIdx = s.storeIdx where i.roomImageType like %:roomType%")
+    List<Image> emptyRoomDetailMainImageSearch(List<String> roomType);
 
 
 

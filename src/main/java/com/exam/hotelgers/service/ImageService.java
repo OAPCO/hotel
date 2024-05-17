@@ -93,7 +93,7 @@ public class ImageService {
 
 
     //객실 대표이미지 생성
-    public void roomMainImageregister(MultipartFile mainimgFile, Long roomIdx, String roomType) throws IOException {
+    public String roomMainImageregister(MultipartFile mainimgFile, Long roomIdx, String roomType) throws IOException {
 
             String originalFileName = mainimgFile.getOriginalFilename();
             String newFileName = "";
@@ -109,6 +109,8 @@ public class ImageService {
             image.setRoomImageMain(1);
 
             imageRepository.save(image);
+
+            return newFileName;
         }
 
 

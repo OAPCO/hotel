@@ -96,7 +96,10 @@ public class MemberpageController {
     }
 
     @GetMapping("/member/memberpage/{storeIdx}")
-    public String hotelreadform(Model model, @PathVariable Long storeIdx) throws Exception {
+    public String hotelreadform(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
+
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
         StoreDTO storeDTO = storeService.read(storeIdx);
 
@@ -131,6 +134,7 @@ public class MemberpageController {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
 
+        model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("roomOrderList", roomOrderDTOList);
         model.addAttribute("storeDTO", storeDTO);
         model.addAttribute("brand", storeDTO.getBrandDTO());
@@ -150,8 +154,21 @@ public class MemberpageController {
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
 
-        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
-        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
+        if (model.containsAttribute("emptyRoomTypes")) {
+            List<RoomDTO> emptyRoomTypes = (List<RoomDTO>) model.getAttribute("emptyRoomTypes");
+            model.addAttribute("emptyRoomTypes", emptyRoomTypes);
+        }
+
+        if(model.containsAttribute("checkinDate")) {
+            int checkinDate = (int) model.getAttribute("checkinDate");
+            model.addAttribute("checkinDate", checkinDate);
+        }
+        if(model.containsAttribute("checkoutDate")) {
+            int checkoutDate = (int) model.getAttribute("checkoutDate");
+            model.addAttribute("checkoutDate", checkoutDate);
+        }
+
+
         return "member/memberpage/read";
     }
 
@@ -162,21 +179,46 @@ public class MemberpageController {
 
 
     @PostMapping("/member/memberpage/emptyroom")
-    public String hotelreadProc(Model model,SearchDTO searchDTO) throws Exception {
+    public String hotelreadProc(Model model,SearchDTO searchDTO, RedirectAttributes redirectAttributes) throws Exception {
 
 
-        List<RoomDTO> roomDTOS = roomService.emptyRoomSearch(searchDTO);
+        log.info("서치dto의 storeIdx 확인 : "+ searchDTO.getStoreIdx());
+        log.info("서치dto의 reservationDateCheckin 확인 : "+ searchDTO.getReservationDateCheckin());
 
-        model.addAttribute("emptyRoomList",roomDTOS);
+        List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
+
+        Long storeIdx = searchDTO.getStoreIdx();
 
 
+        log.info("생성됏는지확인@@@@!#@!#@" + emptyRoomTypes);
+
+        redirectAttributes.addFlashAttribute("emptyRoomTypes", emptyRoomTypes);
+        redirectAttributes.addFlashAttribute("checkinDate", searchDTO.getReservationDateCheckin());
+        redirectAttributes.addFlashAttribute("checkoutDate", searchDTO.getReservationDateCheckout());
 
 
-        return "member/memberpage/read";
+        return "redirect:/member/memberpage/" + storeIdx;
     }
 
 
 
+
+
+
+    @PostMapping("/member/memberpage/paypage")
+    public String paypageform(RoomOrderDTO roomOrderDTO){
+
+
+        //이 곳은 결제 페이지로 이용한다. 추후 결제 로직을 추가한 뒤 예약이 완료되게 변경한다.
+
+        //결제 했을 시 결제상태 1로 변경
+        roomOrderDTO.setPayCheck(1);
+
+        roomOrderService.register(roomOrderDTO);
+
+        return "redirect:/member/memberpage/index";
+
+    }
 
 
 
@@ -452,7 +494,6 @@ public class MemberpageController {
 
         log.info("들어온 idx@@@@ " + searchDTO.getMemberIdx());
         log.info("들어온 패스어드"+ searchDTO.getPassword());
-
 
 
         memberService.memberInfoDelete(searchDTO);
