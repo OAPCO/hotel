@@ -21,17 +21,12 @@ public class Payment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_sql")
-    private Long paymentIdx; //결제키
-    @Column(length = 200)
-    private String offOrderSheetNo; //오프라인 주문번호
-    @Column(length = 200)
-    private String paymentNo;//결제내역번호
-    @Column(length = 11)
-    private int paymentPrice;//총결제금액
-    @Column(length = 11)
-    private int dspositPrice;//업체입금액
-    @Column(length = 11)
-    private int pgFeePrice;//pg수수료
-    @Column(length = 11)
-    private int dayFeePrice;//건별 수수료
+    private Long paymentIdx;
+
+    private int paymentPrice;
+
+    //room = 객실예약 결제, service = 룸서비스 결제
+    private String paymentType;
+
+
 }

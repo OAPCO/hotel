@@ -396,13 +396,13 @@ public class MemberpageController {
         memberDTO = memberService.memberInfoSearch(principal);
 
 
-        List<RoomOrder> roomOrders = roomOrderRepository.RoomOrderfindByMemberIdx(memberDTO.getMemberIdx());
+//        List<RoomOrder> roomOrders = roomOrderRepository.RoomOrderfindByMemberIdx(memberDTO.getMemberIdx());
 
-        List<MenuOrder> menuOrders = menuOrderRepository.MenuOrderfindByMemberIdx(memberDTO.getMemberIdx());
+//        List<MenuOrder> menuOrders = menuOrderRepository.MenuOrderfindByMemberIdx(memberDTO.getMemberIdx());
 
 
-        model.addAttribute("roomOrders", roomOrders);
-        model.addAttribute("menuOrders", menuOrders);
+//        model.addAttribute("roomOrders", roomOrders);
+//        model.addAttribute("menuOrders", menuOrders);
         model.addAttribute("memberDTO", memberDTO);
 
         return "member/mypage/history";

@@ -216,83 +216,83 @@
 
             </form>
         </div>
-        <div class="section" id="section1">
-            <div class="slide" data-anchor="slide" id="slide1">
-                <div th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[0].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">
-                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:
-                    column; justify-content:center; align-items:center; padding-top: 250px;">
-                        <h1 th:text="${recommendedStoreList[0].storeName}" style="color: white; border-color: black;"></h1>
-                        <p th:text="${recommendedStoreList[0].storeGrade}"
-                           style="color: white; border-color: black;"></p>
-                        <p th:text="${recommendedStoreList[0].storeAddr}"  style="color: white; border-color: black;"></p>
-                        <p th:text="${recommendedStoreList[0].storeSummary}"  style="color: white; border-color: black;"></p>
-                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[0].storeIdx}}">
-                            <button class="btn btn-primary">예약하기</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="slide" data-anchor="slide" id="slide2">
-                <div
-                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[1].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">
-                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:
-                    column; justify-content:center; align-items:center; padding-top: 250px;">
-                        <h1 th:text="${recommendedStoreList[1].storeName}" style="color: white; border-color: black;"></h1>
-                        <p th:text="${recommendedStoreList[1].storeGrade}"  style="color: white; border-color: black;"></p>
-                        <p th:text="${recommendedStoreList[1].storeAddr}"  style="color: white; border-color: black;"></p>
-                        <p th:text="${recommendedStoreList[1].storeSummary}"  style="color: white; border-color: black;"></p>
-                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[1].storeIdx}}">
-                            <button class="btn btn-primary">예약하기</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="slide" data-anchor="slide" id="slide3">
-                <div
-                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[2].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">
-                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:
-                        column; justify-content:center; align-items:center; padding-top: 250px;">
-                        <h1 th:text="${recommendedStoreList[2].storeName}" style="color: white; border-color: black;"></h1>
-                        <p th:text="${recommendedStoreList[2].storeGrade}"  style="color: white; border-color: black;"></p>
-                        <p th:text="${recommendedStoreList[2].storeAddr}"  style="color: white; border-color: black;"></p>
-                        <p th:text="${recommendedStoreList[2].storeSummary}"  style="color: white; border-color: black;"></p>
-                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[2].storeIdx}}">
-                            <button class="btn btn-primary">예약하기</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="slide" data-anchor="slide" id="slide4">
-                <div
-                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[3].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">
-                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:
-                        column; justify-content:center; align-items:center; padding-top: 250px;">
-                        <h1 th:text="${recommendedStoreList[3].storeName}" style="color: white; border-color: black;"></h1>
-                        <p th:text="${recommendedStoreList[3].storeGrade}"  style="color: white; border-color: black;"></p>
-                        <p th:text="${recommendedStoreList[3].storeAddr}"  style="color: white; border-color: black;"></p>
-                        <p th:text="${recommendedStoreList[3].storeSummary}"  style="color: white; border-color: black;"></p>
-                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[3].storeIdx}}">
-                            <button class="btn btn-primary">예약하기</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        <div class="slide" data-anchor="slide" id="slide5">
-            <div
-                    th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[4].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">
-                <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:
-                    column; justify-content:center; align-items:center; padding-top: 250px;">
-                    <h1 th:text="${recommendedStoreList[4].storeName}" style="color: white; border-color: black;"></h1>
-                    <p th:text="${recommendedStoreList[4].storeGrade}"  style="color: white; border-color: black;"></p>
-                    <p th:text="${recommendedStoreList[4].storeAddr}"  style="color: white; border-color: black;"></p>
-                    <p th:text="${recommendedStoreList[4].storeSummary}"  style="color: white; border-color: black;"></p>
-                    <a th:href="@{'/member/memberpage/'+${recommendedStoreList[4].storeIdx}}">
-                        <button class="btn btn-primary">예약하기</button>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+<!--        <div class="section" id="section1">-->
+<!--            <div class="slide" data-anchor="slide" id="slide1">-->
+<!--                <div th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[0].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
+<!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
+<!--                    column; justify-content:center; align-items:center; padding-top: 250px;">-->
+<!--                        <h1 th:text="${recommendedStoreList[0].storeName}" style="color: white; border-color: black;"></h1>-->
+<!--                        <p th:text="${recommendedStoreList[0].storeGrade}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[0].storeAddr}"  style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[0].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[0].storeIdx}}">-->
+<!--                            <button class="btn btn-primary">예약하기</button>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="slide" data-anchor="slide" id="slide2">-->
+<!--                <div-->
+<!--                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[1].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
+<!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
+<!--                    column; justify-content:center; align-items:center; padding-top: 250px;">-->
+<!--                        <h1 th:text="${recommendedStoreList[1].storeName}" style="color: white; border-color: black;"></h1>-->
+<!--                        <p th:text="${recommendedStoreList[1].storeGrade}"  style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[1].storeAddr}"  style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[1].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[1].storeIdx}}">-->
+<!--                            <button class="btn btn-primary">예약하기</button>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="slide" data-anchor="slide" id="slide3">-->
+<!--                <div-->
+<!--                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[2].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
+<!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
+<!--                        column; justify-content:center; align-items:center; padding-top: 250px;">-->
+<!--                        <h1 th:text="${recommendedStoreList[2].storeName}" style="color: white; border-color: black;"></h1>-->
+<!--                        <p th:text="${recommendedStoreList[2].storeGrade}"  style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[2].storeAddr}"  style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[2].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[2].storeIdx}}">-->
+<!--                            <button class="btn btn-primary">예약하기</button>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="slide" data-anchor="slide" id="slide4">-->
+<!--                <div-->
+<!--                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[3].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
+<!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
+<!--                        column; justify-content:center; align-items:center; padding-top: 250px;">-->
+<!--                        <h1 th:text="${recommendedStoreList[3].storeName}" style="color: white; border-color: black;"></h1>-->
+<!--                        <p th:text="${recommendedStoreList[3].storeGrade}"  style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[3].storeAddr}"  style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[3].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[3].storeIdx}}">-->
+<!--                            <button class="btn btn-primary">예약하기</button>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        <div class="slide" data-anchor="slide" id="slide5">-->
+<!--            <div-->
+<!--                    th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[4].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
+<!--                <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
+<!--                    column; justify-content:center; align-items:center; padding-top: 250px;">-->
+<!--                    <h1 th:text="${recommendedStoreList[4].storeName}" style="color: white; border-color: black;"></h1>-->
+<!--                    <p th:text="${recommendedStoreList[4].storeGrade}"  style="color: white; border-color: black;"></p>-->
+<!--                    <p th:text="${recommendedStoreList[4].storeAddr}"  style="color: white; border-color: black;"></p>-->
+<!--                    <p th:text="${recommendedStoreList[4].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                    <a th:href="@{'/member/memberpage/'+${recommendedStoreList[4].storeIdx}}">-->
+<!--                        <button class="btn btn-primary">예약하기</button>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
         <div class="section" id="section2">
             <div class="text_box1" style="display: flex; justify-content: space-around; height: 100vh;">
                 <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 75px;">
