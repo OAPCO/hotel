@@ -160,4 +160,32 @@ public class ImageService {
 
 
 
+    public ImageDTO roomTypeMainImageSearch(SearchDTO searchDTO) {
+
+
+        Optional<Image> image = imageRepository.roomTypeMainImageSearch(searchDTO);
+
+
+        ImageDTO imageDTO = modelMapper.map(image,ImageDTO.class);
+
+        return imageDTO;
+    }
+
+
+    public List<ImageDTO> roomTypeDetailImageSearch(SearchDTO searchDTO) {
+
+
+        List<Image> images = imageRepository.roomTypeDetailMainImageSearch(searchDTO);
+
+
+        List<ImageDTO> imageDTOS = images.stream()
+                .map(image -> modelMapper.map(image, ImageDTO.class))
+                .collect(Collectors.toList());
+
+        return imageDTOS;
+    }
+
+
+
+
 }

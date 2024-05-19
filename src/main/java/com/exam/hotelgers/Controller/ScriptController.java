@@ -166,6 +166,22 @@ public class ScriptController {
     }
 
 
+    
+    //객실 생성 페이지에서 사용
+    @GetMapping(value = "/roomtypeimage", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, Object> roomTypeImageReadProc(SearchDTO searchDTO) throws Exception {
+
+        Map<String, Object> result = new HashMap<>();
+        
+        List<ImageDTO> RoomTypeDetailImages = imageService.roomTypeDetailImageSearch(searchDTO);
+        ImageDTO RoomTypeMainImage = imageService.roomTypeMainImageSearch(searchDTO);
+
+
+        result.put("RoomTypeDetailImages", RoomTypeDetailImages);
+        result.put("RoomTypeMainImage", RoomTypeMainImage);
+
+        return result;
+    }
 
 
 }

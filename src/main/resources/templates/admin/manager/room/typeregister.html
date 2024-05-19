@@ -22,49 +22,18 @@
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
                 객실 등록
             </div>
-            <form method="post" th:action="@{/window/roomregister}" enctype="multipart/form-data" onsubmit="submitFormAndCloseWindow()">
+            <form method="post" th:action="@{/admin/manager/room/typeregister}" enctype="multipart/form-data" onsubmit="submitFormAndCloseWindow()">
             <div class="table-responsive">
                 <table class="table head">
 
                     <thead>
                     <tr>
-                        <th>총판명</th>
+                        <th>이름</th>
                         <td>
-                            <input type="text" th:value="${distDTO.distName}" name="distDTO.distName" readonly="readonly" style="background-color: #F0F0F0">
-                        </td>
-                        <th>호텔명</th>
-                        <td>
-                            <input type="text" th:value="${storeDTO.storeName}" name="storeDTO.storeName" readonly="readonly" style="background-color: #F0F0F0">
-                            <input type="hidden" th:value="${storeDTO.storeIdx}" id="storeIdx">
+                            <input type="text" name="roomTypeName" id="roomName">
                         </td>
                     </tr>
                     <tr>
-                        <th>객실명</th>
-                        <td>
-                            <input type="text" name="roomName" id="roomName">
-                        </td>
-
-
-                            <input type="hidden" name="roomCd" id="roomCd">
-
-                    </tr>
-                    <tr>
-                        <th>타입</th>
-                        <td>
-                        <div>
-
-                            <select class="form-select" name="roomType" id="roomType" onchange="toggleCustomInput()">
-                                <option value="">==</option>
-                                <option th:each="roomTypeList : ${roomTypeList}" th:value="${roomTypeList.roomType}" th:text="${roomTypeList.roomType}"></option>
-                                <option value="custom">[새로 추가]</option>
-                            </select>
-                            <div id="customRoomTypeInput" style="display: none;">
-                                <input type="text" class="form-control" name="customRoomType" placeholder="새 객실 타입">
-                            </div>
-                            <br>
-
-                        </div>
-                        </td>
                         <th>객실 사진</th>
                         <td class="col>">
                             대표 이미지  <input type="file" class="form-control" id="mainimgFile" name="mainimgFile">
@@ -91,36 +60,7 @@
         </div>
     </div>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/js/hotel.js"></script>
         <script>
-
-            function toggleCustomInput() {
-                var roomTypeSelect = document.getElementById('roomType');
-                var customRoomTypeInput = document.getElementById('customRoomTypeInput');
-
-                var selectedValue = roomTypeSelect.value;
-
-                if (selectedValue === 'custom') {
-                    customRoomTypeInput.style.display = 'block';
-                } else {
-                    customRoomTypeInput.style.display = 'none';
-
-
-                    //이 자리에 이미지 불러오기 추가
-
-                    var searchDTO = {
-                        roomType : $('#roomType').val(),
-                        storeIdx: $('#storeIdx').val()
-                    };
-
-                    hotel.searchRoomTypeImage(searchDTO);
-                    console.log()
-                }
-            }
-
 
             const input = document.getElementById('imgFile');
             const input2 = document.getElementById('mainimgFile');
@@ -164,6 +104,11 @@
                     reader.readAsDataURL(file);
                 }
             });
+
+
+
+
+
 
             //부모창에서 가져온 카드의 id 값 추출해서 roomCd에 집어넣음
             var urlParams = new URLSearchParams(window.location.search);

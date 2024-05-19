@@ -160,12 +160,34 @@ let hotel = (function () {
 
 
 
+    function searchRoomTypeImage(searchDTO){
+
+        $.ajax({
+            type: 'GET',
+            url: '/roomtypeimage',
+            dataType: 'json',
+            data: searchDTO,
+
+            success: function(response) {
+
+                console.log("반환성공 : " + response);
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
     //값 반환
     return {
         selectDistOfStore  : selectDistOfStore,
         selectDistAndBrandOfStore : selectDistAndBrandOfStore,
         registerDistOfStore : registerDistOfStore,
-        searchEmptyRoom : searchEmptyRoom
+        searchEmptyRoom : searchEmptyRoom,
+        searchRoomTypeImage : searchRoomTypeImage
     };
 
 })();

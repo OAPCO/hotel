@@ -1,14 +1,11 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.repository.RoomOrderRepository;
 import com.exam.hotelgers.service.*;
-import com.exam.hotelgers.util.PageConvert;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +21,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -143,11 +139,17 @@ public class RoomController {
         
         log.info("객실생성 창 컨트롤러 Get 도착");
 
-        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
         DistDTO distDTO = managerService.managerOfDist(principal);
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+        Long storeIdx = storeDTO.getStoreIdx();
+
+        //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
+        List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeIdx);
 
         model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("distDTO",distDTO);
+        model.addAttribute("roomTypeList",roomTypeList);
 
 
 
@@ -199,9 +201,6 @@ public class RoomController {
         model.addAttribute("list", roomDTOS);
         return "admin/manager/room/listboard";
     }
-
-
-
 
 
 

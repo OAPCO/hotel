@@ -87,6 +87,11 @@ public class RoomService {
     }
 
 
+
+
+
+
+
     public void modify(RoomDTO newRoom, @Nullable MultipartFile imgFile) throws IOException {
 
         Optional<Room> optionalRoom = roomRepository.findByRoomIdx(newRoom.getRoomIdx());

@@ -22,7 +22,6 @@ public class SearchDTO {
     private StorePType storePType;
     private StoreStatus storeStatus;
     private StoreGrade storeGrade;
-    private RoomType roomType;
     private String storeimgName;
 
 
@@ -113,6 +112,7 @@ public class SearchDTO {
 
     //스토어
     private Long storeIdx;
+    private String roomType;
     private String storeCd; //매장코드
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드

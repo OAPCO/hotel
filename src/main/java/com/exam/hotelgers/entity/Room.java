@@ -1,6 +1,5 @@
 package com.exam.hotelgers.entity;
 
-import com.exam.hotelgers.constant.RoomType;
 import com.querydsl.core.annotations.QueryEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,11 +33,10 @@ public class Room extends BaseEntity {
 
     private String roomName;
 
-    //0=미예약,1=예약,2=체크인상태
     private int roomStatus;
+    private int roomPrice;
 
-    @Enumerated(EnumType.STRING)
-    private RoomType roomType;
+    private String roomType;
 
     private String roomMainimgName;
 
