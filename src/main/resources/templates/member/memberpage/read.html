@@ -49,6 +49,9 @@
 
 <body>
 <div layout:fragment="content">
+
+
+
     <div id="section1" class="container-fluid pt-5">
         <!-- 매장 정보 -->
         <div class="container" style="margin: auto; width: 80%;">
@@ -94,9 +97,10 @@
     </div>
     <p></p>
 
-
-
-
+    <script>
+        var imgNum = 0;
+        var carouselItemId = null;
+    </script>
 
     <div id="section3" class="container-fluid pt-5">
 
@@ -107,32 +111,29 @@
 
                 <div style="display: flex;">
                     <!-- 왼쪽 이미지 -->
-                    <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                    <div th:id="'carousel' + ${roomTypeListView.roomIdx}" class="carousel slide" data-bs-ride="carousel">
 
                         <div class="carousel-inner">
 
                             <div th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType.equals(roomTypeListView.roomType.toString())}">
+
                                 <div th:attr="class=${roomImageListView.roomImageMain == 1 ? 'carousel-item active' : 'carousel-item'}">
                                     <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="700" height="400" alt="Slide"/>
                                 </div>
 
                                 <div th:attr="class=${roomImageListView.roomImageType}">
-                                    <a class="carousel-control-prev" href="#demo" role="button" data-bs-slide="prev">
+                                    <a class="carousel-control-prev" th:href="'#carousel' + ${roomTypeListView.roomIdx}" role="button" data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Previous</span>
                                     </a>
-                                    <a class="carousel-control-next" href="#demo" role="button" data-bs-slide="next">
+                                    <a class="carousel-control-next" th:href="'#carousel' + ${roomTypeListView.roomIdx}" role="button" data-bs-slide="next">
                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                         <span class="visually-hidden">Next</span>
                                     </a>
                                 </div>
-
-
                             </div>
 
                         </div>
-
-
 
                     </div>
 
@@ -254,6 +255,8 @@
     <script type="text/javascript" src="/js/hotel.js"></script>
     <script>
 
+
+        //예약 클릭시 폼 제출
         document.querySelectorAll('.reserve-btn').forEach(item => {
             item.addEventListener('click', event => {
                 const roomIdx = event.target.getAttribute('data-room-idx');
@@ -266,6 +269,7 @@
 
 
 
+        //빈 방 찾기
         $('#emptyRoomForm').on('submit', function(event) {
 
             //폼 제출시 페이지 리로드 등을 방지하고 자바스크립트를 실행하기 위해 추가
@@ -289,7 +293,6 @@
 
 
         //날짜를 숫자로 변환
-
         document.getElementById("startDate").addEventListener("change", function() {
 
             var originalDate = this.value;

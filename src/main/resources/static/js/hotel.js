@@ -125,11 +125,9 @@ let hotel = (function () {
 
             success: function(response) {
 
-
                 var emptyRoomResultTable = $('#emptyRoomResultTable');
 
                 emptyRoomResultTable.empty(); // 기존 결과 제거
-
 
                 // 새로운 행 추가
                 response.forEach(function(item) {
@@ -159,9 +157,6 @@ let hotel = (function () {
         });
 
     };
-
-
-
 
 
 
