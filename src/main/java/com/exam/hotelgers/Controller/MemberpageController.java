@@ -161,49 +161,12 @@ public class MemberpageController {
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
 
-        if (model.containsAttribute("emptyRoomTypes")) {
-            List<RoomDTO> emptyRoomTypes = (List<RoomDTO>) model.getAttribute("emptyRoomTypes");
-            model.addAttribute("emptyRoomTypes", emptyRoomTypes);
-        }
-
-        if(model.containsAttribute("checkinDate")) {
-            int checkinDate = (int) model.getAttribute("checkinDate");
-            model.addAttribute("checkinDate", checkinDate);
-        }
-        if(model.containsAttribute("checkoutDate")) {
-            int checkoutDate = (int) model.getAttribute("checkoutDate");
-            model.addAttribute("checkoutDate", checkoutDate);
-        }
 
 
         return "member/memberpage/read";
     }
 
 
-
-
-
-    @PostMapping("/member/memberpage/emptyroom")
-    public String hotelreadProc(Model model,SearchDTO searchDTO, RedirectAttributes redirectAttributes) throws Exception {
-
-
-        log.info("서치dto의 storeIdx 확인 : "+ searchDTO.getStoreIdx());
-        log.info("서치dto의 reservationDateCheckin 확인 : "+ searchDTO.getReservationDateCheckin());
-
-        List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
-
-        Long storeIdx = searchDTO.getStoreIdx();
-
-
-        log.info("생성됏는지확인@@@@!#@!#@" + emptyRoomTypes);
-
-        redirectAttributes.addFlashAttribute("emptyRoomTypes", emptyRoomTypes);
-        redirectAttributes.addFlashAttribute("checkinDate", searchDTO.getReservationDateCheckin());
-        redirectAttributes.addFlashAttribute("checkoutDate", searchDTO.getReservationDateCheckout());
-
-
-        return "redirect:/member/memberpage/" + storeIdx;
-    }
 
 
 

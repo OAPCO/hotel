@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,16 @@ import java.util.Map;
 @Log4j2
 public class MemberController {
     private final MemberService memberService;
+
+
+    @CrossOrigin
+    @GetMapping("/react")
+    public MemberDTO testreact(Principal principal, Model model) {
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+
+        return memberDTO;
+    }
 
 
     @GetMapping("/member/register")

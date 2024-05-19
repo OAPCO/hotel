@@ -116,7 +116,6 @@
                                     <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="700" height="400" alt="Slide"/>
                                 </div>
 
-
                                 <div th:attr="class=${roomImageListView.roomImageType}">
                                     <a class="carousel-control-prev" href="#demo" role="button" data-bs-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -162,7 +161,7 @@
                     <h3>조회</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/member/memberpage/emptyroom" method="post">
+                    <form id="emptyRoomForm">
                         <table style="width: 100%;">
 
                             <tbody>
@@ -181,7 +180,7 @@
                                 </td>
                                 <input type="hidden" id="isoStartDate" name="reservationDateCheckin">
                                 <input type="hidden" id="isoEndDate" name="reservationDateCheckout">
-                                <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
+                                <input type="hidden" id="storeIdx" name="storeIdx" th:value="${storeDTO.storeIdx}">
                             </tr>
 
 
@@ -195,53 +194,41 @@
                     </form>
 
 
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="emptyRoomSearchResult">
+
+                        <form action="/member/memberpage/paypage" method="post" id="reservationForm">
+
+                            <input type="hidden" id="reservationDateCheckinResult" name="reservationDateCheckin">
+                            <input type="hidden" id="reservationDateCheckOutResult" name="reservationDateCheckout">
+                            <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
+                            <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+                            <input type="hidden" name="roomOrderType" id="selectedRoomOrderType"></td>
+                            <input type="hidden" name="roomIdx" id="selectedRoomIdx">
+
                         <table class="table body">
+
                             <thead>
                             <tr>
                                 <th colspan="3">조회결과</th>
                             </tr>
-                            </thead>
-                            <tbody>
-
-                            <form action="/member/memberpage/paypage" method="post" id="reservationForm">
-                                <tr>
+                            <tr>
                                 <td class="col-2" style="text-align: center;">
                                     투숙인원 :
                                 </td>
                                 <td>
                                     <input type="text" class="form-control" name="peopleNum">
                                 </td>
-                                </tr>
-
-                                <input type="hidden" name="reservationDateCheckin" th:value="${checkinDate}">
-                                <input type="hidden" name="reservationDateCheckout" th:value="${checkoutDate}">
-                                <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
-                                <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
-                                <input type="text" name="roomOrderType" id="selectedRoomOrderType"></td>
-                                <input type="text" name="roomIdx" id="selectedRoomIdx">
-
-                            </form>
-
-
-                            <tr th:each="data:${emptyRoomTypes}" id="table-row">
-
-
-
-
-                                <td th:text="${data.roomType}"></td>
-
-                                <td>
-                                <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${data.roomMainimgName}|"
-                                     width="400" height="200">
-                                </td>
-                                <td>
-                                    <button class="btn button reserve-btn" type="button" th:data-room-idx="${data.roomIdx}" th:data-room-type="${data.roomType}">예약하기</button>
-                                </td>
                             </tr>
+                            </thead>
+
+                            <tbody id="emptyRoomResultTable">
+
 
                             </tbody>
+
                         </table>
+
+                        </form>
 
                     </div>
 
@@ -264,7 +251,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <script type="text/javascript" src="/js/hotel.js"></script>
     <script>
 
         document.querySelectorAll('.reserve-btn').forEach(item => {
@@ -273,10 +260,32 @@
                 const roomType = event.target.getAttribute('data-room-type');
                 document.getElementById('selectedRoomIdx').value = roomIdx;
                 document.getElementById('selectedRoomOrderType').value = roomType;
-                // console.log(document.getElementById('selectedRoomIdx').value);
                 document.getElementById('reservationForm').submit();
             });
         });
+
+
+
+        $('#emptyRoomForm').on('submit', function(event) {
+
+            //폼 제출시 페이지 리로드 등을 방지하고 자바스크립트를 실행하기 위해 추가
+            event.preventDefault();
+
+
+            //필요한 값을 searchDTO에 담아서 보냄
+            var searchDTO = {
+                reservationDateCheckin: $('#isoStartDate').val(),
+                reservationDateCheckout: $('#isoEndDate').val(),
+                storeIdx: $('#storeIdx').val()
+            };
+
+            //빈 객실 찾는 ajax 실행
+            hotel.searchEmptyRoom(searchDTO);
+
+
+        });
+
+
 
 
         //날짜를 숫자로 변환

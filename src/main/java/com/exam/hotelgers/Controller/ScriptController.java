@@ -35,6 +35,7 @@ public class ScriptController {
     private final BrandService brandService;
     private final ManagerService managerService;
     private final MemberService memberService;
+    private final RoomService roomService;
     private final ImageService imageService;
 
 
@@ -136,13 +137,32 @@ public class ScriptController {
 
 
     //객실 사진 상세보기 페이지
-    @GetMapping(value = "/roomimage/{roomIdx}",consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ImageDTO> roomreadform(Model model, @PathVariable Long roomIdx) throws Exception {
+//    @GetMapping(value = "/roomimage/{roomIdx}",consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+//    public List<ImageDTO> roomreadform(Model model, @PathVariable Long roomIdx) throws Exception {
+//
+//
+//        List<ImageDTO> imageDTOS = imageService.roomImageSearch(roomIdx);
+//
+//        return imageDTOS;
+//    }
 
 
-        List<ImageDTO> imageDTOS = imageService.roomImageSearch(roomIdx);
+    @GetMapping(value = "/emptyroom", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<RoomDTO> hotelreadProc(SearchDTO searchDTO) throws Exception {
 
-        return imageDTOS;
+
+        log.info("서치dto의 storeIdx 확인 : "+ searchDTO.getStoreIdx());
+        log.info("서치dto의 reservationDateCheckin 확인 : "+ searchDTO.getReservationDateCheckin());
+
+        List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
+
+        Long storeIdx = searchDTO.getStoreIdx();
+
+
+        log.info("생성됏는지확인@@@@!#@!#@" + emptyRoomTypes);
+
+
+        return emptyRoomTypes;
     }
 
 

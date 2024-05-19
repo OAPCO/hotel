@@ -1,40 +1,33 @@
-import React, { useState } from "react";
-import axios from "axios";
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function App() {
-    const [data, setData] = useState({});
+function ReactComponent() {
+    const [memberDTO, setMemberDTO] = useState(null);
 
-    function selectData() {
-        axios.post('/testData', ["가", "나", "다"])
-            .then(function (res) {
-                console.log(res.data);
-                setData(res.data);
+    useEffect(() => {
+        // 백엔드에서 데이터 가져오기
+        axios.get('/react')
+            .then(response => {
+                // 데이터 받아오기 성공 시 상태에 저장
+                setMemberDTO(response.data);
             })
-            .catch(function (error) {
-                console.error("There was an error fetching the data!", error);
+            .catch(error => {
+                console.error('Error fetching data:', error);
             });
-    }
+    }, []);
 
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
+        <div>
+            {/* memberDTO가 존재하는 경우에만 화면에 표시 */}
+            {memberDTO && (
                 <div>
-                    <button onClick={selectData}>조회</button>
+                    <h1>{memberDTO.name}</h1>
+                    <p>{memberDTO.email}</p>
+                    {/* 기타 데이터 필드들을 표시 */}
                 </div>
-                <div>
-                    <h2>Data from Server:</h2>
-                    <ul>
-                        {Object.entries(data).map(([key, value]) => (
-                            <li key={key}>{key}: {value}</li>
-                        ))}
-                    </ul>
-                </div>
-            </header>
+            )}
         </div>
     );
 }
 
-export default App;
+export default ReactComponent;

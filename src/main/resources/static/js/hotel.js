@@ -115,29 +115,46 @@ let hotel = (function () {
     };
 
 
-    function searchRoomImage(roomIdx){
+    function searchEmptyRoom(searchDTO){
 
         $.ajax({
             type: 'GET',
-            url: '/roomimage/'+roomIdx,
-            contentType : "application/json; charset=utf-8",
+            url: '/emptyroom',
+            dataType: 'json',
+            data: searchDTO,
 
-            success: function(data) {
+            success: function(response) {
 
-                // 데이터를 HTML 요소에 추가
-                var imageContainer = $('#image-container');
-                imageContainer.empty(); // 기존 내용을 비움
 
-                // data가 배열이므로 각 항목을 처리
-                data.forEach(function(imageDTO) {
-                    var imgElement = $('<img>').attr('src', imageDTO.url);
-                    imageContainer.append(imgElement);
+                var emptyRoomResultTable = $('#emptyRoomResultTable');
+
+                emptyRoomResultTable.empty(); // 기존 결과 제거
+
+
+                // 새로운 행 추가
+                response.forEach(function(item) {
+
+                    var newRow = `
+                        <tr>
+                            <td>${item.roomType}</td>
+                            <td>
+                                <img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${item.roomMainimgName}" width="400" height="200">
+                            </td>
+                            <td>
+                                <button class="btn button reserve-btn" type="button" data-room-idx="${item.roomIdx}" data-room-type="${item.roomType}">예약하기</button>
+                            </td>
+                        </tr>`;
+                    emptyRoomResultTable.append(newRow);
                 });
 
 
+                //위에서 받은 날짜 값 결과제출용 날짜 변수에 넣음
+                $('#reservationDateCheckinResult').val(searchDTO.reservationDateCheckin);
+                $('#reservationDateCheckOutResult').val(searchDTO.reservationDateCheckout);
+
             },
             error: function(xhr, status, error) {
-                console.error('Failed to retrieve stores: ' + error);
+                console.error('에러발생');
             }
         });
 
@@ -152,7 +169,8 @@ let hotel = (function () {
     return {
         selectDistOfStore  : selectDistOfStore,
         selectDistAndBrandOfStore : selectDistAndBrandOfStore,
-        registerDistOfStore : registerDistOfStore
+        registerDistOfStore : registerDistOfStore,
+        searchEmptyRoom : searchEmptyRoom
     };
 
 })();
