@@ -60,7 +60,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m.memberEmail from Member m where m.memberEmail = :#{#searchDTO.memberEmail}")
     String emailcheck(SearchDTO searchDTO);
 
-    @Query("select m.password from Member m where (m.memberEmail LIKE %:userid%)")
+    @Query("select m.kakaopassword from Member m where (m.memberEmail LIKE %:userid%)")
     String kakaopassword(String userid);
 
 

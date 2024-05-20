@@ -219,6 +219,7 @@ public class MemberService {
         memberDTO.setMemberNickname(memberNickname);
         memberDTO.setMemberJoinType(memberJoinType);
         memberDTO.setPassword(randomPassword); // 랜덤 패스워드 설정
+        memberDTO.setKakaopassword(randomPassword); // 랜덤 패스워드 설정
         Optional<Member> memberEntity = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
         if (memberEntity.isPresent()) {
             log.info ("이미 가입된 카카오 계정이므로 로그인으로.");
@@ -263,6 +264,8 @@ public class MemberService {
         // 필요한 필드를 추출하여 새로운 객체에 담습니다.
         String userid = kakaoAccountMap.get("email").toString();
         String password= memberRepository.kakaopassword(userid);
+
+//      암호화해제 줄 하나
         log.info("id:   "+userid+"    패스워드     "+password);
 
 

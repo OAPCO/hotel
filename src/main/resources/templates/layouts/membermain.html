@@ -127,11 +127,21 @@
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript">
         Kakao.init('98b347ddff988e960446602a7113c40c');
+        function logoutWithKakaoAccount() {
+            const options = {
+                uri: `https://kauth.kakao.com/oauth/logout?client_id=${process.env.a557bc646d4ea7bfe120fa5d1ab04f5c}&logout_redirect_uri=${process.env.LOGOUT_REDIRECT}`,
+                method: 'GET',
+                json: true
+            };
+
+
+        }
         Kakao.API.request({
             url: '/v1/user/unlink',
         })
             .then(function(response) {
                 console.log(response);
+                alert("소셜로그인");
             })
             .catch(function(error) {
                 console.log(error);
@@ -139,10 +149,17 @@
         function kakaoLogout() {
             Kakao.Auth.logout()
                 .then(function() {
+
                     alert('로그아웃 되었습니다.');
+                    deleteCookie();
+
+                    logoutWithKakaoA
+                    logoutWithKakaoAccount();
                     deleteCookie();
                 })
                 .catch(function(error) {
+
+
                     console.error('로그아웃 중 오류가 발생했습니다.', error);
                 });
         }
