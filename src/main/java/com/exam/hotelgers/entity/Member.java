@@ -50,6 +50,9 @@ public class Member extends BaseEntity {
     private String password;//"회원 비밀번호
 
     @Column(length = 200)
+    private String kakaopassword;//"회원 비밀번호
+
+    @Column(length = 200)
     private String memberNickname;//"회원 별명
 
     @Column(length = 13)
