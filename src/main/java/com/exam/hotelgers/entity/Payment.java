@@ -25,6 +25,14 @@ public class Payment extends BaseEntity {
 
     private int paymentPrice;
 
+    private String memberName;
+    private String memberPhone;
+    private String memberEmail;
+    private String memberZipCode;
+    private String memberAddress;
+
+    //주문시 상품명. 호텔명이 들어감.
+    private String paymentName;
     //room = 객실예약 결제, service = 룸서비스 결제
     private String paymentType;
 

@@ -49,11 +49,63 @@
 
 <body>
 <div layout:fragment="content">
-    번호@@@@@@@@ [[${roomOrderDTO.roomorderIdx}]]
+
     <div id="section1" class="container-fluid pt-5">
 
         <div class="container" style="margin: auto; width: 80%;">
 
+            <h1>결제 정보 입력</h1>
+<!--            <form id="orderForm">-->
+
+
+                <form action="/paycheck" method="post">
+
+                    <input type="hidden" name="reservationDateCheckin" th:value="${roomOrderDTO.reservationDateCheckin}">
+                    <input type="hidden" name="reservationDateCheckout" th:value="${roomOrderDTO.reservationDateCheckout}">
+                    <input type="hidden" name="peopleNum" th:value="${roomOrderDTO.peopleNum}">
+                    <input type="hidden" name="storeIdx" th:value="${roomOrderDTO.storeIdx}">
+                    <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
+                    <input type="hidden" name="roomIdx" th:value="${roomOrderDTO.roomIdx}">
+                    <input type="hidden" name="roomOrderType" th:value="${roomOrderDTO.roomOrderType}">
+                    <input type="hidden" name="roomPrice" th:value="${roomOrderDTO.roomPrice}">
+
+                <div class="mb-3">
+                    <label for="productName" class="form-label">상품명</label>
+                    <input type="text" class="form-control" id="productName" th:value="${roomOrderDTO.roomOrderType}" name="paymentName">
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">가격</label>
+                    <input type="number" class="form-control" id="price" th:value="${roomOrderDTO.roomPrice}" name="paymentPrice">
+                </div>
+                <div class="mb-3">
+                    <label for="customerName" class="form-label">주문자</label>
+                    <input type="text" class="form-control" id="customerName" th:value="${memberDTO.memberName}" name="memberName">
+                </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">전화번호</label>
+                    <input type="tel" class="form-control" id="phoneNumber" th:value="${memberDTO.memberPhone}" name="memberPhone">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">이메일</label>
+                    <input type="email" class="form-control" id="email" th:value="${memberDTO.memberEmail}" name="memberEmail">
+                </div>
+                <div class="mb-3">
+                    <label for="postalCode" class="form-label">우편번호</label>
+                    <input type="text" class="form-control" id="postalCode" th:value="${memberDTO.memberZipCode}" name="memberZipCode">
+                </div>
+                <div class="mb-3">
+                    <label for="postalCode" class="form-label">우편번호</label>
+                    <input type="text" class="form-control" id="address" th:value="${memberDTO.memberAddress}" name="memberAddress">
+                </div>
+
+                    <button type="submit" class="btn btn-primary"> 결제확정</button>
+
+                </form>
+
+
+
+<!--                <button type="button" class="btn btn-primary" onclick="requestPay()">주문하기</button>-->
+<!--            </form>-->
 
 
         </div>
@@ -65,9 +117,35 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
     <script>
+        IMP.init("imp26863141"); //상점ID
 
+        function requestPay() {
+            var productName = document.getElementById("productName").value;
+            var price = document.getElementById("price").value;
+            var customerName = document.getElementById("customerName").value;
+            var phoneNumber = document.getElementById("phoneNumber").value;
+            var email = document.getElementById("email").value;
+            var postalCode = document.getElementById("postalCode").value;
+            var address = document.getElementById("address").value;
+
+            IMP.request_pay({
+                pg: "html5_inicis", //결재사
+                pay_method: "card", //결재방식
+                merchant_uid: "test_lw0auevl",
+                name: productName, //"연습용상품",
+                amount: price, //12000,
+                popup: false,
+                //아래 변수들 생략가능
+                buyer_name: customerName, //"홍길동",
+                buyer_tel: phoneNumber, //"010-3199-6910",
+                buyer_email: email, //"test@gmail.com",
+                buyer_addr: address, //"경기도 부천시 원미구 심곡동",
+                buyer_postcode: postalCode, //"123456",
+            });
+        }
     </script>
 
 

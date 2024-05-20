@@ -32,6 +32,10 @@ public class Member extends BaseEntity {
     //프로필사진
     private String memberimgName;
 
+    private String memberZipCode;
+    private String memberAddress;
+
+
 
     @Column(length = 1)
     private Character memberJoinType; //"회원가입타입(C:일반,K:카카오톡,F:페이스북,N:네이버

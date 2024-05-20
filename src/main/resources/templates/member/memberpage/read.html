@@ -205,7 +205,7 @@
                             <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
                             <input type="hidden" name="roomOrderType" id="selectedRoomOrderType"></td>
                             <input type="hidden" name="roomIdx" id="selectedRoomIdx">
-
+                            <input type="hidden" name="roomPrice" id="selectedRoomOrderPrice">
                         <table class="table body">
 
                             <thead>
@@ -256,18 +256,6 @@
     <script>
 
 
-        //예약 클릭시 폼 제출
-        document.querySelectorAll('.reserve-btn').forEach(item => {
-            item.addEventListener('click', event => {
-                const roomIdx = event.target.getAttribute('data-room-idx');
-                const roomType = event.target.getAttribute('data-room-type');
-                document.getElementById('selectedRoomIdx').value = roomIdx;
-                document.getElementById('selectedRoomOrderType').value = roomType;
-                document.getElementById('reservationForm').submit();
-            });
-        });
-
-
 
         //빈 방 찾기
         $('#emptyRoomForm').on('submit', function(event) {
@@ -288,6 +276,8 @@
 
 
         });
+
+
 
 
 

@@ -23,6 +23,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 
 
     Optional<Room> findByRoomCd(String roomCd);
+    Optional<Room> findByRoomType(String roomType);
 
     Optional<Room> findByRoomIdx(Long roomIdx);
 
@@ -47,6 +48,14 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
             "and r1.store.storeIdx = :storeIdx")
     List<Room> roomTypeSearch(Long storeIdx);
+
+
+    //호텔의 특정 객실타입 중복없이 검색
+    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
+            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+            "and r1.store.storeIdx = :storeIdx " +
+            "and r1.roomType LIKE %:roomType%")
+    Optional<Room> roomTypeDistinctSearch(Long storeIdx,String roomType);
 
 
     //객실 상태 변경

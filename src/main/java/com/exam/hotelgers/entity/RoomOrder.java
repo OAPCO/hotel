@@ -42,8 +42,8 @@ public class RoomOrder extends BaseEntity{
     //머릿수
     private String peopleNum;
 
-    //결제여부
-    private int payCheck;
+    //가격
+    private int roomPrice;
 
 
     private Long roomIdx;

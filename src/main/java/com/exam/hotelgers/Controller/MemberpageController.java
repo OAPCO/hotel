@@ -55,6 +55,7 @@ public class MemberpageController {
     private final MenuOrderService menuOrderService;
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
+    private final PaymentService paymentService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -174,22 +175,12 @@ public class MemberpageController {
 
 
     @PostMapping("/member/memberpage/paypage")
-    public String paylogicProc(@ModelAttribute("roomOrderDTO") RoomOrderDTO roomOrderDTO,RedirectAttributes redirectAttributes,Model model){
+    public String paylogicProc(RoomOrderDTO roomOrderDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
 
 
-//        //이 곳은 결제 페이지로 이용한다. 추후 결제 로직을 추가한 뒤 예약이 완료되게 변경한다.
-//        //결제 했을 시 결제상태 1로 변경
-//        roomOrderDTO.setPayCheck(1);
-//
-//        //예약된 방 하나를 상태를 3으로 바꾼다.
-//        roomService.roomStatusUpdate3(roomOrderDTO);
-//
-//        //객실예약 추가
-//        roomOrderService.register(roomOrderDTO);
 
         redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
 
-        log.info("포스트매핑 값 : " + roomOrderDTO);
 
         return "redirect:/member/memberpage/paypage";
 
@@ -198,19 +189,42 @@ public class MemberpageController {
 
 
     @GetMapping("/member/memberpage/paypage")
-    public String paypageform(RoomOrderDTO roomOrderDTO,Model model){
+    public String paypageform(RoomOrderDTO roomOrderDTO,Model model,Principal principal){
 
 
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
-        log.info("겟매핑 값 : " + roomOrderDTO);
 
         model.addAttribute("roomOrderDTO",roomOrderDTO);
+        model.addAttribute("memberDTO",memberDTO);
 
         return "member/memberpage/paypage";
     }
 
 
 
+    @PostMapping("/paycheck")
+    public String payCheckProc(RoomOrderDTO roomOrderDTO,PaymentDTO paymentDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
+
+
+
+        //예약된 방 하나를 상태를 3으로 바꾼다.
+        roomService.roomStatusUpdate3(roomOrderDTO);
+
+        //객실예약 추가
+        roomOrderService.register(roomOrderDTO);
+
+        //결제테이블 컬럼 추가
+        paymentService.register(paymentDTO);
+
+
+
+        redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
+
+
+        return "redirect:/member/mypage/history";
+
+    }
 
 
 

@@ -28,7 +28,6 @@ public class Room extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_sql")
     private Long roomIdx;
 
-    @Column(unique = true)
     private String roomCd; //방 호수 202호 등
 
     private String roomName;

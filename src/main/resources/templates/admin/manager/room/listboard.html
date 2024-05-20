@@ -18,6 +18,24 @@
             padding: 10px;
             border: 1px solid #ccc;
         }
+
+        #main-container {
+            display: flex;
+            width: 100%;
+            height: 50%; /* 전체 높이로 확장하려면 */
+        }
+
+        #left-content {
+            flex: 0 0 82%; /* 유연한 크기: 고정된 비율로 80% */
+            background-color: #f0f0f0; /* 배경 색상, 필요에 따라 변경 */
+            padding: 20px; /* 안쪽 여백 */
+        }
+
+        #right-content {
+            flex: 0 0 18%; /* 유연한 크기: 고정된 비율로 20% */
+            background-color: #d0d0d0; /* 배경 색상, 필요에 따라 변경 */
+            padding: 20px; /* 안쪽 여백 */
+        }
     </style>
 
 </head>
@@ -28,7 +46,29 @@
     <h4 class="card-title">[[${storeDTO.storeName}]]</h4>
 
 
-    <div id="main-container"></div>
+    <div id="main-container">
+        <div id="left-content"></div>
+
+
+        <div id="right-content">
+
+            <th:block th:each="roomTypeList:${roomTypeList}">
+
+                <div class="card">
+                    <div class="card-header">[[${roomTypeList.roomType}]] / [[${roomTypeList.roomPrice}]]</div>
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </th:block>
+
+
+
+        </div>
+
+
+    </div>
+
 
     <div class="card">
     <div class="card-body">
@@ -91,7 +131,8 @@
 
 
         function createCards(totalCards, cardsPerRow) {
-            const mainContainer = document.getElementById('main-container');
+
+            const mainContainer = document.getElementById('left-content');
 
             let row;
             for (let i = 1; i <= totalCards; i++) {
@@ -114,7 +155,7 @@
 
         createCards(60, 12);
 
-        for(let i = 0; i < roomList.length; i++) {
+        for (let i = 0; i < roomList.length; i++) {
 
             console.log(roomList[i]);
 
@@ -127,18 +168,6 @@
                 card.className = 'card room-card';
 
 
-                var roomTypeText = [];
-                switch (roomList[i].roomType) {
-                    case "NORMAL":
-                        roomTypeText[i] = "일반실";
-                        break;
-                    case "SPECIAL":
-                        roomTypeText[i] = "특실";
-                        break;
-                    case "PARTYROOM":
-                        roomTypeText[i] = "파티룸";
-                        break;
-                }
 
                 var roomStatus = [];
                 switch (roomList[i].roomStatus) {
@@ -159,16 +188,20 @@
 
 
                 var roomNameSpan = document.createElement("span");
+                var roomTypeSpan = document.createElement("span");
                 roomNameSpan.textContent = roomList[i].roomName;
-                roomNameSpan.style.fontSize = "18px"; // 크기 조정
+                roomNameSpan.style.fontSize = "18px";
+                roomTypeSpan.textContent = roomList[i].roomType;
+                roomTypeSpan.style.fontSize = "14px";
                 card.appendChild(roomNameSpan);
-                card.appendChild(document.createTextNode(roomTypeText[i]));
-                card.appendChild(document.createElement("br"));
+                card.appendChild(roomTypeSpan);
                 card.appendChild(document.createTextNode(roomStatus[i]));
             }
 
 
         }
+
+
 
     </script>
 
