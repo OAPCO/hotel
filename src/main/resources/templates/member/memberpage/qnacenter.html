@@ -30,14 +30,14 @@
                 <h3>자주 묻는 질문</h3>
                 <div id="accordion">
 
-                    <div class="card">
+                    <div class="card"  th:each="data:${list}" th:if="${data.noticeType eq 'ask'}" >
                         <div class="card-header">
-                            <a class="btn" data-bs-toggle="collapse" href="#collapseOne">
+                            <a class="btn" data-bs-toggle="collapse" href="#collapseOne" th:text="${data.noticeTitle}">
                                 여기가 제목
                             </a>
                         </div>
-                        <div id="collapseOne" class="collapse show" data-bs-parent="#accordion">
-                            <div class="card-body">
+                        <div id="collapseOne" class="collapse show" data-bs-parent="#accordion" >
+                            <div class="card-body" th:text="${data.noticeContent}">
                                 여기가 내용
                             </div>
                         </div>

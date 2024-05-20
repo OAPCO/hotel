@@ -38,6 +38,7 @@ public class SearchDTO {
     private String adminEmail;
 
 
+
     //총판장
     private Long distChiefIdx;
     private String distChiefId;
@@ -173,6 +174,9 @@ public class SearchDTO {
     private String paymentName;
     private String paymentType;
 
-
+    //공지
+    private String noticeTitle;
+    private String noticeContent;
+    private String noticeType;
 
 }

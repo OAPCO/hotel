@@ -57,6 +57,7 @@ public class MemberpageController {
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
     private final PaymentService paymentService;
+    private final NoticeService noticeService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -453,8 +454,13 @@ public class MemberpageController {
 
 
     @GetMapping("/member/memberpage/qnacenter")
-    public String qnaCenterForm() {
+    public String qnaCenterForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        Page<NoticeDTO> noticeDTOS = noticeService.list(pageable);
 
+        Map<String, Integer> pageinfo = PageConvert.Pagination(noticeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", noticeDTOS);
         return "member/memberpage/qnacenter";
     }
 
