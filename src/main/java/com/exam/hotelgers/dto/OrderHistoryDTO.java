@@ -1,10 +1,9 @@
 package com.exam.hotelgers.dto;
 
-import com.exam.hotelgers.entity.Member;
-import com.exam.hotelgers.entity.MenuOrder;
-import com.exam.hotelgers.entity.RoomOrder;
-import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.entity.*;
 import lombok.*;
+
+import java.util.List;
 
 @ToString
 @Getter
@@ -13,9 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class OrderHistoryDTO {
-    private RoomOrder roomOrder;
-    private MenuOrder menuOrder;
-    private Member member;
-    private Store store;
-    private String storeName;
+    List<RoomOrderDetailDTO> roomOrderDetailList;
+    List<MenuOrder> menuOrderList;
+
 }

@@ -353,34 +353,40 @@ public class MemberpageController {
 
 
 
-
+//제공되는 값이 null이어도 페이지가 표시되도록 수정
     @GetMapping ("/member/mypage/history")
     public String historyForm(MemberDTO memberDTO, Principal principal, Model model) {
+
         memberDTO = memberService.memberInfoSearch(principal);
-
-
-//        List<RoomOrder> roomOrders = roomOrderRepository.RoomOrderfindByMemberIdx(memberDTO.getMemberIdx());
-
-//        List<MenuOrder> menuOrders = menuOrderRepository.MenuOrderfindByMemberIdx(memberDTO.getMemberIdx());
-
-
-//        model.addAttribute("roomOrders", roomOrders);
-//        model.addAttribute("menuOrders", menuOrders);
+        if(memberDTO == null) {
+            // Handle null memberDTO appropriately.
+        } else {
+            OrderHistoryDTO orderHistory = memberpageService.getOrderHistory(memberDTO.getMemberIdx());
+            if(orderHistory == null) {
+                // Handle null orderHistory appropriately.
+            } else {
+                model.addAttribute("orderHistory", orderHistory);
+            }
+        }
+        log.info(memberDTO.toString()  + ": 마이페이지 유저 데이터 ");
+        // Always adding the memberDTO, even if it's null. The view should handle this appropriately.
         model.addAttribute("memberDTO", memberDTO);
 
         return "member/mypage/history";
     }
 
     @GetMapping("/member/mypage/info")
-    public String infoForm(MemberDTO memberDTO, Principal principal, Model model) {
+    public String infoForm(Principal principal, Model model) {
 
-        memberDTO = memberService.memberInfoSearch(principal);
+        Long memberIdx = Long.parseLong(principal.getName());
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+        OrderHistoryDTO orderHistory = memberpageService.getOrderHistory(memberIdx);
 
-        log.info(memberDTO);
 
 
-        model.addAttribute("memberDTO",memberDTO);
-
+        model.addAttribute("memberDTO", memberDTO);
+        model.addAttribute("orderHistory", orderHistory);
+        log.info(memberDTO.toString()  + ": 마이페이지 유저 데이터 ");
         return "member/mypage/info";
     }
 
