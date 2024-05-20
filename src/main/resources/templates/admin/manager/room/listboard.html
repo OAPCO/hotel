@@ -69,42 +69,27 @@
 
 
     <div class="card">
-    <div class="card-body">
         <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-            예약 요청 현황
+            예약 현황
         </div>
-<!--        <div class="table-responsive">-->
-<!--            <table class="table body">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                    <th>우선순위</th>-->
-<!--                    <th>룸 구분</th>-->
-<!--                    <th>투숙 인원</th>-->
-<!--                    <th>예약일</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:each="orderList:${roomOrderDTOS}">-->
-<!--                    <td th:text="${orderList.roomorderIdx}"></td>-->
-<!--                    <td th:text="${orderList.roomOrderType}"></td>-->
-<!--                    <td th:text="${orderList.peopleNum}"></td>-->
-<!--                    <td th:text="${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}"></td>-->
-<!--                </tr>-->
 
+    <div class="card-body card-array">
 
-<!--                </tbody>-->
-<!--            </table>-->
-<!--        </div>-->
+        <th:block th:each="orderList:${roomOrderDTOS}">
 
-<!--        <th:block th:each="roomTypeList:${roomTypeList}">-->
+            <div class="card card-order" draggable="true" ondragstart="drag(event)"
+                 th:data-room-order-idx="${orderList.roomorderIdx}">
+                <div class="card-header">[[${orderList.roomOrderType}]]</div>
+                <div class="card-body card-padder">
+                    우선순위 - [[${orderList.roomorderIdx}]] <br>
+                    이름 : [[${orderList.memberName}]] <br>
+                    날짜 :  [[${orderList.reservationDateCheckin}]] ~  [[${orderList.reservationDateCheckout}]] <br>
+                    인원 : [[${orderList.peopleNum}]] <br>
+                    예약일 : [[${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}]]
+                </div>
+            </div>
 
-<!--            <div class="card">-->
-<!--                <div class="card-header">[[${orderList.roomorderIdx}]] / [[${roomTypeList.roomPrice}]]</div>-->
-<!--                <div class="card-body">-->
-
-<!--                </div>-->
-<!--            </div>-->
-<!--        </th:block>-->
+        </th:block>
 
     </div>
     </div>
@@ -176,6 +161,17 @@
                 card.className = 'card room-card';
 
 
+                // card.ondrop = function(event) {
+                //     drop(event, roomList[i].roomIdx);
+                // };
+                // card.ondragover = allowDrop();
+                //
+                // card.ondrop = drop;
+
+                // card.ondrop = drag(roomList[i]);
+
+
+
 
                 var roomStatus = [];
                 switch (roomList[i].roomStatus) {
@@ -209,6 +205,26 @@
 
         }
 
+
+        var target = null;
+        var roomOrderIdx = null;
+
+
+
+        // 드래그를 시작할 때 호출되는 함수
+        // function drag(event) {
+        //     target = event.target;
+        //     roomOrderIdx = target.getAttribute('data-room-order-idx');
+        //     event.dataTransfer.setData("text/plain", roomOrderIdx);
+        //
+        //     console.log(roomOrderIdx);
+        // }
+        //
+        // function drop(e) {
+        //     const asd = e.roomIdx;
+        //
+        //     console.log("드롭완 + " + asd);
+        // }
 
 
     </script>

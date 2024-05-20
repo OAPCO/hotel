@@ -64,4 +64,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     String kakaopassword(String userid);
 
 
+
+
+    //특정 roomOrder의 예약자 정보 불러오기
+    @Query("SELECT m FROM Member m LEFT JOIN RoomOrder r ON r.memberIdx = m.memberIdx " +
+            "where r.roomorderIdx = :roomorderIdx")
+    Optional<Member> roomOrderMemberSelect(Long roomorderIdx);
+
 }

@@ -197,8 +197,6 @@ public class RoomController {
         List<RoomOrderDTO> roomOrderDTOS = roomOrderService.roomOrderSearch2(storeDTO.getStoreIdx());
 
 
-
-
         model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("roomOrderDTOS",roomOrderDTOS);
         model.addAttribute("roomTypeList",roomTypeList);

@@ -38,7 +38,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     @Query(value = "SELECT r FROM Room r " +
             "LEFT JOIN RoomOrder o ON r.store.storeIdx = o.storeIdx " +
             "WHERE r.store.storeIdx = :#{#searchDTO.storeIdx} " +
-            "AND (r.roomStatus = 0 OR (r.roomStatus IN (1,2) AND o.reservationDateCheckout < :#{#searchDTO.reservationDateCheckin})) " +
+            "AND (r.roomStatus = 0 OR (r.roomStatus IN (1,2,3) AND o.reservationDateCheckout < :#{#searchDTO.reservationDateCheckin})) " +
             "GROUP BY r.roomType")
     List<Room> searchEmptyRoom(SearchDTO searchDTO);
     
@@ -48,14 +48,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
             "and r1.store.storeIdx = :storeIdx")
     List<Room> roomTypeSearch(Long storeIdx);
-
-
-    //호텔의 특정 객실타입 중복없이 검색
-    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
-            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-            "and r1.store.storeIdx = :storeIdx " +
-            "and r1.roomType LIKE %:roomType%")
-    Optional<Room> roomTypeDistinctSearch(Long storeIdx,String roomType);
 
 
     //객실 상태 변경
@@ -72,6 +64,9 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "r.roomStatus = 3 " +
             "where r.roomIdx = :#{#roomOrderDTO.roomIdx}")
     void roomStatusUpdate3(RoomOrderDTO roomOrderDTO);
+
+
+
 
 
 
