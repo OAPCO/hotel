@@ -1,16 +1,19 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.service.ManagerService;
+import com.exam.hotelgers.entity.MenuOrder;
+import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.service.*;
 
-import com.exam.hotelgers.service.MenuOrderService;
-import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +22,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.swing.text.html.Option;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Optional;
 
 
 @Controller
@@ -33,7 +37,9 @@ public class OrderController {
     private final MenuOrderService menuOrderService;
     private final SearchService searchService;
     private final ManagerService managerService;
-
+    private final MemberpageService memberpageService;
+    private final StoreService storeService;
+    private final StoreRepository storeRepository;
 
 
     @GetMapping("/admin/manager/order/register")
@@ -95,30 +101,24 @@ public class OrderController {
 //
 //
 //
-//    @GetMapping("/admin/distchief/order/list")
-//    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model
-//                           ) {
-//
-//        log.info("order listForm 도착 ");
-//
-//        Page<OrderDTO> orderDTOS = orderService.list(pageable);
-//
-//        List<DistDTO> distList = searchService.distList();
-//        List<StoreDTO> storeList = searchService.storeList();
-//        List<RoomDTO> roomList = searchService.roomList();
-//
-//
-//        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
-//
-//        model.addAllAttributes(pageinfo);
-//        model.addAttribute("distList",distList);
-//        model.addAttribute("storeList",storeList);
-//        model.addAttribute("roomList",roomList);
-//        model.addAttribute("list", orderDTOS);
-//        return "admin/distchief/order/list";
-//    }
+    @GetMapping("/admin/manager/order/menuorderlist/{storeIdx}")
+    public String listForm(@PathVariable Long storeIdx,
+                           @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                           Model model) {
 
+        log.info("order listForm 도착 ");
 
+        List<MenuOrderDetailDTO> menuOrderDetailList = menuOrderService.getOrderHistoryByStore(storeIdx);
+
+        Page<MenuOrderDetailDTO> page = new PageImpl<>(menuOrderDetailList, pageable, menuOrderDetailList.size());
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(page);
+
+        model.addAttribute("pageinfo", pageinfo);
+        model.addAttribute("menuOrderDetailList", page.getContent()); // get the paged content
+
+        return "admin/manager/order/menuorderlist";
+    }
 
 
     @GetMapping("/admin/manager/order/modify/{menuorderIdx}")

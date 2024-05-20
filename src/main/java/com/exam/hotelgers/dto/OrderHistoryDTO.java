@@ -13,6 +13,7 @@ import java.util.List;
 @Builder
 public class OrderHistoryDTO {
     List<RoomOrderDetailDTO> roomOrderDetailList;
+    List<MenuOrderDetailDTO> menuOrderDetailList;
     List<MenuOrder> menuOrderList;
 
 }

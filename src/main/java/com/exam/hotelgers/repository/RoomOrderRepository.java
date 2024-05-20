@@ -62,5 +62,7 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
 
     List<RoomOrder> findAllByMemberIdx(Long memberIdx);
 
+    Page<RoomOrder> findByStoreIdx(Long storeIdx, Pageable pageable);
+
 
 }
