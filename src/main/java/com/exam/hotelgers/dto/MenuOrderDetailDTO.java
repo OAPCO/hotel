@@ -13,4 +13,5 @@ public class MenuOrderDetailDTO extends MenuOrderDTO{
     private String roomName;
     private String roomCd;
     private String memberName;
+
 }

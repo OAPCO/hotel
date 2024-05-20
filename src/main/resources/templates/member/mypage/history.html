@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
@@ -12,159 +11,110 @@
 <div layout:fragment="title"><h1><strong>이용 내역</strong></h1></div>
 <div layout:fragment="content">
     <div class="container-fluid" style="max-width: 80%;">
-        <div class="card" style="max-width: 100%; padding-right: 20px;" >
-            <div class="card-title"><h2>룸 예약 내역</h2></div>
-            <div class="card-body">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                주문번호
-                            </th>
-                            <th>
-                                매장명
-                            </th>
-                            <th>
-                                룸 이름
-                            </th>
-                            <th>
-                                체크인
-                            </th>
-                            <th>
-                                체크아웃
-                            </th>
-                            <th>
-                                예약일자
-                            </th>
-                            <th th:text="${or}">
-                                예약자명
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="room : ${orderHistory.roomOrderDetailList}">
-                            <td th:text="${room.roomorderIdx}">
-                                1
-                            </td>
-                            <td th:text="${room.storeName}">
-                                롯데호텔 서울점
-                            </td>
-                            <td th:text="${room.roomName}">
-                                괜찮은방
-                            </td>
-                            <td th:text="${room.reservationDateCheckin}">
-                                2024-05-18
-                            </td>
-                            <td th:text="${room.reservationDateCheckout}">
-                                2024-05-19
-                            </td>
-                            <td th:text="${room.regdate}">
-                                2024-05-18
-                            </td>
-                            <td th:text="${memberDTO.memberName}">
-                                철수
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
         <div class="card" style="max-width: 100%; padding-right: 20px;">
             <div class="card-title">
-                <h2>음식 주문 내역</h2>
+                <h2 class="text-primary">룸 예약 내역</h2>
             </div>
             <div class="card-body">
                 <table>
                     <thead>
                     <tr>
-                        <th>
-                            주문번호
-                        </th>
-                        <th>
-                            주문 코드
-                        </th>
-                        <th>
-                            주문 상태
-                        </th>
-                        <th>
-                            총 가격
-                        </th>
-                        <th>
-                            주문자명
-                        </th>
-                        <th>
-                            요청사항
-                        </th>
-                        <th>
-                            주문 날짜
-                        </th>
-                        <th>
-                            상세보기
-                        </th>
+                        <th>주문번호</th>
+                        <th>매장명</th>
+                        <th>룸 이름</th>
+                        <th>체크인</th>
+                        <th>체크아웃</th>
+                        <th>예약일자</th>
+                        <th>예약자명</th>
                     </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="menu, iter : ${orderHistory.menuOrderList}">
-                            <td th:text="${menu.menuorderIdx}">
-                                1
-                            </td>
-                            <td th:text="${menu.menuorderCd}">
-                                485314c78ss574
-                            </td>
-                            <td th:text="${menu.orderState}">
-                                주문완료
-                            </td>
-                            <td th:text="${menu.total}">
-                                25000원
-                            </td>
-                            <td th:text="${memberDTO.memberName}">
-                                철수
-                            </td>
-                            <td th:text="${menu.orderRequest}">
-                                리뷰이벤트 참여할게요 ^^
-                            </td>
-                            <td th:text="${menu.regdate}">
-                                2024-05-20
-                            </td>
-                            <td>
-                                <button class="btn btn-outline-info" data-toggle="collapse" data-target="#detail-row-${iter.index}">상세보기</button>
-                            </td>
-                        </tr>
-                        <tr th:each="menu, iter : ${orderHistory.menuOrderList}" class="collapse detail-row" id="detail-row-${iter.index}">
-                            <td colspan="7">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>메뉴시트 번호</th>
-                                        <th>주문 메뉴</th>
-                                        <th>단일 가격</th>
-                                        <th>주문 갯수</th>
-                                        <th>총 액수</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="sheet : ${menu?.menuSheetList}">
-                                            <td th:text="${sheet?.menuSheetIdx}">
-                                            </td>
-                                            <td th:text="${sheet?.menuorderName}">
-                                            </td>
-                                            <td th:text="${sheet?.menuorderPrice}">
-                                            </td>
-                                            <td th:text="${sheet?.menuorderQuantity}">
-                                            </td>
-                                            <td th:text="${sheet?.amountPrice}">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
+                    <tr th:each="room : ${orderHistory.roomOrderDetailList}">
+                        <td th:text="${room.roomorderIdx}">1</td>
+                        <td th:text="${room.storeName}">롯데호텔 서울점</td>
+                        <td th:text="${room.roomName}">괜찮은방</td>
+                        <td th:text="${room.reservationDateCheckin}">2024-05-18</td>
+                        <td th:text="${room.reservationDateCheckout}">2024-05-19</td>
+                        <td th:text="${#strings.substringBefore(room.regdate, 'T')}">2024-05-18</td>
+                        <td th:text="${memberDTO.memberName}">철수</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p></p>
+        <div class="card" style="max-width: 100%; padding-right: 20px;">
+            <div class="card-title">
+                <h2 class="text-primary">메뉴 주문 내역</h2>
+            </div>
+            <div class="card-body">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>주문번호</th>
+                        <th>주문 코드</th>
+                        <th>주문 상태</th>
+                        <th>총 가격</th>
+                        <th>주문자명</th>
+                        <th>요청사항</th>
+                        <th>주문 날짜</th>
+                        <th>상세보기</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="menu : ${orderHistory.menuOrderList}">
+                        <td th:text="${menu.menuorderIdx}">1</td>
+                        <td th:text="${menu.menuorderCd}">485314c78ss574</td>
+                        <td th:switch="${menu.orderState}">
+                            <span th:case="'0'">결제완료</span>
+                            <span th:case="'1'">조리완료</span>
+                            <span th:case="'2'">배달완료</span>
+                            <span th:case="'3'">결제취소</span>
+                        </td>
+                        <td th:text="${menu.total}">총 금액</td>
+                        <td th:text="${memberDTO.memberName}">철수</td>
+                        <td th:text="${menu.orderRequest}">리뷰이벤트 참여할게요 ^^</td>
+                        <td th:text="${#strings.substringBefore(menu.regdate, 'T')}">2024-05-18</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${menu.menuorderIdx}">상세보기</button>
+                        </td>
+                    </tr>
+                    <tr th:each="menu : ${orderHistory.menuOrderList}" th:id="'details-' + ${menu.menuorderIdx}" style="display: none;">
+                        <td colspan="8">
+                            <table>
+                                <thead>
+                                <tr >
+                                    <th>메뉴명</th>
+                                    <th>단일 가격</th>
+                                    <th>갯수</th>
+                                    <th>총 가격</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="sheet : ${menu.menuSheetList}">
+                                    <td th:text="${sheet.menuorderName}"></td>
+                                    <td th:text="${sheet.menuorderPrice}"></td>
+                                    <td th:text="${sheet.menuorderQuantity}"></td>
+                                    <td th:text="${sheet.amountPrice}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".btn-outline-info").click(function() {
+                var targetId = $(this).attr('data-target');
+                $(targetId).toggle();
+            });
+        });
+    </script>
 </div>
 </body>
 </html>

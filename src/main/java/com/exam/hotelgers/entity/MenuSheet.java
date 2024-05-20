@@ -37,7 +37,6 @@ public class MenuSheet extends BaseEntity{
 
     private String AmountPrice;//메뉴단일가격*갯수=해당매뉴총가격
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menuorderIdx")
     private MenuOrder menuOrder;//묶인 주문번호

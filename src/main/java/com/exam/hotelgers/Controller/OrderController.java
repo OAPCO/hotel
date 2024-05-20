@@ -101,24 +101,17 @@ public class OrderController {
 //
 //
 //
-    @GetMapping("/admin/manager/order/menuorderlist/{storeIdx}")
-    public String listForm(@PathVariable Long storeIdx,
-                           @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                           Model model) {
+@GetMapping("/admin/manager/order/menuorderlist/{storeIdx}")
+public String listForm(@PathVariable Long storeIdx, Model model) {
+    log.info("order listForm 도착 ");
 
-        log.info("order listForm 도착 ");
+    OrderHistoryDTO orderHistoryDTO = menuOrderService.getOrderHistoryByStore(storeIdx);
 
-        List<MenuOrderDetailDTO> menuOrderDetailList = menuOrderService.getOrderHistoryByStore(storeIdx);
+    model.addAttribute("menuOrderDetailList", orderHistoryDTO.getMenuOrderDetailList());
+    model.addAttribute("roomOrderDetailList", orderHistoryDTO.getRoomOrderDetailList());
 
-        Page<MenuOrderDetailDTO> page = new PageImpl<>(menuOrderDetailList, pageable, menuOrderDetailList.size());
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(page);
-
-        model.addAttribute("pageinfo", pageinfo);
-        model.addAttribute("menuOrderDetailList", page.getContent()); // get the paged content
-
-        return "admin/manager/order/menuorderlist";
-    }
+    return "admin/manager/order/menuorderlist";
+}
 
 
     @GetMapping("/admin/manager/order/modify/{menuorderIdx}")

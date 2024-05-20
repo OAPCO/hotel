@@ -47,6 +47,7 @@ public class Room extends BaseEntity {
     @JoinColumn(name = "storeIdx")
     private Store store;
 
+
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<MenuOrder> menuOrderList = new ArrayList<>();
 }

@@ -30,39 +30,57 @@
         </thead>
         <tbody>
         <tr th:each="order : ${menuOrderDetailList}">
-          <td></td>
+          <td th:text="${order.menuorderIdx}"></td>
           <td th:text="${order.storeName}"></td>
           <td th:text="${order.roomName}"></td>
           <td th:text="${order.menuorderCd}"></td>
           <td th:text="${order.total}"></td>
           <td th:text="${order.memberName}"></td>
-          <td th:text="${order.regdate}"></td>
+          <td th:text="${#strings.substringBefore(order.regdate, 'T')}"></td>
           <td>
-            <button class="btn btn-outline-primary detailed-view">상세보기</button>
-            <div class="detail-info" style="display: none;">
-              <table>
-                <tr th:each="menusheet : ${order.menuSheetDTOList}">
-                  <td>메뉴명:<span th:text="${menusheet.menuorderName}"></span></td>
-                  <td>가격:<span th:text="${menusheet.menuorderPrice}"></span></td>
-                  <td>갯수:<span th:text="${menusheet.menuorderQuantity}"></span></td>
-                  <td>총 가격:<span th:text="${menusheet.amountPrice}"></span></td>
-                </tr>
-              </table>
-            </div>
+            <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${order.menuorderIdx}">상세보기
+            </button>
           </td>
+        </tr>
+        <tr th:each="order : ${menuOrderDetailList}" th:id="'details-' + ${order.menuorderIdx}" style="display: none;">
+          <td colspan="8">
+            <table>
+              <thead>
+              <tr>
+                <th>상세메뉴 번호</th>
+                <th>메뉴명</th>
+                <th>단일 가격</th>
+                <th>갯수</th>
+                <th>총 가격</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="sheet : ${order.menuSheetDTOList}">
+                <td th:text="${sheet.menuSheetIdx}"></td>
+                <td th:text="${sheet.menuorderName}"></td>
+                <td th:text="${sheet.menuorderPrice}"></td>
+                <td th:text="${sheet.menuorderQuantity}"></td>
+                <td th:text="${sheet.amountPrice}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
         </tr>
         </tbody>
       </table>
-
-<!--      <td th:each="menusheet : ${order.menuSheetDTOList}">-->
-<!--        <span th:text="${menusheet.menuorderName}"></span>-->
-<!--        <span th:text="${menusheet.menuorderPrice}"></span>-->
-<!--        <span th:text="${menusheet.menuorderQuantity}"></span>-->
-<!--        <span th:text="${menusheet.amountPrice}"></span>-->
-<!--      </td>-->
+      </div>
     </div>
   </div>
-</div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $(".btn-outline-info").click(function() {
+        var targetId = $(this).attr('data-target');
+        $(targetId).toggle();
+      });
+    });
+  </script>
 </div>
 </body>
 </html>

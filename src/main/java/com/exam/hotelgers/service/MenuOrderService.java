@@ -124,32 +124,61 @@ public class MenuOrderService {
         return menuOrders.map(this::convertToDTO);
     }
 
-    public List<MenuOrderDetailDTO> getOrderHistoryByStore(Long storeIdx) {
+
+
+    public OrderHistoryDTO getOrderHistoryByStore(Long storeIdx) {
         List<MenuOrder> menuOrderList = menuOrderRepository.findByStoreIdx(storeIdx);
+        List<RoomOrder> roomOrderList = roomOrderRepository.findByStoreIdx(storeIdx);
 
-        return menuOrderList.stream().map(menuOrder -> {
+        List<MenuOrderDetailDTO> detailedMenuOrderDTOList = menuOrderList.stream().map(mo -> {
             MenuOrderDetailDTO detail = new MenuOrderDetailDTO();
-            BeanUtils.copyProperties(menuOrder, detail);
+            BeanUtils.copyProperties(mo, detail);
 
-            Store store = storeRepository.findById(menuOrder.getStoreIdx()).orElse(null);
+            List<MenuSheet> menuSheets = mo.getMenuSheetList();
+            List<MenuSheetDTO> menuSheetDTOs = menuSheets.stream().map(sheet -> {
+                MenuSheetDTO dto = new MenuSheetDTO();
+                BeanUtils.copyProperties(sheet, dto);
+                return dto;
+            }).collect(Collectors.toList());
+            detail.setMenuSheetDTOList(menuSheetDTOs);
+
+            Store store = storeRepository.findById(mo.getStoreIdx()).orElse(null);
             if (store != null) {
                 detail.setStoreName(store.getStoreName());
-                detail.setStoreCd(store.getStoreCd());
+            }
+            Room room = roomRepository.findById(mo.getRoom().getRoomIdx()).orElse(null);
+            if (room != null) {
+                detail.setRoomName(room.getRoomName());
+            }
+            Member member = memberRepository.findById(mo.getMemberIdx()).orElse(null);
+            if (member != null) {
+                detail.setMemberName(member.getMemberName());
             }
 
-            Room room = roomRepository.findById(menuOrder.getRoom().getRoomIdx()).orElse(null);
-            if (room != null){
-                detail.setRoomName(room.getRoomName());
-                detail.setRoomCd(room.getRoomCd());
-            }
-            Optional<Member> member = memberRepository.findByMemberIdx(menuOrder.getMemberIdx());
-            if (member != null){
-                detail.setMemberName(member.get().getMemberName());
-            }
             return detail;
         }).collect(Collectors.toList());
-    }
 
+        List<RoomOrderDetailDTO> detailedRoomOrderDTOList = roomOrderList.stream().map(ro -> {
+            RoomOrderDetailDTO detail = new RoomOrderDetailDTO();
+            BeanUtils.copyProperties(ro, detail);
+
+            Store store = storeRepository.findById(ro.getStoreIdx()).orElse(null);
+            if (store != null) {
+                detail.setStoreName(store.getStoreName());
+            }
+            Room room = roomRepository.findById(ro.getRoomIdx()).orElse(null);
+            if (room != null){
+                detail.setRoomName(room.getRoomName());
+            }
+
+            return detail;
+        }).collect(Collectors.toList());
+
+        return OrderHistoryDTO.builder()
+                .menuOrderDetailList(detailedMenuOrderDTOList)
+                .roomOrderDetailList(detailedRoomOrderDTOList)
+                .build();
+    }
 
 
 //    public Page<MenuOrderDTO> searchList(SearchDTO searchDTO, Pageable pageable) {
