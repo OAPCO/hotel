@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -252,15 +253,6 @@ public class RoomService {
 
         return roomDTOS;
     }
-
-
-//    public List<String> emptyRoomSearch2(SearchDTO searchDTO){
-//
-//        List<String> emptyRoomList = roomRepository.searchEmptyRoom2(searchDTO);
-//
-//
-//        return emptyRoomList;
-//    }
 
 
 

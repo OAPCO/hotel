@@ -30,6 +30,7 @@ public class RoomOrderDTO {
 
     private Long roomIdx;
     private Long memberIdx;
+    private String memberName;
     private Long storeIdx;
     private String storeCd;
 

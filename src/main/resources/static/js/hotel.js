@@ -125,12 +125,20 @@ let hotel = (function () {
 
             success: function(response) {
 
-                var emptyRoomResultTable = $('#emptyRoomResultTable');
+                console.log("결과값전체 화긴@@ "+response);
 
+                var emptyRoomResultTable = $('#emptyRoomResultTable');
                 emptyRoomResultTable.empty(); // 기존 결과 제거
 
-                // 새로운 행 추가
-                response.forEach(function(item) {
+                const emptyRooms = response.emptyRoomTypes;
+                const notEmptyRooms = response.notEmptyRoomTypes;
+
+                notEmptyRooms.forEach(function (e){
+                    console.log(e.roomType);
+                })
+
+                //예약 가능 방 행 추가
+                emptyRooms.forEach(function(item) {
 
                     var newRow = `
                         <tr>
@@ -147,6 +155,27 @@ let hotel = (function () {
                         </tr>`;
                     emptyRoomResultTable.append(newRow);
                 });
+
+                
+                //예약불가 방 행 추가
+                notEmptyRooms.forEach(function(item) {
+
+                    var newRow = `
+                        <tr>
+                            <td>${item.roomType}</td>
+                            <td>
+                                <img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${item.roomMainimgName}" width="400" height="200">
+                            </td>
+                            <td>
+                                가격 : ${item.roomPrice}
+                            </td>
+                            <td>
+                                <button class="btn button reserve-btn" type="button" data-room-idx="${item.roomIdx}" data-room-type="${item.roomType}" data-room-price="${item.roomPrice}">예약하기</button>
+                            </td>
+                        </tr>`;
+                    emptyRoomResultTable.append(newRow);
+                });
+
 
 
                 //예약 클릭시 폼 제출

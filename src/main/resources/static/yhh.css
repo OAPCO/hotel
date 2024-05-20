@@ -53,6 +53,23 @@ table.body th{
     align-items: center;
 }
 
+.card-order {
+    width: 250px;
+    height: 200px;
+    align-items: center;
+    padding: 1px;
+}
+
+.card-padder {
+    padding: 1px;
+}
+
+.card-array {
+    display: flex;
+    flex-wrap: wrap; /* 화면 너비에 맞춰 줄 바꿈 */
+}
+
+
 .room-card {
     background-color: #f8f9fc;
     border: 1px solid blue;

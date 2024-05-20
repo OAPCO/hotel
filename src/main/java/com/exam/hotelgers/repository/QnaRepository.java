@@ -17,7 +17,8 @@ public interface QnaRepository extends JpaRepository<Qna,Long> {
 
     @Query("select a from Qna a where " +
             "(:#{#searchDTO.qnaTitle} is null or a.qnaTitle LIKE %:#{#searchDTO.qnaTitle}%) " +
-            "and (:#{#searchDTO.qnaTitle} is null or a.qnaTitle LIKE %:#{#searchDTO.qnaTitle}%) ")
+            "and (:#{#searchDTO.qnaContent} is null or a.qnaContent LIKE %:#{#searchDTO.qnaContent}%) "+
+            "and (:#{#searchDTO.qnaStatus} is null or a.qnaStatus = %:#{#searchDTO.qnaStatus}%) ")
     Page<Qna> selectQna (Pageable pageable,SearchDTO searchDTO);
 
 
