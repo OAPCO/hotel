@@ -1,17 +1,13 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.MenuOrderDTO;
-import com.exam.hotelgers.dto.MenuSheetDTO;
-import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.entity.MenuOrder;
-import com.exam.hotelgers.entity.MenuSheet;
-import com.exam.hotelgers.entity.Store;
-import com.exam.hotelgers.repository.MenuOrderRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.*;
+import com.exam.hotelgers.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +27,9 @@ public class MemberpageService {
     private final ModelMapper modelMapper;
     private final StoreRepository storeRepository;
     private final MenuOrderRepository menuOrderRepository;
+    private final MenuSheetRepository menuSheetRepository;
+    private final RoomOrderRepository roomOrderRepository;
+    private final RoomRepository roomRepository;
     public List<StoreDTO> searchList(String keyword, String facilities) {
         List<Store> stores = new ArrayList<>();
 
@@ -59,5 +58,30 @@ public class MemberpageService {
         return modelMapper.map(store, StoreDTO.class);
     }
 
+    public OrderHistoryDTO getOrderHistory(Long memberIdx) {
+        List<MenuOrder> menuOrderList = menuOrderRepository.findByMemberIdx(memberIdx);
+        List<MenuSheet> menuSheetList = menuSheetRepository.findByMenuOrder_MemberIdx(memberIdx);
+        List<RoomOrder> roomOrderList = roomOrderRepository.findAllByMemberIdx(memberIdx);
 
+        List<RoomOrderDetailDTO> detailedRoomOrderDTOList = roomOrderList.stream().map(ro -> {
+            RoomOrderDetailDTO detail = new RoomOrderDetailDTO();
+            BeanUtils.copyProperties(ro, detail);
+
+            Store store = storeRepository.findById(ro.getStoreIdx()).orElse(null);
+            if (store != null) {
+                detail.setStoreName(store.getStoreName());
+            }
+            Room room = roomRepository.findById(ro.getRoomIdx()).orElse(null);
+            if (room !=null){
+                detail.setRoomName(room.getRoomName());
+            }
+
+            return detail;
+        }).collect(Collectors.toList());
+
+        return OrderHistoryDTO.builder()
+                .menuOrderList(menuOrderList)
+                .roomOrderDetailList(detailedRoomOrderDTOList)
+                .build();
+    }
 }
