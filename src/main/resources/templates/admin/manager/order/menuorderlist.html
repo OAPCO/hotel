@@ -15,7 +15,7 @@
       <h2 class="text-primary">메뉴 목록</h2>
     </div>
     <div class="table-responsive">
-      <table class="table body">
+      <table class="table body" style="width: 100%;">
         <thead>
         <tr>
           <th>No</th>
@@ -43,8 +43,8 @@
           </td>
         </tr>
         <tr th:each="order : ${menuOrderDetailList}" th:id="'details-' + ${order.menuorderIdx}" style="display: none;">
-          <td colspan="8">
-            <table>
+          <td colspan="8" style="padding: 0;">
+            <table style="width: 100%;">
               <thead>
               <tr>
                 <th>상세메뉴 번호</th>
@@ -74,10 +74,15 @@
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
-    $(document).ready(function() {
-      $(".btn-outline-info").click(function() {
-        var targetId = $(this).attr('data-target');
-        $(targetId).toggle();
+    $(document).ready(function(){
+      $(".btn-outline-info").click(function(){
+        //모든 상세 정보를 숨깁니다.
+        $("tr[id^='details-']").hide();
+
+        //상세정보 섹션을 위해 특정한 위치를 설정합니다.
+        var detailSection = $(this).data('target');
+        var currentRow = $(this).closest('tr');
+        $(detailSection).insertAfter(currentRow).show();
       });
     });
   </script>

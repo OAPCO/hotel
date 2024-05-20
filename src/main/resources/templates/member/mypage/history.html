@@ -110,8 +110,13 @@
     <script>
         $(document).ready(function() {
             $(".btn-outline-info").click(function() {
+                // 현재 선택한 섹션을 제외하고 모든 상세 정보를 숨깁니다.
                 var targetId = $(this).attr('data-target');
-                $(targetId).toggle();
+                $("tr[id^='details-']").not(targetId).hide();
+
+                // 상세 정보 섹션의 위치를 설정합니다.
+                var currentRow = $(this).closest('tr');
+                $(targetId).insertAfter(currentRow).toggle();
             });
         });
     </script>
