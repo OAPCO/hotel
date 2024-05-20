@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,6 +160,12 @@ public class ScriptController {
         Long storeIdx = searchDTO.getStoreIdx();
 
 
+        //이거 가격 들어갔느닞 확인해야함.
+        for (RoomDTO asd : emptyRoomTypes){
+            log.info("객실 가격 확인~!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + asd.getRoomPrice());
+        }
+
+
         log.info("생성됏는지확인@@@@!#@!#@" + emptyRoomTypes);
 
 
@@ -173,15 +180,40 @@ public class ScriptController {
 
         Map<String, Object> result = new HashMap<>();
         
-        List<ImageDTO> RoomTypeDetailImages = imageService.roomTypeDetailImageSearch(searchDTO);
-        ImageDTO RoomTypeMainImage = imageService.roomTypeMainImageSearch(searchDTO);
+        List<ImageDTO> roomTypeDetailImages = imageService.roomTypeDetailImageSearch(searchDTO);
+        ImageDTO roomTypeMainImage = imageService.roomTypeMainImageSearch(searchDTO);
+
+//        List<String> detailImgs = new ArrayList<>();
+//        for (ImageDTO imgs : roomTypeDetailImages){
+//            detailImgs.add(imgs.getImgName());
+//        }
+//
+//        String mainImg = roomTypeMainImage.getImgName();
 
 
-        result.put("RoomTypeDetailImages", RoomTypeDetailImages);
-        result.put("RoomTypeMainImage", RoomTypeMainImage);
+        result.put("roomTypeDetailImages", roomTypeDetailImages);
+        result.put("roomTypeMainImage", roomTypeMainImage);
 
         return result;
     }
+
+
+    //객실 생성 페이지에서 선택한 객실
+//    @GetMapping(value = "/roomtypeimage", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Map<String, Object> roomTypeImageReadProc(SearchDTO searchDTO) throws Exception {
+//
+//        Map<String, Object> result = new HashMap<>();
+//
+//        List<ImageDTO> RoomTypeDetailImages = imageService.roomTypeDetailImageSearch(searchDTO);
+//        ImageDTO RoomTypeMainImage = imageService.roomTypeMainImageSearch(searchDTO);
+//
+//
+//        result.put("RoomTypeDetailImages", RoomTypeDetailImages);
+//        result.put("RoomTypeMainImage", RoomTypeMainImage);
+//
+//        return result;
+//    }
+
 
 
 }

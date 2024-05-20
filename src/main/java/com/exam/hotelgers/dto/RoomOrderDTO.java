@@ -27,18 +27,18 @@ public class RoomOrderDTO {
     private String roomOrderType;
     private String peopleNum;
 
-    private int payCheck;
-
-
 
     private Long roomIdx;
     private Long memberIdx;
     private Long storeIdx;
-    private int roomStatus;
     private String storeCd;
 
-    private LocalDateTime regdate;
 
+    private int roomStatus;
+    private int roomPrice;
+
+
+    private LocalDateTime regdate;
     private LocalDateTime moddate;
 
 

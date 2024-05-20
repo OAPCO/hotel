@@ -20,7 +20,17 @@ public class PaymentDTO {
 
     private int paymentPrice;
 
+    private String memberName;
+    private String memberPhone;
+    private String memberEmail;
+    private String memberZipCode;
+    private String memberAddress;
+
+    //주문시 상품명. "객실예약" or "룸서비스" 으로 들어감.
+    private String paymentName;
+    //room = 객실예약 결제, service = 룸서비스 결제
     private String paymentType;
+
 
     private LocalDateTime regdate;
 

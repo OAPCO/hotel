@@ -67,6 +67,8 @@ public class SearchDTO {
     private String memberName;
     private String memberNum;
     private String memberPhone;//회원 전화번호
+    private String memberZipCode;
+    private String memberAddress;
 
 
     //문의
@@ -164,6 +166,12 @@ public class SearchDTO {
     private String orderCd;
 
 
+    //결제
+
+    private Long paymentIdx;
+    private int paymentPrice;
+    private String paymentName;
+    private String paymentType;
 
 
 

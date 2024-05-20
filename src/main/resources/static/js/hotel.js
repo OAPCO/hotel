@@ -139,11 +139,34 @@ let hotel = (function () {
                                 <img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${item.roomMainimgName}" width="400" height="200">
                             </td>
                             <td>
-                                <button class="btn button reserve-btn" type="button" data-room-idx="${item.roomIdx}" data-room-type="${item.roomType}">예약하기</button>
+                                가격 : ${item.roomPrice}
+                            </td>
+                            <td>
+                                <button class="btn button reserve-btn" type="button" data-room-idx="${item.roomIdx}" data-room-type="${item.roomType}" data-room-price="${item.roomPrice}">예약하기</button>
                             </td>
                         </tr>`;
                     emptyRoomResultTable.append(newRow);
                 });
+
+
+                //예약 클릭시 폼 제출
+                document.querySelectorAll('.reserve-btn').forEach(item => {
+
+
+                    item.addEventListener('click', event => {
+
+                        const roomIdx = event.target.getAttribute('data-room-idx');
+                        const roomType = event.target.getAttribute('data-room-type');
+                        const roomPrice = event.target.getAttribute('data-room-price');
+
+
+                        document.getElementById('selectedRoomIdx').value = roomIdx;
+                        document.getElementById('selectedRoomOrderType').value = roomType;
+                        document.getElementById('selectedRoomOrderPrice').value = roomPrice;
+                        document.getElementById('reservationForm').submit();
+                    });
+                });
+
 
 
                 //위에서 받은 날짜 값 결과제출용 날짜 변수에 넣음
@@ -170,7 +193,45 @@ let hotel = (function () {
 
             success: function(response) {
 
-                console.log("반환성공 : " + response);
+                const roomTypeDetailImages = response.roomTypeDetailImages;
+                const roomTypeMainImage = response.roomTypeMainImage;
+
+
+                console.log(roomTypeMainImage);
+
+                preview.innerHTML = '';
+                preview2.innerHTML = '';
+
+                // var mainImgName = roomTypeMainImage.
+                //
+                // var newimg = `<div>
+                //                 <img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${item.roomMainimgName}" width="400" height="200">
+                //                     </div>`;
+                //
+                // preview2.appendChild(newimg);
+
+                // input2.addEventListener('change', function() {
+                //
+                //
+                //     const files = this.files;
+                //     for (const file of files) {
+                //         const reader = new FileReader();
+                //
+                //         reader.onload = function(e) {
+                //             const img = document.createElement('img');
+                //             img.src = e.target.result;
+                //             img.style.maxWidth = '200px'; // 이미지 최대 너비 설정
+                //             img.style.marginRight = '10px'; // 이미지 간격 설정
+                //             preview2.appendChild(img);
+                //         }
+                //
+                //         reader.readAsDataURL(file);
+                //     }
+                // });
+
+
+
+
             },
             error: function(xhr, status, error) {
                 console.error('에러발생');

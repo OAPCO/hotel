@@ -193,11 +193,15 @@ public class RoomController {
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
         List<RoomDTO> roomDTOS = managerService.managerOfLoom(principal);
+        List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeDTO.getStoreIdx());
         List<RoomOrderDTO> roomOrderDTOS = roomOrderService.roomOrderSearch2(storeDTO.getStoreIdx());
+
+
 
 
         model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("roomOrderDTOS",roomOrderDTOS);
+        model.addAttribute("roomTypeList",roomTypeList);
         model.addAttribute("list", roomDTOS);
         return "admin/manager/room/listboard";
     }
