@@ -45,6 +45,7 @@
             }
         }
     </style>
+
 </head>
 
 <body>
@@ -89,6 +90,11 @@
                             <td class="col-2">휴무일내용</td>
                             <td class="col-9" th:text="${storeDTO.storeRestDay}">가족 행사로 인한 휴무</td>
                         </tr>
+                        <tr class="row">
+                            <td class="col-2">편의시설</td>
+                            <td class="col-9" th:text="${storeDTO.facilities}">
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -96,7 +102,23 @@
         </div> <!-- 매장 상세 정보 -->
     </div>
     <p></p>
-
+    <div class="container" style="margin: auto; width: 80%;">
+        <div style="display: flex; justify-content: space-between; margin: auto; width: 100%;">
+            <div style="flex-basis: 33%; padding-right: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
+                <div>
+                    <h2 style="margin: 0; padding: 16px; background-color: #f8f9fa;">주변 명소</h2>
+                    <div>
+                        <div style="border-bottom: 1px solid #f8f9fa; padding: 16px;">
+                            <h4 style="margin: 0; font-weight: 700;" id="place-name">장소 이름</h4>
+                            <p style="margin: 8px 0 0;" id="place-addr">상세 설명..</p>
+                            <p style="margin: 8px 0 0;" id="place-tel">전화번호....</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="map" style="flex-basis: 67%; height: 600px;"></div>
+        </div>
+    </div>
     <script>
         var imgNum = 0;
         var carouselItemId = null;
@@ -255,12 +277,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/hotel.js"></script>
+
     <script>
 
 
-
         //빈 방 찾기
-        $('#emptyRoomForm').on('submit', function(event) {
+        $('#emptyRoomForm').on('submit', function (event) {
 
             //폼 제출시 페이지 리로드 등을 방지하고 자바스크립트를 실행하기 위해 추가
             event.preventDefault();
@@ -280,12 +302,8 @@
         });
 
 
-
-
-
-
         //날짜를 숫자로 변환
-        document.getElementById("startDate").addEventListener("change", function() {
+        document.getElementById("startDate").addEventListener("change", function () {
 
             var originalDate = this.value;
             var numericDate = originalDate.replace(/-/g, '');
@@ -297,7 +315,7 @@
             // console.log(document.getElementById("isoStartDate2").value);
         });
 
-        document.getElementById("endDate").addEventListener("change", function() {
+        document.getElementById("endDate").addEventListener("change", function () {
 
             var originalDate = this.value;
             var numericDate = originalDate.replace(/-/g, '');
@@ -307,9 +325,77 @@
         });
 
 
-
     </script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bd90249e2dbb2fcc6c57d447c2e9f414&libraries=services,clusterer,drawing"></script>
 
+    <script th:inline="javascript">
+        let storeAddr = /*[[${storeDTO.storeAddr}]]*/ '제주특별자치도 제주시 첨단로 242';
+        let storePhone = /*[[${storeDTO.storeTel}]]*/ '010-1111-1111';
+        let storeName = /*[[${storeDTO.storeName}]]*/ '쓰레기매장';
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch(storeAddr, function(result, status) {
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                    mapOption = {
+                        center: coords, // 지도의 중심좌표 - 검색된 주소의 좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+
+                // 지도를 생성합니다
+                var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                // 검색된 주소의 마커와 인포윈도우 생성
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: `<div style="width:150px;text-align:center;padding:6px 0;">${storeName}</div>`
+                });
+                infowindow.open(map, marker);
+
+                // 장소 검색 객체를 생성합니다
+                var ps = new kakao.maps.services.Places();
+
+                // 카테고리(관광명소)를 검색합니다
+                ps.categorySearch('AT4', function (data, status, pagination) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        data.slice(0, 5).forEach((place) => {
+                            displayMarker(place);
+                        });
+                    }
+                }, {location: coords});
+
+                function displayMarker(place) {
+                    // 마커를 생성하고 지도에 표시합니다
+                    var placeMarker = new kakao.maps.Marker({
+                        map: map,
+                        position: new kakao.maps.LatLng(place.y, place.x)
+                    });
+
+                    // 마커에 클릭이벤트를 등록합니다
+                    kakao.maps.event.addListener(placeMarker, 'click', function() {
+                        document.getElementById('place-name').innerText = place.place_name; // 장소명
+                        document.getElementById('place-addr').innerText = place.address_name; // 장소 주소
+                        document.getElementById('place-tel').innerText = place.phone; // 장소 전화번호
+                    });
+                }
+
+                // 페이지 로드 시 storeDTO.addr의 정보를 place-name 및 place-addr에 적용
+                document.getElementById('place-name').innerText = storeAddr;
+                document.getElementById('place-addr').innerText = coords;
+                document.getElementById('place-tel').innerText = storePhone;
+
+            }
+        });
+    </script>
 
 </div>
 <p></p>

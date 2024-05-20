@@ -40,9 +40,8 @@ public class StoreController {
     public String folder;
 
 
-
     @GetMapping("/admin/distchief/store/register")
-    public String register(Model model) throws Exception{
+    public String register(Model model) throws Exception {
 
         List<DistDTO> distList = searchService.distList();
         List<BrandDTO> brandList = searchService.brandList();
@@ -57,13 +56,12 @@ public class StoreController {
     }
 
 
-
     @PostMapping("/admin/distchief/store/register")
     public String registerProc(@Valid StoreDTO storeDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes,
                                SearchDTO searchDTO,
-                               MultipartFile imgFile) throws Exception{
+                               MultipartFile imgFile) throws Exception {
 
         log.info("store registerProc 도착 " + storeDTO);
 
@@ -76,7 +74,6 @@ public class StoreController {
         }
 
 
-
         Long storeIdx = storeService.register(storeDTO, searchDTO, imgFile);
 
 
@@ -86,17 +83,13 @@ public class StoreController {
     }
 
 
-
-
-
     @PostMapping("/admin/distchief/store/list")
     public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-                           @Valid SearchDTO searchDTO,Principal principal
-    ) throws Exception{
+                           @Valid SearchDTO searchDTO, Principal principal
+    ) throws Exception {
 
 
-
-        Page<StoreDTO> storeDTOS = storeService.searchList(searchDTO, pageable,principal);
+        Page<StoreDTO> storeDTOS = storeService.searchList(searchDTO, pageable, principal);
 
         List<DistDTO> distList = searchService.distList();
         List<BrandDTO> brandList = searchService.brandList();
@@ -105,14 +98,11 @@ public class StoreController {
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distList);
-        model.addAttribute("brandList",brandList);
+        model.addAttribute("distList", distList);
+        model.addAttribute("brandList", brandList);
         model.addAttribute("list", storeDTOS);
         return "admin/distchief/store/list";
     }
-
-
-
 
 
     @GetMapping("/admin/distchief/store/list")
@@ -122,13 +112,13 @@ public class StoreController {
         log.info("store listForm 도착 ");
 
         List<DistDTO> distDTOS = distChiefService.distChiefOfDistList(principal);
-        Page<StoreDTO> storeDTOS = storeService.list(pageable,principal);
+        Page<StoreDTO> storeDTOS = storeService.list(pageable, principal);
 
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distDTOS);
+        model.addAttribute("distList", distDTOS);
         model.addAttribute("list", storeDTOS);
         //S3 이미지정보전달
         model.addAttribute("bucket", bucket);
@@ -137,9 +127,6 @@ public class StoreController {
 
         return "admin/distchief/store/list";
     }
-
-
-
 
 
     @GetMapping("/admin/distchief/store/modify/{storeIdx}")
@@ -164,7 +151,7 @@ public class StoreController {
     @PostMapping("/admin/distchief/store/modify")
     public String modifyProc(@Validated StoreDTO storeDTO,
                              MultipartFile imgFile,
-                             BindingResult bindingResult, Model model) throws Exception{
+                             BindingResult bindingResult, Model model) throws Exception {
 
         log.info("store modifyProc 도착 " + storeDTO);
 
@@ -183,7 +170,7 @@ public class StoreController {
     }
 
     @GetMapping("/admin/distchief/store/delete/{storeIdx}")
-    public String deleteProc(@PathVariable Long storeIdx) throws Exception{
+    public String deleteProc(@PathVariable Long storeIdx) throws Exception {
 
         storeService.delete(storeIdx);
 
@@ -195,7 +182,7 @@ public class StoreController {
     public String readForm(@PathVariable Long storeIdx, Model model) throws Exception {
         StoreDTO storeDTO = storeService.read(storeIdx);
 
-        if(storeDTO == null) {
+        if (storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
             return "redirect:/admin/distchief/store/list";
         }
@@ -219,12 +206,10 @@ public class StoreController {
     }
 
 
-
-
     @PostMapping("/admin/admin/manage/storelist")
     public String adminlistProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-                           @Valid SearchDTO searchDTO
-    ) throws Exception{
+                                @Valid SearchDTO searchDTO
+    ) throws Exception {
 
         Page<StoreDTO> storeDTOS = storeService.adminSearchList(searchDTO, pageable);
 
@@ -235,12 +220,11 @@ public class StoreController {
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distList);
-        model.addAttribute("brandList",brandList);
+        model.addAttribute("distList", distList);
+        model.addAttribute("brandList", brandList);
         model.addAttribute("list", storeDTOS);
         return "admin/admin/manage/storelist";
     }
-
 
 
     @GetMapping("/admin/admin/manage/storelist")
@@ -256,7 +240,7 @@ public class StoreController {
         Map<String, Integer> pageinfo = PageConvert.Pagination(storeDTOS);
 
         model.addAllAttributes(pageinfo);
-        model.addAttribute("distList",distDTOS);
+        model.addAttribute("distList", distDTOS);
         model.addAttribute("list", storeDTOS);
         //S3 이미지정보전달
         model.addAttribute("bucket", bucket);
@@ -266,5 +250,10 @@ public class StoreController {
         return "admin/admin/manage/storelist";
     }
 
-
+    @GetMapping("/member/memberpage/test/{storeIdx}")
+    public String testpage(@PathVariable Long storeIdx, Model model) throws Exception {
+        StoreDTO storeDTO = storeService.read(storeIdx);
+        model.addAttribute("storeDTO", storeDTO);
+        return "member/memberpage/test";
+    }
 }
