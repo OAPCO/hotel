@@ -1,19 +1,21 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.MenuOrderDTO;
-import com.exam.hotelgers.dto.MenuSheetDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -28,9 +30,8 @@ public class MenuOrderService {
     private final RoomRepository roomRepository;
     private final SearchService searchService;
     private final MenuSheetRepository menuSheetRepository;
-
-
-
+    private final RoomOrderRepository roomOrderRepository;
+    private final MemberRepository memberRepository;
 
     //등록
     public Long register(MenuOrderDTO menuOrderDTO) {
@@ -114,10 +115,40 @@ public class MenuOrderService {
 
 
 
+    public Page<MenuOrderDTO> listByStoreIdx(Pageable pageable, Long storeIdx) {
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "menuOrderIdx"));
 
+        Page<MenuOrder> menuOrders = menuOrderRepository.findByStoreIdx(storeIdx, page);
+        return menuOrders.map(this::convertToDTO);
+    }
 
+    public List<MenuOrderDetailDTO> getOrderHistoryByStore(Long storeIdx) {
+        List<MenuOrder> menuOrderList = menuOrderRepository.findByStoreIdx(storeIdx);
 
+        return menuOrderList.stream().map(menuOrder -> {
+            MenuOrderDetailDTO detail = new MenuOrderDetailDTO();
+            BeanUtils.copyProperties(menuOrder, detail);
 
+            Store store = storeRepository.findById(menuOrder.getStoreIdx()).orElse(null);
+            if (store != null) {
+                detail.setStoreName(store.getStoreName());
+                detail.setStoreCd(store.getStoreCd());
+            }
+
+            Room room = roomRepository.findById(menuOrder.getRoom().getRoomIdx()).orElse(null);
+            if (room != null){
+                detail.setRoomName(room.getRoomName());
+                detail.setRoomCd(room.getRoomCd());
+            }
+            Optional<Member> member = memberRepository.findByMemberIdx(menuOrder.getMemberIdx());
+            if (member != null){
+                detail.setMemberName(member.get().getMemberName());
+            }
+            return detail;
+        }).collect(Collectors.toList());
+    }
 
 
 

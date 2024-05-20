@@ -376,20 +376,17 @@ public class MemberpageController {
     }
 
     @GetMapping("/member/mypage/info")
-    public String infoForm(Principal principal, Model model) {
+    public String infoForm(MemberDTO memberDTO, Principal principal, Model model) {
 
-        Long memberIdx = Long.parseLong(principal.getName());
-        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
-        OrderHistoryDTO orderHistory = memberpageService.getOrderHistory(memberIdx);
+        memberDTO = memberService.memberInfoSearch(principal);
+
+        log.info(memberDTO);
 
 
+        model.addAttribute("memberDTO",memberDTO);
 
-        model.addAttribute("memberDTO", memberDTO);
-        model.addAttribute("orderHistory", orderHistory);
-        log.info(memberDTO.toString()  + ": 마이페이지 유저 데이터 ");
         return "member/mypage/info";
     }
-
 
     @GetMapping("/member/memberpage/question")
     public String questionForm(MemberDTO memberDTO, Principal principal, Model model) {

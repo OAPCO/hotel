@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+  <title>매장관리</title>
+  <link rel="stylesheet" href="/yhh.css">
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="card" style="margin: 50px 20px;">
+  <div class="card-body">
+    <div style="color:#44454e; font-size: 25px; margin-bottom: 10px;">
+      <h2 class="text-primary">메뉴 목록</h2>
+    </div>
+    <div class="table-responsive">
+      <table class="table body">
+        <thead>
+        <tr>
+          <th>No</th>
+          <th>매장명</th>
+          <th>룸 이름</th>
+          <th>주문코드</th>
+          <th>주문액</th>
+          <th>주문자</th>
+          <th>주문일자</th>
+          <th>상세보기</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${menuOrderDetailList}">
+          <td></td>
+          <td th:text="${order.storeName}"></td>
+          <td th:text="${order.roomName}"></td>
+          <td th:text="${order.menuorderCd}"></td>
+          <td th:text="${order.total}"></td>
+          <td th:text="${order.memberName}"></td>
+          <td th:text="${order.regdate}"></td>
+          <td>
+            <button class="btn btn-outline-primary detailed-view">상세보기</button>
+            <div class="detail-info" style="display: none;">
+              <table>
+                <tr th:each="menusheet : ${order.menuSheetDTOList}">
+                  <td>메뉴명:<span th:text="${menusheet.menuorderName}"></span></td>
+                  <td>가격:<span th:text="${menusheet.menuorderPrice}"></span></td>
+                  <td>갯수:<span th:text="${menusheet.menuorderQuantity}"></span></td>
+                  <td>총 가격:<span th:text="${menusheet.amountPrice}"></span></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+<!--      <td th:each="menusheet : ${order.menuSheetDTOList}">-->
+<!--        <span th:text="${menusheet.menuorderName}"></span>-->
+<!--        <span th:text="${menusheet.menuorderPrice}"></span>-->
+<!--        <span th:text="${menusheet.menuorderQuantity}"></span>-->
+<!--        <span th:text="${menusheet.amountPrice}"></span>-->
+<!--      </td>-->
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>

@@ -60,7 +60,6 @@ public class MemberpageService {
 
     public OrderHistoryDTO getOrderHistory(Long memberIdx) {
         List<MenuOrder> menuOrderList = menuOrderRepository.findByMemberIdx(memberIdx);
-        List<MenuSheet> menuSheetList = menuSheetRepository.findByMenuOrder_MemberIdx(memberIdx);
         List<RoomOrder> roomOrderList = roomOrderRepository.findAllByMemberIdx(memberIdx);
 
         List<RoomOrderDetailDTO> detailedRoomOrderDTOList = roomOrderList.stream().map(ro -> {
