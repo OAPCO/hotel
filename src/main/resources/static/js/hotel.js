@@ -196,19 +196,28 @@ let hotel = (function () {
                 const roomTypeDetailImages = response.roomTypeDetailImages;
                 const roomTypeMainImage = response.roomTypeMainImage;
 
-
-                console.log(roomTypeMainImage);
-
                 preview.innerHTML = '';
                 preview2.innerHTML = '';
 
-                // var mainImgName = roomTypeMainImage.
-                //
-                // var newimg = `<div>
-                //                 <img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${item.roomMainimgName}" width="400" height="200">
-                //                     </div>`;
-                //
-                // preview2.appendChild(newimg);
+
+                var mainImgName = roomTypeMainImage.imgName;
+
+                var detailimg = document.createElement('div');
+
+                roomTypeDetailImages.forEach(function(data) {
+                    detailimg.innerHTML = `<img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${data.imgName}" width="200" height="100">`;
+                    preview.appendChild(detailimg);
+                });
+
+
+
+                var img = document.createElement('div');
+                img.innerHTML = `<img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${mainImgName}" width="200" height="100">`;
+
+
+                preview2.appendChild(img);
+
+
 
                 // input2.addEventListener('change', function() {
                 //
