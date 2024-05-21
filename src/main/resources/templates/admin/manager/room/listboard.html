@@ -163,8 +163,7 @@
                 card.removeEventListener('click', handleCardClick);
                 card.className = 'card room-card';
 
-                // card.ondrop = drop;
-
+                card.addEventListener('click',roomCardClick);
 
                 var roomStatus = [];
                 switch (roomList[i].roomStatus) {
