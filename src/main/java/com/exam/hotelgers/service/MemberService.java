@@ -198,15 +198,12 @@ public class MemberService {
 
     public MemberDTO memberPointSearch(Principal principal) {
         String memberEmail = principal.getName();
-        List<Reward> rewardList = rewardRepository.findByMemberEmail(memberEmail);
-        List<Coupon> couponList = couponRepository.findByMemberEmail(memberEmail);
-
         Member member = memberRepository.findByMemberEmail(memberEmail)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
         MemberDTO memberDTO = modelMapper.map(member, MemberDTO.class);
-        memberDTO.setRewardList(rewardList);
-        memberDTO.setCouponList(couponList);
+        memberDTO.setRewardList(member.getRewardList());
+        memberDTO.setCouponList(member.getCouponList());
 
         return memberDTO;
     }
