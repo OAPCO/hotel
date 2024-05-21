@@ -213,8 +213,8 @@ public class MemberpageController {
 
 
 
-        //예약된 방 하나를 상태를 3으로 바꾼다.
-        roomService.roomStatusUpdate3(roomOrderDTO);
+        //예약된 방 하나를 상태를 1로 바꾼다.
+        roomService.roomStatusUpdate1(roomOrderDTO);
 
         //객실예약 추가
         roomOrderService.register(roomOrderDTO);

@@ -30,6 +30,7 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
     @Query("select i from Image i where (i.roomIdx = :roomIdx and i.roomImageMain = 1)")
     Optional<Image> roomMainImage (Long roomIdx);
 
+
     
 
 
@@ -83,6 +84,12 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
     //호텔의 비어있는 객실의 대표 이미지 목록을 만드는 쿼리
     @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomIdx = r.roomIdx JOIN Store s ON r.store.storeIdx = s.storeIdx where i.roomImageType like %:roomType%")
     List<Image> emptyRoomDetailMainImageSearch(List<String> roomType);
+
+
+
+
+    //객실타입으로 검색해서 기존에 있는 이미지로 등록을 하기
+    //storeidx와 객실타입이 일치하는 행들중 main이미지 컬럼이 1인 행을 찾아서
 
 
 

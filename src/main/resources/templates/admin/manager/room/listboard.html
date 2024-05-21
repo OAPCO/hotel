@@ -36,6 +36,10 @@
             background-color: #d0d0d0; /* 배경 색상, 필요에 따라 변경 */
             padding: 20px; /* 안쪽 여백 */
         }
+
+        .card.room-card.drag-over {
+            border: 2px solid blue; /* 파란색 경계선 */
+        }
     </style>
 
 </head>
@@ -95,9 +99,8 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/hotel.js"></script>
     <script th:inline="javascript">
-
-
 
         function roomRegister(element) {
 
@@ -160,17 +163,7 @@
                 card.removeEventListener('click', handleCardClick);
                 card.className = 'card room-card';
 
-
-                // card.ondrop = function(event) {
-                //     drop(event, roomList[i].roomIdx);
-                // };
-                // card.ondragover = allowDrop();
-                //
                 // card.ondrop = drop;
-
-                // card.ondrop = drag(roomList[i]);
-
-
 
 
                 var roomStatus = [];
@@ -185,7 +178,7 @@
                         roomStatus[i] = "[사용중]";
                         break;
                     case 3:
-                        roomStatus[i] = "[할당대기]";
+                        roomStatus[i] = "[빈 방]";
                         break;
                 }
 
@@ -212,20 +205,54 @@
 
 
         // 드래그를 시작할 때 호출되는 함수
-        // function drag(event) {
-        //     target = event.target;
-        //     roomOrderIdx = target.getAttribute('data-room-order-idx');
-        //     event.dataTransfer.setData("text/plain", roomOrderIdx);
-        //
-        //     console.log(roomOrderIdx);
-        // }
-        //
-        // function drop(e) {
-        //     const asd = e.roomIdx;
-        //
-        //     console.log("드롭완 + " + asd);
-        // }
+        function drag(event) {
+            target = event.target;
+            roomOrderIdx = target.getAttribute('data-room-order-idx');
+            event.dataTransfer.setData("text/plain", roomOrderIdx);
 
+        }
+
+
+        //객실이 채워져있는 카드에 드래그관련 이벤트들을 추가해준다.
+        document.querySelectorAll('.card.room-card').forEach(function(card) {
+
+            //마우스를 드래그오버 했을 때
+            card.addEventListener('dragover', function(event) {
+                event.preventDefault(); // 기본 동작 방지
+                console.log("드래그 오버 이벤트 발생");
+                card.classList.add('drag-over');
+            });
+
+            //드래그오버 끝내기
+            card.addEventListener('dragleave', function(event) {
+                card.classList.remove('drag-over'); // 드래그 오버 중인 클래스 제거
+            });
+
+            //드롭했을 떄
+            card.addEventListener('drop', function(event) {
+                event.preventDefault();
+                console.log("드롭 이벤트 발생");
+
+                var dropZone = event.target.closest('.card.room-card');
+                if (dropZone) {
+
+                    var roomCd = dropZone.id;
+                    var storeIdx = [[${storeDTO.storeIdx}]];
+
+                    console.log("드롭당한 카드아이디", roomCd);
+                    console.log("가져와진 룸오더idx : "+ roomOrderIdx);
+                    console.log("보유한 스토어idx : "+ storeIdx);
+
+                    //여기서 입실 쿼리문 실행하자.
+
+                    hotel.updateRoomCheckin(roomCd,roomOrderIdx,storeIdx);
+
+
+                }
+
+                card.classList.remove('drag-over'); // 드롭 이벤트 후 클래스 제거
+            });
+        });
 
     </script>
 
