@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
@@ -8,67 +7,58 @@
     <title>포인트내역</title>
 
 
-
 </head>
 <body>
-<div layout:fragment="title" ><h1 ><strong >포인트내역</strong></h1></div>
 <div layout:fragment="content">
-    <div id="form-container">
-        <div id="form-inner-container">
-            <!-- Sign up form -->
-            <div id="sign-up-container">
-                <h3>포인트사용,적립내역</h3>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>적립명</th>
-                        <th>적립액</th>
-                        <th>적립,사용</th>
-                        <th>날짜</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="reward : ${memberDTO.rewardList}">
-                        <td th:text="${reward.rewardName}">비빔밥</td>
-                        <td th:text="${reward.rewardAmount}">15,000</td>
-                        <td th:text="${reward.rewardPM}"></td>
-                        <td th:text="${#strings.substringBefore(reward.regdate, 'T')}">2024-05-22</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div style="text-align: right; margin-right: 10%" >
-                    총 적립액 : <span id="rewardtotal">500원</span>
-                </div>
+    <div class="container-fluid" style="max-width: 80%;">
+        <div id="sign-up-container">
+            <h3 style="padding-left: 210px;">포인트 적립내역</h3>
+            <table style="max-width: 100%; align-content: center">
+                <thead>
+                <tr>
+                    <th>적립명</th>
+                    <th>적립액</th>
+                    <th>적립,사용</th>
+                    <th>날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="reward : ${memberDTO.rewardList}">
+                    <td th:text="${reward.rewardName}">비빔밥</td>
+                    <td th:text="${reward.rewardAmount}">15,000</td>
+                    <td th:text="${reward.rewardPM}"></td>
+                    <td th:text="${#strings.substringBefore(reward.regdate, 'T')}">2024-05-22</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr style="height:1px; border:none; color:#ccc; background-color:#ccc;">
+            <div style="text-align: right; margin-right: 10%; padding-top: 10px;">
+                총 적립액 : <span id="rewardtotal">500원</span>
             </div>
         </div>
-    </div>
-    <p></p>
-    <div>
-        <div >
-            <!-- Sign up form -->
-            <div >
-                <h3>쿠폰</h3>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>쿠폰명</th>
-                        <th>할인 가격</th>
-                        <th>사용처</th>
-                        <th>사용 여부</th>
-                        <th>날짜</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="coupon : ${memberDTO.couponList}">
-                        <td th:text="${coupon.couponName}">첫 가입 기념 쿠폰</td>
-                        <td th:text="${coupon.couponPrice}">5,000원 할인</td>
-                        <td th:text="${coupon.detail}">메뉴 주문 시</td>
-                        <td th:text="${coupon.couponState}">미사용</td>
-                        <td th:text="${#strings.substringBefore(coupon.regdate, 'T')}">2024-05-22</td>                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
+        <p></p>
+        <div style="padding-top: 20px;">
+            <h3 style="padding-left: 210px;">쿠폰</h3>
+            <table style="max-width: 100%; align-content: center">
+                <thead>
+                <tr>
+                    <th>쿠폰명</th>
+                    <th>할인 가격</th>
+                    <th>사용처</th>
+                    <th>사용 여부</th>
+                    <th>날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="coupon : ${memberDTO.couponList}">
+                    <td th:text="${coupon.couponName}">첫 가입 기념 쿠폰</td>
+                    <td th:text="${coupon.couponPrice}">5,000원 할인</td>
+                    <td th:text="${coupon.detail}">메뉴 주문 시</td>
+                    <td th:text="${coupon.couponState}">미사용</td>
+                    <td th:text="${#strings.substringBefore(coupon.regdate, 'T')}">2024-05-22</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <script th:inline="javascript">
@@ -76,8 +66,8 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             const rewards = /*[[${memberDTO.rewardList}]]*/ [];
             let total = 0;
-            for(let reward of rewards){
-                if(reward.rewardPM === '사용'){
+            for (let reward of rewards) {
+                if (reward.rewardPM === '사용') {
                     total -= reward.rewardAmount;
                 } else {
                     total += reward.rewardAmount;

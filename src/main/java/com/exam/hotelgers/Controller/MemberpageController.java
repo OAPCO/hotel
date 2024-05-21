@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +60,7 @@ public class MemberpageController {
     private final StoreRepository storeRepository;
     private final PaymentService paymentService;
     private final NoticeService noticeService;
+
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -260,6 +263,41 @@ public class MemberpageController {
 //        모든 조건 충족 시 아래 링크로 이동
         return "redirect:/member/memberpage/menuorder/" + storeIdx;
     }
+
+
+    @GetMapping("/member/memberpage/roomordercheck")
+    public String Roomordercheckform(Principal principal) throws Exception {
+        // 유저의 로그인 상태 확인
+        if (principal == null) {
+            return "redirect:/member/login";
+        }
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+        log.info(memberDTO.getMemberIdx());
+
+        // 해당 회원이 예약을 했다면
+        Optional<RoomOrder> optedRoomOrder = roomOrderRepository.findByMemberIdx(memberDTO.getMemberIdx());
+
+        if (!optedRoomOrder.isPresent()) {
+
+            return "redirect:/member/memberpage/Roomordererror";
+        }
+
+        //오늘 날짜와 예약된 날짜 체크. 변환 후 시행
+        RoomOrder roomOrder = optedRoomOrder.get();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Adjust this based on your date format
+        LocalDate checkinDate = LocalDate.parse(roomOrder.getCheckinTime(), formatter);
+        LocalDate checkoutDate = LocalDate.parse(roomOrder.getCheckoutTime(), formatter);
+        LocalDate now = LocalDate.now();
+
+        if ((now.isEqual(checkinDate) || now.isAfter(checkinDate)) && now.isBefore(checkoutDate)) {
+            roomOrder.setRoomStatus(2);
+            roomOrderRepository.save(roomOrder);
+        }
+
+        return "redirect://member/mypage/history";
+    }
+
 
     @GetMapping("/member/memberpage/menuorder/{storeIdx}")
     public String menuorderform(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
