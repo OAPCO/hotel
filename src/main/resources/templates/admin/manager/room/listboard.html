@@ -151,6 +151,11 @@
 
         createCards(60, 12);
 
+        var roomIdx;
+        var storeIdx = [[${storeDTO.storeIdx}]];
+
+        console.log("스토엉아이이디엑스ㅇㅇ"+storeIdx);
+
         for (let i = 0; i < roomList.length; i++) {
 
             console.log(roomList[i]);
@@ -160,10 +165,24 @@
 
             if(card) {
 
+                //기존 빈 룸 카드에 있던 클릭이벤트를 삭제한다.
                 card.removeEventListener('click', handleCardClick);
+
+                //클래스네임을 재설정하고
                 card.className = 'card room-card';
 
-                card.addEventListener('click',roomCardClick);
+                //roomCd와 storeIdx로 roomIdx를 구한다
+                roomIdx = hotel.roomIdxFind(roomCd,storeIdx);
+                console.log(roomIdx);
+
+                //구한 roomIdx로 링크를 만든다.
+                var link = "/admin/manager/room/" + roomIdx;
+                console.log("링크 :", link);
+
+                //카드 클릭시 해당 이벤트로 이동하는 클릭이벤트를 추가한다.
+                card.addEventListener('click', function() {
+                    window.location.href = link;
+                });
 
                 var roomStatus = [];
                 switch (roomList[i].roomStatus) {

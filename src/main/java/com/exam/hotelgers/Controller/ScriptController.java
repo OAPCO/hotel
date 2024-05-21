@@ -178,6 +178,17 @@ public class ScriptController {
     }
 
 
+    //룸cd로 룸 찾기
+    @GetMapping(value = "/roomcheckin")
+    public Long findRoomIdxProc(Long storeIdx,String roomCd) throws Exception {
+
+        //roomidx 찾기
+        Long roomIdx = roomRepository.searchRoomIdx(roomCd,storeIdx);
+
+        return roomIdx;
+    }
+
+
 
     //객실생성 페이지에서 객실 타입 정보 불러오기
     @GetMapping(value = "/roomtypedata")

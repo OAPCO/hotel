@@ -315,6 +315,28 @@ let hotel = (function () {
     };
 
 
+    function roomIdxFind(roomCd,storeIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/roomidxfind',
+            data: {
+                roomCd: roomCd,
+                storeIdx: storeIdx
+            },
+
+            success: function(response) {
+
+                roomIdx = response;
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
 
 
     //값 반환
@@ -325,7 +347,8 @@ let hotel = (function () {
         searchEmptyRoom : searchEmptyRoom,
         searchRoomTypeImage : searchRoomTypeImage,
         updateRoomCheckin : updateRoomCheckin,
-        searchRoomTypeData : searchRoomTypeData
+        searchRoomTypeData : searchRoomTypeData,
+        roomIdxFind : roomIdxFind
     };
 
 })();
