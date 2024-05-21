@@ -464,7 +464,16 @@ public class MemberpageController {
         return "member/memberpage/qnacenter";
     }
 
+    @GetMapping("/member/memberpage/announcement")
+    public String announcementForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        Page<NoticeDTO> noticeDTOS = noticeService.list(pageable);
 
+        Map<String, Integer> pageinfo = PageConvert.Pagination(noticeDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", noticeDTOS);
+        return "member/memberpage/announcement";
+    }
 
 
     @GetMapping("/member/mypage/point")

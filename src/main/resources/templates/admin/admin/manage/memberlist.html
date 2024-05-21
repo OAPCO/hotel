@@ -88,9 +88,9 @@
                         </th:block>
 
                         <th:block th:switch="${data.roleType.name()}">
-                            <td th:case="DISTCHIEF" th:text="${data.distChiefId}"></td>
-                            <td th:case="MANAGER" th:text="${data.managerId}"></td>
-                            <td th:case="USER" th:text="${data.memberId}"></td>
+                            <td th:case="DISTCHIEF" th:text="${data.distChiefEmail}"></td>
+                            <td th:case="MANAGER" th:text="${data.managerEmail}"></td>
+                            <td th:case="USER" th:text="${data.memberEmail}"></td>
                         </th:block>
 
                         <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
