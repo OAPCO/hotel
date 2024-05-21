@@ -28,16 +28,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>비빔밥</td>
-                        <td>15,000</td>
-                        <td>+30(+파랑)-(빨강)</td>
-                        <td>01/13/1979</td>
+                    <tr th:each="reward : ${memberDTO.rewardList}">
+                        <td th:text="${reward.rewardName}">비빔밥</td>
+                        <td th:text="${reward.rewardAmount}">15,000</td>
+                        <td th:text="${reward.rewardPM}"></td>
+                        <td th:text="${#dates.format(reward.regdate, 'yyyy-MM-dd')}">2024-05-22</td>
                     </tr>
                     </tbody>
                 </table>
+                <div style="text-align: right; margin-right: 10%" >
+                    총 적립액 : <span id="rewardtotal">500원</span>
+                </div>
             </div>
-
         </div>
     </div>
     <p></p>
@@ -57,23 +59,34 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>첫 가입 기념 쿠폰</td>
-                        <td>5,000원 할인</td>
-                        <td>메뉴 주문 시</td>
-                        <td>미사용</td>
-                        <td>2024-05-22</td>
-                    </tr>
+                    <tr th:each="coupon : ${memberDTO.couponList}">
+                        <td th:text="${coupon.couponName}">첫 가입 기념 쿠폰</td>
+                        <td th:text="${coupon.couponPrice}">5,000원 할인</td>
+                        <td th:text="${coupon.detail}">메뉴 주문 시</td>
+                        <td th:text="${coupon.couponState}">미사용</td>
+                        <td th:text="${#dates.format(coupon.regdate, 'yyyy-MM-dd')}">2024-05-22</td>                    </tr>
                     </tbody>
                 </table>
             </div>
 
         </div>
     </div>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const rewards = /*[[${memberDTO.rewardList}]]*/ [];
+            let total = 0;
+            for(let reward of rewards){
+                if(reward.rewardPM === '사용'){
+                    total -= reward.rewardAmount;
+                } else {
+                    total += reward.rewardAmount;
+                }
+            }
+            document.getElementById("rewardtotal").innerText = total + "원";
+        });
+        /*]]>*/
+    </script>
 </div>
-
-
-
-
 </body>
 </html>

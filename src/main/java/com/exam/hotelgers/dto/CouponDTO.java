@@ -22,8 +22,8 @@ public class CouponDTO {
     private String couponPrice;//할인액
 
     private String couponState;//사용여부
-
-    private Member member; //멤버에 묶임
+    private String detail; //상세설명
+    private String memberId; //멤버에 묶임
     private LocalDateTime regdate;
     private LocalDateTime moddate;
 

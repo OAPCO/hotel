@@ -524,8 +524,11 @@
             if (!memberId) {
                 alert("로그인 먼저 해주세요");
                 window.location.href = "/member/login"; // 로그인 전이면 로그인 페이지로 이동
+            // } else if (localStorage.getItem(memberId)) {
+            //     alert("이미 쿠폰을 발급 받으셨습니다."); // 이미 쿠폰을 받은 경우
             } else {
-                alert("쿠폰이 발급되었습니다"); // 이미 로그인 상태이면 알림창 띄우기
+                alert("쿠폰이 발급되었습니다"); // 로그인 상태이면서 쿠폰을 아직 받지 않은 경우
+                // localStorage.setItem(memberId, true);  // 쿠폰을 받았음을 저장
                 sendCouponData();
             }
         }
@@ -541,6 +544,7 @@
                     couponName: "첫 주문 쿠폰",
                     couponPrice: 5000,
                     couponState: "사용 가능",
+                    detail: "15000원 이상 구매 시 사용 가능",
                     memberId: memberId
                 })
             }).then(response => {
