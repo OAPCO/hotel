@@ -164,13 +164,13 @@ let hotel = (function () {
                         <tr>
                             <td>${item.roomType}</td>
                             <td>
-                                <img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${item.roomMainimgName}" width="400" height="200">
+                                <img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${item.roomMainimgName}" width="400" height="200" class="notEmptyRoom">
                             </td>
                             <td>
                                 가격 : ${item.roomPrice}
                             </td>
                             <td>
-                                <button class="btn button reserve-btn" type="button" data-room-idx="${item.roomIdx}" data-room-type="${item.roomType}" data-room-price="${item.roomPrice}">예약하기</button>
+                                 <span class="badge bg-info custom-badge">매진</span>
                             </td>
                         </tr>`;
                     emptyRoomResultTable.append(newRow);
@@ -212,6 +212,40 @@ let hotel = (function () {
 
 
 
+
+
+    function searchRoomTypeData(roomType,storeIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/roomtypedata',
+            dataType: 'json',
+            data: {
+                roomType: roomType,
+                storeIdx: storeIdx
+            },
+
+            success: function(response) {
+
+                console.log("성공 정보얻음 : " + response.roomType);
+
+                var roomPrice = response.roomPrice;
+                document.getElementById('roomPrice').value = roomPrice;
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
+
+
+
+
     function searchRoomTypeImage(searchDTO){
 
         $.ajax({
@@ -247,28 +281,30 @@ let hotel = (function () {
                 preview2.appendChild(img);
 
 
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
 
-                // input2.addEventListener('change', function() {
-                //
-                //
-                //     const files = this.files;
-                //     for (const file of files) {
-                //         const reader = new FileReader();
-                //
-                //         reader.onload = function(e) {
-                //             const img = document.createElement('img');
-                //             img.src = e.target.result;
-                //             img.style.maxWidth = '200px'; // 이미지 최대 너비 설정
-                //             img.style.marginRight = '10px'; // 이미지 간격 설정
-                //             preview2.appendChild(img);
-                //         }
-                //
-                //         reader.readAsDataURL(file);
-                //     }
-                // });
+    };
 
 
+    function updateRoomCheckin(roomCd,roomorderIdx,storeIdx){
 
+        $.ajax({
+            type: 'GET',
+            url: '/roomcheckin',
+            data: {
+                roomCd: roomCd,
+                roomorderIdx: roomorderIdx,
+                storeIdx: storeIdx
+            },
+
+            success: function(response) {
+                
+                console.log("체크인 업데이트 완료")
+                location.reload();
 
             },
             error: function(xhr, status, error) {
@@ -280,13 +316,16 @@ let hotel = (function () {
 
 
 
+
     //값 반환
     return {
         selectDistOfStore  : selectDistOfStore,
         selectDistAndBrandOfStore : selectDistAndBrandOfStore,
         registerDistOfStore : registerDistOfStore,
         searchEmptyRoom : searchEmptyRoom,
-        searchRoomTypeImage : searchRoomTypeImage
+        searchRoomTypeImage : searchRoomTypeImage,
+        updateRoomCheckin : updateRoomCheckin,
+        searchRoomTypeData : searchRoomTypeData
     };
 
 })();

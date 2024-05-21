@@ -44,8 +44,7 @@ public class RoomService {
     private final S3Uploader s3Uploader;
 
 
-
-    public Long register(RoomDTO roomDTO,List<MultipartFile> imgFiles,MultipartFile mainimgFile) throws IOException {
+    public Long register(RoomDTO roomDTO, List<MultipartFile> imgFiles, MultipartFile mainimgFile) throws IOException {
 
         Optional<Store> store = storeRepository.storeNameSearch(roomDTO.getStoreDTO().getStoreName());
 
@@ -77,10 +76,10 @@ public class RoomService {
 
         String roomType = room.getRoomType();
 
-        imageService.roomImageregister(imgFiles,roomIdx,roomType);
+        imageService.roomImageregister(imgFiles, roomIdx, roomType);
 
         //대표파일의 이름을 반환받아온다.
-        String imgName = imageService.roomMainImageregister(mainimgFile,roomIdx,roomType);
+        String imgName = imageService.roomMainImageregister(mainimgFile, roomIdx, roomType);
 
         //그 이름을 엔티티 대표이미지속성에 집어넣는다.
         room.setRoomMainimgName(imgName);
@@ -90,11 +89,6 @@ public class RoomService {
 
         return roomIdx;
     }
-
-
-
-
-
 
 
     public void modify(RoomDTO newRoom, @Nullable MultipartFile imgFile) throws IOException {
@@ -172,7 +166,6 @@ public class RoomService {
     }
 
 
-
     public void delete(Long roomIdx) throws IOException {
 
         Room room = roomRepository
@@ -214,15 +207,19 @@ public class RoomService {
 
 
     @Transactional
-    public void roomStatusUpdate(RoomOrderDTO roomOrderDTO){
+    public void roomStatusUpdate(RoomOrderDTO roomOrderDTO) {
         roomRepository.roomStatusUpdate(roomOrderDTO);
     }
 
     @Transactional
-    public void roomStatusUpdate3(RoomOrderDTO roomOrderDTO){
-        roomRepository.roomStatusUpdate3(roomOrderDTO);
+    public void roomStatusUpdate1(RoomOrderDTO roomOrderDTO) {
+        roomRepository.roomStatusUpdate1(roomOrderDTO);
     }
 
+    @Transactional
+    public void roomStatusUpdate2(Long roomIdx, Long roomorderIdx) {
+        roomRepository.roomStatusUpdate2(roomIdx, roomorderIdx);
+    }
 
 
     public List<RoomDTO> roomTypeSearch(Long storeIdx) {
@@ -239,10 +236,28 @@ public class RoomService {
     }
 
 
+    //특정 객실의 정보 찾기
+    public RoomDTO roomTypeSearchOne(Long storeIdx,String roomType){
+
+        Optional<Room> room = roomRepository.roomTypeSearchOne(storeIdx,roomType);
+
+        return modelMapper.map(room,RoomDTO.class);
+    }
 
 
+    public RoomDTO notEmptyroomTypeSearch(Long storeIdx, String roomType) {
 
-    public List<RoomDTO> emptyRoomSearch(SearchDTO searchDTO){
+
+        Optional<Room> room = roomRepository.notEmptyRoomTypeSearch(storeIdx, roomType);
+
+
+        RoomDTO roomDTO = modelMapper.map(room, RoomDTO.class);
+
+        return roomDTO;
+    }
+
+
+    public List<RoomDTO> emptyRoomSearch(SearchDTO searchDTO) {
 
         List<Room> emptyRoomList = roomRepository.searchEmptyRoom(searchDTO);
 
@@ -253,6 +268,43 @@ public class RoomService {
 
         return roomDTOS;
     }
+
+
+    public List<RoomDTO> notEmptyRoomSearch(Long storeIdx, List<RoomDTO> emptyRoomTypes, List<RoomDTO> roomTypes) {
+
+        List<RoomDTO> notEmptyRoomTypes = new ArrayList<>();
+
+        List<String> allRoomTypeString = new ArrayList<>();
+        List<String> emptyRoomTypeString = new ArrayList<>();
+        List<String> notemptyRoomTypeString = new ArrayList<>();
+
+        //중복없는 전체 객실의 타입명만 String list에 담음 - 일반실,특실,파티룸
+        for (RoomDTO roomTypeString : roomTypes) {
+            allRoomTypeString.add(roomTypeString.getRoomType());
+        }
+
+        //중복없는 빈 객실의 타입명을 String list에 담음 - 일반실
+        for (RoomDTO roomTypeString : emptyRoomTypes) {
+            emptyRoomTypeString.add(roomTypeString.getRoomType());
+        }
+
+
+        //전체객실 만큼 반복
+        for (String roomType : allRoomTypeString) {
+            if (!emptyRoomTypeString.contains(roomType)) {
+                notemptyRoomTypeString.add(roomType);
+            }
+        }
+
+
+        //얻어낸 roomType String 배열로 roomType 객체 리스트를 구한다.
+        for (String notEmptyroomType : notemptyRoomTypeString) {
+            notEmptyRoomTypes.add(this.notEmptyroomTypeSearch(storeIdx, notEmptyroomType));
+        }
+
+        return notEmptyRoomTypes;
+    }
+
 
 
 

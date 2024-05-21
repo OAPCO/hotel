@@ -85,7 +85,8 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-flex">
-                                <div class="flex-grow-1 bg-login-image" style="background-image: url(&quot;assets/img/dogs/image3.jpeg&quot;);"></div>
+                                <div class="flex-grow-1 bg-login-image" style=" margin:5px; border-radius:5px; background-image: url('/assets2/img/login.png'); background-size: cover; background-position: center;"></div>
+
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
@@ -97,10 +98,7 @@
                                         <div class="mb-3"><input class="form-control form-control-user" type="email" id="userid" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="userid"></div>
                                         <div class="mb-3"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password"></div>
                                         <div>
-                                            <select class="d-inline-block form-select form-select-sm" name="distName" id="distSelect">
-                                                <option value="">전체</option>
-                                                <option th:each="storeDTOS : ${storeDTOS}" th:value="${storeDTOS.storeName}" th:text="${storeDTOS.storeName}"></option>
-                                            </select>
+
                                         </div>
                                         <div class="mb-3">
                                             <div class="custom-control custom-checkbox small">
@@ -108,14 +106,14 @@
                                             </div>
                                         </div><button class="btn btn-primary d-block btn-user w-100" type="submit">Login</button>
                                         <hr>
-                                        <a href="/oauth2/authorization/google" class="btn btn-primary d-block btn-google btn-user w-100 mb-2" role="button"><i class="fab fa-google"></i>&nbsp; Login with Google</a>
+                                        <a href="/oauth2/authorization/google" class="btn btn-primary d-block btn-google btn-user w-100 mb-2" role="button" style="margin-left: 2px"><i class="fab fa-google"></i>&nbsp; Login with Google</a>
 <!--                                        <a class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Login with Facebook</a>-->
-                                        <a href="javascript:kakaoLogin()" class="btn btn-warning w-100" role="button" >&nbsp; 카카오톡 로그인</a>
+                                        <a href="javascript:kakaoLogin()" class="btn btn-warning w-100" role="button" ><i class="fa-solid fa-comment"></i>&nbsp;&nbsp; kakao login</a>
                                         <p id="token-result"></p>
                                         <hr>
                                     </form>
                                     <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>
-                                    <div class="text-center"><a class="small" href="../../../../../../새%20폴더/register.html">Create an Account!</a></div>
+                                    <div class="text-center"><a class="small" href="/member/register">Create an Account!</a></div>
                                 </div>
                             </div>
                         </div>

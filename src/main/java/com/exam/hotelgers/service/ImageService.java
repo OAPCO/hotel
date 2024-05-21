@@ -68,6 +68,9 @@ public class ImageService {
 
 
 
+
+
+
     //객실 세부 이미지 생성
     public void roomImageregister(List<MultipartFile> imgFiles, Long roomIdx, String roomType) throws IOException {
 
@@ -116,6 +119,29 @@ public class ImageService {
 
 
 
+    public String roomMainImageregister2(MultipartFile mainimgFile, Long roomIdx, String roomType) throws IOException {
+
+        String originalFileName = mainimgFile.getOriginalFilename();
+        String newFileName = "";
+
+        if (originalFileName != null) {
+            newFileName = s3Uploader.upload(mainimgFile, imgUploadLocation);
+        }
+
+        Image image = new Image();
+        image.setImgName(newFileName);
+        image.setRoomIdx(roomIdx);
+        image.setRoomImageType(roomType);
+        image.setRoomImageMain(1);
+
+        imageRepository.save(image);
+
+        return newFileName;
+    }
+
+
+
+
 
 
     public List<ImageDTO> getBannerImages(Long bannerIdx) {
@@ -144,6 +170,8 @@ public class ImageService {
 
         return imageDTOS;
     }
+
+
 
     public List<ImageDTO> roomMainImageSearch(Long StoreIdx) {
 

@@ -50,6 +50,25 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     List<Room> roomTypeSearch(Long storeIdx);
 
 
+    //호텔의 특정 roomType의 정보 불러오는 쿼리 (사용처 : 매니저의 객실 생성 페이지 - roomregister)
+    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
+            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+            "and r1.store.storeIdx = :storeIdx " +
+            "and r1.roomType LIKE %:roomType%")
+    Optional<Room> roomTypeSearchOne(Long storeIdx,String roomType);
+
+
+
+    //예약불가 객실 찾는 쿼리
+    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
+            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+            "and r1.store.storeIdx = :storeIdx " +
+            "and r1.roomType LIKE %:roomType%")
+    Optional<Room> notEmptyRoomTypeSearch(Long storeIdx, String roomType);
+    
+    
+
+
     //객실 상태 변경
     @Modifying
     @Query("update Room r set " +
@@ -58,18 +77,28 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     void roomStatusUpdate(RoomOrderDTO roomOrderDTO);
 
 
-    //예약을 받았을 때 객실 하나의 status를 3으로 바꿔야하기때문에 필요한 쿼리.
+    //예약을 받았을 때 객실 하나의 status를 1로 바꿔야하기때문에 필요한 쿼리.
     @Modifying
     @Query("update Room r set " +
-            "r.roomStatus = 3 " +
+            "r.roomStatus = 1 " +
             "where r.roomIdx = :#{#roomOrderDTO.roomIdx}")
-    void roomStatusUpdate3(RoomOrderDTO roomOrderDTO);
+    void roomStatusUpdate1(RoomOrderDTO roomOrderDTO);
 
 
 
+    //체크인 했을 때 객실 상태를 2로 변경한다.
+    @Modifying
+    @Query("UPDATE Room r " +
+            "SET r.roomStatus = 2 " +
+            "WHERE r.roomIdx = :roomIdx " +
+            "AND EXISTS (SELECT 1 FROM RoomOrder o WHERE o.roomIdx = r.roomIdx AND o.roomorderIdx = :roomorderIdx)")
+    void roomStatusUpdate2(Long roomIdx, Long roomorderIdx);
 
 
 
+    //해당 매장의 roomCd로 roomIdx를 구한다. (다음 쿼리를 위한 물밑작업)
+    @Query(value = "SELECT r.roomIdx FROM Room r WHERE r.roomCd LIKE %:roomCd% and r.store.storeIdx = :storeIdx")
+    Long searchRoomIdx(String roomCd,Long storeIdx);
 
 
 }

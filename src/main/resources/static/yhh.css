@@ -81,6 +81,7 @@ table.body th{
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: border-color 0.5s ease;
 }
 
 .room-empty {
@@ -200,4 +201,34 @@ table.body th{
     border-radius: 4px; /* 버튼 모서리를 둥글게 */
     cursor: pointer; /* 마우스 커서를 포인터로 변경하여 클릭 가능성 표시 */
     text-decoration: none; /* 기본 텍스트 밑줄 제거 */
+}
+
+
+.notEmptyRoom{
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+.notEmptyRoom::after {
+    content: "예약 불가";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    text-align: center;
+}
+.custom-badge {
+    font-size: 1.2em;  /* 기본 폰트 크기 */
+    padding: 1em 1.5em;  /* 텍스트에 맞춘 패딩 */
+    border-radius: 0;  /* 직사각형 모양 */
+    display: inline-block;  /* 인라인 블록으로 설정 */
+}
+
+.custom-badge.bg-info {
+    background-color: #4e5d78;  /* Bootstrap의 bg-info 색상 */
+    color: white;  /* 텍스트 색상 */
 }

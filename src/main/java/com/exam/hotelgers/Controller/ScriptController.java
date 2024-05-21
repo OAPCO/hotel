@@ -2,6 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.repository.MemberRepository;
+import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -38,6 +39,7 @@ public class ScriptController {
     private final MemberService memberService;
     private final RoomService roomService;
     private final ImageService imageService;
+    private final RoomRepository roomRepository;
 
 
     @Value("${cloud.aws.s3.bucket}")
@@ -100,34 +102,10 @@ public class ScriptController {
         String loginInfo = memberService.kakaoregister(userInfo, memberDTO);
 
 
-
-        // Extract the email and password from the returned loginInfo
         String[] loginDetails = loginInfo.split(":");
         String memberEmail = loginDetails[0];
         String memberPassword = loginDetails[1];
         log.info(memberEmail + memberPassword);
-
-
-//        log.info("로그인 시도중 : 아이디 - " + memberEmail);
-//        log.info("로그인 시도중 : 비밀번호 - " + memberPassword);
-//
-//        model.addAttribute("loginInfo",loginInfo);
-
-
-
-//        // Create a map to hold the login details
-//        Map<String, String> loginPayload = new HashMap<>();
-//        loginPayload.put("userid", memberEmail);
-//        loginPayload.put("password", memberPassword);
-//
-//        // Send a POST request to the member/login endpoint
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(loginPayload, headers);
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        log.info("카카오 로그인 전송 "+requestEntity);
-//        ResponseEntity<String> response = restTemplate.postForEntity("/member/login", requestEntity, String.class);
 
 
             return loginInfo;
@@ -136,20 +114,8 @@ public class ScriptController {
 
 
 
-
-    //객실 사진 상세보기 페이지
-//    @GetMapping(value = "/roomimage/{roomIdx}",consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-//    public List<ImageDTO> roomreadform(Model model, @PathVariable Long roomIdx) throws Exception {
-//
-//
-//        List<ImageDTO> imageDTOS = imageService.roomImageSearch(roomIdx);
-//
-//        return imageDTOS;
-//    }
-
-
     @GetMapping(value = "/emptyroom", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RoomDTO> hotelreadProc(SearchDTO searchDTO) throws Exception {
+    public Map<String, Object> hotelreadProc(SearchDTO searchDTO) throws Exception {
 
 
         log.info("서치dto의 storeIdx 확인 : "+ searchDTO.getStoreIdx());
@@ -157,19 +123,21 @@ public class ScriptController {
 
         List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
 
-        Long storeIdx = searchDTO.getStoreIdx();
+        //전체 객실 중복없이 호출. 반환은 안할거임.
+        List<RoomDTO> roomTypes = roomService.roomTypeSearch(searchDTO.getStoreIdx());
 
 
-        //이거 가격 들어갔느닞 확인해야함.
-        for (RoomDTO asd : emptyRoomTypes){
-            log.info("객실 가격 확인~!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" + asd.getRoomPrice());
-        }
+        //위 두 결과를 이용하여 매진 된 객실타입 목록을 만들어냄.
+        List<RoomDTO> notEmptyRoomTypes = roomService.notEmptyRoomSearch(searchDTO.getStoreIdx(),emptyRoomTypes,roomTypes);
 
 
-        log.info("생성됏는지확인@@@@!#@!#@" + emptyRoomTypes);
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("emptyRoomTypes", emptyRoomTypes);
+        result.put("notEmptyRoomTypes", notEmptyRoomTypes);
 
 
-        return emptyRoomTypes;
+        return result;
     }
 
 
@@ -183,12 +151,6 @@ public class ScriptController {
         List<ImageDTO> roomTypeDetailImages = imageService.roomTypeDetailImageSearch(searchDTO);
         ImageDTO roomTypeMainImage = imageService.roomTypeMainImageSearch(searchDTO);
 
-//        List<String> detailImgs = new ArrayList<>();
-//        for (ImageDTO imgs : roomTypeDetailImages){
-//            detailImgs.add(imgs.getImgName());
-//        }
-//
-//        String mainImg = roomTypeMainImage.getImgName();
 
 
         result.put("roomTypeDetailImages", roomTypeDetailImages);
@@ -198,21 +160,39 @@ public class ScriptController {
     }
 
 
-    //객실 생성 페이지에서 선택한 객실
-//    @GetMapping(value = "/roomtypeimage", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-//    public Map<String, Object> roomTypeImageReadProc(SearchDTO searchDTO) throws Exception {
-//
-//        Map<String, Object> result = new HashMap<>();
-//
-//        List<ImageDTO> RoomTypeDetailImages = imageService.roomTypeDetailImageSearch(searchDTO);
-//        ImageDTO RoomTypeMainImage = imageService.roomTypeMainImageSearch(searchDTO);
-//
-//
-//        result.put("RoomTypeDetailImages", RoomTypeDetailImages);
-//        result.put("RoomTypeMainImage", RoomTypeMainImage);
-//
-//        return result;
-//    }
+
+
+    //체크인 했을 때 컨트롤러
+    @GetMapping(value = "/roomcheckin")
+    public void roomCheckinProc(Long storeIdx,String roomCd, Long roomorderIdx) throws Exception {
+
+        //roomidx 찾기
+        Long roomIdx = roomRepository.searchRoomIdx(roomCd,storeIdx);
+
+        //체크인상태로 변경
+        roomService.roomStatusUpdate2(roomIdx,roomorderIdx);
+
+    }
+
+
+
+    //객실생성 페이지에서 객실 타입 정보 불러오기
+    @GetMapping(value = "/roomtypedata")
+    public RoomDTO roomTypeDataSearch(Long storeIdx, String roomType) throws Exception {
+
+        log.info("로그화긴@@ + " + storeIdx);
+        log.info("로그화긴@@ + " + roomType);
+
+
+        RoomDTO roomDTO = roomService.roomTypeSearchOne(storeIdx,roomType);
+
+        log.info("룸디티오 머임@@" + roomDTO);
+
+        return roomDTO;
+
+    }
+
+    
 
 
 

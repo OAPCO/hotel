@@ -6,6 +6,7 @@
 
 <head>
     <title>매장 안내</title>
+    <link rel="stylesheet" href="/yhh.css">
     <style>
         .darkroom {
             background-color: #696969; /* 원하는 어두운 색으로 설정 */
@@ -43,6 +44,65 @@
                 flex: 8;
 
             }
+        }
+        .select-box {
+            border: 1px solid #ccc;
+            width: 200px;
+            padding: 10px;
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .selected {
+            padding: 5px 0;
+        }
+
+        .options {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 5px;
+            z-index: 10;
+        }
+
+        .option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px;
+            cursor: default;
+        }
+
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+
+        button.minus, button.plus {
+            font-weight: bold;
+            color: #333;
+            width: 30px;
+            height: 30px;
+            border: none;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button.minus:hover, button.plus:hover {
+            background-color: #ddd;
+        }
+
+        .label {
+            flex-grow: 1;
+            text-align: center;
         }
     </style>
 
@@ -241,7 +301,23 @@
                                     투숙인원 :
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" name="peopleNum">
+                                    <body>
+                                    <div class="select-box" onclick="toggleOptions()">
+                                        <div class="selected">선택</div>
+                                        <div class="options">
+                                            <div class="option">
+                                                <i class="fa-solid fa-user"></i>
+                                                <button class="minus" onclick="handleMinusClick(event, '성인')">-</button>
+                                                <span class="label">성인</span>
+                                                <button class="plus" onclick="handlePlusClick(event, '성인')">+</button>
+                                            </div>
+                                            <div class="option">
+                                                <button class="minus" onclick="handleMinusClick(event, '아동')">-</button>
+                                                <span class="label">아동</span>
+                                                <button class="plus" onclick="handlePlusClick(event, '아동')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             </thead>
@@ -277,7 +353,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/hotel.js"></script>
+    <script>
+        function toggleOptions() {
+            const options = document.querySelector('.options');
+            options.style.display = options.style.display === 'block' ? 'none' : 'block';
+        }
 
+        function handleMinusClick(event, label) {
+            event.stopPropagation(); // 이벤트 전파 방지
+        }
+
+        function handlePlusClick(event, label) {
+            event.stopPropagation(); // 이벤트 전파 방지
+
+        }
+
+        document.addEventListener('click', function(event) {
+            const selectBox = document.querySelector('.select-box');
+            const options = document.querySelector('.options');
+            if (!selectBox.contains(event.target)) {
+                options.style.display = 'none';
+            }
+        });
+    </script>
     <script>
 
 

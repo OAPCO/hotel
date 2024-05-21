@@ -14,20 +14,26 @@
     <link rel="stylesheet" href="/yhh.css">
 </head>
 
-<body style="background-color: #fdeefb">
+<body>
 
-        <h4 class="card-title">객실 관리</h4>
     <div class="card">
         <div class="card-header">
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
                 객실 등록
             </div>
             <form method="post" th:action="@{/window/roomregister}" enctype="multipart/form-data" onsubmit="submitFormAndCloseWindow()">
-            <div class="table-responsive">
+                <input type="hidden" name="roomCd" id="roomCd">
+
+                <div class="table-responsive">
                 <table class="table head">
 
                     <thead>
                     <tr>
+
+                        <th>객실명</th>
+                        <td>
+                            <input type="text" name="roomName" id="roomName">
+                        </td>
                         <th>총판명</th>
                         <td>
                             <input type="text" th:value="${distDTO.distName}" name="distDTO.distName" readonly="readonly" style="background-color: #F0F0F0">
@@ -37,15 +43,6 @@
                             <input type="text" th:value="${storeDTO.storeName}" name="storeDTO.storeName" readonly="readonly" style="background-color: #F0F0F0">
                             <input type="hidden" th:value="${storeDTO.storeIdx}" id="storeIdx">
                         </td>
-                    </tr>
-                    <tr>
-                        <th>객실명</th>
-                        <td>
-                            <input type="text" name="roomName" id="roomName">
-                        </td>
-
-
-                            <input type="hidden" name="roomCd" id="roomCd">
 
                     </tr>
                     <tr>
@@ -73,7 +70,7 @@
 
                         <th>가격</th>
                         <td class="col>">
-                            <input type="text" class="form-control" name="roomPrice">
+                            <input type="text" class="form-control" name="roomPrice" id="roomPrice">
                         </td>
                     </tr>
 
@@ -121,15 +118,20 @@
                     customRoomTypeInput.name = null;
                     roomTypeSelect.name = 'roomType';
 
-                    //이 자리에 이미지 불러오기 추가
 
+
+                    //이 자리에 객실타입의 이미지, 객실타입의 정보 불러오기
                     var searchDTO = {
                         roomType : $('#roomType').val(),
                         storeIdx: $('#storeIdx').val()
                     };
 
-                    hotel.searchRoomTypeImage(searchDTO);
+                    var roomType = $('#roomType').val();
+                    var storeIdx = $('#storeIdx').val();
 
+
+                    const roomImages = hotel.searchRoomTypeImage(searchDTO);
+                    const roomData = hotel.searchRoomTypeData(roomType,storeIdx);
 
 
                 }
