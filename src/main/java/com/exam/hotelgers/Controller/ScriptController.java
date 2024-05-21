@@ -179,11 +179,15 @@ public class ScriptController {
 
 
     //룸cd로 룸 찾기
-    @GetMapping(value = "/roomcheckin")
+    @GetMapping(value = "/roomidxfind")
     public Long findRoomIdxProc(Long storeIdx,String roomCd) throws Exception {
 
+        log.info("스토어아ㅣㄷ"+storeIdx);
+        log.info("룸시디:"+roomCd);
         //roomidx 찾기
         Long roomIdx = roomRepository.searchRoomIdx(roomCd,storeIdx);
+
+        log.info("겱롸"+roomIdx);
 
         return roomIdx;
     }

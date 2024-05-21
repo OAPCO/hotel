@@ -61,7 +61,7 @@
                 <div class="card">
                     <div class="card-header">[[${roomTypeList.roomType}]] / [[${roomTypeList.roomPrice}]]</div>
                     <div class="card-body">
-
+                        <button class="btn btn-danger" type="button" th:onclick="|location.href='@{'/admin/manager/room/typemodify/'+${roomTypeList.roomType}}'|">삭제</button>
                     </div>
                 </div>
             </th:block>
@@ -171,17 +171,23 @@
                 //클래스네임을 재설정하고
                 card.className = 'card room-card';
 
-                //roomCd와 storeIdx로 roomIdx를 구한다
-                roomIdx = hotel.roomIdxFind(roomCd,storeIdx);
-                console.log(roomIdx);
-
-                //구한 roomIdx로 링크를 만든다.
-                var link = "/admin/manager/room/" + roomIdx;
-                console.log("링크 :", link);
 
                 //카드 클릭시 해당 이벤트로 이동하는 클릭이벤트를 추가한다.
                 card.addEventListener('click', function() {
-                    window.location.href = link;
+
+                    var roomIdxresult;
+
+                    console.log("룸cd : "+roomList[i].roomCd);
+                    console.log("idx : "+storeIdx);
+
+                    hotel.roomIdxFind(roomList[i].roomCd, storeIdx, function(roomIdxresult) {
+                        console.log("rrridx : " + roomIdxresult);
+
+                        // 구한 roomIdx로 링크를 만든다.
+                        var link = "/admin/manager/room/" + roomIdxresult;
+                        console.log("링크 :", link);
+                        window.location.href = link;
+                    });
                 });
 
                 var roomStatus = [];

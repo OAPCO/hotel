@@ -315,7 +315,7 @@ let hotel = (function () {
     };
 
 
-    function roomIdxFind(roomCd,storeIdx){
+    function roomIdxFind(roomCd,storeIdx,callback){
 
         $.ajax({
             type: 'GET',
@@ -327,7 +327,8 @@ let hotel = (function () {
 
             success: function(response) {
 
-                roomIdx = response;
+                callback(response); // 성공 시 콜백 함수 호출
+
             },
             error: function(xhr, status, error) {
                 console.error('에러발생');

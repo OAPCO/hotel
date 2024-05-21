@@ -150,6 +150,18 @@ public class ImageService {
     }
 
 
+
+    //객실 디테일이미지 리스트
+    public List<ImageDTO> getRoomTypeImages(String roomType, Long storeIdx) {
+
+        List<Image> images = imageRepository.roomDetailImageList(roomType,storeIdx);
+
+        return images.stream()
+                .map(image -> modelMapper.map(image, ImageDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
     public void delete(Long imageIdx){
         imageRepository.deleteById(imageIdx);
     }

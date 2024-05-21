@@ -34,6 +34,7 @@ public class RoomController {
     private final HttpServletRequest request;
     private final RoomOrderService roomOrderService;
     private final RoomRepository roomRepository;
+    private final ImageService imageService;
 
 
     @Value("${cloud.aws.s3.bucket}")
@@ -232,6 +233,58 @@ public class RoomController {
         return "admin/manager/room/listboard";
     }
 
+
+
+
+
+
+    @GetMapping("/admin/manager/room/typemodify/{roomType}")
+    public String read(@PathVariable String roomType, Model model,Principal principal) throws IOException {
+
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
+        Long storeIdx = storeDTO.getStoreIdx();
+
+        RoomDTO roomDTO = roomService.roomTypeSearchOne(storeIdx,roomType);
+
+
+
+        List<ImageDTO> roomDetailImgList = imageService.getRoomTypeImages(roomType,storeIdx);
+
+
+
+        model.addAttribute("roomDTO",roomDTO);
+        model.addAttribute("roomDetailImgList",roomDetailImgList);
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        return "admin/manager/room/typeread";
+    }
+
+
+
+
+//    @PostMapping("/banner/modify")
+//    public String modifyProc(@RequestParam Long bannerIdx,
+//                             @RequestParam("imgFile") List<MultipartFile> imgFile,
+//                             Model model) throws IOException {
+//
+//
+//        imageService.bannerImageregister(imgFile,bannerIdx);
+//
+//        model.addAttribute("bucket", bucket);
+//        model.addAttribute("region", region);
+//        model.addAttribute("folder", folder);
+//
+//        String referer = request.getHeader("referer");
+//
+//        if (referer != null && !referer.isEmpty()) {
+//            return "redirect:" + referer;
+//        } else {
+//            return "redirect:/admin/admin/banner/list";
+//        }
+//    }
 
 
 

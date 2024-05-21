@@ -20,6 +20,11 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
     List<Image> bannerImageList (Long bannerIdx);
 
 
+    //객실타입,스토어idx로 객실 디테일 이미지 목록 조회
+    @Query("select i from Image i join Room r on i.roomImageType = r.roomType where r.store.storeIdx = :storeIdx and i.roomImageType = :roomType")
+    List<Image> roomDetailImageList (String roomType, Long storeIdx);
+
+
 
     //호텔의 모든 객실 상세 이미지 목록
     @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomImageType LIKE r.roomType JOIN Store s ON r.store.storeIdx = s.storeIdx")
