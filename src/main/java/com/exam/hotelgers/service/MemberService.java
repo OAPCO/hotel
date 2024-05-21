@@ -216,7 +216,7 @@ public class MemberService {
         Character memberJoinType = 'k'; // 카카오 소셜 회원가입인 경우를 나타내는 플래그
         String randomPassword = generateRandomPassword(10);
         memberDTO.setMemberEmail(memberEmail);
-        memberDTO.setMemberNickname(memberNickname);
+        memberDTO.setMemberName(memberNickname);
         memberDTO.setMemberJoinType(memberJoinType);
         memberDTO.setPassword(randomPassword); // 랜덤 패스워드 설정
         memberDTO.setKakaopassword(randomPassword); // 랜덤 패스워드 설정
