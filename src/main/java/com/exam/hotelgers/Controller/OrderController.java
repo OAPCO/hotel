@@ -1,8 +1,11 @@
 package com.exam.hotelgers.Controller;
 
+import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.Manager;
 import com.exam.hotelgers.entity.MenuOrder;
 import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.repository.ManagerRepository;
 import com.exam.hotelgers.repository.StoreRepository;
 import com.exam.hotelgers.service.*;
 
@@ -15,6 +18,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +45,7 @@ public class OrderController {
     private final MemberpageService memberpageService;
     private final StoreService storeService;
     private final StoreRepository storeRepository;
+    private final ManagerRepository managerRepository;
 
 
     @GetMapping("/admin/manager/order/register")
@@ -73,45 +79,48 @@ public class OrderController {
 
 
 
-//    @PostMapping("/admin/distchief/order/list")
-//    public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
-//                           @Valid SearchDTO searchDTO
-//    ){
+//    @GetMapping("/admin/distchief/order/list")
+//    public String listProc(Model model, Principal principal){
+//        Authentication authentication = (Authentication) principal;
+//        boolean isAdmin = authentication.getAuthorities().stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .anyMatch(role -> role.equals(RoleType.ADMIN.name()));
 //
-//        log.info("order listProc 도착 ");
+//        if (isAdmin) {
+//            Optional<List<Store>> storesOpt = managerService.findStoresByManager(managerIdx);
+//            if (storesOpt.isPresent()) {
+//                List<Store> stores = storesOpt.get();
+//                model.addAttribute("stores", stores);
+//            }
+//        }
 //
-//
-//        Page<OrderDTO> orderDTOS = orderService.searchList(searchDTO,pageable);
-//
-//
-//        List<DistDTO> distList = searchService.distList();
-//        List<StoreDTO> storeList = searchService.storeList();
-//
-//
-//        Map<String, Integer> pageinfo = PageConvert.Pagination(orderDTOS);
-//
-//
-//        model.addAllAttributes(pageinfo);
-//        model.addAttribute("distList",distList);
-//        model.addAttribute("storeList",storeList);
-//        model.addAttribute("list", orderDTOS);
 //        return "admin/distchief/order/list";
 //    }
-//
-//
-//
-//
-@GetMapping("/admin/manager/order/menuorderlist/{storeIdx}")
-public String listForm(@PathVariable Long storeIdx, Model model) {
-    log.info("order listForm 도착 ");
 
-    OrderHistoryDTO orderHistoryDTO = menuOrderService.getOrderHistoryByStore(storeIdx);
 
-    model.addAttribute("menuOrderDetailList", orderHistoryDTO.getMenuOrderDetailList());
-    model.addAttribute("roomOrderDetailList", orderHistoryDTO.getRoomOrderDetailList());
 
-    return "admin/manager/order/menuorderlist";
-}
+    @GetMapping("/admin/manager/order/menuorderlist")
+    public String listForm(Principal principal, Model model) {
+        log.info("order listForm 도착 ");
+
+        String username = principal.getName(); // assuming the principal's name is the username
+        Optional<Manager> managerOpt = managerRepository.findByManagerId(username);
+
+        if (managerOpt.isPresent()) {
+            Optional<Store> storeOpt = storeRepository.findByManagerId(username);
+
+
+            if (storeOpt.isPresent()) {
+                Store store = storeOpt.get();
+                OrderHistoryDTO orderHistoryDTO = menuOrderService.getOrderHistoryByStore(store.getStoreIdx());
+                log.info(store.getStoreIdx() + "스토어 Idx !!!!!!!!!!!!!!!!!!!!!!");
+                model.addAttribute("menuOrderDetailList", orderHistoryDTO.getMenuOrderDetailList());
+                model.addAttribute("roomOrderDetailList", orderHistoryDTO.getRoomOrderDetailList());
+            }
+        }
+
+        return "admin/manager/order/menuorderlist";
+    }
 
 
     @GetMapping("/admin/manager/order/modify/{menuorderIdx}")

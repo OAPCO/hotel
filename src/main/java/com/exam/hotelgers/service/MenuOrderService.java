@@ -32,7 +32,7 @@ public class MenuOrderService {
     private final MenuSheetRepository menuSheetRepository;
     private final RoomOrderRepository roomOrderRepository;
     private final MemberRepository memberRepository;
-
+    private final ManagerRepository managerRepository;
     //등록
     public Long register(MenuOrderDTO menuOrderDTO) {
         // 이미 값이 채워진 MenuOrder 엔티티를 생성합니다.

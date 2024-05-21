@@ -11,31 +11,37 @@
             border-color: lightblue !important;
             border-radius: 0 !important;
         }
+
         .btn-group-vertical {
             flex-direction: row;
             justify-content: center;
         }
-         .card {
-             display: flex;
-             flex-direction: row;
-             margin-bottom: 20px;
-             background-color: #fff;
-             border-radius: 10px;
-             box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-         }
+
+        .card {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
         .card > div.img-container {
             flex: 1;
         }
+
         .card div.img-container > img {
             max-width: 100%;
             height: auto;
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
         }
+
         .card > div.text-container {
             flex: 3;
             padding: 20px;
         }
+
         .card > div.info-container {
             flex: 1;
             padding: 20px;
@@ -65,7 +71,9 @@
                 </div>
                 <div class="menu-list">
                     <div th:each="cate : ${menuCateList}">
-                        <div class="card" th:each="menu : ${cate.detailMenuDTOList}" th:data-category="${menu.menuCateIdx}" style="display: flex; flex-direction: row; margin-bottom: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+                        <div class="card" th:each="menu : ${cate.detailMenuDTOList}"
+                             th:data-category="${menu.menuCateIdx}"
+                             style="display: flex; flex-direction: row; margin-bottom: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
                             <!-- 왼쪽 이미지 -->
                             <div style="flex: 1;" class="img-container">
                                 <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${menu.menuImg}|"
@@ -83,7 +91,9 @@
                             <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content:
                             space-between;" class="info-container">
                                 <div class="badge">추천</div>
-                                <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">장바구니</button>
+                                <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius: 5px; color: white; font-weight: bold;">
+                                    장바구니
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -117,50 +127,87 @@
                         Idx: <input type="text" th:value="${roomIdx}" name="roomIdx">
                         주문코드 : <input type="text" name="menuorderCd" value="menuorderCd" id="menuorderCd">
                     </div>
-                <div>
-                    <h2 class="text-primary">장바구니</h2>
-                    <table class="form-control" style="width: 100%;">
-                        <thead>
-                        <tr class="row">
-                            <th class="col-2">메뉴명</th>
-                            <th class="col-3">가격</th>
-                            <th class="col-3">주문 개수</th>
-                            <th class="col-3">총합</th>
-                            <th class="col-1">삭제</th>
-                        </tr>
-                        </thead>
-                        <!-- 추가 정보를 이 곳에 넣어 주세요 -->
-                        <tbody id="tableBody">
+                    <div>
+                        <h2 class="text-primary">장바구니</h2>
+                        <table class="form-control" style="width: 100%;">
+                            <thead>
+                            <tr class="row">
+                                <th class="col-2">메뉴명</th>
+                                <th class="col-3">가격</th>
+                                <th class="col-3">주문 개수</th>
+                                <th class="col-3">총합</th>
+                                <th class="col-1">삭제</th>
+                            </tr>
+                            </thead>
+                            <!-- 추가 정보를 이 곳에 넣어 주세요 -->
+                            <tbody id="tableBody">
 
-                        </tbody>
-                    </table>
-                </div>
-                <p></p>
-                <div class="fa-align-right" style="text-align: right">
-                    <p style="color: #0c3ee1; ">총 결제액:</p>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <table class="table table-striped" style="table-layout: fixed;">
+                            <thead class="thead-primary">
+                            <tr>
+                                <th colspan="3">
+                                    <h3 class="text-primary">할인 수단</h3>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="text-align: center;">쿠폰:</td>
+                                <td><input type="text" style="width: 100%;" placeholder="할인 코드를 입력하세요"></td>
+                                <td
+                                        style="text-align: center;"><button class="btn btn-outline-primary" onclick="showCouponModal(event)">적용</button></td>
+                            </tr>
+                            </tbody>
+                            <div class="modal" id="couponModal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body" id="modalBody">
+                                            <!-- Content will be added here from JavaScript -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </table>
+                    </div>
+                    <div>
+                        적립액: <span> 500P</span>
+                        할인액: <span> 500원</span>
+                    </div>
+                    <p></p>
+                    <div class="fa-align-right" style="text-align: right">
+                        <p style="color: #0c3ee1; ">총 결제액:</p>
+                    </div>
+
                     <div>
 
                         <p>요청사항:</p><textarea class="form-control-lg" style="width: 80%;" name="orderRequest"
-                                  placeholder="요청사항을 입력하세요"></textarea>
+                                              placeholder="요청사항을 입력하세요"></textarea>
                     </div>
                     <div style="display: none;">
-    <!--                    주문완료 상태-->
+                        <!--                    주문완료 상태-->
                         <input type="text" name="orderState" value="0">
                         <input id="totalValue" type="text" name="total">
                     </div>
                     <div id="post" style="display: none">
 
                     </div>
-                <div>
-                    <button class="btn btn-outline-primary" type="submit">주문하기</button>
+                    <div>
+                        <button class="btn btn-outline-primary" type="submit">주문하기</button>
 
-                </div>
+                    </div>
 
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         // 랜덤한 문자열을 생성하는 함수
@@ -179,10 +226,10 @@
         // input 요소에 랜덤한 문자열 설정
         document.getElementById("menuorderCd").value = randomCd.substring(0, 30);
 
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             // 장바구니 버튼 클릭 이벤트
-            $(".info-container button").click(function(event) {
+            $(".info-container button").click(function (event) {
                 event.preventDefault(); // 기본 동작 중지
 
                 var menuName = $(this).parent().siblings('.text-container').find('.card-title').text();
@@ -190,7 +237,7 @@
 
                 var existedRow = null;
                 var menuIndex = 0;
-                $('#tableBody tr').each(function(index) {
+                $('#tableBody tr').each(function (index) {
                     if ($(this).children('.col-2').text() === menuName) {
                         existedRow = $(this);
                         menuIndex = index;
@@ -213,8 +260,7 @@
 
                     // Here we call the calculateTotal function whenever quantity or value is updated
                     calculateTotal();
-                }
-                else {
+                } else {
                     // Create new hidden field
                     menuIndex = $('#tableBody tr').length; // Assuming that the menuIndex is the current number of rows
                     var rowHtml = '<tr class="row"><td class="col-2">' + menuName + '</td><td class="col-3"><span>' +
@@ -233,10 +279,10 @@
                         '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderName" value="' + menuName + '">' +
                         '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderPrice" value="' + price.toFixed(2) + '">' +
                         '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity" value="1">' +
-                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].AmountPrice" value="' + (price*1).toFixed(2) + '">'; // 수정된 부분
+                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].AmountPrice" value="' + (price * 1).toFixed(2) + '">'; // 수정된 부분
                     $("#post").append(hiddenInputsHtml);
 
-                    $(".plus").last().on("click", function(event) {
+                    $(".plus").last().on("click", function (event) {
                         event.preventDefault(); // 기본 동작 중지
 
                         var quantityElem = $(this).siblings('.quantity');
@@ -257,7 +303,7 @@
                         calculateTotal();
                     });
 
-                    $(".minus").last().on("click", function(event) {
+                    $(".minus").last().on("click", function (event) {
                         event.preventDefault(); // 기본 동작 중지
 
                         var quantityElem = $(this).siblings('.quantity');
@@ -289,8 +335,7 @@
                     });
 
 
-
-                    $(".remove").last().click(function(event) {
+                    $(".remove").last().click(function (event) {
                         event.preventDefault(); // 기본 동작 중지
 
                         $(this).parents("tr").remove();
@@ -314,7 +359,7 @@
 
         function calculateTotal() {
             var total = 0;
-            $('#tableBody tr').each(function() {
+            $('#tableBody tr').each(function () {
                 var temp = $(this).find(".value").text();
                 total += parseFloat(temp);
             });
@@ -349,8 +394,38 @@
                 }
             });
         }
-    </script>
+        //쿠폰 사용 모달 관련
+        function showCouponModal(event) {
+            event.preventDefault();
 
+            $.ajax({
+                url: 'YOUR_SERVER_URL', // replace with your server url
+                method: 'GET',
+                success: function(coupons) { // replace coupons with your real response variable
+                    let content = '';
+
+                    if (coupons.length > 0) {
+                        content += '<table>';
+                        coupons.forEach(coupon => {
+                            content += '<tr><td>' + coupon + '</td></tr>'; // replace coupon with your real data field
+                        });
+                        content += '</table>';
+                    } else {
+                        content = '보유중인 쿠폰이 없습니다.';
+                    }
+
+                    $('#modalBody').html(content);
+
+                    // Now show the modal
+                    $('#couponModal').modal('show');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    alert('An error occurred while fetching the coupons.');
+                }
+            });
+        }
+    </script>
 
 
 </div>

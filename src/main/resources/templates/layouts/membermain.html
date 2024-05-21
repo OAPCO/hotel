@@ -171,11 +171,11 @@
 
     <script>
         // 서비스 버튼을 클릭했을 때 실행되는 함수
-        function ServiceSection() {
+        function MainSection() {
             myfullpage.moveTo(1);  // moveTo의 인자는 섹션 번호입니다.
         }
 
-        function eventSection() {
+        function ServiceSection() {
             myfullpage.moveTo(2);
         }
 
@@ -224,12 +224,14 @@
             <ul class="navbar-nav mx-auto">
 
                 <li class="nav-item" style="margin-left: -35%;"><button class="nav-link active"
-                                                                        onclick="ServiceSection()">숙소 예약</button></li>
+                                                                        onclick="MainSection()">숙소 예약</button></li>
                 <li class="nav-item" style="margin-left: 10%;"><button class="nav-link active"
-                                                                       onclick="reviewSection()">룸 서비스</button></li>
-                <li class="nav-item" style="margin-left: 10%;"><button class="nav-link active" onclick="eventSection()">이벤트</button></li>
-                <li class="nav-item" style="margin-left: 10%;"><button class="nav-link active"
-                                                                       onclick="announcementSection()">고객센터</button></li>
+                                                                       onclick="ServiceSection()">룸 서비스</button></li>
+                <li class="nav-item" style="margin-left: 10%;"><button class="nav-link active" onclick="reviewSection()">고객센터</button></li>
+<!--                <li class="nav-item" style="margin-left: 10%;">-->
+<!--                    <a class="nav-link active" href="/member/memberpage/announcement">공지사항</a>-->
+<!--                </li>-->
+
 
 
 

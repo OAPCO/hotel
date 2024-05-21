@@ -9,12 +9,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.7/fullpage.css">
 
     <style>
-        #id1 input{
+        #id1 input {
             margin-bottom: 5px;
         }
+
         .hidden {
             display: none; /* 숨김 상태 */
         }
+
         .text_box {
             font-size: 3rem;
             text-align: center;
@@ -22,6 +24,7 @@
             font-weight: bold;
             padding-top: 200px; /* margin-top 대신 padding-top을 사용 */
         }
+
         .text_box1 {
             font-size: 3rem;
             text-align: center;
@@ -29,12 +32,14 @@
             font-weight: bold;
 
         }
-        .text1{
+
+        .text1 {
             font-size: 3rem;
             text-align: center;
             color: white;
             font-weight: bold;
         }
+
         .blink {
             animation: blink 0.5s infinite;
             font-size: 3.5rem;
@@ -46,51 +51,26 @@
                 opacity: 0;
             }
         }
-        #section0{
+
+        #section0 {
             background-image: url(https://cdn.pixabay.com/photo/2016/01/09/18/27/journey-1130732_1280.jpg);
             background-size: cover;
             background-position: center;
         }
-        #section1{
-            background-color: #dfe0e3;
+
+        #section1 {
+            background-color: white;
             background-size: cover;
             background-position: center;
         }
-        /*#slide1 {*/
-        /*    background-image: url('http://example.com/images/slide1.jpg');*/
-        /*    background-size: cover;*/
-        /*    background-position: center;*/
-        /*}*/
 
-        /*#slide2 {*/
-        /*    background-image: url('http://example.com/images/slide1.jpg');*/
-        /*    background-size: cover;*/
-        /*    background-position: center;*/
-        /*}*/
-
-
-        /*#slide3 {*/
-        /*    background-image: url('http://example.com/images/slide1.jpg');*/
-        /*    background-size: cover;*/
-        /*    background-position: center;*/
-        /*}*/
-        /*#slide4 {*/
-        /*    background-image: url('http://example.com/images/slide1.jpg');*/
-        /*    background-size: cover;*/
-        /*    background-position: center;*/
-        /*}*/
-        /*#slide5 {*/
-        /*    background-image: url('http://example.com/images/slide1.jpg');*/
-        /*    background-size: cover;*/
-        /*    background-position: center;*/
-        /*}*/
-
-        #section2{
+        #section2 {
             background-image: url(https://cdn.pixabay.com/photo/2018/03/07/18/42/menu-3206749_1280.jpg);
             background-size: cover;
             background-position: center;
         }
-        #section3{
+
+        #section3 {
             background-image: url(https://cdn.pixabay.com/photo/2024/02/26/14/13/computer-8598079_1280.jpg);
             background-size: cover;
             background-position: center;
@@ -102,7 +82,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;  /* 추가로 요소들 사이의 간격을 조정했습니다. */
+            gap: 20px; /* 추가로 요소들 사이의 간격을 조정했습니다. */
         }
 
         /* .search-inputs와 .search-box를 flex로 설정하고 요소들을 가로로 정렬합니다. 이들의 너비는 상위 컨테이너인 search-container의 50%입니다. */
@@ -110,10 +90,11 @@
             display: flex;
             width: 100%;
             justify-content: space-between;
-            gap: 0;  /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
+            gap: 0; /* 요소들 사이의 간격을 없애기 위해 0으로 설정합니다. */
             align-items: center; /* 이 코드를 추가하여 요소들이 동일한 기준선에 정렬되게 합니다. */
 
             /* 각 input, select, button 요소의 높이를 50px로 설정하고, 모서리를 각진 형태로 만듭니다. */
+
             select, input[type="date"], .form-control, .btn {
                 height: 50px;
                 border-radius: 0;
@@ -128,25 +109,39 @@
 
         }
 
-        .search-box2 .btn{
+        .search-box2 .btn {
             flex: 2;
             height: 60px;
             margin-top: 1px;
         }
-        #id1  input{
+
+        #id1 input {
             height: 15px;
         }
 
 
-        #id1 font{
+        #id1 font {
             height: 60px;
 
         }
+
         label {
             position: relative;
             bottom: 40px;
         }
 
+        .slide-image{
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 5%;
+        }
+
+        .slide-image h4, .slide-image p {
+            color: white;
+        }
     </style>
 
 </head>
@@ -158,74 +153,83 @@
                 <span id="fixedText" style="margin-bottom: 20px;">호텔져스와 함께 어디든<br></span>
                 <span id="rotateText" class="text"></span><span class="blink">|</span>
             </div>
-            <form th:action="@{/member/memberpage/index}" method="post" >
-            <div class="search-container">
+            <form th:action="@{/member/memberpage/index}" method="post">
+                <div class="search-container">
+                    <div class="d-flex flex-wrap gap-3 justify-content-center align-items-center"
+                         style="margin-top: 40px">
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="wifi" value="와이파이" name="facilities">
+                            <label class="form-check-label" for="wifi">와이파이</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="parking" value="주차장" name="facilities">
+                            <label class="form-check-label" for="parking">주차장</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="fitness" value="피트니스" name="facilities">
+                            <label class="form-check-label" for="fitness">피트니스</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="swimming" value="수영장" name="facilities">
+                            <label class="form-check-label" for="swimming">수영장</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="sauna" value="사우나" name="facilities">
+                            <label class="form-check-label" for="sauna">사우나</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="lounge" value="라운지" name="facilities">
+                            <label class="form-check-label" for="lounge">라운지</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="cafe" value="카페" name="facilities">
+                            <label class="form-check-label" for="cafe">카페</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="store" value="편의점" name="facilities">
+                            <label class="form-check-label" for="store">편의점</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
+                            <input class="form-check-input" type="checkbox" id="breakfast" value="조식 제공"
+                                   name="facilities">
+                            <label class="form-check-label" for="breakfast">조식 제공</label>
+                        </div>
+                        <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3"
+                             name="facilities">
+                            <input class="form-check-input" type="checkbox" id="karaoke" value="노래방">
+                            <label class="form-check-label" for="karaoke">노래방</label>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3" style="max-width: 800px;">
+                        <input type="text" class="form-control" aria-label="Recipient's username"
+                               aria-describedby="button-addon2" name="keyword" style="border-top-right-radius: 0 ; border-bottom-right-radius: 0;
+                                   border-bottom-right-radius: 0" required>
 
-                <div class="d-flex flex-wrap gap-3 justify-content-center align-items-center" style="margin-top: 40px">
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="wifi" value="와이파이" name="facilities">
-                        <label class="form-check-label" for="wifi">와이파이</label>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit" id="button-addon2"
+                                    style="border-radius: 0 10px 10px 0;height: 50px; padding-top: 5px; position: relative; left: 1px; bottom: -9px">
+                                검색
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="parking" value="주차장" name="facilities">
-                        <label class="form-check-label" for="parking">주차장</label>
-                    </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="fitness" value="피트니스" name="facilities">
-                        <label class="form-check-label" for="fitness">피트니스</label>
-                    </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="swimming" value="수영장" name="facilities">
-                        <label class="form-check-label" for="swimming">수영장</label>
-                    </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="sauna" value="사우나" name="facilities">
-                        <label class="form-check-label" for="sauna">사우나</label>
-                    </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="lounge" value="라운지" name="facilities">
-                        <label class="form-check-label" for="lounge">라운지</label>
-                    </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="cafe" value="카페" name="facilities">
-                        <label class="form-check-label" for="cafe">카페</label>
-                    </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="store" value="편의점" name="facilities">
-                        <label class="form-check-label" for="store">편의점</label>
-                    </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3">
-                        <input class="form-check-input" type="checkbox" id="breakfast" value="조식 제공" name="facilities">
-                        <label class="form-check-label" for="breakfast">조식 제공</label>
-                    </div>
-                    <div class="form-check form-check-inline d-flex flex-column align-items-center mb-3" name="facilities">
-                        <input class="form-check-input" type="checkbox" id="karaoke" value="노래방">
-                        <label class="form-check-label" for="karaoke">노래방</label>
-                    </div>
-                </div>
-                <div class="input-group mb-3" style="max-width: 800px;">
-                    <input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" name="keyword"  style="border-top-right-radius: 0 ; border-bottom-right-radius: 0;
-                                   border-bottom-right-radius: 0"  required>
-
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit" id="button-addon2" style="border-radius: 0 10px 10px 0;height: 50px; padding-top: 5px; position: relative; left: 1px; bottom: -9px" >검색</button>
-                    </div>
-                </div>
 
                 </div>
 
             </form>
         </div>
-<!--        <div class="section" id="section1">-->
+<!--        <div class="section" id="section">-->
 <!--            <div class="slide" data-anchor="slide" id="slide1">-->
 <!--                <div th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[0].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
 <!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
 <!--                    column; justify-content:center; align-items:center; padding-top: 250px;">-->
-<!--                        <h1 th:text="${recommendedStoreList[0].storeName}" style="color: white; border-color: black;"></h1>-->
+<!--                        <h1 th:text="${recommendedStoreList[0].storeName}"-->
+<!--                            style="color: white; border-color: black;"></h1>-->
 <!--                        <p th:text="${recommendedStoreList[0].storeGrade}"-->
 <!--                           style="color: white; border-color: black;"></p>-->
-<!--                        <p th:text="${recommendedStoreList[0].storeAddr}"  style="color: white; border-color: black;"></p>-->
-<!--                        <p th:text="${recommendedStoreList[0].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[0].storeAddr}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[0].storeSummary}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
 <!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[0].storeIdx}}">-->
 <!--                            <button class="btn btn-primary">예약하기</button>-->
 <!--                        </a>-->
@@ -237,10 +241,14 @@
 <!--                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[1].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
 <!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
 <!--                    column; justify-content:center; align-items:center; padding-top: 250px;">-->
-<!--                        <h1 th:text="${recommendedStoreList[1].storeName}" style="color: white; border-color: black;"></h1>-->
-<!--                        <p th:text="${recommendedStoreList[1].storeGrade}"  style="color: white; border-color: black;"></p>-->
-<!--                        <p th:text="${recommendedStoreList[1].storeAddr}"  style="color: white; border-color: black;"></p>-->
-<!--                        <p th:text="${recommendedStoreList[1].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                        <h1 th:text="${recommendedStoreList[1].storeName}"-->
+<!--                            style="color: white; border-color: black;"></h1>-->
+<!--                        <p th:text="${recommendedStoreList[1].storeGrade}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[1].storeAddr}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[1].storeSummary}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
 <!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[1].storeIdx}}">-->
 <!--                            <button class="btn btn-primary">예약하기</button>-->
 <!--                        </a>-->
@@ -252,10 +260,14 @@
 <!--                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[2].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
 <!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
 <!--                        column; justify-content:center; align-items:center; padding-top: 250px;">-->
-<!--                        <h1 th:text="${recommendedStoreList[2].storeName}" style="color: white; border-color: black;"></h1>-->
-<!--                        <p th:text="${recommendedStoreList[2].storeGrade}"  style="color: white; border-color: black;"></p>-->
-<!--                        <p th:text="${recommendedStoreList[2].storeAddr}"  style="color: white; border-color: black;"></p>-->
-<!--                        <p th:text="${recommendedStoreList[2].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                        <h1 th:text="${recommendedStoreList[2].storeName}"-->
+<!--                            style="color: white; border-color: black;"></h1>-->
+<!--                        <p th:text="${recommendedStoreList[2].storeGrade}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[2].storeAddr}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[2].storeSummary}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
 <!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[2].storeIdx}}">-->
 <!--                            <button class="btn btn-primary">예약하기</button>-->
 <!--                        </a>-->
@@ -267,66 +279,115 @@
 <!--                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[3].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
 <!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
 <!--                        column; justify-content:center; align-items:center; padding-top: 250px;">-->
-<!--                        <h1 th:text="${recommendedStoreList[3].storeName}" style="color: white; border-color: black;"></h1>-->
-<!--                        <p th:text="${recommendedStoreList[3].storeGrade}"  style="color: white; border-color: black;"></p>-->
-<!--                        <p th:text="${recommendedStoreList[3].storeAddr}"  style="color: white; border-color: black;"></p>-->
-<!--                        <p th:text="${recommendedStoreList[3].storeSummary}"  style="color: white; border-color: black;"></p>-->
+<!--                        <h1 th:text="${recommendedStoreList[3].storeName}"-->
+<!--                            style="color: white; border-color: black;"></h1>-->
+<!--                        <p th:text="${recommendedStoreList[3].storeGrade}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[3].storeAddr}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[3].storeSummary}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
 <!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[3].storeIdx}}">-->
 <!--                            <button class="btn btn-primary">예약하기</button>-->
 <!--                        </a>-->
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-<!--        <div class="slide" data-anchor="slide" id="slide5">-->
-<!--            <div-->
-<!--                    th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[4].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
-<!--                <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
+<!--            <div class="slide" data-anchor="slide" id="slide5">-->
+<!--                <div-->
+<!--                        th:style="'background-image: url(' + |https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${recommendedStoreList[4].storeimgName}| + '); background-size: cover;   background-repeat: no-repeat;   background-position: center center;   width: 100%;   height: 100vh;'">-->
+<!--                    <div class="transparent-div" style="width:33.33%; margin-left:auto; display:flex; flex-direction:-->
 <!--                    column; justify-content:center; align-items:center; padding-top: 250px;">-->
-<!--                    <h1 th:text="${recommendedStoreList[4].storeName}" style="color: white; border-color: black;"></h1>-->
-<!--                    <p th:text="${recommendedStoreList[4].storeGrade}"  style="color: white; border-color: black;"></p>-->
-<!--                    <p th:text="${recommendedStoreList[4].storeAddr}"  style="color: white; border-color: black;"></p>-->
-<!--                    <p th:text="${recommendedStoreList[4].storeSummary}"  style="color: white; border-color: black;"></p>-->
-<!--                    <a th:href="@{'/member/memberpage/'+${recommendedStoreList[4].storeIdx}}">-->
-<!--                        <button class="btn btn-primary">예약하기</button>-->
-<!--                    </a>-->
+<!--                        <h1 th:text="${recommendedStoreList[4].storeName}"-->
+<!--                            style="color: white; border-color: black;"></h1>-->
+<!--                        <p th:text="${recommendedStoreList[4].storeGrade}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[4].storeAddr}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <p th:text="${recommendedStoreList[4].storeSummary}"-->
+<!--                           style="color: white; border-color: black;"></p>-->
+<!--                        <a th:href="@{'/member/memberpage/'+${recommendedStoreList[4].storeIdx}}">-->
+<!--                            <button class="btn btn-primary">예약하기</button>-->
+<!--                        </a>-->
+<!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--        </div>-->
-<!--    </div>-->
+        <div class="section" id="section1">
+            <div style="display: flex; flex-direction: column; height: 100vh;">
+                <!-- 첫번째 이미지 배경 div -->
+                <div style="flex: 1; background: url('https://cdn.pixabay.com/photo/2017/11/24/10/43/ticket-2974645_1280.jpg') no-repeat center center; background-size: cover;">
+                    <div style="position: absolute; top: 10%; right: 10%; color: white; text-align: right;">
+                        <h4>첫 주문 시 혜택 받자 !</h4>
+                        <p>첫 주문 시 5000원 할인 쿠폰 증정!</p>
+                        <button class="btn btn-primary" onclick="loginCheck()">쿠폰 받기</button>
+                        <div style="display: none;">
+                            <span th:data-member-id="${#authentication.name}" id="memberId"></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 두번째 이미지 배경 div -->
+                <div style="flex: 1; background: url('https://cdn.pixabay.com/photo/2016/10/09/19/19/coins-1726618_1280.jpg') no-repeat center center; background-size: cover;">
+                    <div style="position: absolute; top: 50%; left: 5%; transform: translateY(-50%); color: white; text-align: left;">
+                        <h4>주문 시 적립이 마구마구 !</h4>
+                        <p>적립과 할인 받고 부~자 되세요 !</p>
+                    </div>
+                </div>
+                <!-- 세번째 이미지 배경 div -->
+                <div style="flex: 1; background: url('https://cdn.pixabay.com/photo/2015/02/02/11/09/office-620822_1280.jpg') no-repeat center center; background-size: cover;">
+                    <div style="position: absolute; bottom: 10%; right: 10%; color: white; text-align: right;">
+                        <h4>방 안에서 편하게 주문을 ~</h4>
+                        <p>QR 코드나 NFC를 찍고 룸 서비스 이용하자!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="section" id="section2">
             <div class="text_box1" style="display: flex; justify-content: space-around; height: 100vh;">
                 <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 75px;">
                     <span id="fixedText1" style="margin-top: calc(50px - 6rem);" class="headline">당신의 휴식을 위한 최상의
                         선택,<br></span>
-                    <span id="fixedText2" style="margin-top: calc(100px - 6rem);" class="headline">룸 서비스로 특별한 순간을 만나보세요<br></span>
+                    <span id="fixedText2" style="margin-top: calc(100px - 6rem);"
+                          class="headline">룸 서비스로 특별한 순간을 만나보세요<br></span>
                     <div style="display: flex; justify-content: center;">
                         <a th:href="@{/member/memberpage/menuordercheck}">
-                        <button class="btn btn-primary" style="margin-top: 50px;">주문하기</button>
+                            <button class="btn btn-primary" style="margin-top: 50px;">주문하기</button>
                         </a>
                     </div>
                 </div>
                 <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                    <span id="rotateText1" class="text" style="margin-left: -3rem; margin-top: -6rem; padding-right: 60px; padding-bottom: 50px;"><span class="blink">|</span></span>
+                        <span id="rotateText1" class="text"
+                              style="margin-left: -3rem; margin-top: -6rem; padding-right: 60px; padding-bottom: 50px;"><span
+                                class="blink">|</span></span>
                 </div>
             </div>
         </div>
         <div class="section" id="section3">
             <div style="display: flex; align-items: center; height: 100vh; padding-left: 10%;">
-            <div>
-                <span class="text1" style="text-align: left;">"질문 있으세요? 우리가 답변해 드릴게요."</span>
-                <div style="margin-top: 20px;">
-                    <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/member/memberpage/qnacenter}'|">고객센터 가기</button>
+                <div>
+                    <span class="text1" style="text-align: left;">"질문 있으세요? 우리가 답변해 드릴게요."</span>
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-primary" type="button"
+                                th:onclick="|location.href='@{/member/memberpage/qnacenter}'|">고객센터 가기
+                        </button>
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="slick/slick.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.7/vendors/scrolloverflow.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.7/fullpage.js"></script>
+    <script src="/assets2/bootstrap/js/bootstrap.min.js?h=b4349cf7232e6b66621e089f2b9beee5"></script>
+    <script src="/assets2/js/script.min.js?h=9a9b12d9479055b6ccf322643488f6dd"></script>
     <script>
         var myfullpage = new fullpage('#fullpage', {
             verticalCentered: false,
             autoScrolling: true,
             scrollHorizontally: true,
+            scrollOverflow: true
         });
 
         const rotateContent = ["서울으로", "부산으로", "제주로", "양양으로", "여수로"];
@@ -365,10 +426,10 @@
         }
 
         function typeFixedText() {
-            if(l < fixedContent1.length) {
-                if(l === 0) {
+            if (l < fixedContent1.length) {
+                if (l === 0) {
                     text2.textContent = fixedContent1[l];
-                } else if(l === 1) {
+                } else if (l === 1) {
                     text3.textContent = fixedContent1[l];
                 }
                 l++;
@@ -381,9 +442,9 @@
             }
         }
 
-        let observer = new IntersectionObserver(function(entries, observer) {
+        let observer = new IntersectionObserver(function (entries, observer) {
             entries.forEach(entry => {
-                if(entry.isIntersecting) {
+                if (entry.isIntersecting) {
                     typeRotateText1();
                     observer.unobserve(entry.target);
                 }
@@ -398,16 +459,15 @@
         typeRotateText();
 
 
-
         function changeDetails(categoryIdx) {
-            var selectedCate = menuCateList.find(function(m) {
+            var selectedCate = menuCateList.find(function (m) {
                 return m.menuCateIdx == categoryIdx;
             });
 
             var detailGroup = document.getElementById('details');
             detailGroup.innerHTML = '';
 
-            selectedCate.detailMenuDTOList.forEach(function(menu) {
+            selectedCate.detailMenuDTOList.forEach(function (menu) {
                 var divRow = document.createElement('div');
                 divRow.className = 'row mb-3';
 
@@ -452,14 +512,50 @@
         }
 
         // Set initial display
-        document.addEventListener("DOMContentLoaded", function(event) {
+        document.addEventListener("DOMContentLoaded", function (event) {
             changeDetails(1);
         });
 
-    </script>
 
-    <script src="/assets2/bootstrap/js/bootstrap.min.js?h=b4349cf7232e6b66621e089f2b9beee5"></script>
-    <script src="/assets2/js/script.min.js?h=9a9b12d9479055b6ccf322643488f6dd"></script>
+
+        function loginCheck() {
+            let memberId = document.getElementById('memberId').dataset.memberId;
+
+            if (!memberId) {
+                alert("로그인 먼저 해주세요");
+                window.location.href = "/member/login"; // 로그인 전이면 로그인 페이지로 이동
+            } else {
+                alert("쿠폰이 발급되었습니다"); // 이미 로그인 상태이면 알림창 띄우기
+                sendCouponData();
+            }
+        }
+        function sendCouponData() {
+            let memberId = document.getElementById('memberId').dataset.memberId;
+
+            fetch('/couponInsert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    couponName: "첫 주문 쿠폰",
+                    couponPrice: 5000,
+                    couponState: "사용 가능",
+                    memberId: memberId
+                })
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }).then(data => {
+                console.log('Success:', data);
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+    </script>
 </div>
 </body>
 </html>
