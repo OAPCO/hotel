@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface RewardRepository extends JpaRepository<Reward,Long> {
-    List<Reward> findByMemberEmail(String email);
+
 }

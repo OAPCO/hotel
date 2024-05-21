@@ -27,7 +27,7 @@ public class CouponService {
 
     public Long register(CouponDTO couponDTO) {
         // memberId로 Member entity 찾기
-        Optional<Member> optionalMember = memberRepository.findByMemberEmail(couponDTO.getMemberId());
+        Optional<Member> optionalMember = memberRepository.findByMemberEmail(couponDTO.getMemberEmail());
 
         if (!optionalMember.isPresent()) {
             // throw exception or return, as per your requirement

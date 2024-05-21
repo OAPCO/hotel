@@ -32,7 +32,7 @@
                         <td th:text="${reward.rewardName}">비빔밥</td>
                         <td th:text="${reward.rewardAmount}">15,000</td>
                         <td th:text="${reward.rewardPM}"></td>
-                        <td th:text="${#dates.format(reward.regdate, 'yyyy-MM-dd')}">2024-05-22</td>
+                        <td th:text="${#strings.substringBefore(reward.regdate, 'T')}">2024-05-22</td>
                     </tr>
                     </tbody>
                 </table>
@@ -64,7 +64,7 @@
                         <td th:text="${coupon.couponPrice}">5,000원 할인</td>
                         <td th:text="${coupon.detail}">메뉴 주문 시</td>
                         <td th:text="${coupon.couponState}">미사용</td>
-                        <td th:text="${#dates.format(coupon.regdate, 'yyyy-MM-dd')}">2024-05-22</td>                    </tr>
+                        <td th:text="${#strings.substringBefore(coupon.regdate, 'T')}">2024-05-22</td>                    </tr>
                     </tbody>
                 </table>
             </div>
