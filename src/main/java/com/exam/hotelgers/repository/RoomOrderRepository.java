@@ -9,6 +9,7 @@ import com.exam.hotelgers.entity.RoomOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -30,11 +31,11 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
 
     //현재 예약 요청들
     @Query("SELECT r FROM RoomOrder r where r.storeIdx = :storeIdx " +
-            "and r.roomStatus = 3")
+            "and r.roomStatus = 1")
     Page<RoomOrder> roomOrderSearch(Pageable pageable,Long storeIdx);
 
     @Query("SELECT r FROM RoomOrder r where r.storeIdx = :storeIdx " +
-            "and r.roomStatus = 3")
+            "and r.roomStatus = 1")
     List<RoomOrder> roomOrderSearch2(Long storeIdx);
 
 
@@ -63,6 +64,17 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     List<RoomOrder> findAllByMemberIdx(Long memberIdx);
 
     Page<RoomOrder> findByStoreIdx(Long storeIdx, Pageable pageable);
+
+
+
+    //체크인 했을 때 객실 상태를 2로 변경한다.
+    @Modifying
+    @Query("UPDATE RoomOrder o " +
+            "SET o.roomStatus = 2 " +
+            "WHERE o.roomIdx = :roomIdx " +
+            "AND EXISTS (SELECT 1 FROM Room r WHERE o.roomIdx = r.roomIdx AND o.roomorderIdx = :roomorderIdx)")
+    void roomOrderStatusUpdate2(Long roomIdx, Long roomorderIdx);
+
 
 
 }

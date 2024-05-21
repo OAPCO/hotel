@@ -21,11 +21,11 @@
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
                 객실 등록
             </div>
-            <form method="post" th:action="@{/window/roomregister}" enctype="multipart/form-data" onsubmit="submitFormAndCloseWindow()">
+            <form method="post" enctype="multipart/form-data" id="roomregisterform">
                 <input type="hidden" name="roomCd" id="roomCd">
 
                 <div class="table-responsive">
-                <table class="table head">
+                <table class="table roomregister">
 
                     <thead>
                     <tr>
@@ -34,38 +34,31 @@
                         <td>
                             <input type="text" name="roomName" id="roomName">
                         </td>
-                        <th>총판명</th>
-                        <td>
-                            <input type="text" th:value="${distDTO.distName}" name="distDTO.distName" readonly="readonly" style="background-color: #F0F0F0">
-                        </td>
+                            <input type="hidden" th:value="${distDTO.distName}" name="distDTO.distName" readonly="readonly" style="background-color: #F0F0F0">
+
                         <th>호텔명</th>
                         <td>
                             <input type="text" th:value="${storeDTO.storeName}" name="storeDTO.storeName" readonly="readonly" style="background-color: #F0F0F0">
-                            <input type="hidden" th:value="${storeDTO.storeIdx}" id="storeIdx">
+                            <input type="hidden" th:value="${storeDTO.storeIdx}" id="storeIdx" name="storeDTO.storeIdx">
                         </td>
 
                     </tr>
                     <tr>
                         <th>타입</th>
-                        <td>
+                        <td style="height: 140px">
                         <div>
 
-                            <select class="form-select" id="roomType" name="roomType" onchange="toggleCustomInput()">
+                            <select class="form-select" id="roomType" onchange="toggleCustomInput()">
                                 <option value="">==</option>
                                 <option th:each="roomTypeList : ${roomTypeList}" th:value="${roomTypeList.roomType}" th:text="${roomTypeList.roomType}"></option>
                                 <option value="custom">[새로 추가]</option>
                             </select>
                             <div id="customRoomTypeInput" style="display: none;">
-                                <input type="text" class="form-control" name="roomType" placeholder="새 객실 타입">
+                                <input type="text" class="form-control" placeholder="새 객실 타입">
                             </div>
                             <br>
 
                         </div>
-                        </td>
-                        <th>객실 사진</th>
-                        <td class="col>">
-                            대표 이미지  <input type="file" class="form-control" id="mainimgFile" name="mainimgFile">
-                            세부 이미지  <input type="file" class="form-control" id="imgFile" name="imgFile" multiple required>
                         </td>
 
                         <th>가격</th>
@@ -78,6 +71,12 @@
                     </thead>
 
                 </table>
+
+                    <span id="customRoomImageth">이미지 등록</span><br>
+                    <span class="col>" id="customRoomImagetd">
+                        대표 이미지  <input type="file" class="form-control" id="mainimgFile" name="mainimgFile">
+                        세부 이미지  <input type="file" class="form-control" id="imgFile" name="imgFile" multiple>
+                    </span>
 
                 <div id="preview2"></div>
                 <div id="preview"></div>
@@ -102,22 +101,46 @@
             function toggleCustomInput() {
                 var roomTypeSelect = document.getElementById('roomType');
                 var customRoomTypeInput = document.getElementById('customRoomTypeInput');
+                var customRoomImagetd = document.getElementById('customRoomImagetd');
+                var customRoomImageth = document.getElementById('customRoomImageth');
+                var imgFile = document.getElementById('imgFile');
+                var mainimgFile = document.getElementById('mainimgFile');
 
                 var selectedValue = roomTypeSelect.value;
 
                 if (selectedValue === 'custom') {
                     customRoomTypeInput.style.display = 'block';
+                    customRoomImagetd.style.display = 'block';
+                    customRoomImageth.style.display = 'block';
                     customRoomTypeInput.name = 'roomType';
                     roomTypeSelect.name = null;
+
+
+                    document.getElementById('roomregisterform').action = '/window/roomregister';
+
+                    document.getElementById('preview').value = null;
+                    document.getElementById('preview2').value = null;
+                    document.getElementById('roomPrice').value = null;
+                    document.getElementById('roomPrice').readOnly = false;
+
+
+                    imgFile.required = true;
+                    mainimgFile.required = true;
+
 
                     preview.innerHTML = '';
                     preview2.innerHTML = '';
 
                 } else {
+
                     customRoomTypeInput.style.display = 'none';
+                    customRoomImagetd.style.display = 'none';
+                    customRoomImageth.style.display = 'none';
                     customRoomTypeInput.name = null;
                     roomTypeSelect.name = 'roomType';
-
+                    document.getElementById('roomPrice').readOnly = true;
+                    document.getElementById('roomregisterform').action = '/window/roomregisteradd';
+                    console.log(document.getElementById('roomregisterform').action);
 
 
                     //이 자리에 객실타입의 이미지, 객실타입의 정보 불러오기
@@ -126,12 +149,18 @@
                         storeIdx: $('#storeIdx').val()
                     };
 
-                    var roomType = $('#roomType').val();
-                    var storeIdx = $('#storeIdx').val();
+                    var roomType2 = $('#roomType').val();
+                    var storeIdx2 = $('#storeIdx').val();
+
+                    console.log(roomType2);
+                    console.log(storeIdx2);
+
+                    imgFile.required = false;
+                    mainimgFile.required = false;
 
 
                     const roomImages = hotel.searchRoomTypeImage(searchDTO);
-                    const roomData = hotel.searchRoomTypeData(roomType,storeIdx);
+                    const roomData = hotel.searchRoomTypeData(roomType2,storeIdx2);
 
 
                 }
@@ -184,7 +213,6 @@
             //부모창에서 가져온 카드의 id 값 추출해서 roomCd에 집어넣음
             var urlParams = new URLSearchParams(window.location.search);
             var roomCd = urlParams.get('id');
-            var roomCdInput = document.getElementById('roomCd');
             console.log(roomCd);
 
             //자리 값을 roomCd 인풋(히든)에 넣음
@@ -194,21 +222,24 @@
 
 
             // 폼 제출 후 창 닫기
-            function submitFormAndCloseWindow() {
+            // function submitFormAndCloseWindow() {
+            //
+            //
+            //     // 선택된 카드의 인덱스 가져오기
+            //     var selectedCardIndex = roomCd.replace('roomCard', '');
+            //
+            //     // 부모 창으로 인덱스 전송
+            //     var parentWindow = window.opener;
+            //     parentWindow.postMessage({ selectedCardIndex: selectedCardIndex }, '*');
+            //
+            //
+            //
+            //     document.getElementById("roomForm").submit();
+            //     window.close();
+            // }
 
 
-                // 선택된 카드의 인덱스 가져오기
-                var selectedCardIndex = roomCd.replace('roomCard', '');
 
-                // 부모 창으로 인덱스 전송
-                var parentWindow = window.opener;
-                parentWindow.postMessage({ selectedCardIndex: selectedCardIndex }, '*');
-
-
-
-                document.getElementById("roomForm").submit();
-                window.close();
-            }
 
 
         </script>

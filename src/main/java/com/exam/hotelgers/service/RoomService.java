@@ -91,6 +91,37 @@ public class RoomService {
     }
 
 
+    public Long registeradd(RoomDTO roomDTO) throws IOException {
+
+        Optional<Store> store = storeRepository.storeNameSearch(roomDTO.getStoreDTO().getStoreName());
+
+
+        if (!store.isPresent()) {
+            throw new IllegalStateException("존재하지 않는 매장 코드입니다.");
+        }
+
+
+        Optional<Room> roomCdCheck = roomRepository.findByRoomCd(roomDTO.getRoomCd());
+
+        if (roomCdCheck.isPresent() && roomDTO.getStoreDTO().getStoreIdx() == store.get().getStoreIdx()) {
+            throw new IllegalStateException("이미 방이 있어요");
+        }
+
+
+
+        Room room = modelMapper.map(roomDTO, Room.class);
+
+        room.setRoomStatus(0);
+        room.setStore(store.get());
+
+
+        Long roomIdx = roomRepository.save(room).getRoomIdx();
+
+        return roomIdx;
+    }
+
+
+
     public void modify(RoomDTO newRoom, @Nullable MultipartFile imgFile) throws IOException {
 
         Optional<Room> optionalRoom = roomRepository.findByRoomIdx(newRoom.getRoomIdx());

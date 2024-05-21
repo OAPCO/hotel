@@ -40,6 +40,7 @@ public class ScriptController {
     private final RoomService roomService;
     private final ImageService imageService;
     private final RoomRepository roomRepository;
+    private final RoomOrderService roomOrderService;
 
 
     @Value("${cloud.aws.s3.bucket}")
@@ -169,8 +170,10 @@ public class ScriptController {
         //roomidx 찾기
         Long roomIdx = roomRepository.searchRoomIdx(roomCd,storeIdx);
 
-        //체크인상태로 변경
+        //객실, 객실주문 둘 다 체크인상태로 변경
         roomService.roomStatusUpdate2(roomIdx,roomorderIdx);
+        roomOrderService.roomOrderStatusUpdate2(roomIdx,roomorderIdx);
+
 
     }
 

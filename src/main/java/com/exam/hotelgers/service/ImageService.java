@@ -84,7 +84,6 @@ public class ImageService {
 
             Image image = new Image();
             image.setImgName(newFileName);
-            image.setRoomIdx(roomIdx);
             image.setRoomImageType(roomType);
             image.setRoomImageMain(0);
 
@@ -107,7 +106,6 @@ public class ImageService {
 
             Image image = new Image();
             image.setImgName(newFileName);
-            image.setRoomIdx(roomIdx);
             image.setRoomImageType(roomType);
             image.setRoomImageMain(1);
 
@@ -130,7 +128,6 @@ public class ImageService {
 
         Image image = new Image();
         image.setImgName(newFileName);
-        image.setRoomIdx(roomIdx);
         image.setRoomImageType(roomType);
         image.setRoomImageMain(1);
 

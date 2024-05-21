@@ -47,8 +47,8 @@ public class RoomOrderService {
             throw new IllegalStateException("이미 예약된 방입니다.");
         }
 
-        //3=예약대기상태
-        roomOrderDTO.setRoomStatus(3);
+        //1=예약상태
+        roomOrderDTO.setRoomStatus(1);
 
 
         RoomOrder roomOrder = modelMapper.map(roomOrderDTO, RoomOrder.class);
@@ -111,6 +111,12 @@ public class RoomOrderService {
         Optional<Member> member = roomOrderRepository.roomOrderMemberCheck(searchDTO);
 
         return modelMapper.map(member,MemberDTO.class);
+    }
+
+
+    @Transactional
+    public void roomOrderStatusUpdate2(Long roomIdx, Long roomorderIdx) {
+        roomOrderRepository.roomOrderStatusUpdate2(roomIdx, roomorderIdx);
     }
 
 
