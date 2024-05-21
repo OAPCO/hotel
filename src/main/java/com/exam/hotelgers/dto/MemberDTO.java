@@ -1,6 +1,8 @@
 package com.exam.hotelgers.dto;
 
 import com.exam.hotelgers.constant.RoleType;
+import com.exam.hotelgers.entity.Coupon;
+import com.exam.hotelgers.entity.Reward;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -8,6 +10,8 @@ import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter @ToString
 @AllArgsConstructor @NoArgsConstructor
@@ -76,5 +80,7 @@ public class MemberDTO {
     @Enumerated(EnumType.STRING)
     private RoleType roleType;
 
+    private List<Reward> rewardList = new ArrayList<>();
 
+    private List<Coupon> couponList = new ArrayList<>();
 }

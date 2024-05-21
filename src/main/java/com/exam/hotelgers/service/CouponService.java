@@ -5,7 +5,9 @@ import com.exam.hotelgers.dto.CouponDTO;
 import com.exam.hotelgers.entity.Brand;
 import com.exam.hotelgers.entity.Coupon;
 import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.repository.CouponRepository;
+import com.exam.hotelgers.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
@@ -21,13 +23,26 @@ import java.util.Optional;
 public class CouponService {
     private final CouponRepository couponRepository;
     private final ModelMapper modelMapper;
+    private final MemberRepository memberRepository;
 
     public Long register(CouponDTO couponDTO) {
+        // memberId로 Member entity 찾기
+        Optional<Member> optionalMember = memberRepository.findByMemberEmail(couponDTO.getMemberId());
 
+        if (!optionalMember.isPresent()) {
+            // throw exception or return, as per your requirement
+            throw new IllegalArgumentException("해당하는 유저를 찾지 못했습니다");
+        }
+
+        // CouponDTO를 Coupon entity로 변환
         Coupon coupon = modelMapper.map(couponDTO, Coupon.class);
 
+        // 찾아낸 Member entity를 Coupon에 설정
+        coupon.setMember(optionalMember.get());
+
+        // 변환된 Coupon entity 저장
         couponRepository.save(coupon);
 
-        return couponRepository.save(coupon).getCouponIdx();
+        return coupon.getCouponIdx();
     }
 }

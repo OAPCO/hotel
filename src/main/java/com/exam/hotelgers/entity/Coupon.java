@@ -28,7 +28,9 @@ public class Coupon extends BaseEntity{
 
     private String couponState;//사용여부
 
+    private String detail; //상세설명
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="memberId")
+    @JoinColumn(name="memberEmail", referencedColumnName="memberEmail")
     private Member member; //멤버에 묶임
 }

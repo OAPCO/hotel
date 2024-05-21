@@ -38,7 +38,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     void memberInfoUpdate(SearchDTO searchDTO);
 
 
-
+    Member findByMemberId(String memberId);
 
 
     //회원 탈퇴 처리부분

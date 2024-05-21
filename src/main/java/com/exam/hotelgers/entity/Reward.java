@@ -24,8 +24,9 @@ public class Reward extends BaseEntity{
 
     private String rewardName; //적립명
     private String rewardAmount; //적립액
+    private String rewardPM; //사용인지 적립인지(+-)
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="memberIdx")
+    @JoinColumn(name="memberEmail", referencedColumnName="memberEmail")
     private Member member;
 }

@@ -477,8 +477,10 @@ public class MemberpageController {
 
 
     @GetMapping("/member/mypage/point")
-    public String pointForm() {
+    public String pointForm(MemberDTO memberDTO, Principal principal, Model model) {
+        memberDTO = memberService.memberPointSearch(principal);
 
+        model.addAttribute("memberDTO",memberDTO);
         return "member/mypage/point";
     }
 

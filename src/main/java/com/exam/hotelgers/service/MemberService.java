@@ -4,9 +4,13 @@ import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.entity.Coupon;
 import com.exam.hotelgers.entity.Member;
+import com.exam.hotelgers.entity.Reward;
 import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.repository.CouponRepository;
 import com.exam.hotelgers.repository.MemberRepository;
+import com.exam.hotelgers.repository.RewardRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
@@ -38,6 +42,8 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
 
+    private final RewardRepository rewardRepository;
+    private final CouponRepository couponRepository;
 
 
     //이 부분은 회원 crud 부분
@@ -188,6 +194,21 @@ public class MemberService {
         }
 
 
+    }
+
+    public MemberDTO memberPointSearch(Principal principal) {
+        String memberEmail = principal.getName();
+        List<Reward> rewardList = rewardRepository.findByMemberEmail(memberEmail);
+        List<Coupon> couponList = couponRepository.findByMemberEmail(memberEmail);
+
+        Member member = memberRepository.findByMemberEmail(memberEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+
+        MemberDTO memberDTO = modelMapper.map(member, MemberDTO.class);
+        memberDTO.setRewardList(rewardList);
+        memberDTO.setCouponList(couponList);
+
+        return memberDTO;
     }
 
     public int checkEmailDuplication(SearchDTO searchDTO) {

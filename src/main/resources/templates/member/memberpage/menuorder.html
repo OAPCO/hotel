@@ -176,11 +176,10 @@
                             </div>
                         </table>
                     </div>
-                    <div>
-                        적립액: <span> 500P</span>
-                        할인액: <span> 500원</span>
-                    </div>
                     <p></p>
+                    <div style="text-align: right; margin-right: 10%;">
+                        <p id="totalPoint">총 적립액</p>
+                    </div>
                     <div class="fa-align-right" style="text-align: right">
                         <p style="color: #0c3ee1; ">총 결제액:</p>
                     </div>
@@ -210,6 +209,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+        var totalPoint = 0;
+
         // 랜덤한 문자열을 생성하는 함수
         function generateRandomString(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -228,9 +229,18 @@
 
         $(document).ready(function () {
 
-            // 장바구니 버튼 클릭 이벤트
+            function calculateTotalPoint() {
+                totalPoint = 0;
+                $('#tableBody tr').each(function () {
+                    let quantity = $(this).find(".quantity").text();
+                    let pointSaveAmount = $(this).find(".menu-point").text(); // menu-point 클래스 이름을 적절하게 변경해주세요
+                    totalPoint += quantity * pointSaveAmount;
+                });
+                document.getElementById("totalPoint").innerText = "총 적립액: " + totalPoint + "원";
+            }
+
             $(".info-container button").click(function (event) {
-                event.preventDefault(); // 기본 동작 중지
+                event.preventDefault();
 
                 var menuName = $(this).parent().siblings('.text-container').find('.card-title').text();
                 var price = parseFloat($(this).parent().siblings('.text-container').find('.text-muted').text());
@@ -245,24 +255,23 @@
                 });
 
                 if (existedRow) {
+
                     var quantityElem = existedRow.find(".quantity");
                     var valueElem = existedRow.find('.value');
                     var quantity = parseInt(quantityElem.text()) + 1;
                     quantityElem.text(quantity);
                     valueElem.text((price * quantity).toFixed(2));
-                    // Update existing hidden field
+
                     $('#hiddenMenuOrderPrice' + menuIndex).val(price.toFixed(2));
 
-                    // 동기화
                     $('input[name="menuQuantity[]"]').eq(menuIndex).val(quantity);
                     $('input[name="AmountPrice[]"]').eq(menuIndex).val((price * quantity).toFixed(2));
 
-
-                    // Here we call the calculateTotal function whenever quantity or value is updated
+                    calculateTotalPoint();
                     calculateTotal();
                 } else {
-                    // Create new hidden field
-                    menuIndex = $('#tableBody tr').length; // Assuming that the menuIndex is the current number of rows
+
+                    menuIndex = $('#tableBody tr').length;
                     var rowHtml = '<tr class="row"><td class="col-2">' + menuName + '</td><td class="col-3"><span>' +
                         price.toFixed(2) + '</span></td><td class="col-3">' +
                         '<button class="btn btn-warning minus">-</button>' +
@@ -272,82 +281,60 @@
                         price.toFixed(2) + '</span></td><td class="col-1">' +
                         '<button class="btn btn-danger remove">삭제</button>' +
                         '</td></tr>';
-                    $("#tableBody").append(rowHtml);
 
-                    // Add inputs to #post
+                    $("#tableBody").append(rowHtml);
                     var hiddenInputsHtml =
-                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderName" value="' + menuName + '">' +
-                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderPrice" value="' + price.toFixed(2) + '">' +
-                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity" value="1">' +
-                        '<input type="text" name="menuSheetDTOList[' + menuIndex + '].AmountPrice" value="' + (price * 1).toFixed(2) + '">'; // 수정된 부분
+                        '<input type="hidden" name="menuSheetDTOList[' + menuIndex + '].menuorderName" value="' + menuName + '">' +
+                        '<input type="hidden" name="menuSheetDTOList[' + menuIndex + '].menuorderPrice" value="' + price.toFixed(2) + '">' +
+                        '<input type="hidden" name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity" value="1">' +
+                        '<input type="hidden" name="menuSheetDTOList[' + menuIndex + '].AmountPrice" value="' + (price * 1).toFixed(2) + '">';
+
                     $("#post").append(hiddenInputsHtml);
 
+
                     $(".plus").last().on("click", function (event) {
-                        event.preventDefault(); // 기본 동작 중지
+                        event.preventDefault();
 
                         var quantityElem = $(this).siblings('.quantity');
                         var unitPriceElem = $(this).parent().prev().find('span');
                         var valueElem = $(this).parent().next().find('.value');
                         var quantity = parseInt(quantityElem.text()) + 1;
+
                         quantityElem.text(quantity);
                         var unitPrice = parseFloat(unitPriceElem.text());
                         valueElem.text((unitPrice * quantity).toFixed(2));
 
-                        // Update hidden fields
-                        var menuIndex = $(this).closest('tr').index(); // 해당 행의 인덱스 가져오기
-                        $('input[name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity"]').val(quantity); // 숨겨진 필드의 수량 업데이트
-                        var hiddenAmountPrice = (unitPrice * quantity).toFixed(2); // 총 가격 계산
-                        $('input[name="menuSheetDTOList[' + menuIndex + '].AmountPrice"]').val(hiddenAmountPrice); // 숨겨진 필드의 총 가격 업데이트
+                        var menuIndex = $(this).closest('tr').index();
+                        $('input[name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity"]').val(quantity);
+                        var hiddenAmountPrice = (unitPrice * quantity).toFixed(2);
+                        $('input[name="menuSheetDTOList[' + menuIndex + '].AmountPrice"]').val(hiddenAmountPrice);
 
-                        // Update total
+                        calculateTotalPoint();
                         calculateTotal();
                     });
 
                     $(".minus").last().on("click", function (event) {
-                        event.preventDefault(); // 기본 동작 중지
+                        event.preventDefault();
 
                         var quantityElem = $(this).siblings('.quantity');
                         var unitPriceElem = $(this).parent().prev().find('span');
                         var valueElem = $(this).parent().next().find('.value');
                         var quantity = parseInt(quantityElem.text()) - 1;
-                        if (quantity === 0) {
-                            $(this).parent().parent().remove();
-                            // Remove inputs
-                            $("#post input").eq(menuIndex * 4).remove();
-                            $("#post input").eq(menuIndex * 4).remove();
-                            $("#post input").eq(menuIndex * 4).remove();
-                            $("#post input").eq(menuIndex * 4).remove();
-                            updateMenuIndex();
-                            calculateTotal();
-                        } else {
-                            quantityElem.text(quantity);
-                            var unitPrice = parseFloat(unitPriceElem.text());
-                            valueElem.text((unitPrice * quantity).toFixed(2));
-                            // Update hidden fields
-                            var menuIndex = $(this).closest('tr').index(); // 해당 행의 인덱스 가져오기
-                            $('input[name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity"]').val(quantity); // 숨겨진 필드의 수량 업데이트
-                            var hiddenAmountPrice = (unitPrice * quantity).toFixed(2); // 총 가격 계산
-                            $('input[name="menuSheetDTOList[' + menuIndex + '].AmountPrice"]').val(hiddenAmountPrice); // 숨겨진 필드의 총 가격 업데이트
 
-                            // Update total
-                            calculateTotal();
-                        }
-                    });
+                        quantityElem.text(quantity);
+                        var unitPrice = parseFloat(unitPriceElem.text());
+                        valueElem.text((unitPrice * quantity).toFixed(2));
 
+                        var menuIndex = $(this).closest('tr').index();
+                        $('input[name="menuSheetDTOList[' + menuIndex + '].menuorderQuantity"]').val(quantity);
+                        var hiddenAmountPrice = (unitPrice * quantity).toFixed(2);
+                        $('input[name="menuSheetDTOList[' + menuIndex + '].AmountPrice"]').val(hiddenAmountPrice);
 
-                    $(".remove").last().click(function (event) {
-                        event.preventDefault(); // 기본 동작 중지
-
-                        $(this).parents("tr").remove();
-                        // Remove inputs
-                        $("#post input").eq(menuIndex * 4).remove();
-                        $("#post input").eq(menuIndex * 4).remove();
-                        $("#post input").eq(menuIndex * 4).remove();
-                        $("#post input").eq(menuIndex * 4).remove();
-                        updateMenuIndex();
+                        calculateTotalPoint();
                         calculateTotal();
                     });
-                    // Don't forget to run the calculation when menu is initially added
+
+                    calculateTotalPoint();
                     calculateTotal();
                 }
             });
@@ -366,64 +353,6 @@
             total = total.toFixed(2);
             $('.fa-align-right p').text("총 결제액: " + total);
             $('#totalValue').val(total);
-        }
-
-        document.addEventListener('DOMContentLoaded', (event) => {
-            let menuCategories = Array.from(document.querySelectorAll(".card"));
-            let firstCategoryId = menuCategories[0].dataset.category;
-
-            changeDetails(firstCategoryId);
-        });
-
-        // 카테고리 누를 시 메뉴 변경
-        function changeDetails(categoryId) {
-            let menuCards = Array.from(document.querySelectorAll(".card"));
-
-            menuCards.forEach(card => {
-                let cardCategory = card.dataset.category;
-
-                if (cardCategory === categoryId) {
-                    card.style.display = "flex";
-                    card.style.flexDirection = "row";
-                    card.style.marginBottom = "20px";
-                    card.style.backgroundColor = "#fff";
-                    card.style.borderRadius = "10px";
-                    card.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.1)";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        }
-        //쿠폰 사용 모달 관련
-        function showCouponModal(event) {
-            event.preventDefault();
-
-            $.ajax({
-                url: 'YOUR_SERVER_URL', // replace with your server url
-                method: 'GET',
-                success: function(coupons) { // replace coupons with your real response variable
-                    let content = '';
-
-                    if (coupons.length > 0) {
-                        content += '<table>';
-                        coupons.forEach(coupon => {
-                            content += '<tr><td>' + coupon + '</td></tr>'; // replace coupon with your real data field
-                        });
-                        content += '</table>';
-                    } else {
-                        content = '보유중인 쿠폰이 없습니다.';
-                    }
-
-                    $('#modalBody').html(content);
-
-                    // Now show the modal
-                    $('#couponModal').modal('show');
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                    alert('An error occurred while fetching the coupons.');
-                }
-            });
         }
     </script>
 
