@@ -7,6 +7,7 @@
 <head>
     <title>상담 문의</title>
     <link rel="stylesheet" href="/yhh.css">
+
 </head>
 <body>
 <div layout:fragment="title"><h1><strong>상담 문의</strong></h1></div>
@@ -69,7 +70,10 @@
 
                                 <div class="modal-header">
                                     <h4 class="modal-title"> <p><span id="qnaModalTitle"></span></p></h4>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <button type="button" class="close" id="closeModalBtn" aria-label="Close" style="background: white; border: 1px solid #ccc;">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+
                                 </div>
 
                                 <!-- 모달 바디 -->
@@ -100,13 +104,12 @@
     <script type="text/javascript" src="/js/hotel.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function(){
-
+        $(document).ready(function() {
             console.log("스크립트 호출됨");
 
             // 모달 열기 버튼 클릭 이벤트 리스너
-            $(".open-modal-btn").click(function(){
-
+            $(".open-modal-btn").click(function(event) {
+                event.stopPropagation(); // 이벤트 전파 방지
                 console.log("버튼 클릭됨");
 
                 // 클릭한 버튼에 대한 데이터 가져오기
@@ -115,8 +118,7 @@
                 var qnaTitle = $(this).data("qna-title");
                 var qnaAnswer = $(this).data("qna-answer");
 
-
-                // 모달에 질문내용 표시, dix 값 전달
+                // 모달에 질문내용 표시, qnaIdx 값 전달
                 $("#qnaModalContent").text(qnaContent);
                 $("#qnaModalTitle").text(qnaTitle);
                 $("#qnaModalAnswer").text(qnaAnswer);
@@ -125,8 +127,21 @@
                 // 모달 열기
                 $('#myModal').modal('show');
             });
+
+            // 모달 닫기 버튼 클릭 이벤트 리스너
+            $("#closeModalBtn, #closeModalFooterBtn").click(function() {
+                $('#myModal').modal('hide');
+            });
+
+            // 모달 밖을 클릭했을 때 닫기
+            $(window).click(function(event) {
+                if ($(event.target).hasClass('modal')) {
+                    $('#myModal').modal('hide');
+                }
+            });
         });
     </script>
+
 
 </div>
 
