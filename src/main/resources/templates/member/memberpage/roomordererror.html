@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/membermain}" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>룸서비스 오류</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div style="display: grid;
+    place-items: center;
+    height: 100vh;
+    margin: 0;">
+        <h1 style="color: red">예약하신 방이 없습니다</h1>
+        <a th:href="@{/member/memberpage/index}">
+            <button class="btn btn-outline-primary">예약하러 가기</button>
+        </a>
+    </div>
+
+</div>
+</body>
+</html>
