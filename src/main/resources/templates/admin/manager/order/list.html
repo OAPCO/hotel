@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>주문관리/매장 리스트</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px;">
+                <h2 class="text-primary">매장 목록</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table body" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                               총판명
+                            </th>
+                            <th>
+                                매장명
+                            </th>
+                            <th>
+                                매니저명
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                김총판
+                            </td>
+                            <td>
+                                <a th:href="@{'/admin/manager/order/menuorderlist/' + ${storeIdx}}">
+                                    <span>이 매니저에게 딱 맞는 매장</span>
+                                </a>
+                            </td>
+                            <td>
+                                김매니저
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
