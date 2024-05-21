@@ -28,7 +28,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     Optional<Room> findByRoomIdx(Long roomIdx);
 
 
-    @Query("select r from Room r join r.store s where (r.store.storeCd LIKE %:storeCd%)")
+    @Query("select r from Room r join r.store s where (r.store.storeCd = :storeCd)")
     List<Room> loginManagerRoomSearch(String storeCd);
 
 
@@ -54,7 +54,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
             "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
             "and r1.store.storeIdx = :storeIdx " +
-            "and r1.roomType LIKE %:roomType%")
+            "and r1.roomType = :roomType")
     Optional<Room> roomTypeSearchOne(Long storeIdx,String roomType);
 
 
@@ -63,7 +63,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
             "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
             "and r1.store.storeIdx = :storeIdx " +
-            "and r1.roomType LIKE %:roomType%")
+            "and r1.roomType = :roomType")
     Optional<Room> notEmptyRoomTypeSearch(Long storeIdx, String roomType);
     
     
@@ -86,6 +86,15 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 
 
 
+
+
+
+    //해당 매장의 roomCd로 roomIdx를 구한다. (다음 쿼리를 위한 물밑작업)
+    @Query(value = "SELECT r.roomIdx FROM Room r WHERE r.roomCd = :roomCd and r.store.storeIdx = :storeIdx")
+    Long searchRoomIdx(String roomCd,Long storeIdx);
+
+
+
     //체크인 했을 때 객실 상태를 2로 변경한다.
     @Modifying
     @Query("UPDATE Room r " +
@@ -95,10 +104,10 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     void roomStatusUpdate2(Long roomIdx, Long roomorderIdx);
 
 
+    //기존 객실타입으로 객실을 추가할 때 메인이미지파일명이 저장되지 않으므로 별도의 쿼리문을 추가한다.
+    @Query(value = "SELECT room_mainimg_name FROM Room r WHERE room_type = :roomType and store_idx = :storeIdx LIMIT 1", nativeQuery = true)
+    String roomTypeMainImgSearch(String roomType,Long storeIdx);
 
-    //해당 매장의 roomCd로 roomIdx를 구한다. (다음 쿼리를 위한 물밑작업)
-    @Query(value = "SELECT r.roomIdx FROM Room r WHERE r.roomCd LIKE %:roomCd% and r.store.storeIdx = :storeIdx")
-    Long searchRoomIdx(String roomCd,Long storeIdx);
 
 
 }

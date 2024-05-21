@@ -234,7 +234,7 @@ let hotel = (function () {
 
             },
             error: function(xhr, status, error) {
-                console.error('에러발생');
+                console.error('에러발생data');
             }
         });
 

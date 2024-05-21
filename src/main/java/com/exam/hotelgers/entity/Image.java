@@ -29,8 +29,6 @@ public class Image extends BaseEntity {
 
     private Long bannerIdx;
 
-    private Long roomIdx;
-
     private String roomImageType;
 
     private int roomImageMain;

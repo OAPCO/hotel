@@ -1,6 +1,7 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -32,6 +33,7 @@ public class RoomController {
     private final SearchService searchService;
     private final HttpServletRequest request;
     private final RoomOrderService roomOrderService;
+    private final RoomRepository roomRepository;
 
 
     @Value("${cloud.aws.s3.bucket}")
@@ -174,6 +176,32 @@ public class RoomController {
 
         Long roomIdx = roomService.register(roomDTO, imgFile, mainimgFile);
 
+
+        redirectAttributes.addFlashAttribute("result", roomIdx);
+
+        String previousUrl = request.getHeader("referer");
+        return "redirect:" + previousUrl;
+    }
+
+
+
+    //이것은 file 없이 객실을 생성하는 곳이다. 하하 (기존의 객실타입으로 생성할 때)
+    @PostMapping("/window/roomregisteradd")
+    public String registerRoomWindowaddProc(@Valid RoomDTO roomDTO, BindingResult bindingResult,
+                                         RedirectAttributes redirectAttributes) throws IOException {
+
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+
+        //이 떄는 이미지 등록을 하지 않는데 mainimgname 컬럼에는 값이 있어야 편리하므로 찾아서 넣어준다~
+        String roomMainImageName = roomRepository.roomTypeMainImgSearch(roomDTO.getRoomType(),roomDTO.getStoreDTO().getStoreIdx());
+        roomDTO.setRoomMainimgName(roomMainImageName);
+
+
+        Long roomIdx = roomService.registeradd(roomDTO);
 
         redirectAttributes.addFlashAttribute("result", roomIdx);
 

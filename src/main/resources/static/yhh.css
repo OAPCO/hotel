@@ -1,3 +1,22 @@
+table.roomregister {
+    width: 100%;
+    border: 1px solid #BDBDBD;
+    text-align: left;
+    padding: 8px;
+    color: #44454e;
+}
+
+table.roomregister td{
+    height: 80px;
+    width: 500px;
+}
+
+
+table.roomregister th{
+    background-color: #F2F2F2;
+    color: #44454e;
+}
+
 
 table.head {
     width: 100%;
