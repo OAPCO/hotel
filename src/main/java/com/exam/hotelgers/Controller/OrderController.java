@@ -10,6 +10,7 @@ import com.exam.hotelgers.repository.StoreRepository;
 import com.exam.hotelgers.service.*;
 
 import com.exam.hotelgers.util.PageConvert;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -56,6 +57,8 @@ public class OrderController {
 
     @PostMapping("/admin/manager/order/register")
     public String registerProc(@Valid MenuOrderDTO orderDTO,
+                               @Nullable @RequestParam String couponIdx,
+                               @Nullable @RequestParam RewardDTO RewardDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
