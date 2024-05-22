@@ -117,6 +117,10 @@ let hotel = (function () {
 
     function searchEmptyRoom(searchDTO){
 
+        console.log("데이터확인"+searchDTO.reservationDateCheckin);
+        console.log("데이터확인"+searchDTO.reservationDateCheckout);
+        console.log("데이터확인"+searchDTO.storeIdx);
+
         $.ajax({
             type: 'GET',
             url: '/emptyroom',
@@ -217,7 +221,7 @@ let hotel = (function () {
 
             },
             error: function(xhr, status, error) {
-                console.error('에러발생');
+                console.error('빈 객실 찾기 에러발생');
             }
         });
 

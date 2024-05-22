@@ -31,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -214,6 +215,17 @@ public class MemberpageController {
     @PostMapping("/paycheck")
     public String payCheckProc(RoomOrderDTO roomOrderDTO,PaymentDTO paymentDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
 
+        
+        //날짜변환
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDate = LocalDate.parse(roomOrderDTO.getReservationDateCheckin(), formatter).atStartOfDay();
+        LocalDateTime endDate = LocalDate.parse(roomOrderDTO.getReservationDateCheckout(), formatter).atStartOfDay();
+        log.info("변환된시작일"+startDate);
+        log.info("변환된끝일"+endDate);
+
+        roomOrderDTO.setReservationDateCheckinDate(startDate);
+        roomOrderDTO.setReservationDateCheckinDate(endDate);
 
 
         //예약된 방 하나를 상태를 1로 바꾼다.
