@@ -81,8 +81,7 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 
 
 
-    @Query("select a.password from Admin a where (a.adminId LIKE %:userId%)")
-    String AdminInfoSearch(String userId);
+
 
 
 

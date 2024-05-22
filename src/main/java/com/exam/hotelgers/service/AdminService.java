@@ -150,16 +150,7 @@ public class AdminService {
 
     }
 
-    public String adminInfoSearch(Principal principal) {
-        String userId = principal.getName();
-        String adminPassword = adminRepository.AdminInfoSearch(userId);
 
-
-
-            log.info(userId+"어드민 패스워드: " + adminPassword);
-
-            return adminPassword;
-    }
 
     @Transactional
     public int changePassword(String currentPassword, String newPassword, Principal principal) {

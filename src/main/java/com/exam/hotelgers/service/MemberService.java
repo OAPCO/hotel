@@ -4,10 +4,7 @@ import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.entity.Coupon;
-import com.exam.hotelgers.entity.Member;
-import com.exam.hotelgers.entity.Reward;
-import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.CouponRepository;
 import com.exam.hotelgers.repository.MemberRepository;
 import com.exam.hotelgers.repository.RewardRepository;
@@ -290,5 +287,24 @@ public class MemberService {
         return userid + ":" + password;
     }
 
+    @Transactional
+    public int changePassword(String currentPassword, String newPassword, Principal principal) {
+        String userId = principal.getName();
+        log.info("회원아이디"+userId);
+        Member member = memberRepository.findByMemberEmail(userId).orElseThrow(() ->
+                new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+        int result;
+        // 현재 비밀번호와 일치하는지 확인
+        if (!passwordEncoder.matches(currentPassword, member.getPassword())) {
+            log.info("비밀번호 일치하지 않음. 입력된 비밀번호: " + currentPassword + " 저장된 비밀번호: " + member.getPassword());
+            return result=0; // 현재 비밀번호가 일치하지 않음
+        }
 
+        // 새로운 비밀번호로 업데이트
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        member.setPassword(encodedNewPassword);
+        memberRepository.save(member);
+        log.info("패스워드 변경 성공. 새로운 비밀번호: " + encodedNewPassword);
+        return result=1; // 비밀번호 변경 성공
+    }
 }

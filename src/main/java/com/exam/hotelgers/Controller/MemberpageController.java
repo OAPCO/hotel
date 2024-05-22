@@ -579,8 +579,20 @@ public class MemberpageController {
         return "redirect:/logout";
     }
 
+    @GetMapping("/member/mypage/pwchange")
+    public String pwchangeForm() {
 
+        return "member/mypage/pwchange";
+    }
+    @PostMapping("/member/mypage/pwchange")
+    public String pwchangeproc(Principal principal, String currentPassword, String newPassword) {
 
+        log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
+        int result=memberService.changePassword(currentPassword,newPassword,principal);
+        log.info("결과값"+result);
+
+        return "member/mypage/pwchange";
+    }
 
 
 
