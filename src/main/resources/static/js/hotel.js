@@ -137,6 +137,19 @@ let hotel = (function () {
                     console.log(e.roomType);
                 })
 
+
+                var peopleNumRow = `
+                                            <tr id="peopleNumId">
+                        <td class="col-2" style="text-align: center;">
+                            투숙인원 :
+                        </td>
+                        <td>
+                            <input type="text" name="peopleNum">
+                        </td>
+                    </tr>`;
+
+                emptyRoomResultTable.append(peopleNumRow);
+
                 //예약 가능 방 행 추가
                 emptyRooms.forEach(function(item) {
 
@@ -315,7 +328,7 @@ let hotel = (function () {
     };
 
 
-    function roomIdxFind(roomCd,storeIdx){
+    function roomIdxFind(roomCd,storeIdx,callback){
 
         $.ajax({
             type: 'GET',
@@ -327,7 +340,8 @@ let hotel = (function () {
 
             success: function(response) {
 
-                roomIdx = response;
+                callback(response); // 성공 시 콜백 함수 호출
+
             },
             error: function(xhr, status, error) {
                 console.error('에러발생');

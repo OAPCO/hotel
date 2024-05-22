@@ -72,7 +72,7 @@ public class ImageService {
 
 
     //객실 세부 이미지 생성
-    public void roomImageregister(List<MultipartFile> imgFiles, Long roomIdx, String roomType) throws IOException {
+    public void roomImageregister(List<MultipartFile> imgFiles, String roomType) throws IOException {
 
         for (MultipartFile imgFile : imgFiles) {
             String originalFileName = imgFile.getOriginalFilename();
@@ -90,6 +90,32 @@ public class ImageService {
             imageRepository.save(image);
         }
     }
+
+
+
+    //객실 세부 이미지 수정
+    public void roomImagemodify(List<MultipartFile> imgFiles,String roomType) throws IOException {
+
+
+
+        for (MultipartFile imgFile : imgFiles) {
+            String originalFileName = imgFile.getOriginalFilename();
+            String newFileName = "";
+
+            if (originalFileName != null) {
+                newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
+            }
+
+            Image image = new Image();
+            image.setImgName(newFileName);
+            image.setRoomImageType(roomType);
+            image.setRoomImageMain(0);
+
+            imageRepository.save(image);
+        }
+    }
+
+
 
 
 
@@ -144,6 +170,18 @@ public class ImageService {
     public List<ImageDTO> getBannerImages(Long bannerIdx) {
         List<Image> images = imageRepository.bannerImageList(bannerIdx);
         // 이미지 엔티티를 이미지 DTO로 변환
+        return images.stream()
+                .map(image -> modelMapper.map(image, ImageDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+
+    //객실 디테일이미지 리스트
+    public List<ImageDTO> getRoomTypeImages(String roomType, Long storeIdx) {
+
+        List<Image> images = imageRepository.roomDetailImageList(roomType,storeIdx);
+
         return images.stream()
                 .map(image -> modelMapper.map(image, ImageDTO.class))
                 .collect(Collectors.toList());
