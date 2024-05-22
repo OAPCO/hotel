@@ -40,6 +40,10 @@
         .card.room-card.drag-over {
             border: 2px solid blue; /* 파란색 경계선 */
         }
+
+        .asdasd {
+            display: none;
+        }
     </style>
 
 </head>
@@ -59,9 +63,13 @@
             <th:block th:each="roomTypeList:${roomTypeList}">
 
                 <div class="card">
-                    <div class="card-header">[[${roomTypeList.roomType}]] / [[${roomTypeList.roomPrice}]]</div>
+                    <div class="card-header" id="roomTypeHeader">
+                        <span id="roomTypeDataId">[[${roomTypeList.roomType}]] / [[${roomTypeList.roomPrice}]]</span>
+                        <input type="text" th:value="${roomTypeList.roomType}" class="asdasd" id="roomTypeId">
+                        <input type="text" th:value="${roomTypeList.roomPrice}" class="asdasd" id="roomPriceId">
+                    </div>
                     <div class="card-body">
-                        <button class="btn btn-primary" type="button" th:onclick="|location.href='@{'/admin/manager/room/typemodify/'+${roomTypeList.roomType}}'|">수정</button>
+                        <button class="btn btn-primary" type="button" th:onclick="|location.href='@{'/admin/manager/room/typemodify/'+${roomTypeList.roomType}}'|">이미지수정</button>
                     </div>
                 </div>
             </th:block>
@@ -101,6 +109,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="/js/hotel.js"></script>
     <script th:inline="javascript">
+
+
+        var roomTypeHead = document.getElementById('roomTypeHeader');
+        var roomTypeId = document.getElementById('roomTypeId');
+        var roomPriceId = document.getElementById('roomPriceId');
+        var roomTypeDataId = document.getElementById('roomTypeDataId');
+
+
+        roomTypeHead.addEventListener('click', function() {
+
+            roomTypeId.style.display = 'block';
+            roomPriceId.style.display = 'block';
+            roomTypeDataId.style.display = 'none';
+
+
+            // customRoomImagetd.style.display = 'none';
+        });
+
+
+
 
         function roomRegister(element) {
 

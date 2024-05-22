@@ -266,15 +266,12 @@ public class RoomController {
 
 
     @PostMapping("/room/modify")
-    public String modifyProc(@RequestParam String roomType, @RequestParam int roomPrice,
-                             @RequestParam("imgFile") List<MultipartFile> imgFile, Principal principal,
+    public String modifyProc(String roomType,
+                             List<MultipartFile> imgFile,
                              Model model) throws IOException {
 
-        StoreDTO storeDTO = managerService.managerOfStore(principal);
 
         imageService.roomImageregister(imgFile,roomType);
-
-        roomService.roomPriceUpdate(roomPrice, roomType, storeDTO.getStoreIdx());
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);

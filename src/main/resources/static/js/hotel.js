@@ -137,6 +137,19 @@ let hotel = (function () {
                     console.log(e.roomType);
                 })
 
+
+                var peopleNumRow = `
+                                            <tr id="peopleNumId">
+                        <td class="col-2" style="text-align: center;">
+                            투숙인원 :
+                        </td>
+                        <td>
+                            <input type="text" name="peopleNum">
+                        </td>
+                    </tr>`;
+
+                emptyRoomResultTable.append(peopleNumRow);
+
                 //예약 가능 방 행 추가
                 emptyRooms.forEach(function(item) {
 
