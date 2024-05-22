@@ -1,6 +1,7 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.repository.MemberRepository;
 import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.service.*;
@@ -44,6 +45,7 @@ public class ScriptController {
     private final ImageService imageService;
     private final RoomRepository roomRepository;
     private final RoomOrderService roomOrderService;
+    private final SearchService searchService;
 
 
     @Value("${cloud.aws.s3.bucket}")
@@ -122,34 +124,89 @@ public class ScriptController {
     public Map<String, Object> hotelreadProc(SearchDTO searchDTO) throws Exception {
 
 
-        log.info("서치dto의 storeIdx 확인 : "+ searchDTO.getStoreIdx());
-        log.info("서치dto의 reservationDateCheckin 확인 : "+ searchDTO.getReservationDateCheckin());
-
-        //이 두개를 변환해야함
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime startDate = LocalDate.parse(searchDTO.getReservationDateCheckin(), formatter).atStartOfDay();
-        LocalDateTime endDate = LocalDate.parse(searchDTO.getReservationDateCheckout(), formatter).atStartOfDay();
-        log.info("변환된시작일"+startDate);
-        log.info("변환된끝일"+endDate);
-
-        searchDTO.setReservationDateCheckinDate(startDate);
-        searchDTO.setReservationDateCheckinDate(endDate);
-
-        List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
-
-        //전체 객실 중복없이 호출. 반환은 안할거임.
-        List<RoomDTO> roomTypes = roomService.roomTypeSearch(searchDTO.getStoreIdx());
 
 
-        //위 두 결과를 이용하여 매진 된 객실타입 목록을 만들어냄.
-        List<RoomDTO> notEmptyRoomTypes = roomService.notEmptyRoomSearch(searchDTO.getStoreIdx(),emptyRoomTypes,roomTypes);
+
+
+        LocalDateTime start = searchService.changeDate(searchDTO.getReservationDateCheckin());
+        LocalDateTime end = searchService.changeDate(searchDTO.getReservationDateCheckout());
+
+        searchDTO.setReservationDateCheckinDate(start);
+        searchDTO.setReservationDateCheckinDate(end);
+
+        //예약 가능한 객실 타입의 목록
+        List<String> passRooms = new ArrayList<>();
+
+        //비어있지 않은 객실 타입 목록
+        List<String> notEmptyRooms = new ArrayList<>();
+
+        //전체 객실 타입 목록
+        List<String> allRooms = roomRepository.roomTypeStringSearch(searchDTO.getStoreIdx());
+
+        //빈 객실 타입의 목록
+        List<String> emptyRooms = roomRepository.searchEmptyRoom(searchDTO.getStoreIdx());
+
+
+
+        //전체객실 숫자만큼 반복
+        for(String roomType : allRooms){
+
+
+            //룸타입을 셋 해주고
+            searchDTO.setRoomType(roomType);
+
+            //기존 주문에서 중복여부가 없다면
+            if(roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
+
+                //이 객실을 빈 객실 배열에 추가할그야
+                passRooms.add(roomType);
+            }
+
+            //기존 주문에 중복이 있다면
+            else if(!roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
+
+                //이 객실을 낫엠프티 객실 배열에 추가할그야
+                notEmptyRooms.add(roomType);
+            }
+        }
+
+
+        for(String emptyRoom : emptyRooms){
+
+            //빈 객실타입 목록과 예약가능 객실타입 목록을 비교해서 일치하는 값이 없다면
+            if(!passRooms.contains(emptyRoom)){
+
+                //최종 빈 객실타입 목록에 이걸 추가한다.
+                passRooms.add(emptyRoom);
+            }
+        }
+
+        log.info(passRooms);
+        log.info(notEmptyRooms);
+
+        //예약가능 객실 목록을 담을 dto 배열
+        List<RoomDTO> passRoomList = new ArrayList<>();
+        //예약불가 객실 목록 담을 배열
+        List<RoomDTO> notRoomList = new ArrayList<>();
+        
+
+        for (String pass : passRooms){
+
+            passRoomList.add(roomService.roomTypeSearchToTypeString(searchDTO.getStoreIdx(), pass));
+        }
+
+        for (String not : notEmptyRooms){
+
+            notRoomList.add(roomService.roomTypeSearchToTypeString(searchDTO.getStoreIdx(), not));
+        }
+
+
 
 
         Map<String, Object> result = new HashMap<>();
 
-        result.put("emptyRoomTypes", emptyRoomTypes);
-        result.put("notEmptyRoomTypes", notEmptyRoomTypes);
+        result.put("emptyRoomTypes", passRoomList);
+        result.put("notEmptyRoomTypes", notRoomList);
 
 
         return result;

@@ -218,16 +218,11 @@ public class MemberpageController {
         
         //날짜변환
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime startDate = LocalDate.parse(roomOrderDTO.getReservationDateCheckin(), formatter).atStartOfDay();
-        LocalDateTime endDate = LocalDate.parse(roomOrderDTO.getReservationDateCheckout(), formatter).atStartOfDay();
-        log.info("변환된시작일"+startDate);
-        log.info("변환된끝일"+endDate);
+        LocalDateTime start = searchService.changeDate(roomOrderDTO.getReservationDateCheckin());
+        LocalDateTime end = searchService.changeDate(roomOrderDTO.getReservationDateCheckout());
 
-        
-
-        roomOrderDTO.setReservationDateCheckinDate(startDate);
-        roomOrderDTO.setReservationDateCheckinDate(endDate);
+        roomOrderDTO.setReservationDateCheckinDate(start);
+        roomOrderDTO.setReservationDateCheckoutDate(end);
 
 
         //예약된 방 하나를 상태를 1로 바꾼다.
