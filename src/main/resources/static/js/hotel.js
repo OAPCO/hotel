@@ -137,6 +137,19 @@ let hotel = (function () {
                     console.log(e.roomType);
                 })
 
+
+                var peopleNumRow = `
+                                            <tr id="peopleNumId">
+                        <td class="col-2" style="text-align: center;">
+                            투숙인원 :
+                        </td>
+                        <td>
+                            <input type="text" name="peopleNum">
+                        </td>
+                    </tr>`;
+
+                emptyRoomResultTable.append(peopleNumRow);
+
                 //예약 가능 방 행 추가
                 emptyRooms.forEach(function(item) {
 
@@ -315,6 +328,31 @@ let hotel = (function () {
     };
 
 
+
+    function updateRoomPrice(roomPrice,roomType){
+
+        $.ajax({
+            type: 'GET',
+            url: '/roompriceupdate',
+            data: {
+                roomPrice: roomPrice,
+                roomType: roomType
+            },
+
+            success: function(response) {
+
+                console.log("가격 업데이트 완료")
+                location.reload();
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
     function roomIdxFind(roomCd,storeIdx,callback){
 
         $.ajax({
@@ -349,7 +387,8 @@ let hotel = (function () {
         searchRoomTypeImage : searchRoomTypeImage,
         updateRoomCheckin : updateRoomCheckin,
         searchRoomTypeData : searchRoomTypeData,
-        roomIdxFind : roomIdxFind
+        roomIdxFind : roomIdxFind,
+        updateRoomPrice : updateRoomPrice
     };
 
 })();

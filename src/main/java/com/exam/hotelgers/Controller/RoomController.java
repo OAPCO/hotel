@@ -167,6 +167,7 @@ public class RoomController {
                                RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("객실생성 창 컨트롤러 Post 도착" + roomDTO);
+        log.info("객실타입 화긴@@@@@@@@@@@@@ " + roomDTO.getRoomType());
 
 
         if (bindingResult.hasErrors()) {
@@ -265,26 +266,26 @@ public class RoomController {
 
 
 
-//    @PostMapping("/banner/modify")
-//    public String modifyProc(@RequestParam Long bannerIdx,
-//                             @RequestParam("imgFile") List<MultipartFile> imgFile,
-//                             Model model) throws IOException {
-//
-//
-//        imageService.bannerImageregister(imgFile,bannerIdx);
-//
-//        model.addAttribute("bucket", bucket);
-//        model.addAttribute("region", region);
-//        model.addAttribute("folder", folder);
-//
-//        String referer = request.getHeader("referer");
-//
-//        if (referer != null && !referer.isEmpty()) {
-//            return "redirect:" + referer;
-//        } else {
-//            return "redirect:/admin/admin/banner/list";
-//        }
-//    }
+    @PostMapping("/room/modify")
+    public String modifyProc(String roomType,
+                             List<MultipartFile> imgFile,
+                             Model model) throws IOException {
+
+
+        imageService.roomImageregister(imgFile,roomType);
+
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        String referer = request.getHeader("referer");
+
+        if (referer != null && !referer.isEmpty()) {
+            return "redirect:" + referer;
+        } else {
+            return "redirect:/admin/manager/room/listboard";
+        }
+    }
 
 
 

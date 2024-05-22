@@ -76,7 +76,7 @@ public class RoomService {
 
         String roomType = room.getRoomType();
 
-        imageService.roomImageregister(imgFiles, roomIdx, roomType);
+        imageService.roomImageregister(imgFiles, roomType);
 
         //대표파일의 이름을 반환받아온다.
         String imgName = imageService.roomMainImageregister(mainimgFile, roomIdx, roomType);
@@ -251,6 +251,13 @@ public class RoomService {
     public void roomStatusUpdate2(Long roomIdx, Long roomorderIdx) {
         roomRepository.roomStatusUpdate2(roomIdx, roomorderIdx);
     }
+
+
+    @Transactional
+    public void roomPriceUpdate(int roomPrice, String roomType, Long storeIdx) {
+        roomRepository.roomPriceUpdate(roomPrice, roomType, storeIdx);
+    }
+
 
 
     public List<RoomDTO> roomTypeSearch(Long storeIdx) {
