@@ -94,7 +94,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="data:${roomDTO.orderDTOList}">
+                            <tr th:each="data:${roomOrderDTO}">
                                 <td th:text="${data.orderCd}"></td>
                                 <td>주문메뉴</td>
                                 <td>주문서출력여부</td>
@@ -117,7 +117,7 @@
         <div class="card">
             <div class="card-body">
                 <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-                    지난 내역
+                    객실 예약 현황
                 </div>
                 <div class="table-responsive">
                     <table class="table body">

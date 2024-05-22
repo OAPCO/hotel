@@ -48,14 +48,15 @@
                         <td style="height: 140px">
                         <div>
 
-                            <select class="form-select" id="roomType" onchange="toggleCustomInput()">
+                            <select class="form-select" id="roomType" onchange="toggleCustomInput()" name="">
                                 <option value="">==</option>
                                 <option th:each="roomTypeList : ${roomTypeList}" th:value="${roomTypeList.roomType}" th:text="${roomTypeList.roomType}"></option>
                                 <option value="custom">[새로 추가]</option>
                             </select>
-                            <div id="customRoomTypeInput" style="display: none;">
-                                <input type="text" class="form-control" placeholder="새 객실 타입">
-                            </div>
+                            <div id="customRoomTypeContainer"></div>
+<!--                            <div id="customRoomTypeInput" style="display: none;">-->
+<!--                                <input type="text" class="form-control" placeholder="새 객실 타입" name="">-->
+<!--                            </div>-->
                             <br>
 
                         </div>
@@ -99,8 +100,10 @@
         <script>
 
             function toggleCustomInput() {
+                var customRoomTypeContainer = document.getElementById('customRoomTypeContainer');
+
                 var roomTypeSelect = document.getElementById('roomType');
-                var customRoomTypeInput = document.getElementById('customRoomTypeInput');
+                // var customRoomTypeInput = document.getElementById('customRoomTypeInput');
                 var customRoomImagetd = document.getElementById('customRoomImagetd');
                 var customRoomImageth = document.getElementById('customRoomImageth');
                 var imgFile = document.getElementById('imgFile');
@@ -108,12 +111,30 @@
 
                 var selectedValue = roomTypeSelect.value;
 
+                customRoomTypeContainer.innerHTML = '';
+
+
                 if (selectedValue === 'custom') {
-                    customRoomTypeInput.style.display = 'block';
+                    // customRoomTypeInput.style.display = 'block';
                     customRoomImagetd.style.display = 'block';
                     customRoomImageth.style.display = 'block';
+                    // customRoomTypeInput.name = 'roomType';
+
+
+
+                    // Create the input element
+                    var customRoomTypeInput = document.createElement('input');
+                    customRoomTypeInput.type = 'text';
+                    customRoomTypeInput.className = 'form-control';
+                    customRoomTypeInput.placeholder = '새 객실 타입';
                     customRoomTypeInput.name = 'roomType';
-                    roomTypeSelect.name = null;
+
+                    // Append the input element to the container
+                    customRoomTypeContainer.appendChild(customRoomTypeInput);
+
+
+
+                    roomTypeSelect.name = '';
 
 
                     document.getElementById('roomregisterform').action = '/window/roomregister';
@@ -133,11 +154,13 @@
 
                 } else {
 
-                    customRoomTypeInput.style.display = 'none';
+                    // customRoomTypeInput.style.display = 'none';
                     customRoomImagetd.style.display = 'none';
                     customRoomImageth.style.display = 'none';
-                    customRoomTypeInput.name = null;
+                    // customRoomTypeInput.name = '';
                     roomTypeSelect.name = 'roomType';
+                    // console.log(customRoomTypeInput.name);
+                    console.log(roomTypeSelect.name);
                     document.getElementById('roomPrice').readOnly = true;
                     document.getElementById('roomregisterform').action = '/window/roomregisteradd';
                     console.log(document.getElementById('roomregisterform').action);

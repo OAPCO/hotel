@@ -7,10 +7,12 @@ import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -29,11 +36,10 @@ public class AdminService {
     private final ManagerRepository managerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    BCryptPasswordEncoder encoder;
 
 
-
-    public Long register(AdminDTO adminDTO){
-
+    public Long register(AdminDTO adminDTO) {
 
 
         List<String> adminIdCheck = adminRepository.registerCheck(adminDTO.getAdminId());
@@ -41,18 +47,16 @@ public class AdminService {
         List<String> managerIdCheck = managerRepository.registerCheck(adminDTO.getAdminId());
 
 
-        if(!adminIdCheck.isEmpty() || !distChiefIdCheck.isEmpty() || !managerIdCheck.isEmpty()) {
+        if (!adminIdCheck.isEmpty() || !distChiefIdCheck.isEmpty() || !managerIdCheck.isEmpty()) {
             throw new IllegalStateException("중복된 아이디가 있습니다.");
         }
-
 
 
         String password = passwordEncoder.encode(adminDTO.getPassword());
         Admin admin = modelMapper.map(adminDTO, Admin.class);
 
 
-
-        if(adminDTO.getRoleType().equals(RoleType.ADMIN)){
+        if (adminDTO.getRoleType().equals(RoleType.ADMIN)) {
             admin.setRoleType(RoleType.ADMIN);
         }
 
@@ -64,42 +68,38 @@ public class AdminService {
     }
 
 
-
-
-
-    public void delete(Long adminIdx){
+    public void delete(Long adminIdx) {
         adminRepository.deleteById(adminIdx);
     }
 
 
-    public AdminDTO read(Long adminIdx){
+    public AdminDTO read(Long adminIdx) {
 
-        Optional<Admin> temp= adminRepository.findById(adminIdx);
+        Optional<Admin> temp = adminRepository.findById(adminIdx);
 
 
-        return modelMapper.map(temp,AdminDTO.class);
+        return modelMapper.map(temp, AdminDTO.class);
     }
 
 
-    public Page<AdminDTO> list(Pageable pageable){
+    public Page<AdminDTO> list(Pageable pageable) {
 
-        int currentPage = pageable.getPageNumber()-1;
+        int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"adminIdx"));
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.by(Sort.Direction.DESC, "adminIdx"));
 
         Page<Admin> admins = adminRepository.findAll(page);
 
 
-        Page<AdminDTO> AdminDTOS = admins.map(data->modelMapper.map(data,AdminDTO.class));
+        Page<AdminDTO> AdminDTOS = admins.map(data -> modelMapper.map(data, AdminDTO.class));
 
         return AdminDTOS;
     }
 
 
-
     public Page<Object> memberList(Pageable pageable) {
 
-        int currentPage = pageable.getPageNumber()-1;
+        int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.unsorted());
 
@@ -123,17 +123,15 @@ public class AdminService {
     }
 
 
+    public Page<Object> memberListSearch(Pageable pageable, SearchDTO adminDTO) {
 
-
-    public Page<Object> memberListSearch(Pageable pageable,SearchDTO searchDTO) {
-
-        int currentPage = pageable.getPageNumber()-1;
+        int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.unsorted());
 
-        List<DistChief> distChiefList = adminRepository.distChiefListSearch1(searchDTO);
-        List<Manager> managerList = adminRepository.managerListSearch1(searchDTO);
-        List<Member> memberList = adminRepository.memberListSearch1(searchDTO);
+        List<DistChief> distChiefList = adminRepository.distChiefListSearch1(adminDTO);
+        List<Manager> managerList = adminRepository.managerListSearch1(adminDTO);
+        List<Member> memberList = adminRepository.memberListSearch1(adminDTO);
 
         List<Object> allList = Stream.of(distChiefList, managerList, memberList)
                 .flatMap(List::stream)
@@ -148,9 +146,30 @@ public class AdminService {
         Page<Object> pageAllList = new PageImpl<>(subList, page, allList.size());
 
         return pageAllList;
+
+
     }
 
 
 
+    @Transactional
+    public int changePassword(String currentPassword, String newPassword, Principal principal) {
+        String userId = principal.getName();
+        Admin admin = adminRepository.findByAdminId(userId).orElseThrow(() ->
+                new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+    int result;
+        // 현재 비밀번호와 일치하는지 확인
+        if (!passwordEncoder.matches(currentPassword, admin.getPassword())) {
+            log.info("비밀번호 일치하지 않음. 입력된 비밀번호: " + currentPassword + " 저장된 비밀번호: " + admin.getPassword());
+            return result=0; // 현재 비밀번호가 일치하지 않음
+        }
+
+        // 새로운 비밀번호로 업데이트
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        admin.setPassword(encodedNewPassword);
+        adminRepository.save(admin);
+        log.info("패스워드 변경 성공. 새로운 비밀번호: " + encodedNewPassword);
+        return result=1; // 비밀번호 변경 성공
+    }
 
 }

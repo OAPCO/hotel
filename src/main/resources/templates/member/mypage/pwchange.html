@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mypagelayout}">
+<head>
+    <title>개인정보 수정</title>
+
+
+
+</head>
+<body>
+<div layout:fragment="title"><h1><strong>비밀번호 변경</strong></h1></div>
+<div layout:fragment="content">
+    <div id="form-container">
+        <div id="form-inner-container">
+            <!-- Sign up form -->
+
+            <div id="sign-up-container">
+                <h3>비밀번호 변경</h3>
+                <form method="post" action="/member/mypage/pwchange">
+                    <label>비밀번호</label>
+                    <input type="password" name="currentPassword" id="currentPassword">
+
+                    <label>새 비밀번호</label>
+                    <input type="password" name="newPassword" id="newPassword">
+
+                    <label>새 비밀번호확인</label>
+                    <input type="password" name="newPassword2" id="newPassword2">
+
+                    <div>
+                        <button type="submit" class="btn--blue">비밀번호 변경</button>
+                    </div>
+
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>

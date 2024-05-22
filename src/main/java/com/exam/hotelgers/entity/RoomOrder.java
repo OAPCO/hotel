@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -29,8 +30,8 @@ public class RoomOrder extends BaseEntity{
     private String endTime;
 
     //예약 희망 날짜
-    private int reservationDateCheckin;
-    private int reservationDateCheckout;
+    private LocalDateTime reservationDateCheckinDate;
+    private LocalDateTime reservationDateCheckoutDate;
     
     //실제 체크인/아웃 날짜,시간
     private String checkinTime;

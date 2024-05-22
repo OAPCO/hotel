@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Getter @Setter @ToString
@@ -102,8 +103,10 @@ public class SearchDTO {
     private String startTime;
     private String endTime;
 
-    private int reservationDateCheckin;
-    private int reservationDateCheckout;
+    private String reservationDateCheckin;
+    private String reservationDateCheckout;
+    private LocalDateTime reservationDateCheckinDate;
+    private LocalDateTime reservationDateCheckoutDate;
     private String checkinTime;
     private String checkoutTime;
 

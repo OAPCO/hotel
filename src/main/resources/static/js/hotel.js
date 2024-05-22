@@ -117,6 +117,10 @@ let hotel = (function () {
 
     function searchEmptyRoom(searchDTO){
 
+        console.log("데이터확인"+searchDTO.reservationDateCheckin);
+        console.log("데이터확인"+searchDTO.reservationDateCheckout);
+        console.log("데이터확인"+searchDTO.storeIdx);
+
         $.ajax({
             type: 'GET',
             url: '/emptyroom',
@@ -217,7 +221,7 @@ let hotel = (function () {
 
             },
             error: function(xhr, status, error) {
-                console.error('에러발생');
+                console.error('빈 객실 찾기 에러발생');
             }
         });
 
@@ -328,6 +332,31 @@ let hotel = (function () {
     };
 
 
+
+    function updateRoomPrice(roomPrice,roomType){
+
+        $.ajax({
+            type: 'GET',
+            url: '/roompriceupdate',
+            data: {
+                roomPrice: roomPrice,
+                roomType: roomType
+            },
+
+            success: function(response) {
+
+                console.log("가격 업데이트 완료")
+                location.reload();
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
     function roomIdxFind(roomCd,storeIdx,callback){
 
         $.ajax({
@@ -362,7 +391,8 @@ let hotel = (function () {
         searchRoomTypeImage : searchRoomTypeImage,
         updateRoomCheckin : updateRoomCheckin,
         searchRoomTypeData : searchRoomTypeData,
-        roomIdxFind : roomIdxFind
+        roomIdxFind : roomIdxFind,
+        updateRoomPrice : updateRoomPrice
     };
 
 })();
