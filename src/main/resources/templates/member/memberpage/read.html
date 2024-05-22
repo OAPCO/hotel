@@ -253,16 +253,14 @@
                                     체크인 :
                                 </td>
                                 <td class="col-3">
-                                    <input type="date" name="startDate" style=" width:300px; border-radius: 10px; height: 50px; padding-top: 5px; position: relative;"  id="startDate" >
+                                    <input type="date" name="reservationDateCheckin" style=" width:300px; border-radius: 10px; height: 50px; padding-top: 5px; position: relative;" id="isoStartDate">
                                 </td>
                                 <td class="col-1" style="text-align: center;">
                                     체크아웃 :
                                 </td>
                                 <td class="col-3" >
-                                    <input type="date" name="endDate"  style=" width:300px; border-radius: 10px; height: 50px; padding-top: 5px; position: relative;"  id="endDate" >
+                                    <input type="date" name="reservationDateCheckout"  style=" width:300px; border-radius: 10px; height: 50px; padding-top: 5px; position: relative;" id="isoEndDate">
                                 </td>
-                                <input type="hidden" id="isoStartDate" name="reservationDateCheckin">
-                                <input type="hidden" id="isoEndDate" name="reservationDateCheckout">
                                 <input type="hidden" id="storeIdx" name="storeIdx" th:value="${storeDTO.storeIdx}">
                                 <td class="col-3">
                                     <button class="btn btn-primary" type="submit" style=" margin-top:50px; margin-bottom:50px; margin-left:100px;  white-space: nowrap; ">조회하기</button>
@@ -331,27 +329,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/hotel.js"></script>
     <script>
-        function toggleOptions() {
-            const options = document.querySelector('.options');
-            options.style.display = options.style.display === 'block' ? 'none' : 'block';
-        }
 
-        function handleMinusClick(event, label) {
-            event.stopPropagation(); // 이벤트 전파 방지
-        }
-
-        function handlePlusClick(event, label) {
-            event.stopPropagation(); // 이벤트 전파 방지
-
-        }
-
-        document.addEventListener('click', function(event) {
-            const selectBox = document.querySelector('.select-box');
-            const options = document.querySelector('.options');
-            if (!selectBox.contains(event.target)) {
-                options.style.display = 'none';
-            }
-        });
+        // document.addEventListener('click', function(event) {
+        //     const selectBox = document.querySelector('.select-box');
+        //     const options = document.querySelector('.options');
+        //     if (!selectBox.contains(event.target)) {
+        //         options.style.display = 'none';
+        //     }
+        // });
     </script>
     <script>
 
@@ -370,34 +355,16 @@
                 storeIdx: $('#storeIdx').val()
             };
 
+            console.log("여기는 잘 찍히느거 확인"+searchDTO.reservationDateCheckin);
+            console.log("여기는 잘 찍히느거 확인"+searchDTO.reservationDateCheckout);
+            console.log("여기는 잘 찍히느거 확인"+searchDTO.storeIdx);
+
             //빈 객실 찾는 ajax 실행
             hotel.searchEmptyRoom(searchDTO);
 
 
         });
 
-
-        //날짜를 숫자로 변환
-        document.getElementById("startDate").addEventListener("change", function () {
-
-            var originalDate = this.value;
-            var numericDate = originalDate.replace(/-/g, '');
-
-            document.getElementById("isoStartDate").value = numericDate;
-            // document.getElementById("isoStartDate2").value = numericDate;
-
-            console.log(numericDate);
-            // console.log(document.getElementById("isoStartDate2").value);
-        });
-
-        document.getElementById("endDate").addEventListener("change", function () {
-
-            var originalDate = this.value;
-            var numericDate = originalDate.replace(/-/g, '');
-
-            document.getElementById("isoEndDate").value = numericDate;
-            // document.getElementById("isoEndDate2").value = numericDate;
-        });
 
 
     </script>

@@ -23,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -121,6 +124,17 @@ public class ScriptController {
 
         log.info("서치dto의 storeIdx 확인 : "+ searchDTO.getStoreIdx());
         log.info("서치dto의 reservationDateCheckin 확인 : "+ searchDTO.getReservationDateCheckin());
+
+        //이 두개를 변환해야함
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime startDate = LocalDate.parse(searchDTO.getReservationDateCheckin(), formatter).atStartOfDay();
+        LocalDateTime endDate = LocalDate.parse(searchDTO.getReservationDateCheckout(), formatter).atStartOfDay();
+        log.info("변환된시작일"+startDate);
+        log.info("변환된끝일"+endDate);
+
+        searchDTO.setReservationDateCheckinDate(startDate);
+        searchDTO.setReservationDateCheckinDate(endDate);
 
         List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
 
