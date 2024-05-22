@@ -57,7 +57,7 @@ public class OrderController {
 
     @PostMapping("/admin/manager/order/register")
     public String registerProc(@Valid MenuOrderDTO orderDTO,
-                               @Nullable @RequestParam String couponIdx,
+                               @Nullable @RequestParam Long couponIdx,
                                @Nullable @RequestParam RewardDTO RewardDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
