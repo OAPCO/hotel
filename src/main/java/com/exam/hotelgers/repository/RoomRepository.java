@@ -110,4 +110,15 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 
 
 
+    //객실 가격 수정
+    @Modifying
+    @Query("UPDATE Room r " +
+            "SET r.roomPrice = :roomPrice " +
+            "WHERE r.roomType = :roomType " +
+            "and r.store.storeIdx = :storeIdx")
+    void roomPriceUpdate(int roomPrice, String roomType, Long storeIdx);
+
+
+
+
 }

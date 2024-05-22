@@ -265,26 +265,29 @@ public class RoomController {
 
 
 
-//    @PostMapping("/banner/modify")
-//    public String modifyProc(@RequestParam Long bannerIdx,
-//                             @RequestParam("imgFile") List<MultipartFile> imgFile,
-//                             Model model) throws IOException {
-//
-//
-//        imageService.bannerImageregister(imgFile,bannerIdx);
-//
-//        model.addAttribute("bucket", bucket);
-//        model.addAttribute("region", region);
-//        model.addAttribute("folder", folder);
-//
-//        String referer = request.getHeader("referer");
-//
-//        if (referer != null && !referer.isEmpty()) {
-//            return "redirect:" + referer;
-//        } else {
-//            return "redirect:/admin/admin/banner/list";
-//        }
-//    }
+    @PostMapping("/room/modify")
+    public String modifyProc(@RequestParam String roomType, @RequestParam int roomPrice,
+                             @RequestParam("imgFile") List<MultipartFile> imgFile, Principal principal,
+                             Model model) throws IOException {
+
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
+        imageService.roomImageregister(imgFile,roomType);
+
+        roomService.roomPriceUpdate(roomPrice, roomType, storeDTO.getStoreIdx());
+
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        String referer = request.getHeader("referer");
+
+        if (referer != null && !referer.isEmpty()) {
+            return "redirect:" + referer;
+        } else {
+            return "redirect:/admin/manager/room/listboard";
+        }
+    }
 
 
 

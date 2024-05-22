@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/adminlayout}">
+      layout:decorate="~{layouts/main}">
 <head>
     <title>객실 타입 수정</title>
     <link rel="stylesheet" href="/yhh.css">
@@ -18,7 +18,7 @@
             <div class="banner-info">
                 <div>
                     <span class="info-label"></span>
-                    <h2><span th:text="${bannerDTO.bannerTitle}"></span></h2>
+                    <h2><span th:text="${roomDTO.roomType}"></span></h2>
                 </div>
             </div>
 
@@ -27,7 +27,7 @@
                 <div>
                     <span class="info-label"></span>
                 </div>
-                <div class="image-container" th:each="image : ${images}">
+                <div class="image-container" th:each="image : ${roomDetailImgList}">
                     <div>
                     <img class="banner-image" th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${image.imgName}|" width="300" height="300">
                     </div>
@@ -37,21 +37,29 @@
                 </div>
             </div><br><br>
 
-            <form method="post" th:action="@{/banner/modify}" enctype="multipart/form-data">
 
-                <input type="hidden" name="bannerIdx" th:value="${bannerDTO.bannerIdx}" />
+<!--            여기서 타입의 모든 객실들을 조회해서 이미지 수정-->
+            <form method="post" th:action="@{/room/modify}" enctype="multipart/form-data">
 
+                <div class="mb-3 mt-3">
+                    가격 <input type="text" class="form-control" name="roomPrice" th:value="${roomDTO.roomPrice}"
+                           required>
+                </div>
+
+                <input type="hidden" name="roomType" th:value="${roomDTO.roomType}" />
+
+                이미지 추가
                 <input type="file" class="form-control" id="imgFile" name="imgFile" multiple required>
                 <div id="preview"></div>
                 <div style="text-align: center;">
-                    <button type="submit" class="btn button">이미지 추가</button>
+                    <button type="submit" class="btn button">수정</button>
                 </div>
             </form>
 
             <br><br>
             <div class="banner-buttons">
-                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/admin/banner/list}'|">목록</button>
-                <button class="btn btn-danger" type="button" th:onclick="|location.href='@{'/admin/admin/banner/delete/'+${bannerDTO.bannerIdx}}'|">삭제</button>
+                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/manager/room/listboard}'|">목록</button>
+<!--                <button class="btn btn-danger" type="button" th:onclick="|location.href='@{'/admin/manager/room/delete/'+${roomDTO.bannerIdx}}'|">삭제</button>-->
             </div>
 
 
