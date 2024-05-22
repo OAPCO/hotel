@@ -45,7 +45,7 @@ public class Member extends BaseEntity {
     @Column(length = 1)
     private String memberType; //회원타입
 
-    @Column(length = 200)
+    @Column(length = 200, unique = true)
     private String memberEmail;//"회원 이메일
 
     @Column(length = 200)

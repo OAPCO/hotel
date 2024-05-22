@@ -8,8 +8,12 @@ import com.exam.hotelgers.service.CouponService;
 import com.exam.hotelgers.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -28,5 +32,11 @@ public class CouponController {
         Long newCoupon = couponService.register(couponDTO);
 
         return "redirect:/member/memberpage/index";
+    }
+
+    @GetMapping("/api/coupons/{couponIdx}")
+    public ResponseEntity<CouponDTO> getCoupon(@PathVariable Long couponIdx) {
+        CouponDTO couponDTO = couponService.getCoupon(couponIdx);
+        return new ResponseEntity<>(couponDTO, HttpStatus.OK);
     }
 }
