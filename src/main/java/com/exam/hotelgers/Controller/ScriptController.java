@@ -214,10 +214,16 @@ public class ScriptController {
 
     //객실생성 페이지에서 객실 타입 정보 불러오기
     @GetMapping(value = "/roompriceupdate")
-    public void roomPriceUpdate(int roomPrice, Long storeIdx, String roomType) throws Exception {
+    public void roomPriceUpdate(int roomPrice, String roomType,Principal principal) throws Exception {
+
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
+        Long storeIdx = storeDTO.getStoreIdx();
 
         log.info("로그화긴@@ + " + storeIdx);
         log.info("로그화긴@@ + " + roomType);
+        log.info("로그화긴@@ + " + roomPrice);
+
 
         roomService.roomPriceUpdate(roomPrice, roomType, storeIdx);
 

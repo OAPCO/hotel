@@ -167,6 +167,7 @@ public class RoomController {
                                RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("객실생성 창 컨트롤러 Post 도착" + roomDTO);
+        log.info("객실타입 화긴@@@@@@@@@@@@@ " + roomDTO.getRoomType());
 
 
         if (bindingResult.hasErrors()) {

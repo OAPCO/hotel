@@ -44,6 +44,17 @@
         .asdasd {
             display: none;
         }
+
+
+        .card-header{
+            padding: 10px;
+            background-color: #f8f9fa;
+            transition: background-color 0.5s ease;
+        }
+
+        .card-header:hover {
+            background-color: #cad5f5;
+        }
     </style>
 
 </head>
@@ -60,16 +71,17 @@
 
         <div id="right-content">
 
-            <th:block th:each="roomTypeList:${roomTypeList}">
+            <th:block th:each="roomTypeList, iterStat :${roomTypeList}">
 
                 <div class="card">
-                    <div class="card-header" id="roomTypeHeader">
-                        <span id="roomTypeDataId">[[${roomTypeList.roomType}]] / [[${roomTypeList.roomPrice}]]</span>
-                        <input type="text" th:value="${roomTypeList.roomType}" class="asdasd" id="roomTypeId">
-                        <input type="text" th:value="${roomTypeList.roomPrice}" class="asdasd" id="roomPriceId">
+                    <div class="card-header" th:id="'roomTypeHeader'+${iterStat.index}">
+                        <span th:id="'roomTypeSpanId' + ${iterStat.index}" th:text="${roomTypeList.roomType}" th:value="${roomTypeList.roomType}"></span>/<span th:id="'roomPriceSpanId' + ${iterStat.index}" th:text="${roomTypeList.roomPrice}"></span>
+                        <input type="text" th:value="${roomTypeList.roomPrice}" class="asdasd" th:id="'roomPriceId' + ${iterStat.index}">
+                        <input type="text" th:value="${roomTypeList.roomType}" class="asdasd" th:id="'roomTypeId' + ${iterStat.index}">
+                        <input type="button" value="수정" class="asdasd" th:id="'roomTypeUpdateButton' + ${iterStat.index}">
                     </div>
                     <div class="card-body">
-                        <button class="btn btn-primary" type="button" th:onclick="|location.href='@{'/admin/manager/room/typemodify/'+${roomTypeList.roomType}}'|">이미지수정</button>
+                        <button class="btn btn-primary" type="button" th:onclick="|location.href='@{'/admin/manager/room/typemodify/'+${roomTypeList.roomType}}'|">객실 사진 변경</button>
                     </div>
                 </div>
             </th:block>
@@ -111,22 +123,29 @@
     <script th:inline="javascript">
 
 
-        var roomTypeHead = document.getElementById('roomTypeHeader');
-        var roomTypeId = document.getElementById('roomTypeId');
-        var roomPriceId = document.getElementById('roomPriceId');
-        var roomTypeDataId = document.getElementById('roomTypeDataId');
 
+        $(document).ready(function() {
+            $("[id^=roomTypeHeader]").on('click', function() {
+                var index = $(this).attr('id').replace('roomTypeHeader', '');
+                console.log("눌렸음");
 
-        roomTypeHead.addEventListener('click', function() {
-
-            roomTypeId.style.display = 'block';
-            roomPriceId.style.display = 'block';
-            roomTypeDataId.style.display = 'none';
-
-
-            // customRoomImagetd.style.display = 'none';
+                $("#roomPriceId" + index).css('display', 'block');
+                $("#roomPriceSpanId" + index).css('display', 'none');
+                // $("#roomTypeSpanId" + index).css('display', 'none');
+                $("#roomTypeUpdateButton" + index).css('display', 'block');
+            });
         });
 
+        $("[id^=roomTypeUpdateButton]").on('click', function() {
+            var index = $(this).attr('id').replace('roomTypeUpdateButton', '');
+            var roomPrice = $("#roomPriceId" + index).val();
+            var roomType = $("#roomTypeId" + index).val();
+
+            console.log("가격: " + roomPrice);
+            console.log("타입: " + roomType);
+
+            hotel.updateRoomPrice(roomPrice, roomType);
+        });
 
 
 
