@@ -45,4 +45,16 @@ public class CouponService {
 
         return coupon.getCouponIdx();
     }
+    public CouponDTO getCoupon(Long couponId){
+        Optional<Coupon> optionalCoupon = couponRepository.findById(couponId);
+
+        // `Optional.isPresent()`를 통해 Coupon 객체가 실제로 존재하는지 확인
+        if(optionalCoupon.isPresent()){
+            // CouponDTO를 Coupon entity로 변환
+            return modelMapper.map(optionalCoupon.get(), CouponDTO.class);
+        } else {
+            // 적절한 에러 처리가 필요합니다. 예를 들어 custom exception을 던질 수 있습니다.
+            throw new NullPointerException("Coupon not found with id: " + couponId);
+        }
+    }
 }

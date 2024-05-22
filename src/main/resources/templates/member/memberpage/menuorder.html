@@ -158,15 +158,43 @@
                             <tr>
                                 <td style="text-align: center;">쿠폰:</td>
                                 <td><input type="text" style="width: 100%;" placeholder="할인 코드를 입력하세요"></td>
-                                <td
-                                        style="text-align: center;"><button class="btn btn-outline-primary" onclick="showCouponModal(event)">적용</button></td>
+                                <td style="text-align: center;"><button class="btn btn-outline-primary" onclick="showCouponModal(event)">적용</button></td>
+                            </tr>
+                            <tr>
+
                             </tr>
                             </tbody>
                             <div class="modal" id="couponModal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-body" id="modalBody">
-                                            <!-- Content will be added here from JavaScript -->
+                                            <div style="max-width: 80%;">
+                                                <h3>쿠폰</h3>
+                                                <table style="max-width: 100%; align-content: center">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>쿠폰명</th>
+                                                        <th>할인 가격</th>
+                                                        <th>사용처</th>
+                                                        <th>사용 여부</th>
+                                                        <th>날짜
+                                                        <th>사용하기</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each="coupon : ${memberDTO.couponList}">
+                                                        <td th:text="${coupon.couponName}">첫 가입 기념 쿠폰</td>
+                                                        <td th:text="${coupon.couponPrice}">5,000원 할인</td>
+                                                        <td th:text="${coupon.detail}">메뉴 주문 시</td>
+                                                        <td th:text="${coupon.couponState}">미사용</td>
+                                                        <td th:text="${#strings.substringBefore(coupon.regdate, 'T')}">2024-05-22</td>
+                                                        <td><button class="btn btn-outline-info"
+                                                                    th:id="${coupon.couponIdx}" onclick="usecoupon">사용하기
+                                                        </button></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -178,7 +206,7 @@
                     </div>
                     <p></p>
                     <div style="text-align: right; margin-right: 10%;">
-                        <p id="totalPoint">총 적립액</p>
+                        <p id="totalPoint">총 적립액:</p>
                     </div>
                     <div class="fa-align-right" style="text-align: right">
                         <p style="color: #0c3ee1; ">총 결제액:</p>
@@ -344,15 +372,69 @@
             // No need to update menuIndex in this version
         }
 
+        function scrapeCouponDiscountValue() {
+            var couponDiscountText = $('#discount').text(); // 할인액이 담긴 요소의 텍스트를 가져옴
+            var couponDiscount = parseFloat(couponDiscountText.split(":")[1]); // ":" 기준으로 문자열을 분리하고, 두 번째 요소(즉, 숫자 부분)을 실수로 변환
+            return couponDiscount;
+        }
+
         function calculateTotal() {
             var total = 0;
             $('#tableBody tr').each(function () {
                 var temp = $(this).find(".value").text();
                 total += parseFloat(temp);
             });
+
+            // 쿠폰의 할인액을 찾아서 이를 total에서 차감합니다.
+            // 참고로 scrapeCouponDiscountValue 는 쿠폰의 할인액을 가져오는 함수입니다
+            var couponDiscount = scrapeCouponDiscountValue();
+            total -= couponDiscount;
+
             total = total.toFixed(2);
             $('.fa-align-right p').text("총 결제액: " + total);
             $('#totalValue').val(total);
+        }
+
+
+        //모달창으로 쿠폰과 적립 정보를 가져옴
+        $.ajax({
+            url: "/member/mypage/point",    // 요청을 보낼 URL
+            type: "get",                    // HTTP 메서드 (get, post 등)
+            success: function(data) {       // 서버로부터 성공적으로 응답을 받았을 때의 콜백 함수
+                $('#modalBody').html(data);   // 응답으로 받은 데이터를 #modalBody 요소의 내용으로 설정
+            }
+        });
+
+        function usecoupon(event) {
+            // 쿠폰 id 가져오기
+            const couponId = event.target.id;
+
+            // AJAX 요청으로 쿠폰 정보 가져오기
+            $.ajax({
+                url: '/usecoupon/' + couponId, // 쿠폰 정보를 가져오는 엔드포인트로 바꿔 주세요!
+                type: 'GET', // HTTP 메서드 변경
+                success: function(response) {
+                    // 사용할 쿠폰 정보 가져오기
+                    const couponName = response.couponName;
+                    const couponPrice = response.couponPrice;
+
+                    // 새로운 행을 테이블에 추가하고 쿠폰 정보로 채우기
+                    let newTableRow = `
+              <tr>
+                  <td>쿠폰명 : ${couponName}</td>
+                  <td id="discount">할인액 :${couponPrice}</td>
+              </tr>
+            `;
+                    $("table").append(newTableRow);
+
+                    // 모달 창 닫기
+                    $('#couponModal').modal('hide');
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // 에러 핸들링
+                    console.error(textStatus);
+                }
+            });
         }
     </script>
 
