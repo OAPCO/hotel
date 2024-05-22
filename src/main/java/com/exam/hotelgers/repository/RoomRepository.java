@@ -32,25 +32,43 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     List<Room> loginManagerRoomSearch(String storeCd);
 
 
-    //호텔 예약 빈 방 체크 쿼리
-    //room테이블,roomorder테이블 조인 후 roomstatus가 0(빈 방)이거나
-    //1(예약됨),2(사용중)인데 뷰에서 받은 체크인 희망 날짜가 roomorder의 체크아웃 날짜보다 크다면 예약을 받을 수 있기 때문에 조회한다.
-    @Query(value = "SELECT r FROM Room r " +
+    //비어있지 않은 상태인 객실타입 체크하기
+    @Query(value = "SELECT r.roomType FROM Room r " +
             "LEFT JOIN RoomOrder o ON r.store.storeIdx = o.storeIdx " +
-            "WHERE r.store.storeIdx = :#{#searchDTO.storeIdx} " +
+            "WHERE r.store.storeIdx = :storeIdx " +
+            "and r.roomStatus IN (1,2) " +
             "GROUP BY r.roomType")
-    List<Room> searchEmptyRoom(SearchDTO searchDTO);
-
-    
+    List<String> searchNotEmptyRoom(Long storeIdx);
 
 
-    
+    //비어있는 객실(roomStatus=0) 타입 중복없이 조회하기
+    @Query(value = "SELECT r.roomType FROM Room r " +
+            "LEFT JOIN RoomOrder o ON r.store.storeIdx = o.storeIdx " +
+            "WHERE r.store.storeIdx = :storeIdx " +
+            "and r.roomStatus = 0 " +
+            "GROUP BY r.roomType")
+    List<String> searchEmptyRoom(Long storeIdx);
 
 
     @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
             "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
             "and r1.store.storeIdx = :storeIdx")
     List<Room> roomTypeSearch(Long storeIdx);
+    
+    
+    //객실타입으로 객실 찾기
+    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
+            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+            "and r1.store.storeIdx = :storeIdx " +
+            "and r1.roomType = :roomType")
+    Optional<Room> roomTypeSearchToTypeString(Long storeIdx,String roomType);
+
+    
+
+    @Query("SELECT r1.roomType FROM Room r1 WHERE r1.roomIdx IN " +
+            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+            "and r1.store.storeIdx = :storeIdx")
+    List<String> roomTypeStringSearch(Long storeIdx);
 
 
 
@@ -61,16 +79,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "and r1.roomType = :roomType")
     Optional<Room> roomTypeSearchOne(Long storeIdx,String roomType);
 
-
-
-    //예약불가 객실 찾는 쿼리
-    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
-            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-            "and r1.store.storeIdx = :storeIdx " +
-            "and r1.roomType = :roomType")
-    Optional<Room> notEmptyRoomTypeSearch(Long storeIdx, String roomType);
-    
-    
 
 
     //객실 상태 변경
@@ -88,23 +96,11 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "where r.roomIdx = :#{#roomOrderDTO.roomIdx}")
     void roomStatusUpdate1(RoomOrderDTO roomOrderDTO);
 
-    //예약을 받았을 때 객실 하나의 status를 1로 바꿔야하기때문에 필요한 쿼리.
-    @Modifying
-    @Query("update Room r set " +
-            "r.roomStatus = 1 " +
-            "where r.roomIdx = :#{#roomOrderDTO.roomIdx}")
-    void roomStatusUpdate3(RoomOrderDTO roomOrderDTO);
-
-
-
-
-
 
 
     //해당 매장의 roomCd로 roomIdx를 구한다. (다음 쿼리를 위한 물밑작업)
     @Query(value = "SELECT r.roomIdx FROM Room r WHERE r.roomCd = :roomCd and r.store.storeIdx = :storeIdx")
     Long searchRoomIdx(String roomCd,Long storeIdx);
-
 
 
     //체크인 했을 때 객실 상태를 2로 변경한다.

@@ -274,6 +274,18 @@ public class RoomService {
     }
 
 
+    public RoomDTO roomTypeSearchToTypeString(Long storeIdx,String roomType) {
+
+
+        Optional<Room> room = roomRepository.roomTypeSearchToTypeString(storeIdx,roomType);
+
+
+        RoomDTO roomDTO = modelMapper.map(room, RoomDTO.class);
+
+        return roomDTO;
+    }
+
+
     //특정 객실의 정보 찾기
     public RoomDTO roomTypeSearchOne(Long storeIdx,String roomType){
 
@@ -283,65 +295,44 @@ public class RoomService {
     }
 
 
-    public RoomDTO notEmptyroomTypeSearch(Long storeIdx, String roomType) {
 
 
-        Optional<Room> room = roomRepository.notEmptyRoomTypeSearch(storeIdx, roomType);
 
 
-        RoomDTO roomDTO = modelMapper.map(room, RoomDTO.class);
-
-        return roomDTO;
-    }
-
-
-    public List<RoomDTO> emptyRoomSearch(SearchDTO searchDTO) {
-
-        List<Room> emptyRoomList = roomRepository.searchEmptyRoom(searchDTO);
-
-
-        List<RoomDTO> roomDTOS = emptyRoomList.stream()
-                .map(room -> modelMapper.map(room, RoomDTO.class))
-                .collect(Collectors.toList());
-
-        return roomDTOS;
-    }
-
-
-    public List<RoomDTO> notEmptyRoomSearch(Long storeIdx, List<RoomDTO> emptyRoomTypes, List<RoomDTO> roomTypes) {
-
-        List<RoomDTO> notEmptyRoomTypes = new ArrayList<>();
-
-        List<String> allRoomTypeString = new ArrayList<>();
-        List<String> emptyRoomTypeString = new ArrayList<>();
-        List<String> notemptyRoomTypeString = new ArrayList<>();
-
-        //중복없는 전체 객실의 타입명만 String list에 담음 - 일반실,특실,파티룸
-        for (RoomDTO roomTypeString : roomTypes) {
-            allRoomTypeString.add(roomTypeString.getRoomType());
-        }
-
-        //중복없는 빈 객실의 타입명을 String list에 담음 - 일반실
-        for (RoomDTO roomTypeString : emptyRoomTypes) {
-            emptyRoomTypeString.add(roomTypeString.getRoomType());
-        }
-
-
-        //전체객실 만큼 반복
-        for (String roomType : allRoomTypeString) {
-            if (!emptyRoomTypeString.contains(roomType)) {
-                notemptyRoomTypeString.add(roomType);
-            }
-        }
-
-
-        //얻어낸 roomType String 배열로 roomType 객체 리스트를 구한다.
-        for (String notEmptyroomType : notemptyRoomTypeString) {
-            notEmptyRoomTypes.add(this.notEmptyroomTypeSearch(storeIdx, notEmptyroomType));
-        }
-
-        return notEmptyRoomTypes;
-    }
+//    public List<RoomDTO> notEmptyRoomSearch(Long storeIdx, List<RoomDTO> emptyRoomTypes, List<RoomDTO> roomTypes) {
+//
+//        List<RoomDTO> notEmptyRoomTypes = new ArrayList<>();
+//
+//        List<String> allRoomTypeString = new ArrayList<>();
+//        List<String> emptyRoomTypeString = new ArrayList<>();
+//        List<String> notemptyRoomTypeString = new ArrayList<>();
+//
+//        //중복없는 전체 객실의 타입명만 String list에 담음 - 일반실,특실,파티룸
+//        for (RoomDTO roomTypeString : roomTypes) {
+//            allRoomTypeString.add(roomTypeString.getRoomType());
+//        }
+//
+//        //중복없는 빈 객실의 타입명을 String list에 담음 - 일반실
+//        for (RoomDTO roomTypeString : emptyRoomTypes) {
+//            emptyRoomTypeString.add(roomTypeString.getRoomType());
+//        }
+//
+//
+//        //전체객실 만큼 반복
+//        for (String roomType : allRoomTypeString) {
+//            if (!emptyRoomTypeString.contains(roomType)) {
+//                notemptyRoomTypeString.add(roomType);
+//            }
+//        }
+//
+//
+//        //얻어낸 roomType String 배열로 roomType 객체 리스트를 구한다.
+//        for (String notEmptyroomType : notemptyRoomTypeString) {
+//            notEmptyRoomTypes.add(this.notEmptyroomTypeSearch(storeIdx, notEmptyroomType));
+//        }
+//
+//        return notEmptyRoomTypes;
+//    }
 
 
 

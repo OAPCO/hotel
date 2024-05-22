@@ -9,6 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +37,16 @@ public class SearchService {
     private final AdminRepository adminRepository;
     private final DistChiefRepository distChiefRepository;
     private final ManagerRepository managerRepository;
+    
+    
+    
+    
+    //날짜 변환 메소드(String을 LocalDateTime으로)
+    public LocalDateTime changeDate(String dateString){
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return LocalDate.parse(dateString, formatter).atStartOfDay();
+    }
 
 
     public List<DistChiefDTO> distChiefList() {
