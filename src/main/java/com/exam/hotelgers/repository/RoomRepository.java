@@ -84,6 +84,14 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "where r.roomIdx = :#{#roomOrderDTO.roomIdx}")
     void roomStatusUpdate1(RoomOrderDTO roomOrderDTO);
 
+    //예약을 받았을 때 객실 하나의 status를 1로 바꿔야하기때문에 필요한 쿼리.
+    @Modifying
+    @Query("update Room r set " +
+            "r.roomStatus = 1 " +
+            "where r.roomIdx = :#{#roomOrderDTO.roomIdx}")
+    void roomStatusUpdate3(RoomOrderDTO roomOrderDTO);
+
+
 
 
 
