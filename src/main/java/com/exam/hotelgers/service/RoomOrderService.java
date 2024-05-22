@@ -121,4 +121,21 @@ public class RoomOrderService {
 
 
 
+
+    public List<RoomOrderDTO> roomOrderCheck(SearchDTO searchDTO){
+
+
+        List<RoomOrder> roomOrders = roomOrderRepository.searchRoomOrder(searchDTO);
+
+
+        List<RoomOrderDTO> roomOrderDTOs = roomOrders.stream()
+                .map(roomOrder -> modelMapper.map(roomOrder, RoomOrderDTO.class))
+                .collect(Collectors.toList());
+
+        return roomOrderDTOs;
+
+    }
+
+
+
 }

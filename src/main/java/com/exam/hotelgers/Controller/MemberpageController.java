@@ -227,7 +227,7 @@ public class MemberpageController {
         
 
         roomOrderDTO.setReservationDateCheckinDate(startDate);
-        roomOrderDTO.setReservationDateCheckinDate(endDate);
+        roomOrderDTO.setReservationDateCheckoutDate(endDate);
 
 
         //예약된 방 하나를 상태를 1로 바꾼다.

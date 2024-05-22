@@ -118,6 +118,46 @@ public class ScriptController {
 
 
 
+//    @GetMapping(value = "/emptyroom", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Map<String, Object> hotelreadProc(SearchDTO searchDTO) throws Exception {
+//
+//
+//        log.info("서치dto의 storeIdx 확인 : "+ searchDTO.getStoreIdx());
+//        log.info("서치dto의 reservationDateCheckin 확인 : "+ searchDTO.getReservationDateCheckin());
+//
+//        //이 두개를 변환해야함
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDateTime startDate = LocalDate.parse(searchDTO.getReservationDateCheckin(), formatter).atStartOfDay();
+//        LocalDateTime endDate = LocalDate.parse(searchDTO.getReservationDateCheckout(), formatter).atStartOfDay();
+//        log.info("변환된시작일"+startDate);
+//        log.info("변환된끝일"+endDate);
+//
+//        searchDTO.setReservationDateCheckinDate(startDate);
+//        searchDTO.setReservationDateCheckinDate(endDate);
+//
+//        List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
+//
+//        //전체 객실 중복없이 호출. 반환은 안할거임.
+//        List<RoomDTO> roomTypes = roomService.roomTypeSearch(searchDTO.getStoreIdx());
+//
+//
+//        //위 두 결과를 이용하여 매진 된 객실타입 목록을 만들어냄.
+//        List<RoomDTO> notEmptyRoomTypes = roomService.notEmptyRoomSearch(searchDTO.getStoreIdx(),emptyRoomTypes,roomTypes);
+//
+//
+//        Map<String, Object> result = new HashMap<>();
+//
+//        result.put("emptyRoomTypes", emptyRoomTypes);
+//        result.put("notEmptyRoomTypes", notEmptyRoomTypes);
+//
+//
+//        return result;
+//    }
+
+
+
+
     @GetMapping(value = "/emptyroom", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> hotelreadProc(SearchDTO searchDTO) throws Exception {
 
@@ -136,20 +176,45 @@ public class ScriptController {
         searchDTO.setReservationDateCheckinDate(startDate);
         searchDTO.setReservationDateCheckinDate(endDate);
 
-        List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
+        List<RoomDTO> emptyRooms = new ArrayList<>();
+        List<RoomDTO> notEmptyRooms = new ArrayList<>();
 
         //전체 객실 중복없이 호출. 반환은 안할거임.
         List<RoomDTO> roomTypes = roomService.roomTypeSearch(searchDTO.getStoreIdx());
 
+        //전체객실 숫자만큼 반복
+        for(RoomDTO allRoom : roomTypes){
 
-        //위 두 결과를 이용하여 매진 된 객실타입 목록을 만들어냄.
-        List<RoomDTO> notEmptyRoomTypes = roomService.notEmptyRoomSearch(searchDTO.getStoreIdx(),emptyRoomTypes,roomTypes);
+            //룸타입을 셋 해주고
+            searchDTO.setRoomType(allRoom.getRoomType());
 
+            //기존 주문에서 중복여부가 없다면
+            if(roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
+
+                //이 객실을 빈 객실 배열에 추가할그야
+                emptyRooms.add(allRoom);
+            }
+
+            //기존 주문에 중복이 있다면
+            else if(!roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
+
+                //이 객실을 낫엠프티 객실 배열에 추가할그야
+                notEmptyRooms.add(allRoom);
+            }
+        }
+
+
+
+//        List<RoomDTO> emptyRoomTypes = roomService.emptyRoomSearch(searchDTO);
+//
+//        //위 두 결과를 이용하여 매진 된 객실타입 목록을 만들어냄.
+//        List<RoomDTO> notEmptyRoomTypes = roomService.notEmptyRoomSearch(searchDTO.getStoreIdx(),emptyRoomTypes,roomTypes);
+//
 
         Map<String, Object> result = new HashMap<>();
 
-        result.put("emptyRoomTypes", emptyRoomTypes);
-        result.put("notEmptyRoomTypes", notEmptyRoomTypes);
+        result.put("emptyRoomTypes", emptyRooms);
+        result.put("notEmptyRoomTypes", notEmptyRooms);
 
 
         return result;
