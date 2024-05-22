@@ -29,7 +29,7 @@
     <div class="card">
         <div class="card-header" style="margin: 50px 20px;">
             <h6><strong>비밀번호 변경</strong></h6>
-            <form id="passwordForm" method="post" action="/admin/passwordcheck">
+            <form id="passwordForm" method="post" action="/admin/admin/pwchange">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -89,7 +89,7 @@
                 return;
             }
 
-            $.post('/admin/passwordcheck', $(this).serialize(), function(response) {
+            $.post('/admin/admin/pwchange', $(this).serialize(), function(response) {
                 if (response == 1) {
                     alert('비밀번호가 성공적으로 변경되었습니다.');
                     window.close(); // 창 닫기
