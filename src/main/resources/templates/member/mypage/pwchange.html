@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
@@ -5,53 +6,9 @@
       layout:decorate="~{layouts/mypagelayout}">
 <head>
     <title>개인정보 수정</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#passwordForm').submit(function(event) {
-                event.preventDefault(); // 폼 제출 방지
 
-                // 새 비밀번호 공백 및 띄어쓰기 제거
-                var newPassword = $('#newPassword').val().trim();
-                $('#newPassword').val(newPassword);
 
-                // 새 비밀번호 확인 공백 및 띄어쓰기 제거
-                var newPassword2 = $('#newPassword2').val().trim();
-                $('#newPassword2').val(newPassword2);
 
-                // 새 비밀번호가 빈 문자열이면 경고 메시지 표시
-                if (newPassword === '') {
-                    $('#newPasswordError').text('새 비밀번호를 입력하세요.').css('color', 'red');
-                    return;
-                } else {
-                    $('#newPasswordError').text(''); // 경고 메시지 초기화
-                }
-
-                // 새 비밀번호와 새 비밀번호 확인이 다르면 경고 메시지 표시
-                if (newPassword !== newPassword2) {
-                    $('#confirmPasswordError').text('새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.').css('color', 'red');
-                    return;
-                } else {
-                    $('#confirmPasswordError').text(''); // 경고 메시지 초기화
-                }
-
-                // AJAX 요청
-                $.ajax({
-                    type: 'POST',
-                    url: '/member/mypage/pwchange',
-                    data: $('#passwordForm').serialize(),
-                    success: function(response) {
-                        if (response.result == 1) {
-                            alert('비밀번호가 성공적으로 변경되었습니다.');
-                            window.close(); // 창 닫기
-                        } else {
-                            $('#currentPasswordError').text('현재 비밀번호가 일치하지 않습니다.').css('color', 'red');
-                        }
-                    }
-                });
-            });
-        });
-    </script>
 </head>
 <body>
 <div layout:fragment="title"><h1><strong>비밀번호 변경</strong></h1></div>
@@ -59,28 +16,34 @@
     <div id="form-container">
         <div id="form-inner-container">
             <!-- Sign up form -->
+
             <div id="sign-up-container">
                 <h3>비밀번호 변경</h3>
-                <form id="passwordForm" method="post">
+                <form method="post" action="/member/mypage/pwchange">
                     <label>비밀번호</label>
                     <input type="password" name="currentPassword" id="currentPassword">
-                    <div id="currentPasswordError"></div> <!-- 현재 비밀번호 오류 메시지 표시할 곳 -->
 
                     <label>새 비밀번호</label>
                     <input type="password" name="newPassword" id="newPassword">
-                    <div id="newPasswordError"></div> <!-- 새 비밀번호 오류 메시지 표시할 곳 -->
 
-                    <label>새 비밀번호 확인</label>
+                    <label>새 비밀번호확인</label>
                     <input type="password" name="newPassword2" id="newPassword2">
-                    <div id="confirmPasswordError"></div> <!-- 새 비밀번호 확인 오류 메시지 표시할 곳 -->
 
                     <div>
                         <button type="submit" class="btn--blue">비밀번호 변경</button>
                     </div>
+
+
                 </form>
             </div>
+
         </div>
     </div>
 </div>
+
+
+
+
+
 </body>
 </html>

@@ -230,12 +230,12 @@ public class AdminController {
 
 
     @PostMapping("/admin/admin/pwchange")
-    public int adminpwcheck(Principal principal, String currentPassword, String newPassword) {
+    public String adminpwcheck(Principal principal, String currentPassword, String newPassword) {
 
             log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
     int result=adminService.changePassword(currentPassword,newPassword,principal);
             log.info("결과값"+result);
 
-        return result;
+        return "admin/admin/pwchange";
     }
 }
