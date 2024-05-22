@@ -30,8 +30,8 @@ public class RoomOrder extends BaseEntity{
     private String endTime;
 
     //예약 희망 날짜
-    private LocalDateTime reservationDateCheckin;
-    private LocalDateTime reservationDateCheckout;
+    private LocalDateTime reservationDateCheckinDate;
+    private LocalDateTime reservationDateCheckoutDate;
     
     //실제 체크인/아웃 날짜,시간
     private String checkinTime;

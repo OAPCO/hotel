@@ -224,6 +224,8 @@ public class MemberpageController {
         log.info("변환된시작일"+startDate);
         log.info("변환된끝일"+endDate);
 
+        
+
         roomOrderDTO.setReservationDateCheckinDate(startDate);
         roomOrderDTO.setReservationDateCheckinDate(endDate);
 
