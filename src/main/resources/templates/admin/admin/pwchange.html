@@ -28,39 +28,78 @@
 <div layout:fragment="content">
     <div class="card">
         <div class="card-header" style="margin: 50px 20px;">
-
             <h6><strong>비밀번호 변경</strong></h6>
-            <form method="post" action="/admin/adminpage/pwchange">
+            <form id="passwordForm" method="post" action="/admin/passwordcheck">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
                             <th>현재 비밀번호</th>
                             <td class="align-middle text-start">
-                                <input type="text" th:value="${adminDTO.password}"  name="distName" style="width:200px;">
+                                <input type="password" name="currentPassword" id="currentPassword" style="width:200px;">
                             </td>
                         </tr>
                         <tr>
                             <th>새 비밀번호</th>
                             <td class="align-middle text-start">
-                                <input type="text" th:value="${adminDTO.password}"   style="width:200px;">
+                                <input type="password" name="newPassword" id="newPassword" style="width:200px;">
                             </td>
                         </tr>
                         <tr>
                             <th>새 비밀번호 확인</th>
                             <td class="align-middle text-start">
-                                <input type="text" th:value="${adminDTO.password}"    style="width:200px;">
+                                <input type="password" name="newPassword2" id="newPassword2" style="width:200px;">
                             </td>
                         </tr>
                         </thead>
                     </table>
                     <div style="text-align: right;">
-                        <button type="submit"  class="btn text-white m-2" style="background-color: #36b9cc;">변경</button>
+                        <button id="memberUpdate" class="btn text-white m-2" style="background-color: #36b9cc;" value="회원 정보 수정"
+                                th:onclick="memberUpdate()">변경</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#passwordForm').submit(function(event) {
+            event.preventDefault(); // 폼 제출 방지
+
+            // 새 비밀번호 공백 및 띄어쓰기 제거
+            var newPassword = $('#newPassword').val().trim();
+            $('#newPassword').val(newPassword);
+
+            // 새 비밀번호 확인 공백 및 띄어쓰기 제거
+            var newPassword2 = $('#newPassword2').val().trim();
+            $('#newPassword2').val(newPassword2);
+
+            // 새 비밀번호가 빈 문자열이면 경고 메시지 표시
+            if (newPassword === '') {
+                alert('새 비밀번호를 입력하세요.');
+                return;
+            }
+
+            // 새 비밀번호와 새 비밀번호 확인이 다르면 경고 메시지 표시
+            if (newPassword !== newPassword2) {
+                alert('새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.');
+                return;
+            }
+
+            $.post('/admin/passwordcheck', $(this).serialize(), function(response) {
+                if (response == 1) {
+                    alert('비밀번호가 성공적으로 변경되었습니다.');
+                    window.close(); // 창 닫기
+                } else {
+                    alert('현재 비밀번호가 일치하지 않습니다.');
+                }
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
