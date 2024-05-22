@@ -223,19 +223,21 @@ public class AdminController {
 
     }
     @GetMapping("/admin/admin/pwchange")
-    public String pwchangeForm(AdminDTO adminDTO, Principal principal, Model model) {
+    public String pwchangeForm() {
 
         return "admin/admin/pwchange";
     }
 
 
-    @PostMapping("/admin/admin/pwchange")
-    public String adminpwcheck(Principal principal, String currentPassword, String newPassword) {
+    @PostMapping("/admin/admin/pwcheck")
+    public String adminpwcheck(Principal principal, String currentPassword, String newPassword,RedirectAttributes redirectAttributes) {
 
             log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
     int result=adminService.changePassword(currentPassword,newPassword,principal);
             log.info("결과값"+result);
+        redirectAttributes.addFlashAttribute("result", result);
 
-        return "admin/admin/pwchange";
+        return "redirect:/admin/admin/pwchange";
     }
-}
+    }
+
