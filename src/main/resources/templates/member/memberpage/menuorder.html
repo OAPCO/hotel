@@ -47,7 +47,6 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
         }
     </style>
 
@@ -85,6 +84,7 @@
                             <div style="flex: 3; padding: 20px;" class="text-container">
                                 <h5 class="card-title" th:text="${menu.detailMenuName}"></h5>
                                 <p class="card-text" th:text="${menu.menuDescription}"></p>
+                                <p class="item-point" th:text="${menu.pointSaveAmount}"></p>
                                 <p class="card-text"><small class="text-muted" th:text="${menu.menuprice}"></small></p>
                             </div>
                             <!-- 오른쪽 정보 -->
@@ -129,14 +129,15 @@
                     </div>
                     <div>
                         <h2 class="text-primary">장바구니</h2>
-                        <table class="form-control" style="width: 100%;">
+                        <table style="width: 100%;">
                             <thead>
                             <tr class="row">
-                                <th class="col-2">메뉴명</th>
-                                <th class="col-3">가격</th>
-                                <th class="col-3">주문 개수</th>
-                                <th class="col-3">총합</th>
-                                <th class="col-1">삭제</th>
+                                <th class="col">메뉴명</th>
+                                <th class="col">가격</th>
+                                <th class="col">주문 개수</th>
+                                <th class="col">총합</th>
+                                <th class="col">적립</th>
+                                <th class="col">삭제</th>
                             </tr>
                             </thead>
                             <!-- 추가 정보를 이 곳에 넣어 주세요 -->
@@ -160,41 +161,11 @@
                                 <td><input type="text" style="width: 100%;" placeholder="할인 코드를 입력하세요"></td>
                                 <td style="text-align: center;"><button class="btn btn-outline-primary" onclick="showCouponModal(event)">적용</button></td>
                             </tr>
-                            <tr>
-
-                            </tr>
                             </tbody>
                             <div class="modal" id="couponModal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-body" id="modalBody">
-                                            <div style="max-width: 80%;">
-                                                <h3>쿠폰</h3>
-                                                <table style="max-width: 100%; align-content: center">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>쿠폰명</th>
-                                                        <th>할인 가격</th>
-                                                        <th>사용처</th>
-                                                        <th>사용 여부</th>
-                                                        <th>날짜
-                                                        <th>사용하기</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr th:each="coupon : ${memberDTO.couponList}">
-                                                        <td th:text="${coupon.couponName}">첫 가입 기념 쿠폰</td>
-                                                        <td th:text="${coupon.couponPrice}">5,000원 할인</td>
-                                                        <td th:text="${coupon.detail}">메뉴 주문 시</td>
-                                                        <td th:text="${coupon.couponState}">미사용</td>
-                                                        <td th:text="${#strings.substringBefore(coupon.regdate, 'T')}">2024-05-22</td>
-                                                        <td><button class="btn btn-outline-info"
-                                                                    th:id="${coupon.couponIdx}" onclick="usecoupon">사용하기
-                                                        </button></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -203,6 +174,15 @@
                                 </div>
                             </div>
                         </table>
+                    </div>
+                    <div>
+                        <div class="discountTable" style="align-content: center">
+                            <table>
+                                <tr>
+
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                     <p></p>
                     <div style="text-align: right; margin-right: 10%;">
@@ -237,7 +217,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        var totalPoint = 0;
+
 
         // 랜덤한 문자열을 생성하는 함수
         function generateRandomString(length) {
@@ -258,10 +238,14 @@
         $(document).ready(function () {
 
             function calculateTotalPoint() {
-                totalPoint = 0;
+                var totalPoint = 0;
                 $('#tableBody tr').each(function () {
-                    let quantity = $(this).find(".quantity").text();
-                    let pointSaveAmount = $(this).find(".menu-point").text(); // menu-point 클래스 이름을 적절하게 변경해주세요
+                    // 이벤트가 발생한 행(row)에 해당하는 수량(quantity) 값을 가져옵니다.
+                    var quantityElem = $(this).find(".quantity");
+                    console.log("Quantity text is: ", quantityElem.text());
+                    var quantity = parseInt(quantityElem.text());
+
+                    let pointSaveAmount = parseFloat($(this).find(".menu-point").text());
                     totalPoint += quantity * pointSaveAmount;
                 });
                 document.getElementById("totalPoint").innerText = "총 적립액: " + totalPoint + "원";
@@ -272,6 +256,7 @@
 
                 var menuName = $(this).parent().siblings('.text-container').find('.card-title').text();
                 var price = parseFloat($(this).parent().siblings('.text-container').find('.text-muted').text());
+                var pointSaveAmount = parseFloat($(this).parent().siblings('.text-container').find('.item-point').text());
 
                 var existedRow = null;
                 var menuIndex = 0;
@@ -300,15 +285,13 @@
                 } else {
 
                     menuIndex = $('#tableBody tr').length;
-                    var rowHtml = '<tr class="row"><td class="col-2">' + menuName + '</td><td class="col-3"><span>' +
-                        price.toFixed(2) + '</span></td><td class="col-3">' +
-                        '<button class="btn btn-warning minus">-</button>' +
-                        '<span class="quantity">' + '1' + '</span>' +
-                        '<button class="btn btn-success plus">+</button>' +
-                        '</td><td class="col-3"><span class="value">' +
-                        price.toFixed(2) + '</span></td><td class="col-1">' +
-                        '<button class="btn btn-danger remove">삭제</button>' +
-                        '</td></tr>';
+                    var rowHtml = '<tr class="row"><td class="col">' + menuName + '</td><td class="col"><span>' +
+                        price.toFixed(2) + '</span></td><td class="col">' +
+                        '<button class="btn btn-warning minus">-</button>' + '<span class="quantity">' + '1' +
+                        '</span>' + '<button class="btn btn-success plus">+</button>' +
+                        '</td><td class="col"><span class="value">' + price.toFixed(2) +
+                        '</span></td><td class="col"></td><td class="col item-point">'+ pointSaveAmount +'</td>'+
+                        '<td class="col"><button class="btn btn-danger remove">삭제</button></td></tr>';
 
                     $("#tableBody").append(rowHtml);
                     var hiddenInputsHtml =
@@ -362,6 +345,22 @@
                         calculateTotal();
                     });
 
+                    $(".remove").on("click", function(event) {
+                        event.preventDefault();
+
+                        // 현재 클릭된 '삭제' 버튼이 속한 테이블 행을 찾아서 삭제
+                        var row = $(this).closest('tr');
+                        var rowIndex = row.index();
+                        row.remove();
+
+                        // 삭제된 행과 관련된 히든 필드도 함께 삭제
+                        $('input[name="menuSheetDTOList[' + rowIndex + '].menuorderQuantity"]').remove();
+                        $('input[name="menuSheetDTOList[' + rowIndex + '].AmountPrice"]').remove();
+
+                        // 행을 삭제한 후 전체 합계 값을 계산
+                        calculateTotal();
+                        calculateTotalPoint();
+                    });
                     calculateTotalPoint();
                     calculateTotal();
                 }
@@ -393,19 +392,27 @@
             total = total.toFixed(2);
             $('.fa-align-right p').text("총 결제액: " + total);
             $('#totalValue').val(total);
+            return total;
+        }
+
+        function showCouponModal(event) {
+            event.preventDefault(); // 클릭 이벤트의 기본 동작을 막습니다.
+
+            $.ajax({
+                url: "/member/mypage/point1",
+                type: "get",
+                success: function(data) {
+                    $('#modalBody').html(data);
+                    $('#modalBody button').on('click', usecoupon); // 이벤트 핸들러 추가
+                }
+            });
+
+            $('#couponModal').modal('show'); // 모달을 표시합니다.
         }
 
 
-        //모달창으로 쿠폰과 적립 정보를 가져옴
-        $.ajax({
-            url: "/member/mypage/point",    // 요청을 보낼 URL
-            type: "get",                    // HTTP 메서드 (get, post 등)
-            success: function(data) {       // 서버로부터 성공적으로 응답을 받았을 때의 콜백 함수
-                $('#modalBody').html(data);   // 응답으로 받은 데이터를 #modalBody 요소의 내용으로 설정
-            }
-        });
-
         function usecoupon(event) {
+            event.preventDefault();
             // 쿠폰 id 가져오기
             const couponId = event.target.id;
 
@@ -420,12 +427,12 @@
 
                     // 새로운 행을 테이블에 추가하고 쿠폰 정보로 채우기
                     let newTableRow = `
-              <tr>
-                  <td>쿠폰명 : ${couponName}</td>
-                  <td id="discount">할인액 :${couponPrice}</td>
-              </tr>
-            `;
-                    $("table").append(newTableRow);
+                      <tr>
+                          <td>쿠폰명 : ${couponName}</td>
+                          <td id="discount">할인액 :${couponPrice}</td>
+                      </tr>
+                    `;
+                    $("discountTable table").append(newTableRow);
 
                     // 모달 창 닫기
                     $('#couponModal').modal('hide');

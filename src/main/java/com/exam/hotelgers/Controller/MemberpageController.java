@@ -523,6 +523,13 @@ public class MemberpageController {
     }
 
 
+    @GetMapping("/member/mypage/point1")
+    public String pointForm1(MemberDTO memberDTO, Principal principal, Model model) {
+        memberDTO = memberService.memberPointSearch(principal);
+
+        model.addAttribute("memberDTO",memberDTO);
+        return "member/mypage/point1";
+    }
 
     @GetMapping("/member/mypage/infoupdate")
     public String infoupdateForm(MemberDTO memberDTO, Principal principal, Model model) {

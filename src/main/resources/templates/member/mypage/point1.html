@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>포인트내역</title>
+</head>
+<body>
+    <div class="container-fluid" style="max-width: 80%;">
+        <div id="sign-up-container">
+            <table style="max-width: 100%; align-content: center">
+                <thead>
+                <tr>
+                    <th>쿠폰명</th>
+                    <th>할인 가격</th>
+                    <th>사용처</th>
+                    <th>사용 여부</th>
+                    <th>날짜</th>
+                    <th>    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="coupon : ${memberDTO.couponList}">
+                    <td th:text="${coupon.couponName}">첫 가입 기념 쿠폰</td>
+                    <td th:text="${coupon.couponPrice}">5,000원 할인</td>
+                    <td th:text="${coupon.detail}">메뉴 주문 시</td>
+                    <td th:text="${coupon.couponState}">미사용</td>
+                    <td th:text="${#strings.substringBefore(coupon.regdate, 'T')}">2024-05-22</td>
+                    <button class="btn btn-outline-info" th:id="${coupon.couponIdx}" onclick="usecoupon(event)">사용하기</button>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -34,7 +34,7 @@ public class CouponController {
         return "redirect:/member/memberpage/index";
     }
 
-    @GetMapping("/api/coupons/{couponIdx}")
+    @GetMapping("/usecoupon/{couponIdx}")
     public ResponseEntity<CouponDTO> getCoupon(@PathVariable Long couponIdx) {
         CouponDTO couponDTO = couponService.getCoupon(couponIdx);
         return new ResponseEntity<>(couponDTO, HttpStatus.OK);
