@@ -13,8 +13,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <th:block layout:fragment="script"></th:block>
     <th:block layout:fragment="css"></th:block>
-
     <link rel="stylesheet" href="/yhh.css">
+    <script th:inline="javascript">
+        function pwchange() {
+            var baseUrl = /*[[ @{/} ]]*/ '';
+            var popupUrl = baseUrl + "admin/admin/manage/pwchange";  // Absolute URL
+            var popupOption = "width=500, height=400"; // Popup window size
+            // Open the popup window
+            window.open(popupUrl, "비밀번호변경", popupOption);
+
+        }
+    </script>
 </head>
 <body>
 
@@ -82,12 +91,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                             <span>매장관리</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/manager/store/list">브랜드 및 매장 현황</a></li>
-                            <li><a class="dropdown-item" href="/manager/store/test">직/가맹점 매장 관리</a></li>
-                            <li><a class="dropdown-item" href="/manager/test">룸별 회원배정(미완)</a></li>
-                            <li><a class="dropdown-item" href="/manager/test">룸별 회원배정내역(미완)</a></li>
-                            <li><a class="dropdown-item" href="/manager/test">공통 코드관리(미완)</a></li>
-                            <li><a class="dropdown-item" href="/manager/test">호텔부대 시설관리(미완)</a></li>
+                            <li><a class="dropdown-item" href="/admin/manager/room/listboard">룸목록/관리(매니저)</a></li>
+                            <li><a class="dropdown-item" href="/admin/manager/room/1">(매니저)룸(1번) 주문 현황y</a></li>
+                            <li><a class="dropdown-item" href="/admin/manager/order/menuorderlist">(매니저)매장 현재 주문 목록</a></li>
+<!--                            <li><a class="dropdown-item" href="/manager/test">룸별 회원배정내역(미완)</a></li>-->
+<!--                            <li><a class="dropdown-item" href="/manager/test">공통 코드관리(미완)</a></li>-->
+<!--                            <li><a class="dropdown-item" href="/manager/test">호텔부대 시설관리(미완)</a></li>-->
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -97,7 +106,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/order/orderManagement">주문 관리</a></li>
+                            <li><a class="dropdown-item" href="/admin/manager/order/menuorderlist">주문목록</a></li>
                             <li><a class="dropdown-item" href="/order/ordernumber">주문 번호 조회</a></li>
                             <li><a class="dropdown-item" href="/order/ordersheetnocheck">주문상세 조회</a></li>
                             <li><a class="dropdown-item" href="/order/orderProgress">주문 진행 조회</a></li>
@@ -147,12 +156,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                             <li><a class="dropdown-item" href="/member/register">환불관련 문의</a></li>
                             <li><a class="dropdown-item" href="/member/register">지금 채팅하기</a></li>
                         </ul>
+                    <li class="nav-item">
+                        <button class="nav-link" onclick="pwchange()">
+                            <i class="bi bi-gear-fill"></i><span> 비밀번호변경</span>
+                        </button>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear-fill"></i>
-                            <span>비밀번호 변경</span>
-                        </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/member/list">주문 번호 조회</a></li>
                             <li><a class="dropdown-item" href="/member/register">주문상세 조회</a></li>

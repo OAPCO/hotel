@@ -146,6 +146,26 @@ public class ManagerController {
 
         return "admin/distchief/manager/list";
     }
+    @GetMapping("/admin/admin/manage/pwchange")
+    public String pwchangeForm() {
 
+        return "admin/admin/manage/pwchange";
+    }
+
+
+    @PostMapping("/admin/manage/pwcheck")
+    public String adminpwcheck(Principal principal, String currentPassword, String newPassword,RedirectAttributes redirectAttributes,Model model) {
+
+        log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
+        boolean result=managerService.changePassword(currentPassword,newPassword,principal);
+        if (result==false){
+            log.info("비밀번호변경실패"+result);
+
+        }else if(result==true)
+            log.info("비밀번호변경성공"+result);
+        model.addAttribute("result", result);
+
+        return "redirect:/admin/admin/manage/pwchange";
+    }
 
 }

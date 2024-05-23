@@ -230,16 +230,16 @@ public class AdminController {
 
 
     @PostMapping("/admin/admin/pwcheck")
-    public String adminpwcheck(Principal principal, String currentPassword, String newPassword,RedirectAttributes redirectAttributes) {
+    public String adminpwcheck(Principal principal, String currentPassword, String newPassword,RedirectAttributes redirectAttributes,Model model) {
 
             log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
-    int result=adminService.changePassword(currentPassword,newPassword,principal);
-            if (result==0){
+    boolean result=adminService.changePassword(currentPassword,newPassword,principal);
+            if (result==false){
                 log.info("비밀번호변경실패"+result);
 
-            }else if(result==1)
+            }else if(result==true)
                 log.info("비밀번호변경성공"+result);
-        redirectAttributes.addFlashAttribute("result", result);
+        model.addAttribute("result", result);
 
         return "redirect:/admin/admin/pwchange";
     }
