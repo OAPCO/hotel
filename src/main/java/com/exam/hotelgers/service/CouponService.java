@@ -57,6 +57,7 @@ public class CouponService {
             throw new NullPointerException("Coupon not found with id: " + couponId);
         }
     }
+
     public void useCoupon(Long couponIdx) {
         Optional<Coupon> optionalCoupon = couponRepository.findById(couponIdx);
 
