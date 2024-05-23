@@ -181,5 +181,8 @@ public class SearchDTO {
     private String noticeTitle;
     private String noticeContent;
     private String noticeType;
-
+    //메일
+    private String address;
+    private String title;
+    private String message;
 }

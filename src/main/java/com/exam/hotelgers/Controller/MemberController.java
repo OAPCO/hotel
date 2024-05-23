@@ -7,6 +7,7 @@ import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jdk.jfr.Description;
 import lombok.RequiredArgsConstructor;
@@ -142,7 +143,21 @@ public class MemberController {
         return "member/read";
     }
 
+    // 회원 비밀번호 찾기
+    @GetMapping(value = "/findMember")
+    public String findMember(Model model) {
+        return "/member/findMemberForm";
+    }
 
+    // 비밀번호 찾기시, 임시 비밀번호 담긴 이메일 보내기
+//    @Transactional
+//    @PostMapping("/sendEmail")
+//    public String sendEmail(@RequestParam("memberEmail") String memberEmail){
+//        MailDto dto = mailService.createMailAndChangePassword(memberEmail);
+//        mailService.mailSend(dto);
+//
+//        return "/member/memberLoginForm";
+//    }
 
 
 
