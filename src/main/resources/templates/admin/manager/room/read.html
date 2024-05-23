@@ -89,15 +89,15 @@
                             <tr>
                                 <th>주문번호</th>
                                 <th>메뉴</th>
-                                <th>주문서 출력</th>
+                                <th>주문</th>
                                 <th>주문일시</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="data:${roomOrderDTO}">
-                                <td th:text="${data.orderCd}"></td>
-                                <td>주문메뉴</td>
-                                <td>주문서출력여부</td>
+                            <tr th:each="data:${menuOrderDTOS}">
+                                <td th:text="${data.menuorderIdx}"></td>
+                                <td th:text="${data.menuSheetDTOList}"></td>
+                                <td th:text="${data.orderState}"></td>
                                 <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
                             </tr>
                             </tbody>

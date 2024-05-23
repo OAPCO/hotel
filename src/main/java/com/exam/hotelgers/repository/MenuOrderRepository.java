@@ -26,4 +26,7 @@ public interface MenuOrderRepository extends JpaRepository<MenuOrder,Long> {
     List<MenuOrder> findByStoreIdx(Long storeIdx);
 
 
+    List<MenuOrder> findByRoomorderIdx(Long roomIdx);
+
+
 }

@@ -225,5 +225,19 @@ public class MenuOrderService {
 //    }
 
 
+    public List<MenuOrderDTO> roomIdxMenuOrderSearch(Long roomIdx) {
+
+
+        List<MenuOrder> menuOrders = menuOrderRepository.findByRoomorderIdx(roomIdx);
+
+
+        List<MenuOrderDTO> menuOrderDTOS = menuOrders.stream()
+                .map(menuOrder -> modelMapper.map(menuOrder, MenuOrderDTO.class))
+                .collect(Collectors.toList());
+
+        return menuOrderDTOS;
+    }
+
+
 
 }

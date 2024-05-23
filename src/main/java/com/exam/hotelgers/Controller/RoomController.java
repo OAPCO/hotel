@@ -40,6 +40,7 @@ public class RoomController {
     private final RoomRepository roomRepository;
     private final ImageService imageService;
     private final MemberService memberService;
+    private final MenuOrderService menuOrderService;
     private final RoomOrderRepository roomOrderRepository;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -135,6 +136,9 @@ public class RoomController {
             //현재 객실 사용중인 사용자의 정보
             MemberDTO memberDTO = memberService.findByMemberIdx(roomOrderDTO.getMemberIdx());
 
+            //현재 사용자의 룸서비스 주문 내역
+            List<MenuOrderDTO> menuOrderDTOS = menuOrderService.roomIdxMenuOrderSearch(roomOrderDTO.getRoomorderIdx());
+
 
             //현 입실자 입실 시간 포맷 변경
             LocalDateTime dateTime = LocalDateTime.parse(roomOrderDTO.getCheckinTime());
@@ -145,6 +149,7 @@ public class RoomController {
 
             model.addAttribute("roomOrderDTO", roomOrderDTO);
             model.addAttribute("memberDTO", memberDTO);
+            model.addAttribute("menuOrderDTOS", menuOrderDTOS);
         }
 
 
