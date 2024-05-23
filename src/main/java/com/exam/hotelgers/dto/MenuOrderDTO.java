@@ -22,6 +22,7 @@ public class MenuOrderDTO {
     private Long memberIdx;
     private String orderState;//주문서 상태 0.결제완료 1.조리완료 2.배달완료 3.결제취소
     private String orderRequest;
+    private Long roomorderIdx;
 
     private Long storeIdx;
 

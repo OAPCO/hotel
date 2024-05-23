@@ -2,10 +2,7 @@ package com.exam.hotelgers.repository;
 
 import com.exam.hotelgers.dto.RoomOrderDTO;
 import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.entity.Member;
-import com.exam.hotelgers.entity.Qna;
-import com.exam.hotelgers.entity.Room;
-import com.exam.hotelgers.entity.RoomOrder;
+import com.exam.hotelgers.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,6 +22,11 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     List<RoomOrder> findByStoreIdx(Long storeIdx);
 
 
+    //roomorderIdx로 storeIdx 찾기(체크인 후 룸서비스 주문할 때 메뉴선택에 사용하기 위해)
+    @Query("select o.storeIdx from RoomOrder o where o.roomorderIdx = :roomorderIdx")
+    Long findStoreIdx(Long roomorderIdx);
+
+
     @Query("select r from RoomOrder r where r.roomIdx = :roomorderIdx " +
             "and r.roomStatus = 1")
     Optional<RoomOrder> roomOrderIspresentCheck(Long roomorderIdx);
@@ -38,7 +40,6 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     @Query("SELECT r FROM RoomOrder r where r.storeIdx = :storeIdx " +
             "and r.roomStatus = 1")
     List<RoomOrder> roomOrderSearch2(Long storeIdx);
-
 
 
     //room의 지난 내역(roomstatus=4)들 확인

@@ -94,12 +94,12 @@
                             </tr>
                             </thead>
                             <tbody>
-<!--                            <tr th:each="data:${roomOrderDTO}">-->
-<!--                                <td th:text="${data.orderCd}"></td>-->
-<!--                                <td>주문메뉴</td>-->
-<!--                                <td>주문서출력여부</td>-->
-<!--                                <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>-->
-<!--                            </tr>-->
+                            <tr th:each="data:${roomOrderDTO}">
+                                <td th:text="${data.orderCd}"></td>
+                                <td>주문메뉴</td>
+                                <td>주문서출력여부</td>
+                                <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

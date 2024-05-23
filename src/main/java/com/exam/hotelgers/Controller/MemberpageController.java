@@ -308,8 +308,14 @@ public class MemberpageController {
 //    }
 
 
-    @GetMapping("/member/memberpage/menuorder/{storeIdx}")
-    public String menuorderform(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
+    @GetMapping("/member/memberpage/menuorder/{roomorderIdx}")
+    public String menuorderform(Model model, @PathVariable Long roomorderIdx,Principal principal) throws Exception {
+
+        //현재 객실 주문 번호로 체크인 한 매장번호를 구한다.
+        Long storeIdx = roomOrderRepository.findStoreIdx(roomorderIdx);
+
+
+        //위에서 구한 매장번호로 storeDTO 구한다.
         StoreDTO storeDTO = storeService.read(storeIdx);
 
         if(storeDTO == null) {

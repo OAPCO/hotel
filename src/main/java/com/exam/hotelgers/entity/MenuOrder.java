@@ -36,6 +36,7 @@ public class MenuOrder extends BaseEntity {
     private String orderState;//주문서 상태 0.결제완료 1.조리완료 2.배달완료 3.결제취소
     private String orderRequest;//주문요청사항
     private Long storeIdx;
+    private Long roomorderIdx;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
