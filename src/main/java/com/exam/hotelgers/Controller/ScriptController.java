@@ -132,7 +132,10 @@ public class ScriptController {
         LocalDateTime end = searchService.changeDate(searchDTO.getReservationDateCheckout());
 
         searchDTO.setReservationDateCheckinDate(start);
-        searchDTO.setReservationDateCheckinDate(end);
+        searchDTO.setReservationDateCheckoutDate(end);
+
+        log.info("날짜로그1 : "+searchDTO.getReservationDateCheckinDate());
+        log.info("날짜로그2 : "+searchDTO.getReservationDateCheckinDate());
 
         //예약 가능한 객실 타입의 목록
         List<String> passRooms = new ArrayList<>();
