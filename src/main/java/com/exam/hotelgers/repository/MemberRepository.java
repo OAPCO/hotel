@@ -88,4 +88,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "r.roomStatus IN (1,4)")
     List<Member> roomOrderMembers(SearchDTO searchDTO);
 
+
+
 }

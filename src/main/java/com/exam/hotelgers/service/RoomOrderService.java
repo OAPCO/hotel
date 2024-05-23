@@ -148,6 +148,13 @@ public class RoomOrderService {
 
 
 
+    //회원이 현재 묵고 있는 방 찾는 쿼리
+    public RoomOrderDTO findmemberInRoomOrder(Long memberIdx){
+
+        Optional<RoomOrder> roomOrder = roomOrderRepository.findmemberInRoomOrder(memberIdx);
+
+        return modelMapper.map(roomOrder,RoomOrderDTO.class);
+    }
 
 
 

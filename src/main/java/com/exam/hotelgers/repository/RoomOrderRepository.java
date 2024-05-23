@@ -98,19 +98,10 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     List<RoomOrder> searchRoomOrder(SearchDTO searchDTO);
 
 
-//    @Query(value = "SELECT o FROM RoomOrder o " +
-//            "LEFT JOIN Room r ON r.store.storeIdx = o.storeIdx " +
-//            "WHERE o.storeIdx = :#{#searchDTO.storeIdx} " +
-//            "and o.roomOrderType = :#{#searchDTO.roomType} " +
-//            "AND :#{#searchDTO.reservationDateCheckinDate} BETWEEN o.reservationDateCheckinDate AND o.reservationDateCheckoutDate ")
-//    List<RoomOrder> searchRoomOrder(SearchDTO searchDTO);
-//
-//    @Query(value = "SELECT o FROM RoomOrder o " +
-//            "LEFT JOIN Room r ON r.store.storeIdx = o.storeIdx " +
-//            "WHERE o.storeIdx = :#{#searchDTO.storeIdx} " +
-//            "and o.roomOrderType = :#{#searchDTO.roomType} " +
-//            "AND :#{#searchDTO.reservationDateCheckoutDate} BETWEEN o.reservationDateCheckinDate AND o.reservationDateCheckoutDate ")
-//    List<RoomOrder> searchRoomOrderStart(SearchDTO searchDTO);
+    //회원이 현재 묵고 있는 방 찾는 쿼리
+    @Query("select r from RoomOrder r where r.memberIdx = :memberIdx " +
+            "and r.roomStatus = 2")
+    Optional<RoomOrder> findmemberInRoomOrder(Long memberIdx);
 
 
 }

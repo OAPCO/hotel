@@ -27,6 +27,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
 
 
+    //roomOrderidx로 매장명 찾기
+    @Query("select s.storeName from Store s join RoomOrder o on s.storeIdx = o.storeIdx where o.roomorderIdx = :roomorderIdx")
+    String findStoreRoomOrderIdx(Long roomorderIdx);
+
     
 
     //로그인중인 매장주 아이디로 매장 조회

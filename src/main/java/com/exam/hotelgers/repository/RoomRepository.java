@@ -31,6 +31,10 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     @Query("select r from Room r join r.store s where (r.store.storeCd = :storeCd)")
     List<Room> loginManagerRoomSearch(String storeCd);
 
+    //roomOrderidx로 매장명 찾기
+    @Query("select r.roomName from Room r join RoomOrder o on r.roomIdx = o.roomIdx where o.roomorderIdx = :roomorderIdx")
+    String findRoomRoomOrderIdx(Long roomorderIdx);
+
 
     //비어있지 않은 상태인 객실타입 체크하기
     @Query(value = "SELECT r.roomType FROM Room r " +
