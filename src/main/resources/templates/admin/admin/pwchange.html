@@ -30,10 +30,10 @@
             <h6><strong>비밀번호 변경</strong></h6>
             <!-- Message Display Section -->
             <div th:value="${result != null}">
-                <div th:if="${result == 1}" class="alert alert-success">
+                <div th:if="${result == true}" class="alert alert-success">
                     비밀번호가 성공적으로 변경되었습니다.
                 </div>
-                <div th:if="${result == 0}" class="alert alert-danger">
+                <div th:if="${result == false}" class="alert alert-danger">
                     현재 비밀번호가 일치하지 않습니다.
                 </div>
             </div>

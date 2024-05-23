@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -130,5 +131,26 @@ public class DistChiefController {
 
 
         return "admin/admin/distchief/list";
+    }
+    @GetMapping("/admin/admin/distchief/pwchange")
+    public String pwchangeForm() {
+
+        return "admin/admin/distchief/pwchange";
+    }
+
+
+    @PostMapping("/admin/distchief/pwcheck")
+    public String adminpwcheck(Principal principal, String currentPassword, String newPassword, RedirectAttributes redirectAttributes, Model model) {
+
+        log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
+        boolean result=distChiefService.changePassword(currentPassword,newPassword,principal);
+        if (result==false){
+            log.info("비밀번호변경실패"+result);
+
+        }else if(result==true)
+            log.info("비밀번호변경성공"+result);
+        model.addAttribute("result", result);
+
+        return "redirect:/admin/admin/distchief/pwchange";
     }
 }

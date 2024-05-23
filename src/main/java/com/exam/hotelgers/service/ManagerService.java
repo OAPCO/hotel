@@ -5,7 +5,9 @@ import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +25,7 @@ import static com.exam.hotelgers.entity.QDist.dist;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ManagerService {
 
     private final ManagerRepository managerRepository;
@@ -155,7 +158,25 @@ public class ManagerService {
         return roomDTOS;
     }
 
+    @Transactional
+    public boolean changePassword(String currentPassword, String newPassword, Principal principal) {
+        String userId = principal.getName();
+        Manager manager = managerRepository.findByManagerId(userId).orElseThrow(() ->
+                new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+        int result;
+        // 현재 비밀번호와 일치하는지 확인
+        if (!passwordEncoder.matches(currentPassword, manager.getPassword())) {
+            log.info("비밀번호 일치하지 않음. 입력된 비밀번호: " + currentPassword + " 저장된 비밀번호: " + manager.getPassword());
+            return false; // 현재 비밀번호가 일치하지 않음
+        }
 
+        // 새로운 비밀번호로 업데이트
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        manager.setPassword(encodedNewPassword);
+        managerRepository.save(manager);
+        log.info("패스워드 변경 성공. 새로운 비밀번호: " + encodedNewPassword);
+        return true; // 비밀번호 변경 성공
+    }
 
 
 

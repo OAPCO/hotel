@@ -68,12 +68,17 @@
             margin-bottom: 10px; /* 각 행 사이에 여백을 추가하여 구분합니다. */
             height: 70px; /* 행의 높이를 설정합니다. */
         }
+        .shadows{
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* 카드와 같은 그림자 효과를 추가합니다. */
+            padding:30px;
+            background: #ffffff;
+        }
 
     </style>
 
 </head>
 <body>
-<div layout:fragment="content">
+<div layout:fragment="content"  style="background-color: #fff2d7;">
     <div class="section" id="section0">
         <div class="container-fluid pt-5">
             <!-- 메뉴 리스트 -->
@@ -124,7 +129,7 @@
     </div>
     <div class="section" id="section1">
         <div class="container-fluid pt-5">
-            <div class="container" style="margin: auto; width: 80%;">
+            <div class="container shadows" style="margin: auto; width: 80%;">
                 <h2 class="text-primary">
                     주문자 정보
                 </h2>
@@ -155,7 +160,7 @@
                         <input type="text" name="rewardDTO.memberIdx" th:value="${memberDTO.memberIdx}">
                         <input type="text" name="rewardDTO.rewardAmount" id="totalPointHidden" value="">
                     </div>
-                    <div>
+                    <div class="shadows">
                         <h2 class="text-primary">장바구니</h2>
                         <table style="width: 100%;text-align: center;vertical-align: middle;margin-top: 20px;" >
                             <thead>
@@ -213,13 +218,14 @@
                         </div>
                     </div>
                     <p></p>
-                    <div style="text-align: right; margin-right: 10%;">
+                    <div class="shadows" style="margin-bottom: 30px;">
+                    <div style="text-align: right; margin-right: 10%;" >
                         <p id="totalPoint">총 적립액:</p>
                     </div>
-                    <div class="fa-align-right" style="text-align: right">
+                    <div class="fa-align-right " style="text-align: right" >
                         <p style="color: #0c3ee1; ">총 결제액:</p>
                     </div>
-
+                    </div>
                     <div>
                         <textarea class="form-control-lg" style="width: 80%;" name="orderRequest"
                                   placeholder="요청사항을 입력하세요"></textarea>
@@ -233,7 +239,7 @@
 
                     </div>
                     <div>
-                        <button class="btn btn-outline-primary" type="submit">주문하기</button>
+                        <button class="btn btn-outline-primary" style="background: white" type="submit">주문하기</button>
 
                     </div>
 
