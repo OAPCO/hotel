@@ -25,7 +25,7 @@
                     <td th:text="${coupon.detail}">메뉴 주문 시</td>
                     <td th:text="${coupon.couponState}">미사용</td>
                     <td th:text="${#strings.substringBefore(coupon.regdate, 'T')}">2024-05-22</td>
-                    <button class="btn btn-outline-info" th:id="${coupon.couponIdx}" onclick="usecoupon(event)">사용하기</button>
+                    <button class="btn btn-outline-info" th:id="${coupon.couponIdx}">사용하기</button>
                 </tr>
                 </tbody>
             </table>

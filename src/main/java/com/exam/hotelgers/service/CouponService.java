@@ -57,4 +57,22 @@ public class CouponService {
             throw new NullPointerException("Coupon not found with id: " + couponId);
         }
     }
+//    public CouponDTO useCoupon(Long couponIdx) {
+//        Optional<Coupon> optionalCoupon = couponRepository.findById(couponIdx);
+//
+//        if (optionalCoupon.isPresent()) {
+//            Coupon coupon = optionalCoupon.get();
+//            coupon.setCouponState("사용함"); // Assuming setCouponState is a valid method
+//            Coupon updatedCoupon = couponRepository.save(coupon);
+//
+//            // Use modelMapper to map Coupon to CouponDTO
+//            ModelMapper modelMapper = new ModelMapper();
+//            CouponDTO couponDto = modelMapper.map(updatedCoupon, CouponDTO.class);
+//
+//            return couponDto;
+//        } else {
+//
+//        }
+//        return
+//    }
 }

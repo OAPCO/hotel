@@ -20,7 +20,7 @@ public class RewardDTO {
     private String rewardName; //적립명
     private String rewardAmount; //적립액
     private String memberId; //멤버에 묶임
-    private String rewardPM;
+    private String rewardPM; //+-
     private LocalDateTime regdate;
     private LocalDateTime moddate;
 
