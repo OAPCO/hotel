@@ -6,6 +6,7 @@ import com.exam.hotelgers.entity.Manager;
 import com.exam.hotelgers.entity.MenuOrder;
 import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.ManagerRepository;
+import com.exam.hotelgers.repository.RewardRepository;
 import com.exam.hotelgers.repository.StoreRepository;
 import com.exam.hotelgers.service.*;
 
@@ -47,18 +48,19 @@ public class OrderController {
     private final StoreService storeService;
     private final StoreRepository storeRepository;
     private final ManagerRepository managerRepository;
+    private final RewardService rewardService;
+    private  final CouponService couponService;
 
-
-    @GetMapping("/admin/manager/order/register")
-    public String register() {
-        return "admin/manager/order/register";
-    }
+//    @GetMapping("/admin/manager/order/register")
+//    public String register() {
+//        return "admin/manager/order/register";
+//    }
 
 
     @PostMapping("/admin/manager/order/register")
     public String registerProc(@Valid MenuOrderDTO orderDTO,
                                @Nullable @RequestParam Long couponIdx,
-                               @Nullable @RequestParam RewardDTO RewardDTO,
+                               @Nullable @ModelAttribute RewardDTO rewardDTO,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
 
@@ -74,7 +76,13 @@ public class OrderController {
 
         Long menuorderIdx = menuOrderService.register(orderDTO);
 
+        if(rewardDTO != null) {
+            rewardService.register(rewardDTO);
+            log.info(rewardDTO +  "페이지에서 보내주는 리워드 DTO");
+        }
 
+        couponService.useCoupon(couponIdx);
+        log.info(couponIdx +  "페이지에서 보내주는 couponIdx");
         redirectAttributes.addFlashAttribute("result", menuorderIdx);
 
         return "redirect:/member/memberpage/index";

@@ -27,8 +27,6 @@ public class MenuSheet extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menusheet_sql")
     private Long menuSheetIdx;//메뉴 시트 키
 
-
-
     private String menuorderName;//주문메뉴
 
     private String menuorderPrice; //주문메뉴단일가격
