@@ -53,6 +53,22 @@
             display: flex;
             flex-direction: column;
         }
+        .badge.bg-secondary{
+            margin: 0 5px; /* 버튼과 숫자 사이에 공백 적용 (좌우 5px) */
+        }
+        .quantity {
+            margin: 0 5px; /* 숫자와 버튼 사이에 공백 적용 (좌우 5px) */
+        }
+
+        #tableBody tr {
+            display: flex; /* 행을 flex 컨테이너로 설정합니다. */
+            align-items: center; /* 수직 가운데 정렬 */
+            justify-content: center; /* 수평 가운데 정렬 */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* 카드와 같은 그림자 효과를 추가합니다. */
+            margin-bottom: 10px; /* 각 행 사이에 여백을 추가하여 구분합니다. */
+            height: 70px; /* 행의 높이를 설정합니다. */
+        }
+
     </style>
 
 </head>
@@ -139,9 +155,9 @@
                     </div>
                     <div>
                         <h2 class="text-primary">장바구니</h2>
-                        <table style="width: 100%;">
+                        <table style="width: 100%;text-align: center;vertical-align: middle;margin-top: 20px;" >
                             <thead>
-                            <tr class="row">
+                            <tr class="row" style="justify-content: center; align-items: center;">
                                 <th class="col">메뉴명</th>
                                 <th class="col">가격</th>
                                 <th class="col">주문 개수</th>
@@ -151,13 +167,13 @@
                             </tr>
                             </thead>
                             <!-- 추가 정보를 이 곳에 넣어 주세요 -->
-                            <tbody id="tableBody">
+                            <tbody id="tableBody" style="justify-content: center; align-items: center;">
 
                             </tbody>
                         </table>
                     </div>
                     <div>
-                        <table class="table table-striped" style="table-layout: fixed;">
+                        <table class="table table-striped" style="table-layout: fixed;justify-content: center; align-items: center; margin-left:-1.5%; margin-top:15px;">
                             <thead class="thead-primary">
                             <tr>
                                 <th colspan="3">
@@ -302,12 +318,12 @@
                 }
                 else {
                     menuIndex = $('#tableBody tr').length;
-                    var rowHtml = '<tr class="row"><td class="col">' + menuName + '</td><td class="col"><span>' +
+                    var rowHtml = '<tr class="row" ><td class="col">' + menuName + '</td><td class="col"><span>' +
                         price.toFixed(2) + '</span></td><td class="col">' +
                         '<button class="badge bg-secondary minus">-</button>' + '<span class="quantity">' + '1' +
                         '</span>' + '<button class="badge bg-secondary plus">+</button>' +
                         '</td><td class="col"><span class="value">' + price.toFixed(2) +
-                        '</span></td><td class="col item-point" data-point="' + pointSaveAmount + '">' + pointSaveAmount +
+                        '</span></td><td class="col item-point"  data-point="' + pointSaveAmount + '">' + pointSaveAmount +
                         '</td><td class="col"><button class="btn btn-sm btn-danger remove">삭제</button></td></tr>';
 
                     $("#tableBody").append(rowHtml);

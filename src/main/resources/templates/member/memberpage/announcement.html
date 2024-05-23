@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/membermain}">
+
+<head></head>
+
+<body>
+<div layout:fragment="content" >
+
+    <div class="container" style="margin: auto; width: 80%;">
+
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <div class="sub_title">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2>공지사항 <br> announcement</h2>
+                        <p></p>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3>자주 묻는 질문</h3>
+                <div id="accordion">
+
+                    <div class="card"  th:each="data:${list}" th:if="${data.noticeType eq 'notice'}" >
+                        <div class="card-header">
+                            <a class="btn" data-bs-toggle="collapse" href="#collapseOne" th:text="${data.noticeTitle}">
+                                여기가 제목
+                            </a>
+                        </div>
+                        <div id="collapseOne" class="collapse show" data-bs-parent="#accordion" >
+                            <div class="card-body" th:text="${data.noticeContent}">
+                                여기가 내용
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
