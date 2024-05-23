@@ -29,7 +29,7 @@
         <div class="card-header" style="margin: 50px 20px;">
             <h6><strong>비밀번호 변경</strong></h6>
             <!-- Message Display Section -->
-            <div th:if="${result != null}">
+            <div th:value="${result != null}">
                 <div th:if="${result == 1}" class="alert alert-success">
                     비밀번호가 성공적으로 변경되었습니다.
                 </div>

@@ -234,7 +234,11 @@ public class AdminController {
 
             log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
     int result=adminService.changePassword(currentPassword,newPassword,principal);
-            log.info("결과값"+result);
+            if (result==0){
+                log.info("비밀번호변경실패"+result);
+
+            }else if(result==1)
+                log.info("비밀번호변경성공"+result);
         redirectAttributes.addFlashAttribute("result", result);
 
         return "redirect:/admin/admin/pwchange";

@@ -48,8 +48,35 @@
             display: flex;
             flex-direction: column;
         }
-    </style>
+        .btn-warning.minus {
+            border-radius: 50%; /* minus 버튼에만 적용 */
+            padding-left: 15%;
+            padding-right: 15%;
+        }
 
+        .btn-success.plus {
+            border-radius: 50%; /* plus 버튼에만 적용 */
+            padding-left: 15%;
+            padding-right: 15%;
+        }
+        /* 테이블 본문의 모든 셀에 스타일을 적용합니다 */
+        #tableBody td {
+            justify-content: center;  /* 내용의 수평 중앙 정렬 */
+            align-items: center;      /* 내용의 수직 중앙 정렬 */
+            white-space: nowrap;
+        }
+        #tableBody td span {
+            display: inline-block;
+            margin-top:10px;
+        }
+        .minus, .plus {
+            margin: 0 5px; /* 버튼과 숫자 사이에 공백 적용 (좌우 5px) */
+        }
+
+        .quantity {
+            margin: 0 5px; /* 숫자와 버튼 사이에 공백 적용 (좌우 5px) */
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
@@ -129,9 +156,9 @@
                     </div>
                     <div>
                         <h2 class="text-primary">장바구니</h2>
-                        <table style="width: 100%;">
+                        <table style="width: 100%;  text-align: center;vertical-align: middle;">
                             <thead>
-                            <tr class="row">
+                            <tr class="row" style="justify-content: center; align-items: center;">
                                 <th class="col">메뉴명</th>
                                 <th class="col">가격</th>
                                 <th class="col">주문 개수</th>
@@ -141,7 +168,7 @@
                             </tr>
                             </thead>
                             <!-- 추가 정보를 이 곳에 넣어 주세요 -->
-                            <tbody id="tableBody">
+                            <tbody  class="row" id="tableBody" style="justify-content: center; align-items: center; margin-left:-1.5%; margin-top:15px;">
 
                             </tbody>
                         </table>
@@ -285,12 +312,12 @@
                 } else {
 
                     menuIndex = $('#tableBody tr').length;
-                    var rowHtml = '<tr class="row"><td class="col">' + menuName + '</td><td class="col"><span>' +
+                    var rowHtml = '<tr class="row"><td class="col" style="margin-top:10px;">' + menuName + '</td><td class="col"><span>' +
                         price.toFixed(2) + '</span></td><td class="col">' +
-                        '<button class="btn btn-warning minus">-</button>' + '<span class="quantity">' + '1' +
+                        '<button class="btn btn-warning minus">-</button>' + '<span class="quantity">' +'1' +
                         '</span>' + '<button class="btn btn-success plus">+</button>' +
                         '</td><td class="col"><span class="value">' + price.toFixed(2) +
-                        '</span></td><td class="col"></td><td class="col item-point">'+ pointSaveAmount +'</td>'+
+                        '</span></td><td class="col item-point" style="margin-top:10px;">'+ pointSaveAmount +'</td>'+
                         '<td class="col"><button class="btn btn-danger remove">삭제</button></td></tr>';
 
                     $("#tableBody").append(rowHtml);
@@ -330,8 +357,10 @@
                         var quantityElem = $(this).siblings('.quantity');
                         var unitPriceElem = $(this).parent().prev().find('span');
                         var valueElem = $(this).parent().next().find('.value');
-                        var quantity = parseInt(quantityElem.text()) - 1;
-
+                        var quantity = parseInt(quantityElem.text())
+                        // 수량이 1 이상일 때만 감소하도록 조건 추가
+                        if (quantity > 1) {
+                            quantity -= 1;
                         quantityElem.text(quantity);
                         var unitPrice = parseFloat(unitPriceElem.text());
                         valueElem.text((unitPrice * quantity).toFixed(2));
@@ -343,6 +372,7 @@
 
                         calculateTotalPoint();
                         calculateTotal();
+                        }
                     });
 
                     $(".remove").on("click", function(event) {
