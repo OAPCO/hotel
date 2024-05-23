@@ -441,23 +441,8 @@ public class MemberpageController {
             }
         }
         log.info(memberDTO.toString()  + ": 마이페이지 유저 데이터 ");
-        // Always adding the memberDTO, even if it's null. The view should handle this appropriately.
+
         model.addAttribute("memberDTO", memberDTO);
-
-        //회원이 현재 체크인 되어있는 방 주문을 찾는다.
-        RoomOrderDTO roomOrderDTO = roomOrderService.findmemberInRoomOrder(memberDTO.getMemberIdx());
-        model.addAttribute("roomOrderDTO", roomOrderDTO);
-        log.info("묵고있는방확인@@ " + roomOrderDTO);
-
-
-        //출력에 필요한 정보 매장명,룸명을 따로 구해서 보낸다.
-        String storeName = storeRepository.findStoreRoomOrderIdx(roomOrderDTO.getRoomorderIdx());
-        String roomName = roomRepository.findRoomRoomOrderIdx(roomOrderDTO.getRoomorderIdx());
-        model.addAttribute("isstoreName", storeName);
-        model.addAttribute("isroomName", roomName);
-
-        log.info("새로추가한거",storeName,roomName);
-
 
         return "member/mypage/history";
     }

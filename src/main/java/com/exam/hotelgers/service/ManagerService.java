@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.exam.hotelgers.entity.QDist.dist;
 
 @Service
 @RequiredArgsConstructor

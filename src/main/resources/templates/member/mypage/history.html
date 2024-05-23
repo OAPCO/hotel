@@ -25,10 +25,10 @@
                         <th>체크인</th>
                         <th>예약일자</th>
                         <th>예약자명</th>
+                        <th>       </th>
                     </tr>
                     </thead>
                     <tbody>
-
                     <tr>
                         <td th:text="${room.roomorderIdx}">1</td>
                         <td th:text="${storeName}">롯데호텔 서울점</td>
@@ -36,6 +36,7 @@
                         <td th:text="${room.reservationDateCheckin}">2024-05-18</td>
                         <td th:text="${#strings.substringBefore(room.regdate, 'T')}">2024-05-18</td>
                         <td th:text="${memberDTO.memberName}"></td>
+                        <td> <a><button class="btn btn-primary btn-sm">후기 남기기</button></a></td>
                     </tr>
 
                     </tbody>
@@ -59,6 +60,7 @@
                         <th>체크아웃</th>
                         <th>예약일자</th>
                         <th>예약자명</th>
+                        <th>       </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -70,7 +72,8 @@
                         <td th:text="${room.reservationDateCheckout}">2024-05-19</td>
                         <td th:text="${#strings.substringBefore(room.regdate, 'T')}">2024-05-18</td>
                         <td th:text="${memberDTO.memberName}">철수</td>
-                    </tr>
+                        <td>
+                            <button th:attr="onclick='openWindow('+${room.storeIdx}+');'" class="btn btn-primary btn-sm">리뷰 남기기</button>                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -152,6 +155,16 @@
                 $(targetId).insertAfter(currentRow).toggle();
             });
         });
+    </script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        function openWindow(storeIdx) {
+            var url = '/review/register/' + storeIdx;
+            var width = window.innerWidth * 0.4;
+            var height = window.innerHeight * 0.4;
+            window.open(url, '_blank', 'width=' + width + ',height=' + height);
+        }
+        /*]]>*/
     </script>
 </div>
 </body>

@@ -19,7 +19,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="coupon : ${memberDTO.couponList}">
+                <tr th:each="coupon : ${memberDTO.couponList}" th:if="${coupon.couponState ne '사용 불가'}">
                     <td th:text="${coupon.couponName}">첫 가입 기념 쿠폰</td>
                     <td th:text="${coupon.couponPrice}">5,000원 할인</td>
                     <td th:text="${coupon.detail}">메뉴 주문 시</td>
