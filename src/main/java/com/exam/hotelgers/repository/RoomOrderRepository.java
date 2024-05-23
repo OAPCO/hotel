@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,12 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     Page<RoomOrder> endRoomOrderSearch(Pageable pageable,SearchDTO searchDTO);
 
 
+//    room의 예약 현황,지난 내역들 정보 (room/read에서 사용)
+    @Query("select r from RoomOrder r where r.roomIdx = :#{#searchDTO.roomIdx} " +
+            "and r.roomStatus IN (1,4) ORDER BY r.roomStatus")
+    List<RoomOrder> RoomOrderAllSearch(SearchDTO searchDTO);
+
+
     //room의 현재 예약 정보 확인
     @Query("select r from RoomOrder r where r.roomIdx = :#{#searchDTO.roomIdx} " +
             "and r.roomStatus = 1")
@@ -53,11 +60,12 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
 
 
 
-    //room의 현 예약자의 정보 확인
-    @Query("SELECT m FROM Member m LEFT JOIN RoomOrder r ON r.memberIdx = m.memberIdx " +
-            "left join Room a ON a.roomIdx = r.roomIdx where " +
-            "r.roomStatus = 1")
-    Optional<Member> roomOrderMemberCheck(SearchDTO searchDTO);
+    //특정 객실의 현재 사용중인 객실주문 가져오기
+    @Query("SELECT o FROM RoomOrder o where o.roomIdx = :roomIdx and o.roomStatus = 2")
+    Optional<RoomOrder> roomOrder2Check(Long roomIdx);
+
+
+
 
     Optional<RoomOrder> findByMemberIdx(Long memberIdx);
 
@@ -70,14 +78,14 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     //체크인 했을 때 객실 상태를 2로 변경한다.
     @Modifying
     @Query("UPDATE RoomOrder o " +
-            "SET o.roomStatus = 2 " +
+            "SET o.roomStatus = 2, o.checkinTime = :checkinTime " +
             "WHERE o.roomIdx = :roomIdx " +
             "AND EXISTS (SELECT 1 FROM Room r WHERE o.roomIdx = r.roomIdx AND o.roomorderIdx = :roomorderIdx)")
-    void roomOrderStatusUpdate2(Long roomIdx, Long roomorderIdx);
+    void roomOrderStatusUpdate2(Long roomIdx, Long roomorderIdx, LocalDateTime checkinTime);
 
 
 
-    //끼인 룸오더 찾기
+//    끼인 룸오더 찾기
     @Query(value = "SELECT o FROM RoomOrder o " +
             "LEFT JOIN Room r ON r.store.storeIdx = o.storeIdx " +
             "WHERE o.storeIdx = :#{#searchDTO.storeIdx} " +
@@ -87,6 +95,21 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
             "OR (o.reservationDateCheckinDate BETWEEN :#{#searchDTO.reservationDateCheckinDate} AND :#{#searchDTO.reservationDateCheckoutDate} " +
             "AND o.reservationDateCheckoutDate BETWEEN :#{#searchDTO.reservationDateCheckinDate} AND :#{#searchDTO.reservationDateCheckoutDate}))")
     List<RoomOrder> searchRoomOrder(SearchDTO searchDTO);
+
+
+//    @Query(value = "SELECT o FROM RoomOrder o " +
+//            "LEFT JOIN Room r ON r.store.storeIdx = o.storeIdx " +
+//            "WHERE o.storeIdx = :#{#searchDTO.storeIdx} " +
+//            "and o.roomOrderType = :#{#searchDTO.roomType} " +
+//            "AND :#{#searchDTO.reservationDateCheckinDate} BETWEEN o.reservationDateCheckinDate AND o.reservationDateCheckoutDate ")
+//    List<RoomOrder> searchRoomOrder(SearchDTO searchDTO);
+//
+//    @Query(value = "SELECT o FROM RoomOrder o " +
+//            "LEFT JOIN Room r ON r.store.storeIdx = o.storeIdx " +
+//            "WHERE o.storeIdx = :#{#searchDTO.storeIdx} " +
+//            "and o.roomOrderType = :#{#searchDTO.roomType} " +
+//            "AND :#{#searchDTO.reservationDateCheckoutDate} BETWEEN o.reservationDateCheckinDate AND o.reservationDateCheckoutDate ")
+//    List<RoomOrder> searchRoomOrderStart(SearchDTO searchDTO);
 
 
 }

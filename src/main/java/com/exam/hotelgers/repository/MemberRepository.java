@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -70,5 +71,21 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m LEFT JOIN RoomOrder r ON r.memberIdx = m.memberIdx " +
             "where r.roomorderIdx = :roomorderIdx")
     Optional<Member> roomOrderMemberSelect(Long roomorderIdx);
+
+
+
+    //room의 현 사용자의 정보 확인
+    @Query("SELECT m FROM Member m LEFT JOIN RoomOrder r ON r.memberIdx = m.memberIdx " +
+            "left join Room a ON a.roomIdx = r.roomIdx where " +
+            "r.roomStatus = 2")
+    Optional<Member> roomOrderMemberCheck(SearchDTO searchDTO);
+
+
+
+    //해당 방의 룸 오더가 종료되었거나 예약 상태인 멤버들의 정보를 가져옴
+    @Query("SELECT m FROM Member m LEFT JOIN RoomOrder r ON r.memberIdx = m.memberIdx " +
+            "left join Room a ON a.roomIdx = r.roomIdx where " +
+            "r.roomStatus IN (1,4)")
+    List<Member> roomOrderMembers(SearchDTO searchDTO);
 
 }

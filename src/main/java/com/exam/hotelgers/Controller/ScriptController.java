@@ -148,12 +148,17 @@ public class ScriptController {
 
 
 
+
         //전체객실 숫자만큼 반복
         for(String roomType : allRooms){
 
 
             //룸타입을 셋 해주고
             searchDTO.setRoomType(roomType);
+
+
+            List<RoomOrderDTO> roomOrderDTOS = roomOrderService.roomOrderCheck(searchDTO);
+            log.info(searchDTO.getRoomType() + "의 룸오더 체크하기@@@ 결과값 : "+ roomOrderDTOS);
 
             //기존 주문에서 중복여부가 없다면
             if(roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
@@ -241,9 +246,12 @@ public class ScriptController {
         //roomidx 찾기
         Long roomIdx = roomRepository.searchRoomIdx(roomCd,storeIdx);
 
+        //현재 시간을 구한다.
+        LocalDateTime checkinTime = LocalDateTime.now();
+
         //객실, 객실주문 둘 다 체크인상태로 변경
         roomService.roomStatusUpdate2(roomIdx,roomorderIdx);
-        roomOrderService.roomOrderStatusUpdate2(roomIdx,roomorderIdx);
+        roomOrderService.roomOrderStatusUpdate2(roomIdx,roomorderIdx,checkinTime);
 
 
     }

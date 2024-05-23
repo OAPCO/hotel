@@ -17,9 +17,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -98,6 +100,37 @@ public class RoomOrderService {
     }
 
 
+
+//    public Page<RoomOrderDTO> RoomOrderAllSearch(Pageable pageable,SearchDTO searchDTO){
+//
+//        int currentPage = pageable.getPageNumber()-1;
+//        int pageCnt = 5;
+//        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomorderIdx"));
+//
+//        Page<RoomOrder> roomOrders = roomOrderRepository.RoomOrderAllSearch(pageable,searchDTO);
+//
+//        return roomOrders.map(data->modelMapper.map(data,RoomOrderDTO.class));
+//    }
+
+
+
+    public List<RoomOrderDTO> RoomOrderAllSearch(SearchDTO searchDTO){
+
+
+        List<RoomOrder> roomOrders = roomOrderRepository.RoomOrderAllSearch(searchDTO);
+
+
+        List<RoomOrderDTO> roomOrderDTOs = roomOrders.stream()
+                .map(roomOrder -> modelMapper.map(roomOrder, RoomOrderDTO.class))
+                .collect(Collectors.toList());
+
+        return roomOrderDTOs;
+
+    }
+
+
+
+
     public RoomOrderDTO roomOrderStatusCheck(SearchDTO searchDTO){
 
         Optional<RoomOrder> roomOrder = roomOrderRepository.roomOrderStatusCheck(searchDTO);
@@ -106,23 +139,42 @@ public class RoomOrderService {
     }
 
 
-    public MemberDTO roomOrderMemberCheck(SearchDTO searchDTO){
+    public RoomOrderDTO roomOrder2Check(Long roomIdx){
 
-        Optional<Member> member = roomOrderRepository.roomOrderMemberCheck(searchDTO);
+        Optional<RoomOrder> roomOrder = roomOrderRepository.roomOrder2Check(roomIdx);
 
-        return modelMapper.map(member,MemberDTO.class);
+        return modelMapper.map(roomOrder,RoomOrderDTO.class);
     }
 
 
+
+
+
+
+
     @Transactional
-    public void roomOrderStatusUpdate2(Long roomIdx, Long roomorderIdx) {
-        roomOrderRepository.roomOrderStatusUpdate2(roomIdx, roomorderIdx);
+    public void roomOrderStatusUpdate2(Long roomIdx, Long roomorderIdx, LocalDateTime checkinTime) {
+        roomOrderRepository.roomOrderStatusUpdate2(roomIdx, roomorderIdx,checkinTime);
     }
 
 
 
 
     public List<RoomOrderDTO> roomOrderCheck(SearchDTO searchDTO){
+
+
+        List<RoomOrder> roomOrders = roomOrderRepository.searchRoomOrder(searchDTO);
+
+
+        List<RoomOrderDTO> roomOrderDTOs = roomOrders.stream()
+                .map(roomOrder -> modelMapper.map(roomOrder, RoomOrderDTO.class))
+                .collect(Collectors.toList());
+
+        return roomOrderDTOs;
+
+    }
+
+    public List<RoomOrderDTO> roomOrderCheckStart(SearchDTO searchDTO){
 
 
         List<RoomOrder> roomOrders = roomOrderRepository.searchRoomOrder(searchDTO);

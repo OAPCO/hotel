@@ -53,18 +53,18 @@
                         <table class="table body">
                             <thead>
                             <tr>
-                                <th>주문번호</th>
-                                <th>메뉴</th>
-                                <th>주문서 출력</th>
-                                <th>주문일시</th>
+                                <th>현 고객</th>
+                                <th>전화번호</th>
+                                <th>입실 인원</th>
+                                <th>입실 시간</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="data:${roomOrderDTO}">
-                                <td th:text="${data.roomorderIdx}"></td>
-                                <td>주문메뉴</td>
-                                <td>주문서출력여부</td>
-                                <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
+                            <tr th:if="${memberDTO != null}">
+                                <td th:text="${memberDTO.memberName}"></td>
+                                <td th:text="${memberDTO.memberPhone}"></td>
+                                <td th:text="${roomOrderDTO.peopleNum}"></td>
+                                <td th:text="${roomOrderDTO.checkinTime}"></td>
                             </tr>
                             </tbody>
                         </table>
@@ -94,12 +94,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="data:${roomOrderDTO}">
-                                <td th:text="${data.orderCd}"></td>
-                                <td>주문메뉴</td>
-                                <td>주문서출력여부</td>
-                                <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
-                            </tr>
+<!--                            <tr th:each="data:${roomOrderDTO}">-->
+<!--                                <td th:text="${data.orderCd}"></td>-->
+<!--                                <td>주문메뉴</td>-->
+<!--                                <td>주문서출력여부</td>-->
+<!--                                <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>-->
+<!--                            </tr>-->
                             </tbody>
                         </table>
                     </div>
@@ -124,7 +124,10 @@
                         <thead>
                         <tr>
                             <th>번호</th>
+                            <th>구분</th>
                             <th>예약일</th>
+                            <th>이름</th>
+                            <th>전화번호</th>
                             <th>체크인</th>
                             <th>체크아웃</th>
                         </tr>
@@ -132,9 +135,28 @@
                         <tbody>
                         <tr th:each="data:${roomOrderList}">
                             <td th:text="${data.roomorderIdx}"></td>
+                            <td>
+                                <th:block th:switch="${data.roomStatus}">
+                                    <span th:case=4>종료</span>
+                                    <span th:case=1>예약됨</span>
+                                </th:block>
+                            </td>
                             <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
-                            <td>체크인</td>
-                            <td>체크아웃</td>
+                            <td th:text="${data.memberName}"></td>
+                            <td th:text="${data.memberPhone}"></td>
+
+                            <th:block th:if="${data.roomStatus}==1">
+
+                                <td th:text="${#temporals.format(data.reservationDateCheckinDate, 'MM-dd')}"></td>
+                                <td th:text="${#temporals.format(data.reservationDateCheckoutDate, 'MM-dd')}"></td>
+
+                            </th:block>
+
+                            <th:block th:if="${data.roomStatus}==4">
+                                <td th:text="${data.checkinTime}"></td>
+                                <td th:text="${data.checkoutTime}"></td>
+                            </th:block>
+
                         </tr>
                         </tbody>
                     </table>

@@ -2,6 +2,7 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.MemberDTO;
+import com.exam.hotelgers.dto.RoomOrderDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.*;
@@ -27,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -307,4 +309,40 @@ public class MemberService {
         log.info("패스워드 변경 성공. 새로운 비밀번호: " + encodedNewPassword);
         return result=1; // 비밀번호 변경 성공
     }
+
+
+
+    public MemberDTO roomOrderMemberCheck(SearchDTO searchDTO){
+
+        Optional<Member> member = memberRepository.roomOrderMemberCheck(searchDTO);
+
+        return modelMapper.map(member,MemberDTO.class);
+    }
+
+
+    public MemberDTO findByMemberIdx(Long memberIdx){
+
+        Optional<Member> member = memberRepository.findByMemberIdx(memberIdx);
+
+        return modelMapper.map(member,MemberDTO.class);
+    }
+
+
+
+    public List<MemberDTO> roomOrderMembers(SearchDTO searchDTO){
+
+
+        List<Member> members = memberRepository.roomOrderMembers(searchDTO);
+
+
+        List<MemberDTO> memberDTOs = members.stream()
+                .map(member -> modelMapper.map(member, MemberDTO.class))
+                .collect(Collectors.toList());
+
+        return memberDTOs;
+
+    }
+
+
+
 }

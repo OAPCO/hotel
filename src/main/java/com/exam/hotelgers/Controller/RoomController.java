@@ -1,6 +1,8 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.repository.MemberRepository;
+import com.exam.hotelgers.repository.RoomOrderRepository;
 import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.service.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +23,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -35,7 +39,8 @@ public class RoomController {
     private final RoomOrderService roomOrderService;
     private final RoomRepository roomRepository;
     private final ImageService imageService;
-
+    private final MemberService memberService;
+    private final RoomOrderRepository roomOrderRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -121,14 +126,41 @@ public class RoomController {
 
         RoomDTO roomDTO = roomService.read(roomIdx);
 
-        Page<RoomOrderDTO> roomOrderDTOS = roomOrderService.endRoomOrderSearch(pageable,searchDTO);
-        RoomOrderDTO roomOrderDTO = roomOrderService.roomOrderStatusCheck(searchDTO);
-        MemberDTO memberDTO = roomOrderService.roomOrderMemberCheck(searchDTO);
+        //현재 객실이 사용중이라면
+        if (roomDTO.getRoomStatus() == 2){
+
+            //현재 객실을 사용중인 룸오더dto
+            RoomOrderDTO roomOrderDTO = roomOrderService.roomOrder2Check(roomIdx);
+
+            //현재 객실 사용중인 사용자의 정보
+            MemberDTO memberDTO = memberService.findByMemberIdx(roomOrderDTO.getMemberIdx());
+
+
+            //현 입실자 입실 시간 포맷 변경
+            LocalDateTime dateTime = LocalDateTime.parse(roomOrderDTO.getCheckinTime());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
+            String formattedCheckinTime = dateTime.format(formatter);
+            roomOrderDTO.setCheckinTime(formattedCheckinTime);
+
+
+            model.addAttribute("roomOrderDTO", roomOrderDTO);
+            model.addAttribute("memberDTO", memberDTO);
+        }
+
+
+        //객실 지난 사용내역,예약 현황 (1,4)
+        List<RoomOrderDTO> roomOrderDTOS = roomOrderService.RoomOrderAllSearch(searchDTO);
+
+//        //위 페이지정보의 멤버 정보들
+//        List<MemberDTO> memberDTOs = memberService.roomOrderMembers(searchDTO);
+
+
+
+        log.info("지난사용내역 : "+roomOrderDTOS);
 
         model.addAttribute("roomDTO", roomDTO);
         model.addAttribute("roomOrderList", roomOrderDTOS);
-        model.addAttribute("roomOrderDTO", roomOrderDTO);
-        model.addAttribute("memberDTO", memberDTO);
+
 
 
         return "admin/manager/room/read";
