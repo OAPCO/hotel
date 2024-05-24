@@ -61,7 +61,7 @@ public class MemberpageController {
     private final StoreRepository storeRepository;
     private final PaymentService paymentService;
     private final NoticeService noticeService;
-
+    private final ReviewService reviewService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -116,6 +116,8 @@ public class MemberpageController {
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
         StoreDTO storeDTO = storeService.read(storeIdx);
+
+        List<ReviewDTO> reviewDTOList = reviewService.findByStoreIdx(storeIdx);
 
         //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
         List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeIdx);
