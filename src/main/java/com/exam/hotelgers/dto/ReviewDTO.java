@@ -23,4 +23,6 @@ public class ReviewDTO {
     private Long storeIdx;
 
     private Long memberIdx;
+
+    private String memberEmail;
 }

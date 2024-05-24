@@ -94,21 +94,31 @@
 
                     <!-- 가운데 텍스트 -->
                     <div style="flex: 3; padding: 20px;">
-                        <a th:href="@{'/member/memberpage/'+${store.storeIdx}}">
-                            <p style="margin: 0; font-size: 32px; font-weight: bold; display: inline-block;"
+                        <a th:href="@{'/member/memberpage/'+${store.storeIdx}}" style="display: flex; align-items: center;">
+                            <p style="margin: 0; font-size: 32px; font-weight: bold; flex: 1;"
                                th:text="${store.storeName}" >
                             </p>
                             <!-- 평균 별점을 별로 표시 -->
-                            <div th:if="${store.averageRating != null}" class="star-rating">
+                            <div th:if="${store.averageRating != null}" class="star-rating" style="flex-shrink: 0;
+                            margin-right: 70%;">
                                 <!-- 반복문을 사용하여 store.averageRating만큼 별을 표시 -->
-                                <span class="star" th:each="rating : ${#numbers.sequence(1, store.averageRating)}">&#9733;</span>
+                                <span class="star" th:each="rating : ${#numbers.sequence(1, store.averageRating)}" style="color: gold; font-size: 2em;">&#9733;</span>
                             </div>
-                            <div th:unless="${store.averageRating != null}">별점 정보가 없습니다.</div>
+                            <div th:unless="${store.averageRating != null}"
+                                 style="flex-shrink: 0; margin-left: 10px;"> </div>
                         </a>
+                        <p></p>
                         <div th:id="'facilities-div-' + ${store.storeIdx}">
-                            <span class="material-icons">genres</span>
+                            <span>편의시설:</span><span class="material-icons">genres</span>
                         </div>
-                        <p style="margin: 10px 0 0; font-size: 14px;" th:text="${store.storeSummary}"></p>
+                        <p></p>
+                        <p style="margin: 10px 0 0; font-size: 18px;" th:text="${store.storeSummary}"></p>
+                        <div style="position: relative;">
+                            <a th:href="@{'/member/memberpage/'+${store.storeIdx}}">
+                                <button class="btn btn-outline-primary btn-lg" style="position: absolute; bottom: 0;
+                                right: 0;">상세보기</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -117,14 +127,11 @@
     </div>
     <script src="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"></script>
     <script th:inline="javascript">
-
         /*<![CDATA[*/
         const stores = /*[[${storeList}]]*/ [];
-        /*]]>*/
-
         stores.forEach(store => {
             const facilitiesDiv = document.getElementById(`facilities-div-${store.storeIdx}`);
-            const facilities = store.facilities.split(',');
+            const facilities = store.facilities.split(',').map(f => f.trim()).filter(f => f); // 빈 문자열이나 공백 제거
 
             facilities.forEach(facility => {
                 const icon = document.createElement('span');
@@ -143,29 +150,30 @@
                         icon.textContent = 'pool';
                         break;
                     case '사우나':
-                        icon.textContent = 'sauna';  // You need to replace this with an appropriate Material Icons value
+                        icon.textContent = 'sauna';  // 적절한 Material Icons 값으로 변경 필요
                         break;
                     case '라운지':
-                        icon.textContent = 'lounge';  // You need to replace this with an appropriate Material Icons value
+                        icon.textContent = 'lounge';  // 적절한 Material Icons 값으로 변경 필요
                         break;
                     case '카페':
-                        icon.textContent = 'local_cafe';  // You need to replace this with an appropriate Material Icons value
+                        icon.textContent = 'local_cafe';  // 적절한 Material Icons 값으로 변경 필요
                         break;
                     case '편의점':
                         icon.textContent = 'storefront';
                         break;
                     case '조식 제공':
                         icon.textContent = 'restaurant';
-                        // You need to replace this with an appropriate Material Icons value
+                        // 적절한 Material Icons 값으로 변경 필요
                         break;
                     case '노래방':
                         icon.textContent = 'genres';
-                        // You need to replace this with an appropriate Material Icons value
+                        // 적절한 Material Icons 값으로 변경 필요
                         break;
                 }
                 facilitiesDiv.appendChild(icon);
             });
         });
+        /*]]>*/
     </script>
 </div>
 </body>

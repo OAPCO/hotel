@@ -25,6 +25,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
     private final MemberRepository memberrepository;
+
     public void register(ReviewDTO reviewDTO) throws Exception {
         log.info("ReviewDTO received in service: " + reviewDTO.toString());
 
@@ -51,7 +52,16 @@ public class ReviewService {
     public List<ReviewDTO> findByStoreIdx(Long storeIdx) {
         List<Review> reviews = reviewRepository.findByStoreIdx(storeIdx);
         return reviews.stream()
-                .map(review -> modelMapper.map(review, ReviewDTO.class))
+                .map(review -> {
+                    ReviewDTO reviewDTO = modelMapper.map(review, ReviewDTO.class);
+                    // 리뷰 테이블에 있는 memberIdx를 사용하여 멤버 정보 가져오기
+                    Member member = review.getMember();
+                    if (member != null) {
+                        // 멤버 정보가 있다면 DTO에 이메일 설정
+                        reviewDTO.setMemberEmail(member.getMemberEmail());
+                    }
+                    return reviewDTO;
+                })
                 .collect(Collectors.toList());
     }
 

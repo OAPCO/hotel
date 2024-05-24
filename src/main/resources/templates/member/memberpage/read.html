@@ -187,7 +187,7 @@
         </div> <!-- 매장 상세 정보 -->
     </div>
     <p></p>
-    <div class="container" style="margin: auto; width: 80%;">
+    <div id="section2" class="container" style="margin: auto; width: 80%;">
         <div style="display: flex; justify-content: space-between; margin: auto; width: 100%;">
             <!-- 리뷰와 별점 정보 -->
             <div style="flex-basis: 33%; padding-right: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
@@ -203,46 +203,36 @@
                             <span class="star star5"></span>
                         </div>
                     </div>
-                    <!-- 리뷰 및 별점 캐러셀 -->
-                    <div id="review-carousel" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <!-- 리뷰 아이템들을 반복해서 표시 -->
-                            <div class="carousel-item active" th:each="review, iterStat : ${reviewList}" th:classappend="${iterStat.first} ? 'active'">
-                                <!-- 별 모양을 표시하는 div -->
-                                <div class="star-rating" th:class="${review.rate}">
-                                    <!-- 별 모양을 표시하는 span -->
-                                    <span class="star">&#9733;</span>
-                                    <span class="star">&#9733;</span>
-                                    <span class="star">&#9733;</span>
-                                    <span class="star">&#9733;</span>
-                                    <span class="star">&#9733;</span>
+                    <!-- 캐러셀 아이템들을 담을 div -->
+                    <div id="review-carousel" class="carousel slide" data-ride="carousel" style="padding-top: 35%;">
+                        <div class="carousel-inner" style="text-align: center; display: flex; overflow: hidden;">
+                            <!-- 타임리프를 사용하여 동적으로 리뷰 데이터를 반복하여 표시 -->
+                            <div class="carousel-item" th:each="review, iterStat : ${reviewList}"
+                                 th:classappend="${iterStat.first} ? 'active'" style="flex: 0 0 100%; max-width: 100%;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div class="star-rating" style="margin-bottom: 10px;">
+                                        <span class="star">&#9733;</span>
+                                        <span class="star">&#9733;</span>
+                                        <span class="star">&#9733;</span>
+                                        <span class="star">&#9733;</span>
+                                        <span class="star">&#9733;</span>
+                                    </div>
+                                    <p th:text="${review.text}" style="font-size: 14px; text-align: center; color: #333;"></p>
+                                    <p>
+                                        <span th:text="${#strings.substring(review.memberEmail, 0, 5) + '@*****.***'}" style="font-size: 10px; color: #666;"></span>
+                                        <span style="font-size: 10px; color: #666;">님이 남긴 후기입니다</span>
+                                    </p>
                                 </div>
-                                <p th:text="${review.text}">리뷰 내용</p>
                             </div>
                         </div>
-                        <!-- 이전/다음 버튼 -->
-                        <a class="carousel-control-prev" href="#review-carousel" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">이전</span>
-                        </a>
-                        <a class="carousel-control-next" href="#review-carousel" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">다음</span>
-                        </a>
                     </div>
-                    <!-- 별점 -->
                 </div>
             </div>
             <!-- 지도 -->
             <div id="map" style="flex-basis: 67%; height: 600px;"></div>
         </div>
     </div>
-
-    <script>
-        var imgNum = 0;
-        var carouselItemId = null;
-    </script>
-
+    <p></p>
     <div id="section3" class="container-fluid pt-5">
 
         <div class="container" style="margin: auto; width: 80%;">
@@ -290,12 +280,8 @@
         </div>
 
     </div>
-
     <p></p>
-
-
-
-    <div id="section2" class="container-fluid pt-5">
+    <div class="container-fluid pt-5">
         <!-- 매장 정보 -->
         <div class="container" style="margin: auto; width: 80%;">
             <div class="card shadow">
@@ -374,8 +360,6 @@
         </div> <!-- 매장 상세 정보 -->
     </div>
     <p></p>
-
-
     <div id="roomImageModal" class="modal">
         <!-- 모달 내용 -->
         <div class="modal-content">
@@ -387,6 +371,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/hotel.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#review-carousel').carousel(); // 기존의 carousel 초기화
+
+            // 슬라이드 이동 시 이벤트 처리
+            $('#review-carousel').on('slid.bs.carousel', function () {
+                // 현재 활성화된 슬라이드 인덱스
+                var currentIndex = $(this).find('.active').index();
+                // 슬라이드 총 개수
+                var totalSlides = $(this).find('.carousel-item').length;
+
+                // 현재 슬라이드가 마지막 슬라이드라면
+                if (currentIndex === totalSlides - 1) {
+                    // 3초 후에 첫 번째 슬라이드로 이동
+                    setTimeout(function () {
+                        $('#review-carousel').carousel(0);
+                    }, 3000);
+                }
+            });
+        });
+
+    </script>
     <script>
 
         // document.addEventListener('click', function(event) {
