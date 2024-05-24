@@ -140,7 +140,7 @@ public class RoomController {
             MemberDTO memberDTO = memberService.findByMemberIdx(roomOrderDTO.getMemberIdx());
 
             //현재 사용자의 룸서비스 주문 내역
-            List<MenuOrderDTO> menuOrderDTOS = menuOrderService.roomIdxMenuOrderSearch(roomOrderDTO.getRoomorderIdx());
+            List<MenuOrderDTO> menuOrderDTOS = menuOrderService.menuOrderList(roomOrderDTO.getRoomorderIdx());
 
              OrderHistoryDTO orderHistory = memberpageService.getOrderHistory(memberDTO.getMemberIdx());
                 if(orderHistory != null) {
@@ -158,6 +158,13 @@ public class RoomController {
             model.addAttribute("roomOrderDTO", roomOrderDTO);
             model.addAttribute("memberDTO", memberDTO);
             model.addAttribute("menuOrderDTOS", menuOrderDTOS);
+
+            log.info("화기인"+menuOrderDTOS);
+            
+            //메뉴오더DTO로 주문별 상세 가져오기
+            for (MenuOrderDTO menu : menuOrderDTOS){
+               log.info("잘가져와졋나~~" + menuOrderService.menuOrderList(menu.getMenuorderIdx()));
+            }
         }
 
 

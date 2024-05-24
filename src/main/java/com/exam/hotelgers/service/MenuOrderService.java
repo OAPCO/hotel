@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -87,17 +88,6 @@ public class MenuOrderService {
         menuOrderRepository.deleteById(menuOrderIdx);
     }
 
-
-
-    public MenuOrderDTO read(Long menuOrderIdx) {
-        Optional<MenuOrder> menuOrderOptional = menuOrderRepository.findById(menuOrderIdx);
-        if (menuOrderOptional.isPresent()) {
-            MenuOrder menuOrder = menuOrderOptional.get();
-            return convertToDTO(menuOrder);
-        } else {
-            return null;
-        }
-    }
 
 
 
@@ -205,12 +195,6 @@ public class MenuOrderService {
 
 
 
-    private MenuOrderDTO convertToDTO(MenuOrder menuOrder) {
-        MenuOrderDTO dto = modelMapper.map(menuOrder, MenuOrderDTO.class);
-        return dto;
-    }
-
-
 
 
 
@@ -236,6 +220,48 @@ public class MenuOrderService {
                 .collect(Collectors.toList());
 
         return menuOrderDTOS;
+    }
+
+
+
+
+    //단일 menuorder 객체의 메뉴시트 dto를 넣어준다
+    private MenuOrderDTO convertToDTO(MenuOrder menuOrder) {
+        MenuOrderDTO dto = modelMapper.map(menuOrder, MenuOrderDTO.class);
+        dto.setMenuSheetDTOList(searchService.convertToMenuSheetList(menuOrder.getMenuSheetList()));
+        return dto;
+    }
+
+
+    //menuorder 리스트의 안의 메뉴시트 dto를 채워준다.
+    private List<MenuOrderDTO> convertToDTOS(List<MenuOrder> menuOrders) {
+        List<MenuOrderDTO> dtos = new ArrayList<>();
+
+        for (MenuOrder menuOrder : menuOrders) {
+            MenuOrderDTO dto = convertToDTO(menuOrder);
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+
+    public MenuOrderDTO read(Long menuorderIdx){
+
+        Optional<MenuOrder> menuOrder = menuOrderRepository.findByMenuorderIdx(menuorderIdx);
+
+        MenuOrder menuOrder1 = menuOrder.get();
+
+
+        return convertToDTO(menuOrder1);
+    }
+
+    //안의 메뉴시트가 채워진 메뉴오더리스트를 반환
+    public List<MenuOrderDTO> menuOrderList(Long roomorderIdx){
+
+        List<MenuOrder> menuOrder= menuOrderRepository.findByListMenuorderIdx(roomorderIdx);
+
+
+        return convertToDTOS(menuOrder);
     }
 
 

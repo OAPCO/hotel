@@ -16,6 +16,9 @@ public class StoreDTO {
 
     private Long storeIdx;
 
+    private String storeCheckinTime;
+    private String storeCheckoutTime;
+
     private String storeCd; //매장코드
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
