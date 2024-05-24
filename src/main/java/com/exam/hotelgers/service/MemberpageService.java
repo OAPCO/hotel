@@ -83,4 +83,32 @@ public class MemberpageService {
                 .roomOrderDetailList(detailedRoomOrderDTOList)
                 .build();
     }
+
+
+
+    public OrderHistoryDTO getOrderHistoryRoomOrder(Long memberIdx) {
+        List<MenuOrder> menuOrderList = menuOrderRepository.findByMemberIdx(memberIdx);
+        List<RoomOrder> roomOrderList = roomOrderRepository.findAllByMemberIdx(memberIdx);
+
+        List<RoomOrderDetailDTO> detailedRoomOrderDTOList = roomOrderList.stream().map(ro -> {
+            RoomOrderDetailDTO detail = new RoomOrderDetailDTO();
+            BeanUtils.copyProperties(ro, detail);
+
+            Store store = storeRepository.findById(ro.getStoreIdx()).orElse(null);
+            if (store != null) {
+                detail.setStoreName(store.getStoreName());
+            }
+            Room room = roomRepository.findById(ro.getRoomIdx()).orElse(null);
+            if (room !=null){
+                detail.setRoomName(room.getRoomName());
+            }
+
+            return detail;
+        }).collect(Collectors.toList());
+
+        return OrderHistoryDTO.builder()
+                .menuOrderList(menuOrderList)
+                .roomOrderDetailList(detailedRoomOrderDTOList)
+                .build();
+    }
 }

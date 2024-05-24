@@ -128,4 +128,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("select s from Store s where (s.managerId LIKE %:userid%)")
     Optional<Store> searchStoreuserId (String userid);
 
+
+    //회원 본인이 "묵고있는" 호텔을 반환받음
+    @Query("select s from Store s join RoomOrder r on r.storeIdx = s.storeIdx where r.roomorderIdx = :roomorderIdx " +
+            "and r.roomStatus = 2")
+    Optional<Store> findCheckinStore(Long roomorderIdx);
+
 }

@@ -103,4 +103,6 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
             "and r.roomStatus = 2")
     Optional<RoomOrder> findmemberInRoomOrder(Long memberIdx);
 
+
+
 }

@@ -94,21 +94,47 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="data:${menuOrderDTOS}">
+
+                            <tr th:each="menu : ${orderHistory.menuOrderList}">
+                                <td th:text="${menu.menuorderIdx}">1</td>
+                                <td th:text="${menu.menuorderCd}">485314c78ss574</td>
+                                <td th:switch="${menu.orderState}">
+                                    <span th:case="'0'">결제완료</span>
+                                    <span th:case="'1'">조리완료</span>
+                                    <span th:case="'2'">배달완료</span>
+                                    <span th:case="'3'">결제취소</span>
+                                </td>
+                                <td th:text="${menu.total}">총 금액</td>
+                                <td th:text="${memberDTO.memberName}">철수</td>
+                                <td th:text="${menu.orderRequest}">리뷰이벤트 참여할게요 ^^</td>
+                                <td th:text="${#strings.substringBefore(menu.regdate, 'T')}">2024-05-18</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${menu.menuorderIdx}">상세보기</button>
+                                </td>
+                            </tr>
+
+<!--                            <th:block th:each="data:${menuOrderDTOS}">-->
 
 
-                                <tr th:each="menus : ${data.menuSheetDTOList}">
-                                    <td th:text="${menus.menuorderIdx}"></td>
-                                    <td th:text="${menus.menuorderName}"></td>
-                                    <th:block th:switch="${data.orderState}">
-                                        <td th:case=0>접수중</td>
-                                        <td th:case=1>조리중</td>
-                                        <td th:case=2>배달완료</td>
-                                    </th:block>
-                                    <td th:text="${#temporals.format(menus.regdate, 'MM-dd / HH:mm')}"></td>
-                                </tr>
+<!--                                <tr th:each="menu : ${orderHistory.menuOrderList}">-->
+<!--                                    <td th:text="${menu.menuorderIdx}">1</td>-->
+<!--                                    <td th:text="${menu.menuorderCd}">485314c78ss574</td>-->
+<!--                                    <td th:switch="${menu.orderState}">-->
+<!--                                        <span th:case="'0'">결제완료</span>-->
+<!--                                        <span th:case="'1'">조리완료</span>-->
+<!--                                        <span th:case="'2'">배달완료</span>-->
+<!--                                        <span th:case="'3'">결제취소</span>-->
+<!--                                    </td>-->
+<!--                                    <td th:text="${menu.total}">총 금액</td>-->
+<!--                                    <td th:text="${memberDTO.memberName}">철수</td>-->
+<!--                                    <td th:text="${menu.orderRequest}">리뷰이벤트 참여할게요 ^^</td>-->
+<!--                                    <td th:text="${#strings.substringBefore(menu.regdate, 'T')}">2024-05-18</td>-->
+<!--                                    <td>-->
+<!--                                        <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${menu.menuorderIdx}">상세보기</button>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
 
-                            </th:block>
+<!--                            </th:block>-->
                             </tbody>
                         </table>
                     </div>

@@ -50,6 +50,7 @@ public class StoreController {
         List<ManagerDTO> managerDTOS = managerService.managerSearch(principal.getName());
 
 
+
         model.addAttribute("distList", distDTOS);
         model.addAttribute("brandList", brandDTOS);
         model.addAttribute("managerList", managerDTOS);
