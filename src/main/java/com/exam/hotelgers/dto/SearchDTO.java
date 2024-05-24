@@ -14,6 +14,8 @@ import java.util.List;
 @Builder
 public class SearchDTO {
 
+    private String storeCheckinTime;
+    private String storeCheckoutTime;
     //검색용 별도 컬럼
     private String name;
     private String id;

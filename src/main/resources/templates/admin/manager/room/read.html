@@ -6,9 +6,6 @@
 <head>
     <title>룸 주문목록</title>
     <link rel="stylesheet" href="/yhh.css">
-
-
-
     <style>
         /* 상단 섹션 */
         #top-section {
@@ -57,6 +54,7 @@
                                 <th>전화번호</th>
                                 <th>입실 인원</th>
                                 <th>입실 시간</th>
+                                <th>체크아웃 날짜</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -65,7 +63,7 @@
                                 <td th:text="${memberDTO.memberPhone}"></td>
                                 <td th:text="${roomOrderDTO.peopleNum}"></td>
                                 <td th:text="${roomOrderDTO.checkinTime}"></td>
-                            </tr>
+                                <td th:text="${#temporals.format(roomOrderDTO.reservationDateCheckoutDate, 'MM-dd')}"></td>                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -88,53 +86,61 @@
                             <thead>
                             <tr>
                                 <th>주문번호</th>
-                                <th>메뉴</th>
-                                <th>주문</th>
-                                <th>주문일시</th>
+                                <th>주문 상태</th>
+                                <th>총 가격</th>
+                                <th>주문자명</th>
+                                <th>주문 날짜</th>
+                                <th>상세보기</th>
                             </tr>
                             </thead>
                             <tbody>
-
-                            <tr th:each="menu : ${orderHistory.menuOrderList}">
-                                <td th:text="${menu.menuorderIdx}">1</td>
-                                <td th:text="${menu.menuorderCd}">485314c78ss574</td>
-                                <td th:switch="${menu.orderState}">
-                                    <span th:case="'0'">결제완료</span>
-                                    <span th:case="'1'">조리완료</span>
-                                    <span th:case="'2'">배달완료</span>
-                                    <span th:case="'3'">결제취소</span>
-                                </td>
-                                <td th:text="${menu.total}">총 금액</td>
-                                <td th:text="${memberDTO.memberName}">철수</td>
-                                <td th:text="${menu.orderRequest}">리뷰이벤트 참여할게요 ^^</td>
-                                <td th:text="${#strings.substringBefore(menu.regdate, 'T')}">2024-05-18</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${menu.menuorderIdx}">상세보기</button>
-                                </td>
-                            </tr>
-
-<!--                            <th:block th:each="data:${menuOrderDTOS}">-->
+                            <th:block th:each="data:${menuOrderDTOS}">
 
 
-<!--                                <tr th:each="menu : ${orderHistory.menuOrderList}">-->
-<!--                                    <td th:text="${menu.menuorderIdx}">1</td>-->
-<!--                                    <td th:text="${menu.menuorderCd}">485314c78ss574</td>-->
-<!--                                    <td th:switch="${menu.orderState}">-->
-<!--                                        <span th:case="'0'">결제완료</span>-->
-<!--                                        <span th:case="'1'">조리완료</span>-->
-<!--                                        <span th:case="'2'">배달완료</span>-->
-<!--                                        <span th:case="'3'">결제취소</span>-->
-<!--                                    </td>-->
-<!--                                    <td th:text="${menu.total}">총 금액</td>-->
-<!--                                    <td th:text="${memberDTO.memberName}">철수</td>-->
-<!--                                    <td th:text="${menu.orderRequest}">리뷰이벤트 참여할게요 ^^</td>-->
-<!--                                    <td th:text="${#strings.substringBefore(menu.regdate, 'T')}">2024-05-18</td>-->
-<!--                                    <td>-->
-<!--                                        <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${menu.menuorderIdx}">상세보기</button>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
+                                <tr th:each="menu : ${orderHistory.menuOrderList}">
+                                    <td th:text="${menu.menuorderIdx}">1</td>
+                                    <td th:switch="${menu.orderState}">
+                                        <span th:case="'0'">결제완료</span>
+                                        <span th:case="'1'">조리완료</span>
+                                        <span th:case="'2'">배달완료</span>
+                                        <span th:case="'3'">결제취소</span>
+                                    </td>
+                                    <td th:text="${menu.total}"></td>
+                                    <td th:text="${memberDTO.memberName}"></td>
+                                    <td th:text="${#strings.substringBefore(menu.regdate, 'T')}"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${menu.menuorderIdx}">상세보기</button>
+                                    </td>
+                                </tr>
+                                <tr th:each="menu : ${orderHistory.menuOrderList}" th:id="'details-' + ${menu.menuorderIdx}" style="display: none;">
+                                    <td colspan="6">
+                                        <table style="width: 100%";>
+                                            <thead>
+                                            <tr>
+                                                <th>메뉴명</th>
+                                                <th>단일 가격</th>
+                                                <th>갯수</th>
+                                                <th>총 가격</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="sheet : ${menu.menuSheetList}">
+                                                <td th:text="${sheet.menuorderName}"></td>
+                                                <td th:text="${sheet.menuorderPrice}"></td>
+                                                <td th:text="${sheet.menuorderQuantity}"></td>
+                                                <td th:text="${sheet.amountPrice}"></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="background-color: #cad5f5" height="60px">요청사항
+                                                <td colspan="6" th:text="${menu.orderRequest}"></td>
+                                                </th>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
 
-<!--                            </th:block>-->
+                            </th:block>
                             </tbody>
                         </table>
                     </div>
@@ -204,7 +210,20 @@
         <!-- 내용 -->
     </section>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".btn-outline-info").click(function() {
+                // 현재 선택한 섹션을 제외하고 모든 상세 정보를 숨깁니다.
+                var targetId = $(this).attr('data-target');
+                $("tr[id^='details-']").not(targetId).hide();
 
+                // 상세 정보 섹션의 위치를 설정합니다.
+                var currentRow = $(this).closest('tr');
+                $(targetId).insertAfter(currentRow).toggle();
+            });
+        });
+    </script>
 
 </div>
 </body>

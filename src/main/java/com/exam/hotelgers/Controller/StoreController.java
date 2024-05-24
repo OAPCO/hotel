@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -271,6 +272,19 @@ public class StoreController {
         return "admin/manager/storesales";
     }
 
+
+    @GetMapping("/admin/manager/storeinfo")
+    public String deleteProc(Principal principal,Model model) throws IOException {
+
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
+        model.addAttribute("storeDTO", storeDTO);
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        return "admin/manager/storeinfo";
+    }
 
 
 }

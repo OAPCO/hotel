@@ -27,6 +27,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -140,7 +141,7 @@ public class RoomController {
             MemberDTO memberDTO = memberService.findByMemberIdx(roomOrderDTO.getMemberIdx());
 
             //현재 사용자의 룸서비스 주문 내역
-            List<MenuOrderDTO> menuOrderDTOS = menuOrderService.roomIdxMenuOrderSearch(roomOrderDTO.getRoomorderIdx());
+            List<MenuOrderDTO> menuOrderDTOS = menuOrderService.menuOrderList(roomOrderDTO.getRoomorderIdx());
 
              OrderHistoryDTO orderHistory = memberpageService.getOrderHistory(memberDTO.getMemberIdx());
                 if(orderHistory != null) {
@@ -158,6 +159,13 @@ public class RoomController {
             model.addAttribute("roomOrderDTO", roomOrderDTO);
             model.addAttribute("memberDTO", memberDTO);
             model.addAttribute("menuOrderDTOS", menuOrderDTOS);
+
+            log.info("화기인"+menuOrderDTOS);
+            
+            //메뉴오더DTO로 주문별 상세 가져오기
+            for (MenuOrderDTO menu : menuOrderDTOS){
+               log.info("잘가져와졋나~~" + menuOrderService.menuOrderList(menu.getMenuorderIdx()));
+            }
         }
 
 
@@ -292,11 +300,15 @@ public class RoomController {
 
 
         List<ImageDTO> roomDetailImgList = imageService.getRoomTypeImages(roomType,storeIdx);
+        ImageDTO roomMainImg = imageService.getRoomTypeMainImages(roomType,storeIdx);
 
+
+
+        log.info("로그화긴@"+roomMainImg);
+        log.info("로그화긴@"+roomMainImg.getImgName());
 
 
         model.addAttribute("roomDTO",roomDTO);
-        model.addAttribute("roomDetailImgList",roomDetailImgList);
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
@@ -309,11 +321,22 @@ public class RoomController {
 
     @PostMapping("/room/modify")
     public String modifyProc(String roomType,
-                             List<MultipartFile> imgFile,
+                             List<MultipartFile> imgFiles,
+                             MultipartFile imgFile,
+                             Principal principal,
                              Model model) throws IOException {
 
 
-        imageService.roomImageregister(imgFile,roomType);
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
+
+        //세부이미지 수정
+        imageService.roomImageregister(imgFiles,storeDTO.getStoreIdx(),roomType);
+
+        //메인이미지 수정
+        String mainImgName = imageService.roomMainImageregister(imgFile,storeDTO.getStoreIdx(),roomType);
+
+        
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/manager}">
+
+<head></head>
+
+<body>
+<div layout:fragment="content" >
+<div id="section1" class="container-fluid pt-5">
+    <!-- 매장 정보 -->
+    <div class="container" style="margin: auto; width: 80%;">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <div class="sub_title">
+                    <h2>[[${storeDTO.storeName}]] 소개</h2>
+                    <span th:text="${storeDTO.storeSummary}" id="storeSummaryId">
+                        <input type="text" style="display: none" id="storeSummaryInput" value="${storeDTO.storeSummary}">
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                    <tr class="row">
+                        <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|" style="width: 70%">
+                    </tr>
+                    <br><br>
+                    <tr class="row">
+                        <td class="col-2 ">체크인 시간</td>
+                        <td class="col-9">
+                            <span th:text="${storeDTO.storeCheckinTime}" id="checkInTimeId"></span>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td class="col-2 ">체크아웃 시간</td>
+                        <td class="col-9">
+                            <span th:text="${storeDTO.storeCheckoutTime}" id="checkOutTimeId"></span>
+                        </td>
+                    </tr>
+                    <tr class="row" style="height: 200px">
+                        <td class="col-2">공지사항</td>
+                        <td class="col-9">
+                            <span th:text="${storeDTO.storeMessage}" id="storeMessageId"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> <!-- 매장 상세 정보 -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    var storeSummary = document.getElementById("storeSummaryId");
+    var storeSummaryInput = document.getElementById("storeSummaryInput");
+    var checkInTime = document.getElementById("checkInTimeId");
+    var checkOutTime = document.getElementById("checkOutTimeId");
+    var storeMessage = document.getElementById("storeMessageId");
+
+    storeSummary.addEventListener('click', function(e) {
+        storeSummaryInput.style.display = 'block';
+    });
+
+</script>
+</div>
+</body>
+</html>

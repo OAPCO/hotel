@@ -154,6 +154,18 @@ public class SearchService {
     }
 
 
+    public List<MenuSheetDTO> convertToMenuSheetList(List<MenuSheet> menuSheets) {
+        if (menuSheets == null || menuSheets.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return menuSheets.stream()
+                .map(menuSheet -> modelMapper.map(menuSheet, MenuSheetDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+
+
     public List<MenuCateDTO> convertToMenuCateDTOList(List<MenuCate> menuCates) {
         if (menuCates == null || menuCates.isEmpty()) {
             return Collections.emptyList();
