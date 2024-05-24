@@ -44,6 +44,7 @@ public class RoomController {
     private final MenuOrderService menuOrderService;
     private final RoomOrderRepository roomOrderRepository;
     private final MenuSheetService menuSheetService;
+    private final MemberpageService memberpageService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -141,18 +142,11 @@ public class RoomController {
             //현재 사용자의 룸서비스 주문 내역
             List<MenuOrderDTO> menuOrderDTOS = menuOrderService.roomIdxMenuOrderSearch(roomOrderDTO.getRoomorderIdx());
 
-
-            log.info("메뉴 주문 내역들 : @ + "+ menuOrderDTOS);
-            for (MenuOrderDTO menu : menuOrderDTOS){
-                log.info("메뉴 주문 내역들 : @ 2222+ "+ menu.getMenuSheetDTOList());
-
-                for (MenuSheetDTO menu2 : menu.getMenuSheetDTOList()){
-                    log.info("메뉴 주문 내역들 : @ 3333+ "+ menu2.getMenuorderName());
-
+             OrderHistoryDTO orderHistory = memberpageService.getOrderHistory(memberDTO.getMemberIdx());
+                if(orderHistory != null) {
+                    model.addAttribute("orderHistory", orderHistory);
                 }
-            }
 
-            List<MenuSheetDTO> menuSheetDTOS = menuSheetService.menuSearch(roomOrderDTO.getRoomorderIdx());
 
             //현 입실자 입실 시간 포맷 변경
             LocalDateTime dateTime = LocalDateTime.parse(roomOrderDTO.getCheckinTime());

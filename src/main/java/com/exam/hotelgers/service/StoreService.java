@@ -375,4 +375,12 @@ public class StoreService {
         return modelMapper.map(store,StoreDTO.class);
     }
 
+
+    public StoreDTO findCheckinStore(Long roomorderIdx){
+
+        Optional<Store> store = storeRepository.findCheckinStore(roomorderIdx);
+
+        return modelMapper.map(store,StoreDTO.class);
+    }
+
 }

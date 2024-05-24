@@ -261,16 +261,10 @@ public class MemberpageController {
         log.info(memberDTO.getMemberIdx());
 
         // Check if logged in user has reservation
-        Optional<RoomOrder> optedRoomOrder = roomOrderRepository.findByMemberIdx(memberDTO.getMemberIdx());
+        RoomOrderDTO optedRoomOrder = roomOrderService.findmemberInRoomOrder(memberDTO.getMemberIdx());
 
-        if (!optedRoomOrder.isPresent()) {
-            return "redirect:/member/memberpage/menuordererror";
-        }
-
-        Long storeIdx = optedRoomOrder.get().getStoreIdx();
-        log.info(storeIdx  + ": 예약한 방 번호입니다 ");
 //        모든 조건 충족 시 아래 링크로 이동
-        return "redirect:/member/memberpage/menuorder/" + storeIdx;
+        return "redirect:/member/memberpage/menuorder/" + optedRoomOrder.getRoomorderIdx();
     }
 
 
@@ -311,40 +305,45 @@ public class MemberpageController {
     @GetMapping("/member/memberpage/menuorder/{roomorderIdx}")
     public String menuorderform(Model model, @PathVariable Long roomorderIdx,Principal principal) throws Exception {
 
+        log.info("일단 가져와진 루 ㅁ오더이디엑스"+roomorderIdx);
+
         //현재 객실 주문 번호로 체크인 한 매장번호를 구한다.
         Long storeIdx = roomOrderRepository.findStoreIdx(roomorderIdx);
 
+        RoomOrderDTO roomOrderDTO = roomOrderService.findmemberInRoomOrder(storeIdx);
 
-        //위에서 구한 매장번호로 storeDTO 구한다.
-        StoreDTO storeDTO = storeService.read(storeIdx);
+        //룸오더idx로 현재 묵고있는 store를 구한다.
+        StoreDTO storeDTO = storeService.findCheckinStore(roomorderIdx);
+
+        log.info("가져온 스토어"+storeDTO);
 
         if(storeDTO == null) {
             model.addAttribute("processMessage", "존재하지 않는 자료입니다.");
             return "redirect:/admin/distchief/store/list";
         }
 
+        //가져온 스토어의 idx 값으로 밑에 있는 메뉴카테,디테일메뉴 등의 정보를 read 하는 메소드 실행
+        StoreDTO store = storeService.read(storeDTO.getStoreIdx());
+
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
         log.info(memberDTO.getMemberIdx());
-        Optional<RoomOrder> optedRoomOrder = roomOrderRepository.findByMemberIdx(memberDTO.getMemberIdx());
-        Long roomIdx = optedRoomOrder.get().getRoomIdx();
+
+
+        RoomOrderDTO optedRoomOrder = roomOrderService.findmemberInRoomOrder(memberDTO.getMemberIdx());
+        Long roomIdx = optedRoomOrder.getRoomIdx();
         log.info(roomIdx);
 
 
-        model.addAttribute("store", storeDTO);
-        model.addAttribute("brand", storeDTO.getBrandDTO());
-        model.addAttribute("dist", storeDTO.getDistDTO());
-        model.addAttribute("distChief", storeDTO.getDistDTO().getDistChiefDTO());
-        model.addAttribute("manager", storeDTO.getManagerDTO());
-        model.addAttribute("roomList", storeDTO.getRoomDTOList());
-        model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
+        log.info("메뉴카테 목록@@@ + "+ store.getMenuCateDTOList());
+
+        model.addAttribute("store", store);
+        model.addAttribute("menuCateList", store.getMenuCateDTOList());
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("roomIdx", roomIdx);
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
 
-        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
-        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
         return "member/memberpage/menuorder";
     }
 
