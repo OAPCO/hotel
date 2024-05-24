@@ -118,6 +118,15 @@ public class ManagerService {
     }
 
 
+    public List<ManagerDTO> managerSearch(String distChiefId) {
+
+        List<Manager> managers = managerRepository.managerSearch(distChiefId);
+        return managers.stream()
+                .map(manager -> modelMapper.map(manager, ManagerDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
     public StoreDTO managerOfStore(Principal principal) {
 
         String userId = principal.getName();

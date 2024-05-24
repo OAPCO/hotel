@@ -34,9 +34,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!--    본문-->
     <div id="wrapper">
 
+
 <!--        사이드바(nav)-->
-        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-success p-0">
-            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/admin/manager/room/listboard">
                 <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
                 <div class="sidebar-brand-text mx-3"><span>Hotelgers</span></div>
             </a>
@@ -75,17 +76,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                     </li>
 
                     <li><a class="dropdown-item" href="/member/list">회원 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/dist/list">총판 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/store/list">매장 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/brand/list">브랜드 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/manager/list">매장주 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/order/menuorderlist">매출 관리(미)</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/room/listboard">객실 현황</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/storesales">매출 현황</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/order/menuorderlist">매장 현재 주문 목록</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/order/menuorderlist">주문 현황</a></li>
+                    <li><a class="dropdown-item" href="/member/list">이벤트 관리</a></li>
+                    <li class="dropdown-item" th:href="@{/admin/login}"><i class="fas fa-user-circle"></i><span>로그인</span></a></li>
+                    <li class="dropdown-item" th:href="@{/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
 
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
         </nav>
+
+
+
+
         <div class="d-flex flex-column" id="content-wrapper" style="background-color: #dddfeb">
             <div id="content">
 
@@ -94,11 +100,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 </div><!--본문-->
 
             </div>
+
+<!--            푸터-->
             <footer class="bg-white sticky-footer">
                 <div class="container my-auto">
                     <div class="text-center my-auto copyright"><span>< hotelgers Team Project ></span></div>
                 </div>
             </footer>
+
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
     </div>
 

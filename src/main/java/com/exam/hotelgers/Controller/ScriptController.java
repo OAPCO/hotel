@@ -4,6 +4,7 @@ import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.repository.MemberRepository;
 import com.exam.hotelgers.repository.RoomRepository;
+import com.exam.hotelgers.repository.StoreRepository;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -46,6 +47,7 @@ public class ScriptController {
     private final RoomRepository roomRepository;
     private final RoomOrderService roomOrderService;
     private final SearchService searchService;
+    private final StoreRepository storeRepository;
 
 
     @Value("${cloud.aws.s3.bucket}")
@@ -67,6 +69,9 @@ public class ScriptController {
         Map<String, Object> result = new HashMap<>();
 
         List<BrandDTO> distOfBrand = brandService.distOfBrand(searchDTO);
+
+        log.info("브랜드 왓는지화긴@@@ " + distOfBrand);
+        log.info("서치dto 화긴@@ " + searchDTO);
         List<StoreDTO> distbrandOfStore = storeService.distbrandOfStore(searchDTO);
 
 
@@ -311,6 +316,20 @@ public class ScriptController {
 
     }
 
+
+
+
+
+    @GetMapping(value = "/storecount")
+    public int distOfStoreCount(Long distIdx) throws Exception {
+
+        int count = storeRepository.findDistOfStoreCount(distIdx);
+
+        log.info("카운트 : "+count);
+
+        return storeRepository.findDistOfStoreCount(distIdx);
+
+    }
     
 
 

@@ -30,7 +30,9 @@ public class StoreController {
     private final StoreService storeService;
     private final DistService distService;
     private final SearchService searchService;
+    private final BrandService brandService;
     private final DistChiefService distChiefService;
+    private final ManagerService managerService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -41,15 +43,16 @@ public class StoreController {
 
 
     @GetMapping("/admin/distchief/store/register")
-    public String register(Model model) throws Exception {
+    public String register(Model model,Principal principal) throws Exception {
 
-        List<DistDTO> distList = searchService.distList();
-        List<BrandDTO> brandList = searchService.brandList();
-        List<ManagerDTO> managerList = searchService.managerList();
+        List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
+        List<BrandDTO> brandDTOS = brandService.brandSearchforUserId(principal);
+        List<ManagerDTO> managerDTOS = managerService.managerSearch(principal.getName());
 
-        model.addAttribute("distList", distList);
-        model.addAttribute("brandList", brandList);
-        model.addAttribute("managerList", managerList);
+
+        model.addAttribute("distList", distDTOS);
+        model.addAttribute("brandList", brandDTOS);
+        model.addAttribute("managerList", managerDTOS);
 
 
         return "admin/distchief/store/register";
@@ -256,4 +259,17 @@ public class StoreController {
         model.addAttribute("storeDTO", storeDTO);
         return "member/memberpage/test";
     }
+
+
+    @GetMapping("/admin/manager/storesales")
+    public String storeSalesForm(Principal principal, Model model) throws Exception {
+
+        StoreDTO storeDTO = storeService.searchStoreuserId(principal);
+        model.addAttribute("storeDTO", storeDTO);
+
+        return "admin/manager/storesales";
+    }
+
+
+
 }

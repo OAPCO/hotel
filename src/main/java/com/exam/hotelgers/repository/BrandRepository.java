@@ -3,6 +3,7 @@ package com.exam.hotelgers.repository;
 import com.exam.hotelgers.constant.StoreStatus;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Brand;
+import com.exam.hotelgers.entity.DistChief;
 import com.exam.hotelgers.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
 
 
-    @Query("select b from Brand b where (:#{#searchDTO.distName} is null or b.distCd LIKE %:#{#searchDTO.distName}%)")
+    @Query("select b from Brand b where (:#{#searchDTO.distCd} is null or b.distCd LIKE %:#{#searchDTO.distCd}%)")
     List<Brand> distOfBrand(SearchDTO searchDTO);
 
     @Query("SELECT b, m, d, dc FROM Brand b " +
@@ -37,5 +38,12 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
             "JOIN DistChief dc ON dc.distChiefIdx = d.distChief.distChiefIdx " +
             "WHERE b.brandIdx = :brandIdx")
     List<Object[]> brandManagerDistDistChief(Long brandIdx);
+
+
+
+    
+    //로그인 한 총판장이 소유한 브랜드 목록 불러오기
+    @Query("select b from Brand b join Dist d on b.distCd = d.distCd where d.distChief.distChiefId = :userId")
+    List<Brand> brandSearchforUserId(String userId);
 
 }

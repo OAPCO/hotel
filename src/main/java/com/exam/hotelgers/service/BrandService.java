@@ -153,4 +153,13 @@ public class BrandService {
                 .collect(Collectors.toList());
     }
 
+
+    public List<BrandDTO> brandSearchforUserId(Principal principal) {
+
+        List<Brand> brands = brandRepository.brandSearchforUserId(principal.getName());
+        return brands.stream()
+                .map(brand -> modelMapper.map(brand, BrandDTO.class))
+                .collect(Collectors.toList());
+    }
+
 }

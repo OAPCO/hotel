@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main}">>
+      layout:decorate="~{layouts/manager}">>
 
 <head>
     <title>매출분석</title>
@@ -131,21 +131,21 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="data:${list}">
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.adminLevel}]]</td>
-                                    <td>[[${dto.storeCd}]]</td>
-                                    <td>[[${dto.adminName}]]</td>
-                                    <td>[[${dto.memberPhone}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.memberEmail}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.adminName}]]</td>
-                                    <td>[[${dto.memberPhone}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                    <td>[[${dto.memberIdx}]]</td>
-                                </tr>
+<!--                                <tr th:each="data:${list}">-->
+<!--                                    <td>[[${dto.memberIdx}]]</td>-->
+<!--                                    <td>[[${dto.adminLevel}]]</td>-->
+<!--                                    <td>[[${dto.storeCd}]]</td>-->
+<!--                                    <td>[[${dto.adminName}]]</td>-->
+<!--                                    <td>[[${dto.memberPhone}]]</td>-->
+<!--                                    <td>[[${dto.memberIdx}]]</td>-->
+<!--                                    <td>[[${dto.memberEmail}]]</td>-->
+<!--                                    <td>[[${dto.memberIdx}]]</td>-->
+<!--                                    <td>[[${dto.adminName}]]</td>-->
+<!--                                    <td>[[${dto.memberPhone}]]</td>-->
+<!--                                    <td>[[${dto.memberIdx}]]</td>-->
+<!--                                    <td>[[${dto.memberIdx}]]</td>-->
+<!--                                    <td>[[${dto.memberIdx}]]</td>-->
+<!--                                </tr>-->
                                 </tbody>
                             </table>
                             <button class="btn btn-primary" style='width:80px;float: right;' type="button" th:onclick="|location.href='@{/storemember/register}'|">추가

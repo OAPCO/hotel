@@ -1,5 +1,6 @@
 package com.exam.hotelgers.repository;
 
+import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.entity.DistChief;
 import com.exam.hotelgers.entity.DistChief;
 import com.exam.hotelgers.entity.Room;
@@ -22,6 +23,10 @@ public interface DistChiefRepository extends JpaRepository<DistChief,Long> {
 
 
     Optional<DistChief> findByDistChiefId(String distChiefid);
+
+
+    @Query("select d from DistChief d where d.distChiefId = :userId")
+    Optional<DistChief> distChiefSearchforUserId(String userId);
 
 
 

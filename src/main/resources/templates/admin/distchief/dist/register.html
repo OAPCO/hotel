@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>총판관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+
+<div layout:fragment="content">
+        <h4 class="card-title">총판 관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                [[${distChiefDTO.distChiefName}]]님의 총판 등록
+            </div>
+            <form method="post" th:action="@{/admin/distchief/dist/register}">
+            <div class="table-responsive">
+                <table class="table head">
+
+                    <input type="hidden" name="distChiefDTO.distChiefIdx" th:value="${distChiefDTO.distChiefIdx}">
+                    <input type="hidden" name="distChiefDTO.distChiefId" th:value="${distChiefDTO.distChiefId}">
+                    <input type="hidden" name="distChiefDTO.distChiefName" th:value="${distChiefDTO.distChiefName}">
+                    <input type="hidden" name="distChiefDTO.distChiefPhone" th:value="${distChiefDTO.distChiefPhone}">
+                    <input type="hidden" name="distChiefDTO.distChiefEmail" th:value="${distChiefDTO.distChiefEmail}">
+
+                    <thead>
+                    <tr>
+                        <th>총판명</th>
+                        <td><input type="text" name="distName"></td>
+                        <th>총판코드</th>
+                        <td><input type="text" name="distCd"></td>
+                    </tr>
+                    </thead>
+
+                </table>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn button">등록</button>
+                    <button type="button" class="btn btn-secondary"
+                            onclick="window.history.back()">이전</button>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+</body>
+</html>

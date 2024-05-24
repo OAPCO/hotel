@@ -32,6 +32,9 @@ public interface ManagerRepository extends JpaRepository<Manager,Long> {
     List<String> registerCheck (String userid);
 
 
+    @Query("select m from Manager m join Dist d on m.dist.distIdx = d.distIdx where d.distChief.distChiefId = :distChiefId")
+    List<Manager> managerSearch (String distChiefId);
+
 
 
 }

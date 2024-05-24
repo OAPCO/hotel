@@ -90,7 +90,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     //dist와 brand 선택시 매장 조회(셀렉트박스에 사용중)
     @Query("select s from Store s where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)" +
-            "and (:#{#searchDTO.brandName} is null or s.brandCd LIKE %:#{#searchDTO.brandName}%)"
+            "and (:#{#searchDTO.brandCd} is null or s.brandCd LIKE %:#{#searchDTO.brandCd}%)"
     )
     List<Store> distbrandOfStore(SearchDTO searchDTO);
 
@@ -117,5 +117,15 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM Store ORDER BY RAND() LIMIT 5")
     List<Store> findRandomStores();
+    
+    
+    //총판의 매장 수 구하기
+    @Query("SELECT count(s) FROM Store s WHERE s.dist.distIdx = :distIdx")
+    int findDistOfStoreCount(Long distIdx);
+
+
+    //로그인 한 매니저의 매장 찾기
+    @Query("select s from Store s where (s.managerId LIKE %:userid%)")
+    Optional<Store> searchStoreuserId (String userid);
 
 }

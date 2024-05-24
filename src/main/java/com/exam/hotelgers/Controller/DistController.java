@@ -1,7 +1,8 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.DistChiefDTO;
-import com.exam.hotelgers.dto.DistDTO;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.service.BrandService;
 import com.exam.hotelgers.service.DistChiefService;
 import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.service.SearchService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,8 @@ public class DistController {
     private final DistService distService;
     private final DistChiefService distChiefService;
     private final SearchService searchService;
-
+    private final BrandService brandService;
+    private final StoreRepository storeRepository;
 
     @GetMapping("/dist/register")
     public String register(Model model) {
@@ -132,6 +135,66 @@ public class DistController {
         //서비스에서 값을 받으면 반드시 model로 전달
         model.addAttribute("distDTO",distDTO);
         return "dist/read";
+    }
+
+
+
+
+
+
+
+
+    @GetMapping("/admin/distchief/dist/list")
+    public String distListForm(Model model, Principal principal) {
+
+        DistChiefDTO distChiefDTO = distChiefService.distChiefSearchforUserId(principal);
+        List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
+
+
+        model.addAttribute("distDTOS",distDTOS);
+        model.addAttribute("distChiefDTO",distChiefDTO);
+        return "admin/distchief/dist/list";
+    }
+
+
+    @GetMapping("/admin/distchief/dist/register")
+    public String registerDistForm(Principal principal,Model model) {
+
+        DistChiefDTO distChiefDTO = distChiefService.distChiefSearchforUserId(principal);
+
+        model.addAttribute("distChiefDTO",distChiefDTO);
+
+        return "admin/distchief/dist/register";
+
+    }
+
+
+    @PostMapping("/admin/distchief/dist/register")
+    public String registerDistProc(@Valid DistDTO distDTO,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            log.info("has error@@@@@@@@@");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        }
+
+        Long distIdx = distService.register(distDTO);
+
+
+
+        redirectAttributes.addFlashAttribute("result", distIdx);
+
+        return "redirect:/admin/distchief/dist/list";
+    }
+
+
+    @GetMapping("/admin/distchief/dist/delete/{distIdx}")
+    public String deleteDistProc(@PathVariable Long distIdx) {
+
+
+        distService.delete(distIdx);
+        return "redirect:/admin/distchief/dist/list";
     }
 
 

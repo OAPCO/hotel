@@ -8,6 +8,7 @@ import com.exam.hotelgers.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -51,6 +52,16 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
             "and (:#{#searchDTO.distTel} is null or d.distTel LIKE %:#{#searchDTO.distTel}%)")
     Page<Dist> multiSearchmemadmin(SearchDTO searchDTO,
                                    Pageable pageable);
+
+
+    @Query("select d from Dist d where d.distChief.distChiefId = :userId")
+    List<Dist> distSearchforUserId(String userId);
+
+
+    @Modifying
+    @Query("UPDATE Dist d " +
+            "SET d.storeCount = d.storeCount + 1 where d.distIdx = :distIdx")
+    void distStoreCountAdd(Long distIdx);
 
 
 

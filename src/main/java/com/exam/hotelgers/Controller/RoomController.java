@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.awt.*;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -42,6 +43,7 @@ public class RoomController {
     private final MemberService memberService;
     private final MenuOrderService menuOrderService;
     private final RoomOrderRepository roomOrderRepository;
+    private final MenuSheetService menuSheetService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -140,6 +142,18 @@ public class RoomController {
             List<MenuOrderDTO> menuOrderDTOS = menuOrderService.roomIdxMenuOrderSearch(roomOrderDTO.getRoomorderIdx());
 
 
+            log.info("메뉴 주문 내역들 : @ + "+ menuOrderDTOS);
+            for (MenuOrderDTO menu : menuOrderDTOS){
+                log.info("메뉴 주문 내역들 : @ 2222+ "+ menu.getMenuSheetDTOList());
+
+                for (MenuSheetDTO menu2 : menu.getMenuSheetDTOList()){
+                    log.info("메뉴 주문 내역들 : @ 3333+ "+ menu2.getMenuorderName());
+
+                }
+            }
+
+            List<MenuSheetDTO> menuSheetDTOS = menuSheetService.menuSearch(roomOrderDTO.getRoomorderIdx());
+
             //현 입실자 입실 시간 포맷 변경
             LocalDateTime dateTime = LocalDateTime.parse(roomOrderDTO.getCheckinTime());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd HH:mm");
@@ -155,10 +169,6 @@ public class RoomController {
 
         //객실 지난 사용내역,예약 현황 (1,4)
         List<RoomOrderDTO> roomOrderDTOS = roomOrderService.RoomOrderAllSearch(searchDTO);
-
-//        //위 페이지정보의 멤버 정보들
-//        List<MemberDTO> memberDTOs = memberService.roomOrderMembers(searchDTO);
-
 
 
         log.info("지난사용내역 : "+roomOrderDTOS);

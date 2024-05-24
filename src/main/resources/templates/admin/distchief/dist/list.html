@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+
+<head>
+    <title>총판관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+        <h4 class="card-title">총판 관리</h4>
+    <div class="card">
+        <div class="card-body">
+            <h4 style="color: #44454e">총판 목록
+                <div style="text-align:left;">
+                    <button class="btn button" type="button" th:onclick="|location.href='@{/admin/distchief/dist/register}'|">신규등록</button>
+                </div>
+            </h4>
+                <div class="table-responsive">
+                <table class="table body">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>총판명</th>
+                        <th>총판코드</th>
+                        <th>매장 수</th>
+                        <th>삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${distDTOS}">
+                        <td th:text="${data.distIdx}"></td>
+                        <td th:text="${data.distName}"></td>
+                        <td th:text="${data.distCd}"></td>
+                        <td th:text="${data.storeCount}"></td>
+
+                        <td><button class="btn button" type="button" th:onclick="|location.href='@{'/admin/distchief/dist/delete/'+${data.distIdx}}'|">삭제</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+
+</html>

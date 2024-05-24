@@ -125,6 +125,7 @@ public class OrderController {
                 Store store = storeOpt.get();
                 OrderHistoryDTO orderHistoryDTO = menuOrderService.getOrderHistoryByStore(store.getStoreIdx());
                 log.info(store.getStoreIdx() + "스토어 Idx !!!!!!!!!!!!!!!!!!!!!!");
+                model.addAttribute("storeName", store.getStoreName());
                 model.addAttribute("menuOrderDetailList", orderHistoryDTO.getMenuOrderDetailList());
                 model.addAttribute("roomOrderDetailList", orderHistoryDTO.getRoomOrderDetailList());
             }

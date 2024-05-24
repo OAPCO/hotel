@@ -1,15 +1,11 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.DistChiefDTO;
-import com.exam.hotelgers.dto.DistDTO;
-import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.dto.StoreDTO;
-import com.exam.hotelgers.entity.Brand;
-import com.exam.hotelgers.entity.Dist;
-import com.exam.hotelgers.entity.DistChief;
-import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.repository.DistRepository;
+import com.exam.hotelgers.repository.RoomRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -19,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +69,7 @@ public class DistService {
 
         // 총판 엔티티에 총판장 정보를 설정합니다.
         dist.setDistChief(distChiefOptional.get());
+        dist.setStoreCount(0);
 
         // 총판을 저장하고 새로운 총판의 ID를 반환합니다.
         return distRepository.save(dist).getDistIdx();
@@ -158,4 +156,31 @@ public class DistService {
         Page<Dist> dists = distRepository.multiSearchmemadmin(searchDTO,page);
         return dists.map(this::convertToDistDTO);
     }
+
+
+
+    
+    //총판장이 가진 총판 찾기
+    public List<DistDTO> distSearchforUserId(Principal principal) {
+
+
+        List<Dist> dists = distRepository.distSearchforUserId(principal.getName());
+
+
+        List<DistDTO> distDTOS = dists.stream()
+                .map(dist -> modelMapper.map(dist, DistDTO.class))
+                .collect(Collectors.toList());
+
+        return distDTOS;
+    }
+
+
+    
+    //매장수 증가
+    @Transactional
+    public void distStoreCountAdd(Long distIdx) {
+        distRepository.distStoreCountAdd(distIdx);
+    }
+
+
 }

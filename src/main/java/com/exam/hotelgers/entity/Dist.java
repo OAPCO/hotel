@@ -31,10 +31,7 @@ public class Dist extends BaseEntity {
     @Column(length = 200)
     private String distTel;
 
-
-    private String imgName;
-
-
+    private int storeCount;
 
 
     @ToString.Exclude

@@ -1,9 +1,6 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.MenuSheetDTO;
-import com.exam.hotelgers.dto.RoomDTO;
-import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
@@ -15,7 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -73,4 +73,20 @@ public class MenuSheetService {
 //
 //        return result;
 //    }
+
+
+
+    //메뉴
+    public List<MenuSheetDTO> menuSearch(Long menuOrderIdx) {
+
+
+        List<MenuSheet> menuSheetList = menuSheetRepository.findByMenuOrderMenu(menuOrderIdx);
+
+
+        List<MenuSheetDTO> MenuSheetDTOs = menuSheetList.stream()
+                .map(menuSheet -> modelMapper.map(menuSheet, MenuSheetDTO.class))
+                .collect(Collectors.toList());
+
+        return MenuSheetDTOs;
+    }
 }

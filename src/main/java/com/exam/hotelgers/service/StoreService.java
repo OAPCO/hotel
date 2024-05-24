@@ -8,6 +8,7 @@ import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class StoreService {
 
     private final StoreRepository storeRepository;
@@ -39,6 +41,7 @@ public class StoreService {
     private final DetailmenuRepository detailmenuRepository;
     private final ManagerRepository managerRepository;
     private final RoomOrderRepository roomOrderRepository;
+    private final DistService distService;
 
 
 
@@ -96,6 +99,10 @@ public class StoreService {
 
         storeDTO.setStoreimgName(newFileName); //새로운 파일명을 재등록
 
+
+        //소속총판의 매장 수 하나 증가
+        log.info("화긴@@" + dist.get().getDistIdx());
+        distService.distStoreCountAdd(dist.get().getDistIdx());
 
 
         Store store = modelMapper.map(storeDTO, Store.class);
@@ -359,6 +366,13 @@ public class StoreService {
         return randomStores.stream()
                 .map(store -> modelMapper.map(store, StoreDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public StoreDTO searchStoreuserId(Principal principal){
+
+        Optional<Store> store = storeRepository.searchStoreuserId(principal.getName());
+
+        return modelMapper.map(store,StoreDTO.class);
     }
 
 }

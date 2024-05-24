@@ -24,6 +24,8 @@ public class DistDTO {
 
     private DistChiefDTO distChiefDTO;
 
+    private int storeCount;
+
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;

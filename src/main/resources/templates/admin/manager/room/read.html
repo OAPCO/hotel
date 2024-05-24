@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main}">
+      layout:decorate="~{layouts/manager}">
 <head>
     <title>룸 주문목록</title>
     <link rel="stylesheet" href="/yhh.css">
@@ -81,7 +81,7 @@
             <div class="card">
                 <div class="card-body">
                     <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
-                        주문 현황
+                        주문 내역
                     </div>
                     <div class="table-responsive">
                         <table class="table body">
@@ -94,12 +94,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="data:${menuOrderDTOS}">
-                                <td th:text="${data.menuorderIdx}"></td>
-                                <td th:text="${data.menuSheetDTOList}"></td>
-                                <td th:text="${data.orderState}"></td>
-                                <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
-                            </tr>
+                            <th:block th:each="data:${menuOrderDTOS}">
+
+
+                                <tr th:each="menus : ${data.menuSheetDTOList}">
+                                    <td th:text="${menus.menuorderIdx}"></td>
+                                    <td th:text="${menus.menuorderName}"></td>
+                                    <th:block th:switch="${data.orderState}">
+                                        <td th:case=0>접수중</td>
+                                        <td th:case=1>조리중</td>
+                                        <td th:case=2>배달완료</td>
+                                    </th:block>
+                                    <td th:text="${#temporals.format(menus.regdate, 'MM-dd / HH:mm')}"></td>
+                                </tr>
+
+                            </th:block>
                             </tbody>
                         </table>
                     </div>

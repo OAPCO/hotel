@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main}">
+      layout:decorate="~{layouts/manager}">
 <head>
   <title>매장관리</title>
   <link rel="stylesheet" href="/yhh.css">
@@ -12,27 +12,25 @@
   <div class="card" style="margin: 50px 20px;">
   <div class="card-body">
     <div style="color:#44454e; font-size: 25px; margin-bottom: 10px;">
-      <h2 class="text-primary">메뉴 목록</h2>
+      <h2 class="text-primary">[[${storeName}]] 주문 목록</h2>
     </div>
     <div class="table-responsive">
       <table class="table body" style="width: 100%;">
         <thead>
         <tr>
           <th>No</th>
-          <th>매장명</th>
-          <th>룸 이름</th>
+          <th>객실</th>
           <th>주문코드</th>
           <th>주문액</th>
           <th>주문자</th>
-          <th>결제상태</th>
-          <th>주문일자</th>
-          <th>상세보기</th>
+          <th>상태</th>
+          <th>주문일시</th>
+          <th>주문 상세</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="order : ${menuOrderDetailList}">
           <td th:text="${order.menuorderIdx}"></td>
-          <td th:text="${order.storeName}"></td>
           <td th:text="${order.roomName}"></td>
           <td th:text="${order.menuorderCd}"></td>
           <td th:text="${order.total}"></td>
@@ -43,9 +41,10 @@
             <span th:case="'2'">배달완료</span>
             <span th:case="'3'">결제취소</span>
           </td>
-          <td th:text="${#strings.substringBefore(order.regdate, 'T')}"></td>
+<!--          <td th:text="${#strings.substringBefore(order.regdate, 'T')}"></td>-->
+          <td th:text="${#temporals.format(order.regdate, 'MM-dd / HH:MM')}"></td>
           <td>
-            <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${order.menuorderIdx}">상세보기
+            <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${order.menuorderIdx}">주문 상세
             </button>
           </td>
         </tr>

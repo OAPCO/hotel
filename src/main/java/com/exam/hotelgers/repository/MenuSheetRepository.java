@@ -18,4 +18,10 @@ public interface MenuSheetRepository extends JpaRepository<MenuSheet,Long> {
 
     List<MenuSheet> findByMenuOrder_MemberIdx(Long memberIdx);
 
+
+
+    //메뉴오더 id로 주문메뉴 찾기
+    @Query("select m from MenuSheet m where m.menuOrder.menuorderIdx = :menuOrderIdx")
+    List<MenuSheet> findByMenuOrderMenu(Long menuOrderIdx);
+
 }

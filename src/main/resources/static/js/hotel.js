@@ -6,6 +6,8 @@ let hotel = (function () {
     //distchief/store/list의 총판 셀렉트박스 선택시
     function selectDistOfStore(selectedDist){
 
+        console.log("클릭대엇음")
+
         $.ajax({
             type: 'GET',
             url: '/selectstore', // 서버에서 storeList를 반환하는 엔드포인트
@@ -18,13 +20,17 @@ let hotel = (function () {
                 var distbrandOfStore = data.distbrandOfStore;
                 var distOfBrand = data.distOfBrand;
 
+                console.log("확인@@@@@@@@@@" + distOfBrand);
+                console.log("확인@@@@@@@@@@" + distbrandOfStore);
+
+
                 $('#brandSelect').empty();
                 $('#brandSelect').append($('<option>').val('').text('전체'));
                 $('#storeSelect').empty();
                 $('#storeSelect').append($('<option>').val('').text('전체'));
 
                 $.each(distOfBrand, function(index, distOfBrand) {
-                    console.log(distOfBrand)
+                    console.log("확인@@@@@@@@@@" + distOfBrand)
                     $('#brandSelect').append($('<option>').val(distOfBrand.brandName).text(distOfBrand.brandName));
                 });
 
@@ -381,6 +387,31 @@ let hotel = (function () {
 
 
 
+    function distOfStoreCount(distIdx,callback){
+
+        $.ajax({
+            type: 'GET',
+            url: '/storecount',
+            data: {
+                distIdx: distIdx
+            },
+
+            success: function(count) {
+
+                console.log("캉누트"+count);
+
+                callback(count);
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
 
     //값 반환
     return {
@@ -392,7 +423,8 @@ let hotel = (function () {
         updateRoomCheckin : updateRoomCheckin,
         searchRoomTypeData : searchRoomTypeData,
         roomIdxFind : roomIdxFind,
-        updateRoomPrice : updateRoomPrice
+        updateRoomPrice : updateRoomPrice,
+        distOfStoreCount : distOfStoreCount
     };
 
 })();
