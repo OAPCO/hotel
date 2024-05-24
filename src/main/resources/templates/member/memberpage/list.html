@@ -84,7 +84,7 @@
         <p></p>
         <div class="container" style="margin: auto; width: 80%;">
             <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
-            border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="store : ${storeList}">
+        border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);" th:each="store : ${storeList}">
                 <div style="display: flex;">
                     <!-- 왼쪽 이미지 -->
                     <div style="flex: 1;">
@@ -95,31 +95,25 @@
                     <!-- 가운데 텍스트 -->
                     <div style="flex: 3; padding: 20px;">
                         <a th:href="@{'/member/memberpage/'+${store.storeIdx}}">
-                            <p style="margin: 0; font-size: 18px; font-weight: bold;"
-                                 th:text="${store.storeName}" >
+                            <p style="margin: 0; font-size: 32px; font-weight: bold; display: inline-block;"
+                               th:text="${store.storeName}" >
                             </p>
+                            <!-- 평균 별점을 별로 표시 -->
+                            <div th:if="${store.averageRating != null}" class="star-rating">
+                                <!-- 반복문을 사용하여 store.averageRating만큼 별을 표시 -->
+                                <span class="star" th:each="rating : ${#numbers.sequence(1, store.averageRating)}">&#9733;</span>
+                            </div>
+                            <div th:unless="${store.averageRating != null}">별점 정보가 없습니다.</div>
                         </a>
-
                         <div th:id="'facilities-div-' + ${store.storeIdx}">
                             <span class="material-icons">genres</span>
                         </div>
                         <p style="margin: 10px 0 0; font-size: 14px;" th:text="${store.storeSummary}"></p>
                     </div>
-
-                    <!-- 오른쪽 정보 -->
-                    <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: space-between;">
-                        <p style="margin: 0; font-size: 16px; text-align: right; font-weight: bold;"
-                           th:text="${store.recommendYn}"></p>
-                        <a th:href="@{'/member/memberpage/'+${store.storeIdx}}">
-                            <button style="background-color: lightblue; border: none; padding: 5px 10px; border-radius:
-                            5px; color: white; font-weight: bold;">
-                                상세보기
-                            </button>
-                        </a>
-                    </div>
                 </div>
             </div>
         </div>
+
     </div>
     <script src="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"></script>
     <script th:inline="javascript">

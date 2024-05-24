@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,5 +53,12 @@ public class ReviewService {
         return reviews.stream()
                 .map(review -> modelMapper.map(review, ReviewDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public double calculateAverageRating(List<ReviewDTO> reviewDTOList) {
+        OptionalDouble average = reviewDTOList.stream()
+                .mapToDouble(reviewDTO -> reviewDTO.getRate().ordinal() + 1)
+                .average();
+        return average.orElse(0);
     }
 }

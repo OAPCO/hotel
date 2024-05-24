@@ -8,6 +8,31 @@
     <title>매장 안내</title>
     <link rel="stylesheet" href="/yhh.css">
     <style>
+        .star-rating {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            text-align: left;
+        }
+
+        .star {
+            display: inline-block;
+            width: 20px; /* 별 한 개의 너비 */
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .star::before {
+            content: "\2605"; /* 별 모양 */
+        }
+
+        .star-filled {
+            color: orange; /* 채워진 별의 색 */
+        }
+
+        .star-empty {
+            color: gray; /* 비어있는 별의 색 */
+        }
+
         .darkroom {
             background-color: #696969; /* 원하는 어두운 색으로 설정 */
 
@@ -164,21 +189,55 @@
     <p></p>
     <div class="container" style="margin: auto; width: 80%;">
         <div style="display: flex; justify-content: space-between; margin: auto; width: 100%;">
+            <!-- 리뷰와 별점 정보 -->
             <div style="flex-basis: 33%; padding-right: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
                 <div>
-                    <h2 style="margin: 0; padding: 16px; background-color: #f8f9fa;">주변 명소</h2>
-                    <div>
-                        <div style="border-bottom: 1px solid #f8f9fa; padding: 16px;">
-                            <h4 style="margin: 0; font-weight: 700;" id="place-name">장소 이름</h4>
-                            <p style="margin: 8px 0 0;" id="place-addr">상세 설명..</p>
-                            <p style="margin: 8px 0 0;" id="place-tel">전화번호....</p>
+                    <h2 style="margin: 0; padding: 16px; background-color: #f8f9fa;">리뷰 및 별점</h2>
+                    <div style="padding: 16px; display: flex; align-items: center;">
+                        <h4 style="margin-right: 8px;">평균 별점:</h4>
+                        <div class="star-rating" style="display: inline-block;">
+                            <span class="star star1"></span>
+                            <span class="star star2"></span>
+                            <span class="star star3"></span>
+                            <span class="star star4"></span>
+                            <span class="star star5"></span>
                         </div>
                     </div>
+                    <!-- 리뷰 및 별점 캐러셀 -->
+                    <div id="review-carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <!-- 리뷰 아이템들을 반복해서 표시 -->
+                            <div class="carousel-item active" th:each="review, iterStat : ${reviewList}" th:classappend="${iterStat.first} ? 'active'">
+                                <!-- 별 모양을 표시하는 div -->
+                                <div class="star-rating" th:class="${review.rate}">
+                                    <!-- 별 모양을 표시하는 span -->
+                                    <span class="star">&#9733;</span>
+                                    <span class="star">&#9733;</span>
+                                    <span class="star">&#9733;</span>
+                                    <span class="star">&#9733;</span>
+                                    <span class="star">&#9733;</span>
+                                </div>
+                                <p th:text="${review.text}">리뷰 내용</p>
+                            </div>
+                        </div>
+                        <!-- 이전/다음 버튼 -->
+                        <a class="carousel-control-prev" href="#review-carousel" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">이전</span>
+                        </a>
+                        <a class="carousel-control-next" href="#review-carousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">다음</span>
+                        </a>
+                    </div>
+                    <!-- 별점 -->
                 </div>
             </div>
+            <!-- 지도 -->
             <div id="map" style="flex-basis: 67%; height: 600px;"></div>
         </div>
     </div>
+
     <script>
         var imgNum = 0;
         var carouselItemId = null;
@@ -437,6 +496,18 @@
 
             }
         });
+        // averageRating 변수에 평균 별점 값이 들어있다고 가정합니다.
+        var averageRating = 4; // 예시 평균 별점
+
+        // 평균 별점을 계산하여 각 별에 클래스를 추가합니다.
+        for (var i = 1; i <= 5; i++) {
+            var star = document.querySelector('.star' + i);
+            if (i <= averageRating) {
+                star.classList.add('star-filled');
+            } else {
+                star.classList.add('star-empty');
+            }
+        }
     </script>
 
 </div>
