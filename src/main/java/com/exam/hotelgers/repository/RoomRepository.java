@@ -23,7 +23,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 
 
     Optional<Room> findByRoomCd(String roomCd);
-    Optional<Room> findByRoomType(String roomType);
 
     Optional<Room> findByRoomIdx(Long roomIdx);
 
@@ -129,6 +128,9 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "WHERE r.roomType = :roomType " +
             "and r.store.storeIdx = :storeIdx")
     void roomPriceUpdate(int roomPrice, String roomType, Long storeIdx);
+
+
+
 
 
 

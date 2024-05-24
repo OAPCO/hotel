@@ -279,6 +279,10 @@ public class StoreController {
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
         model.addAttribute("storeDTO", storeDTO);
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
         return "admin/manager/storeinfo";
     }
 

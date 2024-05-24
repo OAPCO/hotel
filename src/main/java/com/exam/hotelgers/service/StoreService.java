@@ -257,25 +257,13 @@ public class StoreService {
         store.setStoreName(storeDTO.getStoreName());
 
         store.setStoreTel(storeDTO.getStoreTel());
-        store.setRegionCd(storeDTO.getRegionCd());
-
-        store.setStorePostNo(storeDTO.getStorePostNo());
         store.setStoreAddr(storeDTO.getStoreAddr());
         store.setStoreAddrDetail(storeDTO.getStoreAddrDetail());
 
         store.setStoreStatus(storeDTO.getStoreStatus());
         store.setStoreSummary(storeDTO.getStoreSummary());
 
-        store.setStoreOpenState(storeDTO.getStoreOpenState());
         store.setStoreIdx(storeDTO.getStoreIdx());
-
-        store.setStorePaymentType(storeDTO.getStorePaymentType());
-        store.setStoreOpenTime(storeDTO.getStoreOpenTime());
-        store.setStoreCloseTime(storeDTO.getStoreCloseTime());
-
-        store.setStoreRestDay(storeDTO.getStoreRestDay());
-        store.setKakaoSendYn(storeDTO.getKakaoSendYn());
-        store.setStoreRestDetail(storeDTO.getStoreRestDetail());
 
         // 변경된 엔티티를 저장합니다.
         storeRepository.save(store);

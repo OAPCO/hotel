@@ -11,6 +11,7 @@ import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
 import com.exam.hotelgers.service.ImageService;
+import com.exam.hotelgers.service.ManagerService;
 import com.exam.hotelgers.service.SearchService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -36,6 +37,7 @@ public class MainController {
     private final ManagerRepository managerRepository;
     private final SearchService searchService;
     private final ImageService imageService;
+    private final ManagerService managerService;
 
 
     @GetMapping("/")

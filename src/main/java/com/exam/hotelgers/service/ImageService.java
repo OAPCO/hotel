@@ -72,7 +72,7 @@ public class ImageService {
 
 
     //객실 세부 이미지 생성
-    public void roomImageregister(List<MultipartFile> imgFiles, String roomType) throws IOException {
+    public void roomImageregister(List<MultipartFile> imgFiles, Long storeIdx, String roomType) throws IOException {
 
         for (MultipartFile imgFile : imgFiles) {
             String originalFileName = imgFile.getOriginalFilename();
@@ -121,7 +121,7 @@ public class ImageService {
 
 
     //객실 대표이미지 생성
-    public String roomMainImageregister(MultipartFile mainimgFile, Long roomIdx, String roomType) throws IOException {
+    public String roomMainImageregister(MultipartFile mainimgFile, Long storeIdx, String roomType) throws IOException {
 
             String originalFileName = mainimgFile.getOriginalFilename();
             String newFileName = "";
@@ -139,28 +139,6 @@ public class ImageService {
 
             return newFileName;
         }
-
-
-
-
-    public String roomMainImageregister2(MultipartFile mainimgFile, Long roomIdx, String roomType) throws IOException {
-
-        String originalFileName = mainimgFile.getOriginalFilename();
-        String newFileName = "";
-
-        if (originalFileName != null) {
-            newFileName = s3Uploader.upload(mainimgFile, imgUploadLocation);
-        }
-
-        Image image = new Image();
-        image.setImgName(newFileName);
-        image.setRoomImageType(roomType);
-        image.setRoomImageMain(1);
-
-        imageRepository.save(image);
-
-        return newFileName;
-    }
 
 
 
@@ -187,9 +165,21 @@ public class ImageService {
                 .collect(Collectors.toList());
     }
 
+    //객실 메인이미지
+    public ImageDTO getRoomTypeMainImages(String roomType, Long storeIdx) {
+
+        Optional<Image> image = imageRepository.roomMainImageList(roomType,storeIdx);
+
+        return modelMapper.map(image,ImageDTO.class);
+    }
+
 
     public void delete(Long imageIdx){
+
+
+
         imageRepository.deleteById(imageIdx);
+
     }
 
 

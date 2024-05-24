@@ -76,7 +76,7 @@ public class RoomService {
 
         String roomType = room.getRoomType();
 
-        imageService.roomImageregister(imgFiles, roomType);
+        imageService.roomImageregister(imgFiles, store.get().getStoreIdx(),roomType);
 
         //대표파일의 이름을 반환받아온다.
         String imgName = imageService.roomMainImageregister(mainimgFile, roomIdx, roomType);
@@ -253,6 +253,8 @@ public class RoomService {
     }
 
 
+
+
     @Transactional
     public void roomPriceUpdate(int roomPrice, String roomType, Long storeIdx) {
         roomRepository.roomPriceUpdate(roomPrice, roomType, storeIdx);
@@ -295,44 +297,6 @@ public class RoomService {
     }
 
 
-
-
-
-
-//    public List<RoomDTO> notEmptyRoomSearch(Long storeIdx, List<RoomDTO> emptyRoomTypes, List<RoomDTO> roomTypes) {
-//
-//        List<RoomDTO> notEmptyRoomTypes = new ArrayList<>();
-//
-//        List<String> allRoomTypeString = new ArrayList<>();
-//        List<String> emptyRoomTypeString = new ArrayList<>();
-//        List<String> notemptyRoomTypeString = new ArrayList<>();
-//
-//        //중복없는 전체 객실의 타입명만 String list에 담음 - 일반실,특실,파티룸
-//        for (RoomDTO roomTypeString : roomTypes) {
-//            allRoomTypeString.add(roomTypeString.getRoomType());
-//        }
-//
-//        //중복없는 빈 객실의 타입명을 String list에 담음 - 일반실
-//        for (RoomDTO roomTypeString : emptyRoomTypes) {
-//            emptyRoomTypeString.add(roomTypeString.getRoomType());
-//        }
-//
-//
-//        //전체객실 만큼 반복
-//        for (String roomType : allRoomTypeString) {
-//            if (!emptyRoomTypeString.contains(roomType)) {
-//                notemptyRoomTypeString.add(roomType);
-//            }
-//        }
-//
-//
-//        //얻어낸 roomType String 배열로 roomType 객체 리스트를 구한다.
-//        for (String notEmptyroomType : notemptyRoomTypeString) {
-//            notEmptyRoomTypes.add(this.notEmptyroomTypeSearch(storeIdx, notEmptyroomType));
-//        }
-//
-//        return notEmptyRoomTypes;
-//    }
 
 
 

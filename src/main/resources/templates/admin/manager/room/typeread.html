@@ -23,9 +23,24 @@
             </div>
 
 
-            <div class="banner-images">
+            <div>
                 <div>
-                    <span class="info-label"></span>
+                    <span class="info-label">대표 이미지</span>
+                </div>
+                <div class="image-container">
+                    <div>
+                        <img class="banner-image" th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomMainImg.imgName}|" width="300" height="300">
+                    </div>
+                    <div>
+                        <button class="btn red-button" type="button" th:onclick="|location.href='@{'/deleteimg/'+${image.imageIdx}}'|">제거</button>
+                    </div>
+                </div>
+            </div><br><br>
+
+
+            <div>
+                <div>
+                    <span class="info-label">상세 이미지</span>
                 </div>
                 <div class="image-container" th:each="image : ${roomDetailImgList}">
                     <div>
@@ -48,9 +63,13 @@
 
                 <input type="hidden" name="roomType" th:value="${roomDTO.roomType}" />
 
-                이미지 추가
+                대표 이미지 추가
                 <input type="file" class="form-control" id="imgFile" name="imgFile" multiple>
                 <div id="preview"></div>
+
+                세부 이미지 추가
+                <input type="file" class="form-control" id="imgFiles" name="imgFiles" multiple>
+                <div id="preview2"></div>
                 <div style="text-align: center;">
                     <button type="submit" class="btn button">수정</button>
                 </div>
@@ -70,6 +89,9 @@
     <script>
         const input = document.getElementById('imgFile');
         const preview = document.getElementById('preview');
+        const inputs = document.getElementById('imgFiles');
+        const previews = document.getElementById('preview2');
+
 
         input.addEventListener('change', function() {
             preview.innerHTML = ''; // 이미지 미리보기 초기화
@@ -84,6 +106,27 @@
                     img.style.maxWidth = '200px'; // 이미지 최대 너비 설정
                     img.style.marginRight = '10px'; // 이미지 간격 설정
                     preview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+
+
+        inputs.addEventListener('change', function() {
+            previews.innerHTML = ''; // 이미지 미리보기 초기화
+
+            const files = this.files;
+            for (const file of files) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '200px'; // 이미지 최대 너비 설정
+                    img.style.marginRight = '10px'; // 이미지 간격 설정
+                    previews.appendChild(img);
                 }
 
                 reader.readAsDataURL(file);

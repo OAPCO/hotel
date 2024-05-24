@@ -20,9 +20,15 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
     List<Image> bannerImageList (Long bannerIdx);
 
 
+
     //객실타입,스토어idx로 객실 디테일 이미지 목록 조회
-    @Query("select i from Image i join Room r on i.roomImageType = r.roomType where r.store.storeIdx = :storeIdx and i.roomImageType = :roomType")
+    @Query("select i from Image i join Room r on i.roomImageType = r.roomType where r.store.storeIdx = :storeIdx and i.roomImageType = :roomType and i.roomImageMain = 0")
     List<Image> roomDetailImageList (String roomType, Long storeIdx);
+
+
+    //객실타입,스토어idx로 객실 메인 이미지 목록 조회
+    @Query("select i from Image i join Room r on i.roomImageType = r.roomType where r.store.storeIdx = :storeIdx and i.roomImageType = :roomType and i.roomImageMain = 1")
+    Optional<Image> roomMainImageList (String roomType, Long storeIdx);
 
 
 
@@ -40,6 +46,7 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
             "i.roomImageType LIKE :#{#searchDTO.roomType} and " +
             "r.store.storeIdx = :#{#searchDTO.storeIdx}")
     List<Image> roomTypeDetailMainImageSearch(SearchDTO searchDTO);
+
 
 
 
