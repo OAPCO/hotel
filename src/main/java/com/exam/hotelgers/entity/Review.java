@@ -31,5 +31,8 @@ public class Review  extends BaseEntity{
     @JoinColumn(name = "storeIdx")
     private Store store;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberIdx")
+    private Member member;
 
 }

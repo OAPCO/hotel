@@ -61,7 +61,7 @@ public class MemberpageController {
     private final StoreRepository storeRepository;
     private final PaymentService paymentService;
     private final NoticeService noticeService;
-
+    private final ReviewService reviewService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -104,10 +104,20 @@ public class MemberpageController {
 
         // Perform the search operation with the given keyword and facilities
         List<StoreDTO> storeList = memberpageService.searchList(keyword, facilities);
+
+        // 각 스토어의 평균 별점을 계산하여 추가
+        for (StoreDTO store : storeList) {
+            Long storeIdx = store.getStoreIdx();
+            List<ReviewDTO> reviewDTOList = reviewService.findByStoreIdx(storeIdx);
+            double averageRating = reviewService.calculateAverageRating(reviewDTOList);
+            store.setAverageRating(averageRating); // StoreDTO에 추가적인 필드로 평균 별점 저장
+        }
+
         model.addAttribute("storeList", storeList);
 
         return "member/memberpage/list";
     }
+
 
     @GetMapping("/member/memberpage/{storeIdx}")
     public String hotelreadform(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
@@ -116,6 +126,11 @@ public class MemberpageController {
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
         StoreDTO storeDTO = storeService.read(storeIdx);
+
+        List<ReviewDTO> reviewDTOList = reviewService.findByStoreIdx(storeIdx);
+
+        // 평균 별점 계산
+        double averageRating = reviewService.calculateAverageRating(reviewDTOList);
 
         //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
         List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeIdx);
@@ -159,6 +174,8 @@ public class MemberpageController {
         model.addAttribute("roomList", storeDTO.getRoomDTOList());
         model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
         model.addAttribute("roomOrderList",roomOrderList);
+        model.addAttribute("reviewList",reviewDTOList);
+        model.addAttribute("averageRating", averageRating);
 
         model.addAttribute("roomTypeList",roomTypeList);
         model.addAttribute("roomTypes",roomTypes);

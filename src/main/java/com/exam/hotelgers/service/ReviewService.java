@@ -2,14 +2,20 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.ReviewDTO;
 import com.exam.hotelgers.entity.Coupon;
+import com.exam.hotelgers.entity.Member;
 import com.exam.hotelgers.entity.Review;
 import com.exam.hotelgers.entity.Store;
+import com.exam.hotelgers.repository.MemberRepository;
 import com.exam.hotelgers.repository.ReviewRepository;
 import com.exam.hotelgers.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,14 +24,41 @@ public class ReviewService {
     private final ModelMapper modelMapper;
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
-    public void register(ReviewDTO reviewDTO) throws Exception{
-        Store store = storeRepository.findById(reviewDTO.getStore().getStoreIdx())
+    private final MemberRepository memberrepository;
+    public void register(ReviewDTO reviewDTO) throws Exception {
+        log.info("ReviewDTO received in service: " + reviewDTO.toString());
+
+        // Store 객체 찾기
+        Store store = storeRepository.findById(reviewDTO.getStoreIdx())
                 .orElseThrow(() -> new Exception("Store not found"));
 
-        reviewDTO.setStore(store);
+        // Member 객체 찾기
+        Member member = memberrepository.findByMemberIdx(reviewDTO.getMemberIdx())
+                .orElseThrow(() -> new Exception("Store not found"));
 
+        // ReviewDTO를 Review 엔티티로 매핑
         Review review = modelMapper.map(reviewDTO, Review.class);
+
+        // Store 설정
+        review.setStore(store);
+        review.setMember(member);
+
+        // Review 저장
         reviewRepository.save(review);
+
+        log.info("Review saved: " + review.toString());
+    }
+    public List<ReviewDTO> findByStoreIdx(Long storeIdx) {
+        List<Review> reviews = reviewRepository.findByStoreIdx(storeIdx);
+        return reviews.stream()
+                .map(review -> modelMapper.map(review, ReviewDTO.class))
+                .collect(Collectors.toList());
     }
 
+    public double calculateAverageRating(List<ReviewDTO> reviewDTOList) {
+        OptionalDouble average = reviewDTOList.stream()
+                .mapToDouble(reviewDTO -> reviewDTO.getRate().ordinal() + 1)
+                .average();
+        return average.orElse(0);
+    }
 }

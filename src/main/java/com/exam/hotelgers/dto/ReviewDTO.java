@@ -20,5 +20,7 @@ public class ReviewDTO {
 
     private String text;
 
-    private Store store;
+    private Long storeIdx;
+
+    private Long memberIdx;
 }

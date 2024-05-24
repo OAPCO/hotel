@@ -38,7 +38,7 @@
                 <h2>[[${storeDTO.storeName}]] 의 리뷰를 작성해 주세요 ! </h2>
             </div>
             <div class="card-body">
-                <form th:action="@{/review/register}" method="post" onsubmit="window.close()">
+                <form th:action="@{/review/register}" method="post">
                     <div>
                         <h3>별점</h3>
                     </div>
@@ -53,11 +53,10 @@
                         <h3>후기</h3>
                     </div>
                     <div>
-                        <textarea name="text" style="width: 100%; height: 300px;"
-                                  placeholder=" 후기를 작성해주세요 ! "></textarea>
+                        <textarea name="text" style="width: 100%; height: 300px;" placeholder=" 후기를 작성해주세요 ! "></textarea>
                     </div>
                     <div style="display: none">
-                        <input type="text" name="store.storeIdx" th:value="${storeDTO.storeIdx}">
+                        <input type="text" name="storeIdx" th:value="${storeDTO.storeIdx}">
                     </div>
                     <div>
                         <button class="btn btn-primary" type="submit">제출하기</button>

@@ -59,7 +59,7 @@ public class StoreDTO {
     private String facilities; //편의시설들
 
     private String storeimgName; //스토어 이미지
-
+    private double averageRating;//평균별점
 
 
     private StorePType storePType;
