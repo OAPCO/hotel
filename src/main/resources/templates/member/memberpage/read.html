@@ -295,7 +295,7 @@
                                     체크인 :
                                 </td>
                                 <td class="col-3">
-                                    <input type="date" name="reservationDateCheckin" style=" width:300px; border-radius: 10px; height: 50px; padding-top: 5px; position: relative;" id="isoStartDate">
+                                    <input type="date" name="reservationDateCheckin"  style=" width:300px; border-radius: 10px; height: 50px; padding-top: 5px; position: relative;" id="isoStartDate">
                                 </td>
                                 <td class="col-1" style="text-align: center;">
                                     체크아웃 :
@@ -400,6 +400,46 @@
         //     }
         // });
     </script>
+    <script>
+        // 현재 날짜를 'YYYY-MM-DD' 형식으로 반환하는 함수
+        function getCurrentDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // 주어진 날짜의 하루 후를 'YYYY-MM-DD' 형식으로 반환하는 함수
+        function getNextDate(dateString) {
+            const date = new Date(dateString);
+            date.setDate(date.getDate() + 1); // 하루를 더함
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // 현재 날짜를 isoStartDate의 최소 날짜로 설정
+        document.getElementById('isoStartDate').min = getCurrentDate();
+        document.getElementById('isoEndDate').min = getNextDate(getCurrentDate());
+
+        // isoStartDate의 값이 변경될 때 isoEndDate의 최소 날짜를 설정하고 활성화/비활성화 처리
+        document.getElementById('isoStartDate').addEventListener('change', function() {
+            const startDate = this.value;
+            const isoEndDate = document.getElementById('isoEndDate');
+
+            if (startDate) {
+                isoEndDate.min = getNextDate(startDate);
+                isoEndDate.disabled = false; // isoStartDate가 선택되면 isoEndDate를 활성화
+            } else {
+                isoEndDate.min = '';
+                isoEndDate.disabled = true; // isoStartDate가 선택되지 않으면 isoEndDate를 비활성화
+            }
+        });
+    </script>
+
+
     <script>
 
 
