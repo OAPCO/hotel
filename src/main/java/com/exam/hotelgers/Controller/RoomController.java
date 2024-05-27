@@ -197,7 +197,7 @@ public class RoomController {
         Long storeIdx = storeDTO.getStoreIdx();
 
         //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
-        List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeIdx);
+        List<RoomDTO> roomTypeList = roomService.storeroomTypeSearch(storeIdx);
 
         model.addAttribute("storeDTO",storeDTO);
         model.addAttribute("distDTO",distDTO);
@@ -272,7 +272,7 @@ public class RoomController {
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
         List<RoomDTO> roomDTOS = managerService.managerOfLoom(principal);
-        List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeDTO.getStoreIdx());
+        List<RoomDTO> roomTypeList = roomService.storeroomTypeSearch(storeDTO.getStoreIdx());
         List<RoomOrderDTO> roomOrderDTOS = roomOrderService.roomOrderSearch2(storeDTO.getStoreIdx());
 
 

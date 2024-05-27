@@ -41,26 +41,28 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
 
 
     //호텔 객실 타입의 이미지 목록
-    @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomImageType LIKE r.roomType JOIN Store s ON r.store.storeIdx = s.storeIdx " +
+    @Query(value = "SELECT i FROM Image i " +
             "where i.roomImageMain = 0 and " +
             "i.roomImageType LIKE :#{#searchDTO.roomType} and " +
-            "r.store.storeIdx = :#{#searchDTO.storeIdx}")
+            "i.storeIdx = :#{#searchDTO.storeIdx}")
     List<Image> roomTypeDetailMainImageSearch(SearchDTO searchDTO);
 
 
 
-
     //호텔 객실 타입의 대표이미지
-    @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomImageType = r.roomType JOIN Store s ON r.store.storeIdx = s.storeIdx " +
+    @Query(value = "SELECT i FROM Image i " +
             "where i.roomImageMain = 1 and " +
-            "i.roomImageType LIKE :#{#searchDTO.roomType} and " +
-            "r.store.storeIdx = :#{#searchDTO.storeIdx}")
+            "i.roomImageType = :#{#searchDTO.roomType} and " +
+            "i.storeIdx = :#{#searchDTO.storeIdx}")
     Optional<Image> roomTypeMainImageSearch(SearchDTO searchDTO);
 
 
 
     //호텔의 모든 객실 대표 이미지 목록
-    @Query(value = "SELECT i FROM Image i JOIN Room r ON i.roomImageType = r.roomType JOIN Store s ON r.store.storeIdx = s.storeIdx where i.roomImageMain = 1")
+    @Query(value = "SELECT i FROM Image i JOIN Room r " +
+            "ON i.roomImageType = r.roomType " +
+            "JOIN Store s ON r.store.storeIdx = s.storeIdx " +
+            "where i.roomImageMain = 1")
     List<Image> roomDetailMainImageSearch(Long StoreIdx);
 
 

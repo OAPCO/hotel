@@ -79,7 +79,7 @@ public class RoomService {
         imageService.roomImageregister(imgFiles, store.get().getStoreIdx(),roomType);
 
         //대표파일의 이름을 반환받아온다.
-        String imgName = imageService.roomMainImageregister(mainimgFile, roomIdx, roomType);
+        String imgName = imageService.roomMainImageregister(mainimgFile, store.get().getStoreIdx(), roomType);
 
         //그 이름을 엔티티 대표이미지속성에 집어넣는다.
         room.setRoomMainimgName(imgName);
@@ -274,6 +274,21 @@ public class RoomService {
 
         return roomDTOS;
     }
+
+
+    public List<RoomDTO> storeroomTypeSearch(Long storeIdx) {
+
+
+        List<Room> rooms = roomRepository.storeroomTypeSearch(storeIdx);
+
+
+        List<RoomDTO> roomDTOS = rooms.stream()
+                .map(room -> modelMapper.map(room, RoomDTO.class))
+                .collect(Collectors.toList());
+
+        return roomDTOS;
+    }
+
 
 
     public RoomDTO roomTypeSearchToTypeString(Long storeIdx,String roomType) {
