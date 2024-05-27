@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -249,19 +250,41 @@ public class MenuOrderService {
 
         Optional<MenuOrder> menuOrder = menuOrderRepository.findByMenuorderIdx(menuorderIdx);
 
-        MenuOrder menuOrder1 = menuOrder.get();
+        if (menuOrder.isPresent()) {
+            MenuOrder menuOrder1 = menuOrder.get();
+            return convertToDTO(menuOrder1);
+        } else {
+            // 예외를 던지거나 기본 값을 반환하는 등의 처리를 합니다.
+            throw new NoSuchElementException("No value present for menuOrderCd: " + menuorderIdx);
+        }
 
-
-        return convertToDTO(menuOrder1);
     }
 
-    //안의 메뉴시트가 채워진 메뉴오더리스트를 반환
+
+
+    //roomOrder에 해당하는 메뉴 오더 목록을 반환하는데, 안의 메뉴시트가 채워진 메뉴오더리스트를 반환
     public List<MenuOrderDTO> menuOrderList(Long roomorderIdx){
 
         List<MenuOrder> menuOrder= menuOrderRepository.findByListMenuorderIdx(roomorderIdx);
 
 
         return convertToDTOS(menuOrder);
+    }
+
+
+
+    //menuorder에 해당하는 메뉴를 반환하는데, 안의 메뉴시트가 채워진 메뉴오더를 반환
+    public MenuOrderDTO detailmenuOrderList(String menuOrderCd){
+
+        Optional<MenuOrder> menuOrder= menuOrderRepository.findMenuSheetPayment(menuOrderCd);
+
+        if (menuOrder.isPresent()) {
+            MenuOrder menuOrder1 = menuOrder.get();
+            return convertToDTO(menuOrder1);
+        } else {
+            // 예외를 던지거나 기본 값을 반환하는 등의 처리를 합니다.
+            throw new NoSuchElementException("No value present for menuOrderCd: " + menuOrderCd);
+        }
     }
 
 

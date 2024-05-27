@@ -53,33 +53,79 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     List<String> searchEmptyRoom(Long storeIdx);
 
 
-    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
-            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-            "and r1.store.storeIdx = :storeIdx")
+
+    @Query(value = "SELECT r FROM Room r " +
+            "WHERE r.store.storeIdx = :storeIdx " +
+            "and r.roomStatus = 0 " +
+            "GROUP BY r.roomType")
     List<Room> roomTypeSearch(Long storeIdx);
+
+
+//    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
+//            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+//            "and r1.store.storeIdx = :storeIdx")
+//    List<Room> roomTypeSearch(Long storeIdx);
+
+
+
+
+
+
+//dlrj@@@@@@@
+    @Query(value = "SELECT r FROM Room r " +
+            "WHERE r.store.storeIdx = :storeIdx " +
+            "and r.roomStatus = 0 " +
+            "GROUP BY r.roomType")
+    List<Room> roomTypeS2earch(Long storeIdx);
+
+
+
+
+
+
+
     
-    
+//    //객실타입으로 객실 찾기
+//    @Query("SELECT r FROM Room r WHERE r.roomIdx IN " +
+//            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+//            "and r1.store.storeIdx = :storeIdx " +
+//            "and r1.roomType = :roomType")
+//    Optional<Room> roomTypeSearchToTypeString(Long storeIdx,String roomType);
+
     //객실타입으로 객실 찾기
-    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
-            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-            "and r1.store.storeIdx = :storeIdx " +
-            "and r1.roomType = :roomType")
+    @Query(value = "SELECT r FROM Room r " +
+            "WHERE r.store.storeIdx = :storeIdx " +
+            "and r.roomType = :roomType "+
+            "GROUP BY r.roomType")
     Optional<Room> roomTypeSearchToTypeString(Long storeIdx,String roomType);
 
     
 
-    @Query("SELECT r1.roomType FROM Room r1 WHERE r1.roomIdx IN " +
-            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-            "and r1.store.storeIdx = :storeIdx")
+//    @Query("SELECT r1.roomType FROM Room r1 WHERE r1.roomIdx IN " +
+//            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+//            "and r1.store.storeIdx = :storeIdx")
+//    List<String> roomTypeStringSearch(Long storeIdx);
+
+    @Query(value = "SELECT r.roomType FROM Room r " +
+            "WHERE r.store.storeIdx = :storeIdx " +
+            "GROUP BY r.roomType")
     List<String> roomTypeStringSearch(Long storeIdx);
 
 
 
+//    //호텔의 특정 roomType의 정보 불러오는 쿼리 (사용처 : 매니저의 객실 생성 페이지 - roomregister)
+//    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
+//            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
+//            "and r1.store.storeIdx = :storeIdx " +
+//            "and r1.roomType = :roomType")
+//    Optional<Room> roomTypeSearchOne(Long storeIdx,String roomType);
+
+
     //호텔의 특정 roomType의 정보 불러오는 쿼리 (사용처 : 매니저의 객실 생성 페이지 - roomregister)
-    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
-            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-            "and r1.store.storeIdx = :storeIdx " +
-            "and r1.roomType = :roomType")
+    @Query(value = "SELECT r.roomType FROM Room r " +
+            "WHERE r.store.storeIdx = :storeIdx " +
+            "and r.roomType = :roomType "+
+            "GROUP BY r.roomType")
     Optional<Room> roomTypeSearchOne(Long storeIdx,String roomType);
 
 

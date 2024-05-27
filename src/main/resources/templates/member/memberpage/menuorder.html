@@ -147,6 +147,7 @@
         <div class="container-fluid pt-5">
             <div class="container" style="margin: auto; width: 80%;">
                 <form action="/admin/manager/order/register" method="post">
+
                     <div style="display: none">
                         Idx: <input type="text" th:value="${memberDTO.memberIdx}" name="memberIdx">
                         Idx: <input type="text" th:value="${store.storeIdx}" name="storeIdx">
@@ -240,7 +241,6 @@
                     </div>
                     <div>
                         <button class="btn btn-outline-primary" style="background: white" type="submit">주문하기</button>
-
                     </div>
 
                 </form>
@@ -301,6 +301,7 @@
                 var menuName = $(this).parent().siblings('.text-container').find('.card-title').text();
                 var price = parseFloat($(this).parent().siblings('.text-container').find('.text-muted').text());
                 var pointSaveAmount = parseFloat($(this).parent().siblings('.text-container').find('.item-point').text());
+                let menuNames = [];
 
                 var existedRow = null;
                 var menuIndex = 0;
@@ -308,8 +309,11 @@
                     if ($(this).children('.col').first().text() === menuName) {
                         existedRow = $(this);
                         menuIndex = index;
+                        menuNames.push(menuName);
                     }
                 });
+
+                $('#menuNamesInput').val(menuNames.join(','));
 
                 if (existedRow) {
                     var quantityElem = existedRow.find(".quantity");
