@@ -79,6 +79,7 @@
 </head>
 <body>
 <div layout:fragment="content"  style="background-color: #fff2d7;">
+    <div th:if="${alert}" th:text="${alert}"></div>
     <div class="section" id="section0">
         <div class="container-fluid pt-5">
             <!-- 메뉴 리스트 -->
