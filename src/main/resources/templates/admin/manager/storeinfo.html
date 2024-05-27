@@ -15,9 +15,8 @@
             <div class="card-header py-3">
                 <div class="sub_title">
                     <h2>[[${storeDTO.storeName}]] 소개</h2>
-                    <span th:text="${storeDTO.storeSummary}" id="storeSummaryId">
-                        <input type="text" style="display: none" id="storeSummaryInput" value="${storeDTO.storeSummary}">
-                    </span>
+                    <span th:text="${storeDTO.storeSummary}" id="storeSummaryId"></span>
+                    <input type="text" style="display: none" id="storeSummaryInput" th:value="${storeDTO.storeSummary}">
                 </div>
             </div>
             <div class="card-body">
@@ -64,6 +63,10 @@
     var storeMessage = document.getElementById("storeMessageId");
 
     storeSummary.addEventListener('click', function(e) {
+
+        console.log("클릭됨");
+
+        storeSummary.style.display = 'none';
         storeSummaryInput.style.display = 'block';
     });
 

@@ -74,20 +74,21 @@ public class OrderController {
 
 
 
-        Long menuorderIdx = menuOrderService.register(orderDTO);
-
         if(rewardDTO != null) {
             rewardService.register(rewardDTO);
             log.info(rewardDTO +  "페이지에서 보내주는 리워드 DTO");
         }
 
-        couponService.useCoupon(couponIdx);
-        log.info(couponIdx +  "페이지에서 보내주는 couponIdx");
+        if (couponIdx != null) {
+            couponService.useCoupon(couponIdx);
+            log.info(couponIdx +  "페이지에서 보내주는 couponIdx");
+        }
+
 
 
         redirectAttributes.addFlashAttribute("result", orderDTO);
 
-        return "redirect:/member/memberpage/paypage";
+        return "redirect:/member/memberpage/menupaypage";
     }
 
 

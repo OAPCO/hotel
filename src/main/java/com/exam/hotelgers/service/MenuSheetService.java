@@ -89,4 +89,19 @@ public class MenuSheetService {
 
         return MenuSheetDTOs;
     }
+
+
+
+//    public List<MenuSheetDTO> findMenuSheetPayment(String menuOrderCd) {
+//
+//
+//        List<MenuSheet> menuSheetList = menuSheetRepository.findMenuSheetPayment(menuOrderCd);
+//
+//
+//        List<MenuSheetDTO> MenuSheetDTOs = menuSheetList.stream()
+//                .map(menuSheet -> modelMapper.map(menuSheet, MenuSheetDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return MenuSheetDTOs;
+//    }
 }
