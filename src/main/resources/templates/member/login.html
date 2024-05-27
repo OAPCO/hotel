@@ -78,6 +78,9 @@
 
 <body class="bg-gradient-primary">
 <div layout:fragment="content">
+    <div th:if="${message}" class="alert alert-warning">
+        <p th:text="${message}"></p>
+    </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9 col-lg-12 col-xl-10">
