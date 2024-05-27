@@ -11,49 +11,21 @@
 <body>
 <div layout:fragment="content">
 
-
     <h4 class="card-title">[[${storeDTO.storeName}]] 매출 관리</h4>
     <div class="card">
         <div class="card-header">
-            <form method="post" th:action="@{/admin/distchief/store/list}">
-                <div class="table-responsive">
-                    <table class="table head">
-
-                        <thead>
-                        <tr>
-                            <th>상태</th>
-                            <td>
-                                <input type="radio" name="storeStatus" value="" checked>전체
-                                <input type="radio" name="storeStatus" value="ON">오프라인결제
-                                <input type="radio" name="storeStatus" value="OFF"> 후결제
-                            </td>
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매출 추이
+            </div>
 
 
-                            <th>구분</th>
-                            <td>
-                                <input type="radio" name="storePType" value="" checked>전체
-                                <input type="radio" name="storePType" value="DIRECTSTORE">결제완료
-                                <input type="radio" name="storePType" value="FRANCHISEE">취소
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>날짜</th>
-                            <td>
-                                <input type="date" name="startDate">
-                                <input type="date" name="endDate">
-                            </td>
-                        </tr>
-                        </thead>
+                    <select class="form-control" id="chartSelect">
+                        <option value="year" selected>연간</option>
+                        <option value="month">월간</option>
+                        <option value="day">일간</option>
+                    </select>
 
-                    </table>
-
-                    <div style="text-align: center;">
-                        <button type="submit" class="btn btn-primary">조회</button>
-                        <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/distchief/store/register}'|">신규등록</button>
-                    </div>
-
-                </div>
-            </form>
+                    <canvas id="salesChart"></canvas>
         </div>
     </div>
     <div class="card" style="margin: 50px 20px;">
@@ -62,7 +34,24 @@
                 결제 목록
             </div>
             <div class="table-responsive">
-                <table class="table body">
+                <form id="selectForm">
+                <table class="table head">
+                    <thead>
+                    <tr>
+                        <th>날짜</th>
+                        <td>
+                            <input type="date" name="startDate" id="isoStartDate">
+                            <input type="date" name="endDate" id="isoEndDate">
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+                </form>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">조회</button>
+                </div>
+                <br>
+                <table class="table body" id="resultTable">
                     <thead>
                     <tr>
                         <th>No</th>
@@ -71,35 +60,26 @@
                         <th>결제자</th>
                         <th>전화번호</th>
                         <th>금액</th>
+                        <th>결제일시</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="data:${list}">
                         <td th:text="${data.paymentIdx}"></td>
-
                         <td>
                             <th:block th:switch="${data.paymentType}">
                                 <span th:case="room">객실 예약</span>
                                 <span th:case="service">룸서비스</span>
                             </th:block>
                         </td>
-
                         <td th:text="${data.paymentName}"></td>
                         <td th:text="${data.memberName}"></td>
                         <td th:text="${data.memberPhone}"></td>
                         <td th:text="${data.paymentPrice}"></td>
-                    </tr>
-                    <tr>
-                        <td>매출 합계</td>
-                        <th:block th:each="sales : ${salesDTOS}">
-                            <td th:text="${sales.year}"></td>
-                            <td th:text="${sales.month}"></td>
-                            <td th:text="${sales.totalSales}"></td>
-                        </th:block>
+                        <td th:text="${#temporals.format(data.regdate, 'YY-MM-dd / HH:mm')}"></td>
                     </tr>
                     </tbody>
                 </table>
-
 
                 <div class="d-flex justify-content-center">
                     <ul class="mt-3 pagination">
@@ -115,31 +95,107 @@
                         <li class="page-item"><a class="page-link" th:href="@{/admin/manager/storesales(page=${nextPage})}">></a></li>
                     </ul>
                 </div>
-
-
             </div>
         </div>
     </div>
 
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="/js/hotel.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script th:inline="javascript">
+        const yearlySales = [[${yearlySales}]];
+        const monthSales = [[${monthSales}]];
+        const daySales = [[${daySales}]];
 
-        const sales = [[${salesDTOS}]]
+        console.log("몬스"+monthSales);
 
-        for (i=0;i<sales.length;i++){
-            console.log(sales.month);
-            console.log(sales.year);
-            console.log(sales.totalSales);
+        var chart;
+        var ctx = document.getElementById('salesChart').getContext('2d');
+
+        function renderChart(type, labels, data, label) {
+            if (chart) {
+                chart.destroy();
+            }
+            chart = new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        data: data
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         }
 
+        function toggle() {
+            var chartSelectVal = chartSelect.value;
+            if (chartSelectVal === 'year') {
+                var years = [];
+                var sales = [];
+                for (var i = 0; i < yearlySales.length; i++) {
+                    years.push(yearlySales[i][0]);
+                    sales.push(yearlySales[i][1]);
+                }
+                renderChart('bar', years, sales, '연도별 매출');
+            } else if (chartSelectVal === 'month') {
+                var months = [];
+                var sales = [];
+                for (var i = 0; i < monthSales.length; i++) {
+                    months.push(monthSales[i][0]);
+                    sales.push(monthSales[i][1]);
+                }
+                renderChart('bar', months, sales, '월별 매출');
+            } else if (chartSelectVal === 'day') {
+                var days = [];
+                var sales = [];
+                for (var i = 0; i < daySales.length; i++) {
+                    days.push(daySales[i][0]);
+                    sales.push(daySales[i][1]);
+                }
+                renderChart('bar', days, sales, '일별 매출');
+            }
+        }
+
+        document.getElementById('chartSelect').addEventListener('change', toggle);
+
+        // 페이지 로드 시 기본 차트 렌더링
+        toggle();
+
+
+        $('#selectForm').on('submit', function (event) {
+
+            event.preventDefault();
+
+            var storeIdx = [[${storeDTO.storeName}]];
+
+
+            //필요한 값을 searchDTO에 담아서 보냄
+            var searchDTO = {
+                startDate: $('#isoStartDate').val(),
+                endDate: $('#isoEndDate').val(),
+                storeIdx: storeIdx
+            };
+
+            //payment 날짜로 검색
+            hotel.searchStorePayment(searchDTO);
+
+
+        });
 
     </script>
 
 </div>
 </body>
-
 </html>

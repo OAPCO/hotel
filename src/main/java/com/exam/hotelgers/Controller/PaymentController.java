@@ -1,8 +1,6 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.BrandDTO;
 import com.exam.hotelgers.dto.PaymentDTO;
-import com.exam.hotelgers.dto.SalesDTO;
 import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.service.PaymentService;
 import com.exam.hotelgers.service.StoreService;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -142,17 +139,21 @@ public class PaymentController {
 
         Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable, storeDTO.getStoreIdx());
 
-        List<SalesDTO> salesDTOS = paymentservice.getYearlySales(storeDTO.getStoreIdx());
+        Object[][] yearlySales = paymentservice.getYearlySales(storeDTO.getStoreIdx());
+        Object[][] monthSales = paymentservice.getMonthSales(storeDTO.getStoreIdx());
+        Object[][] daySales = paymentservice.getDaySales(storeDTO.getStoreIdx());
+
 
         Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
 
         model.addAllAttributes(pageinfo);
         model.addAttribute("storeDTO", storeDTO);
         model.addAttribute("list", paymentDTOS);
-        model.addAttribute("salesDTOS", salesDTOS);
+        model.addAttribute("yearlySales", yearlySales);
+        model.addAttribute("monthSales", monthSales);
+        model.addAttribute("daySales", daySales);
 
-        log.info("화긴222"+salesDTOS);
-
+        log.info("화긴222"+yearlySales);
 
         return "admin/manager/storesales";
     }

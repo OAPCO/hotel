@@ -3,6 +3,7 @@ package com.exam.hotelgers.dto;
 import com.exam.hotelgers.constant.*;
 import jakarta.persistence.Column;
 import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +17,10 @@ public class SearchDTO {
 
     private String storeCheckinTime;
     private String storeCheckoutTime;
+    private String startDate;
+    private String endDate;
+    private LocalDateTime startDateTime;
+    private LocalDateTime endDateTime;
     //검색용 별도 컬럼
     private String name;
     private String id;

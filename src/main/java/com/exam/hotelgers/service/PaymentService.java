@@ -1,10 +1,8 @@
 package com.exam.hotelgers.service;
 
-import com.exam.hotelgers.dto.MemberDTO;
 import com.exam.hotelgers.dto.PaymentDTO;
 
-import com.exam.hotelgers.dto.PaymentDTO;
-import com.exam.hotelgers.dto.SalesDTO;
+import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Payment;
 import com.exam.hotelgers.repository.PaymentRepositorty;
 import jakarta.transaction.Transactional;
@@ -17,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +77,21 @@ public class PaymentService {
     }
 
 
+    public Page<PaymentDTO> searchList(Pageable pageable, SearchDTO searchDTO){
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"paymentIdx"));
+
+        Page<Payment> payments = paymentRepository.storesalesDateSearch(page,searchDTO);
+
+
+        Page<PaymentDTO> paymentDTOS = payments.map(data->modelMapper.map(data,PaymentDTO.class));
+
+        return paymentDTOS;
+    }
+
+
 
     public void delete(Long paymentIdx){
         paymentRepository.deleteById(paymentIdx);
@@ -88,29 +100,54 @@ public class PaymentService {
 
     
     
-    //연도별 매출반환
-    public List<SalesDTO> getYearlySales(Long storeIdx) {
-        List<Object[]> results = paymentRepository.getYearSales(storeIdx);
-        List<SalesDTO> SalesDTOs = new ArrayList<>();
+    //각 상황별 매출 반환
+    public Object[][] getYearlySales(Long storeIdx) {
 
+        List<Object[]> yearSales = paymentRepository.getYearSales(storeIdx);
 
-        log.info("리조트값"+results);
+        Object[][] yearSalesArray = new Object[yearSales.size()][];
 
-        for (Object[] result : results) {
-            Integer year = (Integer) result[0];
-            Number totalSalesNumber = (Number) result[1];
-            Double totalSales = totalSalesNumber.doubleValue();
-
-            SalesDTO dto = new SalesDTO(year, totalSales);
-            SalesDTOs.add(dto);
+        for (int i = 0; i < yearSales.size(); i++) {
+            yearSalesArray[i] = yearSales.get(i);
         }
 
-        log.info("salesDTOs"+SalesDTOs);
+        log.info("찍어보기"+yearSalesArray[0][0]);
 
-        return SalesDTOs;
+        return yearSalesArray;
     }
 
 
+    public Object[][] getMonthSales(Long storeIdx) {
+
+        List<Object[]> monthSales = paymentRepository.getMonthSales(storeIdx);
+
+        Object[][] monthSalesArray = new Object[monthSales.size()][];
+
+        for (int i = 0; i < monthSales.size(); i++) {
+            monthSalesArray[i] = monthSales.get(i);
+        }
+
+        log.info("찍어보기"+monthSalesArray[0][0]);
+        log.info("찍어보기"+monthSalesArray[0][1]);
+
+        return monthSalesArray;
+    }
+
+    public Object[][] getDaySales(Long storeIdx) {
+
+        List<Object[]> daySales = paymentRepository.getDaySales(storeIdx);
+
+        Object[][] daySalesArray = new Object[daySales.size()][];
+
+        for (int i = 0; i < daySales.size(); i++) {
+            daySalesArray[i] = daySales.get(i);
+        }
+
+        log.info("찍어보기"+daySalesArray[0][0]);
+        log.info("찍어보기"+daySalesArray[0][1]);
+
+        return daySalesArray;
+    }
 
 
 

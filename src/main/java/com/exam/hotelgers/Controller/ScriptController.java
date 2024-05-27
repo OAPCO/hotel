@@ -47,6 +47,7 @@ public class ScriptController {
     private final RoomRepository roomRepository;
     private final RoomOrderService roomOrderService;
     private final SearchService searchService;
+    private final PaymentService paymentService;
     private final StoreRepository storeRepository;
 
 
@@ -129,10 +130,6 @@ public class ScriptController {
     public Map<String, Object> hotelreadProc(SearchDTO searchDTO) throws Exception {
 
 
-
-
-
-
         LocalDateTime start = searchService.changeDate(searchDTO.getReservationDateCheckin());
         LocalDateTime end = searchService.changeDate(searchDTO.getReservationDateCheckout());
 
@@ -153,8 +150,6 @@ public class ScriptController {
 
         //빈 객실 타입의 목록
         List<String> emptyRooms = roomRepository.searchEmptyRoom(searchDTO.getStoreIdx());
-
-
 
 
 
@@ -235,7 +230,26 @@ public class ScriptController {
     }
 
 
-    
+    @GetMapping(value = "/storesales", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    public Page<PaymentDTO> hotelreadProc(@PageableDefault(page = 1) Pageable pageable,SearchDTO searchDTO) throws Exception {
+
+
+        LocalDateTime start = searchService.changeDate(searchDTO.getStartDate());
+        LocalDateTime end = searchService.changeDate(searchDTO.getEndDate());
+
+        searchDTO.setStartDateTime(start);
+        searchDTO.setEndDateTime(end);
+
+
+        Page<PaymentDTO> paymentDTOS = paymentService.searchList(pageable,searchDTO);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+
+
+        return paymentDTOS;
+    }
+
+
+
     //객실 생성 페이지에서 사용
     @GetMapping(value = "/roomtypeimage", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> roomTypeImageReadProc(SearchDTO searchDTO) throws Exception {
