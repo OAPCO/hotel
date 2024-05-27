@@ -242,7 +242,6 @@ public class MemberpageController {
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
 
-
         String storeName = storeRepository.findStoreName(menuOrderDTO.getStoreIdx());
 
         model.addAttribute("menuOrderDTO",menuOrderDTO);

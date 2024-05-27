@@ -18,7 +18,7 @@ public class PaymentDTO {
 
     private Long paymentIdx;
 
-    private String paymentPrice;
+    private int paymentPrice;
 
     private String memberName;
     private String memberPhone;

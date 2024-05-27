@@ -91,7 +91,11 @@
                     </tr>
                     <tr>
                         <td>매출 합계</td>
-                        <td></td>
+                        <th:block th:each="sales : ${salesDTOS}">
+                            <td th:text="${sales.year}"></td>
+                            <td th:text="${sales.month}"></td>
+                            <td th:text="${sales.totalSales}"></td>
+                        </th:block>
                     </tr>
                     </tbody>
                 </table>
@@ -122,7 +126,16 @@
 
     <script type="text/javascript" src="/js/hotel.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
+    <script th:inline="javascript">
+
+        const sales = [[${salesDTOS}]]
+
+        for (i=0;i<sales.length;i++){
+            console.log(sales.month);
+            console.log(sales.year);
+            console.log(sales.totalSales);
+        }
+
 
     </script>
 
