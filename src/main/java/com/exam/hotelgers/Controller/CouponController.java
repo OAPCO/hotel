@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -27,11 +24,16 @@ public class CouponController {
 
 
     @PostMapping("/couponInsert")
-    public String CouponRegisterProc(@RequestBody CouponDTO couponDTO) {
-
-        Long newCoupon = couponService.register(couponDTO);
-
-        return "redirect:/member/memberpage/index";
+    @ResponseBody
+    public ResponseEntity<String> CouponRegisterProc(@RequestBody CouponDTO couponDTO) {
+        try {
+            Long newCoupon = couponService.register(couponDTO);
+            return ResponseEntity.ok("쿠폰이 성공적으로 등록되었습니다.");
+        } catch(IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/usecoupon/{couponIdx}")

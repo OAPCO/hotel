@@ -72,8 +72,6 @@ public class OrderController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
 
-
-
         Long menuorderIdx = menuOrderService.register(orderDTO);
 
         if(rewardDTO != null) {
@@ -81,9 +79,11 @@ public class OrderController {
             log.info(rewardDTO +  "페이지에서 보내주는 리워드 DTO");
         }
 
-        couponService.useCoupon(couponIdx);
-        log.info(couponIdx +  "페이지에서 보내주는 couponIdx");
-        redirectAttributes.addFlashAttribute("result", menuorderIdx);
+        // Check if couponIdx is not null before calling the service
+        if (couponIdx != null) {
+            couponService.useCoupon(couponIdx);
+            log.info(couponIdx +  "페이지에서 보내주는 couponIdx");
+        }
 
         return "redirect:/member/memberpage/index";
     }

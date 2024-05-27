@@ -25,13 +25,21 @@ public class CouponService {
     private final ModelMapper modelMapper;
     private final MemberRepository memberRepository;
 
-    public Long register(CouponDTO couponDTO) {
+    public Long register(CouponDTO couponDTO) throws Exception {
         // memberId로 Member entity 찾기
         Optional<Member> optionalMember = memberRepository.findByMemberEmail(couponDTO.getMemberEmail());
 
         if (!optionalMember.isPresent()) {
             // throw exception or return, as per your requirement
             throw new IllegalArgumentException("해당하는 유저를 찾지 못했습니다");
+        }
+
+        // 해당 회원이 이미 해당 쿠폰을 받았는지 확인
+        Optional<Coupon> existingCoupon = couponRepository.findByMemberAndCouponName(optionalMember.get(), couponDTO.getCouponName());
+
+        if (existingCoupon.isPresent()) {
+            // 이미 쿠폰을 받았기 때문에 예외를 던집니다.
+            throw new IllegalArgumentException("이미 발급하신 쿠폰입니다");
         }
 
         // CouponDTO를 Coupon entity로 변환

@@ -524,14 +524,11 @@
             if (!memberId) {
                 alert("로그인 먼저 해주세요");
                 window.location.href = "/member/login"; // 로그인 전이면 로그인 페이지로 이동
-            // } else if (localStorage.getItem(memberId)) {
-            //     alert("이미 쿠폰을 발급 받으셨습니다."); // 이미 쿠폰을 받은 경우
             } else {
-                alert("쿠폰이 발급되었습니다"); // 로그인 상태이면서 쿠폰을 아직 받지 않은 경우
-                // localStorage.setItem(memberId, true);  // 쿠폰을 받았음을 저장
-                sendCouponData();
+                sendCouponData(); // 로그인 상태이면서 쿠폰을 아직 받지 않은 경우
             }
         }
+
         function sendCouponData() {
             let memberId = document.getElementById('memberId').dataset.memberId;
 
@@ -549,16 +546,17 @@
                 })
             }).then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    return response.text().then(text => { throw new Error(text) });
                 }
-                return response.json();
-            }).then(data => {
-                console.log('Success:', data);
-            }).catch((error) => {
-                console.error('Error:', error);
-            });
+                return response.text();
+            })
+                .then(responseMessage => {
+                    alert("쿠폰이 발급되었습니다"); // Here we show the successful message
+                })
+                .catch(error => {
+                    alert("이미 발급한 쿠폰입니다.");
+                });
         }
-
     </script>
 </div>
 </body>
