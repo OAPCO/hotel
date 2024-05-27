@@ -44,7 +44,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     List<String> searchNotEmptyRoom(Long storeIdx);
 
 
-    //비어있는 객실(roomStatus=0) 타입 중복없이 조회하기
+    //비어있는 객실(roomStatus=0) 타입 속성값만 중복없이 조회하기
     @Query(value = "SELECT r.roomType FROM Room r " +
             "LEFT JOIN RoomOrder o ON r.store.storeIdx = o.storeIdx " +
             "WHERE r.store.storeIdx = :storeIdx " +
@@ -52,8 +52,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "GROUP BY r.roomType")
     List<String> searchEmptyRoom(Long storeIdx);
 
-
-
+    //비어있는 객실의 room 객체 목록 조회하기
     @Query(value = "SELECT r FROM Room r " +
             "WHERE r.store.storeIdx = :storeIdx " +
             "and r.roomStatus = 0 " +
@@ -61,23 +60,17 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     List<Room> roomTypeSearch(Long storeIdx);
 
 
+    //호텔의 모든 객실 중복없이 불러오기
+    @Query(value = "SELECT r FROM Room r " +
+            "WHERE r.store.storeIdx = :storeIdx " +
+            "GROUP BY r.roomType")
+    List<Room> storeroomTypeSearch(Long storeIdx);
+
+
 //    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
 //            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
 //            "and r1.store.storeIdx = :storeIdx")
 //    List<Room> roomTypeSearch(Long storeIdx);
-
-
-
-
-
-
-//dlrj@@@@@@@
-    @Query(value = "SELECT r FROM Room r " +
-            "WHERE r.store.storeIdx = :storeIdx " +
-            "and r.roomStatus = 0 " +
-            "GROUP BY r.roomType")
-    List<Room> roomTypeS2earch(Long storeIdx);
-
 
 
 
@@ -122,7 +115,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 
 
     //호텔의 특정 roomType의 정보 불러오는 쿼리 (사용처 : 매니저의 객실 생성 페이지 - roomregister)
-    @Query(value = "SELECT r.roomType FROM Room r " +
+    @Query(value = "SELECT r FROM Room r " +
             "WHERE r.store.storeIdx = :storeIdx " +
             "and r.roomType = :roomType "+
             "GROUP BY r.roomType")

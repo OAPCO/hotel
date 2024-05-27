@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mypagelayout}">
+<head>
+    <title>체크인</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="card" style="width: 80%; padding-left: 10%; text-align: center">
+            <div class="card-header"><h4>안녕하세요 회원님 !</h4></div>
+            <div class="card-body">
+                <p>체크인 하시겠습니까 ?</p>
+                <form action="/member/memberpage/qrcheckin" method="post">
+                    <button type="submit" class="btn btn-outline-primary">체크인</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

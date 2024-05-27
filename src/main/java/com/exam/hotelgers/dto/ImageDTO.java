@@ -27,6 +27,7 @@ public class ImageDTO extends BaseEntity {
     private Long imageIdx;
 
     private String imgName;
+    private Long storeIdx;
 
     private Long bannerIdx;
 
