@@ -104,40 +104,13 @@
                         </tr>
                         <tr>
                             <td rowspan="3">주소</td>
-                            <td th:text="${store.storePostNo}">[우편번호]</td>
+                            <td>[우편번호]</td>
                         </tr>
                         <tr>
                             <td th:text="${store.storeAddr}">[주소]</td>
                         </tr>
                         <tr>
                             <td th:text="${store.storeAddrDetail}">[상세주소]</td>
-                        </tr>
-                        <tr>
-                            <td class="col">제휴 상태</td>
-                            <td class="col">
-                                <th:block th:switch="${store.storeStatus.name()}">
-                                    <span th:case="ON">제휴중</span>
-                                    <span th:case="OFF">미제휴</span>
-                                </th:block>
-                            </td>
-                            <td class="col">매장 등록일</td>
-                            <td th:text="${#temporals.format(store.regdate, 'yyyy-MM-dd')}"></td>
-                        </tr>
-                        <tr>
-                            <td class="col-2">매장 상세</td>
-                            <td class="col" th:text="${store.storeSummary}">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-2">영업 여부</td>
-                            <td class="col-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox"
-                                           th:checked="${store.storeOpenState == 0}"
-
-                                           disabled>
-                                </div>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -159,31 +132,6 @@
                         <td rowspan="7" class="col-10">
                             <img
                                     th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${store.storeimgName}|" width="150" height="100">
-                        </td>
-                    </tr>
-
-                    <tr class="row">
-                        <td rowspan="7" class="col-2">매장결제타입</td>
-                        <td rowspan="7" class="col-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="storePaymentType" value="1"
-                                       th:checked="${store.storePaymentType == 1}" disabled>
-                                <label class="form-check-label">
-                                    선불
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="storePaymentType" value="0"
-                                       th:checked="${store.storePaymentType == 0}" disabled>
-                                <label class="form-check-label">
-                                    후불
-                                </label>
-                            </div>
-                        </td>
-                        <td rowspan="2" class="col-2 ">영업시간</td>
-                        <td class="col-4">
-                            <div>영업 시작: <input type="time" th:value="${store.storeOpenTime}" readonly> ~ 영업
-                                끝:<input type="time" th:value="${store.storeCloseTime}" readonly></div>
                         </td>
                     </tr>
                     <tr class="row">
