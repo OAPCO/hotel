@@ -51,10 +51,10 @@ public class OrderController {
     private final RewardService rewardService;
     private  final CouponService couponService;
 
-//    @GetMapping("/admin/manager/order/register")
-//    public String register() {
-//        return "admin/manager/order/register";
-//    }
+    @GetMapping("/admin/manager/order/register")
+    public String register() {
+        return "admin/manager/order/register";
+    }
 
 
     @PostMapping("/admin/manager/order/register")
@@ -83,9 +83,11 @@ public class OrderController {
 
         couponService.useCoupon(couponIdx);
         log.info(couponIdx +  "페이지에서 보내주는 couponIdx");
-        redirectAttributes.addFlashAttribute("result", menuorderIdx);
 
-        return "redirect:/member/memberpage/index";
+
+        redirectAttributes.addFlashAttribute("result", orderDTO);
+
+        return "redirect:/member/memberpage/paypage";
     }
 
 

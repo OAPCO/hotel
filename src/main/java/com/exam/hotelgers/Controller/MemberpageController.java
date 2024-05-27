@@ -201,11 +201,14 @@ public class MemberpageController {
 
 
     @PostMapping("/member/memberpage/paypage")
-    public String paylogicProc(RoomOrderDTO roomOrderDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
+    public String paylogicProc(RoomOrderDTO roomOrderDTO,MenuOrderDTO menuOrderDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
 
-
-
-        redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
+        if (roomOrderDTO != null){
+            redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
+        }
+        if (menuOrderDTO != null) {
+            redirectAttributes.addFlashAttribute("menuOrderDTO",menuOrderDTO);
+        }
 
 
         return "redirect:/member/memberpage/paypage";
@@ -215,13 +218,18 @@ public class MemberpageController {
 
 
     @GetMapping("/member/memberpage/paypage")
-    public String paypageform(RoomOrderDTO roomOrderDTO,Model model,Principal principal){
+    public String paypageform(RoomOrderDTO roomOrderDTO,MenuOrderDTO menuOrderDTO,Model model,Principal principal){
 
 
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
 
-        model.addAttribute("roomOrderDTO",roomOrderDTO);
+        if (roomOrderDTO != null){
+            model.addAttribute("roomOrderDTO",roomOrderDTO);
+        }
+        if (menuOrderDTO != null) {
+            model.addAttribute("menuOrderDTO",menuOrderDTO);
+        }
         model.addAttribute("memberDTO",memberDTO);
 
         return "member/memberpage/paypage";
@@ -335,11 +343,13 @@ public class MemberpageController {
 
 
 
-    @PostMapping("/member/memberpage/menuorder")
-    public String menuorderproc(@RequestBody MenuOrderDTO menuOrderDTO) {
-        Long menuOrderId = menuOrderService.register(menuOrderDTO);
-        return "redirect:/member/memberpage/index";
-    }
+//    @PostMapping("/member/memberpage/menuorder")
+//    public String menuorderproc(@RequestBody MenuOrderDTO menuOrderDTO,RedirectAttributes redirectAttributes) {
+//        Long menuOrderId = menuOrderService.register(menuOrderDTO);
+//
+//
+//        return "redirect:/member/memberpage/index";
+//    }
 
 
 

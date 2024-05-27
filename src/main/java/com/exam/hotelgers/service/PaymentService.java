@@ -58,13 +58,14 @@ public class PaymentService {
 
 
 
-    public Page<PaymentDTO> list(Pageable pageable){
+    //매장의 결제내역 리스트
+    public Page<PaymentDTO> list(Pageable pageable,Long storeIdx){
 
         int currentPage = pageable.getPageNumber()-1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"paymentIdx"));
 
-        Page<Payment> payments = paymentRepository.findAll(page);
+        Page<Payment> payments = paymentRepository.storesalesSearch(page,storeIdx);
 
 
         Page<PaymentDTO> paymentDTOS = payments.map(data->modelMapper.map(data,PaymentDTO.class));
@@ -77,5 +78,9 @@ public class PaymentService {
     public void delete(Long paymentIdx){
         paymentRepository.deleteById(paymentIdx);
     }
+
+
+
+
 }
 
