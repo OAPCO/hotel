@@ -25,8 +25,7 @@ public interface MenuSheetRepository extends JpaRepository<MenuSheet,Long> {
     List<MenuSheet> findByMenuOrderMenu(Long menuOrderIdx);
 
 
-    @Query("select m.menuorderName from MenuSheet m where m.menuOrder.menuorderCd = :menuOrderCd")
-    List<String> findMenuSheetPayment(String menuOrderCd);
+
 
 
 }

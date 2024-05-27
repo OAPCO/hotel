@@ -23,7 +23,7 @@ public class Payment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_sql")
     private Long paymentIdx;
 
-    private int paymentPrice;
+    private String paymentPrice;
 
     private String memberName;
     private String memberPhone;

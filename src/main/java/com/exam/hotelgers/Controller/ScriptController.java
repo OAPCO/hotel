@@ -140,7 +140,7 @@ public class ScriptController {
         searchDTO.setReservationDateCheckoutDate(end);
 
         log.info("날짜로그1 : "+searchDTO.getReservationDateCheckinDate());
-        log.info("날짜로그2 : "+searchDTO.getReservationDateCheckinDate());
+        log.info("날짜로그2 : "+searchDTO.getReservationDateCheckoutDate());
 
         //예약 가능한 객실 타입의 목록
         List<String> passRooms = new ArrayList<>();
@@ -153,6 +153,7 @@ public class ScriptController {
 
         //빈 객실 타입의 목록
         List<String> emptyRooms = roomRepository.searchEmptyRoom(searchDTO.getStoreIdx());
+
 
 
 
@@ -215,6 +216,14 @@ public class ScriptController {
 
 
 
+
+        log.info("예약가능객실 : "+passRooms);
+        log.info("안 빈 객실 : "+notEmptyRooms);
+        log.info("전체 객실 : "+allRooms);
+        log.info("빈 객실 타입 : "+emptyRooms);
+        log.info("최종통과객실 : "+passRoomList);
+        log.info("최종불통객실 : "+notRoomList);
+        
 
         Map<String, Object> result = new HashMap<>();
 

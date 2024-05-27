@@ -25,7 +25,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     List<Store> findByBrandCd(String brandCd);
 
-
+    //storeIdx로 매장명 찾기
+    @Query("select s.storeName from Store s where s.storeIdx = :storeIdx")
+    String findStoreName(Long storeIdx);
 
     //roomOrderidx로 매장명 찾기
     @Query("select s.storeName from Store s join RoomOrder o on s.storeIdx = o.storeIdx where o.roomorderIdx = :roomorderIdx")
