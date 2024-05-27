@@ -10,41 +10,41 @@
 <body>
 <div layout:fragment="content">
     <div class="container-fluid" style="max-width: 80%;">
-        <th:block th:if="${roomOrderDTO != null}">
-        <div class="card" style="max-width: 100%; padding-right: 20px;">
-            <div class="card-title">
-                <h3>현재 이용중</h3>
-            </div>
-            <div class="card-body">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>매장명</th>
-                        <th>룸 이름</th>
-                        <th>체크인</th>
-                        <th>예약일자</th>
-                        <th>예약자명</th>
-                        <th>       </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td th:text="${room.roomorderIdx}">1</td>
-                        <td th:text="${storeName}">롯데호텔 서울점</td>
-                        <td th:text="${roomName}">괜찮은방</td>
-                        <td th:text="${room.reservationDateCheckin}">2024-05-18</td>
-                        <td th:text="${#strings.substringBefore(room.regdate, 'T')}">2024-05-18</td>
-                        <td th:text="${memberDTO.memberName}"></td>
-                        <td> <a><button class="btn btn-primary btn-sm">후기 남기기</button></a></td>
-                    </tr>
+<!--        <th:block th:if="${roomOrderDTO != null}">-->
+<!--        <div class="card" style="max-width: 100%; padding-right: 20px;">-->
+<!--            <div class="card-title">-->
+<!--                <h3>현재 이용중</h3>-->
+<!--            </div>-->
+<!--            <div class="card-body">-->
+<!--                <table>-->
+<!--                    <thead>-->
+<!--                    <tr>-->
+<!--                        <th>번호</th>-->
+<!--                        <th>매장명</th>-->
+<!--                        <th>룸 이름</th>-->
+<!--                        <th>체크인</th>-->
+<!--                        <th>예약일자</th>-->
+<!--                        <th>예약자명</th>-->
+<!--                        <th>       </th>-->
+<!--                    </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                    <tr>-->
+<!--                        <td th:text="${room.roomorderIdx}">1</td>-->
+<!--                        <td th:text="${storeName}">롯데호텔 서울점</td>-->
+<!--                        <td th:text="${roomName}">괜찮은방</td>-->
+<!--                        <td th:text="${room.reservationDateCheckin}">2024-05-18</td>-->
+<!--                        <td th:text="${#strings.substringBefore(room.regdate, 'T')}">2024-05-18</td>-->
+<!--                        <td th:text="${memberDTO.memberName}"></td>-->
+<!--                        <td> <a><button class="btn btn-primary btn-sm">후기 남기기</button></a></td>-->
+<!--                    </tr>-->
 
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <p></p>
-        </th:block>
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <p></p>-->
+<!--        </th:block>-->
         <div class="card" style="max-width: 100%; padding-right: 20px;">
             <div class="card-title">
                 <h3 style="margin-left: 1px;">룸 예약 내역</h3>

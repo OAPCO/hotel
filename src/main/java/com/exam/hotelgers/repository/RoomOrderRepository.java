@@ -103,6 +103,9 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
             "and r.roomStatus = 2")
     Optional<RoomOrder> findmemberInRoomOrder(Long memberIdx);
 
+    //오늘 날짜가 룸오더의 예상 체크인 체크아웃 날짜 사이에 위치하는 것만 memberIdx로 검색해서 가져오기
+    @Query("SELECT ro FROM RoomOrder ro WHERE ro.memberIdx = :memberIdx AND :today BETWEEN ro.reservationDateCheckinDate AND ro.reservationDateCheckoutDate")
+    RoomOrder findRoomOrderForToday(@Param("memberIdx") Long memberIdx, @Param("today") LocalDateTime today);
 
 
 }

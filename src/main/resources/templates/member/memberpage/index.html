@@ -149,6 +149,25 @@
 <div layout:fragment="content">
     <div id="fullpage">
         <div class="section" id="section0" style="color: white;">
+            <!-- Modal -->
+            <div th:if="${alert}" id="alertModal" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Alert</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p th:text="${alert}"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="text_box">
                 <span id="fixedText" style="margin-bottom: 20px;">호텔져스와 함께 어디든<br></span>
                 <span id="rotateText" class="text"></span><span class="blink">|</span>
@@ -314,6 +333,7 @@
 <!--            </div>-->
 <!--        </div>-->
         <div class="section" id="section1">
+            <input type="hidden" id="message" th:value="${message}">
             <div style="display: flex; flex-direction: column; height: 100vh;">
                 <!-- 첫번째 이미지 배경 div -->
                 <div style="flex: 1; background: url('https://cdn.pixabay.com/photo/2017/11/24/10/43/ticket-2974645_1280.jpg') no-repeat center center; background-size: cover;">
@@ -557,6 +577,15 @@
                     alert("이미 발급한 쿠폰입니다.");
                 });
         }
+    </script>
+    <!-- Script to Open the Modal -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var message = document.querySelector("#message");
+            if (message && message.value) {
+                alert(message.value);
+            }
+        });
     </script>
 </div>
 </body>

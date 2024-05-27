@@ -1,42 +1,35 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
-import com.exam.hotelgers.entity.Member;
-import com.exam.hotelgers.entity.MenuOrder;
 import com.exam.hotelgers.entity.RoomOrder;
-import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.*;
 import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.service.MemberService;
 import com.exam.hotelgers.service.QnaService;
 import com.exam.hotelgers.service.SearchService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import com.exam.hotelgers.util.PageConvert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -306,9 +299,8 @@ public class MemberpageController {
 
 
 
-    //인덱스에서 메뉴 주문 버튼 누를 시 로그인 여부/예약 여부 확인해서 링크 타도록 변경
     @GetMapping("/member/memberpage/menuordercheck")
-    public String menuordercheckform(Principal principal) throws Exception {
+    public String menuordercheckform(Principal principal, Model model) throws Exception {
         // Check if user is not logged in
         if (principal == null) {
             return "redirect:/member/login";
@@ -317,10 +309,15 @@ public class MemberpageController {
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
         log.info(memberDTO.getMemberIdx());
 
-        // Check if logged in user has reservation
+        // 체크인 되어 있는 방 예약 내역 찾기 , status가 2여야 함 ( 체크인 중 )
         RoomOrderDTO optedRoomOrder = roomOrderService.findmemberInRoomOrder(memberDTO.getMemberIdx());
 
-//        모든 조건 충족 시 아래 링크로 이동
+        // If alert message exists (meaning QR check-in was successful), add it to model to be displayed in view
+        if(model.containsAttribute("alert")) {
+            model.addAttribute("alert", model.asMap().get("alert"));
+        }
+
+        // 모든 조건 충족 시 아래 링크로 이동
         return "redirect:/member/memberpage/menuorder/" + optedRoomOrder.getRoomorderIdx();
     }
 
@@ -644,7 +641,33 @@ public class MemberpageController {
     }
 
 
+    @GetMapping("/member/memberpage/qrcheckin")
+    public String showQrCheckinForm(Principal principal, RedirectAttributes redirectAttributes, HttpServletRequest request, HttpSession session) {
+        if (principal == null) {
+            session.setAttribute("SPRING_SECURITY_SAVED_REQUEST", request.getServletPath());
+            redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요");
+            return "redirect:/member/login";
+        }
 
+        // checkin form을 보여주는 로직
+        // 예를 들어, 특정 확인 페이지를 보여줄 수도 있습니다:
+        return "member/memberpage/qrcheckin";
+    }
+
+    @PostMapping("/member/memberpage/qrcheckin")
+    public String qrcheckinForm(Principal principal, RedirectAttributes redirectAttributes) {
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+        RoomOrder roomOrder = roomOrderRepository.findRoomOrderForToday(memberDTO.getMemberIdx(), LocalDateTime.now());
+        if(roomOrder != null){
+            roomOrder.setRoomStatus(2);
+            roomOrderRepository.save(roomOrder);
+            redirectAttributes.addFlashAttribute("message", "QR체크인이 완료되었습니다.");
+            return "redirect:/member/memberpage/index";
+        } else {
+            redirectAttributes.addFlashAttribute("message", "오늘 예약한 방이 없습니다");
+            return "redirect:/member/memberpage/index";
+        }
+    }
 
     @GetMapping ("/member/memberpage/koreafood")
     public String koreafoodform(){

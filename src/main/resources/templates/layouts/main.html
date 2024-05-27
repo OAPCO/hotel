@@ -74,13 +74,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                         </ul>
                     </li>
 
-                    <li><a class="dropdown-item" href="/member/list">회원 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/dist/list">총판 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/store/list">매장 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/brand/list">브랜드 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/manager/list">매장주 관리</a></li>
-                    <li><a class="dropdown-item" href="/admin/distchief/order/menuorderlist">매출 관리(미)</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/member/list"><i class="bi bi-gear-fill"></i>회원 관리</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/dist/list"><i class="bi bi-gear-fill"></i>총판 관리</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/store/list"><i class="bi bi-gear-fill"></i>매장 관리</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/brand/list"><i class="bi bi-gear-fill"></i>브랜드 관리</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/manager/list"><i class="bi bi-gear-fill"></i>매장주 관리</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/order/menuorderlist"><i class="bi bi-gear-fill"></i>매출 관리(미)</a></li>
+                    <li class="nav-item">
+                        <button class="nav-link" onclick="pwchange()">
+                            <i class="bi bi-gear-fill"></i><span> 비밀번호변경</span>
+                        </button>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
 
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
@@ -106,7 +111,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!--푸터-->
     <div th:replace="~{fragments/footer::footer}" style="background-color: #dddfeb">
     </div>
+<script th:inline="javascript">
+    function pwchange() {
+        var baseUrl = /*[[ @{/} ]]*/ '';
+        var popupUrl = baseUrl + "/admin/admin/manage/pwchange";  // Absolute URL
+        var popupOption = "width=500, height=400"; // Popup window size
+        // Open the popup window
+        window.open(popupUrl, "비밀번호변경", popupOption);
 
+    }
+</script>
 
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="/assets/js/bs-init.js"></script>
