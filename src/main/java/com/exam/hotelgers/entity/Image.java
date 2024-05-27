@@ -28,6 +28,7 @@ public class Image extends BaseEntity {
     private String imgName;
 
     private Long bannerIdx;
+    private Long storeIdx;
 
     private String roomImageType;
 

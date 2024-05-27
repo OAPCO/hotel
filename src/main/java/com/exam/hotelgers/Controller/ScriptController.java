@@ -240,12 +240,17 @@ public class ScriptController {
     @GetMapping(value = "/roomtypeimage", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> roomTypeImageReadProc(SearchDTO searchDTO) throws Exception {
 
+
+        log.info("화아긴"+searchDTO.getRoomType());
+        log.info(searchDTO.getStoreIdx());
+
         Map<String, Object> result = new HashMap<>();
         
         List<ImageDTO> roomTypeDetailImages = imageService.roomTypeDetailImageSearch(searchDTO);
         ImageDTO roomTypeMainImage = imageService.roomTypeMainImageSearch(searchDTO);
 
-
+        log.info("roomTypeDetailImages : "+ roomTypeDetailImages);
+        log.info("roomTypeMainImage : "+ roomTypeMainImage);
 
         result.put("roomTypeDetailImages", roomTypeDetailImages);
         result.put("roomTypeMainImage", roomTypeMainImage);

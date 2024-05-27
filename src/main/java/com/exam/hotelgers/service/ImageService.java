@@ -86,6 +86,7 @@ public class ImageService {
             image.setImgName(newFileName);
             image.setRoomImageType(roomType);
             image.setRoomImageMain(0);
+            image.setStoreIdx(storeIdx);
 
             imageRepository.save(image);
         }
@@ -134,6 +135,7 @@ public class ImageService {
             image.setImgName(newFileName);
             image.setRoomImageType(roomType);
             image.setRoomImageMain(1);
+            image.setStoreIdx(storeIdx);
 
             imageRepository.save(image);
 
