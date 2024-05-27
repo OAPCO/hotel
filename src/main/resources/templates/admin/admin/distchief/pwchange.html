@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>팀이름</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="/assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <th:block layout:fragment="script"></th:block>
+    <th:block layout:fragment="css"></th:block>
+    <link rel="stylesheet" href="/yhh.css">
+    <style>
+        td, th {
+            white-space: nowrap;
+        }
+        th {
+            text-align: center; /* 가로 중앙 정렬 */
+            vertical-align: middle; /* 세로 중앙 정렬 */
+        }
+    </style>
+    <title>총판조직 관리</title>
+</head>
+<body id="page-top">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header" style="margin: 50px 20px;">
+            <h6><strong>비밀번호 변경</strong></h6>
+            <!-- Message Display Section -->
+            <div th:value="${result != null}">
+                <div th:if="${result == true}" class="alert alert-success">
+                    비밀번호가 성공적으로 변경되었습니다.
+                </div>
+                <div th:if="${result == false}" class="alert alert-danger">
+                    현재 비밀번호가 일치하지 않습니다.
+                </div>
+            </div>
+            <!-- End of Message Display Section -->
+            <form id="passwordForm" method="post" action="/admin/distchief/pwcheck">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>현재 비밀번호</th>
+                            <td class="align-middle text-start">
+                                <input type="password" name="currentPassword" id="currentPassword" style="width:200px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>새 비밀번호</th>
+                            <td class="align-middle text-start">
+                                <input type="password" name="newPassword" id="newPassword" style="width:200px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>새 비밀번호 확인</th>
+                            <td class="align-middle text-start">
+                                <input type="password" name="newPassword2" id="newPassword2" style="width:200px;">
+                            </td>
+                        </tr>
+                        </thead>
+                    </table>
+                    <div style="text-align: right;">
+                        <button id="memberUpdate" class="btn text-white m-2" style="background-color: #36b9cc;" value="회원 정보 수정"
+                                th:onclick="memberUpdate()">변경</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#passwordForm').submit(function(event) {
+            event.preventDefault(); // 폼 제출 방지
+
+            // 새 비밀번호 공백 및 띄어쓰기 제거
+            var newPassword = $('#newPassword').val().trim();
+            $('#newPassword').val(newPassword);
+
+            // 새 비밀번호 확인 공백 및 띄어쓰기 제거
+            var newPassword2 = $('#newPassword2').val().trim();
+            $('#newPassword2').val(newPassword2);
+
+            // 새 비밀번호가 빈 문자열이면 경고 메시지 표시
+            if (newPassword === '') {
+                alert('새 비밀번호를 입력하세요.');
+                return;
+            }
+
+            // 새 비밀번호와 새 비밀번호 확인이 다르면 경고 메시지 표시
+            if (newPassword !== newPassword2) {
+                alert('새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.');
+                return;
+            }
+
+            $.post('/admin/distchief/pwcheck', $(this).serialize(), function(response) {
+                // Handling response on the client side can be optional as Thymeleaf will handle it server-side.
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

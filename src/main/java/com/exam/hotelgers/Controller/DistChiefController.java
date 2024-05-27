@@ -112,7 +112,7 @@ public class DistChiefController {
 
         redirectAttributes.addFlashAttribute("result", distChiefIdx);
 
-        return "admin/admin/distchief/list";
+        return "redirect:/admin/admin/distchief/list";
     }
 
 
