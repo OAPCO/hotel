@@ -32,8 +32,8 @@
                         <div class="text-md-end dataTables_filter" id="dataTable_filter"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
                     </div>
                 </div>
-                <td class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                    <table class="table my-0" id="dataTable">
+                <td class="table-responsive table mt-2" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" >
                         <thead>
 
 
@@ -58,7 +58,7 @@
                             <td th:text="${data.distChiefPhone}"></td>
                             <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
 
-                            <td><a th:href="@{'/distchief/delete/'+${data.distChiefIdx}}">삭제</a></td>
+                            <td><a th:href="@{'/admin/distchief/delete/'+${data.distChiefIdx}}">삭제</a></td>
 
                         </tr>
 
@@ -67,14 +67,12 @@
 
 
                     </table>
-
-
-                        <td><a th:href="@{/admin/distchief/register}">신규등록</a></td>
                 </div>
-
-
-                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/distchief/register}'|">등록</button>
-
+                <div style="text-align: right">
+                    <a th:href="@{/admin/distchief/register}">
+                        <button class="btn btn-primary">등록</button>
+                    </a>
+                </div>
         <ul class="mt-3 pagination">
             <li class="page-item"><a class="page-link" th:href="@{/admin/distchief/list(page=${prevPage})}"><</a></li>
             <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">

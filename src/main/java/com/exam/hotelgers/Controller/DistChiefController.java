@@ -153,4 +153,12 @@ public class DistChiefController {
 
         return "redirect:/admin/admin/distchief/pwchange";
     }
+
+    @GetMapping("/admin/distchief/delete/{distchiefIdx}")
+    public String deleteProc(@PathVariable Long distchiefIdx) {
+
+        distChiefService.delete(distchiefIdx);
+
+        return "admin/distchief/list";
+    }
 }

@@ -63,6 +63,8 @@ public class MemberpageController {
     private final NoticeService noticeService;
     private final ReviewService reviewService;
 
+
+
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
     @Value("${cloud.aws.region.static}")
@@ -120,7 +122,12 @@ public class MemberpageController {
 
 
     @GetMapping("/member/memberpage/{storeIdx}")
-    public String hotelreadform(Model model, @PathVariable Long storeIdx,Principal principal) throws Exception {
+    public String hotelreadform(Model model, @PathVariable Long storeIdx,Principal principal, RedirectAttributes redirectAttributes) throws Exception {
+
+        if (principal == null){
+            redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요");
+            return "redirect:/member/login";
+        }
 
 
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);

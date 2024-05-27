@@ -100,7 +100,7 @@
                             </p>
                             <!-- 평균 별점을 별로 표시 -->
                             <div th:if="${store.averageRating != null}" class="star-rating" style="flex-shrink: 0;
-                            margin-right: 70%;">
+                            margin-right: 50%;">
                                 <!-- 반복문을 사용하여 store.averageRating만큼 별을 표시 -->
                                 <span class="star" th:each="rating : ${#numbers.sequence(1, store.averageRating)}" style="color: gold; font-size: 2em;">&#9733;</span>
                             </div>
@@ -113,12 +113,6 @@
                         </div>
                         <p></p>
                         <p style="margin: 10px 0 0; font-size: 18px;" th:text="${store.storeSummary}"></p>
-                        <div style="position: relative;">
-                            <a th:href="@{'/member/memberpage/'+${store.storeIdx}}">
-                                <button class="btn btn-outline-primary btn-lg" style="position: absolute; bottom: 0;
-                                right: 0;">상세보기</button>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
