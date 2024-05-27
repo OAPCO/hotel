@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,9 @@ public interface MenuOrderRepository extends JpaRepository<MenuOrder,Long> {
     List<MenuOrder> findByListMenuorderIdx(Long roomorderIdx);
 
 
+    @Query("select m from MenuOrder m where m.menuorderCd = :menuOrderCd")
+    Optional<MenuOrder> findMenuSheetPayment(String menuOrderCd);
+
     List<MenuOrder>findByMemberIdx(Long memberIdx);
 
     Page<MenuOrder> findByStoreIdx(Long storeIdx, Pageable pageable);
@@ -32,6 +36,9 @@ public interface MenuOrderRepository extends JpaRepository<MenuOrder,Long> {
 
 
     List<MenuOrder> findByRoomorderIdx(Long roomIdx);
+
+
+
 
 
 }

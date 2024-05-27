@@ -136,6 +136,8 @@ public class MemberpageController {
         //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
         List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeIdx);
 
+        log.info("테스트123" + roomTypeList);
+
         //매장과 룸 인덱스가 일치하는 이미지중 세부이미지들을 불러오는 쿼리문을 실행한다.
         List<ImageDTO> roomImageList = imageService.roomImageSearch(storeIdx);
 
@@ -228,18 +230,17 @@ public class MemberpageController {
     public String menupaypageform(@ModelAttribute("result") MenuOrderDTO menuOrderDTO,Model model,Principal principal){
 
 
+        log.info("메뉴오다디티이"+menuOrderDTO);
+
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
-        //결제건의 메뉴명들을 불러온다.
-        List<String> menuNameList = menuSheetRepository.findMenuSheetPayment(menuOrderDTO.getMenuorderCd());
 
 
-        log.info("메뉴오다디티오 : "+menuOrderDTO);
-
+        String storeName = storeRepository.findStoreName(menuOrderDTO.getStoreIdx());
 
         model.addAttribute("menuOrderDTO",menuOrderDTO);
         model.addAttribute("memberDTO",memberDTO);
-        model.addAttribute("menuNameList",menuNameList);
+        model.addAttribute("storeName",storeName);
 
         return "member/memberpage/menupaypage";
     }
@@ -279,10 +280,10 @@ public class MemberpageController {
 
 
     @PostMapping("/menupaycheck")
-    public String menupayCheckProc(MenuOrderDTO menuOrderDTO,PaymentDTO paymentDTO,RedirectAttributes redirectAttributes){
+    public String menupayCheckProc(@Valid MenuOrderDTO menuOrderDTO,PaymentDTO paymentDTO,RedirectAttributes redirectAttributes){
 
 
-        //객실예약 추가
+
         menuOrderService.register(menuOrderDTO);
 
         //결제테이블 컬럼 추가
@@ -296,10 +297,6 @@ public class MemberpageController {
         return "redirect:/member/mypage/history";
 
     }
-
-
-
-
 
 
 
