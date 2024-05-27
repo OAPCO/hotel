@@ -1,7 +1,10 @@
 package com.exam.hotelgers.Controller;
 
+import com.exam.hotelgers.dto.BrandDTO;
 import com.exam.hotelgers.dto.PaymentDTO;
+import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.service.PaymentService;
+import com.exam.hotelgers.service.StoreService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -26,6 +30,7 @@ import java.util.Map;
 public class PaymentController {
 
     private final PaymentService paymentservice;
+    private final StoreService storeService;
 
 
 
@@ -58,19 +63,19 @@ public class PaymentController {
     }
 
 
-    @GetMapping("/payment/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
-
-        log.info("payment listForm 도착 ");
-
-        Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable);
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", paymentDTOS);
-        return "payment/list";
-    }
+//    @GetMapping("/payment/list")
+//    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
+//
+//        log.info("payment listForm 도착 ");
+//
+//        Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable);
+//
+//        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+//
+//        model.addAllAttributes(pageinfo);
+//        model.addAttribute("list", paymentDTOS);
+//        return "payment/list";
+//    }
 
 
 
@@ -124,4 +129,25 @@ public class PaymentController {
         model.addAttribute("paymentDTO",paymentDTO);
         return "payment/read";
     }
+
+
+
+
+    @GetMapping("/admin/manager/storesales")
+    public String storeSalesForm(@PageableDefault(page=1) Pageable pageable, Principal principal, Model model) throws Exception {
+
+        StoreDTO storeDTO = storeService.searchStoreuserId(principal);
+
+        Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable, storeDTO.getStoreIdx());
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("storeDTO", storeDTO);
+        model.addAttribute("list", paymentDTOS);
+
+
+        return "admin/manager/storesales";
+    }
+
 }

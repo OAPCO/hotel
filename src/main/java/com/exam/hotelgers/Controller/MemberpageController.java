@@ -201,11 +201,14 @@ public class MemberpageController {
 
 
     @PostMapping("/member/memberpage/paypage")
-    public String paylogicProc(RoomOrderDTO roomOrderDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
+    public String paylogicProc(RoomOrderDTO roomOrderDTO,MenuOrderDTO menuOrderDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
 
-
-
-        redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
+        if (roomOrderDTO != null){
+            redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
+        }
+        if (menuOrderDTO != null) {
+            redirectAttributes.addFlashAttribute("menuOrderDTO",menuOrderDTO);
+        }
 
 
         return "redirect:/member/memberpage/paypage";
@@ -215,13 +218,18 @@ public class MemberpageController {
 
 
     @GetMapping("/member/memberpage/paypage")
-    public String paypageform(RoomOrderDTO roomOrderDTO,Model model,Principal principal){
+    public String paypageform(RoomOrderDTO roomOrderDTO,MenuOrderDTO menuOrderDTO,Model model,Principal principal){
 
 
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
 
-        model.addAttribute("roomOrderDTO",roomOrderDTO);
+        if (roomOrderDTO != null){
+            model.addAttribute("roomOrderDTO",roomOrderDTO);
+        }
+        if (menuOrderDTO != null) {
+            model.addAttribute("menuOrderDTO",menuOrderDTO);
+        }
         model.addAttribute("memberDTO",memberDTO);
 
         return "member/memberpage/paypage";
@@ -277,14 +285,8 @@ public class MemberpageController {
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
         log.info(memberDTO.getMemberIdx());
 
-
-
         // Check if logged in user has reservation
         RoomOrderDTO optedRoomOrder = roomOrderService.findmemberInRoomOrder(memberDTO.getMemberIdx());
-
-        if (optedRoomOrder == null) {
-            return "redirect:/member/memberpage/menuordererror";
-        }
 
 //        모든 조건 충족 시 아래 링크로 이동
         return "redirect:/member/memberpage/menuorder/" + optedRoomOrder.getRoomorderIdx();
@@ -341,7 +343,13 @@ public class MemberpageController {
 
 
 
-
+//    @PostMapping("/member/memberpage/menuorder")
+//    public String menuorderproc(@RequestBody MenuOrderDTO menuOrderDTO,RedirectAttributes redirectAttributes) {
+//        Long menuOrderId = menuOrderService.register(menuOrderDTO);
+//
+//
+//        return "redirect:/member/memberpage/index";
+//    }
 
 
 

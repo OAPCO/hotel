@@ -263,14 +263,7 @@ public class StoreController {
     }
 
 
-    @GetMapping("/admin/manager/storesales")
-    public String storeSalesForm(Principal principal, Model model) throws Exception {
 
-        StoreDTO storeDTO = storeService.searchStoreuserId(principal);
-        model.addAttribute("storeDTO", storeDTO);
-
-        return "admin/manager/storesales";
-    }
 
 
     @GetMapping("/admin/manager/storeinfo")

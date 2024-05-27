@@ -31,6 +31,9 @@ public class PaymentDTO {
     //room = 객실예약 결제, service = 룸서비스 결제
     private String paymentType;
 
+    private Long storeIdx;
+    private Long distIdx;
+
 
     private LocalDateTime regdate;
 

@@ -66,53 +66,67 @@
                     <thead>
                     <tr>
                         <th>No</th>
-                        <th>결제분류</th>
-                        <th>결제명</th>
-                        <th>결제자</th>
-                        <th>전화번호</th>
-                        <th>금액</th>
+                        <th>등급</th>
+                        <th>직/가맹</th>
+                        <th>지역</th>
+                        <th>매장코드</th>
+                        <th>매장명</th>
+                        <th>매장주이메일</th>
+                        <th>매장주명</th>
+                        <th>브랜드</th>
+                        <th>상태</th>
+                        <th>메인추천</th>
+                        <th>배너추천</th>
+                        <th>임시</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="data:${list}">
-                        <td th:text="${data.paymentIdx}"></td>
+                        <td th:text="${data.storeIdx}"></td>
 
                         <td>
-                            <th:block th:switch="${data.paymentType}">
-                                <span th:case="room">객실 예약</span>
-                                <span th:case="service">룸서비스</span>
+                            <th:block th:switch="${data.storeGrade.name()}">
+                                <span th:case="ONE">1성</span>
+                                <span th:case="TWO">2성</span>
+                                <span th:case="THREE">3성</span>
+                                <span th:case="FOUR">4성</span>
+                                <span th:case="FIVE">5성</span>
                             </th:block>
                         </td>
 
-                        <td th:text="${data.paymentName}"></td>
-                        <td th:text="${data.memberName}"></td>
-                        <td th:text="${data.memberPhone}"></td>
-                        <td th:text="${data.paymentPrice}"></td>
-                    </tr>
-                    <tr>
-                        <td>매출 합계</td>
-                        <td></td>
+                        <td>
+                            <th:block th:if="${data.storePType.name() == 'DIRECTSTORE'}"><span>직영점</span></th:block>
+                            <th:block th:if="${data.storePType.name() == 'FRANCHISEE'}"><span>가맹점</span></th:block>
+                        </td>
+
+                        <td th:text="${data.storeAddr}">지역. 주소찾기 전체주소 부분. 다른사이트에서 떼오기</td>
+                        <td th:text="${data.storeCd}"></td>
+                        <td>
+                            <a th:text="${data.storeName}" th:href="@{'/admin/distchief/store/'+${data.storeIdx}}" ></a>
+                        </td>
+                        <td th:text="${data.managerDTO.managerEmail}"></td>
+                        <td th:text="${data.managerDTO.managerName}"></td>
+                        <td th:text="${data.brandDTO.brandName}"></td>
+
+                        <td>
+                            <th:block th:if="${data.storeStatus.name() == 'ON'}">
+                                <span class="badge rounded-pill bg-primary">제휴중</span></th:block>
+                            <th:block th:if="${data.storeStatus.name() == 'OFF'}">
+                                <span class="badge rounded-pill bg-secondary">미제휴</span></th:block>
+                        </td>
+
+                        <td>
+                            <input class="form-check-input" type="checkbox" id="checkMain" name="checkMain">
+                        </td>
+                        <td>
+                            <input class="form-check-input" type="checkbox" id="checkBanner" name="checkBanner">
+                        </td>
+
+                        <td><a th:href="@{'/admin/distchief/store/modify/'+${data.storeIdx}}" >수정</a>
+                            /<a th:href="@{'/admin/distchief/store/delete/'+${data.storeIdx}}">삭제</a></td>
                     </tr>
                     </tbody>
                 </table>
-
-
-                <div class="d-flex justify-content-center">
-                    <ul class="mt-3 pagination">
-                        <li class="page-item"><a class="page-link" th:href="@{/admin/manager/storesales(page=${prevPage})}"><</a></li>
-                        <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
-                            <li class="page-item active" th:if="${page == currentPage}">
-                                <a class="page-link" href="#">[[${page}]]</a>
-                            </li>
-                            <li class="page-item" th:unless="${page == currentPage}">
-                                <a class="page-link" th:href="@{/admin/manager/storesales(page=${page})}">[[${page}]]</a>
-                            </li>
-                        </span>
-                        <li class="page-item"><a class="page-link" th:href="@{/admin/manager/storesales(page=${nextPage})}">></a></li>
-                    </ul>
-                </div>
-
-
             </div>
         </div>
     </div>
