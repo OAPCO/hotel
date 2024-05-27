@@ -58,25 +58,30 @@
 <!--            <form id="orderForm">-->
 
 
-                <form action="/paycheck" method="post">
+
+
+                <form action="/menupaycheck" method="post">
 
                     <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
 
-                        <input type="hidden" name="reservationDateCheckin" th:value="${roomOrderDTO.reservationDateCheckin}">
-                        <input type="hidden" name="reservationDateCheckout" th:value="${roomOrderDTO.reservationDateCheckout}">
-                        <input type="hidden" name="peopleNum" th:value="${roomOrderDTO.peopleNum}">
-                        <input type="hidden" name="storeIdx" th:value="${roomOrderDTO.storeIdx}">
-                        <input type="hidden" name="roomIdx" th:value="${roomOrderDTO.roomIdx}">
-                        <input type="hidden" name="roomOrderType" th:value="${roomOrderDTO.roomOrderType}">
-                        <input type="hidden" name="roomPrice" th:value="${roomOrderDTO.roomPrice}">
+
+
+                        <input type="hidden" name="menuorderIdx" th:value="${menuOrderDTO.menuorderIdx}">
+                        <input type="hidden" name="menuorderCd" th:value="${menuOrderDTO.menuorderCd}">
+                        <input type="hidden" name="total" th:value="${menuOrderDTO.total}">
+                        <input type="hidden" name="storeIdx" th:value="${menuOrderDTO.orderState}">
+                        <input type="hidden" name="memberIdx" th:value="${menuOrderDTO.orderRequest}">
+                        <input type="hidden" name="roomIdx" th:value="${menuOrderDTO.roomorderIdx}">
+                        <input type="hidden" name="roomOrderType" th:value="${menuOrderDTO.storeIdx}">
+                        <input type="hidden" name="roomPrice" th:value="${menuOrderDTO.roomIdx}">
 
                         <div class="mb-3">
                             <label for="productName" class="form-label">상품명</label>
-                            <input type="text" class="form-control" id="productName" th:value="${roomOrderDTO.roomOrderType}" name="paymentName">
+                            <input type="text" class="form-control" id="productName" th:value="${menuNameList}" name="paymentName">
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">가격</label>
-                            <input type="number" class="form-control" id="price" th:value="${roomOrderDTO.roomPrice}" name="paymentPrice">
+                            <input type="number" class="form-control" id="price" th:value="${menuOrderDTO.total}" name="paymentPrice">
                         </div>
                         <div class="mb-3">
                             <label for="customerName" class="form-label">주문자</label>
@@ -99,7 +104,13 @@
                             <input type="text" class="form-control" id="address" th:value="${memberDTO.memberAddress}" name="memberAddress">
                         </div>
 
+
                         <button type="submit" class="btn btn-primary"> 결제확정</button>
+                    </th:block>
+
+
+
+
 
 
                 </form>

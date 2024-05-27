@@ -62,6 +62,7 @@ public class MemberpageController {
     private final PaymentService paymentService;
     private final NoticeService noticeService;
     private final ReviewService reviewService;
+    private final MenuSheetRepository menuSheetRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -196,19 +197,11 @@ public class MemberpageController {
 
 
 
-
-
-
-
     @PostMapping("/member/memberpage/paypage")
-    public String paylogicProc(RoomOrderDTO roomOrderDTO,MenuOrderDTO menuOrderDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
+    public String paylogicProc(RoomOrderDTO roomOrderDTO,RedirectAttributes redirectAttributes,Model model,Principal principal){
 
-        if (roomOrderDTO != null){
-            redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
-        }
-        if (menuOrderDTO != null) {
-            redirectAttributes.addFlashAttribute("menuOrderDTO",menuOrderDTO);
-        }
+
+        redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
 
 
         return "redirect:/member/memberpage/paypage";
@@ -218,21 +211,37 @@ public class MemberpageController {
 
 
     @GetMapping("/member/memberpage/paypage")
-    public String paypageform(RoomOrderDTO roomOrderDTO,MenuOrderDTO menuOrderDTO,Model model,Principal principal){
+    public String paypageform(RoomOrderDTO roomOrderDTO, Model model,Principal principal){
 
 
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
-
-        if (roomOrderDTO != null){
-            model.addAttribute("roomOrderDTO",roomOrderDTO);
-        }
-        if (menuOrderDTO != null) {
-            model.addAttribute("menuOrderDTO",menuOrderDTO);
-        }
+        log.info("룸오더디티오 : "+roomOrderDTO);
+        model.addAttribute("roomOrderDTO",roomOrderDTO);
         model.addAttribute("memberDTO",memberDTO);
 
         return "member/memberpage/paypage";
+    }
+
+
+    @GetMapping("/member/memberpage/menupaypage")
+    public String menupaypageform(@ModelAttribute("result") MenuOrderDTO menuOrderDTO,Model model,Principal principal){
+
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+
+        //결제건의 메뉴명들을 불러온다.
+        List<String> menuNameList = menuSheetRepository.findMenuSheetPayment(menuOrderDTO.getMenuorderCd());
+
+
+        log.info("메뉴오다디티오 : "+menuOrderDTO);
+
+
+        model.addAttribute("menuOrderDTO",menuOrderDTO);
+        model.addAttribute("memberDTO",memberDTO);
+        model.addAttribute("menuNameList",menuNameList);
+
+        return "member/memberpage/menupaypage";
     }
 
 
@@ -262,6 +271,26 @@ public class MemberpageController {
 
 
         redirectAttributes.addFlashAttribute("roomOrderDTO",roomOrderDTO);
+
+
+        return "redirect:/member/mypage/history";
+
+    }
+
+
+    @PostMapping("/menupaycheck")
+    public String menupayCheckProc(MenuOrderDTO menuOrderDTO,PaymentDTO paymentDTO,RedirectAttributes redirectAttributes){
+
+
+        //객실예약 추가
+        menuOrderService.register(menuOrderDTO);
+
+        //결제테이블 컬럼 추가
+        paymentService.register(paymentDTO);
+
+
+
+        redirectAttributes.addFlashAttribute("menuOrderDTO",menuOrderDTO);
 
 
         return "redirect:/member/mypage/history";
