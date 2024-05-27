@@ -198,9 +198,14 @@
                     <!-- 캐러셀 아이템들을 담을 div -->
                     <div id="review-carousel" class="carousel slide" data-ride="carousel" style="padding-top: 35%;">
                         <div class="carousel-inner" style="text-align: center; display: flex; overflow: hidden;">
+                            <div th:if="${#lists.isEmpty(reviewList)}"
+                                 style="flex: 0 0 100%; max-width: 100%; display: flex; flex-direction: column; align-items: center;">
+                                <p style="font-size: 14px; text-align: center; color: #333;">리뷰가 없습니다.</p>
+                            </div>
                             <!-- 타임리프를 사용하여 동적으로 리뷰 데이터를 반복하여 표시 -->
                             <div class="carousel-item" th:each="review, iterStat : ${reviewList}"
-                                 th:classappend="${iterStat.first} ? 'active'" style="flex: 0 0 100%; max-width: 100%;">
+                                 th:classappend="${iterStat.first} ? 'active'" th:if="${!#lists.isEmpty(reviewList)}" style="flex: 0 0 100%; max-width:
+                                 100%;">
                                 <div style="display: flex; flex-direction: column; align-items: center;">
                                     <div class="star-rating" style="margin-bottom: 10px;">
                                         <span class="star">&#9733;</span>
