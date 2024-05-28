@@ -73,10 +73,15 @@ public class MemberpageController {
     @GetMapping("/member/memberpage/index")
     public String indexform(Model model) {
         List<StoreDTO> recommendedStores = storeService.getRandomRecommendedStores();
+
+
+        List<NoticeDTO> noticeDTOS = noticeService.findNoticeAll();
+
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
         model.addAttribute("recommendedStoreList", recommendedStores);
+        model.addAttribute("noticeDTOS", noticeDTOS);
         return "member/memberpage/index";
     }
 

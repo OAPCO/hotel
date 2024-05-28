@@ -2,6 +2,7 @@ package com.exam.hotelgers.repository;
 
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.*;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,6 +22,18 @@ public interface NoticeRepository extends JpaRepository<Notice,Long> {
             "and (:#{#searchDTO.noticeContent} is null or n.noticeContent LIKE %:#{#searchDTO.noticeContent}%) " +
             "and (:#{#searchDTO.noticeType} is null or n.noticeType LIKE %:#{#searchDTO.noticeType}%)")
     Page<Notice> selectNotice (Pageable pageable, SearchDTO searchDTO);
+
+
+
+
+    @Query("select n from Notice n where n.noticeType LIKE 'notice'")
+    List<Notice> findNoticeAll();
+
+
+    @Query("select n from Notice n where n.noticeIdx = :noticeIdx")
+    Optional<Notice> findNoticeOne(Long noticeIdx);
+
+
 
 
 }

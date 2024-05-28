@@ -119,13 +119,34 @@
 
             console.log("디스트:"+distIdx);
 
-            var yearSales = hotel.distYearSalesSearch(distIdx);
-            var monthSales = hotel.distMonthSalesSearch(distIdx);
-            var daySales =hotel.distDaySalesSearch(distIdx);
+            // var yearSales = hotel.distYearSalesSearch(distIdx);
+            // var monthSales = hotel.distMonthSalesSearch(distIdx);
+            // var daySales =hotel.distDaySalesSearch(distIdx);
 
-            console.log(yearSales[0][0]);
-            console.log(monthSales[0][0]);
-            console.log(daySales[0][0]);
+
+
+            hotel.distYearSalesSearch(distIdx, function(years) {
+
+                const yearSales = years;
+                console.log("연간매출 : " +yearSales);
+            });
+
+            // hotel.distMonthSalesSearch(distIdx, function(month) {
+            //     console.log("연간매출 : " + month);
+            //
+            //     var monthSales = month;
+            //     console.log(monthSales[0][0]);
+            //
+            // });
+            //
+            // hotel.distDaySalesSearch(distIdx, function(day) {
+            //     console.log("연간매출 : " + day);
+            //
+            //     var daySales = day;
+            //     console.log(daySales[0][0]);
+            //
+            // });
+
         });
 
 

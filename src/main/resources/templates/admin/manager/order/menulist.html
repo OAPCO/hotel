@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/manager}">
+
+<head>
+    <title>Table - Brand</title>
+    <style>
+        td {
+            border-right: 1px solid #F0F0F0;;
+        }
+        td:last-child {
+            border-right: none;
+        }
+        .row1 { height: 10px; /* 윗칸 높이 지정 */ }
+        .row2 { height: 40px; /* 아랫칸 높이 지정 */
+            padding-top: 20px; /* 위에 패딩 추가 */}
+    </style>
+</head>
+
+<body id="page-top">
+<div layout:fragment="content">
+
+    <div class="container-fluid"><!--메뉴카테고리-->
+        <div class="card shadow">
+            <div class="card-header py-3">
+
+                <div>
+
+                    <!-- Button to Open the Modal -->
+                    <div class="d-flex justify-content-between">
+                        <h3 class="text-primary align-self-start fw-bold">메뉴 관리</h3>
+                        <button type="button" class="btn btn-primary align-self-end" data-bs-toggle="modal"
+                                data-bs-target="#myModal3">
+                            카테고리 추가
+                        </button>
+                    </div>
+                    <!--                    카테고리 추가 모달 내용-->
+                    <div class="modal" id="myModal3">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">카테고리 추가</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="card shadow">
+                                        <div class="card-body">
+                                            <div class="table-responsive table mt-2"  role="grid" aria-describedby="dataTable_info">
+                                                <div class="table-responsive">
+                                                    <form class="user" th:action="@{/menuCate/register}" method="post">
+
+                                                        <div class="mb-3">
+                                                            <input class="form-control form-control-user" type="text"
+                                                                   placeholder="메뉴카테고리" name="menuCateName">
+                                                        </div>
+                                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                                            <input class="form-control form-control-user" type="text"
+                                                                   placeholder="매장 코드" name="tblStoreStoreIdx"
+                                                                   th:value="${store.storeIdx}" readonly>
+                                                        </div>
+                                                        <button class="btn btn-primary d-block btn-user w-100"
+                                                                type="submit">등록
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--카테고리 추가 모달-->
+                    <!--                    카테고리 추가 모달 내용 끝-->
+                </div>
+            </div>
+
+            <div th:each="category : ${menuCateList}" class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="text-primary fw-bold align-self-start" th:text="${category.menuCateName}">카테고리 이름</h4>
+                        <!--                    카테고리 수정 버튼-->
+                        <div class="align-self-end">
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    th:data-bs-target="'#myModal4' + ${category.menuCateIdx} + ${storeIdx}">
+                                카테고리 수정
+                            </button>
+                            <!--                    카테고리 수정 버튼 끝-->
+                            <!--                    카테고리 모달 상세 시작-->
+                            <div class="modal" th:id="'myModal4' + ${category.menuCateIdx} + ${storeIdx}">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">카테고리 수정</h4>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <div class="card shadow">
+                                                <div class="card-body">
+                                                    <div class="table-responsive table mt-2"  role="grid" aria-describedby="dataTable_info">
+                                                        <div class="table-responsive">
+                                                            <form th:action="@{'/menuCate/modify/'+${category.menuCateIdx}}"
+                                                                  method="post">
+                                                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                    <div>
+                                                                        매장 id
+                                                                    </div>
+                                                                    <input class="form-control form-control-user" type="text" name="tblStoreStoreIdx"
+                                                                           th:value="${store.storeIdx}" readonly>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <div>
+                                                                        메뉴카테고리명
+                                                                    </div>
+                                                                    <input class="form-control form-control-user" type="text"
+                                                                           name="menuCateName">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <div>
+                                                                        메뉴카테고리 번호
+                                                                    </div>
+                                                                    <input class="form-control form-control-user" type="text"
+                                                                           name="menuCateIdx"
+                                                                           th:value="${category.menuCateIdx}" readonly>
+                                                                </div>
+
+                                                                <button class="btn btn-primary d-block btn-user w-100"
+                                                                        type="submit">수정
+                                                                </button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--카테고리 수정 모달-->
+                            <!--                    카테고리 모달 상세 끝-->
+                            <!--                    메뉴 추가 모달 버튼 시작-->
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                    th:data-bs-target="'#myModal2' + ${category.menuCateIdx}" style="color:white;">
+                                메뉴 추가
+                            </button>
+                            <!--                    메뉴 추가 모달 버튼 끝-->
+                            <!--                    메뉴 추가 모달 상세 시작-->
+                            <div class="modal" th:id="'myModal2' + ${category.menuCateIdx}" >
+                                <div class="modal-xl">
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <div class="card shadow">
+                                            <div class="card-body">
+                                                <form th:action="@{/detailmenu/register}" method="post" enctype="multipart/form-data">
+                                                    <div class="card shadow">
+                                                        <div class="card-body">
+                                                            <table class="table">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>카테고리 번호</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input class="form-control form-control-user" type="text"
+                                                                               placeholder="카테고리 번호" name="menuCateIdx" id="menuCateIdx"
+                                                                               th:value="${category.menuCateIdx}"
+                                                                               readonly>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <table class="table">
+                                                                <thead>
+                                                                <div>
+                                                                    <input type="text" style="display:none"
+                                                                           name="storeIdx"
+                                                                           th:value="${storeIdx}" />
+                                                                </div>
+                                                                </thead>
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>이미지</th>
+                                                                    <th>메뉴명</th>
+                                                                    <th>배달가능여부</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td><input type="file" name="imgFile"></td>
+                                                                    <td> <input class="form-control" type="text"
+                                                                                name="detailMenuName" required> </td>
+                                                                    <td>
+                                                                        <select class="form-select"
+                                                                                aria-label="Default select example" name="deliveryYn" required>
+                                                                            <option selected>배달 여부</option>
+                                                                            <option value="Y">Y</option>
+                                                                            <option value="N">N</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <table class="table">
+                                                                <thead>
+                                                                <h5>메뉴 설명</h5>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                            <textarea class="form-control"
+                                                                                      style="width: 100%; height: 100%;" name="menuDescription" required>
+                                                                            </textarea>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <table class="table">
+                                                                <caption>할인 및 적립 정보</caption>
+                                                                <thead>
+                                                                <tr>
+                                                                    <th colspan="3">가격 할인</th>
+                                                                    <th colspan="3">포인트 적립</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th>할인 구분</th>
+                                                                    <th>할인액</th>
+                                                                    <th>할인율(%)</th>
+                                                                    <th>적립 구분</th>
+                                                                    <th>적립액(원)</th>
+                                                                    <th>적립율(%)</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <select class="form-select"
+                                                                                name="menuSaleType" id="menuSaleType"
+                                                                                onchange="toggleInput('MenuSale')" required>
+                                                                            <option selected>할인 구분</option>
+                                                                            <option value="Y">Y</option>
+                                                                            <option value="N">N</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="menuSaleAmount" required></td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="menuSalePercent" required></td>
+                                                                    <td>
+                                                                        <select class="form-select"
+                                                                                name="pointSaveType"
+                                                                                id="pointSaveType" onchange="toggleInput('PointSave')" required>
+                                                                            <option selected>적립 타입</option>
+                                                                            <option value="Y">Y</option>
+                                                                            <option value="N">N</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="pointSaveAmount" required></td>
+                                                                    <td><input class="form-control" type="text"
+                                                                               name="pointSavePercent" required></td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <table class="table">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>메뉴 옵션명</th>
+                                                                    <th>메뉴 가격</th>
+                                                                    <th>판매 여부</th>
+                                                                    <th>추천 여부</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input class="form-control" type="text"
+                                                                               name="optionname" required></td>
+                                                                    <td>
+                                                                        <input class="form-control" type="text"
+                                                                               name="menuprice" required>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-select" name="salesYn" required>
+                                                                            <option selected>판매 여부</option>
+                                                                            <option value="Y">판매중</option>
+                                                                            <option value="N">품절</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="form-select" name="recommendYn" required>
+                                                                            <option selected>추천 여부</option>
+                                                                            <option value="Y">추천</option>
+                                                                            <option value="N">추천 안함</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <div  class="d-flex justify-content-end">
+                                                                <button class="btn btn-primary" type="submit">등록</button>
+                                                                <button type="button" class="btn btn-danger" onclick="closeModal('myModal2_${category.menuCateIdx}')">닫기</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 메뉴 추가 모달 상세 끝 -->
+                    </div>
+                </div>
+                <div class="card-body"><!--메뉴 디테일 리스트-->
+                    <div class="row" >
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="col-2">메뉴명</th>
+                                <th scope="col" class="col-2">메뉴 이미지</th>
+                                <th scope="col" colspan="5">메뉴상세</th>
+                                <th scope="col"  class="col-1">수정</th>
+                                <th scope="col" class="col-1">추천</th>
+                                <th scope="col" class="col-1">품절</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="menu : ${category.detailMenuDTOList}">
+                                <td th:text="${menu.detailMenuName}">[족발]</td>
+                                <td>
+                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${menu.menuImg}|" width="150" height="100">
+                                </td>
+                                <td>
+                                    <div class="row1">옵션</div>
+                                    <div class="row2" th:text="${menu.optionname}">[기본]</div></td>
+                                <td>
+                                    <div class="row1">금액(원)</div>
+                                    <div class="row2" th:text="${menu.menuprice}">
+                                        [29000]
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row1">가격할인</div>
+                                    <div class="row2" th:text="${menu.menuSaleAmount}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row1">판매금액(원)</div>
+                                    <div class="row2" th:text="${menu.menuprice - menu.menuSaleAmount}"> 원</div>
+                                </td>
+                                <td>
+                                    <div class="row1">배달 여부</div><div class="row2" th:text="${menu.deliveryYn}">[기본]</div>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                            th:data-bs-target="'#myModal5' + ${category.menuCateIdx} + ${menu.detailmenuIdx}" style="color:white;">
+                                        메뉴 수정
+                                    </button>
+                                    <!--                                    메뉴 수정 모달 상세 시작-->
+                                    <div class="modal"
+                                         th:id="'myModal5' + ${category.menuCateIdx} + ${menu.detailmenuIdx}">
+                                        <div class="modal-xl">
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                                <div class="card shadow">
+                                                    <div class="card-body">
+                                                        <form th:action="@{/detailmenu/modify}"
+                                                              enctype="multipart/form-data" method="post">
+                                                            <div class="card shadow">
+                                                                <div class="card-body">
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th>카테고리 번호</th>
+                                                                            <th>메뉴 번호</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <input class="form-control form-control-user" type="text"
+                                                                                       placeholder="카테고리 번호" name="menuCateIdx"
+                                                                                       th:value="${category.menuCateIdx}"
+                                                                                       readonly>
+                                                                            </td>
+                                                                            <td>
+                                                                                <input class="form-control form-control-user" type="text"
+                                                                                       placeholder="메뉴 번호"
+                                                                                       name="detailmenuIdx"
+                                                                                       th:value="${menu.detailmenuIdx}"
+                                                                                       readonly>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th>이미지</th>
+                                                                            <th>메뉴명</th>
+                                                                            <th>배달가능여부</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td><input type="file" name="imgFile"></td>
+                                                                            <td> <input class="form-control" type="text"
+                                                                                        name="detailMenuName" required> </td>
+                                                                            <td>
+                                                                                <select class="form-select"
+                                                                                        aria-label="Default select example" name="deliveryYn" required>
+                                                                                    <option value="Y">Y</option>
+                                                                                    <option value="N">N</option>
+                                                                                </select>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                        <h5>메뉴 설명</h5>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                        <textarea class="form-control" style="width:
+                                                                        100%; height: 100%;" name="menuDescription" required>
+                                                                        </textarea>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="table">
+                                                                        <caption>할인 및 적립 정보</caption>
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th colspan="3">가격 할인</th>
+                                                                            <th colspan="3">포인트 적립</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>할인 구분</th>
+                                                                            <th>할인액</th>
+                                                                            <th>할인율(%)</th>
+                                                                            <th>적립 구분</th>
+                                                                            <th>적립액(원)</th>
+                                                                            <th>적립율(%)</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <select class="form-select"
+                                                                                        name="menuSaleType"
+                                                                                        required >
+                                                                                    <option selected>할인 구분</option>
+                                                                                    <option value="Y">Y</option>
+                                                                                    <option value="N">N</option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="menuSaleAmount" required></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="menuSalePercent" required></td>
+                                                                            <td>
+                                                                                <select class="form-select"
+                                                                                        name="pointSaveType"
+                                                                                        required >
+                                                                                    <option selected>적립 타입</option>
+                                                                                    <option value="Y">Y</option>
+                                                                                    <option value="N">N</option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="pointSaveAmount" required></td>
+                                                                            <td><input class="form-control"
+                                                                                       type="text" name="pointSavePercent" required></td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <table class="table">
+                                                                        <thead>
+                                                                        <tr>
+                                                                            <th>메뉴 옵션명</th>
+                                                                            <th>메뉴 가격</th>
+                                                                            <th>판매 여부</th>
+                                                                            <th>추천 여부</th>
+                                                                        </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <input class="form-control" type="text"
+                                                                                       name="optionname" required></td>
+                                                                            <td>
+                                                                                <input class="form-control" type="text"
+                                                                                       name="menuprice" required>
+                                                                            </td>
+                                                                            <td>
+                                                                                <select class="form-select" name="salesYn" required>
+                                                                                    <option selected>판매 여부</option>
+                                                                                    <option value="Y">판매중</option>
+                                                                                    <option value="N">품절</option>
+                                                                                </select>
+                                                                            </td>
+                                                                            <td>
+                                                                                <select class="form-select" name="recommendYn" required>
+                                                                                    <option selected>추천 여부</option>
+                                                                                    <option value="Y">추천</option>
+                                                                                    <option value="N">추천 안함</option>
+                                                                                </select>
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <div  class="d-flex justify-content-end">
+                                                                        <button class="btn btn-primary" type="submit">등록</button>
+                                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                                    메뉴 수정 모달 상세 끝 -->
+                                    <a th:href="@{'/detailmenu/delete/' + ${menu.detailmenuIdx}}">
+                                        <button class="btn btn-danger">
+                                            삭제
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               th:value="${menu.recommendYn}"
+                                               th:checked="${menu.recommendYn.toString().toUpperCase() == 'Y'}"
+                                               disabled/>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox"
+                                               th:value="${menu.salesYn}"
+                                               th:checked="${menu.salesYn.toString().toUpperCase() == 'N'}"
+                                               disabled/>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--메뉴카테고리, 디테일메뉴-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script>
+        function toggleInput(inputType) {
+            var selectElement = document.getElementById(inputType + 'Type');
+            var amountInput = document.querySelector('input[name="' + inputType + 'Amount"]');
+            var percentInput = document.querySelector('input[name="' + inputType + 'Percent"]');
+
+            if (selectElement.value === "Y" || selectElement.value === "yes") {
+                // Yes가 선택된 경우
+                amountInput.readOnly = false;
+                percentInput.readOnly = false;
+            } else {
+                // No가 선택된 경우
+                amountInput.value = "0";
+                amountInput.readOnly = true;
+                percentInput.value = "0";
+                percentInput.readOnly = true;
+            }
+        }
+        function closeModal(modalId) {
+            var modal = document.getElementById(modalId);
+            modal.style.display = "none";
+        }
+    </script>
+</div>
+</body>
+
+</html>

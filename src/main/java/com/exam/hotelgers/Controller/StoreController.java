@@ -232,6 +232,25 @@ public class StoreController {
     }
 
 
+    @GetMapping("/admin/manager/store/menulist")
+    public String readmanagerForm(Model model,Principal principal) throws Exception {
+
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
+        model.addAttribute("store", storeDTO);
+        model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
+
+        model.addAttribute("bucket", bucket);
+        model.addAttribute("region", region);
+        model.addAttribute("folder", folder);
+
+        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
+        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
+
+        return "admin/manager/store/menulist";
+    }
+
+
     @GetMapping("/admin/admin/manage/storelist")
     public String adminlistForm(@PageableDefault(page = 1) Pageable pageable, Model model
     ) throws Exception {

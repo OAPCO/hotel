@@ -2,10 +2,8 @@ package com.exam.hotelgers.service;
 
 
 import com.exam.hotelgers.constant.RoleType;
-import com.exam.hotelgers.dto.AdminDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.dto.NoticeDTO;
-import com.exam.hotelgers.dto.NoticeDTO;
-import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
@@ -67,6 +65,7 @@ public class NoticeService {
 
 
 
+
     public Page<NoticeDTO> list(Pageable pageable){
 
         int currentPage = pageable.getPageNumber()-1;
@@ -81,6 +80,30 @@ public class NoticeService {
         return noticeDTOS;
     }
 
+
+    public List<NoticeDTO> findNoticeAll() {
+
+
+        List<Notice> notices = noticeRepository.findNoticeAll();
+
+
+        List<NoticeDTO> noticeDTOS = notices.stream()
+                .map(notice -> modelMapper.map(notice, NoticeDTO.class))
+                .collect(Collectors.toList());
+
+        return noticeDTOS;
+    }
+
+
+    public NoticeDTO findNoticeOne(Long noticeIdx) {
+
+
+        Optional<Notice> notice = noticeRepository.findNoticeOne(noticeIdx);
+
+
+
+        return modelMapper.map(notice,NoticeDTO.class);
+    }
 
 
 

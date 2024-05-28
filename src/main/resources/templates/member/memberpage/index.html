@@ -394,6 +394,7 @@
                 </div>
             </div>
         </div>
+
     </div>
     <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
@@ -402,13 +403,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.7/fullpage.js"></script>
     <script src="/assets2/bootstrap/js/bootstrap.min.js?h=b4349cf7232e6b66621e089f2b9beee5"></script>
     <script src="/assets2/js/script.min.js?h=9a9b12d9479055b6ccf322643488f6dd"></script>
-    <script>
+    <script th:inline="javascript">
+
+
         var myfullpage = new fullpage('#fullpage', {
             verticalCentered: false,
             autoScrolling: true,
             scrollHorizontally: true,
             scrollOverflow: true
         });
+
+
+        console.log("호출");
+        // 페이지의 모든 리소스가 로드된 후 실행할 코드
+        const notice = [[${noticeDTOS}]]
+        console.log(notice);
+
+        notice.forEach(function (notice,index){
+            var noticeIdx = notice.noticeIdx;
+            console.log(noticeIdx);
+            var popupUrl = "/window/notice/"+noticeIdx;
+            console.log(popupUrl);
+            var popupOption = "width=800, height=300";
+            window.open(popupUrl, "공지사항"+index,popupOption);
+
+
+
+        });
+
+
 
         const rotateContent = ["서울으로", "부산으로", "제주로", "양양으로", "여수로"];
         let text = document.getElementById("rotateText");

@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -110,6 +111,20 @@ public class NoticeController {
 
         noticeService.delete(noticeIdx);
         return "redirect:/admin/admin/banner/list";
+    }
+
+
+    @GetMapping("/window/notice/{noticeIdx}")
+    public String registerRoomWindowForm(@PathVariable Long noticeIdx, Model model) {
+
+
+        NoticeDTO noticeDTO = noticeService.findNoticeOne(noticeIdx);
+
+        model.addAttribute("noticeDTO",noticeDTO);
+
+
+
+        return "window/notice";
     }
 
 
