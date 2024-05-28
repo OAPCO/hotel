@@ -129,6 +129,11 @@
             flex-grow: 1;
             text-align: center;
         }
+        .bdline {
+            border: 1px solid #ccc; /* 회색 테두리 */
+        }
+
+
     </style>
 
 </head>
@@ -141,7 +146,7 @@
     <div id="section1" class="container-fluid pt-5">
         <!-- 매장 정보 -->
         <div class="container" style="margin: auto; width: 80%;">
-            <div class="card shadow">
+            <div class="card bdline">
                 <div class="card-header py-3">
                     <div class="sub_title">
                         <h2 th:text="${storeDTO.storeName}">매장 안내 </h2>
@@ -153,12 +158,12 @@
                     </span>
                     </div>
                 </div>
-                <div class="card-body">
-                    <table class="table">
+                <div class="card-body text-center">
+                    <table class="table text-center" style="margin-top: 50px; margin-left: 55px">
                         <tbody>
-                        <tr class="row">
+                        <tr>
                             <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|"
-                                 width="1000" height="600">
+                                 width="1000" height="600" style="border-radius: 10px;">
                         </tr>
                         <tr class="row">
                             <td class="col-2 ">영업시간</td>
@@ -179,7 +184,7 @@
         </div> <!-- 매장 상세 정보 -->
     </div>
     <p></p>
-    <div id="section2" class="container" style="margin: auto; width: 80%;">
+    <div id="section2" class="container bdline" style="margin: auto; width: 80%; border-radius: 10px;">
         <div style="display: flex; justify-content: space-between; margin: auto; width: 100%;">
             <!-- 리뷰와 별점 정보 -->
             <div style="flex-basis: 33%; padding-right: 10px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);">
@@ -233,15 +238,15 @@
     <div id="section3" class="container-fluid pt-5">
 
         <div class="container" style="margin: auto; width: 80%;">
-            <div class="card" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
+            <div class="card bdline" style="width: 100%; max-width: 100%; margin-bottom: 20px; background-color: #fff;
             border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);"
                  th:each="roomTypeListView : ${roomTypeList}">
 
-                <div style="display: flex;">
+                <div style="display: flex; margin-left:2%">
                     <!-- 왼쪽 이미지 -->
                     <div th:id="'carousel' + ${roomTypeListView.roomIdx}" class="carousel slide" data-bs-ride="carousel">
 
-                        <div class="carousel-inner">
+                        <div class="carousel-inner bdline">
 
                             <div th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType == roomTypeListView.roomType}">
 
@@ -281,7 +286,7 @@
     <div class="container-fluid pt-5">
         <!-- 매장 정보 -->
         <div class="container" style="margin: auto; width: 80%;">
-            <div class="card shadow">
+            <div class="card bdline">
                 <div class="card-header py-3">
                     <h3>조회</h3>
                 </div>

@@ -52,7 +52,7 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"
 
 	compileOnly 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-	implementation 'org.springframework.boot:spring-boot-starter-mail' /**메일 임시**/
+
 
 
 	annotationProcessor(
