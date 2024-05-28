@@ -7,6 +7,9 @@
     <meta charset="UTF-8">
     <title>메뉴 주문</title>
     <style>
+        .container{
+            border-radius: 10px;
+        }
         .badge{
             cursor : pointer;
             background-color: white;
@@ -33,13 +36,19 @@
 
         .card > div.img-container {
             flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .card div.img-container > img {
             max-width: 100%;
-            height: auto;
+            width: 160px; /* 가로 크기 */
+            height: 160px; /* 세로 크기 */
+            border-radius: 10px; /* 모든 모서리를 둥글게 */
             border-top-left-radius: 10px;
             border-bottom-left-radius: 10px;
+
         }
 
         .card > div.text-container {
@@ -78,12 +87,14 @@
 
 </head>
 <body>
-<div layout:fragment="content"  style="background-color: #fff2d7;">
+<div layout:fragment="content"  style="background-color: #EEF7FF">
+
     <div th:if="${alert}" th:text="${alert}"></div>
     <div class="section" id="section0">
         <div class="container-fluid pt-5">
             <!-- 메뉴 리스트 -->
             <div class="container" style="margin: auto; width: 80%;">
+                <div style="background-color: #ffffff; padding: 20px; border-radius: 10px; ">
                 <h2 class="text-primary">메뉴 주문</h2>
                 <!-- 메뉴카테고리 -->
                 <div class="btn-group-vertical" role="group" aria-label="Menu categories">
@@ -92,28 +103,33 @@
                             class="btn btn-outline-dark flex-fill"
                             th:id="${cate.menuCateIdx}"
                             th:onclick="'changeDetails(\'' + ${cate.menuCateIdx} + '\');'"
-                            th:text="${cate.menuCateName}">
+                            th:text="${cate.menuCateName}"
+                            style="background-color: #ffffff; margin-bottom: 30px; margin-right:5px;
+                            ">
                     </button>
                 </div>
+
                 <div class="menu-list">
-                    <div th:each="cate : ${menuCateList}">
+                    <div th:each="cate : ${menuCateList}" >
                         <div class="card" th:each="menu : ${cate.detailMenuDTOList}"
                              th:data-category="${menu.menuCateIdx}"
-                             style="display: flex; flex-direction: row; margin-bottom: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);">
+                             style="display: flex; flex-direction: row; margin-bottom: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+                                border: 1px solid skyblue;">
                             <!-- 왼쪽 이미지 -->
-                            <div style="flex: 1;" class="img-container">
+                            <div style="flex: 1;" class="img-container" >
                                 <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${menu.menuImg}|"
                                      alt="Card image cap"
                                      style="max-width:100%; height: auto; border-top-left-radius: 10px;
                  border-bottom-left-radius: 10px;"/>
                             </div>
                             <!-- 가운데 텍스트 -->
-                            <div style="flex: 3; padding: 20px;" class="text-container">
+                            <div style="flex: 3; padding: 20px; " class="text-container">
                                 <h5 class="card-title" th:text="${menu.detailMenuName}"></h5>
                                 <p class="card-text" th:text="${menu.menuDescription}"></p>
                                 <p class="item-point" th:text="${menu.pointSaveAmount}"></p>
                                 <p class="card-text"><small class="text-muted" th:text="${menu.menuprice}"></small></p>
                             </div>
+
                             <!-- 오른쪽 정보 -->
                             <div style="flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content:
                             space-between;" class="info-container">
@@ -122,6 +138,7 @@
                                     장바구니
                                 </button>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -162,7 +179,7 @@
                         <input type="text" name="rewardDTO.memberIdx" th:value="${memberDTO.memberIdx}">
                         <input type="text" name="rewardDTO.rewardAmount" id="totalPointHidden" value="">
                     </div>
-                    <div class="shadows">
+                    <div class="shadows" style="border-radius: 10px;">
                         <h2 class="text-primary">장바구니</h2>
                         <table style="width: 100%;text-align: center;vertical-align: middle;margin-top: 20px;" >
                             <thead>
@@ -182,20 +199,20 @@
                         </table>
                     </div>
                     <div>
-                        <table class="table table-striped" style="table-layout: fixed;justify-content: center; align-items: center; margin-left:-1.5%; margin-top:15px;">
+                        <table class="table table-striped" style="table-layout: fixed;justify-content: center; align-items: center;  margin-top:15px;" >
                             <thead class="thead-primary">
                             <tr>
-                                <th colspan="3">
+                                <th colspan="3" style="border-radius: 10px 10px 0px 0px;">
                                     <h3 class="text-primary">할인 수단</h3>
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td style="text-align: center;">쿠폰:</td>
+                            <tr >
+                                <td style="text-align: center; padding: 30px;">쿠폰:</td>
                                 <td><input type="text" style="width: 100%;" placeholder="할인 코드를 입력하세요"></td>
-                                <td style="text-align: center;">
-                                    <button class="btn btn-outline-primary" onclick="showCouponModal(event)">적용</button>
+                                <td style="text-align: center; ">
+                                    <button class="btn btn-outline-primary" style="margin-top: 8px; background: white" onclick="showCouponModal(event)">적용</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -220,7 +237,7 @@
                         </div>
                     </div>
                     <p></p>
-                    <div class="shadows" style="margin-bottom: 30px;">
+                    <div class="shadows" style="margin-bottom: 30px; border-radius: 10px;">
                     <div style="text-align: right; margin-right: 10%;" >
                         <p id="totalPoint">총 적립액:</p>
                     </div>
@@ -229,7 +246,7 @@
                     </div>
                     </div>
                     <div>
-                        <textarea class="form-control-lg" style="width: 80%;" name="orderRequest"
+                        <textarea class="form-control-lg" style="width: 80%; margin-right:10px;" name="orderRequest"
                                   placeholder="요청사항을 입력하세요"></textarea>
                     </div>
                     <div style="display: none;">
@@ -237,12 +254,13 @@
                         <input type="text" name="orderState" value="0">
                         <input id="totalValue" type="text" name="total">
                     </div>
+                    <div style="margin-top: 20px; margin-bottom: 20px; text-align: right; position: relative; top:-100px; left:-20px;">
+                        <button class="btn btn-outline-primary" style="background: white" type="submit">주문하기</button>
+                    </div>
                     <div id="post" style="display: none">
 
                     </div>
-                    <div>
-                        <button class="btn btn-outline-primary" style="background: white" type="submit">주문하기</button>
-                    </div>
+
 
                 </form>
             </div>

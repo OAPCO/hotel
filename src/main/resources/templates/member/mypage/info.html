@@ -16,7 +16,7 @@
     <div id="form-container">
         <div id="form-inner-container">
             <!-- Sign up form -->
-            <div id="sign-up-container">
+            <div>
                 <h3>회원정보</h3>
                 <form>
                     <label>이름</label>
@@ -27,14 +27,14 @@
 
 
                     <div>
-                        <button type="button" class="btn--blue" th:onclick="|location.href='@{/member/mypage/infoupdate}'|">회원정보 수정</button>
+                        <button type="button" class="btn-0" style="border-radius: 10px; background:#ffffff" th:onclick="|location.href='@{/member/mypage/infoupdate}'|">회원정보 수정</button>
                     </div>
 
                     <div>
-                        <button type="button" class="btn--blue" th:onclick="|location.href='@{/member/mypage/withdraw}'|">회원 탈퇴</button>
+                        <button type="button" class="btn-0" style="border-radius: 10px; background:#ffffff" th:onclick="|location.href='@{/member/mypage/withdraw}'|">회원 탈퇴</button>
                     </div>
                     <div>
-                        <button type="button" class="btn--blue" th:onclick="|location.href='@{/member/mypage/pwchange}'|">비밀번호 수정</button>
+                        <button type="button" class="btn-0"  style="border-radius: 10px; background:#ffffff" th:onclick="|location.href='@{/member/mypage/pwchange}'|">비밀번호 수정</button>
                     </div>
                 </form>
             </div>
