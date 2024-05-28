@@ -10,7 +10,7 @@
         /* 상단 섹션 */
         #top-section {
             width: 100%;
-            height: 65vh; /* 화면 높이의 70% */
+            height: 65vh; /* 화면 높이의 65% */
             display: flex;
             justify-content: space-between;
         }
@@ -20,13 +20,17 @@
             width: 50%; /* 상단 섹션의 너비의 절반 */
             height: 100%;
             border: 1px solid #ccc;
+            overflow-y: auto; /* 세로 스크롤 추가 */
         }
 
         /* 하단 섹션 */
         #bottom-section {
             width: 100%;
-            height: 35vh;
+            height: 35vh; /* 화면 높이의 35% */
             border: 1px solid #ccc;
+            overflow-y: auto; /* 세로 스크롤 추가 */
+            position: absolute; /* 절대 위치 */
+            top: 65vh; /* 상단 섹션의 높이만큼 아래로 이동 */
         }
     </style>
 
@@ -94,8 +98,6 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="data:${menuOrderDTOS}">
-
 
                                 <tr th:each="menu : ${orderHistory.menuOrderList}">
                                     <td th:text="${menu.menuorderIdx}">1</td>
@@ -140,7 +142,6 @@
                                     </td>
                                 </tr>
 
-                            </th:block>
                             </tbody>
                         </table>
                     </div>

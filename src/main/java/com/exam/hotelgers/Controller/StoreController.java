@@ -34,6 +34,8 @@ public class StoreController {
     private final BrandService brandService;
     private final DistChiefService distChiefService;
     private final ManagerService managerService;
+    private final MenuCateService menuCateService;
+    private final DetailmenuService detailmenuService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -232,22 +234,28 @@ public class StoreController {
     }
 
 
-    @GetMapping("/admin/manager/store/menulist")
+
+
+    @GetMapping("/admin/manager/order/menulist")
     public String readmanagerForm(Model model,Principal principal) throws Exception {
 
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
+        List<MenuCateDTO> menuCateDTOS = menuCateService.loginManagerMenuCateSearch(storeDTO.getStoreIdx());
+        List<DetailmenuDTO> detailmenuDTOS = detailmenuService.loginManagerdetailDetailmenuSearch(storeDTO.getStoreIdx());
+
         model.addAttribute("store", storeDTO);
-        model.addAttribute("menuCateList", storeDTO.getMenuCateDTOList());
+        model.addAttribute("menuCateList", menuCateDTOS);
+        model.addAttribute("detailmenuDTOS", detailmenuDTOS);
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
 
-        log.info("Detail Menu List: " + storeDTO.getDetailmenuDTOList());
-        log.info("Menu Category List: " + storeDTO.getMenuCateDTOList());
+        log.info("Detail Menu List: " + detailmenuDTOS);
+        log.info("Menu Category List: " + menuCateDTOS);
 
-        return "admin/manager/store/menulist";
+        return "admin/manager/order/menulist";
     }
 
 

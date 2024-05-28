@@ -54,7 +54,7 @@ public class MenuCateController {
 
         redirectAttributes.addFlashAttribute("result", menuCateIdx);
 
-        return "redirect:/admin/distchief/store/"+ menuCateDTO.getTblStoreStoreIdx();
+        return "redirect:/admin/manager/order/menulist";
     }
 
 

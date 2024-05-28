@@ -160,6 +160,8 @@
                                         <div class="card shadow">
                                             <div class="card-body">
                                                 <form th:action="@{/detailmenu/register}" method="post" enctype="multipart/form-data">
+
+                                                    <input type="hidden" name="storeIdx" th:value="${store.storeIdx}">
                                                     <div class="card shadow">
                                                         <div class="card-body">
                                                             <table class="table">

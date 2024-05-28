@@ -159,7 +159,7 @@ public class PaymentService {
     //각 상황별 매출 반환
     public Object[][] getDistYearlySales(Long distIdx) {
 
-        List<Object[]> yearSales = paymentRepository.getYearSales(distIdx);
+        List<Object[]> yearSales = paymentRepository.getDistYearSales(distIdx);
 
         Object[][] yearSalesArray = new Object[yearSales.size()][];
 
@@ -175,7 +175,7 @@ public class PaymentService {
 
     public Object[][] getDistMonthSales(Long distIdx) {
 
-        List<Object[]> monthSales = paymentRepository.getMonthSales(distIdx);
+        List<Object[]> monthSales = paymentRepository.getDistMonthSales(distIdx);
 
         Object[][] monthSalesArray = new Object[monthSales.size()][];
 
@@ -191,7 +191,7 @@ public class PaymentService {
 
     public Object[][] getDistDaySales(Long distIdx) {
 
-        List<Object[]> daySales = paymentRepository.getDaySales(distIdx);
+        List<Object[]> daySales = paymentRepository.getDistDaySales(distIdx);
 
         Object[][] daySalesArray = new Object[daySales.size()][];
 
@@ -201,6 +201,57 @@ public class PaymentService {
 
         log.info("찍어보기"+daySalesArray[0][0]);
         log.info("찍어보기"+daySalesArray[0][1]);
+
+        return daySalesArray;
+    }
+
+
+    public Object[][] getDistChiefYearSales(Long distChiefIdx) {
+
+        List<Object[]> yearSales = paymentRepository.getDistChiefYearSales(distChiefIdx);
+
+        Object[][] yearSalesArray = new Object[yearSales.size()][];
+
+        for (int i = 0; i < yearSales.size(); i++) {
+            yearSalesArray[i] = yearSales.get(i);
+        }
+
+        log.info("찍어보기1234"+yearSalesArray[0][0]);
+        log.info("찍어보기1234"+yearSalesArray[0][1]);
+
+        return yearSalesArray;
+    }
+
+
+    public Object[][] getDistChiefMonthSales(Long distChiefIdx) {
+
+        List<Object[]> monthSales = paymentRepository.getDistChiefMonthSales(distChiefIdx);
+
+        Object[][] monthSalesArray = new Object[monthSales.size()][];
+
+        for (int i = 0; i < monthSales.size(); i++) {
+            monthSalesArray[i] = monthSales.get(i);
+        }
+
+        log.info("찍어보기1234"+monthSalesArray[0][0]);
+        log.info("찍어보기1234"+monthSalesArray[0][1]);
+
+        return monthSalesArray;
+    }
+
+
+    public Object[][] getDistChiefDaySales(Long distChiefIdx) {
+
+        List<Object[]> daySales = paymentRepository.getDistChiefDaySales(distChiefIdx);
+
+        Object[][] daySalesArray = new Object[daySales.size()][];
+
+        for (int i = 0; i < daySales.size(); i++) {
+            daySalesArray[i] = daySales.get(i);
+        }
+
+        log.info("찍어보기1234"+daySalesArray[0][0]);
+        log.info("찍어보기1234"+daySalesArray[0][1]);
 
         return daySalesArray;
     }

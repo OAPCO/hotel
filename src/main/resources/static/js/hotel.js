@@ -474,6 +474,7 @@ let hotel = (function () {
 
     function distYearSalesSearch(distIdx,callback){
 
+
         $.ajax({
             type: 'GET',
             url: '/distyearsales',
@@ -497,7 +498,7 @@ let hotel = (function () {
 
         $.ajax({
             type: 'GET',
-            url: '/distyearsales',
+            url: '/distmonthsales',
             data: {
                 distIdx: distIdx
             },
@@ -518,7 +519,7 @@ let hotel = (function () {
 
         $.ajax({
             type: 'GET',
-            url: '/distyearsales',
+            url: '/distdaysales',
             data: {
                 distIdx: distIdx
             },
