@@ -17,7 +17,7 @@
         <div id="form-inner-container">
             <!-- Sign up form -->
             <div id="sign-up-container">
-                <h3>운영자 각하께 문의 올리기</h3>
+                <h3>고객 문의 </h3>
                 <form method="post" action="/member/memberpage/question">
 
                     <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
@@ -29,7 +29,7 @@
                     <label>내용</label>
                     <input type="text" name="qnaContent">
 
-                    <button type="submit" class="btn--blue">송신</button>
+                    <button type="submit" class="btn-0" style="border-radius: 10px; background:#ffffff">송신</button>
 
                 </form>
             </div>
