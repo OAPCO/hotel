@@ -22,20 +22,29 @@
                 <form method="post" action="/member/mypage/pwchange">
                     <label>비밀번호</label>
                     <input type="password" name="currentPassword" id="currentPassword">
-
+                    <!-- 비밀번호 확인 버튼 -->
+                    <button type="button" class="btn-0" style="border-radius: 10px; background:#ffffff; position: relative; left:400px; top:-90px;" onclick="checkPassword()">비밀번호 확인</button>
+                    <!-- 비밀번호 확인 버튼 끝 -->
+                    <div style="margin-top: -40px;">
                     <label>새 비밀번호</label>
                     <input type="password" name="newPassword" id="newPassword">
-
-                    <label>새 비밀번호확인</label>
+                    <br> <!-- 줄바꿈 추가 -->
+                    <label>새 비밀번호 확인</label>
                     <input type="password" name="newPassword2" id="newPassword2">
-
                     <div>
-                        <button type="submit" class="btn-0" style="border-radius: 10px; background:#ffffff">비밀번호 변경</button>
+                        <button type="submit" class="btn-0" style="border-radius: 10px; background:#ffffff;">비밀번호 변경</button>
                     </div>
-
-
+                    </div>
                 </form>
             </div>
+
+            <script>
+                function checkPassword() {
+                    // 여기에 비밀번호 확인 동작을 추가하세요.
+                    alert("비밀번호 확인 버튼 클릭됨!");
+                }
+            </script>
+
 
         </div>
     </div>
