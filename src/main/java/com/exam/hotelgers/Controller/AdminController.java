@@ -228,20 +228,31 @@ public class AdminController {
         return "admin/admin/pwchange";
     }
 
-
     @PostMapping("/admin/admin/pwcheck")
-    public String adminpwcheck(Principal principal, String currentPassword, String newPassword,RedirectAttributes redirectAttributes,Model model) {
+    public String adminpwcheck(Principal principal, String currentPassword, String newPassword, String newPassword2, RedirectAttributes redirectAttributes, Model model) {
 
-            log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
-    boolean result=adminService.changePassword(currentPassword,newPassword,principal);
-            if (result==false){
-                log.info("비밀번호변경실패"+result);
+        log.info("현재비밀번호: " + currentPassword + ", 새비밀번호: " + newPassword);
 
-            }else if(result==true)
-                log.info("비밀번호변경성공"+result);
-        model.addAttribute("result", result);
+        if (!newPassword.equals(newPassword2)) {
+            log.info("새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+            model.addAttribute("result", false);
+            model.addAttribute("message", "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+        } else {
+            boolean result = adminService.changePassword(currentPassword, newPassword, principal);
+            if (!result) {
+                log.info("비밀번호 변경 실패: 현재 비밀번호 불일치");
+                model.addAttribute("result", false);
+                model.addAttribute("message", "현재 비밀번호가 일치하지 않습니다.");
+            } else {
+                log.info("비밀번호 변경 성공");
+                model.addAttribute("result", true);
+                model.addAttribute("message", "비밀번호가 성공적으로 변경되었습니다.");
+            }
+        }
 
         return "redirect:/admin/admin/pwchange";
     }
-    }
+
+
+}
 

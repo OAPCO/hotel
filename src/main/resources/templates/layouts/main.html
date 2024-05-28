@@ -17,13 +17,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <script th:inline="javascript">
         function pwchange() {
             var baseUrl = /*[[ @{/} ]]*/ '';
-            var popupUrl = baseUrl + "admin/admin/manage/pwchange";  // Absolute URL
+            var popupUrl = baseUrl + "admin/admin/distchief/pwchange";  // Absolute URL
             var popupOption = "width=500, height=400"; // Popup window size
             // Open the popup window
             window.open(popupUrl, "비밀번호변경", popupOption);
 
         }
     </script>
+
 </head>
 <body>
 
@@ -107,16 +108,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!--푸터-->
     <div th:replace="~{fragments/footer::footer}" style="background-color: #dddfeb">
     </div>
-<script th:inline="javascript">
-    function pwchange() {
-        var baseUrl = /*[[ @{/} ]]*/ '';
-        var popupUrl = baseUrl + "/admin/admin/manage/pwchange";  // Absolute URL
-        var popupOption = "width=500, height=400"; // Popup window size
-        // Open the popup window
-        window.open(popupUrl, "비밀번호변경", popupOption);
 
-    }
-</script>
 
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="/assets/js/bs-init.js"></script>
