@@ -125,6 +125,8 @@ let hotel = (function () {
     };
 
 
+    //
+
     function searchEmptyRoom(searchDTO){
 
         console.log("데이터확인"+searchDTO.reservationDateCheckin);
@@ -239,57 +241,57 @@ let hotel = (function () {
 
 
 
-    function searchStorePayment(searchDTO){
-
-        $.ajax({
-            type: 'GET',
-            url: '/storesales',
-            dataType: 'json',
-            data: searchDTO,
-
-            success: function(response) {
-
-                console.log("결과값전체 화긴@@ "+response);
-
-                var resultTable = $('#resultTable');
-                resultTable.empty(); // 기존 결과 제거
-
-                const searchResult = response;
-
-                //예약 가능 방 행 추가
-                searchResult.forEach(function(item) {
-
-                    var newRow = `
-                        <tr>
-                        <td th:text="${item.paymentIdx}"></td>
-                        <td>
-                            <th:block th:switch="${item.paymentType}">
-                                <span th:case="room">객실 예약</span>
-                                <span th:case="service">룸서비스</span>
-                            </th:block>
-                        </td>
-                        <td th:text="${item.paymentName}"></td>
-                        <td th:text="${item.memberName}"></td>
-                        <td th:text="${item.memberPhone}"></td>
-                        <td th:text="${item.paymentPrice}"></td>
-                        <td th:text="${#temporals.format(item.regdate, 'YY-MM-dd / HH:mm')}"></td>
-                    </tr>
-                    `;
-                    
-                    searchResult.append(newRow);
-                });
-
-                // //위에서 받은 날짜 값 결과제출용 날짜 변수에 넣음
-                // $('#reservationDateCheckinResult').val(searchDTO.reservationDateCheckin);
-                // $('#reservationDateCheckOutResult').val(searchDTO.reservationDateCheckout);
-
-            },
-            error: function(xhr, status, error) {
-                console.error('빈 객실 찾기 에러발생');
-            }
-        });
-
-    };
+    // function searchStorePayment(searchDTO){
+    //
+    //     $.ajax({
+    //         type: 'GET',
+    //         url: '/storesales',
+    //         dataType: 'json',
+    //         data: searchDTO,
+    //
+    //         success: function(response) {
+    //
+    //             console.log("결과값전체 화긴@@ "+response);
+    //
+    //             var resultTable = $('#resultTable');
+    //             resultTable.empty(); // 기존 결과 제거
+    //
+    //             const searchResult = response;
+    //
+    //             //예약 가능 방 행 추가
+    //             searchResult.forEach(function(item) {
+    //
+    //                 var newRow = `
+    //                     <tr>
+    //                     <td th:text="${item.paymentIdx}"></td>
+    //                     <td>
+    //                         <th:block th:switch="${item.paymentType}">
+    //                             <span th:case="room">객실 예약</span>
+    //                             <span th:case="service">룸서비스</span>
+    //                         </th:block>
+    //                     </td>
+    //                     <td th:text="${item.paymentName}"></td>
+    //                     <td th:text="${item.memberName}"></td>
+    //                     <td th:text="${item.memberPhone}"></td>
+    //                     <td th:text="${item.paymentPrice}"></td>
+    //                     <td th:text="${#temporals.format(item.regdate, 'YY-MM-dd / HH:mm')}"></td>
+    //                 </tr>
+    //                 `;
+    //
+    //                 searchResult.append(newRow);
+    //             });
+    //
+    //             // //위에서 받은 날짜 값 결과제출용 날짜 변수에 넣음
+    //             // $('#reservationDateCheckinResult').val(searchDTO.reservationDateCheckin);
+    //             // $('#reservationDateCheckOutResult').val(searchDTO.reservationDateCheckout);
+    //
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error('빈 객실 찾기 에러발생');
+    //         }
+    //     });
+    //
+    // };
 
 
 
@@ -384,7 +386,7 @@ let hotel = (function () {
             },
 
             success: function(response) {
-                
+
                 console.log("체크인 업데이트 완료")
                 location.reload();
 
@@ -548,11 +550,9 @@ let hotel = (function () {
         roomIdxFind : roomIdxFind,
         updateRoomPrice : updateRoomPrice,
         distOfStoreCount : distOfStoreCount,
-        searchStorePayment : searchStorePayment,
         distDaySalesSearch : distDaySalesSearch,
         distMonthSalesSearch : distMonthSalesSearch,
         distYearSalesSearch : distYearSalesSearch,
-        test : test
     };
 
 })();
