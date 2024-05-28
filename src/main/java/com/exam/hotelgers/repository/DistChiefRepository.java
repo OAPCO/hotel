@@ -29,5 +29,10 @@ public interface DistChiefRepository extends JpaRepository<DistChief,Long> {
     Optional<DistChief> distChiefSearchforUserId(String userId);
 
 
+    //idx찾기
+    @Query("select d.distChiefIdx from DistChief d where d.distChiefId = :userId")
+    Long distChiefIdxSearchforUserId(String userId);
+
+
 
 }

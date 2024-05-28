@@ -2,9 +2,7 @@ package com.exam.hotelgers.repository;
 
 
 import com.exam.hotelgers.dto.SearchDTO;
-import com.exam.hotelgers.entity.Payment;
-import com.exam.hotelgers.entity.Room;
-import com.exam.hotelgers.entity.RoomOrder;
+import com.exam.hotelgers.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -67,6 +65,9 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
 
 
 
+
+
+
     //내 총판의 매출 확인 쿼리들
     //연도별
     @Query("SELECT YEAR(p.regdate) ," +
@@ -94,9 +95,45 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "GROUP BY day (p.regdate)" +
             "ORDER BY day (p.regdate)")
     List<Object[]> getDistDaySales(Long distIdx);
-    
-    
-    
+
+
+
+
+
+
+    //내 전체 총판의 매출 확인 쿼리들
+    //연도별
+    @Query("SELECT YEAR(p.regdate) ," +
+            "SUM(p.paymentPrice)  " +
+            "FROM Payment p left join Dist d on d.distIdx = p.distIdx left join DistChief c on d.distChief.distChiefIdx = c.distChiefIdx " +
+            "WHERE c.distChiefIdx = :distChiefIdx " +
+            "GROUP BY YEAR(p.regdate) " +
+            "ORDER BY YEAR(p.regdate) ")
+    List<Object[]> getDistChiefYearSales(Long distChiefIdx);
+
+
+    //내 전체 총판의 매출 확인 쿼리들
+    //연도별
+    @Query("SELECT MONTH (p.regdate) ," +
+            "SUM(p.paymentPrice)  " +
+            "FROM Payment p left join Dist d on d.distIdx = p.distIdx left join DistChief c on d.distChief.distChiefIdx = c.distChiefIdx " +
+            "WHERE c.distChiefIdx = :distChiefIdx " +
+            "GROUP BY month (p.regdate) " +
+            "ORDER BY month (p.regdate) ")
+    List<Object[]> getDistChiefMonthSales(Long distChiefIdx);
+
+
+    //내 전체 총판의 매출 확인 쿼리들
+    //연도별
+    @Query("SELECT DAY (p.regdate) ," +
+            "SUM(p.paymentPrice)  " +
+            "FROM Payment p left join Dist d on d.distIdx = p.distIdx left join DistChief c on d.distChief.distChiefIdx = c.distChiefIdx " +
+            "WHERE c.distChiefIdx = :distChiefIdx " +
+            "GROUP BY day (p.regdate) " +
+            "ORDER BY day (p.regdate) ")
+    List<Object[]> getDistChiefDaySales(Long distChiefIdx);
+
+
     
 
 }

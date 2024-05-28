@@ -3,7 +3,9 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.dto.MenuCateDTO;
 
 import com.exam.hotelgers.dto.MenuCateDTO;
+import com.exam.hotelgers.dto.RoomDTO;
 import com.exam.hotelgers.entity.MenuCate;
+import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.repository.MenuCateRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 //회원 가입, 수정, 삭제, 조회
 @Service
@@ -76,6 +80,20 @@ public class MenuCateService {
 
     public void delete(Long menuCateIdx){
         menuCateRepository.deleteById(menuCateIdx);
+    }
+
+
+    public List<MenuCateDTO> loginManagerMenuCateSearch(Long storeIdx) {
+
+
+        List<MenuCate> menuCates = menuCateRepository.loginManagerMenuCateSearch(storeIdx);
+
+
+        List<MenuCateDTO> menuCateDTOS = menuCates.stream()
+                .map(menuCate -> modelMapper.map(menuCate, MenuCateDTO.class))
+                .collect(Collectors.toList());
+
+        return menuCateDTOS;
     }
 }
 

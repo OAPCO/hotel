@@ -75,16 +75,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                         </ul>
                     </li>
 
-                    <li class="nav-item"><a class="nav-link" href="/member/list"><i class="bi bi-gear-fill"></i>회원 관리</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/manager/storeinfo"><i class="bi bi-gear-fill"></i>호텔 정보</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/manager/room/listboard"><i class="bi bi-gear-fill"></i>객실 현황</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/manager/store/menulist"><i class="bi bi-gear-fill"></i>메뉴 관리</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/manager/storesales"><i class="bi bi-gear-fill"></i>매출 현황</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/manager/order/menuorderlist"><i class="bi bi-gear-fill"></i>매장 현재 주문 목록</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/manager/order/menuorderlist"><i class="bi bi-gear-fill"></i>주문 현황</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/member/list"><i class="bi bi-gear-fill"></i>이벤트 관리</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/login}"><i class="fas fa-user-circle"></i><span>로그인</span></a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
+                    <li><a class="dropdown-item" href="/member/list">회원 관리</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/storeinfo">호텔 정보</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/room/listboard">객실 현황</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/order/menulist">메뉴 관리</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/storesales">매출 현황</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/order/menuorderlist">매장 현재 주문 목록</a></li>
+                    <li><a class="dropdown-item" href="/admin/manager/order/menuorderlist">주문 현황</a></li>
+                    <li><a class="dropdown-item" href="/member/list">이벤트 관리</a></li>
+                    <li class="dropdown-item" th:href="@{/admin/login}"><i class="fas fa-user-circle"></i><span>로그인</span></a></li>
+                    <li class="dropdown-item" th:href="@{/admin/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
 
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>

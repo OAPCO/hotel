@@ -3,8 +3,10 @@ package com.exam.hotelgers.service;
 import com.exam.hotelgers.dto.DetailmenuDTO;
 
 import com.exam.hotelgers.dto.DetailmenuDTO;
+import com.exam.hotelgers.dto.MenuCateDTO;
 import com.exam.hotelgers.dto.MenuOptionDTO;
 import com.exam.hotelgers.entity.Detailmenu;
+import com.exam.hotelgers.entity.MenuCate;
 import com.exam.hotelgers.entity.MenuOption;
 import com.exam.hotelgers.repository.DetailmenuRepository;
 import jakarta.annotation.Nullable;
@@ -123,5 +125,18 @@ public class DetailmenuService {
 
         detailmenuRepository.deleteById(detailmenuIdx);
 
+    }
+
+    public List<DetailmenuDTO> loginManagerdetailDetailmenuSearch(Long storeIdx) {
+
+
+        List<Detailmenu> detailMenus = detailmenuRepository.loginManagerdetailMenuCateSearch(storeIdx);
+
+
+        List<DetailmenuDTO> detailMenuDTOS = detailMenus.stream()
+                .map(detailMenu -> modelMapper.map(detailMenu, DetailmenuDTO.class))
+                .collect(Collectors.toList());
+
+        return detailMenuDTOS;
     }
 }

@@ -4,6 +4,7 @@ import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.PaymentDTO;
 import com.exam.hotelgers.dto.StoreDTO;
 import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.service.PaymentService;
 import com.exam.hotelgers.service.StoreService;
@@ -35,6 +36,7 @@ public class PaymentController {
     private final PaymentService paymentservice;
     private final DistService distService;
     private final StoreService storeService;
+    private final DistChiefRepository distChiefRepository;
 
 
 
@@ -172,11 +174,28 @@ public class PaymentController {
         //소유 총판 목록
         List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
 
+        Long distChiefIdx = distChiefRepository.distChiefIdxSearchforUserId(principal.getName());
+
+        log.info("아디:"+distChiefIdx);
+
+        //소유한 전체 총판의 매출들
+        Object[][] allyearlySales = paymentservice.getDistChiefYearSales(distChiefIdx);
+        Object[][] allmonthSales = paymentservice.getDistChiefMonthSales(distChiefIdx);
+        Object[][] alldaySales = paymentservice.getDistChiefDaySales(distChiefIdx);
+
+        log.info("여기부터"+allyearlySales[0][1]);
+        log.info(allmonthSales[0][1]);
+        log.info(alldaySales[0][1]);
+
+
 //        //이 부분은 일단 모든 총판의 매출 목록을 가져오는걸로 간다.
 //        Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable, storeDTO.getStoreIdx());
 
 
         model.addAttribute("distDTOS", distDTOS);
+        model.addAttribute("allyearlySales", allyearlySales);
+        model.addAttribute("allmonthSales", allmonthSales);
+        model.addAttribute("alldaySales", alldaySales);
 
 
         return "/admin/distchief/dist/distsales";

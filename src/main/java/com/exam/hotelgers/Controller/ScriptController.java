@@ -394,7 +394,7 @@ public class ScriptController {
     @GetMapping(value = "/distyearsales")
     public Object[][] distYearSalesSearch(Long distIdx) throws Exception {
 
-        Object[][] yearlySales = paymentService.getYearlySales(distIdx);
+        Object[][] yearlySales = paymentService.getDistYearlySales(distIdx);
 
 
         return yearlySales;
@@ -404,7 +404,7 @@ public class ScriptController {
     @GetMapping(value = "/distmonthsales")
     public Object[][] distMonthSalesSearch(Long distIdx) throws Exception {
 
-        Object[][] monthSales = paymentService.getMonthSales(distIdx);
+        Object[][] monthSales = paymentService.getDistMonthSales(distIdx);
 
 
         return monthSales;
@@ -414,7 +414,7 @@ public class ScriptController {
     @GetMapping(value = "/distdaysales")
     public Object[][] distDaySalesSearch(Long distIdx) throws Exception {
 
-        Object[][] daySales = paymentService.getDaySales(distIdx);
+        Object[][] daySales = paymentService.getDistDaySales(distIdx);
 
 
         return daySales;
