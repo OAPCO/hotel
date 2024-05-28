@@ -32,6 +32,11 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
     Optional<Dist> findByManagerList_ManagerId(String managerId);
 
 
+    //storeIdx로 distIdx 찾기
+    @Query("SELECT s.dist.distIdx from Store s where s.storeIdx = :storeIdx")
+    Long findStoreOfDistIdx(Long storeIdx);
+
+
     @Query("SELECT d.distCd FROM Dist d")
     List<String> findAllDistCds();
 

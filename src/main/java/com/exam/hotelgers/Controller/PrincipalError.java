@@ -19,7 +19,7 @@ public class PrincipalError {
         } else {
             // 로그인은 되어 있지만 다른 예외가 발생한 경우
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("errorPage"); // 에러 페이지로 이동하거나 원하는 페이지로 설정
+            modelAndView.setViewName("error/errorpage"); // 에러 페이지로 이동하거나 원하는 페이지로 설정
             modelAndView.addObject("errorMessage", ex.getMessage()); // 에러 메시지 전달
             return modelAndView;
         }

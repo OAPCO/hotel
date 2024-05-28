@@ -33,17 +33,8 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
     Page<Payment> storesalesDateSearch(Pageable pageable, SearchDTO searchDTO);
 
 
-//    @Query(value = "SELECT o FROM RoomOrder o " +
-//            "LEFT JOIN Room r ON r.store.storeIdx = o.storeIdx " +
-//            "WHERE o.storeIdx = :#{#searchDTO.storeIdx} " +
-//            "and o.roomOrderType = :#{#searchDTO.roomType} " +
-//            "AND (:#{#searchDTO.reservationDateCheckinDate} BETWEEN o.reservationDateCheckinDate AND o.reservationDateCheckoutDate " +
-//            "OR :#{#searchDTO.reservationDateCheckoutDate} BETWEEN o.reservationDateCheckinDate AND o.reservationDateCheckoutDate " +
-//            "OR (o.reservationDateCheckinDate BETWEEN :#{#searchDTO.reservationDateCheckinDate} AND :#{#searchDTO.reservationDateCheckoutDate} " +
-//            "AND o.reservationDateCheckoutDate BETWEEN :#{#searchDTO.reservationDateCheckinDate} AND :#{#searchDTO.reservationDateCheckoutDate}))")
-//    List<RoomOrder> searchRoomOrder(SearchDTO searchDTO);
 
-
+    //내 매장의 매출 확인 쿼리들
     //연도별
     @Query("SELECT YEAR(p.regdate) ," +
             "SUM(p.paymentPrice)  " +
@@ -70,6 +61,39 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "GROUP BY day (p.regdate)" +
             "ORDER BY day (p.regdate)")
     List<Object[]> getDaySales(Long storeIdx);
+
+
+
+
+
+
+    //내 총판의 매출 확인 쿼리들
+    //연도별
+    @Query("SELECT YEAR(p.regdate) ," +
+            "SUM(p.paymentPrice)  " +
+            "FROM Payment p " +
+            "WHERE p.distIdx = :distIdx " +
+            "GROUP BY YEAR(p.regdate) " +
+            "ORDER BY YEAR(p.regdate) ")
+    List<Object[]> getDistYearSales(Long distIdx);
+
+    @Query("SELECT MONTH(p.regdate)," +
+            "SUM(p.paymentPrice) " +
+            "FROM Payment p " +
+            "WHERE p.distIdx = :distIdx " +
+            "GROUP BY MONTH (p.regdate) " +
+            "ORDER BY month (p.regdate)")
+    List<Object[]> getDistMonthSales(Long distIdx);
+
+
+    //일별
+    @Query("SELECT DAY(p.regdate),"+
+            "SUM(p.paymentPrice) " +
+            "FROM Payment p " +
+            "WHERE p.distIdx = :distIdx " +
+            "GROUP BY day (p.regdate)" +
+            "ORDER BY day (p.regdate)")
+    List<Object[]> getDistDaySales(Long distIdx);
     
     
     

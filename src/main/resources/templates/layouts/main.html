@@ -37,7 +37,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!--        사이드바(nav)-->
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-success p-0">
             <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/">
-                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-laugh-wink"></i></div>
+                <div class="sidebar-brand-icon rotate-n-15"></div>
                 <div class="sidebar-brand-text mx-3"><span>Hotelgers</span></div>
             </a>
                 <hr class="sidebar-divider my-0">
@@ -74,16 +74,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                         </ul>
                     </li>
 
-                    <li class="nav-item"><a class="nav-link" href="/member/list"><i class="bi bi-gear-fill"></i>회원 관리</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/distchief/dist/list"><i class="bi bi-gear-fill"></i>총판 관리</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/distchief/store/list"><i class="bi bi-gear-fill"></i>매장 관리</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/distchief/brand/list"><i class="bi bi-gear-fill"></i>브랜드 관리</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/manager/list"><i class="bi bi-gear-fill"></i>매장주 관리</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/order/menuorderlist"><i class="bi bi-gear-fill"></i>매출 관리(미)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/manager/list"><i class="bi bi-gear-fill"></i>호텔 매니저 관리</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/admin/distchief/dist/distsales"><i class="bi bi-gear-fill"></i>매출 관리(미)</a></li>
                     <li class="nav-item">
-                        <button class="nav-link" onclick="pwchange()">
-                            <i class="bi bi-gear-fill"></i><span> 비밀번호변경</span>
-                        </button>
                     </li>
                     <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
 

@@ -59,20 +59,12 @@
                         <form class="user" th:action="@{/admin/login}" method="post">
 
 
-<!--                            <select class="mb-3 mt-3" name="roleType" id="roleTypeSelect">-->
-<!--                                <option value="" selected disabled>(선택)</option>-->
-<!--                                <option value="ADMIN">슈퍼어드민</option>-->
-<!--                                <option value="DISTCHIEF">총판장</option>-->
-<!--                                <option value="MANAGER">매니저</option>-->
-<!--                            </select>-->
-
-                            <div class="mb-3"><input class="form-control form-control-user" type="text" id="adminid" placeholder="아이디" name="adminid"></div>
+                            <div class="mb-3"><input class="form-control form-control-user" type="text" id="adminid" placeholder="Id" name="adminid"></div>
                             <div class="mb-3"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password"></div>
                             <div class="mb-3 divdark">
                                 <div class="mb-3">
 
                                 </div><button class="btn btn-success d-block btn-user w-100" type="submit">Login</button>
-                                <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/register}'|" style="margin-top: 30px;">등록</button>
                                 <hr>
                             </div>
                         </form>

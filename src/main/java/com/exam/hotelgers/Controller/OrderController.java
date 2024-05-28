@@ -51,13 +51,13 @@ public class OrderController {
     private final RewardService rewardService;
     private  final CouponService couponService;
 
-    @GetMapping("/admin/manager/order/register")
+    @GetMapping("/member/memberpage/order/register")
     public String register() {
-        return "admin/manager/order/register";
+        return "/member/memberpage/order/register";
     }
 
 
-    @PostMapping("/admin/manager/order/register")
+    @PostMapping("/member/memberpage/order/register")
     public String registerProc(@Valid MenuOrderDTO orderDTO,
                                @Nullable @RequestParam Long couponIdx,
                                @Nullable @ModelAttribute RewardDTO rewardDTO,

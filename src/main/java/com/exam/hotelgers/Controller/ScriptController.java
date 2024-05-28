@@ -250,6 +250,31 @@ public class ScriptController {
 
 
 
+
+
+//    @GetMapping(value = "/distsales", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Page<PaymentDTO> distSales(@PageableDefault(page = 1) Pageable pageable,SearchDTO searchDTO) throws Exception {
+//
+//
+//        LocalDateTime start = searchService.changeDate(searchDTO.getStartDate());
+//        LocalDateTime end = searchService.changeDate(searchDTO.getEndDate());
+//
+//        searchDTO.setStartDateTime(start);
+//        searchDTO.setEndDateTime(end);
+//
+//
+//        Page<PaymentDTO> paymentDTOS = paymentService.searchList(pageable,searchDTO);
+//        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+//
+//
+//        return paymentDTOS;
+//    }
+
+
+
+
+
+
     //객실 생성 페이지에서 사용
     @GetMapping(value = "/roomtypeimage", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> roomTypeImageReadProc(SearchDTO searchDTO) throws Exception {
@@ -356,6 +381,43 @@ public class ScriptController {
         log.info("카운트 : "+count);
 
         return storeRepository.findDistOfStoreCount(distIdx);
+
+    }
+
+
+    
+    
+    
+    
+    
+    //선택한 총판에 맞는 각 매출 목록을 가져오는 매핑들
+    @GetMapping(value = "/distyearsales")
+    public Object[][] distYearSalesSearch(Long distIdx) throws Exception {
+
+        Object[][] yearlySales = paymentService.getYearlySales(distIdx);
+
+
+        return yearlySales;
+
+    }
+
+    @GetMapping(value = "/distmonthsales")
+    public Object[][] distMonthSalesSearch(Long distIdx) throws Exception {
+
+        Object[][] monthSales = paymentService.getMonthSales(distIdx);
+
+
+        return monthSales;
+
+    }
+
+    @GetMapping(value = "/distdaysales")
+    public Object[][] distDaySalesSearch(Long distIdx) throws Exception {
+
+        Object[][] daySales = paymentService.getDaySales(distIdx);
+
+
+        return daySales;
 
     }
     

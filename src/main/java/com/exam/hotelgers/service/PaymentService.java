@@ -100,6 +100,7 @@ public class PaymentService {
 
     
     
+    //속한 매장의 매출반환 구역
     //각 상황별 매출 반환
     public Object[][] getYearlySales(Long storeIdx) {
 
@@ -136,6 +137,61 @@ public class PaymentService {
     public Object[][] getDaySales(Long storeIdx) {
 
         List<Object[]> daySales = paymentRepository.getDaySales(storeIdx);
+
+        Object[][] daySalesArray = new Object[daySales.size()][];
+
+        for (int i = 0; i < daySales.size(); i++) {
+            daySalesArray[i] = daySales.get(i);
+        }
+
+        log.info("찍어보기"+daySalesArray[0][0]);
+        log.info("찍어보기"+daySalesArray[0][1]);
+
+        return daySalesArray;
+    }
+
+
+
+
+
+
+    //속한 총판의 매출 구역
+    //각 상황별 매출 반환
+    public Object[][] getDistYearlySales(Long distIdx) {
+
+        List<Object[]> yearSales = paymentRepository.getYearSales(distIdx);
+
+        Object[][] yearSalesArray = new Object[yearSales.size()][];
+
+        for (int i = 0; i < yearSales.size(); i++) {
+            yearSalesArray[i] = yearSales.get(i);
+        }
+
+        log.info("찍어보기"+yearSalesArray[0][0]);
+
+        return yearSalesArray;
+    }
+
+
+    public Object[][] getDistMonthSales(Long distIdx) {
+
+        List<Object[]> monthSales = paymentRepository.getMonthSales(distIdx);
+
+        Object[][] monthSalesArray = new Object[monthSales.size()][];
+
+        for (int i = 0; i < monthSales.size(); i++) {
+            monthSalesArray[i] = monthSales.get(i);
+        }
+
+        log.info("찍어보기"+monthSalesArray[0][0]);
+        log.info("찍어보기"+monthSalesArray[0][1]);
+
+        return monthSalesArray;
+    }
+
+    public Object[][] getDistDaySales(Long distIdx) {
+
+        List<Object[]> daySales = paymentRepository.getDaySales(distIdx);
 
         Object[][] daySalesArray = new Object[daySales.size()][];
 

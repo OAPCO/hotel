@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>총판관리</title>
+    <link rel="stylesheet" href="/yhh.css">
+</head>
+
+<body>
+<div layout:fragment="content">
+
+    <h4 class="card-title">매출 관리</h4>
+    <div class="card">
+        <div class="card-header">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                매출 추이
+            </div>
+
+            <div>
+                <select class="d-inline-block form-select form-select-sm" name="distName" id="distSelect">
+                    <option value="">전체</option>
+                    <option th:each="list : ${distDTOS}" th:value="${list.distName}" th:text="${list.distName}" th:data-dist-idx="${list.distIdx}"></option>
+                </select>
+            </div>
+
+                    <select class="form-control" id="chartSelect">
+                        <option value="year" selected>연간</option>
+                        <option value="month">월간</option>
+                        <option value="day">일간</option>
+                    </select>
+
+                    <canvas id="salesChart"></canvas>
+        </div>
+    </div>
+    <div class="card" style="margin: 50px 20px;">
+        <div class="card-body">
+            <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">
+                결제 목록
+            </div>
+            <div class="table-responsive">
+                <form id="selectForm">
+                <table class="table head">
+                    <thead>
+                    <tr>
+                        <th>날짜</th>
+                        <td>
+                            <input type="date" name="startDate" id="isoStartDate">
+                            <input type="date" name="endDate" id="isoEndDate">
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+                </form>
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-primary">조회</button>
+                </div>
+                <br>
+                <table class="table body" id="resultTable">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>결제분류</th>
+                        <th>결제명</th>
+                        <th>결제자</th>
+                        <th>전화번호</th>
+                        <th>금액</th>
+                        <th>결제일시</th>
+                    </tr>
+                    </thead>
+<!--                    <tbody>-->
+<!--                    <tr th:each="data:${list}">-->
+<!--                        <td th:text="${data.paymentIdx}"></td>-->
+<!--                        <td>-->
+<!--                            <th:block th:switch="${data.paymentType}">-->
+<!--                                <span th:case="room">객실 예약</span>-->
+<!--                                <span th:case="service">룸서비스</span>-->
+<!--                            </th:block>-->
+<!--                        </td>-->
+<!--                        <td th:text="${data.paymentName}"></td>-->
+<!--                        <td th:text="${data.memberName}"></td>-->
+<!--                        <td th:text="${data.memberPhone}"></td>-->
+<!--                        <td th:text="${data.paymentPrice}"></td>-->
+<!--                        <td th:text="${#temporals.format(data.regdate, 'YY-MM-dd / HH:mm')}"></td>-->
+<!--                    </tr>-->
+<!--                    </tbody>-->
+                </table>
+
+                <div class="d-flex justify-content-center">
+<!--                    <ul class="mt-3 pagination">-->
+<!--                        <li class="page-item"><a class="page-link" th:href="@{/admin/manager/storesales(page=${prevPage})}"><</a></li>-->
+<!--                        <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">-->
+<!--                            <li class="page-item active" th:if="${page == currentPage}">-->
+<!--                                <a class="page-link" href="#">[[${page}]]</a>-->
+<!--                            </li>-->
+<!--                            <li class="page-item" th:unless="${page == currentPage}">-->
+<!--                                <a class="page-link" th:href="@{/admin/manager/storesales(page=${page})}">[[${page}]]</a>-->
+<!--                            </li>-->
+<!--                        </span>-->
+<!--                        <li class="page-item"><a class="page-link" th:href="@{/admin/manager/storesales(page=${nextPage})}">></a></li>-->
+<!--                    </ul>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript" src="/js/hotel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script th:inline="javascript">
+
+        document.getElementById('distSelect').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var distIdx = selectedOption.getAttribute('data-dist-idx');
+
+            console.log("디스트:"+distIdx);
+
+            var yearSales = hotel.distYearSalesSearch(distIdx);
+            var monthSales = hotel.distMonthSalesSearch(distIdx);
+            var daySales =hotel.distDaySalesSearch(distIdx);
+
+            console.log(yearSales[0][0]);
+            console.log(monthSales[0][0]);
+            console.log(daySales[0][0]);
+        });
+
+
+
+    </script>
+
+</div>
+</body>
+</html>

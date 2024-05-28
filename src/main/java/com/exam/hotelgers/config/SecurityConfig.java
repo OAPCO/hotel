@@ -86,10 +86,11 @@ public class SecurityConfig {
 
         http.securityMatcher("/admin/**").authorizeRequests()
                 .requestMatchers("/", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
-                .requestMatchers("/h2-console/**").permitAll();
-//                .requestMatchers("/admin/adminpage/**").hasRole("ADMIN")
-//                .requestMatchers("/admin/distchief/**").hasRole("DISTCHIEF")
-//                .requestMatchers("/admin/manager/**").hasRole("MANAGER");
+                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/admin/login", "/logout").permitAll()
+                .requestMatchers("/admin/admin/**").hasRole("ADMIN")
+                .requestMatchers("/admin/distchief/**").hasRole("DISTCHIEF")
+                .requestMatchers("/admin/manager/**").hasRole("MANAGER");
 
         http.formLogin(login -> login
                 .defaultSuccessUrl("/", true)
@@ -104,6 +105,8 @@ public class SecurityConfig {
         http.logout(logout-> logout
                 .logoutUrl("/admin/logout")
                 .logoutSuccessUrl("/admin/login"));
+
+
 
         http.authenticationProvider(adminProvider());
         http.authenticationProvider(distchiefProvider());
@@ -120,9 +123,8 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .requestMatchers("/**", "/css/**", "/js/**", "/img/**", "/images/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/login", "/logout", "/member/register", "/admin/register").permitAll()
-                .requestMatchers("/member/**").hasAnyRole("ADMIN", "USER")
-                .requestMatchers("/admin/**", "/member/**").hasRole("ADMIN");
+                .requestMatchers("/login", "/logout").permitAll()
+                .requestMatchers("/member/**").hasAnyRole("USER");
 
         http.formLogin(login -> login
                 .defaultSuccessUrl("/", true)

@@ -12,6 +12,10 @@ table.roomregister td{
 }
 
 
+.sidebar {
+    width: 250px; /* 원하는 너비로 조절하세요 */
+}
+
 table.roomregister th{
     background-color: #F2F2F2;
     color: #44454e;

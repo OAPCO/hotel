@@ -56,6 +56,7 @@ public class MemberpageController {
     private final NoticeService noticeService;
     private final ReviewService reviewService;
     private final MenuSheetRepository menuSheetRepository;
+    private final DistRepository distRepository;
 
 
 
@@ -258,6 +259,10 @@ public class MemberpageController {
         roomOrderDTO.setReservationDateCheckinDate(start);
         roomOrderDTO.setReservationDateCheckoutDate(end);
 
+        
+        //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
+        paymentDTO.setDistIdx(distRepository.findStoreOfDistIdx(roomOrderDTO.getStoreIdx()));
+
 
         //예약된 방 하나를 상태를 1로 바꾼다.
         roomService.roomStatusUpdate1(roomOrderDTO);
@@ -282,8 +287,13 @@ public class MemberpageController {
     public String menupayCheckProc(@Valid MenuOrderDTO menuOrderDTO,PaymentDTO paymentDTO,RedirectAttributes redirectAttributes){
 
 
+        log.info("토어화긴"+menuOrderDTO.getStoreIdx());
+
 
         menuOrderService.register(menuOrderDTO);
+
+        //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
+        paymentDTO.setDistIdx(distRepository.findStoreOfDistIdx(menuOrderDTO.getStoreIdx()));
 
         //결제테이블 컬럼 추가
         paymentService.register(paymentDTO);

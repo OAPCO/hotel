@@ -1,7 +1,10 @@
 package com.exam.hotelgers.Controller;
 
+import com.exam.hotelgers.dto.DistDTO;
 import com.exam.hotelgers.dto.PaymentDTO;
 import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.service.PaymentService;
 import com.exam.hotelgers.service.StoreService;
 import com.exam.hotelgers.util.PageConvert;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,6 +33,7 @@ import java.util.Map;
 public class PaymentController {
 
     private final PaymentService paymentservice;
+    private final DistService distService;
     private final StoreService storeService;
 
 
@@ -156,6 +161,25 @@ public class PaymentController {
         log.info("화긴222"+yearlySales);
 
         return "admin/manager/storesales";
+    }
+
+
+
+    @GetMapping("/admin/distchief/dist/distsales")
+    public String distSalesForm(@PageableDefault(page=1) Pageable pageable, Principal principal, Model model) throws Exception {
+
+        
+        //소유 총판 목록
+        List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
+
+//        //이 부분은 일단 모든 총판의 매출 목록을 가져오는걸로 간다.
+//        Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable, storeDTO.getStoreIdx());
+
+
+        model.addAttribute("distDTOS", distDTOS);
+
+
+        return "/admin/distchief/dist/distsales";
     }
 
 }
