@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -221,6 +222,14 @@ public class MemberpageController {
     @GetMapping("/member/memberpage/paypage")
     public String paypageform(RoomOrderDTO roomOrderDTO, Model model,Principal principal){
 
+        LocalDateTime start = searchService.changeDate(roomOrderDTO.getReservationDateCheckin());
+        LocalDateTime end = searchService.changeDate(roomOrderDTO.getReservationDateCheckout());
+
+        log.info("일 수 차이 나는지 화긴"+ChronoUnit.DAYS.between(start, end));
+
+        int day = (int) ChronoUnit.DAYS.between(start, end);
+
+        roomOrderDTO.setRoomPrice(roomOrderDTO.getRoomPrice()*day);
 
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
@@ -261,8 +270,12 @@ public class MemberpageController {
         LocalDateTime start = searchService.changeDate(roomOrderDTO.getReservationDateCheckin());
         LocalDateTime end = searchService.changeDate(roomOrderDTO.getReservationDateCheckout());
 
+
+
         roomOrderDTO.setReservationDateCheckinDate(start);
         roomOrderDTO.setReservationDateCheckoutDate(end);
+
+
 
         
         //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
@@ -271,6 +284,7 @@ public class MemberpageController {
 
         //예약된 방 하나를 상태를 1로 바꾼다.
         roomService.roomStatusUpdate1(roomOrderDTO);
+
 
         //객실예약 추가
         roomOrderService.register(roomOrderDTO);
