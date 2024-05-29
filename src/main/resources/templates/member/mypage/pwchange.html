@@ -1,58 +1,67 @@
-
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/mypagelayout}">
 <head>
+    <script>
+        function validateForm() {
+            const currentPassword = document.getElementById("currentPassword").value.trim();
+            const newPassword = document.getElementById("newPassword").value.trim();
+            const newPassword2 = document.getElementById("newPassword2").value.trim();
+
+            let valid = true;
+            let message = "";
+
+            if (!currentPassword || !newPassword || !newPassword2) {
+                valid = false;
+                message += "비밀번호는 공백일 수 없습니다.\n";
+            } else if (newPassword !== newPassword2) {
+                valid = false;
+                message += "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.\n";
+            } else if (currentPassword === newPassword) {
+                valid = false;
+                message += "현재 비밀번호와 새 비밀번호는 같을 수 없습니다.\n";
+            }
+
+            if (!valid) {
+                alert(message);
+            }
+
+            return valid;
+        }
+    </script>
     <title>개인정보 수정</title>
-
-
-
 </head>
 <body>
 <div layout:fragment="title"><h1><strong>비밀번호 변경</strong></h1></div>
 <div layout:fragment="content">
     <div id="form-container">
         <div id="form-inner-container">
-            <!-- Sign up form -->
-
             <div>
                 <h3>비밀번호 변경</h3>
-                <form method="post" action="/member/mypage/pwchange">
+                <form method="post" action="/member/mypage/pwchange" onsubmit="return validateForm();">
                     <label>비밀번호</label>
                     <input type="password" name="currentPassword" id="currentPassword">
-                    <!-- 비밀번호 확인 버튼 -->
-                    <button type="button" class="btn-0" style="border-radius: 10px; background:#ffffff; position: relative; left:400px; top:-90px;" onclick="checkPassword()">비밀번호 확인</button>
-                    <!-- 비밀번호 확인 버튼 끝 -->
-                    <div style="margin-top: -40px;">
+                    <!-- 성공 메시지 표시 -->
+                    <div th:if="${successMessage}" style="position: relative; left:500px; top:-50px;">
+                        <p th:text="${successMessage}" style="color: green;"></p>
+                    </div>
+                    <!-- 에러 메시지 표시 -->
+                    <div th:if="${errorMessage}" style="position: relative; left:500px; top:-50px;">
+                        <p th:text="${errorMessage}" style="color: red;"></p>
+                    </div>
                     <label>새 비밀번호</label>
                     <input type="password" name="newPassword" id="newPassword">
                     <br> <!-- 줄바꿈 추가 -->
                     <label>새 비밀번호 확인</label>
                     <input type="password" name="newPassword2" id="newPassword2">
-                    <div>
-                        <button type="submit" class="btn-0" style="border-radius: 10px; background:#ffffff;">비밀번호 변경</button>
-                    </div>
-                    </div>
+                    <button type="submit" class="btn-0" style="border-radius: 10px; background:#ffffff;">비밀번호 변경</button>
                 </form>
+
             </div>
-
-            <script>
-                function checkPassword() {
-                    // 여기에 비밀번호 확인 동작을 추가하세요.
-                    alert("비밀번호 확인 버튼 클릭됨!");
-                }
-            </script>
-
-
         </div>
     </div>
 </div>
-
-
-
-
-
 </body>
 </html>

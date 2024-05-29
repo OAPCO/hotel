@@ -20,22 +20,46 @@
             text-align: center; /* 가로 중앙 정렬 */
             vertical-align: middle; /* 세로 중앙 정렬 */
         }
+
     </style>
     <title>총판조직 관리</title>
+    <script>
+        function validateForm() {
+            const currentPassword = document.getElementById("currentPassword").value.trim();
+            const newPassword = document.getElementById("newPassword").value.trim();
+            const newPassword2 = document.getElementById("newPassword2").value.trim();
+
+            let valid = true;
+            let message = "";
+
+            if (!currentPassword || !newPassword || !newPassword2) {
+                valid = false;
+                message += "비밀번호는 공백일 수 없습니다.\n";
+            } else if (newPassword !== newPassword2) {
+                valid = false;
+                message += "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.\n";
+            } else if (currentPassword === newPassword) {
+                valid = false;
+                message += "현재 비밀번호와 새 비밀번호는 같을 수 없습니다.\n";
+            }
+
+            if (!valid) {
+                alert(message);
+            }
+
+            return valid;
+        }
+    </script>
+
 </head>
 <body id="page-top">
 <div layout:fragment="content">
     <div class="card">
         <div class="card-header" style="margin: 50px 20px;">
             <h6><strong>비밀번호 변경</strong></h6>
-            <!-- Message Display Section -->
 
-            <div th:value="${result != null}">
-                <div th:if="${result == true}" class="alert alert-success" th:text="${#message}"></div>
-                <div th:if="${result == false}" class="alert alert-danger" th:text="${message}"></div>
-            </div>
-            <!-- End of Message Display Section -->
-            <form id="passwordForm" method="post" action="/admin/admin/pwcheck">
+
+            <form method="post" action="/admin/admin/pwchange" onsubmit="return validateForm();">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -43,6 +67,7 @@
                             <th>현재 비밀번호</th>
                             <td class="align-middle text-start">
                                 <input type="password" name="currentPassword" id="currentPassword" style="width:200px;">
+
                             </td>
                         </tr>
                         <tr>
@@ -60,6 +85,14 @@
                         </tr>
                         </thead>
                     </table>
+                    <!-- 성공 메시지 표시 -->
+                    <div th:if="${successMessage}" class="message-box success-message">
+                        <p th:text="${successMessage}"  style="color: green;"></p>
+                    </div>
+                    <!-- 에러 메시지 표시 -->
+                    <div th:if="${errorMessage}" class="message-box error-message">
+                        <p th:text="${errorMessage}"  style="color: red;"></p>
+                    </div>
                     <div style="text-align: right;">
                         <button id="memberUpdate" class="btn text-white m-2" style="background-color: #36b9cc;" value="회원 정보 수정" th:onclick="memberUpdate()">변경</button>
                     </div>
@@ -68,39 +101,6 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#passwordForm').submit(function(event) {
-            event.preventDefault(); // 폼 제출 방지
-
-            // 새 비밀번호 공백 및 띄어쓰기 제거
-            var newPassword = $('#newPassword').val().trim();
-            $('#newPassword').val(newPassword);
-
-            // 새 비밀번호 확인 공백 및 띄어쓰기 제거
-            var newPassword2 = $('#newPassword2').val().trim();
-            $('#newPassword2').val(newPassword2);
-
-            // 새 비밀번호가 빈 문자열이면 경고 메시지 표시
-            if (newPassword === '') {
-                alert('새 비밀번호를 입력하세요.');
-                return;
-            }
-
-            // 새 비밀번호와 새 비밀번호 확인이 다르면 경고 메시지 표시
-            if (newPassword !== newPassword2) {
-                alert('새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.');
-                return;
-            }
-
-            $.post('/admin/admin/pwcheck', $(this).serialize(), function(response) {
-                // Optionally handle the response on the client side if needed
-                // Though Thymeleaf will handle the server-side response display
-            });
-        });
-    });
-</script>
 
 </body>
 </html>
