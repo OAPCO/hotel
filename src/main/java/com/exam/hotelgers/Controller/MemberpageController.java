@@ -615,10 +615,10 @@ public class MemberpageController {
 
 
     @PostMapping("/member/mypage/infoupdate")
-    public String infoupdateProc(MemberDTO memberDTO, SearchDTO searchDTO) {
+    public String infoupdateProc(SearchDTO searchDTO) {
 
 
-        memberService.memberInfoUpdate(searchDTO);
+    memberService.memberInfoUpdate(searchDTO);
 
 
         return "redirect:/logout";

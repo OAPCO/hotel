@@ -141,7 +141,7 @@ public class MemberService {
     //회원 정보수정
     public void memberInfoUpdate(SearchDTO searchDTO) {
 
-        memberRepository.memberInfoUpdate(searchDTO);
+          memberRepository.memberInfoUpdate(searchDTO);
 
     }
 
