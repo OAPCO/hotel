@@ -24,6 +24,7 @@ public class Payment extends BaseEntity {
     private Long paymentIdx;
 
     private int paymentPrice;
+    private int paymentStatus;
 
     private String memberName;
     private String memberPhone;
@@ -33,6 +34,8 @@ public class Payment extends BaseEntity {
 
     private Long storeIdx;
     private Long distIdx;
+    private Long roomorderIdx;
+    private Long menuorderIdx;
 
     //주문시 상품명. 호텔명이 들어감.
     private String paymentName;

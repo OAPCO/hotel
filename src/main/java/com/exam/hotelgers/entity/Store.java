@@ -46,6 +46,9 @@ public class Store extends BaseEntity{
     private int storePaymentType; //0:선결제, 1:후결제
 
 
+    //예약취소시 수수료
+    private double cancelCharge;
+
     private String storeAddr; //주소
     private String storeAddrDetail; //상세주소
 

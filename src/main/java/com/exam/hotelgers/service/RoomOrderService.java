@@ -196,4 +196,12 @@ public class RoomOrderService {
     }
 
 
+
+    //객실예약취소
+    @Transactional
+    public void roomOrderDelete(Long roomorderIdx) {
+        roomOrderRepository.roomOrderDelete(roomorderIdx);
+    }
+
+
 }

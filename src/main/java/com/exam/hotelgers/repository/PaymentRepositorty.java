@@ -1,11 +1,13 @@
 package com.exam.hotelgers.repository;
 
 
+import com.exam.hotelgers.dto.RoomOrderDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +27,12 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
     Page<Payment> distsalesSearch(Pageable pageable, Long distIdx);
 
 
+    //roomorderIdx로 payment 컬럼 조회
+    @Query("select p from Payment p where p.roomorderIdx = :roomorderIdx")
+    Optional<Payment> roomOrderByPaymentSearch(Long roomorderIdx);
+
+
+
     //매장의 결제내역 리스트
     @Query("select p from Payment p where p.storeIdx = :#{#searchDTO.storeIdx} " +
             "and p.regdate BETWEEN :#{#searchDTO.startDateTime} AND :#{#searchDTO.endDateTime}")
@@ -38,6 +46,7 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice)  " +
             "FROM Payment p " +
             "WHERE p.storeIdx = :storeIdx " +
+            "and p.paymentStatus = 0 " +
             "GROUP BY YEAR(p.regdate) " +
             "ORDER BY YEAR(p.regdate) ")
     List<Object[]> getYearSales(Long storeIdx);
@@ -46,6 +55,7 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice) " +
             "FROM Payment p " +
             "WHERE p.storeIdx = :storeIdx " +
+            "and p.paymentStatus = 0 " +
             "GROUP BY MONTH (p.regdate) " +
             "ORDER BY month (p.regdate)")
     List<Object[]> getMonthSales(Long storeIdx);
@@ -56,6 +66,7 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice) " +
             "FROM Payment p " +
             "WHERE p.storeIdx = :storeIdx " +
+            "and p.paymentStatus = 0 " +
             "GROUP BY day (p.regdate)" +
             "ORDER BY day (p.regdate)")
     List<Object[]> getDaySales(Long storeIdx);
@@ -74,6 +85,7 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice)  " +
             "FROM Payment p " +
             "WHERE p.distIdx = :distIdx " +
+            "and (p.paymentStatus = 0 or p.paymentStatus = 2) " +
             "GROUP BY YEAR(p.regdate) " +
             "ORDER BY YEAR(p.regdate) ")
     List<Object[]> getDistYearSales(Long distIdx);
@@ -82,6 +94,7 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice) " +
             "FROM Payment p " +
             "WHERE p.distIdx = :distIdx " +
+            "and (p.paymentStatus = 0 or p.paymentStatus = 2) " +
             "GROUP BY MONTH (p.regdate) " +
             "ORDER BY month (p.regdate)")
     List<Object[]> getDistMonthSales(Long distIdx);
@@ -92,6 +105,7 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice) " +
             "FROM Payment p " +
             "WHERE p.distIdx = :distIdx " +
+            "and (p.paymentStatus = 0 or p.paymentStatus = 2) " +
             "GROUP BY day (p.regdate)" +
             "ORDER BY day (p.regdate)")
     List<Object[]> getDistDaySales(Long distIdx);
@@ -107,6 +121,7 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice)  " +
             "FROM Payment p left join Dist d on d.distIdx = p.distIdx left join DistChief c on d.distChief.distChiefIdx = c.distChiefIdx " +
             "WHERE c.distChiefIdx = :distChiefIdx " +
+            "and (p.paymentStatus = 0 or p.paymentStatus = 2) " +
             "GROUP BY YEAR(p.regdate) " +
             "ORDER BY YEAR(p.regdate) ")
     List<Object[]> getDistChiefYearSales(Long distChiefIdx);
@@ -118,6 +133,7 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice)  " +
             "FROM Payment p left join Dist d on d.distIdx = p.distIdx left join DistChief c on d.distChief.distChiefIdx = c.distChiefIdx " +
             "WHERE c.distChiefIdx = :distChiefIdx " +
+            "and (p.paymentStatus = 0 or p.paymentStatus = 2) " +
             "GROUP BY month (p.regdate) " +
             "ORDER BY month (p.regdate) ")
     List<Object[]> getDistChiefMonthSales(Long distChiefIdx);
@@ -129,11 +145,24 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "SUM(p.paymentPrice)  " +
             "FROM Payment p left join Dist d on d.distIdx = p.distIdx left join DistChief c on d.distChief.distChiefIdx = c.distChiefIdx " +
             "WHERE c.distChiefIdx = :distChiefIdx " +
+            "and (p.paymentStatus = 0 or p.paymentStatus = 2) " +
             "GROUP BY day (p.regdate) " +
             "ORDER BY day (p.regdate) ")
     List<Object[]> getDistChiefDaySales(Long distChiefIdx);
 
 
+
+    @Modifying
+    @Query("update Payment p set " +
+            "p.paymentStatus = 1 " +
+            "where p.roomorderIdx = :roomorderIdx")
+    void paymentCancel(Long roomorderIdx);
+
+    @Modifying
+    @Query("update Payment p set " +
+            "p.paymentStatus = 2 " +
+            "where p.roomorderIdx = :roomorderIdx")
+    void paymentCancelCharge(Long roomorderIdx);
     
 
 }

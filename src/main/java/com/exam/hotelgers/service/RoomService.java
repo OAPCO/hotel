@@ -58,11 +58,6 @@ public class RoomService {
         Optional<Room> roomTypeCheck = roomRepository.findByRoomCd(roomDTO.getRoomCd());
 
 
-        if (roomTypeCheck.isPresent() && roomDTO.getStoreDTO().getStoreIdx() == store.get().getStoreIdx()) {
-            throw new IllegalStateException("이미 등록되어 있는 객실 타입입니다. 다른 이름으로 지정해주세요.");
-        }
-
-
         Room room = modelMapper.map(roomDTO, Room.class);
 
         room.setRoomStatus(0);

@@ -19,6 +19,7 @@ public class PaymentDTO {
     private Long paymentIdx;
 
     private int paymentPrice;
+    private int paymentStatus;
 
     private String memberName;
     private String memberPhone;
@@ -33,7 +34,8 @@ public class PaymentDTO {
 
     private Long storeIdx;
     private Long distIdx;
-
+    private Long roomorderIdx;
+    private Long menuorderIdx;
 
     private LocalDateTime regdate;
 

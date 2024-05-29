@@ -2,8 +2,10 @@ package com.exam.hotelgers.service;
 
 import com.exam.hotelgers.dto.PaymentDTO;
 
+import com.exam.hotelgers.dto.RoomDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.Payment;
+import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.repository.PaymentRepositorty;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -254,6 +256,29 @@ public class PaymentService {
         log.info("찍어보기1234"+daySalesArray[0][1]);
 
         return daySalesArray;
+    }
+
+
+    @Transactional
+    public void paymentCancel(Long roomorderIdx) {
+        paymentRepository.paymentCancel(roomorderIdx);
+    }
+
+    @Transactional
+    public void paymentCancelCharge(Long roomorderIdx) {
+        paymentRepository.paymentCancelCharge(roomorderIdx);
+    }
+
+
+    public PaymentDTO roomOrderByPaymentSearch(Long paymentorderIdx) {
+
+
+        Optional<Payment> payment = paymentRepository.roomOrderByPaymentSearch(paymentorderIdx);
+
+
+        PaymentDTO paymentDTO = modelMapper.map(payment, PaymentDTO.class);
+
+        return paymentDTO;
     }
 
 
