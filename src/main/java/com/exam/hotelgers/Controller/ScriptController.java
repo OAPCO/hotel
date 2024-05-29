@@ -441,11 +441,18 @@ public class ScriptController {
         storeService.storeCheckoutTimeUpdate(storeCheckoutTime,storeIdx);
     }
 
+    @GetMapping(value = "/roomcountadd")
+    public void roomcountadd(Long storeIdx) throws Exception {
+        storeService.roomCardAdd(storeIdx);
+    }
+
 
     @PostMapping(value = "/storeImageDelete")
     public void storeImageDelete(@RequestParam("imgFile") MultipartFile imgFile, @RequestParam("storeIdx") Long storeIdx) throws Exception {
         storeService.imageModify(imgFile,storeIdx);
     }
+
+
 
 
 

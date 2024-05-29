@@ -618,6 +618,25 @@ let hotel = (function () {
     };
 
 
+    function roomCountAdd(storeIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/roomcountadd',
+            data: {
+                storeIdx: storeIdx
+            },
+
+            success: function(e) {
+                console.log("룸ㅋ카운트 수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
 
     
     //매장 이미지 제거
@@ -661,7 +680,8 @@ let hotel = (function () {
         storeCheckoutTimemodify : storeCheckoutTimemodify,
         storeCheckinTimemodify : storeCheckinTimemodify,
         storeMessagemodify : storeMessagemodify,
-        storeImageModify : storeImageModify
+        storeImageModify : storeImageModify,
+        roomCountAdd : roomCountAdd
     };
 
 })();

@@ -199,16 +199,17 @@
 
 
 
-        // //
-        // var rowCount = 72;
-
-        createCards(60, 12);
-
-
         var roomIdx;
         var storeIdx = [[${storeDTO.storeIdx}]];
+        var roomCount = [[${storeDTO.roomCount}]];
 
         console.log("스토엉아이이디엑스ㅇㅇ"+storeIdx);
+        console.log("뤀만운ㅌ"+roomCount);
+
+
+        createCards(roomCount, 12);
+
+
 
         for (let i = 0; i < roomList.length; i++) {
 
@@ -333,6 +334,15 @@
                 card.classList.remove('drag-over'); // 드롭 이벤트 후 클래스 제거
             });
         });
+
+        function addRow() {
+
+            console.log("에드로우 스토어아"+storeIdx);
+            hotel.roomCountAdd(storeIdx);
+
+            location.reload();
+        }
+
 
     </script>
 
