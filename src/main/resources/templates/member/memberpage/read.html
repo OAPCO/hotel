@@ -251,7 +251,8 @@
                             <div th:each="roomImageListView : ${roomImageList}" th:if="${roomImageListView.roomImageType == roomTypeListView.roomType}">
 
                                 <div th:attr="class=${roomImageListView.roomImageMain == 1 ? 'carousel-item active' : 'carousel-item'}">
-                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="700" height="400" alt="Slide"/>
+                                    <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomImageListView.imgName}|" width="700" height="400"
+                                         alt="Slide"/>
                                 </div>
 
                                 <div th:attr="class=${roomImageListView.roomImageType}">
