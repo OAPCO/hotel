@@ -646,13 +646,19 @@ public class MemberpageController {
         return "member/mypage/pwchange";
     }
     @PostMapping("/member/mypage/pwchange")
-    public String pwchangeproc(Principal principal, String currentPassword, String newPassword) {
+    public String pwchangeproc(Principal principal, String currentPassword, String newPassword,Model model,RedirectAttributes redirectAttributes) {
 
         log.info("현재비밀번호"+currentPassword+"새비밀번호"+newPassword);
         int result=memberService.changePassword(currentPassword,newPassword,principal);
         log.info("결과값"+result);
+        if (result==0) {
+            model.addAttribute("errorMessage", "현재 비밀번호가 일치하지 않습니다.");
+            return "member/mypage/pwchange";
+        }
 
-        return "member/mypage/pwchange";
+
+        redirectAttributes.addFlashAttribute("successMessage", "비밀번호 변경이 완료되었습니다.");
+        return "redirect:/member/mypage/pwchange";
     }
 
 

@@ -153,7 +153,7 @@ public class AdminService {
 
 
     @Transactional
-    public boolean changePassword(String currentPassword, String newPassword, Principal principal) {
+    public int changePassword(String currentPassword, String newPassword, Principal principal) {
         String userId = principal.getName();
         Admin admin = adminRepository.findByAdminId(userId).orElseThrow(() ->
                 new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
@@ -161,7 +161,7 @@ public class AdminService {
         // 현재 비밀번호와 일치하는지 확인
         if (!passwordEncoder.matches(currentPassword, admin.getPassword())) {
             log.info("비밀번호 일치하지 않음. 입력된 비밀번호: " + currentPassword + " 저장된 비밀번호: " + admin.getPassword());
-            return false; // 현재 비밀번호가 일치하지 않음
+            return result=0; // 현재 비밀번호가 일치하지 않음
         }
 
         // 새로운 비밀번호로 업데이트
@@ -169,7 +169,7 @@ public class AdminService {
         admin.setPassword(encodedNewPassword);
         adminRepository.save(admin);
         log.info("패스워드 변경 성공. 새로운 비밀번호: " + encodedNewPassword);
-        return true; // 비밀번호 변경 성공
+        return result=1; // 비밀번호 변경 성공
     }
 
 }
