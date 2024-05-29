@@ -159,6 +159,20 @@
                                                  <textarea class="form-control" style="width: 100%; height: 100%;"
                                                            name="storeSummary" required></textarea>
                                             </td>
+                                            <td class="col-2">공지사항</td>
+                                            <td class="col">
+                                                 <textarea class="form-control" style="width: 100%; height: 100%;"
+                                                           name="storeMessage" required></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="col-2">체크인 시간</td>
+                                            <td class="col-4"><input class="form-control" type="text"
+                                                                     name="storeCheckinTime" required></td>
+                                            <td class="col-2">체크아웃 시간</td>
+                                            <td class="col-4"><input class="form-control" type="text"
+                                                                     name="storeCheckoutTime" required></td>
                                         </tr>
                                         <tr>
                                             <td class="col-2">
@@ -206,12 +220,6 @@
                                                     <option value="0">후불</option>
                                                     <option value="1">선불</option>
                                                 </select>
-                                            </td>
-                                            <td>영업시간</td>
-                                            <td>
-                                                <div>영업 시작: <input type="time" name="storeOpenTime" required>
-                                                    ~ 영업 끝:<input type="time" name="storeCloseTime" required>
-                                                </div>
                                             </td>
                                         </tr>
                                         <tr>

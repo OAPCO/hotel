@@ -74,7 +74,7 @@
 
             <th:block th:each="roomTypeList, iterStat :${roomTypeList}">
 
-                <div class="card">
+                <div class="card" style="margin-right: 40px">
                     <div class="card-header" th:id="'roomTypeHeader'+${iterStat.index}">
                         <span th:id="'roomTypeSpanId' + ${iterStat.index}" th:text="${roomTypeList.roomType}" th:value="${roomTypeList.roomType}"></span>/<span th:id="'roomPriceSpanId' + ${iterStat.index}" th:text="${roomTypeList.roomPrice}"></span>
                         <input type="text" th:value="${roomTypeList.roomPrice}" class="asdasd" th:id="'roomPriceId' + ${iterStat.index}">
