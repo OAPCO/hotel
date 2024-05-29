@@ -99,6 +99,8 @@
                             </thead>
                             <tbody>
 
+                            <th:block th:if="${orderHistory}">
+
                                 <tr th:each="menu : ${orderHistory.menuOrderList}">
                                     <td th:text="${menu.menuorderIdx}">1</td>
                                     <td th:switch="${menu.orderState}">
@@ -141,7 +143,7 @@
                                         </table>
                                     </td>
                                 </tr>
-
+                            </th:block>
                             </tbody>
                         </table>
                     </div>

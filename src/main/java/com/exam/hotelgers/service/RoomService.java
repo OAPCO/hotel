@@ -57,9 +57,6 @@ public class RoomService {
         Optional<Room> roomCdCheck = roomRepository.findByRoomCd(roomDTO.getRoomCd());
         Optional<Room> roomTypeCheck = roomRepository.findByRoomCd(roomDTO.getRoomCd());
 
-        if (roomCdCheck.isPresent() && roomDTO.getStoreDTO().getStoreIdx() == store.get().getStoreIdx()) {
-            throw new IllegalStateException("이미 방이 있어요");
-        }
 
         if (roomTypeCheck.isPresent() && roomDTO.getStoreDTO().getStoreIdx() == store.get().getStoreIdx()) {
             throw new IllegalStateException("이미 등록되어 있는 객실 타입입니다. 다른 이름으로 지정해주세요.");
@@ -101,11 +98,6 @@ public class RoomService {
         }
 
 
-        Optional<Room> roomCdCheck = roomRepository.findByRoomCd(roomDTO.getRoomCd());
-
-        if (roomCdCheck.isPresent() && roomDTO.getStoreDTO().getStoreIdx() == store.get().getStoreIdx()) {
-            throw new IllegalStateException("이미 방이 있어요");
-        }
 
 
 

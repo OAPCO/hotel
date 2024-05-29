@@ -351,15 +351,12 @@ let hotel = (function () {
 
                 var detailimg = document.createElement('div');
 
-                roomTypeDetailImages.forEach(function(data) {
-                    detailimg.innerHTML = `<img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${data.imgName}" width="200" height="100">`;
-                    preview.appendChild(detailimg);
-                });
+
 
 
 
                 var img = document.createElement('div');
-                img.innerHTML = `<img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${mainImgName}" width="200" height="100">`;
+                img.innerHTML = `<img src="https://gudgh9512.s3.ap-northeast-2.amazonaws.com/static%5c${mainImgName}" width="400" height="200">`;
 
 
                 preview2.appendChild(img);
@@ -537,6 +534,112 @@ let hotel = (function () {
     };
 
 
+    function storeSummaryModify(storeSummary,storeIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/summarymodify',
+            data: {
+                storeSummary: storeSummary,
+                storeIdx: storeIdx
+            },
+
+            success: function(e) {
+                console.log("공지수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+    function storeMessagemodify(storeMessage,storeIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/storeMessagemodify',
+            data: {
+                storeMessage: storeMessage,
+                storeIdx: storeIdx
+            },
+
+            success: function(e) {
+                console.log("공지수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+    function storeCheckinTimemodify(storeCheckinTime,storeIdx){
+
+        console.log("체크인 수정들어옴");
+
+        $.ajax({
+            type: 'GET',
+            url: '/storeCheckinTimemodify',
+            data: {
+                storeCheckinTime: storeCheckinTime,
+                storeIdx: storeIdx
+            },
+
+            success: function(e) {
+                console.log("체크인 수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+    function storeCheckoutTimemodify(storeCheckoutTime,storeIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/storeCheckoutTimemodify',
+            data: {
+                storeCheckoutTime: storeCheckoutTime,
+                storeIdx: storeIdx
+            },
+
+            success: function(e) {
+                console.log("공지수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
+    
+    //매장 이미지 제거
+    function storeImageModify(imgFile, storeIdx) {
+        var formData = new FormData();
+        formData.append('imgFile', imgFile);
+        formData.append('storeIdx', storeIdx);
+
+        $.ajax({
+            type: 'POST',
+            url: '/storeImageDelete',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(e) {
+                console.log("이미지 수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+    };
 
 
     //값 반환
@@ -554,6 +657,11 @@ let hotel = (function () {
         distDaySalesSearch : distDaySalesSearch,
         distMonthSalesSearch : distMonthSalesSearch,
         distYearSalesSearch : distYearSalesSearch,
+        storeSummaryModify : storeSummaryModify,
+        storeCheckoutTimemodify : storeCheckoutTimemodify,
+        storeCheckinTimemodify : storeCheckinTimemodify,
+        storeMessagemodify : storeMessagemodify,
+        storeImageModify : storeImageModify
     };
 
 })();

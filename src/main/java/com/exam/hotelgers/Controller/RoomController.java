@@ -241,6 +241,7 @@ public class RoomController {
     public String registerRoomWindowaddProc(@Valid RoomDTO roomDTO, BindingResult bindingResult,
                                          RedirectAttributes redirectAttributes) throws IOException {
 
+        log.info("룸레지스터 에드 들어옴");
 
         if (bindingResult.hasErrors()) {
             log.info("has error@@@@@@@@@");
@@ -252,7 +253,12 @@ public class RoomController {
         roomDTO.setRoomMainimgName(roomMainImageName);
 
 
+        log.info("roomMainImageName : "+ roomMainImageName);
+
+
         Long roomIdx = roomService.registeradd(roomDTO);
+
+        log.info("roomIdx2 : "+ roomIdx);
 
         redirectAttributes.addFlashAttribute("result", roomIdx);
 
@@ -291,24 +297,32 @@ public class RoomController {
     @GetMapping("/admin/manager/room/typemodify/{roomType}")
     public String read(@PathVariable String roomType, Model model,Principal principal) throws IOException {
 
+
+        log.info("타입모디파이 들어옴");
         StoreDTO storeDTO = managerService.managerOfStore(principal);
 
         Long storeIdx = storeDTO.getStoreIdx();
 
         RoomDTO roomDTO = roomService.roomTypeSearchOne(storeIdx,roomType);
 
+        SearchDTO searchDTO = new SearchDTO();
 
+        searchDTO.setRoomType(roomType);
+        searchDTO.setStoreIdx(storeDTO.getStoreIdx());
 
-        List<ImageDTO> roomDetailImgList = imageService.getRoomTypeImages(roomType,storeIdx);
-        ImageDTO roomMainImg = imageService.getRoomTypeMainImages(roomType,storeIdx);
+        List<ImageDTO> imageDTOS = imageService.roomTypeDetailImageSearch(searchDTO);
 
+        log.info("roomDTO2"+roomDTO);
 
+//        List<ImageDTO> roomDetailImgList = imageService.getRoomTypeImages(roomType,storeIdx);
+//        ImageDTO roomMainImg = imageService.getRoomTypeMainImages(roomType,storeIdx);
 
-        log.info("로그화긴@"+roomMainImg);
-        log.info("로그화긴@"+roomMainImg.getImgName());
+//        log.info("로그화긴@"+roomMainImg);
+//        log.info("로그화긴@"+roomMainImg.getImgName());
 
 
         model.addAttribute("roomDTO",roomDTO);
+        model.addAttribute("imageDTOS",imageDTOS);
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
@@ -321,8 +335,8 @@ public class RoomController {
 
     @PostMapping("/room/modify")
     public String modifyProc(String roomType,
-                             List<MultipartFile> imgFiles,
-                             MultipartFile imgFile,
+                             @RequestParam(required = false) List<MultipartFile> imgFiles,
+                             @RequestParam(required = false) MultipartFile imgFile,
                              Principal principal,
                              Model model) throws IOException {
 
@@ -331,10 +345,14 @@ public class RoomController {
 
 
         //세부이미지 수정
-        imageService.roomImageregister(imgFiles,storeDTO.getStoreIdx(),roomType);
+        if (imgFiles!=null){
+            imageService.roomImageregister(imgFiles,storeDTO.getStoreIdx(),roomType);
+        }
 
         //메인이미지 수정
-        String mainImgName = imageService.roomMainImageregister(imgFile,storeDTO.getStoreIdx(),roomType);
+        if (imgFile!=null){
+            imageService.roomMainImageregister(imgFile,storeDTO.getStoreIdx(),roomType);
+        }
 
         
 

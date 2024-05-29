@@ -67,6 +67,7 @@
 
     <div id="main-container">
         <div id="left-content"></div>
+        <button onclick="addRow()" class="btn btn-primary">줄 추가</button>
 
 
         <div id="right-content">
@@ -158,7 +159,7 @@
 
             //객실 추가 팝업창 생성
             var popupUrl = "/window/roomregister?id=" + cardId;
-            var popupOption = "width=1500, height=500";
+            var popupOption = "width=1500, height=650";
             window.open(popupUrl, "객실 추가", popupOption);
         }
 
@@ -196,7 +197,13 @@
             }
         }
 
+
+
+        // //
+        // var rowCount = 72;
+
         createCards(60, 12);
+
 
         var roomIdx;
         var storeIdx = [[${storeDTO.storeIdx}]];

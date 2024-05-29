@@ -15,33 +15,45 @@
             <div class="card-header py-3">
                 <div class="sub_title">
                     <h2>[[${storeDTO.storeName}]] 소개</h2>
+                    <h4>
                     <span th:text="${storeDTO.storeSummary}" id="storeSummaryId"></span>
+                    </h4>
                     <input type="text" style="display: none" id="storeSummaryInput" th:value="${storeDTO.storeSummary}">
+                    <button type="button" style="display: none" id="storeSummaryButton">수정</button>
                 </div>
             </div>
             <div class="card-body">
                 <table class="table">
                     <tbody>
                     <tr class="row">
-                        <img th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|" style="width: 70%">
+                        <img id="imageId" th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${storeDTO.storeimgName}|" style="width: 50%">
+
+                        <input type="file" style="display: none" class="form-control" id="imgFile" name="imgFile">
+
                     </tr>
                     <br><br>
                     <tr class="row">
                         <td class="col-2 ">체크인 시간</td>
                         <td class="col-9">
                             <span th:text="${storeDTO.storeCheckinTime}" id="checkInTimeId"></span>
+                            <input type="text" style="display: none" id="checkInTimeInput" th:value="${storeDTO.storeCheckinTime}">
+                            <button type="button" style="display: none" id="checkInTimeButton">수정</button>
                         </td>
                     </tr>
                     <tr class="row">
                         <td class="col-2 ">체크아웃 시간</td>
                         <td class="col-9">
                             <span th:text="${storeDTO.storeCheckoutTime}" id="checkOutTimeId"></span>
+                            <input type="text" style="display: none" id="checkOutTimeInput" th:value="${storeDTO.storeSummary}">
+                            <button type="button" style="display: none" id="checkOutTimeButton">수정</button>
                         </td>
                     </tr>
                     <tr class="row" style="height: 200px">
                         <td class="col-2">공지사항</td>
                         <td class="col-9">
                             <span th:text="${storeDTO.storeMessage}" id="storeMessageId"></span>
+                            <input type="text" style="display: none" id="storeMessageInput" th:value="${storeDTO.storeSummary}">
+                            <button type="button" style="display: none" id="storeMessageButton">수정</button>
                         </td>
                     </tr>
                     </tbody>
@@ -51,16 +63,49 @@
     </div> <!-- 매장 상세 정보 -->
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/hotel.js"></script>
 
-<script>
+    <script>
     var storeSummary = document.getElementById("storeSummaryId");
     var storeSummaryInput = document.getElementById("storeSummaryInput");
+    var storeSummaryButton = document.getElementById("storeSummaryButton");
     var checkInTime = document.getElementById("checkInTimeId");
+    var checkInTimeInput = document.getElementById("checkInTimeInput");
+    var checkInTimeButton = document.getElementById("checkInTimeButton");
     var checkOutTime = document.getElementById("checkOutTimeId");
+    var checkOutTimeInput = document.getElementById("checkOutTimeInput");
+    var checkOutTimeButton = document.getElementById("checkOutTimeButton");
     var storeMessage = document.getElementById("storeMessageId");
+    var storeMessageInput = document.getElementById("storeMessageInput");
+    var storeMessageButton = document.getElementById("storeMessageButton");
+    var imageId = document.getElementById("imageId");
+    var imgFile = document.getElementById("imgFile");
+
+    var storeIdx = [[${storeDTO.storeIdx}]];
+
+
+
+    imageId.addEventListener('click', function(e) {
+
+        console.log("이미지 클릭됨");
+        imgFile.click();
+
+        imgFile.addEventListener('change', function() {
+
+            var selectedFile = imgFile.files[0];
+            console.log(selectedFile);
+
+            hotel.storeImageModify(selectedFile, storeIdx)
+
+            setTimeout(function() {location.reload();}, 1000);
+        });
+    });
+
+
+
 
     storeSummary.addEventListener('click', function(e) {
 
@@ -68,6 +113,84 @@
 
         storeSummary.style.display = 'none';
         storeSummaryInput.style.display = 'block';
+        storeSummaryButton.style.display = 'block';
+
+        storeSummaryButton.addEventListener('click', function(e) {
+
+            //수정
+            var storeSummaryVal = storeSummaryInput.value;
+            hotel.storeSummaryModify(storeSummaryVal,storeIdx);
+
+            storeSummary.style.display = 'block';
+            storeSummaryInput.style.display = 'none';
+            storeSummaryButton.style.display = 'none';
+            location.reload();
+        });
+    });
+
+    checkInTime.addEventListener('click', function(e) {
+
+        console.log("체크인클릭됨");
+
+        checkInTime.style.display = 'none';
+        checkInTimeInput.style.display = 'block';
+        checkInTimeButton.style.display = 'block';
+
+        checkInTimeButton.addEventListener('click', function(e) {
+
+            console.log("체크인버튼 클릭됨");
+
+            //수정
+            var checkInTimeVal = checkInTimeInput.value;
+            hotel.storeCheckinTimemodify(checkInTimeVal,storeIdx);
+
+            checkInTime.style.display = 'block';
+            checkInTimeInput.style.display = 'none';
+            checkInTimeButton.style.display = 'none';
+            setTimeout(function() {location.reload();}, 1000);
+        });
+    });
+
+    checkOutTime.addEventListener('click', function(e) {
+
+        console.log("클릭됨");
+
+        checkOutTime.style.display = 'none';
+        checkOutTimeInput.style.display = 'block';
+        checkOutTimeButton.style.display = 'block';
+
+        checkOutTimeButton.addEventListener('click', function(e) {
+
+            //수정
+            var checkOutTimeVal = checkOutTimeInput.value;
+            hotel.storeCheckoutTimemodify(checkOutTimeVal,storeIdx);
+
+            checkOutTime.style.display = 'block';
+            checkOutTimeInput.style.display = 'none';
+            checkOutTimeButton.style.display = 'none';
+            setTimeout(function() {location.reload();}, 1000);
+        });
+    });
+
+    storeMessage.addEventListener('click', function(e) {
+
+        console.log("클릭됨");
+
+        storeMessage.style.display = 'none';
+        storeMessageInput.style.display = 'block';
+        storeMessageButton.style.display = 'block';
+
+        storeMessageButton.addEventListener('click', function(e) {
+
+            //수정
+            var storeMessageVal = storeMessageInput.value;
+            hotel.storeMessagemodify(storeMessageVal,storeIdx);
+
+            storeMessage.style.display = 'block';
+            storeMessageInput.style.display = 'none';
+            storeMessageButton.style.display = 'none';
+            setTimeout(function() {location.reload();}, 1000);
+        });
     });
 
 </script>

@@ -6,6 +6,7 @@
 <head>
     <title>객실 타입 수정</title>
     <link rel="stylesheet" href="/yhh.css">
+
 </head>
 
 <body>
@@ -22,43 +23,42 @@
                 </div>
             </div>
 
-
             <div>
                 <div>
-                    <span class="info-label">대표 이미지</span>
+                    <span class="info-label"></span>
                 </div>
-                <div class="image-container">
-                    <div>
-                        <img class="banner-image" th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${roomMainImg.imgName}|" width="300" height="300">
+                <div class="image-container" th:each="image : ${imageDTOS}">
+
+                    <div th:if="${image.roomImageMain==1}">
+                        <h2>대표이미지</h2>
+                        <div>
+                            <img id="mainImg" class="banner-image" th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${image.imgName}|" width="300" height="300">
+                        </div>
+                        <div>
+                            <button class="btn red-button" type="button" th:onclick="|location.href='@{'/deleteimg/'+${image.imageIdx}}'|">제거</button>
+                        </div>
                     </div>
-                    <div>
-                        <button class="btn red-button" type="button" th:onclick="|location.href='@{'/deleteimg/'+${image.imageIdx}}'|">제거</button>
+
+                    <div th:if="${image.roomImageMain==0}">
+                        <p>세부이미지</p>
+                        <div>
+                            <img class="banner-image" th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${image.imgName}|" width="300" height="300">
+                        </div>
+                        <div>
+                            <button class="btn red-button" type="button" th:onclick="|location.href='@{'/deleteimg/'+${image.imageIdx}}'|">제거</button>
+                        </div>
                     </div>
+
                 </div>
-            </div><br><br>
+            </div>
+            <br><br>
 
-
-            <div>
-                <div>
-                    <span class="info-label">상세 이미지</span>
-                </div>
-                <div class="image-container" th:each="image : ${roomDetailImgList}">
-                    <div>
-                    <img class="banner-image" th:src="|https://${bucket}.s3.${region}.amazonaws.com/${folder}%5c${image.imgName}|" width="300" height="300">
-                    </div>
-                    <div>
-                    <button class="btn red-button" type="button" th:onclick="|location.href='@{'/deleteimg/'+${image.imageIdx}}'|">제거</button>
-                    </div>
-                </div>
-            </div><br><br>
-
-
-<!--            여기서 타입의 모든 객실들을 조회해서 이미지 수정-->
+            <!-- 대표 이미지 추가 -->
             <form method="post" th:action="@{/room/modify}" enctype="multipart/form-data">
 
                 <div class="mb-3 mt-3">
                     가격 <input type="text" class="form-control" name="roomPrice" th:value="${roomDTO.roomPrice}"
-                           required>
+                              required>
                 </div>
 
                 <input type="hidden" name="roomType" th:value="${roomDTO.roomType}" />
@@ -67,7 +67,7 @@
                 <input type="file" class="form-control" id="imgFile" name="imgFile" multiple>
                 <div id="preview"></div>
 
-                세부 이미지 추가
+                이미지 추가
                 <input type="file" class="form-control" id="imgFiles" name="imgFiles" multiple>
                 <div id="preview2"></div>
                 <div style="text-align: center;">
@@ -78,12 +78,11 @@
             <br><br>
             <div class="banner-buttons">
                 <button class="btn btn-primary" type="button" th:onclick="|location.href='@{/admin/manager/room/listboard}'|">목록</button>
-<!--                <button class="btn btn-danger" type="button" th:onclick="|location.href='@{'/admin/manager/room/delete/'+${roomDTO.bannerIdx}}'|">삭제</button>-->
+                <!--                <button class="btn btn-danger" type="button" th:onclick="|location.href='@{'/admin/manager/room/delete/'+${roomDTO.bannerIdx}}'|">삭제</button>-->
             </div>
 
-
-            </div>
         </div>
+    </div>
 
 
     <script>
@@ -92,8 +91,15 @@
         const inputs = document.getElementById('imgFiles');
         const previews = document.getElementById('preview2');
 
+        input.addEventListener('change', function(event) {
+            const mainImg = document.getElementById('mainImg');
+            if (mainImg) {
+                alert("기존 대표이미지를 제거 후 추가해주세요");
+                event.preventDefault();
+                input.value = ""; // 파일 선택 취소
+                return;
+            }
 
-        input.addEventListener('change', function() {
             preview.innerHTML = ''; // 이미지 미리보기 초기화
 
             const files = this.files;
@@ -111,8 +117,6 @@
                 reader.readAsDataURL(file);
             }
         });
-
-
 
         inputs.addEventListener('change', function() {
             previews.innerHTML = ''; // 이미지 미리보기 초기화
@@ -133,9 +137,7 @@
             }
         });
     </script>
-
-
-    </div>
+</div>
 </body>
 
 </html>

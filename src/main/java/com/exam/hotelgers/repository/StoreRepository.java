@@ -8,6 +8,7 @@ import com.exam.hotelgers.entity.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -135,5 +136,51 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("select s from Store s join RoomOrder r on r.storeIdx = s.storeIdx where r.roomorderIdx = :roomorderIdx " +
             "and r.roomStatus = 2")
     Optional<Store> findCheckinStore(Long roomorderIdx);
+
+
+
+    //매장 정보 수정 쿼리들
+    @Modifying
+    @Query("UPDATE Store s " +
+            "SET s.storeSummary = :storeSummary " +
+            "WHERE s.storeIdx = :storeIdx")
+    void storeSummaryModify(String storeSummary,Long storeIdx);
+
+
+    @Modifying
+    @Query("UPDATE Store s " +
+            "SET s.storeMessage = :storeMessage " +
+            "WHERE s.storeIdx = :storeIdx")
+    void storeMessageModify(String storeMessage,Long storeIdx);
+
+    @Modifying
+    @Query("UPDATE Store s " +
+            "SET s.storeCheckinTime = :storeCheckinTime " +
+            "WHERE s.storeIdx = :storeIdx")
+    void storeCheckinTimeModify(String storeCheckinTime,Long storeIdx);
+
+    @Modifying
+    @Query("UPDATE Store s " +
+            "SET s.storeCheckoutTime = :storeCheckoutTime " +
+            "WHERE s.storeIdx = :storeIdx")
+    void storeCheckoutTimeModify(String storeCheckoutTime,Long storeIdx);
+
+
+
+    //호텔 이미지 수정
+    @Modifying
+    @Query("UPDATE Store s " +
+            "SET s.storeimgName = :storeimgName " +
+            "WHERE s.storeIdx = :storeIdx")
+    void storeImgModify(String storeimgName ,Long storeIdx);
+
+
+
+    //listboard 줄 추가
+    @Modifying
+    @Query("UPDATE Store s " +
+            "SET s.roomCount = s.roomCount + 12 " +
+            "WHERE s.storeIdx = :storeIdx")
+    void roomCardAdd(Long storeIdx);
 
 }

@@ -42,8 +42,7 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
 
     //호텔 객실 타입의 이미지 목록
     @Query(value = "SELECT i FROM Image i " +
-            "where i.roomImageMain = 0 and " +
-            "i.roomImageType LIKE :#{#searchDTO.roomType} and " +
+            "where i.roomImageType LIKE :#{#searchDTO.roomType} and " +
             "i.storeIdx = :#{#searchDTO.storeIdx}")
     List<Image> roomTypeDetailMainImageSearch(SearchDTO searchDTO);
 
@@ -67,7 +66,6 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
 
 
 
-    //객실 타입으로 객실의 디테일 이미지들을 수정한다.
 
 
 

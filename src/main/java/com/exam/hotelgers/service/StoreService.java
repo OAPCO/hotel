@@ -138,11 +138,37 @@ public class StoreService {
 
 
         store.setDist(dist.get());
+        store.setRoomCount(12);
 
 
 
         return storeRepository.save(store).getStoreIdx();
     }
+
+
+
+
+
+
+    @Transactional
+    public void imageModify(MultipartFile imgFile,Long storeIdx) throws Exception{
+
+
+        String storeimgName = "";
+        String originalFileName = imgFile.getOriginalFilename();
+
+        if(originalFileName != null) {
+
+            storeimgName = s3Uploader.upload(imgFile,imgUploadLocation);
+        }
+
+        storeRepository.storeImgModify(storeimgName,storeIdx);
+
+    }
+
+
+
+
 
 
 
@@ -370,5 +396,40 @@ public class StoreService {
 
         return modelMapper.map(store,StoreDTO.class);
     }
+
+
+
+    @Transactional
+    public void storeSummaryUpdate(String storeSummary, Long storeIdx) {
+        storeRepository.storeSummaryModify(storeSummary, storeIdx);
+    }
+
+
+    @Transactional
+    public void storeMessageUpdate(String storeMessage, Long storeIdx) {
+        storeRepository.storeMessageModify(storeMessage, storeIdx);
+    }
+
+
+    @Transactional
+    public void storeCheckinTimeUpdate(String storeCheckinTime, Long storeIdx) {
+        storeRepository.storeCheckinTimeModify(storeCheckinTime, storeIdx);
+    }
+
+    @Transactional
+    public void storeCheckoutTimeUpdate(String storeCheckoutTime, Long storeIdx) {
+        storeRepository.storeCheckoutTimeModify(storeCheckoutTime, storeIdx);
+    }
+
+
+
+    //룸카드 추가 메소드
+    @Transactional
+    public void roomCardAdd(Long storeIdx) {
+        storeRepository.roomCardAdd(storeIdx);
+    }
+
+
+
 
 }

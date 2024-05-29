@@ -32,6 +32,9 @@ public class StoreDTO {
     private int nowOrderNo; //매장별 주문 번호
     private LocalDateTime nowOrderNoDate; //매장별 주문 번호 기준일
 
+    private int roomCount;
+
+
 
     private String storeSummary; //매장 설명
     private String facilities; //편의시설들

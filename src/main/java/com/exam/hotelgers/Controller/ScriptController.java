@@ -420,7 +420,35 @@ public class ScriptController {
         return daySales;
 
     }
-    
+
+    @GetMapping(value = "/summarymodify")
+    public void storeSummary(String storeSummary,Long storeIdx) throws Exception {
+        storeService.storeSummaryUpdate(storeSummary,storeIdx);
+    }
+
+    @GetMapping(value = "/storeMessagemodify")
+    public void storeMessage(String storeMessage,Long storeIdx) throws Exception {
+        storeService.storeMessageUpdate(storeMessage,storeIdx);
+    }
+
+    @GetMapping(value = "/storeCheckinTimemodify")
+    public void storeCheckinTime(String storeCheckinTime,Long storeIdx) throws Exception {
+        storeService.storeCheckinTimeUpdate(storeCheckinTime,storeIdx);
+    }
+
+    @GetMapping(value = "/storeCheckoutTimemodify")
+    public void storeCheckoutTime(String storeCheckoutTime,Long storeIdx) throws Exception {
+        storeService.storeCheckoutTimeUpdate(storeCheckoutTime,storeIdx);
+    }
+
+
+    @PostMapping(value = "/storeImageDelete")
+    public void storeImageDelete(@RequestParam("imgFile") MultipartFile imgFile, @RequestParam("storeIdx") Long storeIdx) throws Exception {
+        storeService.imageModify(imgFile,storeIdx);
+    }
+
+
+
 
 
 

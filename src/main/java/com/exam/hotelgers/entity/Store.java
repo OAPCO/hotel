@@ -61,6 +61,8 @@ public class Store extends BaseEntity{
     private String facilities; //편의시설들
     private String regionCd; //지역 코드
 
+    private int roomCount;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="distIdx")
