@@ -20,22 +20,27 @@
                 <h3>회원정보</h3>
                 <form>
                     <label>이름</label>
-                    <input type="text" th:value="${memberDTO.memberName}" readonly="readonly">
+                    <input type="text" th:value="${memberDTO.memberName}"  readonly="readonly">
 
-                    <label>아이디</label>
-                    <input type="text" th:value="${memberDTO.memberEmail}" readonly="readonly">
+                    <label>우편번호</label>
+                    <input type="text" th:value="${memberDTO.memberZipCode}" th:placeholder="${memberDTO.memberZipCode}"  readonly="readonly">
 
+                    <label>주소</label>
+                    <input type="text" th:value="${memberDTO.memberAddress}" th:placeholder="${memberDTO.memberAddress}"  readonly="readonly">
+
+                    <label>전화번호</label>
+                    <input type="text" th:value="${memberDTO.memberPhone}" th:placeholder="${memberDTO.memberPhone}"  readonly="readonly">
 
                     <div>
                         <button type="button" class="btn-0" style="border-radius: 10px; background:#ffffff" th:onclick="|location.href='@{/member/mypage/infoupdate}'|">회원정보 수정</button>
                     </div>
-
-                    <div>
-                        <button type="button" class="btn-0" style="border-radius: 10px; background:#ffffff" th:onclick="|location.href='@{/member/mypage/withdraw}'|">회원 탈퇴</button>
-                    </div>
                     <div>
                         <button type="button" class="btn-0"  style="border-radius: 10px; background:#ffffff" th:onclick="|location.href='@{/member/mypage/pwchange}'|">비밀번호 수정</button>
                     </div>
+                    <div>
+                        <button type="button" class="btn-0" style="border-radius: 10px; background:#ffffff" th:onclick="|location.href='@{/member/mypage/withdraw}'|">회원 탈퇴</button>
+                    </div>
+
                 </form>
             </div>
 

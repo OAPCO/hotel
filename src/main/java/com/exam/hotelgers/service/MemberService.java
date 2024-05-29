@@ -141,7 +141,7 @@ public class MemberService {
     //회원 정보수정
     public void memberInfoUpdate(SearchDTO searchDTO) {
 
-        memberRepository.memberInfoUpdate(searchDTO);
+          memberRepository.memberInfoUpdate(searchDTO);
 
     }
 
@@ -175,9 +175,10 @@ public class MemberService {
 
         //사용자가 입력한 암호
         String password = searchDTO.getPassword();
-
+        log.info("기존 암호 패스워드"+passwordEnc);
+        log.info("탈퇴 입력 패스워드"+password);
         //두개가 일치하는지 비교
-        boolean matches = passwordEncoder.matches(passwordEnc, password);
+        boolean matches = passwordEncoder.matches(password,passwordEnc);
 
         log.info("비밀번호 대조 결과@@" + matches);
 

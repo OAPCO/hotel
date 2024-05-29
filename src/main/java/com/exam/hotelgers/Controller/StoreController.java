@@ -252,8 +252,8 @@ public class StoreController {
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);
 
-        log.info("Detail Menu List: " + detailmenuDTOS);
-        log.info("Menu Category List: " + menuCateDTOS);
+        log.info("디테일 메뉴 리스트: " + detailmenuDTOS);
+        log.info("메뉴 카테고리 리스트: " + menuCateDTOS);
 
         return "admin/manager/order/menulist";
     }
