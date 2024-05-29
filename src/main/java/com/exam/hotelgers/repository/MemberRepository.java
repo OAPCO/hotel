@@ -33,11 +33,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     //회원 정보 수정
     @Modifying
     @Query("update Member m set " +
-            "m.memberEmail = :#{#searchDTO.memberEmail}, " +
-            "m.memberName = :#{#searchDTO.memberName} " +
+            "m.memberName = :#{#searchDTO.memberName}, " +
+            "m.memberZipCode = :#{#searchDTO.memberZipCode}, " +
+            "m.memberAddress = :#{#searchDTO.memberAddress}," +
+            "m.memberPhone = :#{#searchDTO.memberPhone} " +
             "where m.memberIdx = :#{#searchDTO.memberIdx}")
     void memberInfoUpdate(SearchDTO searchDTO);
-
 
     Member findByMemberId(String memberId);
 
