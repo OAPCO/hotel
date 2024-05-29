@@ -30,6 +30,8 @@ public class StoreDTO {
 
     private String regionCd; //지역 코드
     private int nowOrderNo; //매장별 주문 번호
+    private double cancelCharge;
+
     private LocalDateTime nowOrderNoDate; //매장별 주문 번호 기준일
 
     private int roomCount;

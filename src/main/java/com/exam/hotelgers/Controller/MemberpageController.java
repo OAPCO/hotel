@@ -1,6 +1,7 @@
 package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.Payment;
 import com.exam.hotelgers.entity.RoomOrder;
 import com.exam.hotelgers.repository.*;
 import com.exam.hotelgers.repository.RoomRepository;
@@ -141,16 +142,20 @@ public class MemberpageController {
         double averageRating = reviewService.calculateAverageRating(reviewDTOList);
 
         //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
-        List<RoomDTO> roomTypeList = roomService.roomTypeSearch(storeIdx);
+        List<RoomDTO> roomTypeList = roomService.storeroomTypeSearch(storeIdx);
 
         log.info("테스트123" + roomTypeList);
 
         //매장과 룸 인덱스가 일치하는 이미지중 세부이미지들을 불러오는 쿼리문을 실행한다.
         List<ImageDTO> roomImageList = imageService.roomImageSearch(storeIdx);
 
+        log.info("이미지목록 : " + roomImageList);
+
 
         //객실 대표이미지를 불러온다.
         List<ImageDTO> roomMainImageList = imageService.roomMainImageSearch(storeIdx);
+
+        log.info("대표이미지 : " + roomMainImageList);
 
 
         //불러온 객실 타입 열거형 종류들을 String 배열 형태로 볁환한다.
@@ -277,17 +282,23 @@ public class MemberpageController {
 
 
 
-        
-        //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
-        paymentDTO.setDistIdx(distRepository.findStoreOfDistIdx(roomOrderDTO.getStoreIdx()));
-
 
         //예약된 방 하나를 상태를 1로 바꾼다.
         roomService.roomStatusUpdate1(roomOrderDTO);
 
 
         //객실예약 추가
-        roomOrderService.register(roomOrderDTO);
+        Long roomorderIdx = roomOrderService.register(roomOrderDTO);
+
+        log.info("룸오더아이디엑스화긴"+roomorderIdx);
+
+
+        //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
+        paymentDTO.setDistIdx(distRepository.findStoreOfDistIdx(roomOrderDTO.getStoreIdx()));
+
+        //예약된 roomorderIdx 삽입
+        paymentDTO.setRoomorderIdx(roomorderIdx);
+
 
         //결제테이블 컬럼 추가
         paymentService.register(paymentDTO);
@@ -309,10 +320,11 @@ public class MemberpageController {
         log.info("토어화긴"+menuOrderDTO.getStoreIdx());
 
 
-        menuOrderService.register(menuOrderDTO);
+        Long menuorderIdx = menuOrderService.register(menuOrderDTO);
 
         //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
         paymentDTO.setDistIdx(distRepository.findStoreOfDistIdx(menuOrderDTO.getStoreIdx()));
+        paymentDTO.setRoomorderIdx(menuorderIdx);
 
         //결제테이블 컬럼 추가
         paymentService.register(paymentDTO);
@@ -718,6 +730,7 @@ public class MemberpageController {
     public String roomserviceform(){
         return "member/memberpage/roomservice";
     }
+
 
 
 

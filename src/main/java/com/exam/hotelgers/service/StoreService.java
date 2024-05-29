@@ -57,6 +57,8 @@ public class StoreService {
     public Long register(StoreDTO storeDTO,SearchDTO searchDTO, MultipartFile imgFile) throws Exception{
 
 
+        log.info("수수료화긴@"+storeDTO.getCancelCharge());
+
         Optional<Dist> dist = distRepository.distCheckGet(searchDTO);
         Optional<Manager> manager = managerRepository.managerCheckGet(searchDTO);
         Optional<Brand> brand = brandRepository.brandCheckGet(searchDTO);
@@ -402,6 +404,12 @@ public class StoreService {
     @Transactional
     public void storeSummaryUpdate(String storeSummary, Long storeIdx) {
         storeRepository.storeSummaryModify(storeSummary, storeIdx);
+    }
+
+    @Transactional
+    public void cancelChargeUpdate(double cancelCharge, Long storeIdx) {
+        log.info("cancelChargeUpdate 실행됨"+cancelCharge);
+        storeRepository.cancelChargeModify(cancelCharge, storeIdx);
     }
 
 

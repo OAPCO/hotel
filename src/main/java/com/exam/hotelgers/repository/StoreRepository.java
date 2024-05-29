@@ -146,6 +146,12 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "WHERE s.storeIdx = :storeIdx")
     void storeSummaryModify(String storeSummary,Long storeIdx);
 
+    @Modifying
+    @Query("UPDATE Store s " +
+            "SET s.cancelCharge = :cancelCharge " +
+            "WHERE s.storeIdx = :storeIdx")
+    void cancelChargeModify(double cancelCharge,Long storeIdx);
+
 
     @Modifying
     @Query("UPDATE Store s " +
@@ -182,5 +188,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
             "SET s.roomCount = s.roomCount + 12 " +
             "WHERE s.storeIdx = :storeIdx")
     void roomCardAdd(Long storeIdx);
+
+    //매장의 수수료 검색
+    @Query("select s.cancelCharge from Store s where s.storeIdx = :storeIdx")
+    double searchStoreCharge(Long storeIdx);
 
 }

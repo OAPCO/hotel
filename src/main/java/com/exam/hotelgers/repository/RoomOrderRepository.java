@@ -108,4 +108,10 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     RoomOrder findRoomOrderForToday(@Param("memberIdx") Long memberIdx, @Param("today") LocalDateTime today);
 
 
+    //객실 예약 취소시 roomorderIdx로 조회해서 삭제한다
+    @Modifying
+    @Query("delete RoomOrder r where r.roomorderIdx = :roomorderIdx")
+    void roomOrderDelete(Long roomorderIdx);
+
+
 }

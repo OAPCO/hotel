@@ -555,6 +555,29 @@ let hotel = (function () {
     };
 
 
+    function storeChargeModify(cancelCharge,storeIdx){
+
+        console.log("넘어온 값 : "+cancelCharge);
+
+        $.ajax({
+            type: 'GET',
+            url: '/chargemodify',
+            data: {
+                cancelCharge: cancelCharge,
+                storeIdx: storeIdx
+            },
+
+            success: function(e) {
+                console.log("수수료수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
     function storeMessagemodify(storeMessage,storeIdx){
 
         $.ajax({
@@ -638,6 +661,31 @@ let hotel = (function () {
     };
 
 
+    //예약취소
+    function roomOrderCancel(roomorderIdx,reservationDateCheckinDateStr){
+
+        console.log(reservationDateCheckinDateStr);
+
+
+        $.ajax({
+            type: 'GET',
+            url: '/roomorderCancel',
+            data: {
+                roomorderIdx: roomorderIdx,
+                reservationDateCheckinDate : reservationDateCheckinDateStr
+            },
+
+            success: function(e) {
+                console.log("객실예약 취소 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
     
     //매장 이미지 제거
     function storeImageModify(imgFile, storeIdx) {
@@ -661,6 +709,9 @@ let hotel = (function () {
     };
 
 
+
+
+
     //값 반환
     return {
         selectDistOfStore  : selectDistOfStore,
@@ -681,7 +732,9 @@ let hotel = (function () {
         storeCheckinTimemodify : storeCheckinTimemodify,
         storeMessagemodify : storeMessagemodify,
         storeImageModify : storeImageModify,
-        roomCountAdd : roomCountAdd
+        roomCountAdd : roomCountAdd,
+        storeChargeModify : storeChargeModify,
+        roomOrderCancel : roomOrderCancel
     };
 
 })();

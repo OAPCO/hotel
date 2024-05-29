@@ -44,8 +44,23 @@
                         <td class="col-2 ">체크아웃 시간</td>
                         <td class="col-9">
                             <span th:text="${storeDTO.storeCheckoutTime}" id="checkOutTimeId"></span>
-                            <input type="text" style="display: none" id="checkOutTimeInput" th:value="${storeDTO.storeSummary}">
+                            <input type="text" style="display: none" id="checkOutTimeInput" th:value="${storeDTO.storeCheckoutTime}">
                             <button type="button" style="display: none" id="checkOutTimeButton">수정</button>
+                        </td>
+                    </tr>
+                    <tr class="row">
+                        <td class="col-2 ">당일 취소시 수수료</td>
+                        <td class="col-9">
+                            <span th:text="${storeDTO.cancelCharge}" id="cancelChargeId"></span>
+                            <select id="cancelChargeInput" style="display: none">
+                                <option value="0.1" >10%</option>
+                                <option value="0.2" >20%</option>
+                                <option value="0.3" >30%</option>
+                                <option value="0.4" >40%</option>
+                                <option value="0.5" >50%</option>
+                            </select>
+                            <button type="button" style="display: none" id="cancelChargeButton">수정</button>
+                        </td>
                         </td>
                     </tr>
                     <tr class="row" style="height: 200px">
@@ -81,6 +96,10 @@
     var storeMessage = document.getElementById("storeMessageId");
     var storeMessageInput = document.getElementById("storeMessageInput");
     var storeMessageButton = document.getElementById("storeMessageButton");
+
+    var cancelCharge = document.getElementById("cancelChargeId");
+    var cancelChargeInput = document.getElementById("cancelChargeInput");
+    var cancelChargeButton = document.getElementById("cancelChargeButton");
     var imageId = document.getElementById("imageId");
     var imgFile = document.getElementById("imgFile");
 
@@ -101,6 +120,28 @@
             hotel.storeImageModify(selectedFile, storeIdx)
 
             setTimeout(function() {location.reload();}, 1000);
+        });
+    });
+
+
+    cancelCharge.addEventListener('click', function(e) {
+
+        console.log("클릭됨");
+
+        cancelCharge.style.display = 'none';
+        cancelChargeInput.style.display = 'block';
+        cancelChargeButton.style.display = 'block';
+
+        cancelChargeButton.addEventListener('click', function(e) {
+
+            //수정
+            var cancelChargeVal = cancelChargeInput.value;
+            hotel.storeChargeModify(cancelChargeVal,storeIdx);
+
+            cancelCharge.style.display = 'block';
+            cancelChargeInput.style.display = 'none';
+            cancelChargeButton.style.display = 'none';
+            location.reload();
         });
     });
 

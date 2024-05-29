@@ -3,6 +3,7 @@ package com.exam.hotelgers.Controller;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.repository.MemberRepository;
+import com.exam.hotelgers.repository.PaymentRepositorty;
 import com.exam.hotelgers.repository.RoomRepository;
 import com.exam.hotelgers.repository.StoreRepository;
 import com.exam.hotelgers.service.*;
@@ -49,7 +50,7 @@ public class ScriptController {
     private final SearchService searchService;
     private final PaymentService paymentService;
     private final StoreRepository storeRepository;
-
+    private final PaymentRepositorty paymentRepositorty;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -426,6 +427,11 @@ public class ScriptController {
         storeService.storeSummaryUpdate(storeSummary,storeIdx);
     }
 
+    @GetMapping(value = "/chargemodify")
+    public void chargemodify(double cancelCharge,Long storeIdx) throws Exception {
+        storeService.cancelChargeUpdate(cancelCharge,storeIdx);
+    }
+
     @GetMapping(value = "/storeMessagemodify")
     public void storeMessage(String storeMessage,Long storeIdx) throws Exception {
         storeService.storeMessageUpdate(storeMessage,storeIdx);
@@ -444,6 +450,74 @@ public class ScriptController {
     @GetMapping(value = "/roomcountadd")
     public void roomcountadd(Long storeIdx) throws Exception {
         storeService.roomCardAdd(storeIdx);
+    }
+
+
+    //객실 예약 취소
+    @GetMapping(value = "/roomorderCancel")
+    public void roomorderCancel(Long roomorderIdx, @RequestParam("reservationDateCheckinDate") String reservationDateCheckin) throws Exception {
+
+        log.info("들어옴:" + reservationDateCheckin);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        //        체크인 희망 날짜
+        LocalDate checkinDate = LocalDate.parse(reservationDateCheckin,formatter);
+        //        오늘날짜
+        LocalDate today = LocalDate.now();
+
+        log.info("1번"+checkinDate);
+        log.info("2번"+today);
+
+        //우선 roomorderIdx로 payment 컬럼을 조회하고
+        PaymentDTO paymentDTO = paymentService.roomOrderByPaymentSearch(roomorderIdx);
+
+        log.info("시작페이먼트:"+paymentDTO);
+
+
+        // 체크인 희망 날짜가 오늘이라면 수수료 물어내야지?
+        if (checkinDate.equals(today)) {
+
+            log.info("들어옴");
+
+
+            //paymentDTO에 해당하는 매장의 취소수수료를 파악해야함
+            Long storeIdx = paymentDTO.getStoreIdx();
+
+            //수수료
+            double charge = storeRepository.searchStoreCharge(storeIdx);
+
+            //수수료*기존 결제액 구하기
+            double newPrice = paymentDTO.getPaymentPrice() * charge;
+            int priceInt = (int) newPrice;
+            paymentDTO.setPaymentPrice(priceInt);
+            
+            //당일취소 상태로 변경
+            paymentDTO.setPaymentStatus(2);
+
+            //payment 생성
+            paymentService.register(paymentDTO);
+
+
+        }
+
+        else{
+            //roomorderIdx에 해당하는 payment 컬럼의 status를 1(결제취소)로 변경한다.
+            paymentService.paymentCancel(roomorderIdx);
+        }
+
+
+        //객실예약 컬럼 삭제
+        roomOrderService.roomOrderDelete(roomorderIdx);
+
+
+
+
+
+
+
+
+
     }
 
 
