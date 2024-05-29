@@ -1,9 +1,11 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.dto.DetailmenuDTO;
 import com.exam.hotelgers.dto.MenuCateDTO;
 
 import com.exam.hotelgers.dto.MenuCateDTO;
 import com.exam.hotelgers.dto.RoomDTO;
+import com.exam.hotelgers.entity.Detailmenu;
 import com.exam.hotelgers.entity.MenuCate;
 import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.repository.MenuCateRepository;
@@ -84,13 +86,23 @@ public class MenuCateService {
 
 
     public List<MenuCateDTO> loginManagerMenuCateSearch(Long storeIdx) {
-
-
         List<MenuCate> menuCates = menuCateRepository.loginManagerMenuCateSearch(storeIdx);
 
-
         List<MenuCateDTO> menuCateDTOS = menuCates.stream()
-                .map(menuCate -> modelMapper.map(menuCate, MenuCateDTO.class))
+                .map(menuCate -> {
+                    // Fetch or load the detail menu list from the menuCate object
+                    List<Detailmenu> detailmenus = menuCate.getDetailMenuList();
+
+                    MenuCateDTO menuCateDTO = modelMapper.map(menuCate, MenuCateDTO.class);
+
+                    // Map the detail menus to detail menu DTOs and set the list in menuCateDTO
+                    List<DetailmenuDTO> detailMenuDTOs = detailmenus.stream()
+                            .map(detailmenu -> modelMapper.map(detailmenu, DetailmenuDTO.class))
+                            .collect(Collectors.toList());
+
+                    menuCateDTO.setDetailMenuDTOList(detailMenuDTOs);
+                    return menuCateDTO;
+                })
                 .collect(Collectors.toList());
 
         return menuCateDTOS;
