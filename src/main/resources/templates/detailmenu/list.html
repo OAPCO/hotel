@@ -64,8 +64,8 @@
                                 <a th:text="${data.detailMenuName}" th:href="@{'/detailmenu/'+${data.detailmenuIdx}}" >연습</a>
                             </td>
                             <td th:text="${data.menuDescription}"></td>
-                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
-                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                             <td><a th:href="@{'/detailmenu/modify/'+${data.detailmenuIdx}}" >수정</a>
                                 /<a th:href="@{'/detailmenu/delete/'+${data.detailmenuIdx}}">삭제</a></td>

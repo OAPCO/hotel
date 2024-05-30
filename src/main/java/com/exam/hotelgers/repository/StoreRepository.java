@@ -132,6 +132,13 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> searchStoreuserId (String userid);
 
 
+
+    //로그인 한 총판장이 소유한 매장 목록
+    @Query("select d.storeList from Dist d where d.distChief.distChiefId = :userid")
+    List<Store> searchStoreDistChiefId (String userid);
+
+
+
     //회원 본인이 "묵고있는" 호텔을 반환받음
     @Query("select s from Store s join RoomOrder r on r.storeIdx = s.storeIdx where r.roomorderIdx = :roomorderIdx " +
             "and r.roomStatus = 2")

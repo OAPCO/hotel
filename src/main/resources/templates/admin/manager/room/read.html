@@ -67,7 +67,8 @@
                                 <td th:text="${memberDTO.memberPhone}"></td>
                                 <td th:text="${roomOrderDTO.peopleNum}"></td>
                                 <td th:text="${roomOrderDTO.checkinTime}"></td>
-                                <td th:text="${#temporals.format(roomOrderDTO.reservationDateCheckoutDate, 'MM-dd')}"></td>                            </tr>
+                                <td
+                                        th:text="${#temporals.format(roomOrderDTO.reservationDateCheckoutDate, 'yyyy-MM-dd HH:mm:ss')}"></td>                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -185,14 +186,14 @@
                                     <span th:case=1>예약됨</span>
                                 </th:block>
                             </td>
-                            <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
+                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd / HH:mm:ss')}"></td>
                             <td th:text="${data.memberName}"></td>
                             <td th:text="${data.memberPhone}"></td>
 
                             <th:block th:if="${data.roomStatus}==1">
 
-                                <td th:text="${#temporals.format(data.reservationDateCheckinDate, 'MM-dd')}"></td>
-                                <td th:text="${#temporals.format(data.reservationDateCheckoutDate, 'MM-dd')}"></td>
+                                <td th:text="${#temporals.format(data.reservationDateCheckinDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                                <td th:text="${#temporals.format(data.reservationDateCheckoutDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                             </th:block>
 

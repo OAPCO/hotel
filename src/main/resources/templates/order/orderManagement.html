@@ -99,7 +99,7 @@
                             <a th:text="${data.orderCd}" th:href="@{'/admin/distchief/order/'+${data.orderIdx}}" ></a>
                         </td>
                         <td>메뉴</td>
-                        <td th:text="${#temporals.format(data.regdate, 'MM-dd / HH:mm')}"></td>
+                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd / HH:mm:ss')}"></td>
                         <td>결제금액</td>
                         <td>결제상태</td>
                         <td><a th:href="@{'/admin/distchief/order/modify/'+${data.orderIdx}}" >수정</a>

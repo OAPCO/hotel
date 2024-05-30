@@ -33,11 +33,11 @@
         </tr>
         <tr>
             <td>생성일자</td>
-        <td th:text="${#temporals.format(distDTO.regdate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(distDTO.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
         <tr>
             <td>마지막수정</td>
-        <td th:text="${#temporals.format(distDTO.moddate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(distDTO.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
 
 

@@ -1,9 +1,8 @@
 package com.exam.hotelgers.Controller;
 
-import com.exam.hotelgers.dto.DistDTO;
-import com.exam.hotelgers.dto.PaymentDTO;
-import com.exam.hotelgers.dto.StoreDTO;
+import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Dist;
+import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.service.PaymentService;
@@ -167,12 +166,43 @@ public class PaymentController {
 
 
 
+
+    @PostMapping("/admin/manager/storesales")
+    public String listProc(@PageableDefault(page = 1) Pageable pageable, Model model,
+                           @Valid SearchDTO searchDTO, Principal principal
+    ) throws Exception {
+
+        log.info("스토어-"+searchDTO.getStoreIdx());
+        log.info("날짜"+searchDTO.getStartLocalDate());
+        log.info("날짜2"+searchDTO.getEndLocalDate());
+
+
+        Page<PaymentDTO> paymentDTOS = paymentservice.searchList(pageable,searchDTO);
+
+        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("list", paymentDTOS);
+
+
+        return "admin/manager/storesales";
+    }
+
+
+
+
+
+
+
+
+
     @GetMapping("/admin/distchief/dist/distsales")
     public String distSalesForm(@PageableDefault(page=1) Pageable pageable, Principal principal, Model model) throws Exception {
 
         
-        //소유 총판 목록
+        //소유 총판,매장 목록
         List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
+        List<StoreDTO> storeDTOS = storeService.searchStoreDistChiefId(principal);
 
         Long distChiefIdx = distChiefRepository.distChiefIdxSearchforUserId(principal.getName());
 
@@ -188,11 +218,8 @@ public class PaymentController {
         log.info(alldaySales[0][1]);
 
 
-//        //이 부분은 일단 모든 총판의 매출 목록을 가져오는걸로 간다.
-//        Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable, storeDTO.getStoreIdx());
-
-
         model.addAttribute("distDTOS", distDTOS);
+            model.addAttribute("storeDTOS", storeDTOS);
         model.addAttribute("allyearlySales", allyearlySales);
         model.addAttribute("allmonthSales", allmonthSales);
         model.addAttribute("alldaySales", alldaySales);

@@ -42,7 +42,7 @@
             <span th:case="'3'">결제취소</span>
           </td>
 <!--          <td th:text="${#strings.substringBefore(order.regdate, 'T')}"></td>-->
-          <td th:text="${#temporals.format(order.regdate, 'MM-dd / HH:MM')}"></td>
+          <td th:text="${#temporals.format(order.regdate, 'yyyy-MM-dd / HH:mm:ss')}"></td>
           <td>
             <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${order.menuorderIdx}">주문 상세
             </button>

@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -21,9 +22,13 @@ public class SearchDTO {
     private String endDate;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
+    private LocalDate startLocalDate;
+    private LocalDate endLocalDate;
     //검색용 별도 컬럼
     private String name;
     private String id;
+
+
 
     //열거형,날짜,사진 등
     private RoleType roleType;
@@ -192,4 +197,9 @@ public class SearchDTO {
     private String address;
     private String title;
     private String message;
+
+    private int paymentStatus;
+
+    private Long menuorderIdx;
+
 }

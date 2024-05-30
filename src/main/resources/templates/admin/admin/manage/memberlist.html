@@ -93,7 +93,7 @@
                             <td th:case="USER" th:text="${data.memberEmail}"></td>
                         </th:block>
 
-                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                     </tr>
 

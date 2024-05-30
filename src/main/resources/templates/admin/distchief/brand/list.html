@@ -38,8 +38,8 @@
                         </td>
                         <td th:text="${data.distDTO.distCd}"></td>
                         <td th:text="${data.brandCd}"></td>
-                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
-                        <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                         <td><a th:href="@{'/admin/distchief/brand/modify/'+${data.brandIdx}}" >수정</a>
                             /<a th:href="@{'/admin/distchief/brand/delete/'+${data.brandIdx}}">삭제</a></td>
