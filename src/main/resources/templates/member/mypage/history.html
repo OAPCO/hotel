@@ -42,7 +42,7 @@
                             <button th:attr="onclick='openWindow('+${room.storeIdx}+');'" class="btn btn-primary btn-sm">리뷰 남기기</button>
                         </td>
                         <td>
-                            <button class="btn btn-danger btn-sm cancelButton" th:data-roomorder-idx="${room.roomorderIdx}" th:data-reservationDateCheckinDate="${room.reservationDateCheckinDate}" onclick="addRow(this)">예약취소</button>
+                            <button class="btn btn-danger btn-sm cancelButton" th:data-roomorder-idx="${room.roomorderIdx}" th:data-reservationDateCheckinDate="${room.reservationDateCheckinDate}" onclick="warning(this)">예약취소</button>
                         </td>
                     </tr>
                     </tbody>
@@ -74,13 +74,13 @@
                         <td th:text="${menu.menuorderCd}">485314c78ss574</td>
                         <td th:switch="${menu.orderState}">
                             <span th:case="'0'">결제완료</span>
-                            <span th:case="'1'">조리완료</span>
+                            <span th:case="'1'">조리중</span>
                             <span th:case="'2'">배달완료</span>
                             <span th:case="'3'">결제취소</span>
                         </td>
                         <td th:text="${menu.total}">총 금액</td>
                         <td th:text="${memberDTO.memberName}">철수</td>
-                        <td th:text="${menu.orderRequest}">리뷰이벤트 참여할게요 ^^</td>
+                        <td th:text="${menu.orderRequest}"></td>
                         <td th:text="${#strings.substringBefore(menu.regdate, 'T')}">2024-05-18</td>
                         <td>
                             <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${menu.menuorderIdx}">상세보기</button>
@@ -124,7 +124,7 @@
         var roomorderId = document.getElementById("roomorderTd");
 
 
-        function addRow(button) {
+        function cancel(button) {
             var row = button.closest('tr');
             var cancelButton = row.querySelector(".cancelButton");
             var roomorderIdx = cancelButton.getAttribute('data-roomorder-idx');
@@ -135,8 +135,7 @@
 
             hotel.roomOrderCancel(roomorderIdx,reservationDateCheckinDateStr);
 
-            location.reload();
-
+            setTimeout(function() {location.reload();}, 1000);
         }
 
 
@@ -154,6 +153,15 @@
         });
     </script>
     <script th:inline="javascript">
+
+
+        function warning(button) {
+            var result = confirm("정말 취소하시겠습니까?");
+            if (result) {
+                cancel(button);
+            }
+        }
+
         /*<![CDATA[*/
         function openWindow(storeIdx) {
             var url = '/review/register/' + storeIdx;

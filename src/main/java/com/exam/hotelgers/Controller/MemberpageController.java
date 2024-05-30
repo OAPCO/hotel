@@ -406,6 +406,7 @@ public class MemberpageController {
         model.addAttribute("menuCateList", store.getMenuCateDTOList());
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("roomIdx", roomIdx);
+        model.addAttribute("roomorderIdx", roomorderIdx);
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);

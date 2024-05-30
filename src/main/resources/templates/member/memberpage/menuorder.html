@@ -170,7 +170,7 @@
                         Idx: <input type="text" th:value="${memberDTO.memberIdx}" name="memberIdx">
                         Idx: <input type="text" th:value="${store.storeIdx}" name="storeIdx">
                         Idx: <input type="text" th:value="${roomIdx}" name="roomIdx">
-<!--                        Idx: <input type="text" th:value="${roomorderIdx}" name="roomorderIdx">-->
+                        Idx: <input type="text" th:value="${roomorderIdx}" name="roomorderIdx">
                         주문코드 : <input type="text" name="menuorderCd" value="menuorderCd" id="randomCd">
                         <input type="text" name="couponIdx" id="couponIdx" value="">
                         <input type="text" name="rewardDTO.rewardName" value="음식 주문">
@@ -484,6 +484,7 @@
                     // Before attaching a new event handler, old one is removed
                     $('#modalBody').off('click', 'button', usecoupon);
                     $('#modalBody').one('click', 'button', usecoupon);
+                    $('#couponModal .modal-dialog').addClass('modal-lg'); // Add this line to make the modal large
                     $('#couponModal').modal('show');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {

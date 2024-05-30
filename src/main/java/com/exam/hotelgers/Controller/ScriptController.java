@@ -177,6 +177,7 @@ public class ScriptController {
 
                 //이 객실을 낫엠프티 객실 배열에 추가할그야
                 notEmptyRooms.add(roomType);
+                log.info("기존 객실 주문에 중복 o");
             }
         }
 

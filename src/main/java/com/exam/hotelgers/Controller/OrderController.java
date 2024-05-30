@@ -65,6 +65,10 @@ public class OrderController {
                                RedirectAttributes redirectAttributes) {
 
         log.info("order registerProc 도착 " + orderDTO);
+        log.info("order 요청사항 화긴 " + orderDTO.getOrderRequest());
+        log.info("order 아디엑스 화긴 " + orderDTO.getRoomorderIdx());
+
+
 
 
         if (bindingResult.hasErrors()) {

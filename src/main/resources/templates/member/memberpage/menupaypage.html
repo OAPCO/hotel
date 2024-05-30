@@ -73,7 +73,8 @@
                         <input type="hidden" name="storeIdx" th:value="${menuOrderDTO.storeIdx}">
                         <input type="hidden" name="memberIdx" th:value="${menuOrderDTO.orderRequest}">
                         <input type="hidden" name="roomorderIdx" th:value="${menuOrderDTO.roomorderIdx}">
-                        <input type="text" name="paymentType" value="룸서비스">
+                        <input type="hidden" name="orderRequest" th:value="${menuOrderDTO.orderRequest}">
+                        <input type="hidden" name="paymentType" value="룸서비스">
                         <input type="hidden" name="roomPrice" th:value="${menuOrderDTO.roomIdx}">
 
                         <div class="mb-3">
@@ -82,8 +83,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">가격</label>
-                            <input type="text" class="form-control" id="priceString" th:value="${menuOrderDTO.total}">
-                            <input type="number" class="form-control" id="price" name="paymentPrice">
+                            <input type="hidden" class="form-control" id="priceString" th:value="${menuOrderDTO.total}">
+                            <input type="number" class="form-control" id="price" name="paymentPrice" readonly="readonly">
                         </div>
                         <div class="mb-3">
                             <label for="customerName" class="form-label">주문자</label>
