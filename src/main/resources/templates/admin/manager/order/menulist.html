@@ -246,8 +246,9 @@
                                                                 <tr>
                                                                     <td>
                                                                         <select class="form-select"
-                                                                                name="menuSaleType" id="menuSaleType"
-                                                                                onchange="toggleInput('MenuSale')" required>
+                                                                                name="menuSaleType"
+                                                                                id="menuSaleType"
+                                                                                onchange="toggleInput('menuSale')" required>
                                                                             <option selected>할인 구분</option>
                                                                             <option value="Y">Y</option>
                                                                             <option value="N">N</option>
@@ -260,7 +261,8 @@
                                                                     <td>
                                                                         <select class="form-select"
                                                                                 name="pointSaveType"
-                                                                                id="pointSaveType" onchange="toggleInput('PointSave')" required>
+                                                                                id="pointSaveType"
+                                                                                onchange="toggleInput('pointSave')" required>
                                                                             <option selected>적립 타입</option>
                                                                             <option value="Y">Y</option>
                                                                             <option value="N">N</option>
@@ -310,8 +312,7 @@
                                                             </table>
                                                             <div  class="d-flex justify-content-end">
                                                                 <button class="btn btn-primary" type="submit">등록</button>
-                                                                <button type="button" class="btn btn-danger" onclick="closeModal('myModal2_${category.menuCateIdx}')">닫기</button>
-                                                            </div>
+                                                                <button type="button" class="btn btn-danger" onclick="closeModal('myModal2_${category.menuCateIdx}')">닫기</button>                                                            </div>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -593,6 +594,11 @@
         function closeModal(modalId) {
             var modal = document.getElementById(modalId);
             modal.style.display = "none";
+        }
+        function closeModal(modalId) {
+            var modalElement = document.getElementById(modalId);
+            var bootstrapModal = new bootstrap.Modal(modalElement);
+            bootstrapModal.hide();
         }
     </script>
 </div>
