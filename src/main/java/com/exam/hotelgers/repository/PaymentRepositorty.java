@@ -35,7 +35,8 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
 
     //매장의 결제내역 리스트
     @Query("select p from Payment p where p.storeIdx = :#{#searchDTO.storeIdx} " +
-            "and p.regdate BETWEEN :#{#searchDTO.startDateTime} AND :#{#searchDTO.endDateTime}")
+            "and ((:#{#searchDTO.startLocalDate} is null) or (p.regdate BETWEEN :#{#searchDTO.startLocalDate} AND :#{#searchDTO.endLocalDate})) " +
+            "and ((:#{#searchDTO.paymentStatus} is null) or (p.paymentStatus = :#{#searchDTO.paymentStatus}))")
     Page<Payment> storesalesDateSearch(Pageable pageable, SearchDTO searchDTO);
 
 

@@ -533,6 +533,70 @@ let hotel = (function () {
 
     };
 
+    function storeYearSalesSearch(storeIdx,callback){
+
+
+        $.ajax({
+            type: 'GET',
+            url: '/storeyearsales',
+            data: {
+                storeIdx: storeIdx
+            },
+
+            success: function(sales) {
+
+                callback(sales);
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+    function storeMonthSalesSearch(storeIdx,callback){
+
+        $.ajax({
+            type: 'GET',
+            url: '/storemonthsales',
+            data: {
+                distIdx: distIdx
+            },
+
+            success: function(sales) {
+
+                callback(sales);
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+    function storeDaySalesSearch(storeIdx,callback){
+
+        $.ajax({
+            type: 'GET',
+            url: '/storedaysales',
+            data: {
+                distIdx: distIdx
+            },
+
+            success: function(sales) {
+
+                callback(sales);
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
 
     function storeSummaryModify(storeSummary,storeIdx){
 
@@ -727,6 +791,9 @@ let hotel = (function () {
         distDaySalesSearch : distDaySalesSearch,
         distMonthSalesSearch : distMonthSalesSearch,
         distYearSalesSearch : distYearSalesSearch,
+        storeDaySalesSearch : storeDaySalesSearch,
+        storeMonthSalesSearch : storeMonthSalesSearch,
+        storeYearSalesSearch : storeYearSalesSearch,
         storeSummaryModify : storeSummaryModify,
         storeCheckoutTimemodify : storeCheckoutTimemodify,
         storeCheckinTimemodify : storeCheckinTimemodify,

@@ -367,6 +367,16 @@ public class StoreService {
                 .map(store -> modelMapper.map(store, StoreDTO.class))
                 .collect(Collectors.toList());
     }
+
+
+
+    public List<StoreDTO> searchStoreDistChiefId(Principal principal) {
+
+        List<Store> stores = storeRepository.searchStoreDistChiefId(principal.getName());
+        return stores.stream()
+                .map(store -> modelMapper.map(store, StoreDTO.class))
+                .collect(Collectors.toList());
+    }
     
     
 

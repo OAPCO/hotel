@@ -28,14 +28,23 @@
                     <!-- 결제 목록 테이블 -->
                     <div class="table-responsive">
                         <!-- 검색 폼 -->
-                        <form id="selectForm">
+                        <form th:action="@{/admin/manager/storesales}" method="post">
+                            <input type="hidden" name="storeIdx" th:value="${storeDTO.storeIdx}">
                             <table class="table head">
                                 <thead>
                                 <tr>
-                                    <th>날짜</th>
+<!--                                    <th>날짜</th>-->
+<!--                                    <td>-->
+<!--                                        <input type="date" name="startLocalDate" id="isoStartDate">-->
+<!--                                        <input type="date" name="endLocalDate" id="isoEndDate">-->
+<!--                                    </td>-->
+
+                                    <th>구분</th>
                                     <td>
-                                        <input type="date" name="startDate" id="isoStartDate">
-                                        <input type="date" name="endDate" id="isoEndDate">
+                                        <input type="radio" name="paymentStatus" value="">전체
+                                        <input type="radio" name="paymentStatus" value="0">결제완료
+                                        <input type="radio" name="paymentStatus" value="1">결제취소
+                                        <input type="radio" name="paymentStatus" value="2">당일취소
                                     </td>
                                 </tr>
                                 </thead>
@@ -54,6 +63,7 @@
                                 <th>결제자</th>
                                 <th>전화번호</th>
                                 <th>금액</th>
+                                <th>구분</th>
                                 <th>결제일시</th>
                             </tr>
                             </thead>
@@ -66,6 +76,11 @@
                                 <td th:text="${data.memberName}"></td>
                                 <td th:text="${data.memberPhone}"></td>
                                 <td th:text="${data.paymentPrice}"></td>
+                                <td th:switch="${data.paymentStatus}">
+                                    <span th:case="0" style="color: #2f54cf">결제완료</span>
+                                    <span th:case="1" style="color: #b02a37">결제취소</span>
+                                    <span th:case="2" style="color: #2f54cf">당일취소</span>
+                                </td>
                                 <td th:text="${#temporals.format(data.regdate, 'YY-MM-dd / HH:mm')}"></td>
                             </tr>
                             </tbody>
@@ -186,22 +201,6 @@
 
             // 페이지 로드 시 기본 차트 렌더링
             toggle();
-
-            // 검색 폼 제출 이벤트 핸들러
-            $('#selectForm').on('submit', function (event) {
-                event.preventDefault();
-                var storeIdx = [[${storeDTO.storeName}]];
-
-                // 필요한 값을 searchDTO에 담아서 보냄
-                var searchDTO = {
-                    startDate: $('#isoStartDate').val(),
-                    endDate: $('#isoEndDate').val(),
-                    storeIdx: storeIdx
-                };
-
-                //payment 날짜로 검색
-                hotel.searchStorePayment(searchDTO);
-            });
         });
     </script>
 
