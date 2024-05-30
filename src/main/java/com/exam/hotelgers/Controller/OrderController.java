@@ -124,13 +124,20 @@ public class OrderController {
         String username = principal.getName(); // assuming the principal's name is the username
         Optional<Manager> managerOpt = managerRepository.findByManagerId(username);
 
+        
         if (managerOpt.isPresent()) {
+
             Optional<Store> storeOpt = storeRepository.findByManagerId(username);
+
 
 
             if (storeOpt.isPresent()) {
                 Store store = storeOpt.get();
+                log.info("store : "+ store);
+
                 OrderHistoryDTO orderHistoryDTO = menuOrderService.getOrderHistoryByStore(store.getStoreIdx());
+                log.info("orderHistoryDTO : "+ orderHistoryDTO);
+
                 log.info(store.getStoreIdx() + "스토어 Idx !!!!!!!!!!!!!!!!!!!!!!");
                 model.addAttribute("storeName", store.getStoreName());
                 model.addAttribute("menuOrderDetailList", orderHistoryDTO.getMenuOrderDetailList());

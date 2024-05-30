@@ -21,6 +21,9 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
 
     List<RoomOrder> findByStoreIdx(Long storeIdx);
 
+    @Query("select r from RoomOrder r where r.storeIdx = :storeIdx")
+    List<RoomOrder> findByStoreIdxRoomOrder(Long storeIdx);
+
 
     //roomorderIdx로 storeIdx 찾기(체크인 후 룸서비스 주문할 때 메뉴선택에 사용하기 위해)
     @Query("select o.storeIdx from RoomOrder o where o.roomorderIdx = :roomorderIdx")

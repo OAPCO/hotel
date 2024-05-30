@@ -5,6 +5,7 @@ import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class MenuOrderService {
 
     private final MenuOrderRepository menuOrderRepository;
@@ -123,8 +125,14 @@ public class MenuOrderService {
 
 
     public OrderHistoryDTO getOrderHistoryByStore(Long storeIdx) {
-        List<MenuOrder> menuOrderList = menuOrderRepository.findByStoreIdx(storeIdx);
-        List<RoomOrder> roomOrderList = roomOrderRepository.findByStoreIdx(storeIdx);
+
+        log.info("들어오긴 햇어요");
+
+        List<MenuOrder> menuOrderList = menuOrderRepository.findByStoreIdxMenuOrder(storeIdx);
+        List<RoomOrder> roomOrderList = roomOrderRepository.findByStoreIdxRoomOrder(storeIdx);
+
+        log.info("menuOrderList 123"+menuOrderList);
+        log.info("roomOrderList 123"+roomOrderList);
 
         List<MenuOrderDetailDTO> detailedMenuOrderDTOList = menuOrderList.stream().map(mo -> {
             MenuOrderDetailDTO detail = new MenuOrderDetailDTO();
