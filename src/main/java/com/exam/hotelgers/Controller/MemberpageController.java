@@ -295,6 +295,7 @@ public class MemberpageController {
 
         //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
         paymentDTO.setDistIdx(distRepository.findStoreOfDistIdx(roomOrderDTO.getStoreIdx()));
+        paymentDTO.setPaymentStatus(0);
 
         //예약된 roomorderIdx 삽입
         paymentDTO.setRoomorderIdx(roomorderIdx);
@@ -327,6 +328,7 @@ public class MemberpageController {
         paymentDTO.setRoomorderIdx(menuorderIdx);
 
         //결제테이블 컬럼 추가
+        paymentDTO.setPaymentStatus(0);
         paymentService.register(paymentDTO);
 
 
