@@ -194,6 +194,7 @@
             const input2 = document.getElementById('mainimgFile');
             const preview = document.getElementById('preview');
             const preview2 = document.getElementById('preview2');
+            const roomregisterform = document.getElementById('roomregisterform');
 
             input.addEventListener('change', function() {
                 preview.innerHTML = ''; // 이미지 미리보기 초기화
@@ -242,25 +243,6 @@
             var roomCdInput = document.getElementById('roomCd');
             roomCdInput.value = roomCd;
             console.log(roomCdInput);
-
-
-            // 폼 제출 후 창 닫기
-            // function submitFormAndCloseWindow() {
-            //
-            //
-            //     // 선택된 카드의 인덱스 가져오기
-            //     var selectedCardIndex = roomCd.replace('roomCard', '');
-            //
-            //     // 부모 창으로 인덱스 전송
-            //     var parentWindow = window.opener;
-            //     parentWindow.postMessage({ selectedCardIndex: selectedCardIndex }, '*');
-            //
-            //
-            //
-            //     document.getElementById("roomForm").submit();
-            //     window.close();
-            // }
-
 
 
 

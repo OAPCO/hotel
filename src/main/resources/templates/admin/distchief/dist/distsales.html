@@ -28,21 +28,29 @@
                     <!-- 결제 목록 테이블 -->
                     <div class="table-responsive">
                         <!-- 검색 폼 -->
-                        <form id="selectForm">
+                        <form th:action="@{/admin/manager/storesales}" method="post">
                             <table class="table head">
                                 <thead>
                                 <tr>
                                     <th>날짜</th>
                                     <td>
-                                        <input type="date" name="startDate" id="isoStartDate">
-                                        <input type="date" name="endDate" id="isoEndDate">
+                                        <input type="date" name="startDate" id="isoStartDate" style="width: 45%"> ~
+                                        <input type="date" name="endDate" id="isoEndDate" style="width: 45%">
+                                    </td>
+
+                                    <th>구분</th>
+                                    <td>
+                                        <input type="radio" name="paymentStatus" value="">전체&nbsp;
+                                        <input type="radio" name="paymentStatus" value="0">결제완료&nbsp;
+                                        <input type="radio" name="paymentStatus" value="1">결제취소&nbsp;
+                                        <input type="radio" name="paymentStatus" value="2">당일취소
                                     </td>
                                 </tr>
                                 </thead>
                             </table>
                             <div style="text-align: center;">
                                 <button type="submit" class="btn btn-primary">조회</button>
-                            </div>
+                            </div><br>
                         </form>
                         <!-- 결제 목록 출력 테이블 -->
                         <table class="table body" id="resultTable">
@@ -54,20 +62,25 @@
                                 <th>결제자</th>
                                 <th>전화번호</th>
                                 <th>금액</th>
+                                <th>구분</th>
                                 <th>결제일시</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- 결제 데이터 출력 -->
-<!--                            <tr th:each="data:${list}">-->
-<!--                                <td th:text="${data.paymentIdx}"></td>-->
-<!--                                <td th:text="${data.paymentType}"></td>-->
-<!--                                <td th:text="${data.paymentName}"></td>-->
-<!--                                <td th:text="${data.memberName}"></td>-->
-<!--                                <td th:text="${data.memberPhone}"></td>-->
-<!--                                <td th:text="${data.paymentPrice}"></td>-->
-<!--                                <td th:text="${#temporals.format(data.regdate, 'YY-MM-dd / HH:mm')}"></td>-->
-<!--                            </tr>-->
+                            <tr th:each="data:${paymentDTOS}">
+                                <td th:text="${data.paymentIdx}"></td>
+                                <td th:text="${data.paymentType}"></td>
+                                <td th:text="${data.paymentName}"></td>
+                                <td th:text="${data.memberName}"></td>
+                                <td th:text="${data.memberPhone}"></td>
+                                <td th:text="${data.paymentPrice}"></td>
+                                <td th:switch="${data.paymentStatus}">
+                                    <span th:case="0" style="color: #2f54cf">결제완료</span>
+                                    <span th:case="1" style="color: #b02a37">결제취소</span>
+                                    <span th:case="2" style="color: #2f54cf">당일취소</span>
+                                </td>
+                                <td th:text="${#temporals.format(data.regdate, 'YY-MM-dd / HH:mm')}"></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -83,15 +96,17 @@
                         매출 현황
                     </div>
 
-                    <select id="distSelect" style="width: 45%">
+                    총판별 조회
+                    <select id="distSelect" style="width: 45%; display: inline-block;" class="form-control">
                         <option value="all">전체</option>
                         <option th:each="distDTO : ${distDTOS}" th:value="${distDTO.distIdx}" th:text="${distDTO.distName}" th:attr="data-dist-idx=${distDTO.distIdx}"></option>
-                    </select>
+                    </select><br><br>
 
-                    <select style="width: 45%" id="storeSelect">
+                    매장별 조회
+                    <select style="width: 45%; display: inline-block; " id="storeSelect" class="form-control">
                         <option value="all">전체</option>
                         <option th:each="storeDTO : ${storeDTOS}" th:value="${storeDTO.storeIdx}" th:text="${storeDTO.storeName}" th:attr="data-store-idx=${storeDTO.storeIdx}"></option>
-                    </select>
+                    </select><br><br>
 
                     <!-- 매출 셀렉트 박스와 차트 -->
                     <div id="salesDiv">
@@ -129,6 +144,8 @@
             $('#distSelect').on('change', function() {
                 var distIdx = $(this).val(); // 선택된 총판의 ID
 
+                $('#storeSelect').val('all');
+
                 if (distIdx === 'all') {
                     // "전체"가 선택된 경우에는 전체 총판에 대한 데이터를 사용합니다.
                     yearlySales = allyearlySales;
@@ -163,6 +180,9 @@
             // 매장 선택 시 이벤트 리스너
             $('#storeSelect').on('change', function() {
                 var storeIdx = $(this).val(); // 선택된 총판의 ID
+
+                $('#distSelect').val('all');
+
 
                 if (storeIdx === 'all') {
                     // "전체"가 선택된 경우에는 전체 총판에 대한 데이터를 사용합니다.

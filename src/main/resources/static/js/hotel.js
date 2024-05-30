@@ -561,7 +561,7 @@ let hotel = (function () {
             type: 'GET',
             url: '/storemonthsales',
             data: {
-                distIdx: distIdx
+                storeIdx: storeIdx
             },
 
             success: function(sales) {
@@ -582,7 +582,7 @@ let hotel = (function () {
             type: 'GET',
             url: '/storedaysales',
             data: {
-                distIdx: distIdx
+                storeIdx: storeIdx
             },
 
             success: function(sales) {

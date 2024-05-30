@@ -404,6 +404,44 @@ public class ScriptController {
 
     }
 
+
+
+
+    //선택한 매장에 맞는 각 매출 목록을 가져오는 매핑들
+    @GetMapping(value = "/storeyearsales")
+    public Object[][] storeYearSalesSearch(Long storeIdx) throws Exception {
+
+        Object[][] yearlySales = paymentService.getYearlySales(storeIdx);
+
+
+        return yearlySales;
+
+    }
+
+    @GetMapping(value = "/storemonthsales")
+    public Object[][] storeMonthSalesSearch(Long storeIdx) throws Exception {
+
+        Object[][] monthSales = paymentService.getMonthSales(storeIdx);
+
+
+        return monthSales;
+
+    }
+
+    @GetMapping(value = "/storedaysales")
+    public Object[][] storeDaySalesSearch(Long storeIdx) throws Exception {
+
+        Object[][] daySales = paymentService.getDaySales(storeIdx);
+
+
+        return daySales;
+
+    }
+    
+    
+
+    
+    
     @GetMapping(value = "/summarymodify")
     public void storeSummary(String storeSummary,Long storeIdx) throws Exception {
         storeService.storeSummaryUpdate(storeSummary,storeIdx);

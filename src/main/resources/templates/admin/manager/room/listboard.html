@@ -161,6 +161,10 @@
             var popupUrl = "/window/roomregister?id=" + cardId;
             var popupOption = "width=1500, height=650";
             window.open(popupUrl, "객실 추가", popupOption);
+
+            if (window.close()){
+                location.reload();
+            }
         }
 
 
