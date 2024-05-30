@@ -40,15 +40,25 @@ public class MenuOrderService {
     //등록
     public Long register(MenuOrderDTO menuOrderDTO) {
         // 이미 값이 채워진 MenuOrder 엔티티를 생성합니다.
-
-        if (menuOrderDTO.getOrderState()==null){
-            menuOrderDTO.setOrderState("0");
-        }
         MenuOrder menuOrder = modelMapper.map(menuOrderDTO, MenuOrder.class);
         menuOrder.setMenuSheetList(null);
+
+        // menuOrderDTO의 roomOrderIdx로 RoomOrder를 가져옵니다.
+        if (menuOrderDTO.getRoomorderIdx() != null) {
+            Optional<RoomOrder> roomOrder = roomOrderRepository.findById(menuOrderDTO.getRoomorderIdx());
+
+            if (roomOrder.isPresent()) {
+                Long roomIdx = roomOrder.get().getRoomIdx();
+
+                if (roomIdx != null) {
+                    Optional<Room> room = roomRepository.findById(roomIdx);
+                    room.ifPresent(menuOrder::setRoom);
+                }
+            }
+        }
+
         // MenuOrder를 저장하고 메뉴 오더의 ID를 반환합니다.
         Long menuOrderId = menuOrderRepository.save(menuOrder).getMenuorderIdx();
-
 
         // 저장한 MenuOrder의 ID를 가져옵니다.
         if (menuOrderId != null) {
