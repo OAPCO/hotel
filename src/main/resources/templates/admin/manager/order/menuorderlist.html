@@ -29,7 +29,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="order : ${menuOrderDetailList}">
+        <tr th:each="order : ${menuOrderDTOS}">
           <td th:text="${order.menuorderIdx}"></td>
           <td th:text="${order.roomName}"></td>
           <td th:text="${order.menuorderCd}"></td>
@@ -48,7 +48,8 @@
             </button>
           </td>
         </tr>
-        <tr th:each="order : ${menuOrderDetailList}" th:id="'details-' + ${order.menuorderIdx}" style="display: none;">
+        <th:block th:each="order : ${menuOrderDTOS}">
+        <tr th:each="sheet : ${order.menuSheetDTOList}" th:id="'details-' + ${order.menuorderIdx}" style="display: none;">
           <td colspan="9" style="padding: 0;">
             <table style="width: 100%;">
               <thead>
@@ -72,6 +73,7 @@
             </table>
           </td>
         </tr>
+        </th:block>
         </tr>
         </tbody>
       </table>

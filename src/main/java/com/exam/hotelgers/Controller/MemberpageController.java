@@ -2,6 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Payment;
+import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.entity.RoomOrder;
 import com.exam.hotelgers.repository.*;
 import com.exam.hotelgers.repository.RoomRepository;
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -323,6 +325,9 @@ public class MemberpageController {
 
         Long menuorderIdx = menuOrderService.register(menuOrderDTO);
 
+        log.info("여기화긴@"+menuorderIdx);
+
+
         //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
         paymentDTO.setDistIdx(distRepository.findStoreOfDistIdx(menuOrderDTO.getStoreIdx()));
         paymentDTO.setRoomorderIdx(menuorderIdx);
@@ -330,6 +335,8 @@ public class MemberpageController {
         //결제테이블 컬럼 추가
         paymentDTO.setPaymentStatus(0);
         paymentService.register(paymentDTO);
+
+        log.info("여기화긴@22222"+menuorderIdx);
 
 
 
@@ -399,6 +406,10 @@ public class MemberpageController {
         Long roomIdx = optedRoomOrder.getRoomIdx();
         log.info(roomIdx);
 
+        Optional<Room> room = roomRepository.findById(roomIdx);
+
+        RoomDTO roomDTO = modelMapper.map(room,RoomDTO.class);
+
 
         log.info("메뉴카테 목록@@@ + "+ store.getMenuCateDTOList());
 
@@ -406,6 +417,7 @@ public class MemberpageController {
         model.addAttribute("menuCateList", store.getMenuCateDTOList());
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("roomIdx", roomIdx);
+        model.addAttribute("roomName", roomDTO.getRoomName());
         model.addAttribute("roomorderIdx", roomorderIdx);
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);

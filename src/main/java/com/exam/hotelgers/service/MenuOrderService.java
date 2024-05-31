@@ -38,7 +38,54 @@ public class MenuOrderService {
     private final MemberRepository memberRepository;
     private final ManagerRepository managerRepository;
     //등록
+//    public Long register(MenuOrderDTO menuOrderDTO) {
+//        // 이미 값이 채워진 MenuOrder 엔티티를 생성합니다.
+//
+//        log.info("들어옴@@@@@@");
+//
+//
+//
+//        log.info("들어옴22@@@@@@");
+//        MenuOrder menuOrder = modelMapper.map(menuOrderDTO, MenuOrder.class);
+//
+//        log.info("들어옴3333@@@@@@"+menuOrder);
+//
+////        menuOrder.setMenuSheetList(null);
+//        // MenuOrder를 저장하고 메뉴 오더의 ID를 반환합니다.
+//        Long menuOrderId = menuOrderRepository.save(menuOrder).getMenuorderIdx();
+//
+//        log.info("들어옴4444444@@@@@@"+menuOrderId);
+//
+//
+//
+//
+////        // 저장한 MenuOrder의 ID를 가져옵니다.
+////        if (menuOrderId != null) {
+////            // MenuSheet를 저장하기 전에 해당 MenuOrder의 ID가 있는지 확인합니다.
+////            for (MenuSheetDTO menuSheetDTO : menuOrderDTO.getMenuSheetDTOList()) {
+////                // MenuOrderIdx를 설정합니다.
+////                menuSheetDTO.setMenuorderIdx(menuOrderId);
+////
+////                // MenuOrderIdx가 있는 경우에만 MenuSheet를 저장합니다.
+////                if (menuSheetDTO.getMenuorderIdx() != null) {
+////                    MenuSheet menuSheet = modelMapper.map(menuSheetDTO, MenuSheet.class);
+////                    menuSheet.setMenuOrder(menuOrder);
+////                    menuSheetRepository.save(menuSheet);
+////                }
+////            }
+////        }
+//
+//        return menuOrderId;
+//    }
+
+
     public Long register(MenuOrderDTO menuOrderDTO) {
+
+        if (menuOrderDTO.getOrderState()==null){
+            menuOrderDTO.setOrderState("0");
+        }
+
+
         // 이미 값이 채워진 MenuOrder 엔티티를 생성합니다.
         MenuOrder menuOrder = modelMapper.map(menuOrderDTO, MenuOrder.class);
         menuOrder.setMenuSheetList(null);
@@ -78,6 +125,7 @@ public class MenuOrderService {
 
         return menuOrderId;
     }
+
 
 
 
@@ -132,6 +180,23 @@ public class MenuOrderService {
         return menuOrders.map(this::convertToDTO);
     }
 
+
+    public List<MenuOrderDTO> list2(Long storeIdx) {
+        List<MenuOrder> menuOrders = menuOrderRepository.findByStoreIdxMenuOrder(storeIdx);
+
+        // Stream을 이용하여 변환 및 수집
+        return menuOrders.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+
+
+    private MenuOrderDTO convertToDTO(MenuOrder menuOrder) {
+        MenuOrderDTO dto = modelMapper.map(menuOrder, MenuOrderDTO.class);
+        dto.setMenuSheetDTOList(searchService.convertToMenuSheetList(menuOrder.getMenuSheetList()));
+        return dto;
+    }
 
 
     public OrderHistoryDTO getOrderHistoryByStore(Long storeIdx) {
@@ -250,11 +315,11 @@ public class MenuOrderService {
 
 
     //단일 menuorder 객체의 메뉴시트 dto를 넣어준다
-    private MenuOrderDTO convertToDTO(MenuOrder menuOrder) {
-        MenuOrderDTO dto = modelMapper.map(menuOrder, MenuOrderDTO.class);
-        dto.setMenuSheetDTOList(searchService.convertToMenuSheetList(menuOrder.getMenuSheetList()));
-        return dto;
-    }
+//    private MenuOrderDTO convertToDTO(MenuOrder menuOrder) {
+//        MenuOrderDTO dto = modelMapper.map(menuOrder, MenuOrderDTO.class);
+//        dto.setMenuSheetDTOList(searchService.convertToMenuSheetList(menuOrder.getMenuSheetList()));
+//        return dto;
+//    }
 
 
     //menuorder 리스트의 안의 메뉴시트 dto를 채워준다.
