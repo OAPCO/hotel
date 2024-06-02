@@ -775,6 +775,33 @@ let hotel = (function () {
 
 
 
+    function menuOrderStatusChange(menuorderIdx,orderStatus){
+
+        console.log("체크인 수정들어옴");
+        console.log("받은 menuorderIdx"+menuorderIdx);
+        console.log("받은 orderStatus"+orderStatus);
+
+        $.ajax({
+            type: 'GET',
+            url: '/menuOrderStatusChange',
+            data: {
+                menuorderIdx: menuorderIdx,
+                orderStatus: orderStatus
+            },
+
+            success: function(e) {
+                console.log("메뉴오더상태 수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
+
 
     //값 반환
     return {
@@ -801,7 +828,8 @@ let hotel = (function () {
         storeImageModify : storeImageModify,
         roomCountAdd : roomCountAdd,
         storeChargeModify : storeChargeModify,
-        roomOrderCancel : roomOrderCancel
+        roomOrderCancel : roomOrderCancel,
+        menuOrderStatusChange : menuOrderStatusChange
     };
 
 })();

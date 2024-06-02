@@ -50,6 +50,7 @@ public class ScriptController {
     private final SearchService searchService;
     private final PaymentService paymentService;
     private final StoreRepository storeRepository;
+    private final MenuOrderService menuOrderService;
     private final PaymentRepositorty paymentRepositorty;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -545,6 +546,14 @@ public class ScriptController {
     @PostMapping(value = "/storeImageDelete")
     public void storeImageDelete(@RequestParam("imgFile") MultipartFile imgFile, @RequestParam("storeIdx") Long storeIdx) throws Exception {
         storeService.imageModify(imgFile,storeIdx);
+    }
+
+
+    @GetMapping(value = "/menuOrderStatusChange")
+    public void menuOrderStatusChange(Long menuorderIdx, String orderStatus) throws Exception {
+
+
+        menuOrderService.menuOrderStatusChange(menuorderIdx,orderStatus);
     }
 
 

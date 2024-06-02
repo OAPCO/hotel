@@ -377,4 +377,10 @@ public class MenuOrderService {
 
 
 
+    @Transactional
+    public void menuOrderStatusChange(Long menuorderIdx, String orderStatus) {
+        menuOrderRepository.menuOrderStatusChange(menuorderIdx,orderStatus);
+    }
+
+
 }
