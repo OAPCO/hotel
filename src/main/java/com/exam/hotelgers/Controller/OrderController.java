@@ -70,6 +70,9 @@ public class OrderController {
         log.info("order 아디엑스 화긴 " + orderDTO.getRoomorderIdx());
         log.info("order 멤버네임 화긴 " + orderDTO.getMemberName());
         log.info("order 룸네임 화긴 " + orderDTO.getRoomName());
+        log.info("메뉴시트 dto 화긴 " + orderDTO.getMenuSheetDTOList());
+
+        Long menuorderIdx = menuOrderService.register(orderDTO);
 
 
 

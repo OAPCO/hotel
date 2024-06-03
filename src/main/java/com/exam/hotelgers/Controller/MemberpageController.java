@@ -28,6 +28,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.awt.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -234,6 +235,9 @@ public class MemberpageController {
 
         log.info("일 수 차이 나는지 화긴"+ChronoUnit.DAYS.between(start, end));
 
+        
+        log.info("roomIdx 화긴"+roomOrderDTO.getRoomIdx());
+
         int day = (int) ChronoUnit.DAYS.between(start, end);
 
         roomOrderDTO.setRoomPrice(roomOrderDTO.getRoomPrice()*day);
@@ -248,23 +252,7 @@ public class MemberpageController {
     }
 
 
-    @GetMapping("/member/memberpage/menupaypage")
-    public String menupaypageform(@ModelAttribute("result") MenuOrderDTO menuOrderDTO,Model model,Principal principal){
 
-
-        log.info("메뉴오다디티이"+menuOrderDTO);
-
-        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
-
-
-        String storeName = storeRepository.findStoreName(menuOrderDTO.getStoreIdx());
-
-        model.addAttribute("menuOrderDTO",menuOrderDTO);
-        model.addAttribute("memberDTO",memberDTO);
-        model.addAttribute("storeName",storeName);
-
-        return "member/memberpage/menupaypage";
-    }
 
 
 
@@ -287,6 +275,12 @@ public class MemberpageController {
 
         //예약된 방 하나를 상태를 1로 바꾼다.
         roomService.roomStatusUpdate1(roomOrderDTO);
+
+
+//        roomType과 매장idx가 동일한 곳의 roomstatus가 0인 것의 roomIdx를 찾아야함
+//        roomOrderDTO.setRoomIdx(roomRepository.searchRoomIdxOne(roomOrderDTO.getRoomOrderType(),roomOrderDTO.getStoreIdx()));
+//
+//        log.info("룸아이디엑스 화긴"+roomOrderDTO.getRoomIdx());
 
 
         //객실예약 추가
@@ -316,14 +310,41 @@ public class MemberpageController {
     }
 
 
+
+    @GetMapping("/member/memberpage/menupaypage")
+    public String menupaypageform(@ModelAttribute("result") MenuOrderDTO menuOrderDTO,Model model,Principal principal){
+
+
+        log.info("메뉴오다디티이"+menuOrderDTO);
+        log.info("메뉴오더 시트리스트"+menuOrderDTO.getMenuSheetDTOList());
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+
+
+        String storeName = storeRepository.findStoreName(menuOrderDTO.getStoreIdx());
+
+        model.addAttribute("menuOrderDTO",menuOrderDTO);
+        model.addAttribute("memberDTO",memberDTO);
+        model.addAttribute("storeName",storeName);
+
+        return "member/memberpage/menupaypage";
+    }
+
+
+
+
     @PostMapping("/menupaycheck")
-    public String menupayCheckProc(@Valid MenuOrderDTO menuOrderDTO,PaymentDTO paymentDTO,RedirectAttributes redirectAttributes){
+    public String menupayCheckProc( @Valid MenuOrderDTO menuOrderDTO, PaymentDTO paymentDTO, RedirectAttributes redirectAttributes){
 
 
         log.info("토어화긴"+menuOrderDTO.getStoreIdx());
+        log.info("토어화긴2"+menuOrderDTO.getMenuSheetDTOList());
 
 
-        Long menuorderIdx = menuOrderService.register(menuOrderDTO);
+
+        Long menuorderIdx = menuOrderRepository.findMenuorderIdx(menuOrderDTO.getMenuorderCd());
+
+        menuOrderService.menuOrderPaymentCheck(menuorderIdx);
 
         log.info("여기화긴@"+menuorderIdx);
 

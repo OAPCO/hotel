@@ -29,10 +29,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -138,8 +135,6 @@ public class ScriptController {
         searchDTO.setReservationDateCheckinDate(start);
         searchDTO.setReservationDateCheckoutDate(end);
 
-        log.info("날짜로그1 : "+searchDTO.getReservationDateCheckinDate());
-        log.info("날짜로그2 : "+searchDTO.getReservationDateCheckoutDate());
 
         //예약 가능한 객실 타입의 목록
         List<String> passRooms = new ArrayList<>();
@@ -159,26 +154,24 @@ public class ScriptController {
         for(String roomType : allRooms){
 
 
-            //룸타입을 셋 해주고
+            //현재 roomType을 dto에 넣고
             searchDTO.setRoomType(roomType);
 
 
             List<RoomOrderDTO> roomOrderDTOS = roomOrderService.roomOrderCheck(searchDTO);
-            log.info(searchDTO.getRoomType() + "의 룸오더 체크하기@@@ 결과값 : "+ roomOrderDTOS);
 
             //기존 주문에서 중복여부가 없다면
             if(roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
 
-                //이 객실을 빈 객실 배열에 추가할그야
+                //이 객실을 빈 객실 배열에 추가한다.
                 passRooms.add(roomType);
             }
 
             //기존 주문에 중복이 있다면
             else if(!roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
 
-                //이 객실을 낫엠프티 객실 배열에 추가할그야
+                //이 객실을 낫엠프티 객실 배열에 추가한다.
                 notEmptyRooms.add(roomType);
-                log.info("기존 객실 주문에 중복 o");
             }
         }
 
@@ -200,28 +193,32 @@ public class ScriptController {
         List<RoomDTO> passRoomList = new ArrayList<>();
         //예약불가 객실 목록 담을 배열
         List<RoomDTO> notRoomList = new ArrayList<>();
-        
+
+
+
+
+
+        Iterator<String> iterator = notEmptyRooms.iterator();
+        while (iterator.hasNext()) {
+            String not = iterator.next();
+            if (passRooms.contains(not)) {
+                iterator.remove();
+            }
+        }
 
         for (String pass : passRooms){
 
             passRoomList.add(roomService.roomTypeSearchToTypeString(searchDTO.getStoreIdx(), pass));
         }
 
-        for (String not : notEmptyRooms){
+        if (notEmptyRooms != null){
+            for (String not : notEmptyRooms){
 
-            notRoomList.add(roomService.roomTypeSearchToTypeString(searchDTO.getStoreIdx(), not));
+                notRoomList.add(roomService.roomTypeSearchToTypeString(searchDTO.getStoreIdx(), not));
+
+            }
         }
 
-
-
-
-        log.info("예약가능객실 : "+passRooms);
-        log.info("안 빈 객실 : "+notEmptyRooms);
-        log.info("전체 객실 : "+allRooms);
-        log.info("빈 객실 타입 : "+emptyRooms);
-        log.info("최종통과객실 : "+passRoomList);
-        log.info("최종불통객실 : "+notRoomList);
-        
 
         Map<String, Object> result = new HashMap<>();
 

@@ -81,10 +81,11 @@ public class MenuOrderService {
 
     public Long register(MenuOrderDTO menuOrderDTO) {
 
-        if (menuOrderDTO.getOrderState()==null){
-            menuOrderDTO.setOrderState("0");
-        }
 
+        menuOrderDTO.setOrderState("3");
+
+
+        log.info("스테화긴"+menuOrderDTO.getOrderState());
 
         // 이미 값이 채워진 MenuOrder 엔티티를 생성합니다.
         MenuOrder menuOrder = modelMapper.map(menuOrderDTO, MenuOrder.class);
@@ -380,6 +381,11 @@ public class MenuOrderService {
     @Transactional
     public void menuOrderStatusChange(Long menuorderIdx, String orderStatus) {
         menuOrderRepository.menuOrderStatusChange(menuorderIdx,orderStatus);
+    }
+
+    @Transactional
+    public void menuOrderPaymentCheck(Long menuorderIdx) {
+        menuOrderRepository.menuOrderPaymentCheck(menuorderIdx);
     }
 
 

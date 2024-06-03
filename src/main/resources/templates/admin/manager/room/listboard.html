@@ -102,17 +102,37 @@
 
         <th:block th:each="orderList:${roomOrderDTOS}">
 
-            <div class="card card-order" draggable="true" ondragstart="drag(event)"
-                 th:data-room-order-idx="${orderList.roomorderIdx}">
-                <div class="card-header">[[${orderList.roomOrderType}]]</div>
-                <div class="card-body card-padder">
-                    우선순위 - [[${orderList.roomorderIdx}]] <br>
-                    이름 : [[${orderList.memberName}]] <br>
-                    날짜 :  [[${orderList.reservationDateCheckin}]] ~  [[${orderList.reservationDateCheckout}]] <br>
-                    인원 : [[${orderList.peopleNum}]] <br>
-                    예약일 : [[${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}]]
+
+            <th:block th:if="${#temporals.format(orderList.regdate, 'yyyy-MM-dd') == #temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}">
+                <div class="card card-order" draggable="true" ondragstart="drag(event)" th:data-room-order-idx="${orderList.roomorderIdx}">
+                    <div class="card-header" style="background-color: #F7F2E0"><b>[Today]</b> [[${orderList.roomOrderType}]]
+                    </div>
+                    <div class="card-body card-padder">
+                        우선순위 - [[${orderList.roomorderIdx}]] <br>
+                        이름 : [[${orderList.memberName}]] <br>
+                        체크인 :  [[${#temporals.format(orderList.reservationDateCheckinDate, 'yyyy-MM-dd')}]]<br>
+                        체크아웃 : [[${#temporals.format(orderList.reservationDateCheckoutDate, 'yyyy-MM-dd')}]] <br>
+                        인원 : [[${orderList.peopleNum}]] <br>
+                        예약일 : [[${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}]]
+                    </div>
                 </div>
-            </div>
+            </th:block>
+
+            <th:block th:if="${#temporals.format(orderList.regdate, 'yyyy-MM-dd') != #temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}">
+                <div class="card card-order" draggable="true" ondragstart="drag(event)" th:data-room-order-idx="${orderList.roomorderIdx}">
+                    <div class="card-header">[[${orderList.roomOrderType}]]</div>
+                    <div class="card-body card-padder">
+                        우선순위 - [[${orderList.roomorderIdx}]] <br>
+                        이름 : [[${orderList.memberName}]] <br>
+                        체크인 :  [[${#temporals.format(orderList.reservationDateCheckinDate, 'yyyy-MM-dd')}]]<br>
+                        체크아웃 : [[${#temporals.format(orderList.reservationDateCheckoutDate, 'yyyy-MM-dd')}]] <br>
+                        인원 : [[${orderList.peopleNum}]] <br>
+                        예약일 : [[${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}]]
+                    </div>
+                </div>
+            </th:block>
+
+
 
         </th:block>
 

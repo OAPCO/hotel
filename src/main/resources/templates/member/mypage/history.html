@@ -15,8 +15,8 @@
                 <h3 style="margin-left: 1px;">룸 예약 내역</h3>
             </div>
             <div class="card-body">
-                <table>
-                    <thead>
+                <table style="font-size: 17px">
+                <thead>
                     <tr>
                         <th>주문번호</th>
                         <th>매장명</th>
@@ -55,23 +55,18 @@
                 <h3 style="margin-left: 1px;">메뉴 주문 내역</h3>
             </div>
             <div class="card-body">
-                <table>
+                <table style="font-size: 17px">
                     <thead>
                     <tr>
-                        <th>주문번호</th>
-                        <th>주문 코드</th>
                         <th>주문 상태</th>
                         <th>총 가격</th>
-                        <th>주문자명</th>
                         <th>요청사항</th>
-                        <th>주문 날짜</th>
+                        <th>주문 일시</th>
                         <th>상세보기</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="menu : ${orderHistory.menuOrderList}">
-                        <td th:text="${menu.menuorderIdx}">1</td>
-                        <td th:text="${menu.menuorderCd}">485314c78ss574</td>
                         <td th:switch="${menu.orderState}">
                             <span th:case="'0'">결제완료</span>
                             <span th:case="'1'">조리중</span>
@@ -79,9 +74,8 @@
                             <span th:case="'3'">결제취소</span>
                         </td>
                         <td th:text="${menu.total}">총 금액</td>
-                        <td th:text="${memberDTO.memberName}">철수</td>
                         <td th:text="${menu.orderRequest}"></td>
-                        <td th:text="${#strings.substringBefore(menu.regdate, 'T')}">2024-05-18</td>
+                        <td th:text="${#temporals.format(menu.regdate, 'yyyy-MM-dd / HH:MM')}"></td>
                         <td>
                             <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${menu.menuorderIdx}">상세보기</button>
                         </td>

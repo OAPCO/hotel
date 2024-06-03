@@ -36,7 +36,7 @@ public interface MenuOrderRepository extends JpaRepository<MenuOrder,Long> {
     List<MenuOrder> findByStoreIdx(Long storeIdx);
 
 
-    @Query("select m from MenuOrder m where m.storeIdx = :storeIdx")
+    @Query("select m from MenuOrder m where m.storeIdx = :storeIdx order by m.menuorderIdx desc")
     List<MenuOrder> findByStoreIdxMenuOrder(Long storeIdx);
 
 
@@ -44,14 +44,25 @@ public interface MenuOrderRepository extends JpaRepository<MenuOrder,Long> {
 
 
 
-    //menuorder state 변경
+    //매니저가 원하는대로 menuorder state 변경
     @Modifying
     @Query("UPDATE MenuOrder o " +
             "SET o.orderState = :orderStatus " +
             "WHERE o.menuorderIdx = :menuorderIdx")
     void menuOrderStatusChange(Long menuorderIdx, String orderStatus);
-
-
+    
+    
+    //menuorder state 3(결제대기)->0(결제완료) 로 변경
+    @Modifying
+    @Query("UPDATE MenuOrder o " +
+            "SET o.orderState = '0' " +
+            "WHERE o.menuorderIdx = :menuorderIdx")
+    void menuOrderPaymentCheck(Long menuorderIdx);
+    
+    
+    //meorderCd로 menuorderIdx 찾기
+    @Query("select m.menuorderIdx from MenuOrder m where m.menuorderCd = :menuorderCd")
+    Long findMenuorderIdx(String menuorderCd);
 
 
 

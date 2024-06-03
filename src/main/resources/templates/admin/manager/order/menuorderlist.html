@@ -60,7 +60,11 @@
             <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${order.menuorderIdx}">주문 상세
             </button>
           </td>
+
         </tr>
+
+
+
         <th:block th:each="order : ${menuOrderDTOS}">
         <tr th:each="sheet : ${order.menuSheetDTOList}" th:id="'details-' + ${order.menuorderIdx}" style="display: none;">
           <td colspan="9" style="padding: 0;">
@@ -83,12 +87,23 @@
                 <td th:text="${sheet.amountPrice}"></td>
               </tr>
               </tbody>
+
+              <tr>
+                <th style="background-color: #cad5f5" height="60px">요청사항
+                <td colspan="6" style="font-size: 22px" th:text="${order.orderRequest}"></td>
+                </th>
+              </tr>
             </table>
           </td>
         </tr>
         </th:block>
+
+
         </tr>
         </tbody>
+
+
+
       </table>
       </div>
     </div>

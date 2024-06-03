@@ -145,6 +145,12 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     Long searchRoomIdx(String roomCd,Long storeIdx);
 
 
+    //roomType과 매장idx가 동일한 곳의 roomstatus가 0인 것의 roomIdx를 찾아야함
+    @Query(value = "SELECT distinct r.roomIdx FROM Room r WHERE r.roomType = :roomType and r.store.storeIdx = :storeIdx " +
+            "and r.roomStatus = 0")
+    Long searchRoomIdxOne(String roomType,Long storeIdx);
+
+
     //체크인 했을 때 객실 상태를 2로 변경한다.
     @Modifying
     @Query("UPDATE Room r " +
