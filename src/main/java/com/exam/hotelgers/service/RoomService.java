@@ -238,6 +238,16 @@ public class RoomService {
         roomRepository.roomStatusUpdate2(roomIdx, roomorderIdx);
     }
 
+    @Transactional
+    public void roomCheckOut(Long roomIdx) {
+        roomRepository.roomCheckOut(roomIdx);
+    }
+
+    @Transactional
+    public void roomCheckOutEmpty(Long roomIdx) {
+        roomRepository.roomCheckOutEmpty(roomIdx);
+    }
+
 
 
 

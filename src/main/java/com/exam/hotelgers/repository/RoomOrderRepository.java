@@ -118,4 +118,18 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     void roomOrderDelete(Long roomorderIdx);
 
 
+    //현재 묵고 있는 방의 퇴실 처리
+    @Modifying
+    @Query("UPDATE RoomOrder o " +
+            "SET o.roomStatus = 4" +
+            "WHERE o.roomIdx = :roomIdx and o.roomStatus = 2")
+    void roomCheckOut(Long roomIdx);
+
+
+    //room 테이블을 퇴실처리 하기 전에 방 상태를 알아보기 위함
+    //roomStatus가 1인(예약중) 룸오더가 있는지 확인
+    @Query(value = "SELECT o.room_idx FROM RoomOrder o join Room r on o.room_idx = r.room_idx where o.room_idx = :roomIdx and o.room_status = 1",nativeQuery = true)
+    Long roomSearch(Long roomIdx);
+
+
 }

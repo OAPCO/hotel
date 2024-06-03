@@ -158,6 +158,21 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     String roomNameSaerch(Long roomIdx);
 
 
+
+
+    //현재 묵고 있는 방의 퇴실 처리 -예약중으로 변경
+    @Modifying
+    @Query("UPDATE Room r " +
+            "SET r.roomStatus = 1 where r.roomIdx = :roomIdx")
+    void roomCheckOut(Long roomIdx);
+
+    //현재 묵고 있는 방의 퇴실 처리 -빈 방으로 변경
+    @Modifying
+    @Query("UPDATE Room r " +
+            "SET r.roomStatus = 1 where r.roomIdx = :roomIdx")
+    void roomCheckOutEmpty(Long roomIdx);
+
+
     //체크인 했을 때 객실 상태를 2로 변경한다.
     @Modifying
     @Query("UPDATE Room r " +

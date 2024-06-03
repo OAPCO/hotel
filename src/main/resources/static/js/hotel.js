@@ -662,6 +662,31 @@ let hotel = (function () {
 
     };
 
+
+
+
+    function checkOutProc(roomIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/checkOutProc',
+            data: {
+                roomIdx : roomIdx
+            },
+
+            success: function(e) {
+                console.log("퇴실 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
+
     function storeCheckinTimemodify(storeCheckinTime,storeIdx){
 
         console.log("체크인 수정들어옴");
@@ -829,7 +854,8 @@ let hotel = (function () {
         roomCountAdd : roomCountAdd,
         storeChargeModify : storeChargeModify,
         roomOrderCancel : roomOrderCancel,
-        menuOrderStatusChange : menuOrderStatusChange
+        menuOrderStatusChange : menuOrderStatusChange,
+        checkOutProc : checkOutProc
     };
 
 })();

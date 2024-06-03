@@ -46,6 +46,24 @@
                                         <input type="radio" name="paymentStatus" value="2">당일취소
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>총판</th>
+                                    <td>
+                                        <select style="width: 45%; display: inline-block;" class="form-control">
+                                            <option value="all">전체</option>
+                                            <option th:each="distDTO : ${distDTOS}" th:value="${distDTO.distIdx}" th:text="${distDTO.distName}" th:attr="data-dist-idx=${distDTO.distIdx}"></option>
+                                        </select>
+                                    </td>
+
+                                    <th>매장</th>
+                                    <td>
+                                        <select style="width: 45%; display: inline-block; " class="form-control">
+                                            <option value="all">전체</option>
+                                            <option th:each="storeDTO : ${storeDTOS}" th:value="${storeDTO.storeIdx}" th:text="${storeDTO.storeName}" th:attr="data-store-idx=${storeDTO.storeIdx}"></option>
+                                        </select>
+                                    </td>
+                                </tr>
+
                                 </thead>
                             </table>
                             <div style="text-align: center;">
@@ -57,6 +75,8 @@
                             <thead>
                             <tr>
                                 <th>No</th>
+                                <th>총판</th>
+                                <th>매장</th>
                                 <th>결제분류</th>
                                 <th>결제명</th>
                                 <th>결제자</th>
@@ -69,6 +89,8 @@
                             <tbody>
                             <tr th:each="data:${paymentDTOS}">
                                 <td th:text="${data.paymentIdx}"></td>
+                                <td><span>롯데호텔</span></td>
+                                <td><span>롯데호텔 강남점</span></td>
                                 <td th:text="${data.paymentType}"></td>
                                 <td th:text="${data.paymentName}"></td>
                                 <td th:text="${data.memberName}"></td>

@@ -337,6 +337,19 @@ public class MemberpageController {
         log.info("메뉴오다디티이"+menuOrderDTO);
         log.info("메뉴오더 시트리스트"+menuOrderDTO.getMenuSheetDTOList());
 
+
+        //String빌더로 메뉴들을 하나의 String으로 합치기
+        StringBuilder menuList = new StringBuilder();
+
+        for (MenuSheetDTO sheet : menuOrderDTO.getMenuSheetDTOList()) {
+            if (menuList.length() > 0) {
+                menuList.append(", ");
+            }
+            menuList.append(sheet.getMenuorderName());
+        }
+
+
+
         MemberDTO memberDTO = memberService.memberInfoSearch(principal);
 
 
@@ -345,6 +358,7 @@ public class MemberpageController {
         model.addAttribute("menuOrderDTO",menuOrderDTO);
         model.addAttribute("memberDTO",memberDTO);
         model.addAttribute("storeName",storeName);
+        model.addAttribute("menuList",menuList);
 
         return "member/memberpage/menupaypage";
     }
@@ -353,11 +367,13 @@ public class MemberpageController {
 
 
     @PostMapping("/menupaycheck")
-    public String menupayCheckProc( @Valid MenuOrderDTO menuOrderDTO, PaymentDTO paymentDTO, RedirectAttributes redirectAttributes){
+    public String menupayCheckProc(@Valid MenuOrderDTO menuOrderDTO, PaymentDTO paymentDTO, RedirectAttributes redirectAttributes){
 
 
         log.info("토어화긴"+menuOrderDTO.getStoreIdx());
         log.info("토어화긴2"+menuOrderDTO.getMenuSheetDTOList());
+
+
 
 
 

@@ -2,10 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Room;
-import com.exam.hotelgers.repository.MemberRepository;
-import com.exam.hotelgers.repository.PaymentRepositorty;
-import com.exam.hotelgers.repository.RoomRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.repository.*;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -49,6 +46,7 @@ public class ScriptController {
     private final StoreRepository storeRepository;
     private final MenuOrderService menuOrderService;
     private final PaymentRepositorty paymentRepositorty;
+    private final RoomOrderRepository roomOrderRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -454,6 +452,23 @@ public class ScriptController {
     @GetMapping(value = "/storeMessagemodify")
     public void storeMessage(String storeMessage,Long storeIdx) throws Exception {
         storeService.storeMessageUpdate(storeMessage,storeIdx);
+    }
+
+    @GetMapping(value = "/checkOutProc")
+    public void checkOutProc(Long roomIdx) throws Exception {
+
+        //- roomorder의 roomStatus는 4(종료)로 변경
+        roomOrderService.roomCheckOut(roomIdx);
+
+        //- room의 roomStatus는 이후 예약이 있을경우 1, 없을경우 0으로 변경
+        if(roomOrderRepository.roomSearch(roomIdx)==null){
+            log.info("에약이 없음");
+            roomService.roomCheckOutEmpty(roomIdx);
+        }
+        else if (roomOrderRepository.roomSearch(roomIdx)!=null){
+            log.info("에약이 있음");
+            roomService.roomCheckOut(roomIdx);
+        };
     }
 
     @GetMapping(value = "/storeCheckinTimemodify")

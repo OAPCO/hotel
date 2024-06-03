@@ -164,6 +164,12 @@ public class RoomOrderService {
         roomOrderRepository.roomOrderStatusUpdate2(roomIdx, roomorderIdx,checkinTime);
     }
 
+    @Transactional
+    public void roomCheckOut(Long roomIdx) {
+        roomOrderRepository.roomCheckOut(roomIdx);
+    }
+
+
 
 
 
