@@ -54,5 +54,6 @@ public class RoomOrder extends BaseEntity{
     private Long storeIdx;
     private int roomStatus;
     private String storeCd;
+    private String roomName;
 
 }

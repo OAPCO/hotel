@@ -272,15 +272,34 @@ public class MemberpageController {
 
 
 
+        //빈 방, 예약중이거나 사용중인 방
+        Long roomIdx = roomRepository.searchRoomIdxStatus0(roomOrderDTO.getRoomOrderType(),roomOrderDTO.getStoreIdx());
+        Long roomIdx2 = roomRepository.searchRoomIdxStatus1and2(roomOrderDTO.getRoomOrderType(),roomOrderDTO.getStoreIdx());
+        
+        //빈 방중에 예약가능한 방이 있다면
+        if (roomIdx != null) {
+
+            roomOrderDTO.setRoomIdx(roomIdx);
+            roomOrderDTO.setRoomName(roomRepository.roomNameSaerch(roomIdx));
+        }
+
+        //예약중이거나 사용중인 방중에 예약가능한 방이 있다면
+        else if (roomIdx2 != null) {
+
+            roomOrderDTO.setRoomIdx(roomIdx2);
+            roomOrderDTO.setRoomName(roomRepository.roomNameSaerch(roomIdx2));
+        }
+
+
+
+
+        log.info("룸아이디엑스 화긴"+roomOrderDTO.getRoomIdx());
+        log.info("룸이름 화긴"+roomOrderDTO.getRoomName());
+
+
 
         //예약된 방 하나를 상태를 1로 바꾼다.
         roomService.roomStatusUpdate1(roomOrderDTO);
-
-
-//        roomType과 매장idx가 동일한 곳의 roomstatus가 0인 것의 roomIdx를 찾아야함
-//        roomOrderDTO.setRoomIdx(roomRepository.searchRoomIdxOne(roomOrderDTO.getRoomOrderType(),roomOrderDTO.getStoreIdx()));
-//
-//        log.info("룸아이디엑스 화긴"+roomOrderDTO.getRoomIdx());
 
 
         //객실예약 추가
