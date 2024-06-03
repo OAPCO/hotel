@@ -29,17 +29,30 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="order : ${menuOrderDetailList}">
+        <tr th:each="order : ${menuOrderDTOS}">
           <td th:text="${order.menuorderIdx}"></td>
           <td th:text="${order.roomName}"></td>
           <td th:text="${order.menuorderCd}"></td>
           <td th:text="${order.total}"></td>
           <td th:text="${order.memberName}"></td>
-          <td th:switch="${order.orderState}">
-            <span th:case="'0'">결제완료</span>
-            <span th:case="'1'">조리완료</span>
-            <span th:case="'2'">배달완료</span>
-            <span th:case="'3'">결제취소</span>
+          <td>
+            <select class="form-control" th:value="${order.orderState}" th:data-menuorder-idx="${order.menuorderIdx}" id="statusSelect">
+              <th:block th:if="${order.orderState}==0">
+                <option value="0" selected>결제완료</option>
+                <option value="1">조리중</option>
+                <option value="2">배달완료</option>
+              </th:block>
+              <th:block th:if="${order.orderState}==1">
+                <option value="0">결제완료</option>
+                <option value="1" selected>조리중</option>
+                <option value="2">배달완료</option>
+              </th:block>
+              <th:block th:if="${order.orderState}==2">
+                <option value="0">결제완료</option>
+                <option value="1">조리중</option>
+                <option value="2"selected>배달완료</option>
+              </th:block>
+            </select>
           </td>
 <!--          <td th:text="${#strings.substringBefore(order.regdate, 'T')}"></td>-->
           <td th:text="${#temporals.format(order.regdate, 'MM-dd / HH:MM')}"></td>
@@ -47,8 +60,13 @@
             <button type="button" class="btn btn-outline-info" th:data-target="'#details-' + ${order.menuorderIdx}">주문 상세
             </button>
           </td>
+
         </tr>
-        <tr th:each="order : ${menuOrderDetailList}" th:id="'details-' + ${order.menuorderIdx}" style="display: none;">
+
+
+
+        <th:block th:each="order : ${menuOrderDTOS}">
+        <tr th:each="sheet : ${order.menuSheetDTOList}" th:id="'details-' + ${order.menuorderIdx}" style="display: none;">
           <td colspan="9" style="padding: 0;">
             <table style="width: 100%;">
               <thead>
@@ -69,17 +87,33 @@
                 <td th:text="${sheet.amountPrice}"></td>
               </tr>
               </tbody>
+
+              <tr>
+                <th style="background-color: #cad5f5" height="60px">요청사항
+                <td colspan="6" style="font-size: 22px" th:text="${order.orderRequest}"></td>
+                </th>
+              </tr>
             </table>
           </td>
         </tr>
+        </th:block>
+
+
         </tr>
         </tbody>
+
+
+
       </table>
       </div>
     </div>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/js/hotel.js"></script>
   <script>
+
+    var statusSelect = document.getElementById("statusSelect");
+
     $(document).ready(function(){
       $(".btn-outline-info").click(function(){
         //모든 상세 정보를 숨깁니다.
@@ -91,6 +125,43 @@
         $(detailSection).insertAfter(currentRow).show();
       });
     });
+
+
+    document.querySelectorAll('select[data-menuorder-idx]').forEach(selectElement => {
+      selectElement.addEventListener('change', function(e) {
+        console.log("셀렉트박스 변함");
+        const menuorderIdx = this.getAttribute('data-menuorder-idx');
+        const orderStatus = this.value;
+        console.log("menuorderIdx: " + menuorderIdx);
+        console.log("orderStatus: " + orderStatus);
+
+        // 수정을 위한 AJAX 호출 (예시)
+        hotel.menuOrderStatusChange(menuorderIdx, orderStatus);
+
+        setTimeout(function() { location.reload(); }, 1000);
+      });
+    });
+
+    statusSelect.addEventListener('change', function(e) {
+
+      var row = statusSelect.closest('tr');
+      var statusSelectvar = row.querySelector(".statusSelect");
+
+      console.log("셀렉트박스 변함"+row);
+      console.log("셀렉트박스 변함"+statusSelectvar);
+      const menuorderIdx = this.getAttribute('data-menuorder-idx');
+      const orderStatus = statusSelect.value;
+      console.log("menuorderIdx"+menuorderIdx);
+      console.log("orderStatus"+orderStatus);
+
+        //수정
+        hotel.menuOrderStatusChange(menuorderIdx,orderStatus);
+
+        setTimeout(function() {location.reload();}, 1000);
+
+    });
+
+
   </script>
 </div>
 </body>

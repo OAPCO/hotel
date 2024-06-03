@@ -2,6 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Payment;
+import com.exam.hotelgers.entity.Room;
 import com.exam.hotelgers.entity.RoomOrder;
 import com.exam.hotelgers.repository.*;
 import com.exam.hotelgers.repository.RoomRepository;
@@ -27,11 +28,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.awt.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -232,6 +235,9 @@ public class MemberpageController {
 
         log.info("일 수 차이 나는지 화긴"+ChronoUnit.DAYS.between(start, end));
 
+        
+        log.info("roomIdx 화긴"+roomOrderDTO.getRoomIdx());
+
         int day = (int) ChronoUnit.DAYS.between(start, end);
 
         roomOrderDTO.setRoomPrice(roomOrderDTO.getRoomPrice()*day);
@@ -246,23 +252,7 @@ public class MemberpageController {
     }
 
 
-    @GetMapping("/member/memberpage/menupaypage")
-    public String menupaypageform(@ModelAttribute("result") MenuOrderDTO menuOrderDTO,Model model,Principal principal){
 
-
-        log.info("메뉴오다디티이"+menuOrderDTO);
-
-        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
-
-
-        String storeName = storeRepository.findStoreName(menuOrderDTO.getStoreIdx());
-
-        model.addAttribute("menuOrderDTO",menuOrderDTO);
-        model.addAttribute("memberDTO",memberDTO);
-        model.addAttribute("storeName",storeName);
-
-        return "member/memberpage/menupaypage";
-    }
 
 
 
@@ -280,6 +270,31 @@ public class MemberpageController {
         roomOrderDTO.setReservationDateCheckinDate(start);
         roomOrderDTO.setReservationDateCheckoutDate(end);
 
+
+
+        //빈 방, 예약중이거나 사용중인 방
+        Long roomIdx = roomRepository.searchRoomIdxStatus0(roomOrderDTO.getRoomOrderType(),roomOrderDTO.getStoreIdx());
+        Long roomIdx2 = roomRepository.searchRoomIdxStatus1and2(roomOrderDTO.getRoomOrderType(),roomOrderDTO.getStoreIdx());
+        
+        //빈 방중에 예약가능한 방이 있다면
+        if (roomIdx != null) {
+
+            roomOrderDTO.setRoomIdx(roomIdx);
+            roomOrderDTO.setRoomName(roomRepository.roomNameSaerch(roomIdx));
+        }
+
+        //예약중이거나 사용중인 방중에 예약가능한 방이 있다면
+        else if (roomIdx2 != null) {
+
+            roomOrderDTO.setRoomIdx(roomIdx2);
+            roomOrderDTO.setRoomName(roomRepository.roomNameSaerch(roomIdx2));
+        }
+
+
+
+
+        log.info("룸아이디엑스 화긴"+roomOrderDTO.getRoomIdx());
+        log.info("룸이름 화긴"+roomOrderDTO.getRoomName());
 
 
 
@@ -314,14 +329,60 @@ public class MemberpageController {
     }
 
 
+
+    @GetMapping("/member/memberpage/menupaypage")
+    public String menupaypageform(@ModelAttribute("result") MenuOrderDTO menuOrderDTO,Model model,Principal principal){
+
+
+        log.info("메뉴오다디티이"+menuOrderDTO);
+        log.info("메뉴오더 시트리스트"+menuOrderDTO.getMenuSheetDTOList());
+
+
+        //String빌더로 메뉴들을 하나의 String으로 합치기
+        StringBuilder menuList = new StringBuilder();
+
+        for (MenuSheetDTO sheet : menuOrderDTO.getMenuSheetDTOList()) {
+            if (menuList.length() > 0) {
+                menuList.append(", ");
+            }
+            menuList.append(sheet.getMenuorderName());
+        }
+
+
+
+        MemberDTO memberDTO = memberService.memberInfoSearch(principal);
+
+
+        String storeName = storeRepository.findStoreName(menuOrderDTO.getStoreIdx());
+
+        model.addAttribute("menuOrderDTO",menuOrderDTO);
+        model.addAttribute("memberDTO",memberDTO);
+        model.addAttribute("storeName",storeName);
+        model.addAttribute("menuList",menuList);
+
+        return "member/memberpage/menupaypage";
+    }
+
+
+
+
     @PostMapping("/menupaycheck")
-    public String menupayCheckProc(@Valid MenuOrderDTO menuOrderDTO,PaymentDTO paymentDTO,RedirectAttributes redirectAttributes){
+    public String menupayCheckProc(@Valid MenuOrderDTO menuOrderDTO, PaymentDTO paymentDTO, RedirectAttributes redirectAttributes){
 
 
         log.info("토어화긴"+menuOrderDTO.getStoreIdx());
+        log.info("토어화긴2"+menuOrderDTO.getMenuSheetDTOList());
 
 
-        Long menuorderIdx = menuOrderService.register(menuOrderDTO);
+
+
+
+        Long menuorderIdx = menuOrderRepository.findMenuorderIdx(menuOrderDTO.getMenuorderCd());
+
+        menuOrderService.menuOrderPaymentCheck(menuorderIdx);
+
+        log.info("여기화긴@"+menuorderIdx);
+
 
         //결제 테이블에 결제건의 총판 idx를 찾아서 넣어주자
         paymentDTO.setDistIdx(distRepository.findStoreOfDistIdx(menuOrderDTO.getStoreIdx()));
@@ -330,6 +391,8 @@ public class MemberpageController {
         //결제테이블 컬럼 추가
         paymentDTO.setPaymentStatus(0);
         paymentService.register(paymentDTO);
+
+        log.info("여기화긴@22222"+menuorderIdx);
 
 
 
@@ -399,6 +462,10 @@ public class MemberpageController {
         Long roomIdx = optedRoomOrder.getRoomIdx();
         log.info(roomIdx);
 
+        Optional<Room> room = roomRepository.findById(roomIdx);
+
+        RoomDTO roomDTO = modelMapper.map(room,RoomDTO.class);
+
 
         log.info("메뉴카테 목록@@@ + "+ store.getMenuCateDTOList());
 
@@ -406,6 +473,8 @@ public class MemberpageController {
         model.addAttribute("menuCateList", store.getMenuCateDTOList());
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("roomIdx", roomIdx);
+        model.addAttribute("roomName", roomDTO.getRoomName());
+        model.addAttribute("roomorderIdx", roomorderIdx);
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);
         model.addAttribute("folder", folder);

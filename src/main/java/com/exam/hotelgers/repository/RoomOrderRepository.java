@@ -21,6 +21,9 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
 
     List<RoomOrder> findByStoreIdx(Long storeIdx);
 
+    @Query("select r from RoomOrder r where r.storeIdx = :storeIdx")
+    List<RoomOrder> findByStoreIdxRoomOrder(Long storeIdx);
+
 
     //roomorderIdx로 storeIdx 찾기(체크인 후 룸서비스 주문할 때 메뉴선택에 사용하기 위해)
     @Query("select o.storeIdx from RoomOrder o where o.roomorderIdx = :roomorderIdx")
@@ -91,6 +94,7 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
             "LEFT JOIN Room r ON r.store.storeIdx = o.storeIdx " +
             "WHERE o.storeIdx = :#{#searchDTO.storeIdx} " +
             "and o.roomOrderType = :#{#searchDTO.roomType} " +
+            "and r.roomStatus IN (1,2) " +
             "AND (:#{#searchDTO.reservationDateCheckinDate} BETWEEN o.reservationDateCheckinDate AND o.reservationDateCheckoutDate " +
             "OR :#{#searchDTO.reservationDateCheckoutDate} BETWEEN o.reservationDateCheckinDate AND o.reservationDateCheckoutDate " +
             "OR (o.reservationDateCheckinDate BETWEEN :#{#searchDTO.reservationDateCheckinDate} AND :#{#searchDTO.reservationDateCheckoutDate} " +
@@ -112,6 +116,20 @@ public interface RoomOrderRepository extends JpaRepository<RoomOrder,Long> {
     @Modifying
     @Query("delete RoomOrder r where r.roomorderIdx = :roomorderIdx")
     void roomOrderDelete(Long roomorderIdx);
+
+
+    //현재 묵고 있는 방의 퇴실 처리
+    @Modifying
+    @Query("UPDATE RoomOrder o " +
+            "SET o.roomStatus = 4" +
+            "WHERE o.roomIdx = :roomIdx and o.roomStatus = 2")
+    void roomCheckOut(Long roomIdx);
+
+
+    //room 테이블을 퇴실처리 하기 전에 방 상태를 알아보기 위함
+    //roomStatus가 1인(예약중) 룸오더가 있는지 확인
+    @Query(value = "SELECT o.room_idx FROM RoomOrder o join Room r on o.room_idx = r.room_idx where o.room_idx = :roomIdx and o.room_status = 1",nativeQuery = true)
+    Long roomSearch(Long roomIdx);
 
 
 }

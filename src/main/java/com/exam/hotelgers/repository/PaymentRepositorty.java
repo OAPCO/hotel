@@ -32,6 +32,11 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
     Optional<Payment> roomOrderByPaymentSearch(Long roomorderIdx);
 
 
+    //distchiefId로 소유한 모든 결제 컬럼 가져옴
+    @Query("select p from Payment p where p.distIdx IN (select d.distIdx from Dist d where d.distChief.distChiefId = :userid)")
+    Page<Payment> distChiefPaymentSearch(Pageable pageable,String userid);
+
+
 
     //매장의 결제내역 리스트
     @Query("select p from Payment p where p.storeIdx = :#{#searchDTO.storeIdx} " +
@@ -110,6 +115,11 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "GROUP BY day (p.regdate)" +
             "ORDER BY day (p.regdate)")
     List<Object[]> getDistDaySales(Long distIdx);
+
+
+
+
+
 
 
 

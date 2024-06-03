@@ -19,6 +19,7 @@ public class PaymentDTO {
     private Long paymentIdx;
 
     private int paymentPrice;
+    private int paymentTotalPrice;
     private int paymentStatus;
 
     private String memberName;

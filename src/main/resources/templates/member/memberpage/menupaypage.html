@@ -66,24 +66,25 @@
 
                     <input type="hidden" name="memberIdx" th:value="${memberDTO.memberIdx}">
 
-
                         <input type="hidden" name="menuorderIdx" th:value="${menuOrderDTO.menuorderIdx}">
                         <input type="hidden" name="menuorderCd" th:value="${menuOrderDTO.menuorderCd}">
                         <input type="hidden" name="total" th:value="${menuOrderDTO.total}">
                         <input type="hidden" name="storeIdx" th:value="${menuOrderDTO.storeIdx}">
                         <input type="hidden" name="memberIdx" th:value="${menuOrderDTO.orderRequest}">
                         <input type="hidden" name="roomorderIdx" th:value="${menuOrderDTO.roomorderIdx}">
-                        <input type="text" name="paymentType" value="룸서비스">
+                        <input type="hidden" name="roomName" th:value="${menuOrderDTO.roomName}">
+                        <input type="hidden" name="orderRequest" th:value="${menuOrderDTO.orderRequest}">
+                        <input type="hidden" name="paymentType" value="룸서비스">
                         <input type="hidden" name="roomPrice" th:value="${menuOrderDTO.roomIdx}">
 
                         <div class="mb-3">
                             <label for="productName" class="form-label">상품명</label>
-                            <input type="text" class="form-control" id="productName" th:value="${storeName}" name="paymentName">
+                            <input type="text" class="form-control" id="productName" th:value="${menuList}" name="paymentName">
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">가격</label>
-                            <input type="text" class="form-control" id="priceString" th:value="${menuOrderDTO.total}">
-                            <input type="number" class="form-control" id="price" name="paymentPrice">
+                            <input type="hidden" class="form-control" id="priceString" th:value="${menuOrderDTO.total}">
+                            <input type="number" class="form-control" id="price" name="paymentPrice" readonly="readonly">
                         </div>
                         <div class="mb-3">
                             <label for="customerName" class="form-label">주문자</label>
@@ -173,7 +174,16 @@
 
         IMP.init("imp26863141"); //상점ID
 
+
+        function uidcreate(){
+            const timestamp = Date.now().toString(36);
+            const random = Math.random().toString(36).substr(2,9);
+            return timestamp + random;
+        }
+
         function requestPay() {
+
+
 
             var string = '룸서비스';
 
@@ -185,14 +195,14 @@
             var email = document.getElementById("email").value;
             var postalCode = document.getElementById("postalCode").value;
             var address = document.getElementById("address").value;
-
+            var uid = "test_"+uidcreate();
 
 
 
             IMP.request_pay({
                 pg: "html5_inicis", //결재사
                 pay_method: "card", //결재방식
-                merchant_uid: "test_lw0auevl",
+                merchant_uid: uid,
                 name: productName, //"연습용상품",
                 amount: price, //12000,
                 popup: false,

@@ -2,7 +2,7 @@
 <html data-bs-theme="light" lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main}">
+      layout:decorate="~{layouts/adminlayout}">
 <head>
     <title>매장관리</title>
     <link rel="stylesheet" href="/yhh.css">
@@ -12,7 +12,7 @@
 <div layout:fragment="content">
 
 
-    <h4 class="card-title">[[${storeDTO.storeName}]] 매출 관리</h4>
+    <h4 class="card-title"> 매출 </h4>
     <div class="card">
         <div class="card-header">
             <form method="post" th:action="@{/admin/distchief/store/list}">

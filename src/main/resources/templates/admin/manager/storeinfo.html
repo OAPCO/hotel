@@ -4,7 +4,19 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/manager}">
 
-<head></head>
+<head>
+
+    <style>
+    .mouseover {
+    transition: color 0.7s ease;
+    }
+
+    .mouseover:hover {
+    color: dodgerblue; /* 색깔을 푸르스름하게 변경 */
+    }
+    </style>
+
+</head>
 
 <body>
 <div layout:fragment="content" >
@@ -16,7 +28,7 @@
                 <div class="sub_title">
                     <h2>[[${storeDTO.storeName}]] 소개</h2>
                     <h4>
-                    <span th:text="${storeDTO.storeSummary}" id="storeSummaryId"></span>
+                    <span th:text="${storeDTO.storeSummary}" id="storeSummaryId" class="mouseover"></span>
                     </h4>
                     <input type="text" style="display: none" id="storeSummaryInput" th:value="${storeDTO.storeSummary}">
                     <button type="button" style="display: none" id="storeSummaryButton">수정</button>
@@ -35,7 +47,7 @@
                     <tr class="row">
                         <td class="col-2 ">체크인 시간</td>
                         <td class="col-9">
-                            <span th:text="${storeDTO.storeCheckinTime}" id="checkInTimeId"></span>
+                            <span th:text="${storeDTO.storeCheckinTime}" id="checkInTimeId" class="mouseover"></span>
                             <input type="text" style="display: none" id="checkInTimeInput" th:value="${storeDTO.storeCheckinTime}">
                             <button type="button" style="display: none" id="checkInTimeButton">수정</button>
                         </td>
@@ -43,7 +55,7 @@
                     <tr class="row">
                         <td class="col-2 ">체크아웃 시간</td>
                         <td class="col-9">
-                            <span th:text="${storeDTO.storeCheckoutTime}" id="checkOutTimeId"></span>
+                            <span th:text="${storeDTO.storeCheckoutTime}" id="checkOutTimeId" class="mouseover"></span>
                             <input type="text" style="display: none" id="checkOutTimeInput" th:value="${storeDTO.storeCheckoutTime}">
                             <button type="button" style="display: none" id="checkOutTimeButton">수정</button>
                         </td>
@@ -51,7 +63,7 @@
                     <tr class="row">
                         <td class="col-2 ">당일 취소시 수수료</td>
                         <td class="col-9">
-                            <span th:text="${storeDTO.cancelCharge}" id="cancelChargeId"></span>
+                            <span th:text="${storeDTO.cancelCharge}" id="cancelChargeId" class="mouseover"></span>
                             <select id="cancelChargeInput" style="display: none">
                                 <option value="0.1" >10%</option>
                                 <option value="0.2" >20%</option>
@@ -66,8 +78,8 @@
                     <tr class="row" style="height: 200px">
                         <td class="col-2">공지사항</td>
                         <td class="col-9">
-                            <span th:text="${storeDTO.storeMessage}" id="storeMessageId"></span>
-                            <input type="text" style="display: none" id="storeMessageInput" th:value="${storeDTO.storeSummary}">
+                            <span th:text="${storeDTO.storeMessage}" id="storeMessageId" class="mouseover"></span>
+                            <input type="text" style="display: none" id="storeMessageInput" th:value="${storeDTO.storeMessage}">
                             <button type="button" style="display: none" id="storeMessageButton">수정</button>
                         </td>
                     </tr>
