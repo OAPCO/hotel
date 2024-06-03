@@ -125,7 +125,7 @@
                                 </th:block>
                             </td>
                             <td class="col">매장 등록일</td>
-                            <td th:text="${#temporals.format(storeDTO.regdate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(storeDTO.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         </tr>
                         <tr>
                             <td class="col-2">매장 상세</td>
@@ -162,7 +162,7 @@
                             <td rowspan="7" class="col-2">이미지(필수)</td>
                             <td rowspan="7" class="col-10">
                                 <th:block th:each=" imgdtolist : ${storeDTO.dtoList}">
-                                    <img th:src="@{|/images/@{${#temporals.format(imgdtolist.regdate,'yyMMdd')}}/@{${imgdtolist.imageName}}|}" alt="이건 사진입니다." width="200px">
+                                    <img th:src="@{|/images/@{${#temporals.format(imgdtolist.regdate,'yyMMdd HHmmss')}}/@{${imgdtolist.imageName}}|}" alt="이건 사진입니다." width="200px">
                                 </th:block>
                             </td>
                         </tr>

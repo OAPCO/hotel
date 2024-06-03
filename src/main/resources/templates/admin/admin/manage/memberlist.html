@@ -31,7 +31,7 @@
                                         <option value="">전체</option>
                                         <option value="DISTCHIEF">총판장</option>
                                         <option value="MANAGER">매니저</option>
-                                        <option value="USER">유저</option>
+                                        <option value="USER">회원</option>
                                     </select>
                                 </div>
                             </td>
@@ -93,7 +93,7 @@
                             <td th:case="USER" th:text="${data.memberEmail}"></td>
                         </th:block>
 
-                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                     </tr>
 

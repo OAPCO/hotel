@@ -28,7 +28,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AdminController {
 
-
     private final AdminService adminService;
     private final DistService distService;
     private final SearchService searchService;
@@ -68,7 +67,6 @@ public class AdminController {
 
         log.info("admin registerProc 도착");
 
-
         if (bindingResult.hasErrors()) {
             log.info("has error@@@@@@@@@");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
@@ -90,7 +88,6 @@ public class AdminController {
     @GetMapping("/admin/delete/{adminIdx}")
     public String deleteProc(@PathVariable Long adminIdx) {
 
-
         adminService.delete(adminIdx);
         //서비스처리(삭제)
         return "redirect:/admin/list";
@@ -102,7 +99,6 @@ public class AdminController {
 
     @GetMapping("/admin/admin/manage/memberlist")
     public String memberlistForm(@PageableDefault(page = 1)Pageable pageable,Model model) throws Exception{
-
 
         Page<Object> objects = adminService.memberList(pageable);
 
@@ -122,7 +118,6 @@ public class AdminController {
 
     @PostMapping("/admin/admin/manage/memberlist")
     public String memberlistProc(@PageableDefault(page = 1)Pageable pageable,Model model,SearchDTO searchDTO) throws Exception{
-
 
         Page<Object> objects = adminService.memberListSearch(pageable,searchDTO);
 
@@ -160,7 +155,6 @@ public class AdminController {
 
         log.info("dist registerProc 도착 " + distDTO);
 
-
         if (bindingResult.hasErrors()) {
             log.info("has error@@@@@@@@@");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
@@ -184,7 +178,6 @@ public class AdminController {
     @GetMapping("/admin/admin/manage/qnalist")
     public String qnaListForm(@PageableDefault(page = 1)Pageable pageable,Model model) throws Exception{
 
-
         Page<QnaDTO> qnaDTOS = qnaService.list(pageable);
 
         model.addAttribute("list", qnaDTOS);
@@ -196,7 +189,6 @@ public class AdminController {
 
     @PostMapping("/admin/admin/manage/qnalist")
     public String qnaListProc(@PageableDefault(page = 1)Pageable pageable,Model model,SearchDTO searchDTO) throws Exception{
-
 
         Page<QnaDTO> qnaDTOS = qnaService.getQna(pageable,searchDTO);
 
@@ -212,7 +204,6 @@ public class AdminController {
 
     @PostMapping("/admin/admin/manage/answer")
     public String answerProc(@PageableDefault(page = 1)Pageable pageable,Model model,SearchDTO searchDTO) throws Exception{
-
 
         log.info(searchDTO.getQnaIdx());
         log.info(searchDTO.getQnaAnswer());
@@ -239,12 +230,8 @@ public class AdminController {
             return "admin/admin/pwchange";
         }
 
-
-
         redirectAttributes.addFlashAttribute("successMessage", "비밀번호 변경이 완료되었습니다.");
         return "redirect:/admin/admin/pwchange";
     }
-
-
 }
 

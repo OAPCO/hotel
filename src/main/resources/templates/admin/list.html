@@ -56,7 +56,7 @@
                             <td th:text="${data.adminId}"></td>
                             <td th:text="${data.roleType}"></td>
                             <td th:text="${data.adminPhone}"></td>
-                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                             <td><a th:href="@{'/admin/delete/'+${data.adminIdx}}">삭제</a></td>
 

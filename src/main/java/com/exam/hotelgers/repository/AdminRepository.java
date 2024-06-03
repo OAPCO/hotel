@@ -69,14 +69,14 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
     @Query("SELECT m FROM Manager m " +
             "where (:#{#searchDTO.name} is null or m.managerName LIKE %:#{#searchDTO.name}%)"+
             "and (:#{#searchDTO.id} is null or m.managerId LIKE %:#{#searchDTO.id}%)"+
-            "and (:#{#searchDTO.roleType} is null or m.roleType = %:#{#searchDTO.roleType}%)")
+            "and (:#{#searchDTO.roleType} is null or m.roleType = :#{#searchDTO.roleType})")
     List<Manager> managerListSearch1(SearchDTO searchDTO);
 
 
-    @Query("SELECT m FROM Member m " +
-            "where (:#{#searchDTO.name} is null or m.memberName LIKE %:#{#searchDTO.name}%)"+
-            "and (:#{#searchDTO.id} is null or m.memberId LIKE %:#{#searchDTO.id}%)"+
-            "and (:#{#searchDTO.roleType} is null or m.roleType = %:#{#searchDTO.roleType}%)")
+    @Query("SELECT n FROM Member n " +
+            "where (:#{#searchDTO.name} is null or n.memberName LIKE %:#{#searchDTO.name}%)"+
+            "and (:#{#searchDTO.id} is null or n.memberId LIKE %:#{#searchDTO.id}%)"+
+            "and (:#{#searchDTO.roleType} is null or n.roleType = :#{#searchDTO.roleType})")
     List<Member> memberListSearch1(SearchDTO searchDTO);
 
 
