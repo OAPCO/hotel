@@ -120,6 +120,15 @@ public class MainController {
     }
 
 
+    @GetMapping("/layouts/manager")
+    public void managerForm(Principal principal, Model model){
+
+        String userName = searchService.findByIdSendName(principal);
+
+        model.addAttribute("userName",userName);
+
+    }
+
     @GetMapping("/layouts/adminlayout")
     public void adminForm(Principal principal, Model model){
 

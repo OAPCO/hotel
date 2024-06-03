@@ -561,7 +561,7 @@ let hotel = (function () {
             type: 'GET',
             url: '/storemonthsales',
             data: {
-                distIdx: distIdx
+                storeIdx: storeIdx
             },
 
             success: function(sales) {
@@ -582,7 +582,7 @@ let hotel = (function () {
             type: 'GET',
             url: '/storedaysales',
             data: {
-                distIdx: distIdx
+                storeIdx: storeIdx
             },
 
             success: function(sales) {
@@ -661,6 +661,31 @@ let hotel = (function () {
         });
 
     };
+
+
+
+
+    function checkOutProc(roomIdx){
+
+        $.ajax({
+            type: 'GET',
+            url: '/checkOutProc',
+            data: {
+                roomIdx : roomIdx
+            },
+
+            success: function(e) {
+                console.log("퇴실 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
 
     function storeCheckinTimemodify(storeCheckinTime,storeIdx){
 
@@ -775,6 +800,33 @@ let hotel = (function () {
 
 
 
+    function menuOrderStatusChange(menuorderIdx,orderStatus){
+
+        console.log("체크인 수정들어옴");
+        console.log("받은 menuorderIdx"+menuorderIdx);
+        console.log("받은 orderStatus"+orderStatus);
+
+        $.ajax({
+            type: 'GET',
+            url: '/menuOrderStatusChange',
+            data: {
+                menuorderIdx: menuorderIdx,
+                orderStatus: orderStatus
+            },
+
+            success: function(e) {
+                console.log("메뉴오더상태 수정 성공")
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
+
 
     //값 반환
     return {
@@ -801,7 +853,9 @@ let hotel = (function () {
         storeImageModify : storeImageModify,
         roomCountAdd : roomCountAdd,
         storeChargeModify : storeChargeModify,
-        roomOrderCancel : roomOrderCancel
+        roomOrderCancel : roomOrderCancel,
+        menuOrderStatusChange : menuOrderStatusChange,
+        checkOutProc : checkOutProc
     };
 
 })();

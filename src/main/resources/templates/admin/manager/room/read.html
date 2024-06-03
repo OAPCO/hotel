@@ -25,7 +25,7 @@
 
         /* 하단 섹션 */
         #bottom-section {
-            width: 100%;
+            width: 89%;
             height: 35vh; /* 화면 높이의 35% */
             border: 1px solid #ccc;
             overflow-y: auto; /* 세로 스크롤 추가 */
@@ -59,6 +59,7 @@
                                 <th>입실 인원</th>
                                 <th>입실 시간</th>
                                 <th>체크아웃 날짜</th>
+                                <th>퇴실</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -67,7 +68,11 @@
                                 <td th:text="${memberDTO.memberPhone}"></td>
                                 <td th:text="${roomOrderDTO.peopleNum}"></td>
                                 <td th:text="${roomOrderDTO.checkinTime}"></td>
-                                <td th:text="${#temporals.format(roomOrderDTO.reservationDateCheckoutDate, 'MM-dd')}"></td>                            </tr>
+                                <td th:text="${#temporals.format(roomOrderDTO.reservationDateCheckoutDate, 'MM-dd')}"></td>
+                                <td>
+                                    <button class="btn btn-primary" onclick="checkoutbutton(this)">퇴실처리</button>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -164,7 +169,7 @@
                     객실 예약 현황
                 </div>
                 <div class="table-responsive">
-                    <table class="table body">
+                    <table class="table body" style="width: 1500px">
                         <thead>
                         <tr>
                             <th>번호</th>
@@ -213,8 +218,10 @@
         <!-- 내용 -->
     </section>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="/js/hotel.js"></script>
     <script>
+
         $(document).ready(function() {
             $(".btn-outline-info").click(function() {
                 // 현재 선택한 섹션을 제외하고 모든 상세 정보를 숨깁니다.
@@ -226,6 +233,26 @@
                 $(targetId).insertAfter(currentRow).toggle();
             });
         });
+
+
+        function checkoutbutton(button) {
+            var result = confirm("퇴실 처리 하시겠습니까?");
+            if (result) {
+                cancel(button);
+            }
+        }
+
+
+        function cancel(button) {
+            var roomIdx = [[${roomDTO.roomIdx}]];
+
+            hotel.checkOutProc(roomIdx);
+
+            console.log("화긴"+roomIdx);
+
+            setTimeout(function() {location.reload();}, 1000);
+        }
+
     </script>
 
 </div>

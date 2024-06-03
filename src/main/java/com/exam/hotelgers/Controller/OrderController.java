@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.swing.text.html.Option;
+import java.awt.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,15 @@ public class OrderController {
                                RedirectAttributes redirectAttributes) {
 
         log.info("order registerProc 도착 " + orderDTO);
+        log.info("order 요청사항 화긴 " + orderDTO.getOrderRequest());
+        log.info("order 아디엑스 화긴 " + orderDTO.getRoomorderIdx());
+        log.info("order 멤버네임 화긴 " + orderDTO.getMemberName());
+        log.info("order 룸네임 화긴 " + orderDTO.getRoomName());
+        log.info("메뉴시트 dto 화긴 " + orderDTO.getMenuSheetDTOList());
+
+        Long menuorderIdx = menuOrderService.register(orderDTO);
+
+
 
 
         if (bindingResult.hasErrors()) {
@@ -117,22 +127,41 @@ public class OrderController {
     public String listForm(Principal principal, Model model) {
         log.info("order listForm 도착 ");
 
-        String username = principal.getName(); // assuming the principal's name is the username
-        Optional<Manager> managerOpt = managerRepository.findByManagerId(username);
 
-        if (managerOpt.isPresent()) {
-            Optional<Store> storeOpt = storeRepository.findByManagerId(username);
+//
+////        String username = principal.getName(); // assuming the principal's name is the username
+//        Optional<Manager> managerOpt = managerRepository.findByManagerId(username);
 
 
-            if (storeOpt.isPresent()) {
-                Store store = storeOpt.get();
-                OrderHistoryDTO orderHistoryDTO = menuOrderService.getOrderHistoryByStore(store.getStoreIdx());
-                log.info(store.getStoreIdx() + "스토어 Idx !!!!!!!!!!!!!!!!!!!!!!");
-                model.addAttribute("storeName", store.getStoreName());
-                model.addAttribute("menuOrderDetailList", orderHistoryDTO.getMenuOrderDetailList());
-                model.addAttribute("roomOrderDetailList", orderHistoryDTO.getRoomOrderDetailList());
-            }
-        }
+        StoreDTO storeDTO = managerService.managerOfStore(principal);
+
+
+        List<MenuOrderDTO> menuOrderDTOS = menuOrderService.list2(storeDTO.getStoreIdx());
+
+        log.info(menuOrderDTOS);
+
+        model.addAttribute("menuOrderDTOS", menuOrderDTOS);
+
+        
+//        if (managerOpt.isPresent()) {
+//
+//            Optional<Store> storeOpt = storeRepository.findByManagerId(username);
+//
+//
+//
+//            if (storeOpt.isPresent()) {
+//                Store store = storeOpt.get();
+//                log.info("store : "+ store);
+//
+//                OrderHistoryDTO orderHistoryDTO = menuOrderService.getOrderHistoryByStore(store.getStoreIdx());
+//                log.info("orderHistoryDTO : "+ orderHistoryDTO);
+//
+//                log.info(store.getStoreIdx() + "스토어 Idx !!!!!!!!!!!!!!!!!!!!!!");
+//                model.addAttribute("storeName", store.getStoreName());
+//                model.addAttribute("menuOrderDetailList", orderHistoryDTO.getMenuOrderDetailList());
+//                model.addAttribute("roomOrderDetailList", orderHistoryDTO.getRoomOrderDetailList());
+//            }
+//        }
 
         return "admin/manager/order/menuorderlist";
     }

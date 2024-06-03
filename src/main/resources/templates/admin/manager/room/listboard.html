@@ -102,17 +102,37 @@
 
         <th:block th:each="orderList:${roomOrderDTOS}">
 
-            <div class="card card-order" draggable="true" ondragstart="drag(event)"
-                 th:data-room-order-idx="${orderList.roomorderIdx}">
-                <div class="card-header">[[${orderList.roomOrderType}]]</div>
-                <div class="card-body card-padder">
-                    우선순위 - [[${orderList.roomorderIdx}]] <br>
-                    이름 : [[${orderList.memberName}]] <br>
-                    날짜 :  [[${orderList.reservationDateCheckin}]] ~  [[${orderList.reservationDateCheckout}]] <br>
-                    인원 : [[${orderList.peopleNum}]] <br>
-                    예약일 : [[${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}]]
+
+            <th:block th:if="${#temporals.format(orderList.reservationDateCheckinDate, 'yyyy-MM-dd') == #temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}">
+                <div class="card card-order" draggable="true" ondragstart="drag(event)" th:data-room-order-idx="${orderList.roomorderIdx}">
+                    <div class="card-header" style="background-color: #F7F2E0"><b>[Today]</b> [[${orderList.roomOrderType}]] - [[${orderList.roomName}]]
+                    </div>
+                    <div class="card-body card-padder">
+                        우선순위 - [[${orderList.roomorderIdx}]] <br>
+                        이름 : [[${orderList.memberName}]] <br>
+                        체크인 :  [[${#temporals.format(orderList.reservationDateCheckinDate, 'yyyy-MM-dd')}]]<br>
+                        체크아웃 : [[${#temporals.format(orderList.reservationDateCheckoutDate, 'yyyy-MM-dd')}]] <br>
+                        인원 : [[${orderList.peopleNum}]] <br>
+                        예약일 : [[${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}]]
+                    </div>
                 </div>
-            </div>
+            </th:block>
+
+            <th:block th:if="${#temporals.format(orderList.reservationDateCheckinDate, 'yyyy-MM-dd') != #temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}">
+                <div class="card card-order" draggable="true" ondragstart="drag(event)" th:data-room-order-idx="${orderList.roomorderIdx}">
+                    <div class="card-header">[[${orderList.roomOrderType}]] / [[${orderList.roomName}]]</div>
+                    <div class="card-body card-padder">
+                        우선순위 - [[${orderList.roomorderIdx}]] <br>
+                        이름 : [[${orderList.memberName}]] <br>
+                        체크인 :  [[${#temporals.format(orderList.reservationDateCheckinDate, 'yyyy-MM-dd')}]]<br>
+                        체크아웃 : [[${#temporals.format(orderList.reservationDateCheckoutDate, 'yyyy-MM-dd')}]] <br>
+                        인원 : [[${orderList.peopleNum}]] <br>
+                        예약일 : [[${#temporals.format(orderList.regdate, 'yyyy-MM-dd')}]]
+                    </div>
+                </div>
+            </th:block>
+
+
 
         </th:block>
 
@@ -126,6 +146,9 @@
 
 
         $(document).ready(function() {
+
+
+
             $("[id^=roomTypeHeader]").on('click', function() {
                 var index = $(this).attr('id').replace('roomTypeHeader', '');
                 console.log("눌렸음");
@@ -150,47 +173,50 @@
 
 
 
-        function roomRegister(element) {
-
-
-            //버튼이 속한 카드의 ID를 변수에 넣음
-            var cardId = element.id;
-            console.log('객실 등록 버튼을 누른 카드의 ID:', cardId);
-
-            //객실 추가 팝업창 생성
-            var popupUrl = "/window/roomregister?id=" + cardId;
-            var popupOption = "width=1500, height=650";
-            window.open(popupUrl, "객실 추가", popupOption);
-        }
-
-
-        function handleCardClick() {
-            roomRegister(this);
-        }
 
 
 
+
+
+
+        //모델에 담아온 값들을 스크립트에서 사용하기 위해 변수로 선언해준다.
+        var roomIdx;
         var roomList = [[${list}]];
-        console.log(roomList[0]);
+        var storeIdx = [[${storeDTO.storeIdx}]];
+        var roomCount = [[${storeDTO.roomCount}]];
 
 
+
+        //카드 생성 함수. 페이지가 로드될 때 호출된다.
+        //첫번째 파라미터는 현재 매장의 roomCount 속성의 값이며, 두번째는 12로 고정하고 호출한다.
         function createCards(totalCards, cardsPerRow) {
 
+
+            //생성 할 카드를 뿌려줄 구역을 변수로 선언한다.
             const mainContainer = document.getElementById('left-content');
 
+
             let row;
+
+            //총 카드 숫자만큼 반복을 하면서 카드의 속성을 설정해준다.
             for (let i = 1; i <= totalCards; i++) {
+
+
+                //12번 반복할 때마다 새로운 줄(row)을 구역에 추가한다.
                 if ((i - 1) % cardsPerRow === 0) {
                     row = document.createElement('div');
                     row.className = 'row';
                     mainContainer.appendChild(row);
                 }
 
+                //반복숫자만큼 카드를 추가한다.
+                //생성되는 카드들의 id는 모두 다르게 주고, 빈 방 클래스네임을 지정해준다.
                 const card = document.createElement('div');
                 card.id = `roomCard${i}`;
                 card.className = 'card room-empty';
                 row.appendChild(card);
 
+                //카드를 클릭했을 때 handleCardClick 함수가 호출되게 한다.
                 card.addEventListener('click', handleCardClick);
 
 
@@ -198,25 +224,40 @@
         }
 
 
+        //실행되었을 때 roomRegister 함수 호출
+        function handleCardClick() {
+            roomRegister(this);
+        }
 
-        var roomIdx;
-        var storeIdx = [[${storeDTO.storeIdx}]];
-        var roomCount = [[${storeDTO.roomCount}]];
-
-        console.log("스토엉아이이디엑스ㅇㅇ"+storeIdx);
-        console.log("뤀만운ㅌ"+roomCount);
+        //객실 신규 등록 메소드
+        function roomRegister(element) {
 
 
+            //버튼이 속한 카드의 ID를 변수에 넣음 (카드의 id는 위에서 동적으로 생성되었음. roomCard(i))
+            var cardId = element.id;
+            console.log('객실 등록 버튼을 누른 카드의 ID:', cardId);
+
+            //객실 추가 팝업창 생성
+            var popupUrl = "/window/roomregister?id=" + cardId;
+            var popupOption = "width=1500, height=650";
+            window.open(popupUrl, "객실 추가", popupOption);
+
+            if (window.close()){
+                location.reload();
+            }
+        }
+
+
+
+        //위 함수를 호출한다.인자값으로 roomCount 값과 12(한 줄에 표시 될 카드 숫자)를 보내준다.
         createCards(roomCount, 12);
 
 
-
+        //roomList = 현재 매니저가 소유한 객실의 목록 -> 만큼 반복하면서 비어있는 카드들을 채운다.
         for (let i = 0; i < roomList.length; i++) {
 
-            console.log(roomList[i]);
-
+            //card 변수에 현재 roomList 객체의 roomCd(roomCard+)
             var card = document.getElementById(roomList[i].roomCd);
-            console.log(card);
 
             if(card) {
 
@@ -280,10 +321,10 @@
         }
 
 
+
+
         var target = null;
         var roomOrderIdx = null;
-
-
 
         // 드래그를 시작할 때 호출되는 함수
         function drag(event) {

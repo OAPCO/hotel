@@ -166,15 +166,28 @@
                                  width="1000" height="600" style="border-radius: 10px;">
                         </tr>
                         <tr class="row">
-                            <td class="col-2 ">영업시간</td>
-                            <td class="col-9">
-                                <div>영업 시작: <input type="time" value="${storeDTO.storeOpenTime}" disabled> ~ 영업 끝:
-                                    <input type="time" value="${storeDTO.storeCloseTime}" disabled></div>
+                            <td class="col-2 ">체크인</td>
+                            <td class="col-3">
+                                <div><input type="text" th:value="${storeDTO.storeCheckinTime}" disabled></div>
+                            </td>
+                            <td class="col-2 ">체크아웃</td>
+                            <td class="col-4">
+                                <div><input type="text" th:value="${storeDTO.storeCheckoutTime}" disabled></div>
                             </td>
                         </tr>
                         <tr class="row">
                             <td class="col-2">편의시설</td>
                             <td class="col-9" th:text="${storeDTO.facilities}">
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-2">공지사항</td>
+                            <td class="col-9" th:text="${storeDTO.storeMessage}">
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-2">당일취소 수수료</td>
+                            <td class="col-9" th:text="${storeDTO.cancelCharge}*100+'%'">
                             </td>
                         </tr>
                         </tbody>
