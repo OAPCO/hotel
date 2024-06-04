@@ -75,7 +75,7 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 
     @Query("SELECT m FROM Member m " +
             "where (:#{#searchDTO.name} is null or m.memberName LIKE %:#{#searchDTO.name}%)"+
-            "and (:#{#searchDTO.memberId} is null or m.memberId LIKE %:#{#searchDTO.memberId}%)"+
+            "and (:#{#searchDTO.memberEmail} is null or m.memberEmail LIKE %:#{#searchDTO.memberEmail}%)"+
             "and (:#{#searchDTO.roleType} is null or m.roleType = %:#{#searchDTO.roleType}%)")
     List<Member> memberListSearch1(SearchDTO searchDTO);
 

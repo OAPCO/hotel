@@ -77,7 +77,6 @@ public class SearchDTO {
     private String memberType; //회원타입
     private String memberEmail;//"회원 이메일
     private String memberNickname;//"회원 별명
-    private String memberId;
     private String memberName;
     private String memberNum;
     private String memberPhone;//회원 전화번호

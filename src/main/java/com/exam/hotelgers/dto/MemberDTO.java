@@ -37,7 +37,6 @@ public class MemberDTO {
     private String memberZipCode;
     private String memberAddress;
 
-    private String memberNum;
 
     private String memberPhone;//회원 전화번호
 
@@ -47,30 +46,7 @@ public class MemberDTO {
 
     private String alramOrder;//알람수신여부(주문서) : Y수신 N수신안함
 
-    private String gcmKey;//gcm_key
 
-    private char deviceOs; //디바이스os(A:안드로이드,I:ios)
-
-    private String pwdKey; //비밀번호 재설정키
-
-
-    private LocalDateTime socialInfoLoginDatetime;//Social정보(카카오톡) 로그인시간
-
-    private String socialInfoNickname;//Social정보(카카오톡) 닉네임
-
-    private String socialInfoUsername;//Social정보(카카오톡) 사용자이름
-
-    private String socialInfoEmail;//Social정보(카카오톡) 이메일
-
-    private String socialInfoAgeRange;//Social정보(카카오톡) 나이(범위)
-
-    private String socialInfoBirthYear;//Social정보(카카오톡) 출생년도
-
-    private String socialInfoBirthMmdd;//Social정보(카카오톡) 출생월일
-
-    private String socialInfoBirthType;//Social정보(카카오톡) 생일타입(양력/음력)
-
-    private String socialInfoGender;//Social정보(카카오톡) 성별
 
     private LocalDateTime regdate;
 
