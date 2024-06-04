@@ -37,9 +37,10 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
 
     //로그인중인 매장주 아이디로 매장 조회
-    @Query("select s from Store s where (s.managerId LIKE %:managerId%)")
+//    @Query("select s from Store s where (s.managerId LIKE %:managerId%)")
+//    Optional<Store> managerToStoreSearch(String managerId);
+    @Query("select s from Store s where s.managerId = :managerId")
     Optional<Store> managerToStoreSearch(String managerId);
-
 
     //로그인중인 총판장 아이디가 맞는 매장과 + 매장에 해당하는 브랜드,매니저 조회
     @Query("SELECT s, b, m FROM Store s LEFT JOIN Brand b ON s.brandCd = b.brandCd " +
