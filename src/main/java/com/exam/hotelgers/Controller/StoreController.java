@@ -98,6 +98,8 @@ public class StoreController {
 
         Page<StoreDTO> storeDTOS = storeService.searchList(searchDTO, pageable, principal);
 
+        log.info("검색결과 " + searchDTO.getStoreName());
+
         List<DistDTO> distList = searchService.distList();
         List<BrandDTO> brandList = searchService.brandList();
 

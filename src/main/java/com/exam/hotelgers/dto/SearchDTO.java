@@ -135,6 +135,7 @@ public class SearchDTO {
     private String major; //비콘 메이저코드
     private String minor; //비콘 마이너코드
     private String storeName; //매장명
+    private String storeName2; //매장명
     private String storePostNo; //우편번호
     private String storeAddr; //주소
     private String storeAddrDetail; //상세주소
