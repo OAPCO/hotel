@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>팀이름</title>
     <meta charset="utf-8">
@@ -46,44 +47,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-<!--                    <li class="nav-item dropdown">-->
-<!--                        <a class="nav-link dropdown-toggle" href="#"  role="button" data-bs-toggle="dropdown">-->
-<!--                            <i class="bi bi-gear-fill"></i>-->
-<!--                          <span>테스트용임시메뉴ㅋ</span>-->
-<!--                        </a>-->
-<!--                        <ul class="dropdown-menu">-->
-<!--                            <li><a class="dropdown-item" href="/admin/login">운영자 로그인(어드민,총판장,매니저)</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/member/login">회원 로그인 </a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/logout">로그아웃 </a></li>-->
-<!--                            <li><a class="dropdown-item" href="/member/memberpage/index">회원페이지로 이동하기</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/list">(test용)어드민 목록/관리</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/list">(test용)총판장 목록/관리</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/member/list">(test용)회원 목록/관리</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/dist/list">(test용)총판조직 목록/관리</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/brand/list">(test용)브랜드 목록/관리</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/banner/list">(test용)광고 목록/관리</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/store/list">(총판장)매장 목록/관리y</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/order/list">(총판장)주문 목록/관리y</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/order/orderlist">(총판장)주문 번호별 조회y</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/store/register">(총판장)매장 등록</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/store/list">(총판장)매장 목록,검색</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/manager/register">(총판장)매장주 등록</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/distchief/manager/list">(총판장)매장주 목록,검색</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/manager/order/select">(매니저)매장 매출 분석</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/manager/order/menuorderlist">(매니저)매장 현재 주문 목록</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/manager/room/listboard">(매니저)룸 목록/관리</a></li>-->
-<!--                            <li><a class="dropdown-item" href="/admin/manager/room/1">(매니저)룸(1번) 주문 현황y</a></li>-->
 
-<!--                        </ul>-->
-<!--                    </li>-->
-
+                    <li class="nav-item"><a sec:authorize="isAnonymous()" class="nav-link" th:href="@{/admin/login}"><i class="fas fa-user-circle"></i><span>로그인</span></a></li>
+                    <li class="nav-item"><a sec:authorize="!isAnonymous()" class="nav-link" th:href="@{/admin/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/distchief/dist/list"><i class="bi bi-gear-fill"></i>총판 관리</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/distchief/store/list"><i class="bi bi-gear-fill"></i>매장 관리</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/distchief/brand/list"><i class="bi bi-gear-fill"></i>브랜드 관리</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/distchief/manager/list"><i class="bi bi-gear-fill"></i>호텔 매니저 관리</a></li>
                     <li class="nav-item"><a class="nav-link" href="/admin/distchief/dist/distsales"><i class="bi bi-gear-fill"></i>매출 관리</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/login}"><i class="fas fa-user-circle"></i><span>로그인</span></a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/logout}"><i class="fas fa-user-circle"></i><span>로그아웃</span></a></li>
 
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>

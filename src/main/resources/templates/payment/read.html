@@ -25,11 +25,11 @@
         </tr>
         <tr>
             <td>생성일자</td>
-            <td th:text="${#temporals.format(paymentDTO.regdate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#temporals.format(paymentDTO.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
         <tr>
             <td>마지막수정</td>
-            <td th:text="${#temporals.format(paymentDTO.moddate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#temporals.format(paymentDTO.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
 
 

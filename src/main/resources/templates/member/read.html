@@ -20,6 +20,10 @@
             <td>[[${memberDTO.memberIdx}]]</td>
         </tr>
         <tr>
+            <td>이름</td>
+            <td>[[${memberDTO.memberName}]]</td>
+        </tr>
+        <tr>
             <td>아이디</td>
             <td>[[${memberDTO.memberEmail}]]</td>
         </tr>
@@ -29,11 +33,11 @@
         </tr>
         <tr>
             <td>생성일자</td>
-        <td th:text="${#temporals.format(memberDTO.regdate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(memberDTO.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
         <tr>
             <td>마지막수정</td>
-        <td th:text="${#temporals.format(memberDTO.moddate, 'yyyy-MM-dd')}"></td>
+        <td th:text="${#temporals.format(memberDTO.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
         </tr>
 
 

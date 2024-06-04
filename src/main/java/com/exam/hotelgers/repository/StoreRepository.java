@@ -79,8 +79,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("select s,b,m from Store s left join Brand b on s.brandCd = b.brandCd left join Manager m on s.managerId = m.managerId " +
             "where (:#{#searchDTO.distName} is null or s.dist.distName LIKE %:#{#searchDTO.distName}%)" +
             "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName}%)" +
+            "and (:#{#searchDTO.storeName} is null or s.storeName LIKE %:#{#searchDTO.storeName2}%)" +
             "and (:#{#searchDTO.storeCd} is null or s.storeCd LIKE %:#{#searchDTO.storeCd}%)" +
-            "and (:#{#searchDTO.managerName} is null or m.managerName LIKE %:#{#searchDTO.managerName}%)" +
+            "and (:#{#searchDTO.managerName} is null or m.managerName LIKE %:#{#searchDTO.managerName}%) " +
             "and (:#{#searchDTO.brandName} is null or b.brandName LIKE %:#{#searchDTO.brandName}%)" +
             "and (:#{#searchDTO.storeStatus} is null or s.storeStatus = %:#{#searchDTO.storeStatus}%)" +
             "and (:#{#searchDTO.storePType} is null or s.storePType = %:#{#searchDTO.storePType}%)" +

@@ -110,9 +110,8 @@
                                     <td th:text="${menu.menuorderIdx}">1</td>
                                     <td th:switch="${menu.orderState}">
                                         <span th:case="'0'">결제완료</span>
-                                        <span th:case="'1'">조리완료</span>
+                                        <span th:case="'1'">조리중</span>
                                         <span th:case="'2'">배달완료</span>
-                                        <span th:case="'3'">결제취소</span>
                                     </td>
                                     <td th:text="${menu.total}"></td>
                                     <td th:text="${memberDTO.memberName}"></td>

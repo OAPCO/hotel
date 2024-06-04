@@ -64,8 +64,8 @@
                                 <a th:text="${data.paymentNo}" th:href="@{'/payment/'+${data.paymentIdx}}" >연습</a>
                             </td>
                             <td th:text="${data.paymentPrice}">33</td>
-                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
-                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                             <td><a th:href="@{'/payment/modify/'+${data.paymentIdx}}" >수정</a>
                                 /<a th:href="@{'/payment/delete/'+${data.paymentIdx}}">삭제</a></td>
