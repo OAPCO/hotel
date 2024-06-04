@@ -25,8 +25,7 @@
                         <th>체크아웃</th>
                         <th>예약일자</th>
                         <th>예약자명</th>
-                        <th>리뷰</th>
-                        <th>취소</th>
+                        <th>비고</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -39,10 +38,15 @@
                         <td th:text="${#strings.substringBefore(room.regdate, 'T')}">2024-05-18</td>
                         <td th:text="${memberDTO.memberName}">철수</td>
                         <td>
-                            <button th:attr="onclick='openWindow('+${room.storeIdx}+');'" class="btn btn-primary btn-sm">리뷰 남기기</button>
+                            <th:block th:if="${(room.roomStatus == 4)||(room.roomStatus == 2)}">
+                                <button th:attr="onclick='openWindow('+${room.storeIdx}+');'" class="btn btn-primary btn-sm">리뷰 남기기</button>
+                            </th:block>
+
+                            <th:block th:if="${(room.roomStatus == 0)||(room.roomStatus == 1)}">
+                                <button class="btn btn-danger btn-sm cancelButton" th:data-roomorder-idx="${room.roomorderIdx}" th:data-store-idx="${room.storeIdx}" th:data-reservationDateCheckinDate="${room.reservationDateCheckinDate}" onclick="warning(this)">예약취소</button>
+                            </th:block>
                         </td>
                         <td>
-                            <button class="btn btn-danger btn-sm cancelButton" th:data-roomorder-idx="${room.roomorderIdx}" th:data-reservationDateCheckinDate="${room.reservationDateCheckinDate}" onclick="warning(this)">예약취소</button>
                         </td>
                     </tr>
                     </tbody>
@@ -150,11 +154,43 @@
 
 
         function warning(button) {
-            var result = confirm("정말 취소하시겠습니까?");
-            if (result) {
-                cancel(button);
+            var row = button.closest('tr');
+            var cancelButton = row.querySelector(".cancelButton");
+            var reservationDateCheckinDate = cancelButton.getAttribute('data-reservationDateCheckinDate');
+            var storeIdx = cancelButton.getAttribute('data-store-idx');
+            var checkinDate = new Date(reservationDateCheckinDate);
+
+
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);  // Set to start of the day
+            checkinDate.setHours(0, 0, 0, 0);  // Set to start of the day
+
+            if (today.getTime() === checkinDate.getTime()) {
+                var result = confirm("해당 호텔은 당일취소시 30퍼의 수수료가 발생합니다. 정말 취소하시겠습니까?");
+                if (result) {
+                    cancel(button);
+                }
+            } else {
+                var result = confirm("정말 취소하시겠습니까?");
+                if (result) {
+                    cancel(button);
+                }
             }
+
+
+            // var result = confirm("정말 취소하시겠습니까?");
+            // if (result) {
+            //     cancel(button);
+            // }
         }
+
+        // function warning(button) {
+        //     var result = confirm("정말 취소하시겠습니까?");
+        //     if (result) {
+        //         cancel(button);
+        //     }
+        // }
 
         /*<![CDATA[*/
         function openWindow(storeIdx) {

@@ -133,6 +133,11 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     Optional<Store> searchStoreuserId (String userid);
 
 
+//    //storeIdx로 호텔 당일취소 수수료 구하기
+//    @Query("select s.cancelCharge from Store s where (s.managerId LIKE %:userid%)")
+//    double cancelChargeSearch (String userid);
+
+
 
     //로그인 한 총판장이 소유한 매장 목록
     @Query("select d.storeList from Dist d where d.distChief.distChiefId = :userid")
