@@ -81,7 +81,7 @@
                                     <span th:case="1" style="color: #b02a37">결제취소</span>
                                     <span th:case="2" style="color: #2f54cf">당일취소</span>
                                 </td>
-                                <td th:text="${#temporals.format(data.regdate, 'YY-MM-dd / HH:mm')}"></td>
+                                <td th:text="${#temporals.format(data.regdate, 'YY-MM-dd / HH:mm:ss')}"></td>
                             </tr>
                             </tbody>
                         </table>
