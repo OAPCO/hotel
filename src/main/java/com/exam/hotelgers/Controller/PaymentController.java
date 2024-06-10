@@ -189,6 +189,7 @@ public class PaymentController {
     public String distSalesForm(@PageableDefault(page=1) Pageable pageable,
                                 Principal principal, Model model,
                                 @RequestParam(required = false,defaultValue = "") String startDate,
+                                @RequestParam(required = false,defaultValue = "") String endDate,
                                 @RequestParam(required = false,defaultValue = "") String paymentStatus,
                                 @RequestParam(required = false,defaultValue = "") String storeIdx,
                                 @RequestParam(required = false,defaultValue = "") String distIdx
@@ -213,6 +214,7 @@ public class PaymentController {
             if (!distIdx.isEmpty()) {
                 Long distIdxL = Long.parseLong(distIdx);
                 searchDTO.setDistIdx(distIdxL);
+                log.info("비어있지않음");
             }
 
             if (!storeIdx.isEmpty()) {
@@ -224,18 +226,23 @@ public class PaymentController {
                 searchDTO.setStartDate(startDate);
             }
 
+            if (!endDate.isEmpty()) {
+                searchDTO.setEndDate(endDate);
+            }
+
+
 
             LocalDateTime starttime = searchService.changeDate(searchDTO.getStartDate());
-//            LocalDateTime endTime = searchService.changeDate(searchDTO.getEndDate());
+            LocalDateTime endTime = searchService.changeDate(searchDTO.getEndDate());
 
             log.info("변환값:"+starttime);
-//            log.info("변환값:"+endTime);
+            log.info("변환값:"+endTime);
 
             searchDTO.setStartDateTime(starttime);
-//            searchDTO.setEndDateTime(endTime);
+            searchDTO.setEndDateTime(endTime);
 
             log.info("최종값:"+searchDTO.getStartDateTime());
-//            log.info("최종값:"+searchDTO.getEndDateTime());
+            log.info("최종값:"+searchDTO.getEndDateTime());
 
 
             log.info("최종서치"+searchDTO.getPaymentStatus());
