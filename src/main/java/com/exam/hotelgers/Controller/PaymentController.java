@@ -1,5 +1,6 @@
 package com.exam.hotelgers.Controller;
 
+import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Dist;
 import com.exam.hotelgers.entity.Store;
@@ -15,14 +16,12 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -187,9 +186,87 @@ public class PaymentController {
 
 
     @GetMapping("/admin/distchief/dist/distsales")
-    public String distSalesForm(@PageableDefault(page=1) Pageable pageable, Principal principal, Model model) throws Exception {
+    public String distSalesForm(@PageableDefault(page=1) Pageable pageable,
+                                Principal principal, Model model,
+                                @RequestParam(required = false,defaultValue = "") String startDate,
+                                @RequestParam(required = false,defaultValue = "") String paymentStatus,
+                                @RequestParam(required = false,defaultValue = "") String storeIdx,
+                                @RequestParam(required = false,defaultValue = "") String distIdx
+    ) throws Exception {
 
-        
+        log.info("여기서시작"+startDate);
+        log.info(paymentStatus);
+        log.info(storeIdx);
+        log.info(distIdx);
+
+
+
+        if (!startDate.isEmpty() || !storeIdx.isEmpty() || !distIdx.isEmpty()){
+
+            SearchDTO searchDTO = new SearchDTO();
+
+            if (!paymentStatus.isEmpty()) {
+                int paymentI = Integer.parseInt(paymentStatus);
+                searchDTO.setPaymentStatus(paymentI);
+            }
+
+            if (!distIdx.isEmpty()) {
+                Long distIdxL = Long.parseLong(distIdx);
+                searchDTO.setDistIdx(distIdxL);
+            }
+
+            if (!storeIdx.isEmpty()) {
+                Long storeIdxL = Long.parseLong(storeIdx);
+                searchDTO.setStoreIdx(storeIdxL);
+            }
+
+            if (!startDate.isEmpty()) {
+                searchDTO.setStartDate(startDate);
+            }
+
+
+            LocalDateTime starttime = searchService.changeDate(searchDTO.getStartDate());
+//            LocalDateTime endTime = searchService.changeDate(searchDTO.getEndDate());
+
+            log.info("변환값:"+starttime);
+//            log.info("변환값:"+endTime);
+
+            searchDTO.setStartDateTime(starttime);
+//            searchDTO.setEndDateTime(endTime);
+
+            log.info("최종값:"+searchDTO.getStartDateTime());
+//            log.info("최종값:"+searchDTO.getEndDateTime());
+
+
+            log.info("최종서치"+searchDTO.getPaymentStatus());
+            log.info(searchDTO.getStoreIdx());
+            log.info(searchDTO.getDistIdx());
+            log.info(searchDTO.getStartDateTime());
+
+            Page<PaymentDTO> paymentDTOS = paymentservice.distPaymentlistSearch(pageable, searchDTO, principal);
+            Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+
+            log.info("검색결과있을때의 DTO : "+paymentDTOS);
+
+
+            model.addAllAttributes(pageinfo);
+            model.addAttribute("paymentDTOS", paymentDTOS);
+
+        }
+
+        else {
+            Page<PaymentDTO> paymentDTOS = paymentservice.distPaymentlist(pageable, principal);
+            Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+
+            model.addAllAttributes(pageinfo);
+            model.addAttribute("paymentDTOS", paymentDTOS);
+        }
+
+
+
+
+
+
         //소유 총판,매장 목록
         List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
         List<StoreDTO> storeDTOS = storeService.searchStoreDistChiefId(principal);
@@ -207,80 +284,89 @@ public class PaymentController {
         log.info(allmonthSales[0][1]);
         log.info(alldaySales[0][1]);
 
-        Page<PaymentDTO> paymentDTOS = paymentservice.distPaymentlist(pageable, principal);
-        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
-
-        model.addAllAttributes(pageinfo);
+//        Page<PaymentDTO> paymentDTOS = paymentservice.distPaymentlist(pageable, principal);
+//        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+//
+//        model.addAllAttributes(pageinfo);
         model.addAttribute("distDTOS", distDTOS);
         model.addAttribute("storeDTOS", storeDTOS);
         model.addAttribute("allyearlySales", allyearlySales);
         model.addAttribute("allmonthSales", allmonthSales);
         model.addAttribute("alldaySales", alldaySales);
-        model.addAttribute("paymentDTOS", paymentDTOS);
+
+
+
+        log.info("여기서시작"+startDate);
+        log.info(paymentStatus);
+        log.info(storeIdx);
+        log.info(distIdx);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("paymentStatus", paymentStatus);
+        model.addAttribute("storeIdx", storeIdx);
+        model.addAttribute("distIdx", distIdx);
+
+//        model.addAttribute("paymentDTOS", paymentDTOS);
 
 
         return "/admin/distchief/dist/distsales";
     }
 
 
-    @PostMapping("/admin/distchief/dist/distsales")
-    public String distSalesProc(@PageableDefault(page=1) Pageable pageable, SearchDTO searchDTO,Principal principal, Model model) throws Exception {
-        
-        log.info("post 드러옴");
+//    @PostMapping("/admin/distchief/dist/distsales")
+//    public String distSalesProc(@PageableDefault(page=1) Pageable pageable, SearchDTO searchDTO,Principal principal, Model model) throws Exception {
+//
+//        log.info("post 드러옴");
+//
+//
+//        LocalDateTime starttime = searchService.changeDate(searchDTO.getStartDate());
+//        LocalDateTime endTime = searchService.changeDate(searchDTO.getEndDate());
+//
+//        log.info("변환값:"+starttime);
+//        log.info("변환값:"+endTime);
+//
+//        searchDTO.setStartDateTime(starttime);
+//        searchDTO.setEndDateTime(endTime);
+//
+//        log.info("최종값:"+searchDTO.getStartDateTime());
+//        log.info("최종값:"+searchDTO.getEndDateTime());
+//
+//
+//
+//        //소유 총판,매장 목록
+//        List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
+//        List<StoreDTO> storeDTOS = storeService.searchStoreDistChiefId(principal);
+//
+//        Long distChiefIdx = distChiefRepository.distChiefIdxSearchforUserId(principal.getName());
+//
+//        log.info("아디:"+distChiefIdx);
+//
+//        //소유한 전체 총판의 매출들
+//        Object[][] allyearlySales = paymentservice.getDistChiefYearSales(distChiefIdx);
+//        Object[][] allmonthSales = paymentservice.getDistChiefMonthSales(distChiefIdx);
+//        Object[][] alldaySales = paymentservice.getDistChiefDaySales(distChiefIdx);
+//
+//        log.info("여기부터"+allyearlySales[0][1]);
+//        log.info(allmonthSales[0][1]);
+//        log.info(alldaySales[0][1]);
+//
+//        Page<PaymentDTO> paymentDTOS = paymentservice.distPaymentlistSearch(pageable, searchDTO, principal);
+//        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+//
+//        log.info("페먼트:"+paymentDTOS);
+//
+//        model.addAllAttributes(pageinfo);
+//        model.addAttribute("distDTOS", distDTOS);
+//        model.addAttribute("storeDTOS", storeDTOS);
+//        model.addAttribute("allyearlySales", allyearlySales);
+//        model.addAttribute("allmonthSales", allmonthSales);
+//        model.addAttribute("alldaySales", alldaySales);
+//        model.addAttribute("paymentDTOS", paymentDTOS);
+//
+//
+//        return "/admin/distchief/dist/distsales";
+//    }
 
-        log.info("페먼트스테이터스"+searchDTO.getPaymentStatus());
 
-        log.info("스타트데이트:"+searchDTO.getStartDate());
-        log.info("엔드데이트:"+searchDTO.getEndDate());
-
-
-        LocalDateTime starttime = searchService.changeDate(searchDTO.getStartDate());
-        LocalDateTime endTime = searchService.changeDate(searchDTO.getEndDate());
-
-        log.info("변환값:"+starttime);
-        log.info("변환값:"+endTime);
-
-        searchDTO.setStartDateTime(starttime);
-        searchDTO.setEndDateTime(endTime);
-
-        log.info("최종값:"+searchDTO.getStartDateTime());
-        log.info("최종값:"+searchDTO.getEndDateTime());
-
-
-
-        //소유 총판,매장 목록
-        List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
-        List<StoreDTO> storeDTOS = storeService.searchStoreDistChiefId(principal);
-
-        Long distChiefIdx = distChiefRepository.distChiefIdxSearchforUserId(principal.getName());
-
-        log.info("아디:"+distChiefIdx);
-
-        //소유한 전체 총판의 매출들
-        Object[][] allyearlySales = paymentservice.getDistChiefYearSales(distChiefIdx);
-        Object[][] allmonthSales = paymentservice.getDistChiefMonthSales(distChiefIdx);
-        Object[][] alldaySales = paymentservice.getDistChiefDaySales(distChiefIdx);
-
-        log.info("여기부터"+allyearlySales[0][1]);
-        log.info(allmonthSales[0][1]);
-        log.info(alldaySales[0][1]);
-
-        Page<PaymentDTO> paymentDTOS = paymentservice.distPaymentlistSearch(pageable, searchDTO, principal);
-        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
-
-        log.info("페먼트:"+paymentDTOS);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("distDTOS", distDTOS);
-        model.addAttribute("storeDTOS", storeDTOS);
-        model.addAttribute("allyearlySales", allyearlySales);
-        model.addAttribute("allmonthSales", allmonthSales);
-        model.addAttribute("alldaySales", alldaySales);
-        model.addAttribute("paymentDTOS", paymentDTOS);
-
-
-        return "/admin/distchief/dist/distsales";
-    }
 
 
 

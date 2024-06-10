@@ -48,6 +48,8 @@ public class ScriptController {
     private final PaymentRepositorty paymentRepositorty;
     private final RoomOrderRepository roomOrderRepository;
     private final DistRepository distRepository;
+    private final DistChiefRepository distChiefRepository;
+    private final DistService distService;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -592,6 +594,27 @@ public class ScriptController {
 
         return names;
     }
+
+
+
+    @GetMapping(value = "/distsalessearch" , consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Page<PaymentDTO> distSalesProc(@PageableDefault(page=1) Pageable pageable, SearchDTO searchDTO,Principal principal, Model model) throws Exception {
+
+
+        log.info("post 드러옴");
+
+
+        Page<PaymentDTO> paymentDTOS = paymentService.distPaymentlistSearch(pageable, searchDTO, principal);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+
+
+        return paymentDTOS;
+    }
+
+
+
+
 
 
 
