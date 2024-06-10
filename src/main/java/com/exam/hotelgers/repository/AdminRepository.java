@@ -53,5 +53,5 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
             "and (:#{#searchDTO.roleType} is null or m.roleType = %:#{#searchDTO.roleType}%)")
     List<Member> memberListSearch1(SearchDTO searchDTO);
 
-
+    Page<Admin> findAll(Pageable pageable);
 }
