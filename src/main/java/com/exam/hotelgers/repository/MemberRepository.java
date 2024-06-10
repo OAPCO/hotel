@@ -40,7 +40,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "where m.memberIdx = :#{#searchDTO.memberIdx}")
     void memberInfoUpdate(SearchDTO searchDTO);
 
-    Member findByMemberId(String memberId);
+//    Member findByMemberId(String memberId);
 
 
     //회원 탈퇴 처리부분
