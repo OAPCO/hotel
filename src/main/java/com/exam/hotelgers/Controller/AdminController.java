@@ -94,8 +94,12 @@ public class AdminController {
 
         // 검색 쿼리 파라미터가 비어있지 않다면 해당 파라미터로 검색 수행
         if (!roleType.isEmpty() || !name.isEmpty() || !id.isEmpty()) {
+
             SearchDTO adminDTO = new SearchDTO();
-            adminDTO.setRoleType(RoleType.valueOf(roleType));
+
+            if (!roleType.isEmpty()){
+                adminDTO.setRoleType(RoleType.valueOf(roleType));
+            }
             adminDTO.setName(name);
             adminDTO.setId(id);
 
@@ -104,8 +108,9 @@ public class AdminController {
             model.addAllAttributes(pageinfo);
             model.addAttribute("list", objects);
         } else {
+            log.info("else 진입");
             // 검색 쿼리 파라미터가 비어있다면 모든 멤버 리스트 반환
-            Page<Admin> objects = adminService.memberListAll(pageable);
+            Page<Object> objects = adminService.memberListAll(pageable);
             Map<String, Integer> pageinfo = PageConvert.Pagination(objects);
             model.addAllAttributes(pageinfo);
             model.addAttribute("list", objects);
