@@ -123,7 +123,6 @@ public class AdminService {
 
 
     public Page<Object> memberListSearch(Pageable pageable, SearchDTO adminDTO) {
-
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.unsorted());
@@ -136,17 +135,17 @@ public class AdminService {
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-
         int start = (int) page.getOffset();
         int end = Math.min((start + page.getPageSize()), allList.size());
 
         List<Object> subList = allList.subList(start, end);
 
-        Page<Object> pageAllList = new PageImpl<>(subList, page, allList.size());
-
-        return pageAllList;
-
-
+        return new PageImpl<>(subList, page, allList.size());
+    }
+    public Page<Admin> memberListAll(Pageable pageable) {
+        // 페이지 정보를 이용하여 전체 멤버 리스트를 가져오는 메서드
+        // 여기서 adminRepository를 이용하여 데이터베이스에서 멤버 리스트를 가져온 후 반환
+        return adminRepository.findAll(pageable);
     }
 
 

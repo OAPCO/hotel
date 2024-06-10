@@ -15,7 +15,7 @@
     <div class="card">
         <div class="card-header">
             <div style="color:#44454e; font-size: 25px; margin-bottom: 10px">검색</div>
-            <form method="post" th:action="@{/admin/admin/manage/memberlist}">
+            <form method="get" th:action="@{/admin/admin/manage/memberlist}">
                 <div class="table-responsive">
                     <table class="table head">
                         <thead>
@@ -23,7 +23,8 @@
                             <th style="width: 10%">유형</th>
                             <td colspan="3">
                                 <div>
-                                    <select class="d-inline-block form-select form-select-sm" name="roleType" id="roleTypeSelect">
+                                    <select class="d-inline-block form-select form-select-sm" name="roleType"
+                                            id="roleTypeSelect">
                                         <option value="" th:selected="${roleType == ''}">전체</option>
                                         <option value="DISTCHIEF" th:selected="${roleType == 'DISTCHIEF'}">총판장</option>
                                         <option value="MANAGER" th:selected="${roleType == 'MANAGER'}">매니저</option>
@@ -85,17 +86,23 @@
                 </table>
             </div>
             <ul class="mt-3 pagination">
-                <li class="page-item"><a class="page-link" th:href="@{/admin/admin/manage/memberlist(page=${prevPage}, roleType=${roleType}, name=${name}, id=${id})}">&lt;</a></li>
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{/admin/admin/manage/memberlist(page=${prevPage}, roleType=${roleType}, name=${name}, id=${id})}">&lt;</a>
+                </li>
                 <span th:each="page : ${#numbers.sequence(startPage, endPage, 1)}">
-                    <li class="page-item active" th:if="${page == currentPage}">
-                        <a class="page-link" href="#">[[${page}]]</a>
-                    </li>
-                    <li class="page-item" th:unless="${page == currentPage}">
-                        <a class="page-link" th:href="@{/admin/admin/manage/memberlist(page=${page}, roleType=${roleType}, name=${name}, id=${id})}">[[${page}]]</a>
-                    </li>
-                </span>
-                <li class="page-item"><a class="page-link" th:href="@{/admin/admin/manage/memberlist(page=${nextPage}, roleType=${roleType}, name=${name}, id=${id})}">&gt;</a></li>
+        <li class="page-item active" th:if="${page == currentPage}">
+            <a class="page-link" href="#">[[${page}]]</a>
+        </li>
+        <li class="page-item" th:unless="${page == currentPage}">
+            <a class="page-link"
+               th:href="@{/admin/admin/manage/memberlist(page=${page}, roleType=${roleType}, name=${name}, id=${id})}">[[${page}]]</a>
+        </li>
+    </span>
+                <li class="page-item"><a class="page-link"
+                                         th:href="@{/admin/admin/manage/memberlist(page=${nextPage}, roleType=${roleType}, name=${name}, id=${id})}">&gt;</a>
+                </li>
             </ul>
+
         </div>
     </div>
 </div>
