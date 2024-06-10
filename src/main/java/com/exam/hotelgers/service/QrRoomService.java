@@ -24,14 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class QrRoomService {
-    private final StoreService storeService;
-    private final RoomService roomService;
-    private final DetailmenuService detailmenuService;
-    private  final MenuOrderService menuOrderServicerderService;
-    private final RoomRepository roomRepository;
-    private final ModelMapper modelMapper;
-    private final SearchService searchService;
-    private final MenuCateRepository menuCateRepository;
 
     //Application.properties에 선언한 파일이 저장될 경로
     @Value("${imgUploadLocation}")

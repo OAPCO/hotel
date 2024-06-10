@@ -94,29 +94,6 @@ public class ImageService {
 
 
 
-    //객실 세부 이미지 수정
-    public void roomImagemodify(List<MultipartFile> imgFiles,String roomType) throws IOException {
-
-
-
-        for (MultipartFile imgFile : imgFiles) {
-            String originalFileName = imgFile.getOriginalFilename();
-            String newFileName = "";
-
-            if (originalFileName != null) {
-                newFileName = s3Uploader.upload(imgFile, imgUploadLocation);
-            }
-
-            Image image = new Image();
-            image.setImgName(newFileName);
-            image.setRoomImageType(roomType);
-            image.setRoomImageMain(0);
-
-            imageRepository.save(image);
-        }
-    }
-
-
 
 
 
@@ -156,24 +133,6 @@ public class ImageService {
     }
 
 
-
-    //객실 디테일이미지 리스트
-    public List<ImageDTO> getRoomTypeImages(String roomType, Long storeIdx) {
-
-        List<Image> images = imageRepository.roomDetailImageList(roomType,storeIdx);
-
-        return images.stream()
-                .map(image -> modelMapper.map(image, ImageDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    //객실 메인이미지
-    public ImageDTO getRoomTypeMainImages(String roomType, Long storeIdx) {
-
-        Optional<Image> image = imageRepository.roomMainImageList(roomType,storeIdx);
-
-        return modelMapper.map(image,ImageDTO.class);
-    }
 
 
     public void delete(Long imageIdx){

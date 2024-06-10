@@ -28,7 +28,6 @@ public class MenuOptionService {
 
     private final MenuoptionRepository menuoptionRepository;
     private final ModelMapper modelMapper;
-    private final DetailmenuService detailmenuService;
     private final DetailmenuRepository detailmenuRepository;
 
 

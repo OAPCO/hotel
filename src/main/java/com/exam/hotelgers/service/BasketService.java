@@ -31,14 +31,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class BasketService {
 
-    private final StoreRepository storeRepository;
     private final ModelMapper modelMapper;
-    private final DistRepository distRepository;
-    private final BrandRepository brandRepository;
-    private final SearchService searchService;
-    private final DetailmenuRepository detailmenuRepository;
-    private final MenuoptionRepository menuoptionRepository;
-    private final MemberRepository memberRepository;
     private final BasketRepository basketRepository;
 
 

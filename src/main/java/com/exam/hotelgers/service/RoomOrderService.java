@@ -29,12 +29,8 @@ import java.util.stream.Stream;
 @Log4j2
 public class RoomOrderService {
 
-    private final RoomRepository roomRepository;
     private final ModelMapper modelMapper;
-    private final StoreRepository storeRepository;
-    private final SearchService searchService;
     private final RoomOrderRepository roomOrderRepository;
-    private final RoomService roomService;
 
     @Value("${imgUploadLocation}")
     private String imgUploadLocation;
@@ -61,16 +57,6 @@ public class RoomOrderService {
 
 
 
-    public Page<RoomOrderDTO> roomOrderSearch(Pageable pageable,Long storeIdx){
-
-        int currentPage = pageable.getPageNumber()-1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomorderIdx"));
-
-        Page<RoomOrder> roomOrders = roomOrderRepository.roomOrderSearch(pageable,storeIdx);
-
-        return roomOrders.map(data->modelMapper.map(data,RoomOrderDTO.class));
-    }
 
 
     public List<RoomOrderDTO> roomOrderSearch2(Long storeIdx){
@@ -88,29 +74,6 @@ public class RoomOrderService {
     }
 
 
-    public Page<RoomOrderDTO> endRoomOrderSearch(Pageable pageable,SearchDTO searchDTO){
-
-        int currentPage = pageable.getPageNumber()-1;
-        int pageCnt = 5;
-        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomorderIdx"));
-
-        Page<RoomOrder> roomOrders = roomOrderRepository.endRoomOrderSearch(pageable,searchDTO);
-
-        return roomOrders.map(data->modelMapper.map(data,RoomOrderDTO.class));
-    }
-
-
-
-//    public Page<RoomOrderDTO> RoomOrderAllSearch(Pageable pageable,SearchDTO searchDTO){
-//
-//        int currentPage = pageable.getPageNumber()-1;
-//        int pageCnt = 5;
-//        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"roomorderIdx"));
-//
-//        Page<RoomOrder> roomOrders = roomOrderRepository.RoomOrderAllSearch(pageable,searchDTO);
-//
-//        return roomOrders.map(data->modelMapper.map(data,RoomOrderDTO.class));
-//    }
 
 
 
@@ -131,12 +94,6 @@ public class RoomOrderService {
 
 
 
-    public RoomOrderDTO roomOrderStatusCheck(SearchDTO searchDTO){
-
-        Optional<RoomOrder> roomOrder = roomOrderRepository.roomOrderStatusCheck(searchDTO);
-
-        return modelMapper.map(roomOrder,RoomOrderDTO.class);
-    }
 
 
     public RoomOrderDTO roomOrder2Check(Long roomIdx){
@@ -187,19 +144,7 @@ public class RoomOrderService {
 
     }
 
-    public List<RoomOrderDTO> roomOrderCheckStart(SearchDTO searchDTO){
 
-
-        List<RoomOrder> roomOrders = roomOrderRepository.searchRoomOrder(searchDTO);
-
-
-        List<RoomOrderDTO> roomOrderDTOs = roomOrders.stream()
-                .map(roomOrder -> modelMapper.map(roomOrder, RoomOrderDTO.class))
-                .collect(Collectors.toList());
-
-        return roomOrderDTOs;
-
-    }
 
 
 

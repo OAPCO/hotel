@@ -36,7 +36,6 @@ public class AdminService {
     private final ManagerRepository managerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-    BCryptPasswordEncoder encoder;
 
 
     public Long register(AdminDTO adminDTO) {

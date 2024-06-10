@@ -93,45 +93,7 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<MenuOrderDTO> orderList() {
-        List<MenuOrder> orders = menuOrderRepository.findAll();
-        return orders.stream()
-                .map(order -> modelMapper.map(order, MenuOrderDTO.class))
-                .collect(Collectors.toList());
-    }
 
-
-    public List<MenuCateDTO> menuCateList() {
-        List<MenuCate> menuCates = menuCateRepository.findAll();
-        return menuCates.stream()
-                .map(menuCate -> modelMapper.map(menuCate, MenuCateDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    public List<DetailmenuDTO> detailmenuList() {
-        List<Detailmenu> detailmenus = detailmenuRepository.findAll();
-        return detailmenus.stream()
-                .map(detailmenu -> modelMapper.map(detailmenu, DetailmenuDTO.class))
-                .collect(Collectors.toList());
-    }
-
-    public List<MenuOptionDTO> menuOptionList(Long detailmenuIdx) {
-        List<MenuOption> menuOptions = menuoptionRepository.findAll();
-        return menuOptions.stream()
-                .map(menuOption -> modelMapper.map(menuOption, MenuOptionDTO.class))
-                .collect(Collectors.toList());
-    }
-
-
-
-    public List<MenuOrderDTO> convertToOrderDTOList(List<MenuOrder> orders) {
-        if (orders == null || orders.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return orders.stream()
-                .map(order -> modelMapper.map(order, MenuOrderDTO.class))
-                .collect(Collectors.toList());
-    }
 
 
     public List<RoomDTO> convertToRoomDTOList(List<Room> rooms) {
@@ -184,15 +146,6 @@ public class SearchService {
                 .collect(Collectors.toList());
     }
 
-    public List<MenuOptionDTO> convertTomenuOptionDTOList(List<MenuOption> menuoptions) {
-        if (menuoptions == null || menuoptions.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return menuoptions.stream()
-                .map(menuoption -> modelMapper.map(menuoptions, MenuOptionDTO.class))
-                .collect(Collectors.toList());
-    }
-
 
 
     public DistDTO convertToDistDTO(Dist dist) {
@@ -207,29 +160,16 @@ public class SearchService {
         return distDTO;
     }
 
-    public BrandDTO convertToBrandDTO(Brand brand) {
-        return modelMapper.map(brand, BrandDTO.class);
-    }
-
-
 
     public StoreDTO convertToStoreDTO(Store store) {
         return modelMapper.map(store, StoreDTO.class);
     }
 
-    public RoomDTO convertToRoomDTO(Room room) {
-        return modelMapper.map(room, RoomDTO.class);
-    }
 
 
     public DistChiefDTO convertToDistChiefDTO(DistChief distChief) {
         return modelMapper.map(distChief, DistChiefDTO.class);
     }
-
-    public ManagerDTO convertToManagerDTO(Manager manager) {
-        return modelMapper.map(manager, ManagerDTO.class);
-    }
-
 
 
 
@@ -260,16 +200,6 @@ public class SearchService {
         }
 
     }
-
-
-    public class RoomDetailsDto {
-        private RoomDTO room;
-        private StoreDTO store;
-        private List<DetailmenuDTO> detailMenus;
-
-        // getters, setters 등의 메소드들...
-    }
-
 
 
 

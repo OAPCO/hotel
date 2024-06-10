@@ -16,7 +16,6 @@ import java.util.Optional;
 
 public interface MenuSheetRepository extends JpaRepository<MenuSheet,Long> {
 
-    List<MenuSheet> findByMenuOrder_MemberIdx(Long memberIdx);
 
 
 

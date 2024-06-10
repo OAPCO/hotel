@@ -12,6 +12,5 @@ import java.util.Optional;
 public interface MenuoptionRepository  extends JpaRepository<MenuOption,Long> {
     Optional<MenuOption> findByMenuOptionIdx(Long menuOptionIdx);
 
-    List<MenuOption> findByDetailmenuDetailmenuIdx(Long detailMenuIdx);
 
 }

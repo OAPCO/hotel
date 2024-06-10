@@ -35,7 +35,6 @@ public class RoomService {
     private final StoreRepository storeRepository;
     private final SearchService searchService;
     private final ImageService imageService;
-    private final ImageRepository imageRepository;
 
     @Value("${imgUploadLocation}")
     private String imgUploadLocation;
@@ -195,39 +194,6 @@ public class RoomService {
     }
 
 
-    public RoomDTO userRoom(Long roomIdx) {
-        Optional<Room> roomEntityOptional = roomRepository.findByRoomIdx(roomIdx);
-
-        if (roomEntityOptional.isPresent()) {
-            Room room = roomEntityOptional.get();
-            RoomDTO dto = modelMapper.map(room, RoomDTO.class);
-
-            StoreDTO storeDTO = modelMapper.map(room.getStore(), StoreDTO.class);
-
-            List<DetailmenuDTO> detailMenuDTOList = room.getStore().getDetailMenuList()
-                    .stream()
-                    .map(detailMenu -> modelMapper.map(detailMenu, DetailmenuDTO.class))
-                    .collect(Collectors.toList());
-
-            storeDTO.setDetailmenuDTOList(detailMenuDTOList);
-            dto.setStoreDTO(storeDTO);
-            dto.setMenuOrderDTOList(room.getMenuOrderList().stream()
-                    .map(order -> modelMapper.map(order, MenuOrderDTO.class))
-                    .collect(Collectors.toList()));
-
-            return dto;
-
-        } else {
-            return null;
-        }
-    }
-
-
-    @Transactional
-    public void roomStatusUpdate(RoomOrderDTO roomOrderDTO) {
-        roomRepository.roomStatusUpdate(roomOrderDTO);
-    }
-
     @Transactional
     public void roomStatusUpdate1(RoomOrderDTO roomOrderDTO) {
         roomRepository.roomStatusUpdate1(roomOrderDTO);
@@ -257,19 +223,6 @@ public class RoomService {
     }
 
 
-
-    public List<RoomDTO> roomTypeSearch(Long storeIdx) {
-
-
-        List<Room> rooms = roomRepository.roomTypeSearch(storeIdx);
-
-
-        List<RoomDTO> roomDTOS = rooms.stream()
-                .map(room -> modelMapper.map(room, RoomDTO.class))
-                .collect(Collectors.toList());
-
-        return roomDTOS;
-    }
 
 
     public List<RoomDTO> storeroomTypeSearch(Long storeIdx) {

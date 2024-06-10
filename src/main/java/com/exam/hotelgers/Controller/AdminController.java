@@ -30,27 +30,12 @@ public class AdminController {
 
     private final AdminService adminService;
     private final DistService distService;
-    private final SearchService searchService;
-    private final DistChiefService distChiefService;
-    private PasswordEncoder passwordEncoder;
     private final QnaService qnaService;
 
 
 
 
-    @GetMapping("/admin/list")
-    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
-        log.info("admin listForm 도착");
-
-        Page<AdminDTO> adminDTOList = adminService.list(pageable);
-
-        Map<String, Integer> pageinfo = PageConvert.Pagination(adminDTOList);
-
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", adminDTOList);
-        return "admin/list";
-    }
 
 
 

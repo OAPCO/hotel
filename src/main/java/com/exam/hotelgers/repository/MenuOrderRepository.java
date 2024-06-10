@@ -26,14 +26,9 @@ public interface MenuOrderRepository extends JpaRepository<MenuOrder,Long> {
     List<MenuOrder> findByListMenuorderIdx(Long roomorderIdx);
 
 
-    @Query("select m from MenuOrder m where m.menuorderCd = :menuOrderCd")
-    Optional<MenuOrder> findMenuSheetPayment(String menuOrderCd);
 
     List<MenuOrder>findByMemberIdx(Long memberIdx);
 
-    Page<MenuOrder> findByStoreIdx(Long storeIdx, Pageable pageable);
-
-    List<MenuOrder> findByStoreIdx(Long storeIdx);
 
 
     @Query("select m from MenuOrder m where m.storeIdx = :storeIdx order by m.menuorderIdx desc")

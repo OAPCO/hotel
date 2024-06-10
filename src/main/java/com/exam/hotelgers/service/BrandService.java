@@ -31,11 +31,7 @@ public class BrandService {
     private final BrandRepository brandRepository;
     private final DistRepository distRepository;
     private final ModelMapper modelMapper;
-    private final PasswordEncoder passwordEncoder;
-    private final SearchService searchService;
-    private final DistChiefRepository distChiefRepository;
     private final StoreRepository storeRepository;
-    private final ManagerRepository managerRepository;
 
 
 

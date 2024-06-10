@@ -32,8 +32,6 @@ public class BannerService {
     private final BannerRepository bannerRepository;
     private final ModelMapper modelMapper;
     private final ImageService imageService;
-    private final PasswordEncoder passwordEncoder;
-
 
 
     public Long register(BannerDTO bannerDTO, List<MultipartFile> imgFiles) throws IOException {

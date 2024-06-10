@@ -24,7 +24,6 @@ public class AdminLoginService implements UserDetailsService {
 
     @Autowired
     private AdminRepository adminRepository;
-    private DistChiefRepository distChiefRepository;
 
 
     @Override

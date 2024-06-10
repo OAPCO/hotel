@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
-    Optional<Store>findByStoreIdx(Long storeIdx);
+
 
     Optional<Store> findByStoreCd(String storeCd);
 
@@ -30,11 +30,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("select s.storeName from Store s where s.storeIdx = :storeIdx")
     String findStoreName(Long storeIdx);
 
-    //roomOrderidx로 매장명 찾기
-    @Query("select s.storeName from Store s join RoomOrder o on s.storeIdx = o.storeIdx where o.roomorderIdx = :roomorderIdx")
-    String findStoreRoomOrderIdx(Long roomorderIdx);
 
-    
 
     //로그인중인 매장주 아이디로 매장 조회
     @Query("select s from Store s where (s.managerId LIKE %:managerId%)")
@@ -52,9 +48,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("select s from Store s where (:storeName is null or s.storeName LIKE %:storeName%)")
     Optional<Store> storeNameSearch(String storeName);
 
-
-    //매장생성시 해당 매니저가 이미 매장을 가지고 있는지 확인
-    Optional<Store> findByManagerId(String ManagerId);
 
 
     //어드민의 매장 조회용
@@ -111,13 +104,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query("SELECT s FROM Store s WHERE s.storeName LIKE %:keyword% OR s.regionCd LIKE %:keyword% OR s.storeAddr LIKE %:keyword%")
     List<Store> findByKeyword(@Param("keyword") String keyword);
 
-    @Query("SELECT s FROM Store s JOIN FETCH s.menuCateList m JOIN FETCH m.detailMenuList WHERE s.storeIdx = ?1")
-    Optional<Store> findByStoreIdxWithDetails(Long storeIdx);
-    @Query("SELECT s FROM Store s LEFT JOIN FETCH s.menuCateList WHERE s.storeIdx = :storeIdx")
-    Optional<Store> findWithMenuCateByStoreIdx(@Param("storeIdx") Long storeIdx);
-
-    @Query("SELECT m FROM MenuCate m LEFT JOIN FETCH m.detailMenuList WHERE m in :menuList")
-    List<MenuCate> findWithDetailMenuByMenuCateList(@Param("menuList") List<MenuCate> menuList);
 
     @Query(nativeQuery = true, value = "SELECT * FROM Store ORDER BY RAND() LIMIT 5")
     List<Store> findRandomStores();
@@ -131,11 +117,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     //로그인 한 매니저의 매장 찾기
     @Query("select s from Store s where (s.managerId LIKE %:userid%)")
     Optional<Store> searchStoreuserId (String userid);
-
-
-//    //storeIdx로 호텔 당일취소 수수료 구하기
-//    @Query("select s.cancelCharge from Store s where (s.managerId LIKE %:userid%)")
-//    double cancelChargeSearch (String userid);
 
 
 

@@ -30,18 +30,8 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
         @Query("select r from Room r join r.store s where (r.store.storeCd = :storeCd)")
         List<Room> loginManagerRoomSearch(String storeCd);
 
-    //roomOrderidx로 매장명 찾기
-    @Query("select r.roomName from Room r join RoomOrder o on r.roomIdx = o.roomIdx where o.roomorderIdx = :roomorderIdx")
-    String findRoomRoomOrderIdx(Long roomorderIdx);
 
 
-    //비어있지 않은 상태인 객실타입 체크하기
-    @Query(value = "SELECT r.roomType FROM Room r " +
-            "LEFT JOIN RoomOrder o ON r.store.storeIdx = o.storeIdx " +
-            "WHERE r.store.storeIdx = :storeIdx " +
-            "and r.roomStatus IN (1,2) " +
-            "GROUP BY r.roomType")
-    List<String> searchNotEmptyRoom(Long storeIdx);
 
 
     //비어있는 객실(roomStatus=0) 타입 속성값만 중복없이 조회하기
@@ -52,13 +42,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "GROUP BY r.roomType")
     List<String> searchEmptyRoom(Long storeIdx);
 
-    //비어있는 객실의 room 객체 목록 조회하기
-    @Query(value = "SELECT r FROM Room r " +
-            "WHERE r.store.storeIdx = :storeIdx " +
-            "and r.roomStatus = 0 " +
-            "GROUP BY r.roomType")
-    List<Room> roomTypeSearch(Long storeIdx);
-
 
     //호텔의 모든 객실 중복없이 불러오기
     @Query(value = "SELECT r FROM Room r " +
@@ -67,24 +50,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     List<Room> storeroomTypeSearch(Long storeIdx);
 
 
-//    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
-//            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-//            "and r1.store.storeIdx = :storeIdx")
-//    List<Room> roomTypeSearch(Long storeIdx);
-
-
-
-
-
-
-    
-//    //객실타입으로 객실 찾기
-//    @Query("SELECT r FROM Room r WHERE r.roomIdx IN " +
-//            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-//            "and r1.store.storeIdx = :storeIdx " +
-//            "and r1.roomType = :roomType")
-//    Optional<Room> roomTypeSearchToTypeString(Long storeIdx,String roomType);
-
     //객실타입으로 객실 찾기
     @Query(value = "SELECT r FROM Room r " +
             "WHERE r.store.storeIdx = :storeIdx " +
@@ -92,26 +57,12 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
             "GROUP BY r.roomType")
     Optional<Room> roomTypeSearchToTypeString(Long storeIdx,String roomType);
 
-    
-
-//    @Query("SELECT r1.roomType FROM Room r1 WHERE r1.roomIdx IN " +
-//            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-//            "and r1.store.storeIdx = :storeIdx")
-//    List<String> roomTypeStringSearch(Long storeIdx);
 
     @Query(value = "SELECT r.roomType FROM Room r " +
             "WHERE r.store.storeIdx = :storeIdx " +
             "GROUP BY r.roomType")
     List<String> roomTypeStringSearch(Long storeIdx);
 
-
-
-//    //호텔의 특정 roomType의 정보 불러오는 쿼리 (사용처 : 매니저의 객실 생성 페이지 - roomregister)
-//    @Query("SELECT r1 FROM Room r1 WHERE r1.roomIdx IN " +
-//            "(SELECT MIN(r2.roomIdx) FROM Room r2 GROUP BY r2.roomType) " +
-//            "and r1.store.storeIdx = :storeIdx " +
-//            "and r1.roomType = :roomType")
-//    Optional<Room> roomTypeSearchOne(Long storeIdx,String roomType);
 
 
     //호텔의 특정 roomType의 정보 불러오는 쿼리 (사용처 : 매니저의 객실 생성 페이지 - roomregister)
@@ -122,13 +73,6 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
     Optional<Room> roomTypeSearchOne(Long storeIdx,String roomType);
 
 
-
-    //객실 상태 변경
-    @Modifying
-    @Query("update Room r set " +
-            "r.roomStatus = :#{#roomOrderDTO.roomStatus} " +
-            "where r.roomIdx = :#{#roomOrderDTO.roomIdx}")
-    void roomStatusUpdate(RoomOrderDTO roomOrderDTO);
 
 
     //예약을 받았을 때 객실 하나의 status를 1로 바꿔야하기때문에 필요한 쿼리.

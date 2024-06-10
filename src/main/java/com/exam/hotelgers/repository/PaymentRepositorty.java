@@ -22,9 +22,6 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
     Page<Payment> storesalesSearch(Pageable pageable, Long storeIdx);
 
 
-    //총판의 결제내역 리스트
-    @Query("select p from Payment p where p.storeIdx = :distIdx")
-    Page<Payment> distsalesSearch(Pageable pageable, Long distIdx);
 
 
     //roomorderIdx로 payment 컬럼 조회
@@ -115,12 +112,6 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
             "GROUP BY day (p.regdate)" +
             "ORDER BY day (p.regdate)")
     List<Object[]> getDistDaySales(Long distIdx);
-
-
-
-
-
-
 
 
 

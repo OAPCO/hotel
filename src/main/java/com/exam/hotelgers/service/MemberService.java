@@ -41,11 +41,6 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final ObjectMapper objectMapper;
 
-    private final RewardRepository rewardRepository;
-    private final CouponRepository couponRepository;
-
-
-    //이 부분은 회원 crud 부분
 
 
     public Long register(MemberDTO memberDTO) {
@@ -146,24 +141,6 @@ public class MemberService {
     }
 
 
-//    @Transactional
-//    //회원탈퇴
-//    public void memberInfoDelete(SearchDTO searchDTO) {
-//
-//
-//        String password = passwordEncoder.encode(searchDTO.getPassword());
-//        String passwordEnc = memberRepository.memberPwdFind(searchDTO);
-//
-//        Long memberIdx = memberRepository.memberPwdCheck(searchDTO,passwordEnc);
-//
-//        if (memberIdx==null) {
-//            throw new IllegalStateException("비밀번호가 다릅니다.");
-//        }
-//
-//
-//        memberRepository.memberInfoDelete(memberIdx);
-//
-//    }
 
 
     @Transactional
@@ -183,7 +160,6 @@ public class MemberService {
         log.info("비밀번호 대조 결과@@" + matches);
 
 
-//        Long memberIdx = memberRepository.memberPwdCheck(searchDTO,passwordEnc);
 
         if (matches == false) {
             throw new IllegalStateException("비밀번호가 다릅니다.");
@@ -313,12 +289,6 @@ public class MemberService {
 
 
 
-    public MemberDTO roomOrderMemberCheck(SearchDTO searchDTO){
-
-        Optional<Member> member = memberRepository.roomOrderMemberCheck(searchDTO);
-
-        return modelMapper.map(member,MemberDTO.class);
-    }
 
 
     public MemberDTO findByMemberIdx(Long memberIdx){
@@ -329,20 +299,6 @@ public class MemberService {
     }
 
 
-
-    public List<MemberDTO> roomOrderMembers(SearchDTO searchDTO){
-
-
-        List<Member> members = memberRepository.roomOrderMembers(searchDTO);
-
-
-        List<MemberDTO> memberDTOs = members.stream()
-                .map(member -> modelMapper.map(member, MemberDTO.class))
-                .collect(Collectors.toList());
-
-        return memberDTOs;
-
-    }
 
 
 

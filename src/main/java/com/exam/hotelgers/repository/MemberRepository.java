@@ -40,7 +40,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "where m.memberIdx = :#{#searchDTO.memberIdx}")
     void memberInfoUpdate(SearchDTO searchDTO);
 
-    Member findByMemberId(String memberId);
 
 
     //회원 탈퇴 처리부분
@@ -49,10 +48,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("select m.password from Member m where m.memberIdx = :#{#searchDTO.memberIdx}")
     String memberPwdFind(SearchDTO searchDTO);
 
-    //필요x?
-    @Query("select m.memberIdx from Member m where (m.password LIKE :passwordEnc) " +
-            "and m.memberIdx = :#{#searchDTO.memberIdx}")
-    Long memberPwdCheck(SearchDTO searchDTO,String passwordEnc);
 
     //회원 탈퇴
     @Modifying
@@ -66,28 +61,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     String kakaopassword(String userid);
 
 
-
-
-    //특정 roomOrder의 예약자 정보 불러오기
-    @Query("SELECT m FROM Member m LEFT JOIN RoomOrder r ON r.memberIdx = m.memberIdx " +
-            "where r.roomorderIdx = :roomorderIdx")
-    Optional<Member> roomOrderMemberSelect(Long roomorderIdx);
-
-
-
-    //room의 현 사용자의 정보 확인
-    @Query("SELECT m FROM Member m LEFT JOIN RoomOrder r ON r.memberIdx = m.memberIdx " +
-            "left join Room a ON a.roomIdx = r.roomIdx where " +
-            "r.roomStatus = 2")
-    Optional<Member> roomOrderMemberCheck(SearchDTO searchDTO);
-
-
-
-    //해당 방의 룸 오더가 종료되었거나 예약 상태인 멤버들의 정보를 가져옴
-    @Query("SELECT m FROM Member m LEFT JOIN RoomOrder r ON r.memberIdx = m.memberIdx " +
-            "left join Room a ON a.roomIdx = r.roomIdx where " +
-            "r.roomStatus IN (1,4)")
-    List<Member> roomOrderMembers(SearchDTO searchDTO);
 
 
 

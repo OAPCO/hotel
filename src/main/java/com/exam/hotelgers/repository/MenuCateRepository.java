@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface MenuCateRepository extends JpaRepository<MenuCate,Long> {
-    Optional<MenuCate> findByMenuCateName(String menuCateName);
+
 
 
     //현재 가진 매장의 메뉴카테 불러오기

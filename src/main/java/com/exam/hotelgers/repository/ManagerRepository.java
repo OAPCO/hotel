@@ -19,9 +19,6 @@ public interface ManagerRepository extends JpaRepository<Manager,Long> {
 
     Optional<Manager> findByManagerId(String managerid);
 
-    Optional<Manager> findByManagerIdx(Long managerIdx);
-
-    Optional<Manager> findByManagerName(String managerName);
 
 
     @Query("select m from Manager m where (:#{#searchDTO.distName} is null or m.dist.distName LIKE %:#{#searchDTO.distName}%)")

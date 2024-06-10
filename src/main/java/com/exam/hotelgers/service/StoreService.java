@@ -40,7 +40,6 @@ public class StoreService {
     private final SearchService searchService;
     private final DetailmenuRepository detailmenuRepository;
     private final ManagerRepository managerRepository;
-    private final RoomOrderRepository roomOrderRepository;
     private final DistService distService;
 
 
@@ -84,12 +83,6 @@ public class StoreService {
             throw new IllegalStateException("이미 존재하는 코드입니다.");
         }
 
-
-//        Optional<Store> storeCheck = storeRepository.findByManagerId(storeDTO.getManagerId());
-//
-//        if(!storeCheck.isEmpty()) {
-//            throw new IllegalStateException("이미 존재하는 코드입니다.");
-//        }
 
 
         String originalFileName = imgFile.getOriginalFilename(); //저장할 파일명
@@ -278,8 +271,6 @@ public class StoreService {
         // 'dist', 'distChief', 'brand'를 제외한 나머지 필드들을 업데이트합니다.
         store.setStoreGrade(storeDTO.getStoreGrade());
 
-//        store.setStoreChief(storeDTO.getStoreChief());
-//        store.setStoreChieftel(storeDTO.getStoreChieftel());
 
         store.setStoreCd(storeDTO.getStoreCd());
         store.setStoreName(storeDTO.getStoreName());
@@ -299,25 +290,7 @@ public class StoreService {
         return store;
     }
 
-    public StoreDTO orderread(Long storeIdx) throws Exception {
-        Optional<Store> optStore = storeRepository.findWithMenuCateByStoreIdx(storeIdx);
 
-        if (!optStore.isPresent()) {
-            throw new Exception("Store with storeIdx " + storeIdx + " not found");
-        }
-
-        Store store = optStore.get();
-        List<MenuCate> menuCateList = store.getMenuCateList();
-        List<MenuCate> fullMenuCateList = storeRepository.findWithDetailMenuByMenuCateList(menuCateList);
-
-        // Replace store's menuCateList with fullMenuCateList
-        store.setMenuCateList(fullMenuCateList);
-
-        // Map Store to StoreDTO
-        StoreDTO storeDTO = modelMapper.map(store, StoreDTO.class);
-
-        return storeDTO;
-    }
     public StoreDTO read(Long storeIdx) throws Exception {
         List<Object[]> resultList = storeRepository.storeBrandDistDistChiefManager(storeIdx);
 

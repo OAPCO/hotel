@@ -19,18 +19,10 @@ import java.util.Optional;
 public interface BasketRepository extends JpaRepository<Basket,Long> {
 
 
-    Optional<Basket> findByBasketCd(String basketCd);
-
-    Optional<Basket> findByBasketIdx(Long basketIdx);
-
 
 
     @Query("select b from Basket b where (b.memberIdx = :memberIdx)")
     Page<Basket> findByMemberCart(Long memberIdx,Pageable pageable);
-
-
-
-
 
 
 

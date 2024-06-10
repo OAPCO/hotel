@@ -128,11 +128,6 @@ public class DistChiefService {
 
 
 
-    private DistChiefDTO convertToDTO(DistChief distChief) {
-        DistChiefDTO dto = modelMapper.map(distChief, DistChiefDTO.class);
-        return dto;
-    }
-
     @Transactional
     public boolean changePassword(String currentPassword, String newPassword, Principal principal) {
         String userId = principal.getName();
