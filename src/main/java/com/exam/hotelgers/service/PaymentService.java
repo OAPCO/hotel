@@ -133,6 +133,20 @@ public class PaymentService {
 
         return paymentDTOS;
     }
+
+    public Page<PaymentDTO> distPaymentlistSearch(Pageable pageable, SearchDTO searchDTO,Principal principal){
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"paymentIdx"));
+
+        Page<Payment> payments = paymentRepository.distsalesSearch(page,searchDTO,principal.getName());
+
+
+        Page<PaymentDTO> paymentDTOS = payments.map(data->modelMapper.map(data,PaymentDTO.class));
+
+        return paymentDTOS;
+    }
     
 
 

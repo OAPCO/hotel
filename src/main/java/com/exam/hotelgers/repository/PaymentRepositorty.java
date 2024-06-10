@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,17 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
 
 
     //distchiefId로 소유한 모든 결제 컬럼 가져옴
-    @Query("select p from Payment p where p.distIdx IN (select d.distIdx from Dist d where d.distChief.distChiefId = :userid)")
+    @Query("select p from Payment p where p.distIdx IN (select d.distIdx from Dist d where d.distChief.distChiefId = :userid) order by p.regdate desc")
     Page<Payment> distChiefPaymentSearch(Pageable pageable,String userid);
+
+
+    //distchief 결제내역검색
+    @Query("select p from Payment p where p.distIdx IN (select d.distIdx from Dist d where d.distChief.distChiefId = :userid) " +
+//            "and ((:#{#searchDTO.startDate} is null) or (p.regdate BETWEEN :#{#searchDTO.startDate} AND :#{#searchDTO.endDate})) " +
+            "and ((:#{#searchDTO.distIdx} is null) or (p.distIdx = :#{#searchDTO.distIdx})) " +
+            "and ((:#{#searchDTO.storeIdx} is null) or (p.storeIdx = :#{#searchDTO.storeIdx})) " +
+            "and ((:#{#searchDTO.paymentStatus} is null) or (p.paymentStatus = :#{#searchDTO.paymentStatus}))")
+    Page<Payment> distsalesSearch(Pageable pageable, SearchDTO searchDTO, String userid);
 
 
 

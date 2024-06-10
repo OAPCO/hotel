@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -67,20 +68,6 @@ public class PaymentController {
         return "redirect:/payment/list";
     }
 
-
-//    @GetMapping("/payment/list")
-//    public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model) {
-//
-//        log.info("payment listForm 도착 ");
-//
-//        Page<PaymentDTO> paymentDTOS = paymentservice.list(pageable);
-//
-//        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
-//
-//        model.addAllAttributes(pageinfo);
-//        model.addAttribute("list", paymentDTOS);
-//        return "payment/list";
-//    }
 
 
 
@@ -231,6 +218,50 @@ public class PaymentController {
 
         return "/admin/distchief/dist/distsales";
     }
+
+
+    @PostMapping("/admin/distchief/dist/distsales")
+    public String distSalesProc(@PageableDefault(page=1) Pageable pageable, SearchDTO searchDTO,Principal principal, Model model) throws Exception {
+        
+        log.info("post 드러옴");
+
+        log.info("페먼트스테이터스"+searchDTO.getPaymentStatus());
+
+
+        //소유 총판,매장 목록
+        List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
+        List<StoreDTO> storeDTOS = storeService.searchStoreDistChiefId(principal);
+
+        Long distChiefIdx = distChiefRepository.distChiefIdxSearchforUserId(principal.getName());
+
+        log.info("아디:"+distChiefIdx);
+
+        //소유한 전체 총판의 매출들
+        Object[][] allyearlySales = paymentservice.getDistChiefYearSales(distChiefIdx);
+        Object[][] allmonthSales = paymentservice.getDistChiefMonthSales(distChiefIdx);
+        Object[][] alldaySales = paymentservice.getDistChiefDaySales(distChiefIdx);
+
+        log.info("여기부터"+allyearlySales[0][1]);
+        log.info(allmonthSales[0][1]);
+        log.info(alldaySales[0][1]);
+
+        Page<PaymentDTO> paymentDTOS = paymentservice.distPaymentlistSearch(pageable, searchDTO, principal);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
+
+        log.info("페먼트:"+paymentDTOS);
+
+        model.addAllAttributes(pageinfo);
+        model.addAttribute("distDTOS", distDTOS);
+        model.addAttribute("storeDTOS", storeDTOS);
+        model.addAttribute("allyearlySales", allyearlySales);
+        model.addAttribute("allmonthSales", allmonthSales);
+        model.addAttribute("alldaySales", alldaySales);
+        model.addAttribute("paymentDTOS", paymentDTOS);
+
+
+        return "/admin/distchief/dist/distsales";
+    }
+
 
 
 
