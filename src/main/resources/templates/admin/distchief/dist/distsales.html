@@ -41,7 +41,7 @@
 
                                     <th>구분</th>
                                     <td>
-                                        <select style="width: 45%; display: inline-block;" class="form-control" name="paymentStatus">
+                                        <select id="paymentStatus" style="width: 45%; display: inline-block;" class="form-control" name="paymentStatus">
                                             <option value="4">전체</option>
                                             <option value="0">결제완료</option>
                                             <option value="1">결제취소</option>
@@ -177,6 +177,11 @@
     <script type="text/javascript" src="/js/hotel.js"></script>
     <script th:inline="javascript">
 
+
+        function checkValue() {
+            var paymentStatus = document.getElementById("paymentStatus").value;
+            console.log("선택된 paymentStatus 값: " + paymentStatus);
+        }
 
 
         $(document).ready(function() {
