@@ -37,10 +37,10 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
 
     //distchief 결제내역검색
     @Query("select p from Payment p where p.distIdx IN (select d.distIdx from Dist d where d.distChief.distChiefId = :userid) " +
-//            "and ((:#{#searchDTO.startDate} is null) or (p.regdate BETWEEN :#{#searchDTO.startDate} AND :#{#searchDTO.endDate})) " +
+            "and ((:#{#searchDTO.startDateTime} is null) or (p.regdate BETWEEN :#{#searchDTO.startDateTime} AND :#{#searchDTO.endDateTime})) " +
             "and ((:#{#searchDTO.distIdx} is null) or (p.distIdx = :#{#searchDTO.distIdx})) " +
             "and ((:#{#searchDTO.storeIdx} is null) or (p.storeIdx = :#{#searchDTO.storeIdx})) " +
-            "and ((:#{#searchDTO.paymentStatus} is null) or (p.paymentStatus = :#{#searchDTO.paymentStatus}))")
+            "and ((:#{#searchDTO.paymentStatus} = 4) or (p.paymentStatus = :#{#searchDTO.paymentStatus}))")
     Page<Payment> distsalesSearch(Pageable pageable, SearchDTO searchDTO, String userid);
 
 

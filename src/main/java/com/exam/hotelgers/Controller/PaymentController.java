@@ -6,6 +6,7 @@ import com.exam.hotelgers.entity.Store;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.service.DistService;
 import com.exam.hotelgers.service.PaymentService;
+import com.exam.hotelgers.service.SearchService;
 import com.exam.hotelgers.service.StoreService;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +39,7 @@ public class PaymentController {
     private final DistService distService;
     private final StoreService storeService;
     private final DistChiefRepository distChiefRepository;
+    private final SearchService searchService;
 
 
 
@@ -226,6 +229,23 @@ public class PaymentController {
         log.info("post 드러옴");
 
         log.info("페먼트스테이터스"+searchDTO.getPaymentStatus());
+
+        log.info("스타트데이트:"+searchDTO.getStartDate());
+        log.info("엔드데이트:"+searchDTO.getEndDate());
+
+
+        LocalDateTime starttime = searchService.changeDate(searchDTO.getStartDate());
+        LocalDateTime endTime = searchService.changeDate(searchDTO.getEndDate());
+
+        log.info("변환값:"+starttime);
+        log.info("변환값:"+endTime);
+
+        searchDTO.setStartDateTime(starttime);
+        searchDTO.setEndDateTime(endTime);
+
+        log.info("최종값:"+searchDTO.getStartDateTime());
+        log.info("최종값:"+searchDTO.getEndDateTime());
+
 
 
         //소유 총판,매장 목록
