@@ -87,10 +87,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="data:${paymentDTOS}">
+                            <tr th:each="data:${paymentDTOS}" th:data-store-idx="${data.storeIdx}" th:data-dist-idx="${data.distIdx}" class="payTr" id="payTr">
                                 <td th:text="${data.paymentIdx}"></td>
-                                <td><span>롯데호텔</span></td>
-                                <td><span>롯데호텔 강남점</span></td>
+                                <td><span class="dist-name"></span></td>
+                                <td><span class="store-name"></span></td>
                                 <td th:text="${data.paymentType}"></td>
                                 <td th:text="${data.paymentName}"></td>
                                 <td th:text="${data.memberName}"></td>
@@ -300,6 +300,33 @@
             $('#chartSelect').on('change', drawChart);
         });
 
+
+
+        //매장,총판 idx로 이름 구하기
+        var payTrElements = document.querySelectorAll('.payTr');
+
+        payTrElements.forEach(row => {
+            const storeIdx = row.getAttribute('data-store-idx');
+            const distIdx = row.getAttribute('data-dist-idx');
+            console.log("Store Index: " + storeIdx + ", Distribution Index: " + distIdx);
+
+
+            hotel.findPaymentData(distIdx, storeIdx, function(result) {
+                console.log("rrridx : " + result);
+
+                const names = result;
+
+                const hotelNameCell = row.querySelector('.dist-name');
+                const branchNameCell = row.querySelector('.store-name');
+
+                if (hotelNameCell && branchNameCell) {
+                    hotelNameCell.textContent = names[0];
+                    branchNameCell.textContent = names[1];
+                }
+
+            });
+
+        });
 
     </script>
 

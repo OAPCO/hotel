@@ -69,7 +69,7 @@
                             </thead>
                             <tbody>
                             <!-- 결제 데이터 출력 -->
-                            <tr th:each="data:${list}">
+                            <tr th:each="data:${list}" th:data-store-idx="${data.storeIdx}" th:data-dist-idx="${data.distIdx}" class="payTr" id="payTr">
                                 <td th:text="${data.paymentIdx}"></td>
                                 <td th:text="${data.paymentType}"></td>
                                 <td th:text="${data.paymentName}"></td>
@@ -136,7 +136,7 @@
             const monthSales = [[${monthSales}]];
             const daySales = [[${daySales}]];
 
-            console.log("몬스"+monthSales);
+            console.log("몬스" + monthSales);
 
             var chart;
             var ctx = document.getElementById('salesChart').getContext('2d');
@@ -201,7 +201,13 @@
 
             // 페이지 로드 시 기본 차트 렌더링
             toggle();
+
+
         });
+
+
+
+
     </script>
 
 </div>

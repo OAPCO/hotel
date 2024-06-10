@@ -47,6 +47,7 @@ public class ScriptController {
     private final MenuOrderService menuOrderService;
     private final PaymentRepositorty paymentRepositorty;
     private final RoomOrderRepository roomOrderRepository;
+    private final DistRepository distRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -568,6 +569,29 @@ public class ScriptController {
         menuOrderService.menuOrderStatusChange(menuorderIdx,orderStatus);
     }
 
+
+
+
+    @GetMapping(value = "/findPaymentData")
+    public List<String> findPaymentData(Long storeIdx,Long distIdx) throws Exception {
+
+        log.info("스토어아ㅣㄷ"+storeIdx);
+        log.info("룸시디:"+distIdx);
+
+
+        List<String> names = new ArrayList<>();
+
+        
+        //idx로 이름 찾기
+        names.add(distRepository.finddistName(distIdx));
+        names.add(storeRepository.findStoreName(storeIdx));
+
+        log.info(names);
+        
+
+
+        return names;
+    }
 
 
 

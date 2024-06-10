@@ -826,6 +826,30 @@ let hotel = (function () {
 
 
 
+    function findPaymentData(distIdx,storeIdx,callback){
+
+        $.ajax({
+            type: 'GET',
+            url: '/findPaymentData',
+            data: {
+                distIdx: distIdx,
+                storeIdx: storeIdx
+            },
+
+            success: function(response) {
+
+                callback(response); // 성공 시 콜백 함수 호출
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
+
+
 
 
     //값 반환
@@ -855,7 +879,8 @@ let hotel = (function () {
         storeChargeModify : storeChargeModify,
         roomOrderCancel : roomOrderCancel,
         menuOrderStatusChange : menuOrderStatusChange,
-        checkOutProc : checkOutProc
+        checkOutProc : checkOutProc,
+        findPaymentData : findPaymentData
     };
 
 })();

@@ -23,6 +23,11 @@ public interface DistRepository extends JpaRepository<Dist, Long> {
     @Query("select d from Dist d where d.distCd LIKE %:#{#searchDTO.distCd}%")
     Optional<Dist> distCheckGet(SearchDTO searchDTO);
 
+
+    @Query("select d.distName from Dist d where d.distIdx = :distIdx")
+    String finddistName(Long distIdx);
+
+
     Optional<Dist> findByDistCd(String distCd);
     Optional<Dist> findByDistName(String distName);
 
