@@ -7,6 +7,7 @@ import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
+import com.exam.hotelgers.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -36,6 +37,7 @@ public class AdminService {
     private final ManagerRepository managerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
 
 
     public Long register(AdminDTO adminDTO) {
@@ -142,11 +144,37 @@ public class AdminService {
 
         return new PageImpl<>(subList, page, allList.size());
     }
-    public Page<Admin> memberListAll(Pageable pageable) {
-        // 페이지 정보를 이용하여 전체 멤버 리스트를 가져오는 메서드
-        // 여기서 adminRepository를 이용하여 데이터베이스에서 멤버 리스트를 가져온 후 반환
-        return adminRepository.findAll(pageable);
+    public Page<Object> memberListAll(Pageable pageable) {
+        // 각 repository에서 데이터를 가져옵니다.
+        List<Member> memberList = memberRepository.findAll();
+
+        List<DistChief> distChiefList = distChiefRepository.findAll();
+
+        List<Manager> managerList = managerRepository.findAll();
+        //모든 데이터 가져오는거 확인함
+        // 모든 데이터를 하나의 리스트로 결합합니다.
+        List<Object> allList = Stream.of(distChiefList, managerList, memberList)
+                .flatMap(List::stream)
+                .sorted(Comparator.comparing(o -> {
+                    if (o instanceof DistChief) {
+                        return 0;
+                    } else if (o instanceof Manager) {
+                        return 1;
+                    } else {
+                        return 2;
+                    }
+                }))
+                .collect(Collectors.toList());
+
+        // 페이지네이션을 적용합니다.
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), allList.size());
+        List<Object> subList = allList.subList(start, end);
+
+        // Page 객체를 생성하여 반환합니다.
+        return new PageImpl<>(subList, pageable, allList.size());
     }
+
 
 
 

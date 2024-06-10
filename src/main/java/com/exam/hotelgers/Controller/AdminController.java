@@ -105,7 +105,7 @@ public class AdminController {
             model.addAttribute("list", objects);
         } else {
             // 검색 쿼리 파라미터가 비어있다면 모든 멤버 리스트 반환
-            Page<Admin> objects = adminService.memberListAll(pageable);
+            Page<Object> objects = adminService.memberListAll(pageable);
             Map<String, Integer> pageinfo = PageConvert.Pagination(objects);
             model.addAllAttributes(pageinfo);
             model.addAttribute("list", objects);
