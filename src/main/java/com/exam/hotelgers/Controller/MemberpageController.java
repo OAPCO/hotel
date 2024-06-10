@@ -126,6 +126,8 @@ public class MemberpageController {
     }
 
 
+
+
     @GetMapping("/member/memberpage/{storeIdx}")
     public String hotelreadform(Model model, @PathVariable Long storeIdx,Principal principal, RedirectAttributes redirectAttributes) throws Exception {
 
@@ -250,6 +252,7 @@ public class MemberpageController {
 
         return "member/memberpage/paypage";
     }
+
 
 
 

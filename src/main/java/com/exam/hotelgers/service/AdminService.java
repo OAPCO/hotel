@@ -143,6 +143,8 @@ public class AdminService {
 
         return new PageImpl<>(subList, page, allList.size());
     }
+
+
     public Page<Object> memberListAll(Pageable pageable) {
 
         int currentPage = pageable.getPageNumber() - 1;

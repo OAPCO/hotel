@@ -126,6 +126,7 @@ public class ScriptController {
 
 
 
+    //set 사용해서 바꿔보기
     @GetMapping(value = "/emptyroom", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Object> hotelreadProc(SearchDTO searchDTO) throws Exception {
 
@@ -139,9 +140,11 @@ public class ScriptController {
 
         //예약 가능한 객실 타입의 목록
         List<String> passRooms = new ArrayList<>();
+        Set<String> passRooms2 = new HashSet<>();
 
         //비어있지 않은 객실 타입 목록
         List<String> notEmptyRooms = new ArrayList<>();
+        Set<String> notEmptyRooms2 = new HashSet<>();
 
         //전체 객실 타입 목록
         List<String> allRooms = roomRepository.roomTypeStringSearch(searchDTO.getStoreIdx());
@@ -165,14 +168,16 @@ public class ScriptController {
             if(roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
 
                 //이 객실을 빈 객실 배열에 추가한다.
-                passRooms.add(roomType);
+//                passRooms.add(roomType);
+                passRooms2.add(roomType);
             }
 
             //기존 주문에 중복이 있다면
             else if(!roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
 
                 //이 객실을 낫엠프티 객실 배열에 추가한다.
-                notEmptyRooms.add(roomType);
+//                notEmptyRooms.add(roomType);
+                notEmptyRooms2.add(roomType);
             }
         }
 
