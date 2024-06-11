@@ -124,23 +124,23 @@ public class ImageService {
     //객실 대표이미지 생성
     public String roomMainImageregister(MultipartFile mainimgFile, Long storeIdx, String roomType) throws IOException {
 
-            String originalFileName = mainimgFile.getOriginalFilename();
-            String newFileName = "";
+        String originalFileName = mainimgFile.getOriginalFilename();
+        String newFileName = "";
 
-            if (originalFileName != null) {
-                newFileName = s3Uploader.upload(mainimgFile, imgUploadLocation);
-            }
-
-            Image image = new Image();
-            image.setImgName(newFileName);
-            image.setRoomImageType(roomType);
-            image.setRoomImageMain(1);
-            image.setStoreIdx(storeIdx);
-
-            imageRepository.save(image);
-
-            return newFileName;
+        if (originalFileName != null) {
+            newFileName = s3Uploader.upload(mainimgFile, imgUploadLocation);
         }
+
+        Image image = new Image();
+        image.setImgName(newFileName);
+        image.setRoomImageType(roomType);
+        image.setRoomImageMain(1);
+        image.setStoreIdx(storeIdx);
+
+        imageRepository.save(image);
+
+        return newFileName;
+    }
 
 
 

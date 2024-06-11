@@ -8,6 +8,7 @@ import com.exam.hotelgers.repository.StoreRepository;
 import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -19,16 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class RoomService {
 
     private final RoomRepository roomRepository;
@@ -239,6 +238,16 @@ public class RoomService {
         roomRepository.roomStatusUpdate2(roomIdx, roomorderIdx);
     }
 
+    @Transactional
+    public void roomCheckOut(Long roomIdx) {
+        roomRepository.roomCheckOut(roomIdx);
+    }
+
+    @Transactional
+    public void roomCheckOutEmpty(Long roomIdx) {
+        roomRepository.roomCheckOutEmpty(roomIdx);
+    }
+
 
 
 
@@ -297,8 +306,6 @@ public class RoomService {
 
         return modelMapper.map(room,RoomDTO.class);
     }
-
-
 
 
 

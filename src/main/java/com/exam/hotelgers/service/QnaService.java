@@ -35,7 +35,7 @@ public class QnaService {
 
     private final QnaRepository qnaRepository;
     private final ModelMapper modelMapper;
-    
+
 
 
     //문의 생성

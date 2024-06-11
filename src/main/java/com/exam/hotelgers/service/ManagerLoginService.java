@@ -23,7 +23,7 @@ public class ManagerLoginService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userid) {
-        
+
         Optional<Manager> managerEntity = managerRepository.findByManagerId(userid);
         if (managerEntity.isPresent()) {
 

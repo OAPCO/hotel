@@ -157,7 +157,7 @@ public class AdminService {
         String userId = principal.getName();
         Admin admin = adminRepository.findByAdminId(userId).orElseThrow(() ->
                 new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-    int result;
+        int result;
         // 현재 비밀번호와 일치하는지 확인
         if (!passwordEncoder.matches(currentPassword, admin.getPassword())) {
             log.info("비밀번호 일치하지 않음. 입력된 비밀번호: " + currentPassword + " 저장된 비밀번호: " + admin.getPassword());

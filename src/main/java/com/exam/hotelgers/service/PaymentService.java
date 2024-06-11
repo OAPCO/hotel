@@ -1,5 +1,6 @@
 package com.exam.hotelgers.service;
 
+import com.exam.hotelgers.dto.AdminIncomeDTO;
 import com.exam.hotelgers.dto.PaymentDTO;
 
 import com.exam.hotelgers.dto.RoomDTO;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,17 +31,53 @@ public class PaymentService {
 
     private final PaymentRepositorty paymentRepository;
     private final ModelMapper modelMapper;
+    private final AdminIncomeService adminIncomeService;
 
 
 
     public Long register(PaymentDTO paymentDTO) {
 
+        //수수료 내기 전 금액
+        int totalPrice = paymentDTO.getPaymentPrice();
+
+        //중계수수료 5퍼 내야함
+        int charge = (int) (paymentDTO.getPaymentPrice() * 0.05);
+        paymentDTO.setPaymentTotalPrice(totalPrice-charge);
+
 
         Payment payment = modelMapper.map(paymentDTO, Payment.class);
 
-        paymentRepository.save(payment);
+        Long paymentIdx = paymentRepository.save(payment).getPaymentIdx();
 
-        return paymentRepository.save(payment).getPaymentIdx();
+
+        //수수료와 가진 정보들을 DTO에 담아서 수수료컬럼 만들자
+
+        //기존에 payment가 있을 경우 register 하는 것 = 당일 취소
+        if (paymentDTO.getPaymentIdx()!=null){
+
+            adminIncomeService.incomePriceHalfModify(paymentDTO.getPaymentIdx());
+        }
+
+        //기존에 payment가 없을 경우 = 새로 인컴 생성
+        else {
+            AdminIncomeDTO adminIncomeDTO = new AdminIncomeDTO();
+
+            //필요컬럼 : 수수료금액,타입,매장idx,총판idx
+            adminIncomeDTO.setIncomePrice(charge);
+            adminIncomeDTO.setStoreIdx(paymentDTO.getStoreIdx());
+            adminIncomeDTO.setDistIdx(paymentDTO.getDistIdx());
+            adminIncomeDTO.setIncomeType(paymentDTO.getPaymentType());
+            adminIncomeDTO.setPaymentIdx(paymentIdx);
+
+            log.info("세팅된 수수료"+adminIncomeDTO);
+            //수수료칼럼 생성
+            adminIncomeService.register(adminIncomeDTO);
+        }
+
+
+
+
+        return paymentIdx;
     }
 
 
@@ -79,6 +117,25 @@ public class PaymentService {
     }
 
 
+
+
+    //소유한 모든 총판의 결제내역 리스트
+    public Page<PaymentDTO> distPaymentlist(Pageable pageable, Principal principal){
+
+        int currentPage = pageable.getPageNumber()-1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage,pageCnt, Sort.by(Sort.Direction.DESC,"paymentIdx"));
+
+        Page<Payment> payments = paymentRepository.distChiefPaymentSearch(page,principal.getName());
+
+
+        Page<PaymentDTO> paymentDTOS = payments.map(data->modelMapper.map(data,PaymentDTO.class));
+
+        return paymentDTOS;
+    }
+
+
+
     public Page<PaymentDTO> searchList(Pageable pageable, SearchDTO searchDTO){
 
         int currentPage = pageable.getPageNumber()-1;
@@ -100,8 +157,8 @@ public class PaymentService {
     }
 
 
-    
-    
+
+
     //속한 매장의 매출반환 구역
     //각 상황별 매출 반환
     public Object[][] getYearlySales(Long storeIdx) {

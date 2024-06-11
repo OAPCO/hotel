@@ -377,8 +377,8 @@ public class StoreService {
                 .map(store -> modelMapper.map(store, StoreDTO.class))
                 .collect(Collectors.toList());
     }
-    
-    
+
+
 
 
     public void delete(Long storeIdx){

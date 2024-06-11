@@ -37,10 +37,10 @@ public class SearchService {
     private final AdminRepository adminRepository;
     private final DistChiefRepository distChiefRepository;
     private final ManagerRepository managerRepository;
-    
-    
-    
-    
+
+
+
+
     //날짜 변환 메소드(String을 LocalDateTime으로)
     public LocalDateTime changeDate(String dateString){
 

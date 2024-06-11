@@ -37,7 +37,7 @@ public class BannerService {
 
 
     public Long register(BannerDTO bannerDTO, List<MultipartFile> imgFiles) throws IOException {
-        
+
 
         Banner banner = modelMapper.map(bannerDTO, Banner.class);
 
@@ -72,7 +72,7 @@ public class BannerService {
 
         return modelMapper.map(banner,BannerDTO.class);
     }
-    
+
 
 
     public Page<BannerDTO> list(Pageable pageable){

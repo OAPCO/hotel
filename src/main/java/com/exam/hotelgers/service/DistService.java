@@ -136,7 +136,7 @@ public class DistService {
     private DistDTO convertToDistDTO(Dist dist) {
 
         DistDTO dto = modelMapper.map(dist, DistDTO.class); //어떤것이든 고정
-        
+
         dto.setDistChiefDTO(searchService.convertToDistChiefDTO(dist.getDistChief()));
         return dto;
     }
@@ -159,7 +159,7 @@ public class DistService {
 
 
 
-    
+
     //총판장이 가진 총판 찾기
     public List<DistDTO> distSearchforUserId(Principal principal) {
 
@@ -175,7 +175,7 @@ public class DistService {
     }
 
 
-    
+
     //매장수 증가
     @Transactional
     public void distStoreCountAdd(Long distIdx) {
