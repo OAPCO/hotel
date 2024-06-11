@@ -199,7 +199,7 @@ public class PaymentController {
     @GetMapping("/admin/distchief/dist/distsales")
     public String distSalesForm(@PageableDefault(page=1) Pageable pageable, Principal principal, Model model) throws Exception {
 
-        
+
         //소유 총판,매장 목록
         List<DistDTO> distDTOS = distService.distSearchforUserId(principal);
         List<StoreDTO> storeDTOS = storeService.searchStoreDistChiefId(principal);
@@ -217,15 +217,22 @@ public class PaymentController {
         log.info(allmonthSales[0][1]);
         log.info(alldaySales[0][1]);
 
+        Page<PaymentDTO> paymentDTOS = paymentservice.distPaymentlist(pageable, principal);
+        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
 
+        model.addAllAttributes(pageinfo);
         model.addAttribute("distDTOS", distDTOS);
-            model.addAttribute("storeDTOS", storeDTOS);
+        model.addAttribute("storeDTOS", storeDTOS);
         model.addAttribute("allyearlySales", allyearlySales);
         model.addAttribute("allmonthSales", allmonthSales);
         model.addAttribute("alldaySales", alldaySales);
+        model.addAttribute("paymentDTOS", paymentDTOS);
 
 
         return "/admin/distchief/dist/distsales";
     }
+
+
+
 
 }

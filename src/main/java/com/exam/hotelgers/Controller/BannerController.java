@@ -60,9 +60,9 @@ public class BannerController {
 
     @PostMapping("/admin/admin/banner/register")
     public String bannerRegisterProc(@Valid BannerDTO bannerDTO,
-                               BindingResult bindingResult,
-                               @RequestParam("imgFile") List<MultipartFile> imgFile,
-                               RedirectAttributes redirectAttributes) throws IOException {
+                                     BindingResult bindingResult,
+                                     @RequestParam("imgFile") List<MultipartFile> imgFile,
+                                     RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("banner registerProc 도착" + bannerDTO);
 

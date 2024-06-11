@@ -60,7 +60,7 @@ public class RoomController {
 
     @GetMapping("/admin/manager/room/list")
     public String listForm(@PageableDefault(page = 1) Pageable pageable, Model model,Principal principal
-                           ) {
+    ) {
 
         log.info("room listForm 도착 ");
 
@@ -143,10 +143,10 @@ public class RoomController {
             //현재 사용자의 룸서비스 주문 내역
             List<MenuOrderDTO> menuOrderDTOS = menuOrderService.menuOrderList(roomOrderDTO.getRoomorderIdx());
 
-             OrderHistoryDTO orderHistory = memberpageService.getOrderHistory(memberDTO.getMemberIdx());
-                if(orderHistory != null) {
-                    model.addAttribute("orderHistory", orderHistory);
-                }
+            OrderHistoryDTO orderHistory = memberpageService.getOrderHistory(memberDTO.getMemberIdx());
+            if(orderHistory != null) {
+                model.addAttribute("orderHistory", orderHistory);
+            }
 
 
             //현 입실자 입실 시간 포맷 변경
@@ -161,10 +161,10 @@ public class RoomController {
             model.addAttribute("menuOrderDTOS", menuOrderDTOS);
 
             log.info("화기인"+menuOrderDTOS);
-            
+
             //메뉴오더DTO로 주문별 상세 가져오기
             for (MenuOrderDTO menu : menuOrderDTOS){
-               log.info("잘가져와졋나~~" + menuOrderService.menuOrderList(menu.getMenuorderIdx()));
+                log.info("잘가져와졋나~~" + menuOrderService.menuOrderList(menu.getMenuorderIdx()));
             }
         }
 
@@ -188,7 +188,7 @@ public class RoomController {
 
     @GetMapping("/window/roomregister")
     public String registerRoomWindowForm(Principal principal,Model model) {
-        
+
         log.info("객실생성 창 컨트롤러 Get 도착");
 
 
@@ -213,7 +213,7 @@ public class RoomController {
     public String registerRoomWindowProc(@Valid RoomDTO roomDTO, BindingResult bindingResult,
                                          @RequestParam("imgFile") List<MultipartFile> imgFile,
                                          @RequestParam("mainimgFile") MultipartFile mainimgFile,
-                               RedirectAttributes redirectAttributes) throws IOException {
+                                         RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("객실생성 창 컨트롤러 Post 도착" + roomDTO);
         log.info("객실타입 화긴@@@@@@@@@@@@@ " + roomDTO.getRoomType());
@@ -239,7 +239,7 @@ public class RoomController {
     //이것은 file 없이 객실을 생성하는 곳이다. 하하 (기존의 객실타입으로 생성할 때)
     @PostMapping("/window/roomregisteradd")
     public String registerRoomWindowaddProc(@Valid RoomDTO roomDTO, BindingResult bindingResult,
-                                         RedirectAttributes redirectAttributes) throws IOException {
+                                            RedirectAttributes redirectAttributes) throws IOException {
 
         log.info("룸레지스터 에드 들어옴");
 
@@ -354,7 +354,7 @@ public class RoomController {
             imageService.roomMainImageregister(imgFile,storeDTO.getStoreIdx(),roomType);
         }
 
-        
+
 
         model.addAttribute("bucket", bucket);
         model.addAttribute("region", region);

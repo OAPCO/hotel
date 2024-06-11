@@ -2,10 +2,7 @@ package com.exam.hotelgers.Controller;
 
 import com.exam.hotelgers.dto.*;
 import com.exam.hotelgers.entity.Room;
-import com.exam.hotelgers.repository.MemberRepository;
-import com.exam.hotelgers.repository.PaymentRepositorty;
-import com.exam.hotelgers.repository.RoomRepository;
-import com.exam.hotelgers.repository.StoreRepository;
+import com.exam.hotelgers.repository.*;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -29,10 +26,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +44,9 @@ public class ScriptController {
     private final SearchService searchService;
     private final PaymentService paymentService;
     private final StoreRepository storeRepository;
+    private final MenuOrderService menuOrderService;
     private final PaymentRepositorty paymentRepositorty;
+    private final RoomOrderRepository roomOrderRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;
@@ -121,7 +117,7 @@ public class ScriptController {
         log.info(memberEmail + memberPassword);
 
 
-            return loginInfo;
+        return loginInfo;
     }
 
 
@@ -137,8 +133,6 @@ public class ScriptController {
         searchDTO.setReservationDateCheckinDate(start);
         searchDTO.setReservationDateCheckoutDate(end);
 
-        log.info("날짜로그1 : "+searchDTO.getReservationDateCheckinDate());
-        log.info("날짜로그2 : "+searchDTO.getReservationDateCheckoutDate());
 
         //예약 가능한 객실 타입의 목록
         List<String> passRooms = new ArrayList<>();
@@ -158,24 +152,23 @@ public class ScriptController {
         for(String roomType : allRooms){
 
 
-            //룸타입을 셋 해주고
+            //현재 roomType을 dto에 넣고
             searchDTO.setRoomType(roomType);
 
 
             List<RoomOrderDTO> roomOrderDTOS = roomOrderService.roomOrderCheck(searchDTO);
-            log.info(searchDTO.getRoomType() + "의 룸오더 체크하기@@@ 결과값 : "+ roomOrderDTOS);
 
             //기존 주문에서 중복여부가 없다면
             if(roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
 
-                //이 객실을 빈 객실 배열에 추가할그야
+                //이 객실을 빈 객실 배열에 추가한다.
                 passRooms.add(roomType);
             }
 
             //기존 주문에 중복이 있다면
             else if(!roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
 
-                //이 객실을 낫엠프티 객실 배열에 추가할그야
+                //이 객실을 낫엠프티 객실 배열에 추가한다.
                 notEmptyRooms.add(roomType);
             }
         }
@@ -198,28 +191,32 @@ public class ScriptController {
         List<RoomDTO> passRoomList = new ArrayList<>();
         //예약불가 객실 목록 담을 배열
         List<RoomDTO> notRoomList = new ArrayList<>();
-        
+
+
+
+
+
+        Iterator<String> iterator = notEmptyRooms.iterator();
+        while (iterator.hasNext()) {
+            String not = iterator.next();
+            if (passRooms.contains(not)) {
+                iterator.remove();
+            }
+        }
 
         for (String pass : passRooms){
 
             passRoomList.add(roomService.roomTypeSearchToTypeString(searchDTO.getStoreIdx(), pass));
         }
 
-        for (String not : notEmptyRooms){
+        if (notEmptyRooms != null){
+            for (String not : notEmptyRooms){
 
-            notRoomList.add(roomService.roomTypeSearchToTypeString(searchDTO.getStoreIdx(), not));
+                notRoomList.add(roomService.roomTypeSearchToTypeString(searchDTO.getStoreIdx(), not));
+
+            }
         }
 
-
-
-
-        log.info("예약가능객실 : "+passRooms);
-        log.info("안 빈 객실 : "+notEmptyRooms);
-        log.info("전체 객실 : "+allRooms);
-        log.info("빈 객실 타입 : "+emptyRooms);
-        log.info("최종통과객실 : "+passRoomList);
-        log.info("최종불통객실 : "+notRoomList);
-        
 
         Map<String, Object> result = new HashMap<>();
 
@@ -267,7 +264,7 @@ public class ScriptController {
         log.info(searchDTO.getStoreIdx());
 
         Map<String, Object> result = new HashMap<>();
-        
+
         List<ImageDTO> roomTypeDetailImages = imageService.roomTypeDetailImageSearch(searchDTO);
         ImageDTO roomTypeMainImage = imageService.roomTypeMainImageSearch(searchDTO);
 
@@ -368,11 +365,11 @@ public class ScriptController {
     }
 
 
-    
-    
-    
-    
-    
+
+
+
+
+
     //선택한 총판에 맞는 각 매출 목록을 가져오는 매핑들
     @GetMapping(value = "/distyearsales")
     public Object[][] distYearSalesSearch(Long distIdx) throws Exception {
@@ -404,6 +401,44 @@ public class ScriptController {
 
     }
 
+
+
+
+    //선택한 매장에 맞는 각 매출 목록을 가져오는 매핑들
+    @GetMapping(value = "/storeyearsales")
+    public Object[][] storeYearSalesSearch(Long storeIdx) throws Exception {
+
+        Object[][] yearlySales = paymentService.getYearlySales(storeIdx);
+
+
+        return yearlySales;
+
+    }
+
+    @GetMapping(value = "/storemonthsales")
+    public Object[][] storeMonthSalesSearch(Long storeIdx) throws Exception {
+
+        Object[][] monthSales = paymentService.getMonthSales(storeIdx);
+
+
+        return monthSales;
+
+    }
+
+    @GetMapping(value = "/storedaysales")
+    public Object[][] storeDaySalesSearch(Long storeIdx) throws Exception {
+
+        Object[][] daySales = paymentService.getDaySales(storeIdx);
+
+
+        return daySales;
+
+    }
+
+
+
+
+
     @GetMapping(value = "/summarymodify")
     public void storeSummary(String storeSummary,Long storeIdx) throws Exception {
         storeService.storeSummaryUpdate(storeSummary,storeIdx);
@@ -417,6 +452,23 @@ public class ScriptController {
     @GetMapping(value = "/storeMessagemodify")
     public void storeMessage(String storeMessage,Long storeIdx) throws Exception {
         storeService.storeMessageUpdate(storeMessage,storeIdx);
+    }
+
+    @GetMapping(value = "/checkOutProc")
+    public void checkOutProc(Long roomIdx) throws Exception {
+
+        //- roomorder의 roomStatus는 4(종료)로 변경
+        roomOrderService.roomCheckOut(roomIdx);
+
+        //- room의 roomStatus는 이후 예약이 있을경우 1, 없을경우 0으로 변경
+        if(roomOrderRepository.roomSearch(roomIdx)==null){
+            log.info("에약이 없음");
+            roomService.roomCheckOutEmpty(roomIdx);
+        }
+        else if (roomOrderRepository.roomSearch(roomIdx)!=null){
+            log.info("에약이 있음");
+            roomService.roomCheckOut(roomIdx);
+        };
     }
 
     @GetMapping(value = "/storeCheckinTimemodify")
@@ -473,7 +525,7 @@ public class ScriptController {
             double newPrice = paymentDTO.getPaymentPrice() * charge;
             int priceInt = (int) newPrice;
             paymentDTO.setPaymentPrice(priceInt);
-            
+
             //당일취소 상태로 변경
             paymentDTO.setPaymentStatus(2);
 
@@ -506,6 +558,14 @@ public class ScriptController {
     @PostMapping(value = "/storeImageDelete")
     public void storeImageDelete(@RequestParam("imgFile") MultipartFile imgFile, @RequestParam("storeIdx") Long storeIdx) throws Exception {
         storeService.imageModify(imgFile,storeIdx);
+    }
+
+
+    @GetMapping(value = "/menuOrderStatusChange")
+    public void menuOrderStatusChange(Long menuorderIdx, String orderStatus) throws Exception {
+
+
+        menuOrderService.menuOrderStatusChange(menuorderIdx,orderStatus);
     }
 
 

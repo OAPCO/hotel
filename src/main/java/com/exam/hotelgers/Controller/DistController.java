@@ -30,7 +30,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Log4j2
 public class DistController {
-    
+
     private final DistService distService;
     private final DistChiefService distChiefService;
     private final SearchService searchService;
@@ -171,8 +171,8 @@ public class DistController {
 
     @PostMapping("/admin/distchief/dist/register")
     public String registerDistProc(@Valid DistDTO distDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             log.info("has error@@@@@@@@@");

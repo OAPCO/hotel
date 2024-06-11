@@ -41,8 +41,8 @@ public class DistChiefController {
 
     @PostMapping("/admin/distchief/register")
     public String registerProc2(@Valid DistChiefDTO distChiefDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes) {
 
         log.info("dist registerProc 도착 " + distChiefDTO);
 

@@ -60,8 +60,8 @@ public class ManagerController {
 
     @PostMapping("/admin/manager/register")
     public String registerProc123(@Valid ManagerDTO managerDTO,
-                               BindingResult bindingResult,
-                               RedirectAttributes redirectAttributes) {
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) {
 
         log.info("manager registerProc 도착");
 
@@ -86,7 +86,7 @@ public class ManagerController {
 
     @GetMapping("/admin/distchief/manager/delete/{managerIdx}")
     public String deleteProc(@PathVariable Long managerIdx) {
-        
+
         log.info("매니저 삭제 Proc 들어옴");
 
 
@@ -111,8 +111,8 @@ public class ManagerController {
 
     @PostMapping("/admin/distchief/manager/register")
     public String registerProc(@Valid ManagerDTO managerDTO,
-                                    BindingResult bindingResult,
-                                    RedirectAttributes redirectAttributes) {
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
 
         log.info("매니저생성 프록 도착 " + managerDTO);
 
