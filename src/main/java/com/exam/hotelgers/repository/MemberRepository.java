@@ -23,7 +23,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByMemberIdx(Long memberIdx);
 
 
-    
+
     //로그인중인 회원 본인 정보 조회
     @Query("select m from Member m where (m.memberEmail LIKE %:userId%)")
     Optional<Member> memberInfoSearch(String userId);

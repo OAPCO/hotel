@@ -41,7 +41,7 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
 
 
-    
+
     //로그인 한 총판장이 소유한 브랜드 목록 불러오기
     @Query("select b from Brand b join Dist d on b.distCd = d.distCd where d.distChief.distChiefId = :userId")
     List<Brand> brandSearchforUserId(String userId);
