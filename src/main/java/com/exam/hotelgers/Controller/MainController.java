@@ -42,7 +42,7 @@ public class MainController {
 
     @GetMapping("/")
     public String index(){
-        return "index";
+        return "redirect:/member/memberpage/index";
     }
 
     @GetMapping("/admin")

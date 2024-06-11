@@ -240,24 +240,6 @@ public class ScriptController {
 
 
 
-//    @GetMapping(value = "/distsales", consumes = MediaType.ALL_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-//    public Page<PaymentDTO> distSales(@PageableDefault(page = 1) Pageable pageable,SearchDTO searchDTO) throws Exception {
-//
-//
-//        LocalDateTime start = searchService.changeDate(searchDTO.getStartDate());
-//        LocalDateTime end = searchService.changeDate(searchDTO.getEndDate());
-//
-//        searchDTO.setStartDateTime(start);
-//        searchDTO.setEndDateTime(end);
-//
-//
-//        Page<PaymentDTO> paymentDTOS = paymentService.searchList(pageable,searchDTO);
-//        Map<String, Integer> pageinfo = PageConvert.Pagination(paymentDTOS);
-//
-//
-//        return paymentDTOS;
-//    }
-
 
 
 
