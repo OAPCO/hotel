@@ -18,7 +18,7 @@ public class DistDTO {
     private String distTel;
 
     private List<StoreDTO> storeDTOList;
-//    private List<BrandDTO> brandDTOList;
+    //    private List<BrandDTO> brandDTOList;
     private List<MenuOrderDTO> menuOrderDTOList;
     private List<ManagerDTO> managerDTOList;
 

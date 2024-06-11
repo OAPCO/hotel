@@ -41,6 +41,8 @@ public class RoomOrderDTO {
 
     private int roomStatus;
     private int roomPrice;
+    private String roomName;
+
 
 
     private LocalDateTime regdate;

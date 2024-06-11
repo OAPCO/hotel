@@ -27,6 +27,8 @@ public class MenuOrderDTO {
     private Long storeIdx;
 
     private Long roomIdx;
+    private String roomName;
+    private String memberName;
 
     private LocalDateTime regdate;
     private LocalDateTime moddate;
