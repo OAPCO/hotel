@@ -32,14 +32,14 @@ public class RoomOrder extends BaseEntity{
     //예약 희망 날짜
     private LocalDateTime reservationDateCheckinDate;
     private LocalDateTime reservationDateCheckoutDate;
-    
+
     //실제 체크인/아웃 날짜,시간
     private LocalDateTime checkinTime;
     private LocalDateTime checkoutTime;
 
     //예약한 방의 타입
     private String roomOrderType;
-    
+
     //머릿수
     private String peopleNum;
 
@@ -54,5 +54,6 @@ public class RoomOrder extends BaseEntity{
     private Long storeIdx;
     private int roomStatus;
     private String storeCd;
+    private String roomName;
 
 }

@@ -38,6 +38,9 @@ public class MenuOrder extends BaseEntity {
     private Long storeIdx;
     private Long roomorderIdx;
 
+    private String roomName;
+    private String memberName;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="roomIdx")

@@ -37,7 +37,7 @@ public class Detailmenu extends BaseEntity{
 
 
 
-//    @Column(length = 100)
+    //    @Column(length = 100)
     private char recommendYn; //추천메뉴
     private char salesYn; //판매여부 Y:판매중 N:품절
     private char deliveryYn; //배달여부 Y:배달가능 N:배달불가

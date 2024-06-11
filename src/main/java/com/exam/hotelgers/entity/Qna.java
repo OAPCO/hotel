@@ -28,11 +28,11 @@ public class Qna extends BaseEntity {
 
     private String qnaTitle;
     private String qnaContent;
-    
+
     //질문자 인데그,이름
     private Long memberIdx;
     private String memberName;
-    
+
     //0=미답변, 1=답변완료
     private int qnaStatus;
     private String qnaAnswer;

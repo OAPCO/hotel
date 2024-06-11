@@ -20,8 +20,8 @@ import lombok.*;
 )
 @QueryEntity
 public class MenuOption extends BaseEntity{
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menuoption_sql")
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menuoption_sql")
     private Long menuOptionIdx;
 
     private String MenuOptionName;
