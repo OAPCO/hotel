@@ -37,8 +37,8 @@
                             </td>
                             <td th:text="${data.distChiefDTO.distChiefName}"></td>
                             <td th:text="${data.distChiefDTO.distChiefPhone}"></td>
-                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 
                             <td><a th:href="@{'/dist/modify/'+${data.distIdx}}" >수정</a>
                                 /<a th:href="@{'/dist/delete/'+${data.distIdx}}">삭제</a></td>
