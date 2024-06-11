@@ -62,8 +62,8 @@
                             <td>
                                 <a th:text="${data.menuCateName}" th:href="@{'/menuCate/'+${data.menuCateIdx}}" >연습</a>
                             </td>
-                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
 
                             <td><a th:href="@{'/menuCate/modify/'+${data.menuCateIdx}}" >수정</a>
                                 /<a th:href="@{'/menuCate/delete/'+${data.menuCateIdx}}">삭제</a></td>
