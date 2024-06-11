@@ -35,7 +35,7 @@
                     <tr th:each="data:${list}" class="open-modal-btn" th:data-qna-content="${data.qnaContent}" th:data-qna-idx="${data.qnaIdx}">
                         <td colspan="2" th:text="${data.qnaTitle}"></td>
 
-                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
 
                         <td>
                             <th:block th:if="${data.qnaStatus == 0}">
