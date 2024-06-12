@@ -55,6 +55,7 @@
                             <th>비밀번호</th>
                             <th>등록일자</th>
                             <th>수정일자</th>
+                            <th>수정/삭제</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -64,8 +65,8 @@
                                 <a th:text="${data.memberEmail}" th:href="@{'/member/'+${data.memberIdx}}" >연습</a>
                             </td>
                             <td th:text="${data.password}">33</td>
-                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
-                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                            <td th:text="${#temporals.format(data.moddate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
                             <td><a th:href="@{'/member/modify/'+${data.memberIdx}}" >수정</a>
                                 /<a th:href="@{'/member/delete/'+${data.memberIdx}}">삭제</a></td>
