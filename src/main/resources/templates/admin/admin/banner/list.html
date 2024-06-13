@@ -62,6 +62,20 @@
                 </table>
 
             </div>
+            <div class="d-flex justify-content-center">
+                <ul class="mt-3 pagination">
+                    <li class="page-item"><a class="page-link" th:href="@{/admin/admin/banner/list(page=${prevPage})}"><</a></li>
+                    <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
+                            <li class="page-item active" th:if="${page == currentPage}">
+                                <a class="page-link" href="#">[[${page}]]</a>
+                            </li>
+                            <li class="page-item" th:unless="${page == currentPage}">
+                                <a class="page-link" th:href="@{/admin/admin/banner/list(page=${page})}">[[${page}]]</a>
+                            </li>
+                        </span>
+                    <li class="page-item"><a class="page-link" th:href="@{/admin/admin/banner/list(page=${nextPage})}">></a></li>
+                </ul>
+            </div>
             </div>
         </div>
     </div>
