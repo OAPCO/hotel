@@ -36,11 +36,6 @@ public class AdminController {
 
 
 
-
-
-
-
-
     @GetMapping("/admin/register")
     public void registerForm() {
 
