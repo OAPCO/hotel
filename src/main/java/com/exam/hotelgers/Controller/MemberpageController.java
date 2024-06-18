@@ -149,6 +149,11 @@ public class MemberpageController {
         //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
         List<RoomDTO> roomTypeList = roomService.storeroomTypeSearch(storeIdx);
 
+
+        for(RoomDTO roomdto : roomTypeList){
+            log.info("반보카"+roomdto.getRoomIdx());
+        }
+
         log.info("테스트123" + roomTypeList);
 
         //매장과 룸 인덱스가 일치하는 이미지중 세부이미지들을 불러오는 쿼리문을 실행한다.
