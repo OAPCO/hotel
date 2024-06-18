@@ -76,8 +76,8 @@
                             <td th:case="USER" th:text="${data.memberName}"></td>
                         </th:block>
                         <th:block th:switch="${data.roleType.name()}">
-                            <td th:case="DISTCHIEF" th:text="${data.distChiefEmail}"></td>
-                            <td th:case="MANAGER" th:text="${data.managerEmail}"></td>
+                            <td th:case="DISTCHIEF" th:text="${data.distChiefId}"></td>
+                            <td th:case="MANAGER" th:text="${data.managerId}"></td>
                             <td th:case="USER" th:text="${data.memberEmail}"></td>
                         </th:block>
                         <td th:text="${#temporals.format(data.regdate, 'yyyy-MM-dd')}"></td>
@@ -91,11 +91,11 @@
                        th:href="@{/admin/admin/manage/memberlist(page=${prevPage}, roleType=${roleType}, name=${name}, id=${id})}">&lt;</a>
                 </li>
                 <span th:each="page : ${#numbers.sequence(startPage, endPage, 1)}">
-        <li class="page-item" th:classappend="${page == currentPage} ? 'active' : ''">
-            <a class="page-link"
-               th:href="@{/admin/admin/manage/memberlist(page=${page})}">[[${page}]]</a>
-        </li>
-    </span>
+                    <li class="page-item" th:classappend="${page == currentPage} ? 'active' : ''">
+                        <a class="page-link"
+                           th:href="@{/admin/admin/manage/memberlist(page=${page}, roleType=${roleType}, name=${name}, id=${id})}">[[${page}]]</a>
+                    </li>
+                </span>
                 <li class="page-item" th:if="${nextPage != null}">
                     <a class="page-link"
                        th:href="@{/admin/admin/manage/memberlist(page=${nextPage}, roleType=${roleType}, name=${name}, id=${id})}">&gt;</a>
