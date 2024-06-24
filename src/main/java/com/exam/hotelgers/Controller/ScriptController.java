@@ -140,11 +140,11 @@ public class ScriptController {
 
         //예약 가능한 객실 타입의 목록
         List<String> passRooms = new ArrayList<>();
-        Set<String> passRooms2 = new HashSet<>();
+
 
         //비어있지 않은 객실 타입 목록
         List<String> notEmptyRooms = new ArrayList<>();
-        Set<String> notEmptyRooms2 = new HashSet<>();
+
 
         //전체 객실 타입 목록
         List<String> allRooms = roomRepository.roomTypeStringSearch(searchDTO.getStoreIdx());
@@ -168,16 +168,14 @@ public class ScriptController {
             if(roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
 
                 //이 객실을 빈 객실 배열에 추가한다.
-//                passRooms.add(roomType);
-                passRooms2.add(roomType);
-            }
+                passRooms.add(roomType);
+}
 
             //기존 주문에 중복이 있다면
             else if(!roomOrderService.roomOrderCheck(searchDTO).isEmpty()){
 
                 //이 객실을 낫엠프티 객실 배열에 추가한다.
-//                notEmptyRooms.add(roomType);
-                notEmptyRooms2.add(roomType);
+                notEmptyRooms.add(roomType);
             }
         }
 
@@ -192,7 +190,7 @@ public class ScriptController {
             }
         }
 
-        log.info(passRooms);
+        log.info("패스룸:"+passRooms);
         log.info(notEmptyRooms);
 
         //예약가능 객실 목록을 담을 dto 배열
