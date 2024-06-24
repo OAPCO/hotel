@@ -1,6 +1,8 @@
 package com.exam.hotelgers.repository;
 
 
+import com.exam.hotelgers.dto.PageRequestDTO;
+import com.exam.hotelgers.dto.PageResponseDTO;
 import com.exam.hotelgers.dto.RoomOrderDTO;
 import com.exam.hotelgers.dto.SearchDTO;
 import com.exam.hotelgers.entity.*;
@@ -39,8 +41,8 @@ public interface PaymentRepositorty extends JpaRepository<Payment,Long> {
     @Query("select p from Payment p where p.distIdx IN (select d.distIdx from Dist d where d.distChief.distChiefId = :userid) " +
             "and ((:#{#searchDTO.startDateTime} is null) or (p.regdate BETWEEN :#{#searchDTO.startDateTime} AND :#{#searchDTO.endDateTime})) " +
             "and ((:#{#searchDTO.distIdx} is null) or (p.distIdx = :#{#searchDTO.distIdx})) " +
-            "and ((:#{#searchDTO.storeIdx} is null) or (p.storeIdx = :#{#searchDTO.storeIdx})) " +
-            "and ((:#{#searchDTO.paymentStatus} = 4) or (p.paymentStatus = :#{#searchDTO.paymentStatus}))")
+            "and ((:#{#searchDTO.paymentStatus} = 4) or (p.paymentStatus = :#{#searchDTO.paymentStatus})) " +
+            "and ((:#{#searchDTO.storeIdx} is null) or (p.storeIdx = :#{#searchDTO.storeIdx}))")
     Page<Payment> distsalesSearch(Pageable pageable, SearchDTO searchDTO, String userid);
 
 

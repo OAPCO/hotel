@@ -7,6 +7,7 @@ import com.exam.hotelgers.entity.*;
 import com.exam.hotelgers.repository.AdminRepository;
 import com.exam.hotelgers.repository.DistChiefRepository;
 import com.exam.hotelgers.repository.ManagerRepository;
+import com.exam.hotelgers.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -36,7 +37,7 @@ public class AdminService {
     private final ManagerRepository managerRepository;
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
-
+    private final MemberRepository memberRepository;
 
     public Long register(AdminDTO adminDTO) {
 
@@ -123,7 +124,6 @@ public class AdminService {
 
 
     public Page<Object> memberListSearch(Pageable pageable, SearchDTO adminDTO) {
-
         int currentPage = pageable.getPageNumber() - 1;
         int pageCnt = 5;
         Pageable page = PageRequest.of(currentPage, pageCnt, Sort.unsorted());
@@ -136,17 +136,36 @@ public class AdminService {
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-
         int start = (int) page.getOffset();
         int end = Math.min((start + page.getPageSize()), allList.size());
 
         List<Object> subList = allList.subList(start, end);
 
-        Page<Object> pageAllList = new PageImpl<>(subList, page, allList.size());
+        return new PageImpl<>(subList, page, allList.size());
+    }
 
-        return pageAllList;
 
+    public Page<Object> memberListAll(Pageable pageable) {
 
+        int currentPage = pageable.getPageNumber() - 1;
+        int pageCnt = 5;
+        Pageable page = PageRequest.of(currentPage, pageCnt, Sort.unsorted());
+
+        List<DistChief> distChiefList = distChiefRepository.findAll();
+        List<Manager> managerList = managerRepository.findAll();
+        List<Member> memberList = memberRepository.findAll();
+
+        List<Object> allList = Stream.of(distChiefList, managerList, memberList)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        log.info(allList);
+        int start = (int) page.getOffset();
+        int end = Math.min((start + page.getPageSize()), allList.size());
+
+        List<Object> subList = allList.subList(start, end);
+
+        return new PageImpl<>(subList, page, allList.size());
     }
 
 

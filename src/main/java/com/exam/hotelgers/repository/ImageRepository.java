@@ -5,6 +5,7 @@ import com.exam.hotelgers.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
 
 
     //호텔의 모든 객실 상세 이미지 목록
-    @Query(value = "SELECT distinct i.* FROM Image i JOIN Room r ON i.room_image_type = r.room_type JOIN Store s ON i.store_idx = r.store_idx where i.store_idx = 2",nativeQuery = true)
-    List<Image> roomDetailImageSearch(Long StoreIdx);
+    @Query(value = "SELECT distinct i.* FROM Image i JOIN Room r ON i.room_image_type = r.room_type JOIN Store s ON i.store_idx = r.store_idx where i.store_idx = :storeIdx",nativeQuery = true)
+    List<Image> roomDetailImageSearch(@Param("storeIdx") Long storeIdx);
 
 
 
@@ -50,17 +51,6 @@ public interface ImageRepository extends JpaRepository<Image,Long> {
             "i.roomImageType = :#{#searchDTO.roomType} and " +
             "i.storeIdx = :#{#searchDTO.storeIdx}")
     Optional<Image> roomTypeMainImageSearch(SearchDTO searchDTO);
-
-
-
-
-
-
-
-
-
-
-
 
 
 

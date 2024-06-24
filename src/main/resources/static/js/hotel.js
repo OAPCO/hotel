@@ -849,6 +849,27 @@ let hotel = (function () {
     };
 
 
+    function distsalessearch(searchDTO,callback){
+
+        $.ajax({
+            type: 'GET',
+            url: '/distsalessearch',
+            data: {
+                searchDTO : searchDTO
+            },
+
+            success: function(response) {
+
+                callback(response); // 성공 시 콜백 함수 호출
+
+            },
+            error: function(xhr, status, error) {
+                console.error('에러발생');
+            }
+        });
+
+    };
+
 
 
 
@@ -880,7 +901,8 @@ let hotel = (function () {
         roomOrderCancel : roomOrderCancel,
         menuOrderStatusChange : menuOrderStatusChange,
         checkOutProc : checkOutProc,
-        findPaymentData : findPaymentData
+        findPaymentData : findPaymentData,
+        distsalessearch : distsalessearch
     };
 
 })();

@@ -28,28 +28,31 @@
                     <!-- 결제 목록 테이블 -->
                     <div class="table-responsive">
                         <!-- 검색 폼 -->
-                        <form th:action="@{/admin/distchief/dist/distsales}" method="post">
-                            <table class="table head">
+                        <form th:action="@{/admin/distchief/dist/distsales}" method="get">
+<!--                        <form id="distsalessearch">-->
+                        <table class="table head">
                                 <thead>
                                 <tr>
                                     <th>날짜</th>
                                     <td>
-                                        <input type="date" name="startDate" id="isoStartDate" style="width: 45%"> ~
-                                        <input type="date" name="endDate" id="isoEndDate" style="width: 45%">
+                                        <input type="date" name="startDate" id="startDate" style="width: 45%"> ~
+                                        <input type="date" name="endDate" id="endDate" style="width: 45%">
                                     </td>
 
                                     <th>구분</th>
                                     <td>
-                                        <input type="radio" name="paymentStatus" value="4" checked>전체
-                                        <input type="radio" name="paymentStatus" value="0">결제완료&nbsp;
-                                        <input type="radio" name="paymentStatus" value="1">결제취소&nbsp;
-                                        <input type="radio" name="paymentStatus" value="2">당일취소
+                                        <select id="paymentStatus" style="width: 45%; display: inline-block;" class="form-control" name="paymentStatus">
+                                            <option value="4">전체</option>
+                                            <option value="0">결제완료</option>
+                                            <option value="1">결제취소</option>
+                                            <option value="2">당일취소</option>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>총판</th>
                                     <td>
-                                        <select style="width: 45%; display: inline-block;" class="form-control" name="distIdx">
+                                        <select style="width: 45%; display: inline-block;" class="form-control" name="distIdx" id="distIdx">
                                             <option value="">전체</option>
                                             <option th:each="distDTO : ${distDTOS}" th:value="${distDTO.distIdx}" th:text="${distDTO.distName}" th:attr="data-dist-idx=${distDTO.distIdx}"></option>
                                         </select>
@@ -57,7 +60,7 @@
 
                                     <th>매장</th>
                                     <td>
-                                        <select style="width: 45%; display: inline-block; " class="form-control" name="storeIdx">
+                                        <select style="width: 45%; display: inline-block; " class="form-control" name="storeIdx" id="storeIdx">
                                             <option value="">전체</option>
                                             <option th:each="storeDTO : ${storeDTOS}" th:value="${storeDTO.storeIdx}" th:text="${storeDTO.storeName}" th:attr="data-store-idx=${storeDTO.storeIdx}"></option>
                                         </select>
@@ -107,21 +110,28 @@
                             </tr>
                             </tbody>
                         </table>
+
                         <!-- 페이지네이션 -->
                         <div class="d-flex justify-content-center">
                             <ul class="mt-3 pagination">
-                                <li class="page-item"><a class="page-link" th:href="@{/admin/distchief/dist/distsales(page=${prevPage})}"><</a></li>
-                                <span th:each="page:${#numbers.sequence(startPage,endPage,1)}">
-                                    <li class="page-item active" th:if="${page == currentPage}">
-                                        <a class="page-link" href="#">[[${page}]]</a>
-                                    </li>
-                                    <li class="page-item" th:unless="${page == currentPage}">
-                                        <a class="page-link" th:href="@{/admin/distchief/dist/distsales(page=${page})}">[[${page}]]</a>
-                                    </li>
-                                </span>
-                                <li class="page-item"><a class="page-link" th:href="@{/admin/distchief/dist/distsales(page=${nextPage})}">></a></li>
+                                <li class="page-item"><a class="page-link"
+                                                         th:href="@{/admin/distchief/dist/distsales(page=${prevPage}, startDate=${startDate}, paymentStatus=${paymentStatus}, storeIdx=${storeIdx},distIdx=${distIdx})}">&lt;</a>
+                                </li>
+                                <span th:each="page : ${#numbers.sequence(startPage, endPage, 1)}">
+        <li class="page-item active" th:if="${page == currentPage}">
+            <a class="page-link" href="#">[[${page}]]</a>
+        </li>
+        <li class="page-item" th:unless="${page == currentPage}">
+            <a class="page-link"
+               th:href="@{/admin/distchief/dist/distsales(page=${page}, startDate=${startDate}, paymentStatus=${paymentStatus}, storeIdx=${storeIdx},distIdx=${distIdx})}">[[${page}]]</a>
+        </li>
+    </span>
+                                <li class="page-item"><a class="page-link"
+                                                         th:href="@{/admin/distchief/dist/distsales(page=${nextPage}, startDate=${startDate}, paymentStatus=${paymentStatus}, storeIdx=${storeIdx},distIdx=${distIdx})}">&gt;</a>
+                                </li>
                             </ul>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -166,6 +176,14 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="/js/hotel.js"></script>
     <script th:inline="javascript">
+
+
+        function checkValue() {
+            var paymentStatus = document.getElementById("paymentStatus").value;
+            console.log("선택된 paymentStatus 값: " + paymentStatus);
+        }
+
+
         $(document).ready(function() {
 
 
@@ -344,6 +362,40 @@
             });
 
         });
+
+
+        $(document).ready(function() {
+            // 검색한 값들을 로컬 스토리지에 저장
+            $('form').submit(function() {
+                var formData = $(this).serializeArray();
+                localStorage.setItem('formData', JSON.stringify(formData));
+            });
+
+            // 페이지 로드 시 저장된 값들을 입력 필드에 설정
+            var savedFormData = JSON.parse(localStorage.getItem('formData'));
+            if (savedFormData) {
+                savedFormData.forEach(function(item) {
+                    $('[name="' + item.name + '"]').val(item.value);
+                });
+            }
+
+            // 검색 후에도 셀렉트박스, 라디오 버튼 등의 값이 유지되도록 변경
+            $('form').submit(function() {
+                var formData = $(this).serializeArray();
+                formData.forEach(function(item) {
+                    localStorage.setItem(item.name, item.value);
+                });
+            });
+
+            $('[name]').each(function() {
+                var name = $(this).attr('name');
+                var value = localStorage.getItem(name);
+                if (value) {
+                    $(this).val(value);
+                }
+            });
+        });
+
 
     </script>
 

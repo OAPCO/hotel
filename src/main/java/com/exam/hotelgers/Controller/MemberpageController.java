@@ -126,6 +126,8 @@ public class MemberpageController {
     }
 
 
+
+
     @GetMapping("/member/memberpage/{storeIdx}")
     public String hotelreadform(Model model, @PathVariable Long storeIdx,Principal principal, RedirectAttributes redirectAttributes) throws Exception {
 
@@ -146,6 +148,11 @@ public class MemberpageController {
 
         //중복 없이 객실 타입 리스트를 불러오는 쿼리문을 실행한다.
         List<RoomDTO> roomTypeList = roomService.storeroomTypeSearch(storeIdx);
+
+
+        for(RoomDTO roomdto : roomTypeList){
+            log.info("반보카"+roomdto.getRoomIdx());
+        }
 
         log.info("테스트123" + roomTypeList);
 
@@ -250,6 +257,7 @@ public class MemberpageController {
 
         return "member/memberpage/paypage";
     }
+
 
 
 

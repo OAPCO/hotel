@@ -2,7 +2,9 @@ package com.exam.hotelgers.Controller;
 
 
 
+import com.exam.hotelgers.constant.RoleType;
 import com.exam.hotelgers.dto.*;
+import com.exam.hotelgers.entity.Admin;
 import com.exam.hotelgers.service.*;
 import com.exam.hotelgers.util.PageConvert;
 import jakarta.validation.Valid;
@@ -31,11 +33,6 @@ public class AdminController {
     private final AdminService adminService;
     private final DistService distService;
     private final QnaService qnaService;
-
-
-
-
-
 
 
 
@@ -83,16 +80,41 @@ public class AdminController {
 
 
     @GetMapping("/admin/admin/manage/memberlist")
-    public String memberlistForm(@PageableDefault(page = 1)Pageable pageable,Model model) throws Exception{
+    public String memberlistForm(
+            @PageableDefault(page = 1) Pageable pageable,
+            @RequestParam(required = false, defaultValue = "") String roleType,
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") String id,
+            Model model) throws Exception {
 
-        Page<Object> objects = adminService.memberList(pageable);
+        // 검색 쿼리 파라미터가 비어있지 않다면 해당 파라미터로 검색 수행
+        if (!roleType.isEmpty() || !name.isEmpty() || !id.isEmpty()) {
 
-        log.info(objects);
+            SearchDTO adminDTO = new SearchDTO();
 
-        Map<String, Integer> pageinfo = PageConvert.Pagination(objects);
+            if (!roleType.isEmpty()){
+                adminDTO.setRoleType(RoleType.valueOf(roleType));
+            }
+            adminDTO.setName(name);
+            adminDTO.setId(id);
 
-        model.addAllAttributes(pageinfo);
-        model.addAttribute("list", objects);
+            Page<Object> objects = adminService.memberListSearch(pageable, adminDTO);
+            Map<String, Integer> pageinfo = PageConvert.Pagination(objects);
+            model.addAllAttributes(pageinfo);
+            model.addAttribute("list", objects);
+        } else {
+            log.info("else 진입");
+            // 검색 쿼리 파라미터가 비어있다면 모든 멤버 리스트 반환
+            Page<Object> objects = adminService.memberListAll(pageable);
+            Map<String, Integer> pageinfo = PageConvert.Pagination(objects);
+            model.addAllAttributes(pageinfo);
+            model.addAttribute("list", objects);
+        }
+
+        // 검색에 사용된 쿼리 파라미터 다시 모델에 추가
+        model.addAttribute("roleType", roleType);
+        model.addAttribute("name", name);
+        model.addAttribute("id", id);
 
         return "admin/admin/manage/memberlist";
     }
