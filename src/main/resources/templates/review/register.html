@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="/assets2/bootstrap/css/bootstrap.min.css?h=d2583ee8ec2f1044947cb8b625ef9c8d">
+    <link rel="stylesheet" href="/assets2/css/styles.min.css?h=1fe195cb13da49b6f8955ef23d6b7bc3">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/button.css">
+    <link rel="stylesheet" href="/button2.css">
+    <script src="https://kit.fontawesome.com/9a9fc2607f.js" crossorigin="anonymous"></script>
+    <!--ajax-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+
+
+    <meta charset="UTF-8">
+    <title>리뷰 작성하기</title>
+    <style>
+        body {
+            font-family: "Do Hyeon", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+
+        }
+        .star-rating {
+            display: flex;
+        }
+
+        .star {
+            appearance: none;
+            padding: 1px;
+        }
+
+        .star::after {
+            content: '☆';
+            color: hsl(60, 80%, 45%);
+            font-size: 20px;
+        }
+
+        .star:hover::after,
+        .star:has(~ .star:hover)::after,
+        .star:checked::after,
+        .star:has(~ .star:checked)::after {
+            content: '★';
+        }
+
+        .star:hover ~ .star::after {
+            content: '☆';
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" style="max-width: 80%">
+        <div class="card">
+            <div class="card-header">
+                <h2>[[${storeDTO.storeName}]] 의 리뷰를 작성해 주세요 ! </h2>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/review/register}" method="post">
+                    <div>
+                        <h3>별점</h3>
+                    </div>
+                    <div class="star-rating">
+                        <input type="radio" name="rate" value="ONE" class="star">
+                        <input type="radio" name="rate" value="TWO" class="star">
+                        <input type="radio" name="rate" value="THREE" class="star">
+                        <input type="radio" name="rate" value="FOUR" class="star">
+                        <input type="radio" name="rate" value="FIVE" class="star">
+                    </div>
+                    <div>
+                        <h3>후기</h3>
+                    </div>
+                    <div>
+                        <textarea name="text" style="width: 100%; height: 300px;" placeholder=" 후기를 작성해주세요 ! "></textarea>
+                    </div>
+                    <div style="display: none">
+                        <input type="text" name="storeIdx" th:value="${storeDTO.storeIdx}">
+                    </div>
+                    <div>
+                        <button class="btn-0"  style="border-radius: 10px; background:#ffffff" type="submit">제출하기</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <p> 후기를 남겨주시면 추후 이벤트를 통해 할인 쿠폰을 제공해드립니다 ! </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
