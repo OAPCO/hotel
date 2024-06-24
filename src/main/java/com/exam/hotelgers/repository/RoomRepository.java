@@ -90,10 +90,10 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 
 
     //roomType과 매장idx가 동일한 곳의 roomstatus가 0인 것의 roomIdx를 찾아야함
-    @Query(value = "SELECT room_idx FROM Room WHERE room_type = :roomType and store_idx = :storeIdx and room_status IN (1,2) limit 1", nativeQuery = true)
+    @Query(value = "SELECT room_idx FROM room WHERE room_type = :roomType and store_idx = :storeIdx and room_status IN (1,2) limit 1", nativeQuery = true)
     Long searchRoomIdxStatus1and2(String roomType,Long storeIdx);
 
-    @Query(value = "SELECT room_idx FROM Room WHERE room_type = :roomType and store_idx = :storeIdx and room_status = 0 limit 1", nativeQuery = true)
+    @Query(value = "SELECT room_idx FROM room WHERE room_type = :roomType and store_idx = :storeIdx and room_status = 0 limit 1", nativeQuery = true)
     Long searchRoomIdxStatus0(String roomType,Long storeIdx);
 
 
@@ -127,7 +127,7 @@ public interface RoomRepository extends JpaRepository<Room, Long>{
 
 
     //기존 객실타입으로 객실을 추가할 때 메인이미지파일명이 저장되지 않으므로 별도의 쿼리문을 추가한다.
-    @Query(value = "SELECT room_mainimg_name FROM Room r WHERE room_type LIKE :roomType and store_idx = :storeIdx LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT room_mainimg_name FROM room r WHERE room_type LIKE :roomType and store_idx = :storeIdx LIMIT 1", nativeQuery = true)
     String roomTypeMainImgSearch(@Param("roomType") String roomType, @Param("storeIdx") Long storeIdx);
 
 //    @Query("SELECT r.roomMainimgName FROM Room r WHERE r.roomType LIKE %:roomType% AND r.store.storeIdx = :storeIdx")

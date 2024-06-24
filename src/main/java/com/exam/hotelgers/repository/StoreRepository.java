@@ -105,7 +105,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> findByKeyword(@Param("keyword") String keyword);
 
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Store ORDER BY RAND() LIMIT 5")
+    @Query(nativeQuery = true, value = "SELECT * FROM store ORDER BY RAND() LIMIT 5")
     List<Store> findRandomStores();
     
     
