@@ -179,7 +179,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     //listboard 줄 추가
     @Modifying
     @Query("UPDATE Store s " +
-            "SET s.roomCount = s.roomCount + 12 " +
+            "SET s.roomCount = s.roomCount + 10 " +
             "WHERE s.storeIdx = :storeIdx")
     void roomCardAdd(Long storeIdx);
 

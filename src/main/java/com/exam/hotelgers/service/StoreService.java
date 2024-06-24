@@ -133,7 +133,7 @@ public class StoreService {
 
 
         store.setDist(dist.get());
-        store.setRoomCount(12);
+        store.setRoomCount(10);
 
 
 

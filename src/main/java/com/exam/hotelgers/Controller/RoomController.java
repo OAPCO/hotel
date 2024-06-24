@@ -248,12 +248,15 @@ public class RoomController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
 
+        log.info("룸타입:"+roomDTO.getRoomType());
+        log.info("스토어아디:"+roomDTO.getStoreDTO().getStoreIdx());
+
         //이 떄는 이미지 등록을 하지 않는데 mainimgname 컬럼에는 값이 있어야 편리하므로 찾아서 넣어준다~
-        String roomMainImageName = roomRepository.roomTypeMainImgSearch(roomDTO.getRoomType(),roomDTO.getStoreDTO().getStoreIdx());
-        roomDTO.setRoomMainimgName(roomMainImageName);
+//        String roomMainImageName = roomRepository.roomTypeMainImgSearch(roomDTO.getRoomType(),roomDTO.getStoreDTO().getStoreIdx());
+//        roomDTO.setRoomMainimgName(roomMainImageName);
 
 
-        log.info("roomMainImageName : "+ roomMainImageName);
+//        log.info("roomMainImageName : "+ roomMainImageName);
 
 
         Long roomIdx = roomService.registeradd(roomDTO);
